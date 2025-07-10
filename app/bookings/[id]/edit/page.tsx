@@ -36,7 +36,7 @@ type Booking = {
 export default function EditBookingPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
   const { toast } = useToast();

@@ -9,9 +9,9 @@ import { DocsSidebar } from "../../components/docs/DocsSidebar";
 import { DocsMobileButton } from "../../components/docs/DocsMobileButton";
 
 interface DocPageProps {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 }
 
 // Use ISR (Incremental Static Regeneration) with revalidation
@@ -21,7 +21,7 @@ export const revalidate = 86400; // Revalidate every 24 hours
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }) {
   return {
     other: {

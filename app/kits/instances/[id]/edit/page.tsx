@@ -12,20 +12,21 @@ import {
 } from "../../../../components/ui/card";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
+  const { id } = await params;
   return {
-    title: `Edit Kit Instance ${params.id} | Rishi Platform`,
+    title: `Edit Kit Instance ${id} | Rishi Platform`,
     description: "Edit kit instance details and configuration",
   };
 }
 
-export default function KitInstanceEditPage({ params }: PageProps) {
-  const { id } = params;
+export default async function KitInstanceEditPage({ params }: PageProps) {
+  const { id } = await params;
 
   if (!id) {
     notFound();

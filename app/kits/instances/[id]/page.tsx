@@ -2,20 +2,21 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
+  const { id } = await params;
   return {
-    title: `Kit Instance ${params.id} | Rishi Platform`,
+    title: `Kit Instance ${id} | Rishi Platform`,
     description: "Kit instance details and management",
   };
 }
 
-export default function KitInstanceDetailPage({ params }: PageProps) {
-  const { id } = params;
+export default async function KitInstanceDetailPage({ params }: PageProps) {
+  const { id } = await params;
 
   if (!id) {
     notFound();

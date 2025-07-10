@@ -12,7 +12,7 @@ import BookingApproval from "../../../components/bookings/BookingApproval";
 import EventManagement from "../../../components/bookings/EventManagement";
 
 interface BookingDetailsPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 /**
@@ -58,7 +58,8 @@ async function getBookingData(bookingId: string) {
 export default async function BookingDetailsPage({
   params,
 }: BookingDetailsPageProps) {
-  const bookingData = await getBookingData(params.id);
+  const { id } = await params;
+  const bookingData = await getBookingData(id);
 
   if (!bookingData) {
     notFound();

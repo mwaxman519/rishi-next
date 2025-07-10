@@ -12,20 +12,21 @@ import {
 } from "../../../../components/ui/card";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
+  const { id } = await params;
   return {
-    title: `Kit Inventory ${params.id} | Rishi Platform`,
+    title: `Kit Inventory ${id} | Rishi Platform`,
     description: "Manage kit inventory and component tracking",
   };
 }
 
-export default function KitInventoryPage({ params }: PageProps) {
-  const { id } = params;
+export default async function KitInventoryPage({ params }: PageProps) {
+  const { id } = await params;
 
   if (!id) {
     notFound();
