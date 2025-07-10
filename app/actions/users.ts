@@ -17,7 +17,7 @@ import {
   CreateUserRequest,
 } from "../services/users/models";
 
-import { hasPermission } from "../lib/rbac/hasPermission";
+import { hasPermission } from "../lib/rbac";
 import { getAuthUser } from "../lib/auth-server";
 
 // Server action for fetching all users with permission check
@@ -35,7 +35,7 @@ export async function getAllUsers(): Promise<UsersResponse> {
     }
 
     // Check if user has permission to view users
-    if (!hasPermission("read:users", currentUser.role)) {
+    if (!(await hasPermission("read:users", [currentUser.role]))) {
       return {
         success: false,
         error: "You do not have permission to view users",

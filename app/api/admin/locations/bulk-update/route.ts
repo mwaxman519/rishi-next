@@ -5,7 +5,7 @@ import { db } from "../../../../../lib/db";
 import { locations } from "../../../../../shared/schema";
 import { eq, inArray } from "drizzle-orm";
 import { authOptions } from "@/lib/auth-options";
-import hasPermission from "../../../../../lib/rbac/hasPermission";
+import { hasPermission } from "../../../../../lib/rbac/hasPermission";
 import { locationEventBus } from "../../../../services/infrastructure/messaging/locationEvents";
 
 // Define the shape of the request body
@@ -30,10 +30,11 @@ export async function POST(req: NextRequest) {
   }
 
   // Verify user has permissions to update locations
-  const userHasPermission = hasPermission(session, {
-    action: "update",
-    resource: "locations",
-  });
+  const userHasPermission = hasPermission(
+    session.user,
+    "locations",
+    "update"
+  );
 
   if (!userHasPermission) {
     return NextResponse.json(
