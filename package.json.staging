@@ -1,0 +1,30 @@
+{
+  "name": "rishi-platform-staging",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "build:staging": "NODE_ENV=staging STATIC_EXPORT=1 next build",
+    "start": "next start",
+    "dev": "next dev -p 5000",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "next": "15.3.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "drizzle-orm": "^0.31.2",
+    "@neondatabase/serverless": "^0.9.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "drizzle-kit": "^0.31.2",
+    "postcss": "^8.0.0",
+    "autoprefixer": "^10.0.0"
+  }
+}

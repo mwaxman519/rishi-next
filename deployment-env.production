@@ -1,0 +1,29 @@
+# Production Environment Configuration for Deployment
+# This file contains the correct database URL for production deployment
+
+# Critical: Production Database Configuration
+DATABASE_URL=postgresql://rishinext_owner:npg_okpv0Hhtfwu2@ep-sweet-flower-a87a0ldg-pooler.eastus2.azure.neon.tech/rishinext?sslmode=require&channel_binding=require
+NEON_DATABASE_URL=postgresql://rishinext_owner:npg_okpv0Hhtfwu2@ep-sweet-flower-a87a0ldg-pooler.eastus2.azure.neon.tech/rishinext?sslmode=require&channel_binding=require
+PGUSER=rishinext_owner
+PGPASSWORD=npg_okpv0Hhtfwu2
+
+# Environment Settings
+NODE_ENV=production
+NEXT_PUBLIC_APP_ENV=production
+NEXT_PUBLIC_APP_NAME="Rishi Platform"
+NEXT_PUBLIC_APP_VERSION="1.0.0"
+
+# Authentication
+NEXTAUTH_URL=https://your-production-domain.com
+NEXTAUTH_SECRET=your-production-secret-key-here
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+# Features
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+NEXT_PUBLIC_GOOGLE_PLACES_API_KEY=your-google-places-api-key
+
+# Build Configuration for Static Web App
+NEXT_TELEMETRY_DISABLED=1
+SKIP_ENV_VALIDATION=false
+STATIC_EXPORT=1

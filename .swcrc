@@ -1,0 +1,29 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment",
+        "throwIfNamespace": true,
+        "development": false,
+        "useBuiltins": true
+      }
+    },
+    "target": "es2020",
+    "loose": true,
+    "minify": {
+      "compress": {
+        "unused": true
+      },
+      "mangle": true
+    }
+  },
+  "minify": true,
+  "sourceMaps": false
+}

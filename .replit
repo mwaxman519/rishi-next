@@ -1,0 +1,77 @@
+modules = ["nodejs-20", "bash", "web", "postgresql-16", "python-3.11"]
+run = "npm run dev"
+hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["libsodium"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 5001
+externalPort = 3000
+
+[[ports]]
+localPort = 5050
+externalPort = 3001
+
+[workflows]
+runButton = "Dev Server"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "Dev Server"
+author = 38299791
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Deployment TypeScript Fix"
+author = 38299791
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x build.sh"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "chmod +x start-prod.sh"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "echo \"Fixed deployment TypeScript issues - ready for redeployment\""
+
+[deployment]
+build = ["sh", "-c", "npm run build"]
+run = ["sh", "-c", "npm start"]
+deploymentTarget = "cloudrun"

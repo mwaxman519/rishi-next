@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "isolatedModules": false,
+    "esModuleInterop": true,
+    "types": ["jest", "node"]
+  },
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "app/**/*.js",
+    "app/**/*.jsx",
+    "shared/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

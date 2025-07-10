@@ -1,0 +1,54 @@
+{
+  "platform": {
+    "apiRuntime": "node:18"
+  },
+  "routes": [
+    {
+      "route": "/api/*",
+      "allowedRoles": ["authenticated", "anonymous"]
+    },
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ],
+  "auth": {
+    "rolesSource": "/data-api/rest/User",
+    "identityProviders": {
+      "customOpenIdConnectProviders": {
+        "replit": {
+          "registration": {
+            "clientIdSettingName": "REPLIT_CLIENT_ID",
+            "clientCredential": {
+              "clientSecretSettingName": "REPLIT_CLIENT_SECRET"
+            },
+            "openIdConnectConfiguration": {
+              "wellKnownOpenIdConfiguration": "https://replit.com/.well-known/openid_configuration"
+            }
+          },
+          "login": {
+            "nameClaimType": "name",
+            "scopes": ["openid", "profile", "email"]
+          }
+        }
+      }
+    }
+  },
+  "responseOverrides": {
+    "401": {
+      "statusCode": 302,
+      "redirect": "/.auth/login/replit"
+    }
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Content-Security-Policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:; connect-src 'self' https: wss: ws:;"
+  },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".js": "application/javascript",
+    ".css": "text/css"
+  }
+}

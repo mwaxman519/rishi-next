@@ -1,0 +1,110 @@
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache directories
+.cache/
+.npm
+.eslintcache
+.next/cache/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Deployment packages and archives
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# Large binary files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.pdf
+*.dmg
+*.exe
+*.msi
+
+# Project specific
+attached_assets/
+azure-clean/
+db-migrations/
+tmp/
+debug/
+phase3-app-files/
+workforce-management-complete.tar.gz
+azure-deployment-complete.tar.gz
+generated-icon.png
+
+# Documentation backups
+Docs_old/
+*.backup
+*.reference
+
+# Build logs
+*.log
+build.log
+full-build.log
+
+# Azure deployment files
+staticwebapp.*.config.json
+next.config.*.mjs
+package.*.json
+
+# Prevent Azure platform detection
+*.py
+*.pyc
+__pycache__/
+*.php
+composer.json
+composer.lock
+requirements.txt
+*.egg-info/
+.uv/
+.cache/uv/
