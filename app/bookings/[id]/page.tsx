@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import BookingApproval from "../../../components/bookings/BookingApproval";
-import EventManagement from "../../../components/bookings/EventManagement";
+import BookingManagement from "../../../components/bookings/BookingManagement";
 
 interface BookingDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -190,7 +190,7 @@ export default async function BookingDetailsPage({
 
         <TabsContent value="events" className="py-4">
           <Suspense fallback={<Skeleton className="h-64 w-full" />}>
-            <EventManagement bookingId={booking.id} managers={fieldManagers} />
+            <BookingManagement bookingId={booking.id} managers={fieldManagers} />
           </Suspense>
         </TabsContent>
 
