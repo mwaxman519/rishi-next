@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { OrganizationUsers } from "@/components/organizations/OrganizationUsers";
+import type { Organization } from "@shared/schema";
 
 // Placeholder components for other tabs - will be implemented later
 const OrganizationSettings = () => (
@@ -62,7 +63,7 @@ function OrganizationManagePage() {
   }, [searchParams, router]);
 
   // Get organization details
-  const { data: orgData, isLoading: isOrgLoading } = useQuery({
+  const { data: orgData, isLoading: isOrgLoading } = useQuery<Organization>({
     queryKey: [`/api/organizations/${organizationId}`],
     enabled: !!organizationId,
   });
@@ -75,7 +76,7 @@ function OrganizationManagePage() {
     );
   }
 
-  const organization = orgData?.organization;
+  const organization = orgData;
 
   return (
     <div className="container mx-auto py-6">

@@ -18,11 +18,14 @@ import { Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { PermissionGuard } from "@/components/rbac/PermissionGuard";
+import type { Organization } from "@shared/schema";
 
 export default function OrganizationsPage() {
   const router = useRouter();
 
-  const { data: organizationsData, isLoading } = useQuery({
+  const { data: organizationsData, isLoading } = useQuery<{
+    organizations?: Organization[];
+  }>({
     queryKey: ["/api/organizations"],
   });
 

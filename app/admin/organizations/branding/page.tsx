@@ -31,6 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import { apiRequest } from "@/lib/queryClient";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import type { Organization } from "@shared/schema";
 
 const brandingFormSchema = z.object({
   organization_id: z.string().uuid(),
@@ -96,13 +97,25 @@ function OrganizationBrandingPage() {
   }, [searchParams, router]);
 
   // Get organization details
-  const { data: orgData, isLoading: isOrgLoading } = useQuery({
+  const { data: orgData, isLoading: isOrgLoading } = useQuery<Organization>({
     queryKey: [`/api/organizations/${organizationId}`],
     enabled: !!organizationId,
   });
 
   // Get organization branding
-  const { data: brandingData, isLoading: isBrandingLoading } = useQuery({
+  const { data: brandingData, isLoading: isBrandingLoading } = useQuery<{
+    branding?: {
+      logo_url?: string;
+      primary_color?: string;
+      secondary_color?: string;
+      accent_color?: string;
+      font_family?: string;
+      custom_css?: string;
+      favicon_url?: string;
+      email_template?: Record<string, any>;
+    };
+    can_customize?: boolean;
+  }>({
     queryKey: [`/api/organizations/branding?organizationId=${organizationId}`],
     enabled: !!organizationId,
   });
@@ -182,7 +195,7 @@ function OrganizationBrandingPage() {
     );
   }
 
-  const organization = orgData?.organization;
+  const organization = orgData;
   const canCustomize = brandingData?.can_customize;
 
   return (

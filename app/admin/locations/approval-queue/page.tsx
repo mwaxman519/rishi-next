@@ -20,7 +20,7 @@ export default function LocationApprovalQueuePage() {
   const { toast } = useToast();
 
   // Check if user has admin permissions
-  const { data: hasPermission, error: permissionError } = useQuery({
+  const { data: hasPermission, error: permissionError } = useQuery<boolean>({
     queryKey: ["/api/permissions/check", "manage:locations"],
     queryFn: async () => {
       const res = await fetch(

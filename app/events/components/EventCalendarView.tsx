@@ -83,7 +83,7 @@ export default function EventCalendarView({
     data: events = [],
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<any[]>({
     queryKey: ["events", organizationId],
     queryFn: async () => {
       const url = organizationId

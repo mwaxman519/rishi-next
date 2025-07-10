@@ -17,7 +17,7 @@ export function useAuthorization() {
     data: permissions = [],
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<Permission[] | { permissions?: Permission[] }>({
     queryKey: ["/api/auth/permissions", organizationId],
     queryFn: () => getUserPermissions(organizationId),
     // Keep cache for 5 minutes

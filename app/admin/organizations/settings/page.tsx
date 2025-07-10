@@ -38,6 +38,7 @@ import { Separator } from "@/components/ui/separator";
 import { apiRequest } from "@/lib/queryClient";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import type { Organization } from "@shared/schema";
 
 // Define the schema for organization settings
 const settingsFormSchema = z.object({
@@ -100,13 +101,25 @@ function OrganizationSettingsPage() {
   }, [searchParams, router]);
 
   // Get organization details
-  const { data: orgData, isLoading: isOrgLoading } = useQuery({
+  const { data: orgData, isLoading: isOrgLoading } = useQuery<Organization>({
     queryKey: [`/api/organizations/${organizationId}`],
     enabled: !!organizationId,
   });
 
   // Get organization settings
-  const { data: settingsData, isLoading: isSettingsLoading } = useQuery({
+  const { data: settingsData, isLoading: isSettingsLoading } = useQuery<{
+    settings?: {
+      notification_email?: string;
+      timezone?: string;
+      language?: string;
+      date_format?: string;
+      time_format?: string;
+      billing_contact_name?: string;
+      billing_contact_email?: string;
+      billing_address?: string;
+      additional_settings?: Record<string, any>;
+    };
+  }>({
     queryKey: [`/api/organizations/settings?organizationId=${organizationId}`],
     enabled: !!organizationId,
   });
@@ -189,7 +202,7 @@ function OrganizationSettingsPage() {
     );
   }
 
-  const organization = orgData?.organization;
+  const organization = orgData;
 
   return (
     <div className="container mx-auto py-6">

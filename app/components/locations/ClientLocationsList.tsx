@@ -80,7 +80,9 @@ export default function ClientLocationsList({
     data: brandLocationsData,
     isLoading: brandLocationsLoading,
     error: brandLocationsError,
-  } = useQuery({
+  } = useQuery<{
+    brandLocations?: BrandLocation[];
+  }>({
     queryKey: ["brandLocations", brandId],
     queryFn: async () => {
       const res = await fetch(`/api/brands/${brandId}/locations`);
@@ -97,7 +99,9 @@ export default function ClientLocationsList({
     data: approvedLocationsData,
     isLoading: approvedLocationsLoading,
     error: approvedLocationsError,
-  } = useQuery({
+  } = useQuery<{
+    locations?: Location[];
+  }>({
     queryKey: ["approvedLocations"],
     queryFn: async () => {
       const res = await fetch("/api/locations/approved");

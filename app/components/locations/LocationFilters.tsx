@@ -100,7 +100,9 @@ export function LocationFilters({
   const [showFilters, setShowFilters] = useState(false);
 
   // Fetch states for filter
-  const { data: statesData, isLoading: statesLoading } = useQuery({
+  const { data: statesData, isLoading: statesLoading } = useQuery<{
+    states?: StateItem[];
+  }>({
     queryKey: ["locationStates"],
     queryFn: async () => {
       const res = await fetch("/api/locations/states");
@@ -112,7 +114,9 @@ export function LocationFilters({
   });
 
   // Fetch regions for filter
-  const { data: regionsData, isLoading: regionsLoading } = useQuery({
+  const { data: regionsData, isLoading: regionsLoading } = useQuery<{
+    regions?: RegionItem[];
+  }>({
     queryKey: ["locationRegions"],
     queryFn: async () => {
       const res = await fetch("/api/locations/regions");
@@ -124,7 +128,9 @@ export function LocationFilters({
   });
 
   // Fetch cities for filter based on selected states
-  const { data: citiesData, isLoading: citiesLoading } = useQuery({
+  const { data: citiesData, isLoading: citiesLoading } = useQuery<{
+    cities?: CityItem[];
+  }>({
     queryKey: ["locationCities", filters.states],
     queryFn: async () => {
       const statesParam =
@@ -139,7 +145,9 @@ export function LocationFilters({
   });
 
   // Fetch ZIP codes for filter based on selected states and cities
-  const { data: zipCodesData, isLoading: zipCodesLoading } = useQuery({
+  const { data: zipCodesData, isLoading: zipCodesLoading } = useQuery<{
+    zipCodes?: ZipCodeItem[];
+  }>({
     queryKey: ["locationZipCodes", filters.states, filters.cities],
     queryFn: async () => {
       const statesParam =
