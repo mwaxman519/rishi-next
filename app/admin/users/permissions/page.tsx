@@ -246,9 +246,9 @@ export default function UserPermissionsPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {category.permissions.map((permission) => {
-                      const isEnabled = rolePermissions[selectedRole]?.includes(
+                      const isEnabled = Boolean(rolePermissions[selectedRole]?.includes(
                         permission.id,
-                      );
+                      ));
                       // Super admin always has all permissions and they can't be changed
                       const isDisabled = selectedRole === "super_admin";
 
