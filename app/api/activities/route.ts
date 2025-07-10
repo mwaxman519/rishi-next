@@ -34,12 +34,12 @@ export async function GET(request: NextRequest) {
         location: locations,
       })
       .from(activities)
-      .leftJoin(activityTypes, eq(activities.typeId, activityTypes.id))
+      .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
       .where(eq(activities.organizationId, organizationId));
 
     if (typeId) {
-      query = query.where(eq(activities.typeId, typeId));
+      query = query.where(eq(activities.activityTypeId, typeId));
     }
 
     if (status) {
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
         location: locations,
       })
       .from(activities)
-      .leftJoin(activityTypes, eq(activities.typeId, activityTypes.id))
+      .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
       .where(eq(activities.id, id));
 

@@ -21,10 +21,12 @@ const isEnabled = Boolean(rolePermissions[selectedRole]?.includes(permission.id)
 ```
 
 ## Current Status
-- ✅ Fix is implemented in current codebase (commit a7741e0)
+- ✅ Switch component TypeScript fix implemented (commit a7741e0)
+- ✅ Activities schema property fix implemented (activities.activityTypeId vs activities.typeId)
+- ✅ All API routes updated with correct column references
 - ✅ Local environment compiles successfully with 1312 modules
 - ✅ Application runs without TypeScript errors
-- ❌ Vercel still building from old commit (875fcbb) without the fix
+- ❌ Vercel deployment needs to be triggered with latest fixes
 
 ## Next Steps Required
 1. **Trigger New Deployment**: The latest code needs to be deployed to Vercel

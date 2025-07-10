@@ -81,7 +81,7 @@ export async function POST(
         createdBy: users,
       })
       .from(activities)
-      .leftJoin(activityTypes, eq(activities.typeId, activityTypes.id))
+      .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
       .leftJoin(users, eq(activities.createdById, users.id))
       .where(eq(activities.id, id));

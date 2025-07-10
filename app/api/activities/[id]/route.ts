@@ -31,7 +31,7 @@ export async function GET(
         location: locations,
       })
       .from(activities)
-      .leftJoin(activityTypes, eq(activities.typeId, activityTypes.id))
+      .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
       .where(eq(activities.id, id));
 
@@ -165,7 +165,7 @@ export async function PUT(
         location: locations,
       })
       .from(activities)
-      .leftJoin(activityTypes, eq(activities.typeId, activityTypes.id))
+      .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
       .where(eq(activities.id, id));
 
