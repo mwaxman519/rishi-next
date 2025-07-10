@@ -214,7 +214,7 @@ export default function SystemRBACDefaultsPage() {
       if (!acc[setting.category]) {
         acc[setting.category] = [];
       }
-      acc[setting.category].push(setting);
+      acc[setting.category]?.push(setting);
       return acc;
     },
     {} as Record<string, SystemRBACDefault[]>,

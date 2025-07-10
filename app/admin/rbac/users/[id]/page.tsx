@@ -367,7 +367,7 @@ export default function UserPermissionsPage({
       if (!grouped[feature.service]) {
         grouped[feature.service] = [];
       }
-      grouped[feature.service].push(feature);
+      grouped[feature.service]?.push(feature);
     });
 
     return grouped;

@@ -49,8 +49,8 @@ export function PermissionsMatrix({
         grouped[resource] = [];
       }
 
-      grouped[resource].push(permission);
-      grouped["all"].push(permission);
+      grouped[resource]?.push(permission);
+      grouped["all"]?.push(permission);
     });
 
     return grouped;

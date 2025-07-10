@@ -46,7 +46,7 @@ export function PermissionsEditor({
         grouped[resource] = [];
       }
 
-      grouped[resource].push(permission);
+      grouped[resource]?.push(permission);
     });
 
     return grouped;
