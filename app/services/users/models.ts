@@ -33,6 +33,7 @@ export interface CreateUserRequest {
   role?: UserRole;
   profileImage?: string | null;
   active?: boolean;
+  notes?: string | null;
 }
 
 export interface UpdateUserRequest {
@@ -42,6 +43,7 @@ export interface UpdateUserRequest {
   active?: boolean;
   profileImage?: string;
   role?: UserRole;
+  notes?: string;
 }
 
 // Response models
