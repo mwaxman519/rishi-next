@@ -5,7 +5,7 @@ import { checkPermission } from "../../../lib/rbac";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const user = await getCurrentUser();
@@ -22,7 +22,7 @@ export async function GET(
       );
     }
 
-    const locationId = params.id;
+    const { id: locationId } = await params;
 
     // Validate that the ID is a valid UUID
     if (

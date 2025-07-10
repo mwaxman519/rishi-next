@@ -13,7 +13,7 @@ import { eq } from "drizzle-orm";
 // GET /api/activities/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const user = await currentUser();
@@ -21,7 +21,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = params.id;
+    const { id } = await params;
 
     // Fetch activity with related data
     const [activityData] = await db
