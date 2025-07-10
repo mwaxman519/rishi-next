@@ -44,7 +44,7 @@ import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RecurrenceForm } from "./RecurrenceForm";
-import { EventSeriesPreview } from "./EventSeriesPreview";
+
 import {
   insertBookingSchema,
   InsertBooking,
@@ -745,15 +745,30 @@ export function BookingForm({
                   </CardContent>
                 </Card>
 
-                <EventSeriesPreview
-                  startDate={startDate}
-                  startTime={startTime}
-                  endTime={endTime}
-                  isRecurring={isRecurring}
-                  recurrencePattern={recurrencePattern}
-                  recurrenceEndDate={recurrenceEndDate}
-                  location={locationName}
-                />
+                {/* Booking preview - Events business objects removed */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Booking Schedule</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div>
+                        <strong>Date:</strong> {startDate ? format(startDate, "PPP") : "Not set"}
+                      </div>
+                      <div>
+                        <strong>Time:</strong> {startTime || "Not set"} - {endTime || "Not set"}
+                      </div>
+                      <div>
+                        <strong>Location:</strong> {locationName || "Not specified"}
+                      </div>
+                      {isRecurring && (
+                        <div>
+                          <strong>Recurrence:</strong> {formatRecurrencePattern(recurrencePattern)}
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
 
               <div className="flex justify-between mt-6">
