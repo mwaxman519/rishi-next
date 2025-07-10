@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useWebSocketEvents } from "@/hooks/useWebSocketEvents";
+
 import { toast } from "@/hooks/use-toast";
 import {
   Search,
@@ -115,67 +115,7 @@ export default function AdminLocationsPage() {
     refetch();
   }, [refetch]);
 
-  // Subscribe to relevant WebSocket events for real-time updates
-  const { events } = useWebSocketEvents({
-    events: [
-      "location.created",
-      "location.updated",
-      "location.deleted",
-      "location.status.updated",
-    ],
-    autoReconnect: true,
-  });
 
-  // Process WebSocket events to update UI
-  useEffect(() => {
-    if (!events || events.length === 0) return;
-
-    // Process the most recent event
-    const event = events[events.length - 1];
-    if (!event) return; // Guard against undefined event
-
-    // Show notification based on event type
-    if (event.type === "location.created") {
-      const locationName = event.data?.name || "Unknown";
-      toast({
-        title: "Location Created",
-        description: `New location "${locationName}" has been added`,
-      });
-      refetch();
-    } else if (event.type === "location.updated") {
-      const locationName = event.data?.name || "Unknown";
-      toast({
-        title: "Location Updated",
-        description: `Location "${locationName}" has been updated`,
-      });
-      refetch();
-    } else if (event.type === "location.deleted") {
-      const locationName = event.data?.name || "Unknown";
-      toast({
-        title: "Location Removed",
-        description: `Location "${locationName}" has been deleted`,
-        variant: "destructive",
-      });
-      refetch();
-    } else if (event.type === "location.status.updated") {
-      const locationName = event.data?.name || "Unknown";
-      const status = event.data?.status || "unknown";
-
-      const statusText =
-        status === "approved"
-          ? "approved"
-          : status === "rejected"
-            ? "rejected"
-            : "updated";
-
-      toast({
-        title: `Location ${statusText.charAt(0).toUpperCase() + statusText.slice(1)}`,
-        description: `Location "${locationName}" has been ${statusText}`,
-        variant: status === "rejected" ? "destructive" : "default",
-      });
-      refetch();
-    }
-  }, [events, refetch, toast]);
 
   // Format date for display
   const formatDate = (dateString: string) => {

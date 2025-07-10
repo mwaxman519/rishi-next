@@ -7,9 +7,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
-import { useWebSocketEvents, WebSocketEvent } from "@/hooks/useWebSocketEvents";
-import { AppEvent } from "@/services/infrastructure/messaging/eventTypes";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -64,17 +62,9 @@ export function EventLogger({
   title = "Event Log",
   filter,
 }: EventLoggerProps) {
-  const { isConnected, events } = useWebSocketEvents({
-    events: filter,
-    autoReconnect: true,
-  });
-
-  // Filter and limit the number of events displayed
-  const displayEvents = filter
-    ? events
-        .filter((e) => filter.includes(e.type as AppEvent))
-        .slice(0, maxEvents)
-    : events.slice(0, maxEvents);
+  // EventBus integration removed - Events as business objects no longer exist
+  const isConnected = false;
+  const displayEvents: any[] = [];
 
   return (
     <Card className="w-full shadow-md border">
