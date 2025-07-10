@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ExpenseService } from "../../../services/expenses/ExpenseService";
 import { ExpenseApprovalSchema } from "../../../services/expenses/models";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 
 const expenseService = new ExpenseService();
 

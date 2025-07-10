@@ -4,7 +4,7 @@ import { z } from "zod";
 import { db } from "../../../../../lib/db";
 import { locations } from "../../../../../shared/schema";
 import { eq, inArray } from "drizzle-orm";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import hasPermission from "../../../../../lib/rbac/hasPermission";
 import { locationEventBus } from "../../../../services/infrastructure/messaging/locationEvents";
 

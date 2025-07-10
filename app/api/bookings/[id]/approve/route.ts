@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { bookingsEventsService } from "../../../../services/bookings-events-service";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { z } from "zod";
 
 // Validation schema for approval

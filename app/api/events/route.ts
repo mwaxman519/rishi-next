@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { EventBusService } from "../../../services/event-bus-service";
 
 // Cannabis booking events data
