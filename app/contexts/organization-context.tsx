@@ -41,7 +41,7 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
           throw new Error("Failed to fetch organizations");
         }
         const data = await response.json();
-        setOrganizations(data.organizations || []);
+        setOrganizations(data || []);
 
         // Set current organization if available
         const currentOrgResponse = await fetch("/api/organizations/context");

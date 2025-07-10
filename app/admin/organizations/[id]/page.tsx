@@ -82,8 +82,8 @@ export default function OrganizationDetailPage({
     );
   }
 
-  const tierName = organization.tier
-    ? organization.tier
+  const tierName = organization?.tier
+    ? organization?.tier
         .replace("_", " ")
         .replace(/\b\w/g, (c) => c.toUpperCase())
     : "No Tier";
@@ -102,35 +102,35 @@ export default function OrganizationDetailPage({
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {organization.name}
+              {organization?.name || 'Unknown Organization'}
             </h1>
             <div className="flex items-center mt-1">
               <Badge variant="outline" className="mr-2">
-                {organization.type.charAt(0).toUpperCase() +
-                  organization.type.slice(1)}
+                {organization?.type?.charAt(0).toUpperCase() +
+                  organization?.type?.slice(1) || 'Unknown'}
               </Badge>
-              {organization.tier && (
+              {organization?.tier && (
                 <Badge variant="secondary">{tierName}</Badge>
               )}
               <Badge
-                variant={organization.active ? "success" : "destructive"}
+                variant={organization?.active ? "success" : "destructive"}
                 className="ml-2"
               >
-                {organization.active ? "Active" : "Inactive"}
+                {organization?.active ? "Active" : "Inactive"}
               </Badge>
             </div>
           </div>
         </div>
         <div className="flex space-x-2">
           <Link
-            href={`/admin/organizations/settings?organizationId=${organization.id}`}
+            href={`/admin/organizations/settings?organizationId=${organization?.id}`}
           >
             <Button variant="outline" size="sm">
               Manage Settings
             </Button>
           </Link>
           <Link
-            href={`/admin/organizations/branding?organizationId=${organization.id}`}
+            href={`/admin/organizations/branding?organizationId=${organization?.id}`}
           >
             <Button variant="outline" size="sm">
               Customize Branding
@@ -155,13 +155,13 @@ export default function OrganizationDetailPage({
                 <dt className="text-sm font-medium text-muted-foreground">
                   ID
                 </dt>
-                <dd className="text-sm mt-1">{organization.id}</dd>
+                <dd className="text-sm mt-1">{organization?.id}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
                   Type
                 </dt>
-                <dd className="text-sm mt-1 capitalize">{organization.type}</dd>
+                <dd className="text-sm mt-1 capitalize">{organization?.type}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-muted-foreground">
@@ -174,7 +174,7 @@ export default function OrganizationDetailPage({
                   Status
                 </dt>
                 <dd className="text-sm mt-1">
-                  {organization.active ? "Active" : "Inactive"}
+                  {organization?.active ? "Active" : "Inactive"}
                 </dd>
               </div>
               <div>
@@ -182,7 +182,7 @@ export default function OrganizationDetailPage({
                   Created
                 </dt>
                 <dd className="text-sm mt-1">
-                  {new Date(organization.created_at).toLocaleString()}
+                  {organization?.created_at ? new Date(organization?.created_at).toLocaleString() : 'Unknown'}
                 </dd>
               </div>
               <div>
@@ -190,7 +190,7 @@ export default function OrganizationDetailPage({
                   Last Updated
                 </dt>
                 <dd className="text-sm mt-1">
-                  {new Date(organization.updated_at).toLocaleString()}
+                  {organization?.updated_at ? new Date(organization?.updated_at).toLocaleString() : 'Unknown'}
                 </dd>
               </div>
             </dl>
@@ -203,7 +203,7 @@ export default function OrganizationDetailPage({
           </CardHeader>
           <CardContent className="grid gap-4">
             <Link
-              href={`/admin/organizations/users?organizationId=${organization.id}`}
+              href={`/admin/organizations/users?organizationId=${organization?.id}`}
             >
               <Button variant="outline" className="w-full justify-start">
                 <Users className="mr-2 h-4 w-4" />
@@ -211,7 +211,7 @@ export default function OrganizationDetailPage({
               </Button>
             </Link>
             <Link
-              href={`/admin/organizations/roles?organizationId=${organization.id}`}
+              href={`/admin/organizations/roles?organizationId=${organization?.id}`}
             >
               <Button variant="outline" className="w-full justify-start">
                 <Shield className="mr-2 h-4 w-4" />
@@ -219,7 +219,7 @@ export default function OrganizationDetailPage({
               </Button>
             </Link>
             <Link
-              href={`/admin/organizations/settings?organizationId=${organization.id}`}
+              href={`/admin/organizations/settings?organizationId=${organization?.id}`}
             >
               <Button variant="outline" className="w-full justify-start">
                 <FileText className="mr-2 h-4 w-4" />
@@ -227,7 +227,7 @@ export default function OrganizationDetailPage({
               </Button>
             </Link>
             <Link
-              href={`/admin/organizations/branding?organizationId=${organization.id}`}
+              href={`/admin/organizations/branding?organizationId=${organization?.id}`}
             >
               <Button variant="outline" className="w-full justify-start">
                 <Building2 className="mr-2 h-4 w-4" />
@@ -235,7 +235,7 @@ export default function OrganizationDetailPage({
               </Button>
             </Link>
             <Link
-              href={`/admin/organization-regions?organizationId=${organization.id}`}
+              href={`/admin/organization-regions?organizationId=${organization?.id}`}
             >
               <Button variant="outline" className="w-full justify-start">
                 <MapPin className="mr-2 h-4 w-4" />
@@ -243,7 +243,7 @@ export default function OrganizationDetailPage({
               </Button>
             </Link>
             <Link
-              href={`/admin/organization-events?organizationId=${organization.id}`}
+              href={`/admin/organization-events?organizationId=${organization?.id}`}
             >
               <Button variant="outline" className="w-full justify-start">
                 <Calendar className="mr-2 h-4 w-4" />
