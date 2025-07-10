@@ -672,8 +672,8 @@ export default function RBACPage() {
                         <td className="px-6 py-4">
                           <div className="flex flex-wrap gap-1">
                             {/* No inheritance display since RoleDefinition doesn't include inheritance */}
-                            {(ROLE_HIERARCHY[role.id] && ROLE_HIERARCHY[role.id].length > 0) ? 
-                              ROLE_HIERARCHY[role.id].map(
+                            {(ROLE_HIERARCHY[role.id] && ROLE_HIERARCHY[role.id]?.length > 0) ? 
+                              ROLE_HIERARCHY[role.id]?.map(
                               (parentRole: string, inheritIndex) => (
                                 <span
                                   key={`${role.id}-inherits-${inheritIndex}-${parentRole}`}
@@ -683,7 +683,7 @@ export default function RBACPage() {
                                 </span>
                               ),
                             ) : null}
-                            {(!ROLE_HIERARCHY[role.id] || ROLE_HIERARCHY[role.id].length === 0) && (
+                            {(!ROLE_HIERARCHY[role.id] || ROLE_HIERARCHY[role.id]?.length === 0) && (
                               <span
                                 key={`${role.id}-no-inheritance`}
                                 className="text-gray-500 dark:text-gray-400 text-sm"
