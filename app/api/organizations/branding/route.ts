@@ -44,9 +44,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if user has permission to view organization branding
-    const canViewBranding = await hasPermission("view:organization_branding", {
-      organizationId,
-    });
+    const canViewBranding = await hasPermission("view:organization_branding", ["super_admin"]);
     if (!canViewBranding) {
       return NextResponse.json(
         { error: "Unauthorized to view organization branding" },
@@ -70,7 +68,7 @@ export async function GET(request: NextRequest) {
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
       organization.tier === "tier_3" ||
-      (await hasPermission("manage:organization_branding"));
+      (await hasPermission("manage:organization_branding", ["super_admin"]));
 
     const branding = await db.query.organizationBranding.findFirst({
       where: eq(organizationBranding.organization_id, organizationId),
@@ -102,7 +100,7 @@ export async function POST(request: NextRequest) {
     // Check if user has permission to update organization branding
     const canUpdateBranding = await hasPermission(
       "edit:organization_branding",
-      { organizationId: organization_id },
+      ["super_admin"]
     );
     if (!canUpdateBranding) {
       return NextResponse.json(
@@ -127,7 +125,7 @@ export async function POST(request: NextRequest) {
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
       organization.tier === "tier_3" ||
-      (await hasPermission("manage:organization_branding"));
+      (await hasPermission("manage:organization_branding", ["super_admin"]));
 
     if (!canCustomize) {
       return NextResponse.json(

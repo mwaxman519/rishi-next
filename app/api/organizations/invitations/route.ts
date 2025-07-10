@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
           ),
       });
 
-      if (!userOrg && !hasPermission("view:all_organizations", user.role)) {
+      if (!userOrg && !(await hasPermission("view:all_organizations", [user.role]))) {
         return NextResponse.json(
           {
             error:
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
       }
 
       // Check role-based permissions
-      if (!hasPermission("view:users", user.role)) {
+      if (!(await hasPermission("view:users", [user.role]))) {
         return NextResponse.json(
           { error: "You do not have permission to view invitations" },
           { status: 403 },

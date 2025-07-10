@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has permission to manage features
-    const canManageFeatures = await hasPermission("manage:features");
+    const canManageFeatures = await hasPermission("manage:features", ["super_admin"]);
     if (!canManageFeatures) {
       return NextResponse.json(
         { error: "You do not have permission to manage features" },
