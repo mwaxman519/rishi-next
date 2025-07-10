@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 import * as userService from "../../../services/users/userService";
 import { getUserFromRequest } from "../../../lib/auth-server";
 import { hasPermission } from "../../../lib/rbac";
-import { formatZodError } from "../../../lib/utils";
+import { formatZodError } from "../../../../lib/utils";
 
 // GET /api/users/:id - Get a specific user
 export async function GET(

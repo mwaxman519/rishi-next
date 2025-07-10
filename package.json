@@ -104,6 +104,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/memoizee": "^0.4.12",
     "@types/node": "^20.19.4",
+    "autoprefixer": "^10.4.21",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -143,6 +144,7 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.14.1",
+    "postcss": "^8.5.6",
     "posthog-js": "^1.255.1",
     "posthog-node": "^4.18.0",
     "react": "^19.1.0",
@@ -160,6 +162,7 @@
     "remark-html": "^16.0.1",
     "rimraf": "^5.0.10",
     "tailwind-merge": "^2.6.0",
+    "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.20.3",
     "use-places-autocomplete": "^4.0.1",
@@ -167,10 +170,7 @@
     "vaul": "^1.1.2",
     "ws": "^8.18.1",
     "zod": "^3.25.76",
-    "zod-validation-error": "^3.4.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17"
+    "zod-validation-error": "^3.4.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.3.4",
@@ -184,7 +184,7 @@
     "@types/lodash": "^4.17.20",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
-    "@types/react": "18.3.23",
+    "@types/react": "^18.3.23",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18.3.7",
     "@types/uuid": "^10.0.0",
@@ -194,6 +194,6 @@
     "jest-environment-node": "^29.7.0",
     "next-sitemap": "^4.2.3",
     "ts-jest": "^29.4.0",
-    "typescript": "5.8.3"
+    "typescript": "^5.8.3"
   }
 }
