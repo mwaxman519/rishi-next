@@ -140,6 +140,14 @@ export async function POST(request: NextRequest) {
       .leftJoin(locations, eq(activities.locationId, locations.id))
       .where(eq(activities.id, id));
 
+    // Check if activity data was found after creation
+    if (!activity) {
+      return NextResponse.json(
+        { error: "Activity not found after creation" },
+        { status: 500 },
+      );
+    }
+
     // Format the response
     const formattedActivity = {
       ...activity.activity,

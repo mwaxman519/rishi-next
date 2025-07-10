@@ -86,6 +86,14 @@ export async function POST(
       .leftJoin(users, eq(activities.createdById, users.id))
       .where(eq(activities.id, id));
 
+    // Check if activity data was found after update
+    if (!activityData) {
+      return NextResponse.json(
+        { error: "Activity not found after update" },
+        { status: 404 },
+      );
+    }
+
     // Format the response
     const formattedActivity = {
       ...activityData.activity,
