@@ -33,7 +33,7 @@ export function PlaceAutocompleteField({
   disabled = false,
   type = "default",
 }: PlaceAutocompleteFieldProps) {
-  const { isLoaded, isError } = useGoogleMaps();
+  const { isLoaded, loadError } = useGoogleMaps();
   const autocompleteRef = useRef<HTMLElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [inputValue, setInputValue] = useState("");

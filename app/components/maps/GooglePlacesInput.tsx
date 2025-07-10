@@ -20,7 +20,7 @@ export function GooglePlacesInput({
   placeholder = "Search for a location",
   className = "",
 }: GooglePlacesInputProps) {
-  const { isLoaded, isError } = useGoogleMaps();
+  const { isLoaded, loadError } = useGoogleMaps();
   const [logs, setLogs] = useState<string[]>([]);
 
   // Our input element reference (directly managed by React)

@@ -34,7 +34,7 @@ export default function LocationDisplay({
 }: LocationDisplayProps) {
   const [mapInitialized, setMapInitialized] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
-  const { isLoaded, isError, errorMessage } = useGoogleMaps();
+  const { isLoaded, loadError } = useGoogleMaps();
 
   useEffect(() => {
     // Initialize map when Google Maps is loaded
@@ -77,10 +77,10 @@ export default function LocationDisplay({
 
   // Set error from context if available
   useEffect(() => {
-    if (isError && errorMessage) {
-      setMapError(errorMessage);
+    if (loadError) {
+      setMapError(loadError.message);
     }
-  }, [isError, errorMessage]);
+  }, [loadError]);
 
   const formattedAddress = () => {
     let address = location.address1;
