@@ -118,7 +118,12 @@ export default function UserPermissionsPage() {
     setRolePermissions((prev) => {
       const newPermissions = { ...prev };
 
-      if (newPermissions[selectedRole].includes(permissionId)) {
+      // Ensure the selectedRole exists in permissions
+      if (!newPermissions[selectedRole]) {
+        newPermissions[selectedRole] = [];
+      }
+
+      if (newPermissions[selectedRole]?.includes(permissionId)) {
         // Remove the permission
         newPermissions[selectedRole] = newPermissions[selectedRole].filter(
           (id) => id !== permissionId,
@@ -126,7 +131,7 @@ export default function UserPermissionsPage() {
       } else {
         // Add the permission
         newPermissions[selectedRole] = [
-          ...newPermissions[selectedRole],
+          ...(newPermissions[selectedRole] || []),
           permissionId,
         ];
       }
