@@ -53,6 +53,7 @@ const nextConfig = {
       '@/shared': path.resolve(process.cwd(), 'shared'),
       '@shared': path.resolve(process.cwd(), 'shared'),
       '@/services': path.resolve(process.cwd(), 'app/services'),
+      '@db': path.resolve(process.cwd(), 'db'),
     };
     
     config.resolve.fallback = {
