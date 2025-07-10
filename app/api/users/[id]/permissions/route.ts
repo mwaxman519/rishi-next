@@ -13,7 +13,7 @@ interface PermissionRecord {
 // GET /api/users/[id]/permissions - Get user permissions
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
     // Correctly access dynamic params in Next.js 15
