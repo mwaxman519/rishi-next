@@ -9,7 +9,7 @@ const authOptions = {};
 // GET /api/team/[id] - Get team member details
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -17,6 +17,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
     const [teamMember] = await db
       .select({
         id: users.id,
@@ -31,7 +32,7 @@ export async function GET(
       })
       .from(users)
       .leftJoin(userOrganizations, eq(users.id, userOrganizations.userId))
-      .where(eq(users.id, params.id))
+      .where(eq(users.id, id))
       .limit(1);
 
     if (!teamMember) {
@@ -57,7 +58,7 @@ export async function GET(
 // PUT /api/team/[id] - Update team member
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -65,6 +66,7 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
     const body = await request.json();
     const { name, email, phone, location, bio, status, role, specialties } =
       body;

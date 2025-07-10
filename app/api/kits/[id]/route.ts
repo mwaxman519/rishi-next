@@ -15,7 +15,7 @@ async function getKit(id: number) {
 // GET /api/kits/[id]
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get organization context from request headers
@@ -30,7 +30,8 @@ export async function GET(
       );
     }
 
-    const id = parseInt(params.id);
+    const { id: kitId } = await params;
+    const id = parseInt(kitId);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
     }
@@ -61,7 +62,7 @@ export async function GET(
 // PUT /api/kits/[id]
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get organization context from request headers
@@ -76,7 +77,8 @@ export async function PUT(
       );
     }
 
-    const id = parseInt(params.id);
+    const { id: kitId } = await params;
+    const id = parseInt(kitId);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
     }
@@ -119,7 +121,7 @@ export async function PUT(
 // DELETE /api/kits/[id]
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get organization context from request headers
@@ -134,7 +136,8 @@ export async function DELETE(
       );
     }
 
-    const id = parseInt(params.id);
+    const { id: kitId } = await params;
+    const id = parseInt(kitId);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
     }

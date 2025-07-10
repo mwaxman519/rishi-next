@@ -6,10 +6,11 @@ import { eq } from "drizzle-orm";
 // GET /api/items/[id] - Get a single item by ID
 export async function GET(
   request: Request,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   try {
-    const id = parseInt(context.context.context.params.id);
+    const params = await context.params;
+    const id = parseInt(params.id);
 
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
@@ -34,10 +35,11 @@ export async function GET(
 // PUT /api/items/[id] - Update an item
 export async function PUT(
   request: Request,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   try {
-    const id = parseInt(context.context.context.params.id);
+    const params = await context.params;
+    const id = parseInt(params.id);
 
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
@@ -75,10 +77,11 @@ export async function PUT(
 // DELETE /api/items/[id] - Delete an item
 export async function DELETE(
   request: Request,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   try {
-    const id = parseInt(context.context.context.params.id);
+    const params = await context.params;
+    const id = parseInt(params.id);
 
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });

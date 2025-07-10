@@ -63,7 +63,7 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const user = await getCurrentUser();
@@ -80,7 +80,7 @@ export async function PATCH(
       );
     }
 
-    const locationId = params.id;
+    const { id: locationId } = await params;
 
     // Validate that the ID is a valid UUID
     if (
@@ -126,7 +126,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const user = await getCurrentUser();
@@ -143,7 +143,7 @@ export async function DELETE(
       );
     }
 
-    const locationId = params.id;
+    const { id: locationId } = await params;
 
     // Validate that the ID is a valid UUID
     if (

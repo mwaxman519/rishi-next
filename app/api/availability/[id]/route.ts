@@ -27,14 +27,15 @@ function createNoCacheHeaders(): Headers {
  */
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   // Create headers once
   const headers = createNoCacheHeaders();
 
   try {
-    // Validate that we have an ID parameter
-    if (!context.params || !context.context.context.params.id) {
+    // Await params and validate that we have an ID parameter
+    const params = await context.params;
+    if (!params || !params.id) {
       console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
@@ -47,7 +48,7 @@ export async function GET(
     }
 
     // Parse the ID
-    const id = parseInt(context.context.context.params.id);
+    const id = parseInt(params.id);
 
     // Validate ID format
     if (isNaN(id)) {
@@ -113,14 +114,15 @@ export async function GET(
  */
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   // Create headers once
   const headers = createNoCacheHeaders();
 
   try {
-    // Validate that we have an ID parameter
-    if (!context.params || !context.context.context.params.id) {
+    // Await params and validate that we have an ID parameter
+    const params = await context.params;
+    if (!params || !params.id) {
       console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
@@ -133,7 +135,7 @@ export async function PUT(
     }
 
     // Parse the ID
-    const id = parseInt(context.context.context.params.id);
+    const id = parseInt(params.id);
 
     // Validate ID format
     if (isNaN(id)) {

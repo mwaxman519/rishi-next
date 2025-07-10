@@ -12,10 +12,11 @@ import { authOptions } from "../../../../lib/auth";
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const activityKit = await kitsService.getActivityKitById(params.id);
+    const { id } = await params;
+    const activityKit = await kitsService.getActivityKitById(id);
     if (!activityKit) {
       return NextResponse.json(
         { error: "Activity kit assignment not found" },
@@ -45,7 +46,7 @@ export async function GET(
  */
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get the current user from the session
@@ -58,7 +59,8 @@ export async function PATCH(
     const data = await req.json();
 
     // Update activity kit assignment
-    const activityKit = await kitsService.updateActivityKit(params.id, data);
+    const { id } = await params;
+    const activityKit = await kitsService.updateActivityKit(id, data);
 
     return NextResponse.json(activityKit);
   } catch (error) {
@@ -82,7 +84,7 @@ export async function PATCH(
  */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get the current user from the session
@@ -92,7 +94,8 @@ export async function DELETE(
     }
 
     // Delete activity kit assignment
-    await kitsService.deleteActivityKit(params.id);
+    const { id } = await params;
+    await kitsService.deleteActivityKit(id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -5,10 +5,10 @@ import { eventInstances, locations, users } from "../../../../../shared/schema";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const bookingId = params.id;
+    const { id: bookingId } = await params;
 
     // Query event instances along with related location and field manager data
     const events = await db

@@ -56,7 +56,7 @@ export async function GET(
 // PUT /api/users/:id - Update a user
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
     // Correctly access dynamic params in Next.js 15
@@ -118,7 +118,7 @@ export async function PUT(
 // DELETE /api/users/:id - Delete a user
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
     // Correctly access dynamic params in Next.js 15

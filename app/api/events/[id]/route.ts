@@ -102,10 +102,10 @@ const mockEvents = [
 // GET handler for retrieving a specific event
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const eventId = params.id;
+    const { id: eventId } = await params;
     const event = mockEvents.find((e) => e.id === eventId);
 
     if (!event) {
@@ -125,10 +125,10 @@ export async function GET(
 // PUT handler for updating an event
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const eventId = params.id;
+    const { id: eventId } = await params;
     const event = mockEvents.find((e) => e.id === eventId);
 
     if (!event) {
@@ -157,10 +157,10 @@ export async function PUT(
 // DELETE handler for canceling an event
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const eventId = params.id;
+    const { id: eventId } = await params;
     const event = mockEvents.find((e) => e.id === eventId);
 
     if (!event) {

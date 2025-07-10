@@ -18,7 +18,7 @@ const rejectionSchema = z.object({
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get user from session
@@ -35,7 +35,7 @@ export async function POST(
       );
     }
 
-    const bookingId = params.id;
+    const { id: bookingId } = await params;
     const data = await request.json();
 
     // Validate input
