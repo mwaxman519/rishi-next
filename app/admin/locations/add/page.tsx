@@ -93,7 +93,7 @@ export default function AdminAddLocationPage() {
   const router = useRouter();
   const { theme, resolvedTheme } = useTheme();
   const { toast } = useToast();
-  const { isLoaded, isApiReady, mapId } = useGoogleMaps();
+  const { isLoaded, mapId } = useGoogleMaps();
 
   // UI State
   const [activeTab, setActiveTab] = useState("google-search");
