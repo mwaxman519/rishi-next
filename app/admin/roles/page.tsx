@@ -489,7 +489,7 @@ export default function RolesManagement() {
       if (!categories[permission.category]) {
         categories[permission.category] = [];
       }
-      categories[permission.category].push(permission);
+      categories[permission.category]?.push(permission);
     });
     return categories;
   };
