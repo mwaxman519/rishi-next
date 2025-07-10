@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { db } from "@/db";
 import { eq, and } from "drizzle-orm";
-import { bookings, organizations, users } from "@/shared/schema";
+import { bookings, organizations, users } from "@shared/schema";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";

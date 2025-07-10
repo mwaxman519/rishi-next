@@ -3,7 +3,7 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
 import { initializeNavigation } from "@/navigation/NavigationItems";
-import { NavItem } from "@/shared/navigation-constants";
+import { NavItem } from "@shared/navigation-constants";
 import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
@@ -13,7 +13,7 @@ import {
   BRAND_AGENT_NAVIGATION,
   CLIENT_USER_NAVIGATION,
   getNavigationForRole,
-} from "@/shared/navigation-structure";
+} from "@shared/navigation-structure";
 
 interface NavigationContextValue {
   navItems: NavItem[];

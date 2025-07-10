@@ -1,4 +1,4 @@
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   Home,
   LayoutDashboard,

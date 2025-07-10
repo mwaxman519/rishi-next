@@ -43,7 +43,7 @@ import {
   insertActivitySchema,
   InsertActivity,
   DEFAULT_ACTIVITY_TYPES,
-} from "@/shared/schema";
+} from "@shared/schema";
 
 // Extend the insert schema with additional validation
 const activityFormSchema = insertActivitySchema.extend({

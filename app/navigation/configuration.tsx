@@ -9,14 +9,14 @@
  * local variables prefixed with underscore (_) to avoid duplicates.
  */
 import React from "react";
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   superAdminNavigation,
   internalAdminNavigation,
   fieldManagerNavigation,
   brandAgentNavigation,
   clientUserNavigation,
-} from "@/shared/navigation-structure";
+} from "@shared/navigation-structure";
 import {
   Settings,
   Shield,

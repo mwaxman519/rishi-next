@@ -41,7 +41,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { OrganizationSwitcher } from "@/components/layout/OrganizationSwitcher";
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Helper function to get the icon component from an icon name

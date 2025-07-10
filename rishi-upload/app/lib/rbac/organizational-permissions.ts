@@ -7,7 +7,7 @@ import {
   UserRole,
   getRolePermissions,
   permissionMatches,
-} from "@/shared/rbac-roles";
+} from "@shared/rbac-roles";
 
 export interface OrganizationPermissionCheck {
   userRole: UserRole;

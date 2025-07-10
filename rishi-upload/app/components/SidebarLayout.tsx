@@ -9,7 +9,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAuthorization } from "../hooks/useAuthorization";
 import { useSidebarState } from "../hooks/useSidebarState";
 import { Permission } from "../lib/rbac";
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   filterLinksByPermission,
   hasMyAvailability,
@@ -18,7 +18,7 @@ import {
 import {
   getNavigationForRole,
   getPlatformAdminNav,
-} from "@/shared/navigation-structure";
+} from "@shared/navigation-structure";
 import { ThemeToggle } from "./ui/theme-toggle";
 import {
   ChevronLeft,

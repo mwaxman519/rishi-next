@@ -57,7 +57,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { Booking, BOOKING_STATUS, BOOKING_PRIORITY } from "@/shared/schema";
+import { Booking, BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
 
 interface BookingsListProps {
   bookings: Booking[];

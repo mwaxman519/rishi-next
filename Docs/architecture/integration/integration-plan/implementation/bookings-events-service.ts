@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { eq, and, inArray, desc } from "drizzle-orm";
 import { eventBus } from "@/services/event-bus";
-import { bookings } from "@/shared/schema";
+import { bookings } from "@shared/schema";
 import {
   eventInstances,
   staffAssignments,

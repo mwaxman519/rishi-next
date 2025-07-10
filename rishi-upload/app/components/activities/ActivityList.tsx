@@ -39,7 +39,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Activity, ActivityType } from "@/shared/schema";
+import { Activity, ActivityType } from "@shared/schema";
 
 interface ActivityListProps {
   activities: Activity[];

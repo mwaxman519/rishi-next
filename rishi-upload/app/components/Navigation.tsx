@@ -5,7 +5,7 @@ import {
   NavItem,
   USER_TYPES,
   NAV_ITEM_TYPES,
-} from "@/shared/navigation-constants";
+} from "@shared/navigation-constants";
 import {
   RISHI_MANAGEMENT_NAV,
   RISHI_MANAGEMENT_SECONDARY_NAV,

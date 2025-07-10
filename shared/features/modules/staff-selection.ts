@@ -3,7 +3,7 @@
  * Available to: Tier 1 - Staff Leasing
  */
 import { BaseFeatureModule } from "../types";
-import { OrganizationTier } from "@/shared/tiers";
+import { OrganizationTier } from "@shared/tiers";
 
 /**
  * Staff Selection feature allows clients to browse and select

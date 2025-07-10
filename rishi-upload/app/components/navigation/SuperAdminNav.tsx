@@ -1,4 +1,4 @@
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 
 // Super Admin Navigation - Defined explicitly to guarantee consistency
 export const SUPER_ADMIN_NAV: NavItem[] = [

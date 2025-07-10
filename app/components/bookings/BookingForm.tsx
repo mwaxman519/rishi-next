@@ -50,7 +50,7 @@ import {
   InsertBooking,
   BOOKING_PRIORITY,
   BOOKING_STATUS,
-} from "@/shared/schema";
+} from "@shared/schema";
 import {
   RecurrencePattern,
   RecurrenceFrequency,

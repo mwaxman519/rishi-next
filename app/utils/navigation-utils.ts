@@ -2,7 +2,7 @@ import {
   NavItem,
   NavItemType,
   NAV_ITEM_TYPES,
-} from "@/shared/navigation-constants";
+} from "@shared/navigation-constants";
 import { Permission } from "@/lib/rbac";
 
 /**

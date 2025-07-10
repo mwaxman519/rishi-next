@@ -14,7 +14,7 @@ import {
   type Location,
   type PromotionType,
   type KitTemplate,
-} from "@/shared/schema";
+} from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,

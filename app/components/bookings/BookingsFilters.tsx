@@ -47,7 +47,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
-import { BOOKING_STATUS, BOOKING_PRIORITY } from "@/shared/schema";
+import { BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
 
 export interface BookingsFiltersProps {
   onFilterChange: (filters: BookingsFilterState) => void;

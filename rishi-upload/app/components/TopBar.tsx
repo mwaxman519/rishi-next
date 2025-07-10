@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "wouter";
-import { NavItem } from "@/shared/navigation-constants";
+import { NavItem } from "@shared/navigation-constants";
 import * as Icons from "lucide-react";
 import { useOrganizationContext } from "@/contexts/OrganizationProvider";
 

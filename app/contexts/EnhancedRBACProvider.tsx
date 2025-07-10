@@ -7,7 +7,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { UserRole } from "@/shared/schema";
+import { UserRole } from "@shared/schema";
 import { useAuth } from "../hooks/useAuth";
 import {
   PermissionContext,

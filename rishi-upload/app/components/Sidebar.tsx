@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { NavItem } from "@/shared/navigation-constants";
+import { NavItem } from "@shared/navigation-constants";
 import * as Icons from "lucide-react";
 
 interface SidebarProps {

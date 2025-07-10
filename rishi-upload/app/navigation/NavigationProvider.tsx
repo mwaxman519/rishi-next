@@ -5,7 +5,7 @@ import { initializeNavigation } from "./NavigationItems";
 import {
   superAdminNavigation,
   fieldManagerNavigation,
-} from "@/shared/navigation-structure";
+} from "@shared/navigation-structure";
 
 interface NavigationProviderProps {
   children: React.ReactNode;

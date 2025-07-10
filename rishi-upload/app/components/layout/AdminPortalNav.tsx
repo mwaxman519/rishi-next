@@ -1,7 +1,7 @@
 "use client";
 
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
-import { USER_ROLES } from "@/shared/rbac-roles";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
+import { USER_ROLES } from "@shared/rbac-roles";
 import {
   Settings,
   Shield,

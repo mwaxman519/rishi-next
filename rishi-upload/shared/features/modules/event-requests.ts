@@ -3,7 +3,7 @@
  * Available to: Tier 2 - Event Staffing
  */
 import { BaseFeatureModule } from "../types";
-import { OrganizationTier } from "@/shared/tiers";
+import { OrganizationTier } from "@shared/tiers";
 
 /**
  * Event Requests feature allows clients to submit event requests

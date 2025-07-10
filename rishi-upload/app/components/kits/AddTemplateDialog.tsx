@@ -29,7 +29,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCreateKitTemplate } from "@/hooks/useKits";
 import { Switch } from "@/components/ui/switch";
 import { useQueryClient } from "@tanstack/react-query";
-import { insertKitTemplateSchema } from "@/shared/schema";
+import { insertKitTemplateSchema } from "@shared/schema";
 
 // Extend the kit template schema with validation
 const createTemplateSchema = insertKitTemplateSchema.extend({

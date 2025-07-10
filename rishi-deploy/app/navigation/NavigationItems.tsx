@@ -5,7 +5,7 @@
  * This file contains the actual navigation items with their React components
  */
 import React from "react";
-import { NavItem, NAV_ITEM_TYPES } from "@/shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import { v4 as uuidv4 } from "uuid";
 
 // Import the navigation configuration from shared navigation structure
@@ -15,7 +15,7 @@ import {
   fieldManagerNavigation,
   brandAgentNavigation,
   clientUserNavigation,
-} from "@/shared/navigation-structure";
+} from "@shared/navigation-structure";
 
 // Helper function to ensure all navigation items have href property and unique IDs
 function processNavigationItems(

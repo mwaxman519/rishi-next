@@ -4,7 +4,7 @@
  */
 import { drizzle } from "drizzle-orm/neon-serverless";
 import pool from "./connection-pool";
-import * as schema from "@/shared/schema";
+import * as schema from "@shared/schema";
 
 // Create a drizzle client with our optimized connection pool
 export const db = drizzle(pool, { schema });

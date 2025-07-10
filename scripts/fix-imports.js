@@ -25,8 +25,8 @@ function calculateRelativePath(fromFile, toModule) {
       "app/components",
       toModule.substring("@/components/".length),
     );
-  } else if (toModule.startsWith("@/shared/")) {
-    targetPath = path.join("shared", toModule.substring("@/shared/".length));
+  } else if (toModule.startsWith("@shared/")) {
+    targetPath = path.join("shared", toModule.substring("@shared/".length));
   } else if (toModule.startsWith("@/")) {
     targetPath = path.join("app", toModule.substring("@/".length));
   } else {

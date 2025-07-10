@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import SidebarLayout from "@/components/SidebarLayout";
 import { useToast } from "@/hooks/use-toast";
-import { USER_ROLES } from "@/shared/schema";
+import { USER_ROLES } from "@shared/schema";
 import Link from "next/link";
 
 export default function NewUserPage() {

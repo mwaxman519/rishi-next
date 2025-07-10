@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useCreateKit, useKitTemplates } from "@/hooks/useKits";
-import { insertKitSchema } from "@/shared/schema";
+import { insertKitSchema } from "@shared/schema";
 import {
   Select,
   SelectContent,

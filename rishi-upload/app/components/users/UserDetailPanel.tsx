@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useAuthorization } from "@/hooks/useAuthorization";
-import { USER_ROLES } from "@/shared/rbac/roles";
+import { USER_ROLES } from "@shared/rbac/roles";
 import {
   MoreHorizontal,
   Edit,

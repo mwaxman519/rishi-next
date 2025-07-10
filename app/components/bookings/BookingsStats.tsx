@@ -21,7 +21,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { BOOKING_STATUS } from "@/shared/schema";
+import { BOOKING_STATUS } from "@shared/schema";
 
 interface BookingStats {
   total: number;
