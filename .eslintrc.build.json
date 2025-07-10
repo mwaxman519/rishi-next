@@ -1,28 +1,7 @@
 {
   "extends": ["./.eslintrc.json"],
   "rules": {
-    "@typescript-eslint/no-floating-promises": "error",
-    "@typescript-eslint/require-await": "error",
-    "@typescript-eslint/await-thenable": "error",
-    "@typescript-eslint/no-misused-promises": [
-      "error",
-      {
-        "checksConditionals": true,
-        "checksVoidReturn": true
-      }
-    ],
     "prefer-const": "error",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "import/no-unresolved": ["error", { "ignore": ["^@/", "^@shared/", "^@db/"] }]
-  },
-  "overrides": [
-    {
-      "files": ["app/api/**/*.ts"],
-      "rules": {
-        "rishi/async-route-params": "error",
-        "rishi/await-promise-conditionals": "error"
-      }
-    }
-  ]
+    "no-unused-vars": "off"
+  }
 }

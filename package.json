@@ -112,6 +112,8 @@
     "@types/memoizee": "^0.4.12",
     "@types/node": "^20.19.4",
     "@types/react": "^18.3.23",
+    "@typescript-eslint/eslint-plugin": "^8.36.0",
+    "@typescript-eslint/parser": "^8.36.0",
     "autoprefixer": "^10.4.21",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
