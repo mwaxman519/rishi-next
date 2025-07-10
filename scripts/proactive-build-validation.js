@@ -5,9 +5,13 @@
  * Identifies and fixes common build issues before deployment
  */
 
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class BuildValidator {
   constructor() {
@@ -110,17 +114,16 @@ class BuildValidator {
       const content = fs.readFileSync(file, 'utf-8');
       
       // Check for relative imports that should use path aliases
-      const relativeImports = content.match(/import.*from\s+['"](\.\./.*)['"]/g);
-      if (relativeImports) {
-        for (const importLine of relativeImports) {
-          const match = importLine.match(/from\s+['"](\.\./.*)['"]/);
-          if (match) {
-            const importPath = match[1];
-            if (importPath.includes('lib/auth-options')) {
+      if (content.includes('from "../') || content.includes("from '../")) {
+        const lines = content.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          if (line.includes('import') && (line.includes('from "../') || line.includes("from '../"))) {
+            if (line.includes('lib/auth-options')) {
               this.errors.push({
                 file: file,
                 issue: 'Relative import should use path alias',
-                fix: `Change "${importPath}" to "@/lib/auth-options"`
+                fix: 'Change relative import to "@/lib/auth-options"'
               });
             }
           }
@@ -240,6 +243,8 @@ class BuildValidator {
   // Utility methods
   findDynamicRoutes(dir) {
     const routes = [];
+    if (!fs.existsSync(dir)) return routes;
+    
     const files = fs.readdirSync(dir);
     
     for (const file of files) {
@@ -262,8 +267,23 @@ class BuildValidator {
 
   findFiles(patterns, exclude = []) {
     const files = [];
-    // Simple file finder implementation
-    // In a real implementation, you'd use glob or similar
+    // Basic file finder for app directory
+    const appDir = path.join(process.cwd(), 'app');
+    if (fs.existsSync(appDir)) {
+      const findInDir = (dir) => {
+        const entries = fs.readdirSync(dir);
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry);
+          const stat = fs.statSync(fullPath);
+          if (stat.isDirectory() && !exclude.some(ex => fullPath.includes(ex))) {
+            findInDir(fullPath);
+          } else if (entry.endsWith('.ts') || entry.endsWith('.tsx')) {
+            files.push(fullPath);
+          }
+        }
+      };
+      findInDir(appDir);
+    }
     return files;
   }
 
@@ -332,7 +352,7 @@ class BuildValidator {
 }
 
 // Run validation if called directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   const validator = new BuildValidator();
   validator.runValidation().then(success => {
     process.exit(success ? 0 : 1);
@@ -342,4 +362,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = BuildValidator;
+export default BuildValidator;

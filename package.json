@@ -19,7 +19,14 @@
     "build:optimized": "NEXT_TELEMETRY_DISABLED=1 next build --experimental-build-mode=compile",
     "build:azure": "npm install autoprefixer postcss tailwindcss && next build",
     "build:static": "STATIC_EXPORT=1 next build",
-    "build:no-db": "./build-no-db.sh"
+    "build:no-db": "./build-no-db.sh",
+    "build:validate": "node scripts/proactive-build-validation.js",
+    "build:compatibility": "node scripts/build-compatibility-check.js",
+    "build:safe": "npm run build:validate && npm run build:compatibility && npm run build",
+    "lint:build": "eslint app/ --ext .ts,.tsx --config .eslintrc.build.json",
+    "type-check": "tsc --noEmit",
+    "pre-commit": "bash scripts/pre-commit-hook.sh",
+    "setup-hooks": "cp scripts/pre-commit-hook.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit"
   },
   "resolutions": {
     "@babel/traverse": "^7.23.2",
