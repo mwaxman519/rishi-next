@@ -466,7 +466,7 @@ function OrganizationBrandingPage() {
                 <div className="h-full flex items-center px-4 text-white font-medium">
                   {form.watch("logo_url") ? (
                     <img
-                      src={form.watch("logo_url")}
+                      src={form.watch("logo_url") || ""}
                       alt="Organization Logo"
                       className="h-8 max-w-[160px] object-contain"
                       onError={(e) => {
