@@ -6,9 +6,9 @@
 import { notFound } from 'next/navigation';
 
 interface DynamicPageProps {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -16,7 +16,10 @@ export async function generateStaticParams() {
   return [];
 }
 
-export default function DynamicPage({ params }: DynamicPageProps) {
+export default async function DynamicPage({ params }: DynamicPageProps) {
+  // Await the params in Next.js 15
+  const { slug } = await params;
+  
   // For undefined routes, return 404
   notFound();
 }
