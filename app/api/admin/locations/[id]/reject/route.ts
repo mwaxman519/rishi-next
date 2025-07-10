@@ -6,7 +6,7 @@ import { publishLocationRejectedEvent } from "../../../../../services/locations/
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const locationId = params.id;

@@ -18,7 +18,7 @@ export async function GET(
   try {
     // Correctly access dynamic params in Next.js 15
     const params = await context.params;
-    const id = params.id;
+    const { id: id } = await params;
     console.log(`GET /api/users/${id}/permissions - Getting user permissions`);
 
     // Authenticated access only
@@ -96,12 +96,12 @@ export async function GET(
 // PUT /api/users/[id]/permissions - Update user permissions
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
     // Correctly access dynamic params in Next.js 15
     const params = await context.params;
-    const id = params.id;
+    const { id: id } = await params;
     console.log(`PUT /api/users/${id}/permissions - Updating user permissions`);
 
     // Authenticated access only

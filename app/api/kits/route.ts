@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
 // PATCH /api/kits/:id/approve
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get organization context from request headers

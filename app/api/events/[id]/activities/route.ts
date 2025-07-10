@@ -314,7 +314,7 @@ const mockActivities = {
 // GET handler for retrieving activities for an event
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const eventId = params.id;
@@ -333,7 +333,7 @@ export async function GET(
 // POST handler for adding an activity
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const eventId = params.id;

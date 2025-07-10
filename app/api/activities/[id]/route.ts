@@ -116,7 +116,7 @@ export async function GET(
 // PUT /api/activities/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const user = await currentUser();
@@ -213,7 +213,7 @@ export async function PUT(
 // DELETE /api/activities/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const user = await currentUser();

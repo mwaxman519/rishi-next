@@ -7,9 +7,9 @@ import { eq } from "drizzle-orm";
 import { USER_ROLES } from "../../../../../shared/schema";
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function POST(request: Request, { params }: Params) {
@@ -31,7 +31,7 @@ export async function POST(request: Request, { params }: Params) {
       return NextResponse.json({ error: "Permission denied" }, { status: 403 });
     }
 
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { reason } = body;
 

@@ -15,7 +15,7 @@ import { publishLocationApprovedEvent } from "../../../../../services/locations/
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // IMPORTANT: Always destructure params in Next.js 14+ to avoid the "sync-dynamic-apis" error

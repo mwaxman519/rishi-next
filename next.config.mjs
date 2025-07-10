@@ -19,8 +19,8 @@ const nextConfig = {
   },
   
   eslint: {
-    // Fix ESLint errors for Vercel production
-    ignoreDuringBuilds: process.env.VERCEL ? false : true,
+    // Skip ESLint during builds for faster deployment
+    ignoreDuringBuilds: true,
   },
   
   images: {

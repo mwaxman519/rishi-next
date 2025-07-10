@@ -13,7 +13,7 @@ const rejectionSchema = z.object({
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   try {
     const user = await getCurrentUser();

@@ -227,7 +227,7 @@ export async function PUT(
  */
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   // Create headers once
   const headers = createNoCacheHeaders();

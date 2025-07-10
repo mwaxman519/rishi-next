@@ -12,7 +12,7 @@ import { authOptions } from "../../../../../lib/auth";
  */
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     // Get the current user from the session
