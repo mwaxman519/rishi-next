@@ -354,7 +354,6 @@ export default function AdminLocationsPage() {
               <LocationFilters
                 onFilterChange={setAdvancedFilters}
                 initialValues={advancedFilters}
-                availableLocations={locationsData || []}
               />
             </CardContent>
           </Card>
