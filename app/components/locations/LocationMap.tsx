@@ -20,6 +20,8 @@ export interface Location {
 
 interface LocationMapProps {
   locations?: Location[];
+  latitude?: number;
+  longitude?: number;
   selectedLocationId?: string;
   onSelectLocation?: (location: Location) => void;
   onMapClick?: (lat: number, lng: number) => void;
@@ -65,6 +67,8 @@ interface LocationMapProps {
  */
 export function LocationMap({
   locations = [],
+  latitude,
+  longitude,
   selectedLocationId,
   onSelectLocation,
   onMapClick,
@@ -95,10 +99,15 @@ export function LocationMap({
   const [mapInitialized, setMapInitialized] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
 
-  // Calculate the default center based on locations or provided center
+  // Calculate the default center based on locations, single lat/lng, or provided center
   const defaultCenter = useMemo(() => {
     if (center) {
       return center;
+    }
+
+    // If single latitude and longitude are provided, use those
+    if (latitude !== undefined && longitude !== undefined) {
+      return { lat: latitude, lng: longitude };
     }
 
     if (locations.length === 0) {
@@ -126,7 +135,7 @@ export function LocationMap({
       lat: sumLat / locations.length,
       lng: sumLng / locations.length,
     };
-  }, [locations, center, selectedLocationId]);
+  }, [locations, center, selectedLocationId, latitude, longitude]);
 
   /**
    * Initialize the map once Google Maps is loaded
@@ -258,10 +267,17 @@ export function LocationMap({
       markerClustererRef.current = null;
     }
 
-    // Add new markers for each location
+    // Add new markers for each location or single lat/lng
     const newMarkers: any[] = [];
 
-    locations.forEach((location) => {
+    // Create locations array from props (either array or single lat/lng)
+    const locationsToRender = locations.length > 0 
+      ? locations 
+      : (latitude !== undefined && longitude !== undefined)
+        ? [{ id: 'single-location', name: 'Location', address: '', latitude, longitude }]
+        : [];
+
+    locationsToRender.forEach((location) => {
       const isSelected = location.id === selectedLocationId;
       const position = { lat: location.latitude, lng: location.longitude };
       let marker: any = null;
@@ -407,6 +423,8 @@ export function LocationMap({
     }
   }, [
     locations,
+    latitude,
+    longitude,
     mapInitialized,
     selectedLocationId,
     markerColor,
