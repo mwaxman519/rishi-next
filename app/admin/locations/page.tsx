@@ -697,14 +697,12 @@ export default function AdminLocationsPage() {
                   ) : (
                     <div className="relative h-[75vh] md:h-[650px]">
                       <SimplifiedLocationMap
-                        locations={filteredLocations}
-                        googleMapsApiKey={googleMapsApiKey}
-                        onLocationSelect={(locationId) => {
+                        selectedLocationId={selectedLocationId}
+                        onSelectLocation={(locationId) => {
                           if (locationId) {
                             setSelectedLocationId(locationId);
                           }
                         }}
-                        highlightedLocationId={selectedLocationId}
                       />
                     </div>
                   )}
