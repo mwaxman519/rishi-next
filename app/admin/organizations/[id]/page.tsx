@@ -25,6 +25,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import type { Organization } from "@shared/schema";
 
 export default function OrganizationDetailPage({
   params,
@@ -35,7 +36,7 @@ export default function OrganizationDetailPage({
   const { id } = use(params);
 
   // Get organization details
-  const { data: orgData, isLoading } = useQuery({
+  const { data: orgData, isLoading } = useQuery<Organization>({
     queryKey: [`/api/organizations/${id}`],
     enabled: !!id,
   });
@@ -49,7 +50,7 @@ export default function OrganizationDetailPage({
     );
   }
 
-  const organization = orgData;
+  const organization: Organization | undefined = orgData;
 
   if (!organization) {
     return (
