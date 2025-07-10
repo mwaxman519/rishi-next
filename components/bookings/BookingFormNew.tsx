@@ -40,7 +40,7 @@ import {
 } from "../ui/select";
 import { Badge } from "../ui/badge";
 import { RecurrenceForm } from "./RecurrenceForm";
-import { EventSeriesPreview } from "./EventSeriesPreview";
+// EventSeriesPreview removed - Events business objects eliminated
 
 // Define a schema for booking form validation
 const bookingFormSchema = z.object({
@@ -473,12 +473,12 @@ export function BookingFormNew({
                             </CardContent>
                             <CardFooter className="flex flex-col items-start">
                               <h4 className="text-sm font-medium mb-2">
-                                Preview
+                                Booking Preview
                               </h4>
-                              <EventSeriesPreview
-                                startDate={form.getValues("date")}
-                                recurrence={{ frequency: "weekly", count: 4 }}
-                              />
+                              <div className="text-sm text-muted-foreground p-3 bg-muted/30 rounded-md">
+                                <p>Recurring booking will be created based on your settings.</p>
+                                <p className="mt-1">Start Date: {form.getValues("date")?.toLocaleDateString()}</p>
+                              </div>
                             </CardFooter>
                           </Card>
                         )}
