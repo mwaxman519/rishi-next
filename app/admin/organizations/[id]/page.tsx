@@ -49,7 +49,7 @@ export default function OrganizationDetailPage({
     );
   }
 
-  const organization = orgData?.organization;
+  const organization = orgData;
 
   if (!organization) {
     return (
