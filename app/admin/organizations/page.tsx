@@ -108,7 +108,7 @@ export default function OrganizationsPage() {
                         <div>
                           <p className="text-muted-foreground">Status</p>
                           <p className="font-medium">
-                            {organization.active ? "Active" : "Inactive"}
+                            {organization.status === "active" ? "Active" : "Inactive"}
                           </p>
                         </div>
                       </div>
