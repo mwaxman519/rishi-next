@@ -50,7 +50,7 @@ type UserWithPermissions = {
 export default function UserPermissionsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   // Use React.use() to unwrap the params Promise in Next.js 15
   const resolvedParams = React.use(params);
