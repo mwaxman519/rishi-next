@@ -637,6 +637,10 @@ export const insertReplenishmentRequestItemSchema = createInsertSchema(replenish
   updated_at: true,
 });
 
+// Backward compatibility aliases (moved after schema definitions)
+export const kits = kitInstances;
+export const insertKitSchema = insertKitInstanceSchema;
+
 // Type exports for new inventory/kit system
 export type InventoryItem = typeof inventoryItems.$inferSelect;
 export type InsertInventoryItem = typeof insertInventoryItemSchema._type;

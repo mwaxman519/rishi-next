@@ -340,7 +340,8 @@ This configuration successfully passed Azure build validation and deployment pha
 ### January 10, 2025 - VERCEL DEPLOYMENT FIXES COMPLETE
 - **IMPORT PATH CORRECTIONS**: Fixed all @/shared import paths causing Vercel build failures - corrected to @shared for proper module resolution
 - **DATABASE ALIAS FIX**: Added missing @db webpack alias to next.config.mjs - resolved 63 API routes with database import errors
-- **CSS DEPENDENCIES FIX**: Updated vercel.json buildCommand to install TailwindCSS, PostCSS, and Autoprefixer during build - resolved CSS processing failures on Vercel
+- **CSS DEPENDENCIES FIX**: Moved TailwindCSS, PostCSS, and Autoprefixer to main dependencies in package.json - resolved CSS processing failures on Vercel
+- **SCHEMA EXPORTS FIX**: Added missing schema exports (kits, insertKitSchema) as backward compatibility aliases - resolved 70+ import warnings
 - **MODULE RESOLUTION**: Resolved all critical module resolution errors preventing deployment (features, navigation-constants, navigation-structure, rbac/roles, database, CSS)
 - **VERCEL.JSON OPTIMIZED**: Fixed conflicting builds/functions properties - updated to modern Next.js auto-detection with CSS dependency installation
 - **BUILD VALIDATION**: Verified 0 remaining incorrect imports across entire codebase
