@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 // Get all locations for a specific brand
 export async function GET(
   req: NextRequest,
-  { params }: { params: { brandId: string } },
+  { params }: { params: Promise<{ brandId: string }> },
 ): Promise<NextResponse> {
   try {
     const user = await getCurrentUser();
@@ -23,7 +23,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { brandId } = params;
+    const { brandId } = await params;
     const organizationId = user.organizationId;
 
     // Check if the brand belongs to the user's organization
@@ -83,7 +83,7 @@ const addLocationSchema = z.object({
 // Add a location to a brand
 export async function POST(
   req: NextRequest,
-  { params }: { params: { brandId: string } },
+  { params }: { params: Promise<{ brandId: string }> },
 ): Promise<NextResponse> {
   try {
     const user = await getCurrentUser();
@@ -92,7 +92,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { brandId } = params;
+    const { brandId } = await params;
     const organizationId = user.organizationId;
 
     // Check if the brand belongs to the user's organization
