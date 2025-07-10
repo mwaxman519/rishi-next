@@ -13,7 +13,7 @@ const updateBrandLocationSchema = z.object({
 // Update a brand location (activate/deactivate)
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { brandId: string; locationId: string } },
+  { params }: { params: Promise<{ brandId: string; locationId: string }> },
 ): Promise<NextResponse> {
   try {
     const user = await getCurrentUser();
@@ -22,7 +22,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { brandId, locationId } = params;
+    const { brandId, locationId } = await params;
     const organizationId = user.organizationId;
 
     // Check if the brand belongs to the user's organization
@@ -98,7 +98,7 @@ export async function PATCH(
 // Remove a location from a brand
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { brandId: string; locationId: string } },
+  { params }: { params: Promise<{ brandId: string; locationId: string }> },
 ): Promise<NextResponse> {
   try {
     const user = await getCurrentUser();
@@ -107,7 +107,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { brandId, locationId } = params;
+    const { brandId, locationId } = await params;
     const organizationId = user.organizationId;
 
     // Check if the brand belongs to the user's organization
