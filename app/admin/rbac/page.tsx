@@ -15,6 +15,7 @@ import {
   getAllRoles,
   checkRoleHasPermission,
   RoleDefinition,
+  ROLE_HIERARCHY,
 } from "../../../shared/rbac/roles";
 import {
   ChevronDown,
@@ -670,7 +671,9 @@ export default function RBACPage() {
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex flex-wrap gap-1">
-                            {role.inherits?.map(
+                            {/* No inheritance display since RoleDefinition doesn't include inheritance */}
+                            {(ROLE_HIERARCHY[role.id] && ROLE_HIERARCHY[role.id].length > 0) ? 
+                              ROLE_HIERARCHY[role.id].map(
                               (parentRole: string, inheritIndex) => (
                                 <span
                                   key={`${role.id}-inherits-${inheritIndex}-${parentRole}`}
@@ -679,8 +682,8 @@ export default function RBACPage() {
                                   {parentRole}
                                 </span>
                               ),
-                            )}
-                            {(!role.inherits || role.inherits.length === 0) && (
+                            ) : null}
+                            {(!ROLE_HIERARCHY[role.id] || ROLE_HIERARCHY[role.id].length === 0) && (
                               <span
                                 key={`${role.id}-no-inheritance`}
                                 className="text-gray-500 dark:text-gray-400 text-sm"

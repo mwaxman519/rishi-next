@@ -245,6 +245,7 @@ This configuration successfully passed Azure build validation and deployment pha
 - **COMPREHENSIVE NULL SAFETY AUDIT**: Systematically identified and resolved ALL form.watch null safety issues across entire codebase
 - **ORGANIZATION PROPERTY SCHEMA ALIGNMENT**: Fixed organization.active references to use organization.status === "active" to match actual database schema where organizations table has 'status' field, not 'active' field
 - **COMPREHENSIVE NULL SAFETY FIXES**: Fixed "Object is possibly 'undefined'" errors in RBAC defaults page, PermissionsEditor, PermissionsMatrix, and user permissions page by adding optional chaining to grouped array access
+- **ROLE INHERITANCE TYPE ERROR FIXED**: Fixed "Property 'inherits' does not exist on type 'RoleDefinition'" error by using ROLE_HIERARCHY lookup instead of non-existent inherits property
 - **VERCEL DEPLOYMENT READY**: All TypeScript compilation blockers eliminated, Next.js 15 compatibility confirmed, Vercel build success guaranteed
 
 ### January 10, 2025 - COMPREHENSIVE PROACTIVE BUILD VALIDATION SYSTEM IMPLEMENTED
