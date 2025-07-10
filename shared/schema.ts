@@ -159,6 +159,8 @@ export const activityTypes = pgTable("activity_types", {
   name: text("name").notNull(),
   description: text("description"),
   category: text("category"),
+  icon: text("icon"),
+  color: text("color"),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
