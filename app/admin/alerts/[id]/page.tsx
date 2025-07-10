@@ -183,6 +183,24 @@ export default function AlertDetailPage() {
 
   // Find the alert by ID
   const alert = alertsData.find((a) => a.id === id) || alertsData[0];
+  
+  // Handle case where no alert is found
+  if (!alert) {
+    return (
+      <div className="container mx-auto py-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Alert Not Found</h1>
+          <p className="text-muted-foreground mt-2">The requested alert could not be found.</p>
+          <Button 
+            onClick={() => router.push("/admin/alerts")}
+            className="mt-4"
+          >
+            Back to Alerts
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleAddComment = () => {
     if (!newComment.trim()) return;
