@@ -80,11 +80,11 @@ export default function UserDetailPanel({
   // Form data state
   const [formData, setFormData] = useState({
     username: "",
-    full_name: "",
+    fullName: "",
     email: "",
     phone: "",
     role: "",
-    profile_image: "",
+    profileImage: "",
     active: true,
   });
 
@@ -111,11 +111,11 @@ export default function UserDetailPanel({
         // Initialize form data
         setFormData({
           username: userData.username,
-          full_name: userData.fullName || "",
+          fullName: userData.fullName || "",
           email: userData.email || "",
           phone: userData.phone || "",
           role: userData.role,
-          profile_image: userData.profileImage || "",
+          profileImage: userData.profileImage || "",
           active: userData.active,
         });
       } catch (err) {
@@ -162,11 +162,11 @@ export default function UserDetailPanel({
       if (user) {
         setFormData({
           username: user.username,
-          full_name: user.fullName || "",
+          fullName: user.fullName || "",
           email: user.email || "",
           phone: user.phone || "",
           role: user.role,
-          profile_image: user.profileImage || "",
+          profileImage: user.profileImage || "",
           active: user.active,
         });
       }
@@ -203,11 +203,11 @@ export default function UserDetailPanel({
       // Update local user data
       setUser({
         ...user!,
-        fullName: formData.full_name || null,
+        fullName: formData.fullName || null,
         email: formData.email || null,
         phone: formData.phone || null,
         role: formData.role,
-        profileImage: formData.profile_image || null,
+        profileImage: formData.profileImage || null,
         active: formData.active,
       });
 
@@ -494,16 +494,16 @@ export default function UserDetailPanel({
             {editMode ? (
               <div className="mb-4">
                 <label
-                  htmlFor="full_name"
+                  htmlFor="fullName"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Full Name
                 </label>
                 <input
-                  id="full_name"
-                  name="full_name"
+                  id="fullName"
+                  name="fullName"
                   type="text"
-                  value={formData.full_name}
+                  value={formData.fullName}
                   onChange={handleChange}
                   className="w-full md:w-64 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
                   placeholder="Enter full name"
@@ -685,16 +685,16 @@ export default function UserDetailPanel({
                 {/* Profile Image */}
                 <div className="md:col-span-2">
                   <label
-                    htmlFor="profile_image"
+                    htmlFor="profileImage"
                     className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                   >
                     Profile Image URL
                   </label>
                   <input
-                    id="profile_image"
-                    name="profile_image"
+                    id="profileImage"
+                    name="profileImage"
                     type="text"
-                    value={formData.profile_image}
+                    value={formData.profileImage}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
                     placeholder="https://example.com/image.jpg"

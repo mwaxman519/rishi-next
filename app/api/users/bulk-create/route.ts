@@ -34,14 +34,14 @@ export async function POST(request: NextRequest) {
       const userData = {
         username: `${role}`,
         password: "password123",
-        full_name: `${role
+        fullName: `${role
           .split("_")
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ")}`,
         email: `${role}@example.com`,
         phone: "555-123-4567",
         role: role as UserRole,
-        profile_image: "",
+        profileImage: "",
         active: true,
       };
 

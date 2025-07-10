@@ -10,7 +10,7 @@ export default function ProfilePage() {
   // Extend the formData with fields that are not yet in the User type
   // These will be implemented in a future update
   const [formData, setFormData] = useState({
-    full_name: "",
+    fullName: "",
     email: "",
     phone: "",
     bio: "",
@@ -22,7 +22,7 @@ export default function ProfilePage() {
       // For now, we're only setting the full_name that exists in the User type
       // The other fields will be implemented in a future update
       setFormData({
-        full_name: user.full_name || "",
+        fullName: user.fullName || "",
         email: "", // Will be implemented in future
         phone: "", // Will be implemented in future
         bio: "", // Will be implemented in future
@@ -88,16 +88,16 @@ export default function ProfilePage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
-                  htmlFor="full_name"
+                  htmlFor="fullName"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Full Name
                 </label>
                 <input
                   type="text"
-                  id="full_name"
-                  name="full_name"
-                  value={formData.full_name}
+                  id="fullName"
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
@@ -186,7 +186,7 @@ export default function ProfilePage() {
                   Full Name
                 </h3>
                 <p className="text-gray-900 dark:text-white">
-                  {user?.full_name || "Not provided"}
+                  {user?.fullName || "Not provided"}
                 </p>
               </div>
 

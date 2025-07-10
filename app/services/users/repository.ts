@@ -61,10 +61,10 @@ export const userRepository = {
         username: userData.username,
         password: userData.password,
         role: userData.role,
-        full_name: userData.full_name,
+        fullName: userData.fullName,
         email: userData.email,
         phone: userData.phone,
-        profile_image: userData.profile_image,
+        profileImage: userData.profileImage,
         active: true,
       })
       .returning();

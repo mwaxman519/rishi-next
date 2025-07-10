@@ -621,7 +621,7 @@ export class KitRepository {
       approved_by: approverData
         ? {
             id: approverData.id,
-            full_name: approverData.full_name || approverData.fullName,
+            fullName: approverData.fullName || approverData.full_name,
             email: approverData.email,
           }
         : undefined,
@@ -634,7 +634,7 @@ export class KitRepository {
       requested_by: requesterData
         ? {
             id: requesterData.id,
-            full_name: requesterData.full_name || requesterData.fullName,
+            fullName: requesterData.fullName || requesterData.full_name,
             email: requesterData.email,
           }
         : undefined,
@@ -715,7 +715,7 @@ export class KitRepository {
       assignedTo: userData
         ? {
             id: userData.id,
-            full_name: userData.full_name,
+            fullName: userData.fullName,
             email: userData.email,
           }
         : undefined,

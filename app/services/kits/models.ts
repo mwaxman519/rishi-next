@@ -67,7 +67,7 @@ export interface BrandEntity {
 // User entity (minimal for requester/approver info)
 export interface UserEntity {
   id: string;
-  full_name: string;
+  fullName: string;
   email: string;
 }
 

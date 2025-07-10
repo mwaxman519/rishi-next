@@ -199,7 +199,7 @@ class AuthService {
         id: user.id,
         username: user.username,
         role: user.role,
-        full_name: user.fullName,
+        fullName: user.fullName,
       },
       token,
     });

@@ -9,7 +9,7 @@ interface UserProfile {
   id: number;
   username: string;
   role: UserRole;
-  full_name?: string;
+  fullName?: string;
 }
 
 interface UserRoleEditorProps {

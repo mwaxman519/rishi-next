@@ -18,11 +18,11 @@ export default function NewUserPage() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    full_name: "",
+    fullName: "",
     email: "",
     phone: "",
     role: USER_ROLES.BRAND_AGENT,
-    profile_image: "",
+    profileImage: "",
     active: true,
   });
 
@@ -210,16 +210,16 @@ export default function NewUserPage() {
               {/* Full Name */}
               <div>
                 <label
-                  htmlFor="full_name"
+                  htmlFor="fullName"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Full Name
                 </label>
                 <input
-                  id="full_name"
-                  name="full_name"
+                  id="fullName"
+                  name="fullName"
                   type="text"
-                  value={formData.full_name}
+                  value={formData.fullName}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
                            focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
@@ -314,16 +314,16 @@ export default function NewUserPage() {
               {/* Profile Image URL */}
               <div>
                 <label
-                  htmlFor="profile_image"
+                  htmlFor="profileImage"
                   className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Profile Image URL
                 </label>
                 <input
-                  id="profile_image"
-                  name="profile_image"
+                  id="profileImage"
+                  name="profileImage"
                   type="text"
-                  value={formData.profile_image}
+                  value={formData.profileImage}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
                            focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"

@@ -209,10 +209,10 @@ export async function updateUser(
 
     // Create update data with proper null handling
     const updateData: any = {
-      full_name: userData.fullName ?? undefined,
+      fullName: userData.fullName ?? undefined,
       email: userData.email ?? undefined,
       phone: userData.phone ?? undefined,
-      profile_image: userData.profileImage ?? undefined,
+      profileImage: userData.profileImage ?? undefined,
     };
 
     // Only include active and role fields if they're provided

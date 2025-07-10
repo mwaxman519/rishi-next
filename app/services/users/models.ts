@@ -32,6 +32,7 @@ export interface CreateUserRequest {
   phone?: string | null;
   role?: UserRole;
   profileImage?: string | null;
+  active?: boolean;
 }
 
 export interface UpdateUserRequest {
