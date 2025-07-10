@@ -24,7 +24,7 @@ export async function getTeamMembers(): Promise<UsersResponse> {
     }
 
     // Check if user has permission to view users
-    if (!hasPermission("view:users", currentUser.role)) {
+    if (!(await hasPermission("view:users", currentUser.role))) {
       console.log("[availability.ts] getTeamMembers - User lacks permission");
       return {
         success: false,
@@ -38,7 +38,7 @@ export async function getTeamMembers(): Promise<UsersResponse> {
     const agentsResponse = await getUsersByRole(USER_ROLES.BRAND_AGENT);
 
     // If at admin level, also get managers
-    if (hasPermission("view:managers", currentUser.role)) {
+    if (await hasPermission("view:managers", currentUser.role)) {
       console.log(
         "[availability.ts] getTeamMembers - User has admin permission, fetching managers",
       );
