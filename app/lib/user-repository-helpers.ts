@@ -18,13 +18,13 @@ export function mapDatabaseUserToCredentials(user: any): UserWithCredentials {
     username: user.username,
     role: user.role as UserRole,
     active: user.active,
-    createdAt: user.created_at,
+    createdAt: user.createdAt,
     password: user.password,
     // Optional fields with explicit undefined handling
-    ...(user.full_name ? { fullName: user.full_name } : {}),
+    ...(user.fullName ? { fullName: user.fullName } : {}),
     ...(user.email ? { email: user.email } : {}),
     ...(user.phone ? { phone: user.phone } : {}),
-    ...(user.profile_image ? { profileImage: user.profile_image } : {}),
+    ...(user.profileImage ? { profileImage: user.profileImage } : {}),
   };
 }
 
@@ -41,11 +41,11 @@ export function mapDatabaseUserToProfile(user: any): UserProfile {
     username: user.username,
     role: user.role as UserRole,
     active: user.active,
-    createdAt: user.created_at,
+    createdAt: user.createdAt,
     // Optional fields with explicit undefined handling
-    ...(user.full_name ? { fullName: user.full_name } : {}),
+    ...(user.fullName ? { fullName: user.fullName } : {}),
     ...(user.email ? { email: user.email } : {}),
     ...(user.phone ? { phone: user.phone } : {}),
-    ...(user.profile_image ? { profileImage: user.profile_image } : {}),
+    ...(user.profileImage ? { profileImage: user.profileImage } : {}),
   };
 }

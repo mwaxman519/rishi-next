@@ -99,7 +99,7 @@ export default function CreateUserPage() {
       const response = await createUser({
         username: data.username,
         password: data.password,
-        full_name: data.fullName,
+        fullName: data.fullName,
         email: data.email,
         phone: data.phone || "",
         role: data.role,

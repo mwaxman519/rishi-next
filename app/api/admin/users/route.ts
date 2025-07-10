@@ -24,15 +24,15 @@ export async function GET(request: NextRequest) {
 
     // Get users
     const allUsers = await db.query.users.findMany({
-      orderBy: [desc(users.created_at)],
+      orderBy: [desc(users.createdAt)],
       columns: {
         id: true,
         username: true,
         email: true,
-        full_name: true,
+        fullName: true,
         role: true,
         active: true,
-        created_at: true,
+        createdAt: true,
         // Don't include password hash
       },
     });

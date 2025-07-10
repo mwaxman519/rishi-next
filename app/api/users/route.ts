@@ -48,11 +48,11 @@ export async function POST(request: Request): Promise<NextResponse> {
       const createUserRequest = {
         username: validatedData.username,
         password: validatedData.password,
-        fullName: validatedData.full_name || null,
+        fullName: validatedData.fullName || null,
         email: validatedData.email || null,
         phone: validatedData.phone || null,
         role: validatedData.role,
-        profileImage: validatedData.profile_image || null,
+        profileImage: validatedData.profileImage || null,
       };
       console.log("Mapped to service model:", {
         ...createUserRequest,

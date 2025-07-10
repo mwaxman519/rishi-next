@@ -90,13 +90,13 @@ export const users = pgTable("users", {
   username: text("username").notNull(),
   password: text("password").notNull(),
   role: text("role").notNull(),
-  full_name: text("full_name"),
+  fullName: text("full_name"),
   email: text("email"),
   phone: text("phone"),
   active: boolean("active").notNull().default(true),
-  profile_image: text("profile_image"),
-  created_at: timestamp("created_at").notNull().defaultNow(),
-  updated_at: timestamp("updated_at").notNull().defaultNow(),
+  profileImage: text("profile_image"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const organizations = pgTable("organizations", {

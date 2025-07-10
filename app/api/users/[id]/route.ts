@@ -81,11 +81,11 @@ export async function PUT(
 
     // Update the user
     const result = await userService.updateUser(id, {
-      fullName: body.full_name,
+      fullName: body.fullName,
       email: body.email,
       phone: body.phone,
       role: body.role,
-      profileImage: body.profile_image,
+      profileImage: body.profileImage,
       active: body.active,
     });
 

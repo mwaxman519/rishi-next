@@ -125,11 +125,11 @@ export async function createUser(
       const userDataForDb = {
         username: userData.username,
         password: hashedPassword,
-        full_name: userData.fullName ?? undefined,
+        fullName: userData.fullName ?? undefined,
         email: userData.email ?? undefined,
         phone: userData.phone ?? undefined,
         role: userData.role || USER_ROLES.BRAND_AGENT,
-        profile_image: userData.profileImage ?? undefined,
+        profileImage: userData.profileImage ?? undefined,
       };
       console.log("[userService] Prepared user data for database:", {
         ...userDataForDb,
