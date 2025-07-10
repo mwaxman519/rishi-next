@@ -114,10 +114,10 @@ export default function OrganizationDetailPage({
                 <Badge variant="secondary">{tierName}</Badge>
               )}
               <Badge
-                variant={organization?.active ? "success" : "destructive"}
+                variant={organization?.status === "active" ? "success" : "destructive"}
                 className="ml-2"
               >
-                {organization?.active ? "Active" : "Inactive"}
+                {organization?.status === "active" ? "Active" : "Inactive"}
               </Badge>
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function OrganizationDetailPage({
                   Status
                 </dt>
                 <dd className="text-sm mt-1">
-                  {organization?.active ? "Active" : "Inactive"}
+                  {organization?.status === "active" ? "Active" : "Inactive"}
                 </dd>
               </div>
               <div>

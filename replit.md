@@ -236,6 +236,7 @@ This configuration successfully passed Azure build validation and deployment pha
 - **EVENTS BUSINESS OBJECT COMPLETELY REMOVED**: Eliminated all Events business objects, EventInstance, EventSeries components and hooks - now only using bookings and booking activities as requested
 - **COMPREHENSIVE ORGANIZATION PROPERTY ACCESS FIXES**: Fixed ALL instances of organization property access errors across app/admin/organizations/[id]/page.tsx and app/contexts/organization-context.tsx - replaced direct property access with optional chaining (?.) for tier, name, type, active, id, created_at, updated_at properties and API response data structure corrections
 - **TYPESCRIPT ORGANIZATION TYPE FIX**: Added proper Organization type import and generic typing to useQuery<Organization> to resolve Vercel build "Property 'tier' does not exist on type '{}'" error
+- **ORGANIZATION PROPERTY SCHEMA ALIGNMENT**: Fixed organization.active references to use organization.status === "active" to match actual database schema where organizations table has 'status' field, not 'active' field
 - **DEPLOYMENT READY**: All module resolution blockers eliminated, TypeScript async/await patterns correctly implemented, Vercel build compatibility confirmed
 
 ### January 10, 2025 - COMPREHENSIVE PROACTIVE BUILD VALIDATION SYSTEM IMPLEMENTED
