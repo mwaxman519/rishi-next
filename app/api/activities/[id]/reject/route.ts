@@ -25,7 +25,7 @@ export async function POST(request: Request, { params }: Params) {
       USER_ROLES.SUPER_ADMIN,
       USER_ROLES.INTERNAL_ADMIN,
       USER_ROLES.INTERNAL_FIELD_MANAGER,
-    ].includes(session.user.role as string);
+    ].includes(session.user.role as any);
 
     if (!canReject) {
       return NextResponse.json({ error: "Permission denied" }, { status: 403 });
