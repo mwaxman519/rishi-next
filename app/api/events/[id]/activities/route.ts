@@ -317,7 +317,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const eventId = params.id;
+    const { id: eventId } = await params;
     const activities = mockActivities[eventId] || [];
 
     return NextResponse.json(activities);
@@ -336,7 +336,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const eventId = params.id;
+    const { id: eventId } = await params;
     const data = await request.json();
 
     // Here you would normally validate and save the activity

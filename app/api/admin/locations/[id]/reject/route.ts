@@ -9,7 +9,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const locationId = params.id;
+    const { id: locationId } = await params;
 
     // Get user session
     const user = await getCurrentUser();

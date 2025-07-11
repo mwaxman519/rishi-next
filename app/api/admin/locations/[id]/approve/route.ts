@@ -18,9 +18,9 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    // IMPORTANT: Always destructure params in Next.js 14+ to avoid the "sync-dynamic-apis" error
+    // IMPORTANT: Always destructure params in Next.js 15+ to avoid the "sync-dynamic-apis" error
     // Directly using params.id will cause "Route used `params.id` without awaiting" error
-    const { id: locationId } = params;
+    const { id: locationId } = await params;
 
     // Get user session
     const user = await getCurrentUser();

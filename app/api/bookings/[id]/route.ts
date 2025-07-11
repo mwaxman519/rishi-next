@@ -110,7 +110,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const bookingId = params.id;
+    const { id: bookingId } = await params;
     const data = await req.json();
 
     // Validate request data
@@ -196,7 +196,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const bookingId = params.id;
+    const { id: bookingId } = await params;
 
     // Check if booking exists and user has permission to delete it
     const conditions = [eq(bookings.id, bookingId)];

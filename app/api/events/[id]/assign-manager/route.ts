@@ -31,7 +31,7 @@ export async function POST(
       );
     }
 
-    const eventId = params.id;
+    const { id: eventId } = await params;
     const data = await request.json();
 
     // Validate input
