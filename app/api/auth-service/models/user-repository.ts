@@ -644,7 +644,7 @@ export async function getUserPermissions(
       const userRole = roleResult[0].role;
       
       // Get permissions for this role from the rolePermissions constant
-      const permissions = schema.rolePermissions[userRole] || [];
+      const permissions = schema.rolePermissions[userRole as keyof typeof schema.rolePermissions] || [];
       
       return permissions;
     },
