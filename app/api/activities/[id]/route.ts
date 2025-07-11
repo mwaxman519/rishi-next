@@ -6,6 +6,7 @@ import {
   locations,
   activityAssignments,
   users,
+  bookings,
 } from "@shared/schema";
 import { currentUser } from "../../../lib/session";
 import { eq } from "drizzle-orm";
@@ -125,8 +126,12 @@ export async function PUT(
 
     // First, check if activity exists and user is authorized
     const [existingActivity] = await db
-      .select()
+      .select({
+        activity: activities,
+        booking: bookings,
+      })
       .from(activities)
+      .leftJoin(bookings, eq(activities.bookingId, bookings.id))
       .where(eq(activities.id, id));
 
     if (!existingActivity) {
@@ -136,7 +141,11 @@ export async function PUT(
       );
     }
 
-    if (existingActivity.organizationId !== (user as any).organizationId) {
+    // Check organization authorization through parent booking
+    const userRole = (user as any).role;
+    const isAdmin = ["super_admin", "internal_admin", "internal_field_manager"].includes(userRole);
+    
+    if (!isAdmin && existingActivity.booking?.clientOrganizationId !== (user as any).organizationId) {
       return NextResponse.json(
         { error: "Not authorized to update this activity" },
         { status: 403 },
