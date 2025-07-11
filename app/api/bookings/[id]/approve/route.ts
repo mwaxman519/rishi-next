@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { bookingsEventsService } from "../../../../services/bookings-events-service";
+import { db } from "../../../../lib/db";
+import { bookings } from "@shared/schema";
+import { eq } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 import { z } from "zod";
 
 // Validation schema for approval
 const approvalSchema = z.object({
-  generateEvents: z.boolean().default(true),
+  notes: z.string().optional(),
 });
 
 /**
  * Approve a booking
- * This will change the booking status to approved and optionally generate event instances
+ * This will change the booking status to approved
  */
 export async function POST(
   request: NextRequest,
@@ -38,18 +40,22 @@ export async function POST(
     // Validate input
     const validatedData = approvalSchema.parse(data);
 
-    // Approve the booking
-    const updatedBooking = await bookingsEventsService.approveBooking(
-      bookingId,
-      session.user.id,
-      validatedData.generateEvents,
-    );
+    // Approve the booking by updating its status
+    const [updatedBooking] = await db
+      .update(bookings)
+      .set({
+        status: "approved",
+        approvedById: session.user.id,
+        approvedAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .where(eq(bookings.id, bookingId))
+      .returning();
 
     return NextResponse.json({
       success: true,
       message: "Booking approved successfully",
       booking: updatedBooking,
-      eventsGenerated: validatedData.generateEvents,
     });
   } catch (error: any) {
     console.error("Error approving booking:", error);

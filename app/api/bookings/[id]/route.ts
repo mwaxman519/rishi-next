@@ -6,8 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../lib/db";
 import {
   bookings,
+  activities,
   BOOKING_STATUS,
-  events,
   insertBookingSchema,
 } from "@shared/schema";
 import { getServerSession } from "next-auth";
@@ -77,15 +77,15 @@ export async function GET(
       return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
-    // Get related events if they exist
-    const relatedEvents = await db
+    // Get related activities for this booking
+    const relatedActivities = await db
       .select()
-      .from(events)
-      .where(eq(systemEvents.bookingId, bookingId));
+      .from(activities)
+      .where(eq(activities.bookingId, bookingId));
 
     return NextResponse.json({
       ...booking,
-      events: relatedEvents,
+      activities: relatedActivities,
     });
   } catch (error) {
     console.error("Error fetching booking:", error);
