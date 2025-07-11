@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       id: user.id,
       username: user.email,
       role: user.role,
-      fullName: user.name,
+      fullName: user.fullName,
       organizationId: organizationId,
       organizationRole: organizationRole || user.role,
       // Other properties would be populated from the database in production

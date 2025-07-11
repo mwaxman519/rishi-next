@@ -78,7 +78,7 @@ export async function POST(
           locationId: updatedLocation.id,
           name: updatedLocation.name || "Unknown location",
           rejectedById: user.id,
-          rejectedByName: user.name || user.username || "Unknown user",
+          rejectedByName: user.fullName || user.username || "Unknown user",
           rejectedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
           rejectionReason: rejectionReason || "Rejected by administrator",
           submittedById: updatedLocation.requested_by || "unknown",
