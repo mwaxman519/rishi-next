@@ -65,16 +65,23 @@ export async function POST(
         .where(eq(locations.id, locationId))
         .returning();
 
+      if (!updatedLocation) {
+        return NextResponse.json(
+          { error: "Failed to update location" },
+          { status: 500 },
+        );
+      }
+
       // Publish location rejected event
       try {
         await publishLocationRejectedEvent({
           locationId: updatedLocation.id,
-          name: updatedLocation.name,
+          name: updatedLocation.name || "Unknown location",
           rejectedById: user.id,
-          rejectedByName: user.name || user.username,
-          rejectedAt: updatedLocation.rejectedAt!,
-          rejectionReason: updatedLocation.rejectionReason || undefined,
-          submittedById: updatedLocation.submittedById,
+          rejectedByName: user.fullName || user.username || "Unknown user",
+          rejectedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
+          rejectionReason: rejectionReason || "Rejected by administrator",
+          submittedById: updatedLocation.requested_by || "unknown",
         });
       } catch (eventError) {
         console.error("Failed to publish location rejected event:", eventError);

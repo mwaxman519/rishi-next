@@ -70,6 +70,13 @@ export async function POST(
         .where(eq(locations.id, locationId))
         .returning();
 
+      if (!updatedLocation) {
+        return NextResponse.json(
+          { error: "Failed to update location" },
+          { status: 500 },
+        );
+      }
+
       // Publish location approved event
       // Debug log to find where the issue might be
       console.log(
