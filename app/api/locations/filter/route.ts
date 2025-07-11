@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "../../../lib/rbac";
 import { db } from "../../../lib/db";
+import { locations } from "@shared/schema";
 
 export interface LocationFilterParams {
   search?: string;
@@ -49,11 +50,11 @@ export async function POST(req: NextRequest) {
     const sortDirection = filters.sortDirection || "asc";
 
     try {
-      // Get all locations from database
-      const locations = await db.location.findMany();
+      // Get all locations from database using Drizzle ORM
+      const allLocations = await db.select().from(locations);
 
       // Apply filters
-      let filteredLocations = locations;
+      let filteredLocations = allLocations;
 
       // Filter out pending/rejected locations if requested
       if (skipPending) {
@@ -61,8 +62,7 @@ export async function POST(req: NextRequest) {
           (loc) =>
             loc.status === "active" ||
             (loc.status !== "pending" &&
-              loc.status !== "rejected" &&
-              loc.approved === true),
+              loc.status !== "rejected"),
         );
       }
 

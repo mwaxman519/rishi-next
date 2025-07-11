@@ -59,12 +59,11 @@ export async function POST(
         );
       }
 
-      // Update location status to active and mark as approved using Drizzle ORM
+      // Update location status to active using Drizzle ORM
       const [updatedLocation] = await db
         .update(locations)
         .set({
           status: "active",
-          approved: true,
           approvedById: user.id,
           approvedAt: new Date(),
         })

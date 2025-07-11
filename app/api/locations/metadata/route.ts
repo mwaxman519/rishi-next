@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "../../../lib/rbac";
 import { db } from "../../../lib/db";
+import { locations } from "@shared/schema";
 
 export async function GET(req: NextRequest) {
   try {
@@ -21,8 +22,8 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      // Get all locations from database
-      const locations = await db.location.findMany();
+      // Get all locations from database using Drizzle ORM
+      const allLocations = await db.select().from(locations);
 
       // Extract unique states, cities, zip codes, and location types
       const states = new Set<string>();
@@ -31,7 +32,7 @@ export async function GET(req: NextRequest) {
       const locationTypes = new Set<string>();
       const statuses = new Set<string>();
 
-      locations.forEach((location) => {
+      allLocations.forEach((location) => {
         if (location.state) states.add(location.state);
         if (location.city) cities.add(location.city);
         if (location.zipcode) zipCodes.add(location.zipcode);

@@ -58,7 +58,6 @@ export async function POST(
         .update(locations)
         .set({
           status: "rejected",
-          approved: false,
           rejectedById: user.id,
           rejectedAt: new Date(),
           rejectionReason: rejectionReason || "Rejected by administrator",

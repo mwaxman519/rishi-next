@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "../../../../lib/auth";
 import { checkPermission } from "../../../../lib/rbac";
 import { db } from "../../../../lib/db";
+import { locations } from "@shared/schema";
+import { eq, desc } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
   try {
@@ -21,16 +23,12 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      // Get pending locations from database
-      const pendingLocations = await db.location.findMany({
-        where: {
-          status: "pending",
-          approved: false,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
+      // Get pending locations from database using Drizzle ORM
+      const pendingLocations = await db
+        .select()
+        .from(locations)
+        .where(eq(locations.status, "pending"))
+        .orderBy(desc(locations.createdAt));
 
       return NextResponse.json(pendingLocations);
     } catch (dbError) {
