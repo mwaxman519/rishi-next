@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "../../auth-service/db";
-import { eq } from "drizzle-orm";
+import { eq, isNull } from "drizzle-orm";
 import { organizationSettings } from "@shared/schema";
 
 // System-wide RBAC defaults that apply to all organizations
@@ -31,7 +31,7 @@ export async function GET() {
       })
       .from(organizationSettings)
       .where(
-        eq(organizationSettings.organization_id, null), // Use null for system defaults
+        isNull(organizationSettings.organization_id), // Use null for system defaults
       );
 
     // Convert to object format
