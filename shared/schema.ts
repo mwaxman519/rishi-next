@@ -332,7 +332,13 @@ export const organizationUsers = pgTable("organization_users", {
 
 export const organizationSettings = pgTable("organization_settings", {
   id: uuid("id").primaryKey().defaultRandom(),
-  organization_id: uuid("organization_id").notNull(),
+  organization_id: uuid("organization_id"),
+  key: text("key"),
+  value: text("value"),
+  category: text("category"),
+  setting_key: text("setting_key"),
+  setting_value: text("setting_value"),
+  updated_by: uuid("updated_by"),
   notification_email: text("notification_email"),
   timezone: text("timezone"),
   language: text("language"),

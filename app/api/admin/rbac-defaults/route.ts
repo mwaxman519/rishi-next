@@ -26,12 +26,12 @@ export async function GET() {
     // Get current system defaults from database
     const systemSettings = await db
       .select({
-        settingKey: organizationSettings.key,
-        settingValue: organizationSettings.value,
+        settingKey: organizationSettings.setting_key,
+        settingValue: organizationSettings.setting_value,
       })
       .from(organizationSettings)
       .where(
-        eq(organizationSettings.organizationId, -1), // Use -1 for system defaults
+        eq(organizationSettings.organization_id, null), // Use null for system defaults
       );
 
     // Convert to object format
@@ -71,23 +71,21 @@ export async function PUT(request: NextRequest) {
       await db
         .insert(organizationSettings)
         .values({
-          organizationId: "SYSTEM_DEFAULT",
+          organization_id: null,
           category: "rbac_features",
-          settingKey: key,
-          settingValue: String(value),
-          updatedBy: session.user.id,
-          updatedAt: new Date(),
+          setting_key: key,
+          setting_value: String(value),
+          updated_by: session.user.id,
         })
         .onConflictDoUpdate({
           target: [
-            organizationSettings.organizationId,
+            organizationSettings.organization_id,
             organizationSettings.category,
-            organizationSettings.settingKey,
+            organizationSettings.setting_key,
           ],
           set: {
-            settingValue: String(value),
-            updatedBy: session.user.id,
-            updatedAt: new Date(),
+            setting_value: String(value),
+            updated_by: session.user.id,
           },
         });
     }
