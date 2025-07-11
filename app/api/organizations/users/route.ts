@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
       // Format the result
       const formattedUsers = orgUsers.map((orgUser) => ({
         id: orgUser.userId,
-        name: orgUser.user.fullName || orgUser.user.username,
+        name: orgUser.user.name || orgUser.user.username,
         email: orgUser.user.email,
         role: orgUser.role,
         is_primary: orgUser.isPrimary,
