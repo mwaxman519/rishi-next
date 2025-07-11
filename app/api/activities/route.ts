@@ -5,6 +5,7 @@ import {
   insertActivitySchema,
   activityTypes,
   locations,
+  bookings,
 } from "@shared/schema";
 import { currentUser } from "../../lib/session";
 import { v4 as uuidv4 } from "uuid";
@@ -27,7 +28,8 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get("endDate");
 
     // Build the query with joins to get related data
-    const conditions = [eq(activities.organizationId, organizationId)];
+    // Activities don't have organizationId - filter through parent booking
+    const conditions = [];
     
     if (typeId) {
       conditions.push(eq(activities.activityTypeId, typeId));
@@ -38,10 +40,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Add date filtering if both start and end dates are provided
+    // Note: Activities use startTime/endTime (text), not startDate/endDate
     if (startDate && endDate) {
       conditions.push(
-        gte(activities.startDate, new Date(startDate)),
-        lte(activities.endDate, new Date(endDate)),
+        gte(activities.startTime, startDate),
+        lte(activities.endTime, endDate),
       );
     }
 
@@ -50,11 +53,17 @@ export async function GET(request: NextRequest) {
         activity: activities,
         activityType: activityTypes,
         location: locations,
+        booking: bookings,
       })
       .from(activities)
       .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
-      .where(conditions.length > 1 ? and(...conditions) : conditions[0]);
+      .leftJoin(bookings, eq(activities.bookingId, bookings.id))
+      .where(
+        conditions.length > 0 
+          ? and(eq(bookings.clientOrganizationId, organizationId), ...conditions)
+          : eq(bookings.clientOrganizationId, organizationId)
+      );
 
     const results = await query;
 
@@ -112,7 +121,6 @@ export async function POST(request: NextRequest) {
     const validatedData = insertActivitySchema.parse({
       ...body,
       createdById: user.id,
-      organizationId: (user as any).organizationId,
     });
 
     // Create a new UUID for the activity
