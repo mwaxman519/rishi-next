@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "../../../../../lib/auth";
 import { checkPermission } from "../../../../../lib/rbac";
 import { db } from "../../../../../lib/db";
+import { locations } from "@shared/schema";
 import { publishLocationRejectedEvent } from "../../../../../services/locations/locationEventPublisher";
+import { eq } from "drizzle-orm";
 
 export async function POST(
   req: NextRequest,
@@ -32,10 +34,8 @@ export async function POST(
         .json()
         .catch(() => ({ rejectionReason: "" }));
 
-      // Get the location
-      const location = await db.location.findUnique({
-        where: { id: locationId },
-      });
+      // Get the location using Drizzle ORM
+      const [location] = await db.select().from(locations).where(eq(locations.id, locationId));
 
       if (!location) {
         return NextResponse.json(
@@ -53,17 +53,18 @@ export async function POST(
         );
       }
 
-      // Update location status to rejected
-      const updatedLocation = await db.location.update({
-        where: { id: locationId },
-        data: {
+      // Update location status to rejected using Drizzle ORM
+      const [updatedLocation] = await db
+        .update(locations)
+        .set({
           status: "rejected",
           approved: false,
           rejectedById: user.id,
-          rejectedAt: new Date().toISOString(),
+          rejectedAt: new Date(),
           rejectionReason: rejectionReason || "Rejected by administrator",
-        },
-      });
+        })
+        .where(eq(locations.id, locationId))
+        .returning();
 
       // Publish location rejected event
       try {

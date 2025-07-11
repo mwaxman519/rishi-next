@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../lib/db";
+import { locations, updateLocationSchema } from "@shared/schema";
 import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "../../../lib/rbac";
+import { publishLocationUpdatedEvent } from "../../../services/locations/locationEventPublisher";
+import { eq } from "drizzle-orm";
 
 export async function GET(
   req: NextRequest,
@@ -41,8 +44,8 @@ export async function GET(
       }
     }
 
-    // Get the location by ID
-    const locationData = await db.location.findById(locationId);
+    // Get the location by ID using Drizzle ORM
+    const [locationData] = await db.select().from(locations).where(eq(locations.id, locationId));
 
     if (!locationData) {
       return NextResponse.json(
@@ -101,8 +104,8 @@ export async function PATCH(
 
     const body = await req.json();
 
-    // Check if location exists
-    const existingLocation = await db.location.findById(locationId);
+    // Check if location exists using Drizzle ORM
+    const [existingLocation] = await db.select().from(locations).where(eq(locations.id, locationId));
 
     if (!existingLocation) {
       return NextResponse.json(
@@ -111,8 +114,15 @@ export async function PATCH(
       );
     }
 
-    // Update the location
-    const updatedLocation = await db.location.update(locationId, body);
+    // Update the location using Drizzle ORM
+    const [updatedLocation] = await db
+      .update(locations)
+      .set({
+        ...body,
+        updatedAt: new Date(),
+      })
+      .where(eq(locations.id, locationId))
+      .returning();
 
     return NextResponse.json(updatedLocation);
   } catch (error) {
@@ -162,8 +172,8 @@ export async function DELETE(
       }
     }
 
-    // Check if location exists
-    const existingLocation = await db.location.findById(locationId);
+    // Check if location exists using Drizzle ORM
+    const [existingLocation] = await db.select().from(locations).where(eq(locations.id, locationId));
 
     if (!existingLocation) {
       return NextResponse.json(
@@ -172,8 +182,8 @@ export async function DELETE(
       );
     }
 
-    // Delete the location
-    await db.location.delete(locationId);
+    // Delete the location using Drizzle ORM
+    await db.delete(locations).where(eq(locations.id, locationId));
 
     return NextResponse.json(
       { message: "Location deleted successfully" },

@@ -11,7 +11,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "../../../../../lib/auth";
 import { checkPermission } from "../../../../../lib/rbac";
 import { db } from "../../../../../lib/db";
+import { locations } from "@shared/schema";
 import { publishLocationApprovedEvent } from "../../../../../services/locations/locationEventPublisher";
+import { eq } from "drizzle-orm";
 
 export async function POST(
   req: NextRequest,
@@ -38,9 +40,8 @@ export async function POST(
     }
 
     try {
-      // Get the location - using findById() which is implemented in our mock database
-      // Note: In production with an ORM like Prisma/Drizzle, this would be findUnique({where: {id}})
-      const location = await db.location.findById(locationId);
+      // Get the location using Drizzle ORM
+      const [location] = await db.select().from(locations).where(eq(locations.id, locationId));
 
       if (!location) {
         return NextResponse.json(
@@ -58,14 +59,17 @@ export async function POST(
         );
       }
 
-      // Update location status to active and mark as approved
-      // Using the correct update method for our mock db implementation
-      const updatedLocation = await db.location.update(locationId, {
-        status: "active",
-        approved: true,
-        approvedById: user.id,
-        approvedAt: new Date().toISOString(),
-      });
+      // Update location status to active and mark as approved using Drizzle ORM
+      const [updatedLocation] = await db
+        .update(locations)
+        .set({
+          status: "active",
+          approved: true,
+          approvedById: user.id,
+          approvedAt: new Date(),
+        })
+        .where(eq(locations.id, locationId))
+        .returning();
 
       // Publish location approved event
       // Debug log to find where the issue might be
