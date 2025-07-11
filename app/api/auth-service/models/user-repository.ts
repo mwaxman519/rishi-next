@@ -326,24 +326,26 @@ export async function assignUserToOrganization(
   role: string = "user",
   isPrimary: boolean = true,
 ) {
-  try {
-    const [userOrg] = await db
-      .insert(schema.userOrganizations)
-      .values({
-        userId,
-        organizationId,
-        role,
-        isPrimary,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-      .returning();
+  const userOrg = await dbManager.executeQuery(
+    async () => {
+      const db = dbManager.getDatabase();
+      const [assignment] = await db
+        .insert(schema.userOrganizations)
+        .values({
+          userId,
+          organizationId,
+          role,
+          isPrimary,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .returning();
+      return assignment;
+    },
+    `assignUserToOrganization(${userId}, ${organizationId})`
+  );
 
-    return userOrg;
-  } catch (error) {
-    console.error("Error assigning user to organization:", error);
-    return null;
-  }
+  return userOrg;
 }
 
 /**
