@@ -271,6 +271,8 @@ This configuration successfully passed Azure build validation and deployment pha
 - **EVENT ID REFERENCES ELIMINATED**: Fixed eventId property access error in assignments bulk route - updated eventId → bookingId throughout codebase
 - **BUSINESS MODEL CONSISTENCY**: Removed all eventId references from expenses, shifts, and timetracking routes - aligned with bookings as parent entities
 - **UUID ARCHITECTURE ALIGNMENT**: System now consistent with UUID-based booking architecture, removed all remaining event concept references
+- **ASSIGNED BY PROPERTY NAME MISMATCH FIXED**: Fixed 'Property assignedBy does not exist' error in assignments bulk route - updated assignedBy → assignedById to match database schema
+- **DATABASE SCHEMA CONSISTENCY**: brandAgentAssignments table uses assignedById field, ensuring property names match database column definitions
 
 ### January 11, 2025 - DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL READY (FINAL)
 - **REMAINING EVENT REFERENCES ELIMINATED**: Fixed final event schema import errors in bookings API routes that were causing Vercel build failures

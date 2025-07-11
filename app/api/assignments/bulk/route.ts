@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       activityId: assignment.activityId,
       status: assignment.status || "assigned",
       assignedAt: new Date(assignment.assignedAt || Date.now()),
-      assignedBy: assignment.assignedBy || (session.user as any).id,
+      assignedById: assignment.assignedById || (session.user as any).id,
     }));
 
     const createdAssignments = await db
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
             assignmentId: assignment.id,
             memberId: assignment.brandAgentId,
             bookingId: assignment.bookingId,
-            assignedBy: assignment.assignedBy,
+            assignedBy: assignment.assignedById,
             organizationId: (session.user as any).organizationId,
           },
           timestamp: new Date().toISOString(),
