@@ -119,7 +119,7 @@ export async function PATCH(
       .update(locations)
       .set({
         ...body,
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(locations.id, locationId))
       .returning();

@@ -76,7 +76,7 @@ export async function POST(
         rejectedById: (session.user as any).id,
         rejectedAt: new Date(),
         rejectionReason: validatedData.reason,
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(bookings.id, bookingId))
       .returning();

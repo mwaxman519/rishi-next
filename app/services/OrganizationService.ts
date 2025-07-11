@@ -158,7 +158,7 @@ export class OrganizationService implements OrganizationServiceInterface {
         .values({
           id: organizationId,
           ...data,
-          createdAt: new Date(),
+          created_at: new Date(),
           updatedAt: new Date()
         })
         .returning();

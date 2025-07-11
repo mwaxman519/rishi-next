@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
           lastRestockedDate: validatedData.lastRestockedDate || new Date(),
           isConsumable: validatedData.isConsumable,
           notes: validatedData.notes,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(kitComponentInventory.id, existingInventory.id))
         .returning();

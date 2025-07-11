@@ -224,8 +224,8 @@ async function getOrCreateTestUserId(): Promise<string> {
       firstName: 'Test',
       lastName: 'User',
       active: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      created_at: new Date(),
+      updated_at: new Date()
     })
     .returning();
 

@@ -551,7 +551,7 @@ export async function PATCH(request: NextRequest) {
         .update(userOrganizations)
         .set({
           ...updates,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(
           and(

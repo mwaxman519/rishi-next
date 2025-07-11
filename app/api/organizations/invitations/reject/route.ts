@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
       .update(organizationInvitations)
       .set({
         status: "rejected",
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(organizationInvitations.id, invitation.id));
 

@@ -104,7 +104,7 @@ export class OrganizationRepository {
         .update(organizations)
         .set({
           ...data,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(organizations.id, id))
         .returning();
@@ -275,7 +275,7 @@ export class OrganizationRepository {
         .update(organizationUsers)
         .set({
           roleId: roleId,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(
           and(

@@ -85,7 +85,7 @@ export class RBACRepository {
         .update(roles)
         .set({
           ...data,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(roles.id, id))
         .returning();
@@ -327,7 +327,7 @@ export class RBACRepository {
           .update(organizationPermissions)
           .set({
             isGranted: params.isGranted,
-            updatedAt: new Date(),
+            updated_at: new Date(),
           })
           .where(
             and(

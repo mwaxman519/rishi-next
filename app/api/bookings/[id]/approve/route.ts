@@ -47,7 +47,7 @@ export async function POST(
         status: "approved",
         approvedById: (session.user as any).id,
         approvedAt: new Date(),
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(bookings.id, bookingId))
       .returning();

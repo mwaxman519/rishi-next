@@ -281,7 +281,7 @@ export class RosterService implements IRosterService {
         .update(brandAgentAssignments)
         .set({
           isActive: false,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(brandAgentAssignments.id, assignmentId));
 

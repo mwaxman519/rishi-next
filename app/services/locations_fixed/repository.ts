@@ -141,7 +141,7 @@ export class LocationRepository {
   async update(id: string, data: UpdateLocationParams): Promise<LocationDTO> {
     try {
       // Create a new update object with proper type conversions for Drizzle
-      const updateData: any = { ...data, updatedAt: new Date() };
+      const updateData: any = { ...data, updated_at: new Date() };
 
       // Convert numeric values to strings for Drizzle compatibility
       if (data.latitude !== undefined) {

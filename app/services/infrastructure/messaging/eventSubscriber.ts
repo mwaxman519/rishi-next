@@ -117,7 +117,7 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
       options,
       isBatchHandler: false,
       active: true,
-      createdAt: new Date(),
+      created_at: new Date(),
       errorCount: 0,
     };
 
@@ -164,7 +164,7 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
       isBatchHandler: true,
       active: true,
       batchBuffer: [],
-      createdAt: new Date(),
+      created_at: new Date(),
       errorCount: 0,
     };
 

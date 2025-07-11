@@ -313,8 +313,8 @@ class AvailabilityService {
               recurrenceEndType: data.recurrenceEndType,
               recurrenceGroup: recurrenceGroupId,
               dayOfWeek: dayOfWeek,
-              createdAt: new Date(),
-              updatedAt: new Date(),
+              created_at: new Date(),
+              updated_at: new Date(),
             } as any, // Cast to any to satisfy the return type
           };
         }

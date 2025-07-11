@@ -210,8 +210,8 @@ export class AnalyticsService {
       const result = await this.repository.createDashboard({
         ...data,
         createdBy,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       });
 
       if (!result.success || !result.data) {
@@ -293,7 +293,7 @@ export class AnalyticsService {
       // Update dashboard
       const result = await this.repository.updateDashboard(dashboardId, {
         ...data,
-        updatedAt: new Date(),
+        updated_at: new Date(),
       });
 
       if (!result.success || !result.data) {

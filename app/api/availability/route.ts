@@ -481,8 +481,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           const newAvailability = {
             id: uuidv4(),
             ...data,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            created_at: new Date(),
+            updated_at: new Date(),
           };
 
           // Publish availability creation event

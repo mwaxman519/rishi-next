@@ -97,7 +97,7 @@ export async function PUT(
       .update(kits)
       .set({
         ...body,
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(kits.id, id))
       .returning();

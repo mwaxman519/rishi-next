@@ -36,7 +36,7 @@ export class LocationRepository extends BaseLocationRepository {
         .update(locations)
         .set({
           notes: geocodingInfo,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(locations.id, id))
         .returning();

@@ -360,7 +360,7 @@ export async function POST(request: NextRequest) {
       fullName: computedFullName,
       role,
       active: true,
-      createdAt: new Date(),
+      created_at: new Date(),
     });
 
     if (!newUser) {

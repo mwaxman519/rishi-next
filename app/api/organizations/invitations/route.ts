@@ -403,7 +403,7 @@ export async function DELETE(request: NextRequest) {
         .update(organizationInvitations)
         .set({
           status: "canceled",
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(organizationInvitations.id, parseInt(invitationId)));
 
@@ -578,7 +578,7 @@ export async function PATCH(request: NextRequest) {
         .update(organizationInvitations)
         .set({
           status: "accepted",
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(organizationInvitations.id, invitation.id));
 

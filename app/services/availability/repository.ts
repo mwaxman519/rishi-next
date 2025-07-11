@@ -29,8 +29,8 @@ export class AvailabilityRepository {
       status: block.status as "available" | "unavailable" | "tentative",
       isRecurring: block.isRecurring || false,
       dayOfWeek: block.dayOfWeek !== null ? block.dayOfWeek : undefined,
-      createdAt: new Date(block.createdAt),
-      updatedAt: new Date(block.updatedAt),
+      created_at: new Date(block.createdAt),
+      updated_at: new Date(block.updatedAt),
     };
   }
 

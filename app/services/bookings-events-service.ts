@@ -32,7 +32,7 @@ export class BookingsEventsService {
             status: "approved",
             approvedById: userId,
             approvedAt: new Date(),
-            updatedAt: new Date(),
+            updated_at: new Date(),
           })
           .where(eq(bookings.id, bookingId))
           .returning();
@@ -208,7 +208,7 @@ export class BookingsEventsService {
         .update(events)
         .set({
           fieldManagerId: managerId,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(systemEvents.id, eventId))
         .returning();
@@ -265,7 +265,7 @@ export class BookingsEventsService {
         .update(events)
         .set({
           preparationStatus: "in_progress",
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(systemEvents.id, eventId))
         .returning();
@@ -309,7 +309,7 @@ export class BookingsEventsService {
         .update(events)
         .set({
           preparationStatus: "ready",
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(systemEvents.id, eventId))
         .returning();

@@ -81,7 +81,7 @@ export async function PUT(
         location,
         bio,
         status,
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(users.id, params.id))
       .returning();
@@ -92,7 +92,7 @@ export async function PUT(
         .update(userOrganizations)
         .set({
           role,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .where(eq(userOrganizations.userId, params.id));
     }

@@ -204,7 +204,7 @@ export async function PATCH(
         approvalNotes: approvalNotes || null,
         approvedById: parseInt(user.id),
         approvalDate: new Date(),
-        updatedAt: new Date(),
+        updated_at: new Date(),
       })
       .where(eq(kits.id, id))
       .returning();

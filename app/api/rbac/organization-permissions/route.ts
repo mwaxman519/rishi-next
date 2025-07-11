@@ -267,8 +267,8 @@ export async function POST(request: NextRequest) {
           organizationId: parseInt(organizationId),
           permissionName,
           allowed: Boolean(allowed),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
         }),
       );
 
@@ -367,8 +367,8 @@ export async function POST(request: NextRequest) {
             organizationId: parseInt(organizationId),
             permissionName,
             allowed: Boolean(allowed),
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            created_at: new Date(),
+            updated_at: new Date(),
           }),
         );
 
