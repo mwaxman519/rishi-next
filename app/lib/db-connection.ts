@@ -86,8 +86,12 @@ export const db = drizzle(sql, { schema });
 export async function checkDatabaseConnection(): Promise<boolean> {
   try {
     const result = await sql`SELECT NOW() as now`;
+    const dbResult = result[0];
+    if (!dbResult) {
+      throw new Error('Database connection test returned empty result');
+    }
     console.log(
-      `Database connection successful! Server time: ${result[0].now}`,
+      `Database connection successful! Server time: ${dbResult.now}`,
     );
     return true;
   } catch (error) {

@@ -69,7 +69,11 @@ export const userRepository = {
       })
       .returning();
 
-    return result[0];
+    const createdUser = result[0];
+    if (!createdUser) {
+      throw new Error('Failed to create user - no result returned');
+    }
+    return createdUser;
   },
 
   /**
@@ -82,7 +86,11 @@ export const userRepository = {
       .where(eq(users.id, id))
       .returning();
 
-    return result[0];
+    const updatedUser = result[0];
+    if (!updatedUser) {
+      throw new Error('Failed to update user - no result returned');
+    }
+    return updatedUser;
   },
 
   /**

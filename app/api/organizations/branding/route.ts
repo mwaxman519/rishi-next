@@ -166,8 +166,12 @@ export async function POST(request: NextRequest) {
         .returning();
     }
 
+    const savedBranding = result[0];
+    if (!savedBranding) {
+      throw new Error('Failed to save organization branding - no result returned');
+    }
     return NextResponse.json(
-      { branding: result[0] },
+      { branding: savedBranding },
       { status: existingBranding ? 200 : 201 },
     );
   } catch (error) {

@@ -77,7 +77,11 @@ export async function POST(request: NextRequest) {
         )
         .returning();
 
-      return NextResponse.json(updated[0]);
+      const updatedPreference = updated[0];
+      if (!updatedPreference) {
+        throw new Error('Failed to update user organization preference - no result returned');
+      }
+      return NextResponse.json(updatedPreference);
     }
 
     // Otherwise create new preference
@@ -91,7 +95,11 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
-    return NextResponse.json(result[0], { status: 201 });
+    const createdPreference = result[0];
+    if (!createdPreference) {
+      throw new Error('Failed to create user organization preference - no result returned');
+    }
+    return NextResponse.json(createdPreference, { status: 201 });
   } catch (error) {
     console.error("Error setting user organization preferences:", error);
     return NextResponse.json(

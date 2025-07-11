@@ -129,7 +129,13 @@ export async function getCachedDocumentFromDb(path: string): Promise<{
       return null;
     }
 
-    const { content, metadata, updated_at, content_hash } = result[0];
+    const dbResult = result[0];
+    if (!dbResult) {
+      console.log(`[DOCS DB] Empty result for ${path}`);
+      return null;
+    }
+
+    const { content, metadata, updated_at, content_hash } = dbResult;
 
     // Check if cache is stale
     const updatedTime = new Date(updated_at).getTime();
@@ -189,7 +195,12 @@ export async function shouldRevalidateDocument(
       return true; // Not in cache, needs validation
     }
 
-    const cachedHash = result[0].content_hash;
+    const dbResult = result[0];
+    if (!dbResult) {
+      return true; // Empty result, needs validation
+    }
+
+    const cachedHash = dbResult.content_hash;
     const needsRevalidation = contentHash !== cachedHash;
 
     if (needsRevalidation) {

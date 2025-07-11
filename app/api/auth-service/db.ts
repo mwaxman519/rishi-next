@@ -83,6 +83,10 @@ export async function testConnection() {
     const result = await sql`SELECT current_database() as db, current_user as user`;
     const dbInfo = result[0];
 
+    if (!dbInfo) {
+      throw new Error('Database connection test returned empty result');
+    }
+
     console.log(`[Auth Service] Database connection test successful`);
     console.log(`[Auth Service] Connected to database: ${dbInfo.db} as user: ${dbInfo.user}`);
 

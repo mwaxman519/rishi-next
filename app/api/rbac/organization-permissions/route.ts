@@ -339,7 +339,11 @@ export async function POST(request: NextRequest) {
             })
             .returning();
         }
-        results.push(result[0]);
+        const savedPermission = result[0];
+        if (!savedPermission) {
+          throw new Error(`Failed to save permission ${permissionName} - no result returned`);
+        }
+        results.push(savedPermission);
       }
 
       return NextResponse.json({

@@ -57,7 +57,11 @@ export async function POST(request: NextRequest) {
         )
         .returning();
 
-      return NextResponse.json(updated[0]);
+      const updatedUser = updated[0];
+      if (!updatedUser) {
+        throw new Error('Failed to update organization user association - no result returned');
+      }
+      return NextResponse.json(updatedUser);
     }
 
     // Otherwise create new association
@@ -71,7 +75,11 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
-    return NextResponse.json(result[0], { status: 201 });
+    const createdUser = result[0];
+    if (!createdUser) {
+      throw new Error('Failed to create organization user association - no result returned');
+    }
+    return NextResponse.json(createdUser, { status: 201 });
   } catch (error) {
     console.error("Error creating organization user association:", error);
     return NextResponse.json(

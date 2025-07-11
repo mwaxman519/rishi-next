@@ -86,7 +86,11 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
-    return NextResponse.json(result[0], { status: 201 });
+    const createdOrg = result[0];
+    if (!createdOrg) {
+      throw new Error('Failed to create organization - no result returned');
+    }
+    return NextResponse.json(createdOrg, { status: 201 });
   } catch (error) {
     console.error("Error creating organization:", error);
     return NextResponse.json(

@@ -411,9 +411,13 @@ export async function POST(request: NextRequest) {
         })
         .returning();
 
+      const createdUserOrg = result[0];
+      if (!createdUserOrg) {
+        throw new Error('Failed to add user to organization - no result returned');
+      }
       return NextResponse.json({
         success: true,
-        userOrganization: result[0],
+        userOrganization: createdUserOrg,
       });
     } catch (dbError) {
       console.error("Database error adding user to organization:", dbError);
@@ -557,9 +561,13 @@ export async function PATCH(request: NextRequest) {
         )
         .returning();
 
+      const updatedUserOrg = result[0];
+      if (!updatedUserOrg) {
+        throw new Error('Failed to update user organization - no result returned');
+      }
       return NextResponse.json({
         success: true,
-        userOrganization: result[0],
+        userOrganization: updatedUserOrg,
       });
     } catch (dbError) {
       console.error("Database error updating user in organization:", dbError);

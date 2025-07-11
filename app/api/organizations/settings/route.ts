@@ -105,8 +105,12 @@ export async function POST(request: NextRequest) {
         .returning();
     }
 
+    const savedSettings = result[0];
+    if (!savedSettings) {
+      throw new Error('Failed to save organization settings - no result returned');
+    }
     return NextResponse.json(
-      { settings: result[0] },
+      { settings: savedSettings },
       { status: existingSettings ? 200 : 201 },
     );
   } catch (error) {
