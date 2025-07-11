@@ -15,6 +15,7 @@ import {
   jsonb,
   decimal,
   pgEnum,
+  serial,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -299,7 +300,7 @@ export const brandLocations = pgTable("brand_locations", {
 
 // Availability Blocks table for scheduling
 export const availabilityBlocks = pgTable("availability_blocks", {
-  id: integer("id").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
   user_id: uuid("user_id").notNull(),
   title: text("title"),
   start_date: timestamp("start_date").notNull(),
@@ -318,7 +319,7 @@ export const availabilityBlocks = pgTable("availability_blocks", {
 });
 
 export const organizationUsers = pgTable("organization_users", {
-  id: integer("id").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
   organization_id: uuid("organization_id").notNull(),
   user_id: uuid("user_id").notNull(),
   role: text("role").notNull(),
@@ -857,7 +858,7 @@ export type InsertShiftAssignment = z.infer<typeof insertShiftAssignmentSchema>;
 
 // Missing tables that are referenced in API routes
 export const items = pgTable("items", {
-  id: integer("id").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
   description: text("description"),
   created_at: timestamp("created_at").notNull().defaultNow(),
@@ -892,7 +893,7 @@ export const promotionTypes = pgTable("activity_types", {
 export const userOrganizationPreferences = pgTable(
   "user_organization_preferences",
   {
-    id: integer("id").primaryKey(),
+    id: uuid("id").primaryKey().defaultRandom(),
     user_id: uuid("user_id").notNull(),
     organization_id: uuid("organization_id").notNull(),
     last_active: timestamp("last_active"),
@@ -906,7 +907,7 @@ export const userOrganizationPreferences = pgTable(
 );
 
 export const permissions = pgTable("permissions", {
-  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   created_at: timestamp("created_at").defaultNow(),
