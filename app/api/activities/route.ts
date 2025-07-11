@@ -40,10 +40,8 @@ export async function GET(request: NextRequest) {
     // Add date filtering if both start and end dates are provided
     if (startDate && endDate) {
       conditions.push(
-        and(
-          gte(activities.startDate, new Date(startDate)),
-          lte(activities.endDate, new Date(endDate)),
-        ),
+        gte(activities.startDate, new Date(startDate)),
+        lte(activities.endDate, new Date(endDate)),
       );
     }
 
