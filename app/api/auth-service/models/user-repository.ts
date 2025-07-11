@@ -627,28 +627,26 @@ export async function getUserPermissions(
         );
       }
 
-      // Execute the query
-      const permissionsResult = await db
+      // Get user's role from userOrganizations table
+      const roleResult = await db
         .select({
-          permission: schema.permissions.name,
+          role: schema.userOrganizations.role,
         })
         .from(schema.userOrganizations)
-        .innerJoin(
-          schema.roles,
-          eq(schema.userOrganizations.role, schema.roles.name),
-        )
-        .innerJoin(
-          schema.rolePermissions,
-          eq(schema.roles.id, schema.rolePermissions.roleId),
-        )
-        .innerJoin(
-          schema.permissions,
-          eq(schema.rolePermissions.permissionId, schema.permissions.id),
-        )
-        .where(and(...conditions));
+        .where(and(...conditions))
+        .limit(1);
 
-      // Map the results to a simple array of permission names
-      return permissionsResult.map((row) => row.permission);
+      // If no role found, return empty permissions
+      if (!roleResult.length) {
+        return [];
+      }
+
+      const userRole = roleResult[0].role;
+      
+      // Get permissions for this role from the rolePermissions constant
+      const permissions = schema.rolePermissions[userRole] || [];
+      
+      return permissions;
     },
     `getUserPermissions(${userId}, ${organizationId})`
   );
