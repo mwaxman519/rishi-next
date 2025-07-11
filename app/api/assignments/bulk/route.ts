@@ -27,12 +27,11 @@ export async function POST(request: NextRequest) {
     const assignmentRecords = assignments.map((assignment: any) => ({
       id: crypto.randomUUID(),
       brandAgentId: assignment.memberId,
-      eventId: assignment.eventId,
+      bookingId: assignment.bookingId,
+      activityId: assignment.activityId,
       status: assignment.status || "assigned",
       assignedAt: new Date(assignment.assignedAt || Date.now()),
       assignedBy: assignment.assignedBy || (session.user as any).id,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     }));
 
     const createdAssignments = await db
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
           payload: {
             assignmentId: assignment.id,
             memberId: assignment.brandAgentId,
-            eventId: assignment.eventId,
+            bookingId: assignment.bookingId,
             assignedBy: assignment.assignedBy,
             organizationId: (session.user as any).organizationId,
           },

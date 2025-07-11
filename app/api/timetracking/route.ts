@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       const clockInSchema = z.object({
         agentId: z.string(),
         shiftId: z.string().optional(),
-        eventId: z.string().optional(),
+        bookingId: z.string().optional(),
         location: z
           .object({
             latitude: z.number(),
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
 
       const result = await timeTrackingService.clockIn(effectiveAgentId, {
         shiftId: validatedData.shiftId,
-        eventId: validatedData.eventId,
+        bookingId: validatedData.bookingId,
         location: validatedData.location,
         notes: validatedData.notes,
       });

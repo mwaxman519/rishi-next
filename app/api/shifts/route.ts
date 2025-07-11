@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     // Extract filter parameters
     const filters: ShiftFilters = {
       organizationId: searchParams.get("organizationId") || undefined,
-      eventId: searchParams.get("eventId") || undefined,
+      bookingId: searchParams.get("bookingId") || undefined,
       locationId: searchParams.get("locationId") || undefined,
       brandId: searchParams.get("brandId") || undefined,
       status: (searchParams.get("status") as any) || undefined,

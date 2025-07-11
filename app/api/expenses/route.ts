@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     const filters = {
       organizationId: (session.user as any).organizationId || "",
       agentId: searchParams.get("agentId") || undefined,
-      eventId: searchParams.get("eventId") || undefined,
+      bookingId: searchParams.get("bookingId") || undefined,
       shiftId: searchParams.get("shiftId") || undefined,
       status: searchParams.get("status") || undefined,
       expenseType: searchParams.get("expenseType") || undefined,
