@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
         priority: priority || "medium",
         type: type || "general",
         status: "pending",
-        created_at: new Date(),
-        updated_at: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       })
       .returning();
 

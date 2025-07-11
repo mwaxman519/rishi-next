@@ -67,7 +67,7 @@ export async function POST(
         notes: existingActivity.notes
           ? `${existingActivity.notes}\n\nApproval notes (${new Date().toISOString()}): ${notes}`
           : `Approval notes (${new Date().toISOString()}): ${notes}`,
-        updated_at: new Date(),
+        updatedAt: new Date(),
       })
       .where(eq(activities.id, id))
       .returning();

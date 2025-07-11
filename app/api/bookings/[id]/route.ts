@@ -167,7 +167,7 @@ export async function PATCH(
       .update(bookings)
       .set({
         ...validatedData,
-        updated_at: new Date(),
+        updatedAt: new Date(),
       })
       .where(eq(bookings.id, bookingId))
       .returning();

@@ -159,7 +159,7 @@ export class OrganizationService implements OrganizationServiceInterface {
           id: organizationId,
           ...data,
           created_at: new Date(),
-          updatedAt: new Date()
+          updated_at: new Date()
         })
         .returning();
 
@@ -214,7 +214,7 @@ export class OrganizationService implements OrganizationServiceInterface {
         .update(organizations)
         .set({
           ...data,
-          updatedAt: new Date()
+          updated_at: new Date()
         })
         .where(eq(organizations.id, organizationId))
         .returning();

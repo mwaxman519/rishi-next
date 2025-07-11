@@ -241,7 +241,7 @@ export async function POST(request: NextRequest) {
         invitedById: user.id,
         status: "pending",
         expiresAt: expiresAt.toISOString(),
-        createdAt: new Date().toISOString(),
+        created_at: new Date().toISOString(),
       };
 
       // TODO: In actual implementation, send invitation email to the user

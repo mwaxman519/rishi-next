@@ -173,7 +173,7 @@ export class AuditRepository {
       ipAddress: row.ip_address,
       userAgent: row.user_agent,
       success: row.success,
-      createdAt: new Date(row.created_at),
+      created_at: new Date(row.created_at),
     };
   }
 }

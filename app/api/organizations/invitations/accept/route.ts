@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       // Update invitation status to 'accepted'
       await db
         .update(organizationInvitations)
-        .set({ status: "accepted", updatedAt: new Date() })
+        .set({ status: "accepted", updated_at: new Date() })
         .where(eq(organizationInvitations.id, invitation.id));
 
       return NextResponse.json(
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
     // Update invitation status to 'accepted'
     await db
       .update(organizationInvitations)
-      .set({ status: "accepted", updatedAt: new Date() })
+      .set({ status: "accepted", updated_at: new Date() })
       .where(eq(organizationInvitations.id, invitation.id));
 
     // Send notification email to the inviter

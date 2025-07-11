@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
     // Update the kit's last inventory date
     await db
       .update(kits)
-      .set({ lastInventoryDate: new Date(), updatedAt: new Date() })
+      .set({ lastInventoryDate: new Date(), updated_at: new Date() })
       .where(eq(kits.id, kitId));
 
     return NextResponse.json(result, { status: 201 });

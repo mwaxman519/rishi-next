@@ -325,7 +325,7 @@ export async function POST(request: NextRequest) {
           // Update existing permission
           result = await db
             .update(organizationPermissions)
-            .set({ allowed: Boolean(allowed), updatedAt: new Date() })
+            .set({ allowed: Boolean(allowed), updated_at: new Date() })
             .where(eq(organizationPermissions.id, existingPermission[0].id))
             .returning();
         } else {
