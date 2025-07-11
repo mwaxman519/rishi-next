@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const organizationId = searchParams.get("organizationId");
-    const brandId = searchParams.get("brandId") || undefined;
+    const brandId = searchParams.get("brandId");
 
     if (!organizationId) {
       return NextResponse.json(

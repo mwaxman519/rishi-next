@@ -79,13 +79,13 @@ export async function GET(request: NextRequest) {
 
     // Get the logs
     const logs = await getAuditLogs({
-      userId: userId || undefined,
-      organizationId: organizationId || undefined,
-      action: action || undefined,
-      resource: resource || undefined,
-      resourceId: resourceId || undefined,
-      startDate,
-      endDate,
+      ...(userId && { userId }),
+      ...(organizationId && { organizationId }),
+      ...(action && { action }),
+      ...(resource && { resource }),
+      ...(resourceId && { resourceId }),
+      ...(startDate && { startDate }),
+      ...(endDate && { endDate }),
       limit,
       offset,
     });

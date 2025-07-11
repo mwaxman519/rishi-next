@@ -29,13 +29,13 @@ export async function GET(request: NextRequest) {
     // Extract filter parameters
     const filters = {
       organizationId: (session.user as any).organizationId || "",
-      agentId: searchParams.get("agentId") || undefined,
-      bookingId: searchParams.get("bookingId") || undefined,
-      shiftId: searchParams.get("shiftId") || undefined,
-      status: searchParams.get("status") || undefined,
-      expenseType: searchParams.get("expenseType") || undefined,
-      startDate: searchParams.get("startDate") || undefined,
-      endDate: searchParams.get("endDate") || undefined,
+      ...(searchParams.get("agentId") && { agentId: searchParams.get("agentId") }),
+      ...(searchParams.get("bookingId") && { bookingId: searchParams.get("bookingId") }),
+      ...(searchParams.get("shiftId") && { shiftId: searchParams.get("shiftId") }),
+      ...(searchParams.get("status") && { status: searchParams.get("status") }),
+      ...(searchParams.get("expenseType") && { expenseType: searchParams.get("expenseType") }),
+      ...(searchParams.get("startDate") && { startDate: searchParams.get("startDate") }),
+      ...(searchParams.get("endDate") && { endDate: searchParams.get("endDate") }),
       page: parseInt(searchParams.get("page") || "1"),
       limit: parseInt(searchParams.get("limit") || "50"),
     };

@@ -25,9 +25,9 @@ export async function GET(request: NextRequest) {
     // Extract filter parameters for summary
     const filters = {
       organizationId: (session.user as any).organizationId || "",
-      agentId: searchParams.get("agentId") || undefined,
-      startDate: searchParams.get("startDate") || undefined,
-      endDate: searchParams.get("endDate") || undefined,
+      ...(searchParams.get("agentId") && { agentId: searchParams.get("agentId") }),
+      ...(searchParams.get("startDate") && { startDate: searchParams.get("startDate") }),
+      ...(searchParams.get("endDate") && { endDate: searchParams.get("endDate") }),
     };
 
     const result = await expenseService.getExpenseSummary(

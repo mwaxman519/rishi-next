@@ -24,12 +24,12 @@ export async function GET(request: NextRequest) {
 
     // Extract filter parameters
     const filters: ShiftFilters = {
-      organizationId: searchParams.get("organizationId") || undefined,
-      bookingId: searchParams.get("bookingId") || undefined,
-      locationId: searchParams.get("locationId") || undefined,
-      brandId: searchParams.get("brandId") || undefined,
-      status: (searchParams.get("status") as any) || undefined,
-      agentId: searchParams.get("agentId") || undefined,
+      ...(searchParams.get("organizationId") && { organizationId: searchParams.get("organizationId") }),
+      ...(searchParams.get("bookingId") && { bookingId: searchParams.get("bookingId") }),
+      ...(searchParams.get("locationId") && { locationId: searchParams.get("locationId") }),
+      ...(searchParams.get("brandId") && { brandId: searchParams.get("brandId") }),
+      ...(searchParams.get("status") && { status: searchParams.get("status") as any }),
+      ...(searchParams.get("agentId") && { agentId: searchParams.get("agentId") }),
       startDate: searchParams.get("startDate")
         ? new Date(searchParams.get("startDate")!)
         : undefined,
