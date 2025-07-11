@@ -58,9 +58,9 @@ export async function POST(
         .update(locations)
         .set({
           status: "rejected",
-          rejectedById: user.id,
-          rejectedAt: new Date(),
-          rejectionReason: rejectionReason || "Rejected by administrator",
+          reviewed_by: user.id,
+          review_date: new Date(),
+          notes: rejectionReason || "Rejected by administrator",
         })
         .where(eq(locations.id, locationId))
         .returning();

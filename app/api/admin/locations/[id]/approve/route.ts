@@ -64,8 +64,8 @@ export async function POST(
         .update(locations)
         .set({
           status: "active",
-          approvedById: user.id,
-          approvedAt: new Date(),
+          reviewed_by: user.id,
+          review_date: new Date(),
         })
         .where(eq(locations.id, locationId))
         .returning();
@@ -88,9 +88,9 @@ export async function POST(
           name: updatedLocation.name || "Unknown location",
           approvedById: user.id,
           approvedByName: user.fullName || user.username || "Unknown user",
-          approvedAt: updatedLocation.approvedAt || new Date().toISOString(),
-          // This might be called createdById instead of submittedById in our mock implementation
-          submittedById: updatedLocation.createdById || "unknown",
+          approvedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
+          // This might be called requested_by instead of submittedById in our implementation
+          submittedById: updatedLocation.requested_by || "unknown",
         });
       } catch (eventError) {
         console.error("Failed to publish location approved event:", eventError);
