@@ -110,8 +110,8 @@ export async function POST(req: NextRequest) {
       if (filters.types && filters.types.length > 0) {
         filteredLocations = filteredLocations.filter(
           (location) =>
-            location.locationType &&
-            filters.types?.includes(location.locationType),
+            location.type &&
+            filters.types?.includes(location.type),
         );
       }
 

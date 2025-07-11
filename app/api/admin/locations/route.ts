@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     const locationData = {
       id: randomUUID(), // Generate a UUID for the new location
       name: data.name,
-      type: data.locationType || "retail",
+      type: data.type || "retail",
       address1: data.address,
       city: data.city || "",
       zipcode: data.zipcode || "",
@@ -148,7 +148,7 @@ export async function GET(req: Request) {
       longitude: location.geoLng
         ? parseFloat(location.geoLng.toString())
         : null,
-      locationType: location.type,
+      type: location.type,
       status: location.status,
       submittedById: location.requestedBy,
       createdById: location.requestedBy,

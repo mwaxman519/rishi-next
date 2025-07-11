@@ -54,7 +54,7 @@ export async function GET(
           zipCode: locations.zipcode,
           latitude: locations.geo_lat,
           longitude: locations.geo_lng,
-          locationType: locations.locationType,
+          type: locations.type,
           status: locations.status,
           submittedById: locations.submittedById,
           createdAt: locations.createdAt,

@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       .select({
         id: locations.id,
         status: locations.status,
-        locationType: locations.locationType,
+        type: locations.type,
       })
       .from(locations)
       .where(inArray(locations.id, locationIds));
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     // Publish events for each updated location
     const eventPromises = locationIds.map((locationId) => {
       const locationBefore = locationsBeforeUpdate.find(
-        (loc: { id: string; status?: string; locationType?: string }) =>
+        (loc: { id: string; status?: string; type?: string }) =>
           loc.id === locationId,
       );
 
@@ -122,10 +122,10 @@ export async function POST(req: NextRequest) {
       }
 
       if (
-        updates.locationType &&
-        locationBefore?.locationType !== updates.locationType
+        updates.type &&
+        locationBefore?.type !== updates.type
       ) {
-        changedFields.push("locationType");
+        changedFields.push("type");
       }
 
       if (updates.notes) {

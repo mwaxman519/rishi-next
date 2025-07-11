@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
         if (location.state) states.add(location.state);
         if (location.city) cities.add(location.city);
         if (location.zipcode) zipCodes.add(location.zipcode);
-        if (location.locationType) locationTypes.add(location.locationType);
+        if (location.type) locationTypes.add(location.type);
         if (location.status) statuses.add(location.status);
       });
 
@@ -90,7 +90,7 @@ export async function GET(req: NextRequest) {
           states: statesArray,
           cities: citiesArray,
           zipCodes: zipCodesArray,
-          locationTypes: locationTypesArray,
+          types: locationTypesArray,
           statuses: statusesArray,
         },
         stats: {
