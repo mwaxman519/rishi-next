@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
         orgId: organizations.id,
         orgName: organizations.name,
         orgType: organizations.type,
-        isPrimary: userOrganizations.isPrimary,
+        isPrimary: userOrganizations.is_default,
         role: userOrganizations.role,
       })
       .from(userOrganizations)
