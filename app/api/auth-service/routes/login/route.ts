@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
     const token = await createToken(user.id);
 
     // Find default organization (primary organization)
-    const defaultOrg = userOrgs.find((org) => org.isPrimary) || userOrgs[0];
+    const defaultOrg = userOrgs.find((org: any) => org.isPrimary) || userOrgs[0];
 
     // Return user data with token cookie
     // Use a type-safe way to remove password from user object
