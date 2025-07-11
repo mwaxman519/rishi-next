@@ -27,6 +27,26 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get("endDate");
 
     // Build the query with joins to get related data
+    const conditions = [eq(activities.organizationId, organizationId)];
+    
+    if (typeId) {
+      conditions.push(eq(activities.activityTypeId, typeId));
+    }
+
+    if (status) {
+      conditions.push(eq(activities.status, status));
+    }
+
+    // Add date filtering if both start and end dates are provided
+    if (startDate && endDate) {
+      conditions.push(
+        and(
+          gte(activities.startDate, new Date(startDate)),
+          lte(activities.endDate, new Date(endDate)),
+        ),
+      );
+    }
+
     let query = db
       .select({
         activity: activities,
@@ -36,25 +56,7 @@ export async function GET(request: NextRequest) {
       .from(activities)
       .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
       .leftJoin(locations, eq(activities.locationId, locations.id))
-      .where(eq(activities.organizationId, organizationId));
-
-    if (typeId) {
-      query = query.where(eq(activities.activityTypeId, typeId));
-    }
-
-    if (status) {
-      query = query.where(eq(activities.status, status));
-    }
-
-    // Add date filtering if both start and end dates are provided
-    if (startDate && endDate) {
-      query = query.where(
-        and(
-          gte(activities.startDate, new Date(startDate)),
-          lte(activities.endDate, new Date(endDate)),
-        ),
-      );
-    }
+      .where(conditions.length > 1 ? and(...conditions) : conditions[0]);
 
     const results = await query;
 
