@@ -169,20 +169,16 @@ export const activityTypes = pgTable("activity_types", {
 
 export const activities = pgTable("activities", {
   id: uuid("id").primaryKey().defaultRandom(),
+  bookingId: uuid("booking_id").notNull().references(() => bookings.id),
   title: text("title").notNull(),
   description: text("description"),
   activityTypeId: uuid("activity_type_id").references(() => activityTypes.id),
-  locationId: uuid("location_id").references(() => locations.id),
-  organizationId: uuid("organization_id").references(() => organizations.id),
-  startDate: timestamp("start_date").notNull(),
-  endDate: timestamp("end_date").notNull(),
+  status: text("status").notNull().default("assigned"),
   startTime: text("start_time"),
   endTime: text("end_time"),
-  status: text("status").notNull().default("draft"),
-  budget: integer("budget"),
-  attendeeEstimate: integer("attendee_estimate"),
+  staffRequired: integer("staff_required"),
   notes: text("notes"),
-  createdById: uuid("created_by_id").references(() => users.id),
+  assignedById: uuid("assigned_by_id").references(() => users.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -866,36 +862,14 @@ export const items = pgTable("items", {
   updated_at: timestamp("updated_at").defaultNow(),
 });
 
-// Note: bookingComments table does not exist in actual Neon database
-// Using activities table structure for comments functionality
-export const bookingComments = pgTable("activities", {
+// Proper booking comments table
+export const bookingComments = pgTable("booking_comments", {
   id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  type_id: uuid("type_id"),
-  location_id: uuid("location_id"),
-  organization_id: uuid("organization_id").notNull(),
-  brand_id: uuid("brand_id"),
-  created_by_id: uuid("created_by_id").notNull(),
-  status: text("status").notNull(),
-  start_date: timestamp("start_date").notNull(),
-  end_date: timestamp("end_date").notNull(),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
-});
-
-// Note: eventInstances table does not exist - using activities for event instances
-export const eventInstances = pgTable("activities", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  type_id: uuid("type_id"),
-  location_id: uuid("location_id"),
-  organization_id: uuid("organization_id").notNull(),
-  status: text("status").notNull(),
-  start_date: timestamp("start_date").notNull(),
-  end_date: timestamp("end_date").notNull(),
-  created_at: timestamp("created_at").defaultNow(),
+  bookingId: uuid("booking_id").notNull().references(() => bookings.id),
+  authorId: uuid("author_id").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 // Note: promotionTypes table does not exist - using activity_types for promotions
@@ -937,33 +911,7 @@ export const permissions = pgTable("permissions", {
   updated_at: timestamp("updated_at").defaultNow(),
 });
 
-// Note: Using activities table for events functionality (actual table exists)
-export const events = pgTable("activities", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  title: text("title").notNull(),
-  description: text("description"),
-  type_id: uuid("type_id"),
-  location_id: uuid("location_id"),
-  organization_id: uuid("organization_id").notNull(),
-  brand_id: uuid("brand_id"),
-  created_by_id: uuid("created_by_id").notNull(),
-  status: text("status").notNull(),
-  start_date: timestamp("start_date").notNull(),
-  end_date: timestamp("end_date").notNull(),
-  start_time: timestamp("start_time"),
-  end_time: timestamp("end_time"),
-  all_day: boolean("all_day").notNull().default(false),
-  recurrence_rule: text("recurrence_rule"),
-  timezone: text("timezone").notNull(),
-  metadata: jsonb("metadata"),
-  requirements: jsonb("requirements"),
-  budget: decimal("budget"),
-  priority: text("priority"),
-  notes: text("notes"),
-  active: boolean("active").notNull().default(true),
-  created_at: timestamp("created_at").defaultNow(),
-  updated_at: timestamp("updated_at").defaultNow(),
-});
+
 
 // Insert schemas for missing tables
 export const insertItemSchema = createInsertSchema(items).omit({
@@ -979,12 +927,7 @@ export const insertBookingCommentSchema = createInsertSchema(
   created_at: true,
 });
 
-export const insertEventInstanceSchema = createInsertSchema(
-  eventInstances,
-).omit({
-  id: true,
-  created_at: true,
-});
+
 
 export const insertPromotionTypeSchema = createInsertSchema(
   promotionTypes,
@@ -1073,19 +1016,14 @@ export const insertOrganizationBrandingSchema = createInsertSchema(
   updated_at: true,
 });
 
-export const insertEventSchema = createInsertSchema(events).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+
 
 // Types for missing tables
 export type Item = typeof items.$inferSelect;
 export type InsertItem = z.infer<typeof insertItemSchema>;
 export type BookingComment = typeof bookingComments.$inferSelect;
 export type InsertBookingComment = z.infer<typeof insertBookingCommentSchema>;
-export type EventInstance = typeof eventInstances.$inferSelect;
-export type InsertEventInstance = z.infer<typeof insertEventInstanceSchema>;
+
 export type PromotionType = typeof promotionTypes.$inferSelect;
 export type InsertPromotionType = z.infer<typeof insertPromotionTypeSchema>;
 export type UserOrganizationPreferences =
@@ -1095,8 +1033,7 @@ export type InsertUserOrganizationPreferences = z.infer<
 >;
 export type Permission = typeof permissions.$inferSelect;
 export type InsertPermission = z.infer<typeof insertPermissionSchema>;
-export type Event = typeof events.$inferSelect;
-export type InsertEvent = z.infer<typeof insertEventSchema>;
+
 export type Region = typeof regions.$inferSelect;
 export type InsertRegion = z.infer<typeof insertRegionSchema>;
 export type OrganizationRegion = typeof organizationRegions.$inferSelect;

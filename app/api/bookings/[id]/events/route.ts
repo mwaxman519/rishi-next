@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../../db";
-import { eq, and, desc } from "drizzle-orm";
-import { eventInstances, locations, users } from "../../../../../shared/schema";
+import { eq, desc } from "drizzle-orm";
+import { activities, activityTypes, bookings } from "../../../../../shared/schema";
 
 export async function GET(
   request: NextRequest,
@@ -10,53 +10,56 @@ export async function GET(
   try {
     const { id: bookingId } = await params;
 
-    // Query event instances along with related location and field manager data
-    const events = await db
+    // Query activities for this booking along with related data
+    const bookingActivities = await db
       .select({
-        event: eventInstances,
-        location: locations,
-        fieldManager: users,
+        activity: activities,
+        activityType: activityTypes,
+        booking: bookings,
       })
-      .from(eventInstances)
-      .leftJoin(locations, eq(eventInstances.locationId, locations.id))
-      .leftJoin(users, eq(eventInstances.fieldManagerId, users.id))
-      .where(eq(eventInstances.bookingId, bookingId))
-      .orderBy(desc(eventInstances.date));
+      .from(activities)
+      .leftJoin(activityTypes, eq(activities.activityTypeId, activityTypes.id))
+      .leftJoin(bookings, eq(activities.bookingId, bookings.id))
+      .where(eq(activities.bookingId, bookingId))
+      .orderBy(desc(activities.createdAt));
 
     // Format the response
-    const formattedEvents = systemEvents.map((record) => ({
-      id: record.event.id,
-      date: record.event.date,
-      startTime: record.event.startTime,
-      endTime: record.event.endTime,
-      status: record.event.status,
-      preparationStatus: record.event.preparationStatus,
-      notes: record.event.notes,
-      specialInstructions: record.event.specialInstructions,
-      checkInRequired: record.event.checkInRequired,
-      createdAt: record.event.createdAt,
-      updatedAt: record.event.updatedAt,
-      location: record.location
+    const formattedActivities = bookingActivities.map((record) => ({
+      id: record.activity.id,
+      title: record.activity.title,
+      description: record.activity.description,
+      startTime: record.activity.startTime,
+      endTime: record.activity.endTime,
+      status: record.activity.status,
+      staffRequired: record.activity.staffRequired,
+      notes: record.activity.notes,
+      createdAt: record.activity.createdAt,
+      updatedAt: record.activity.updatedAt,
+      activityType: record.activityType
         ? {
-            id: record.location.id,
-            name: record.location.name,
-            address: record.location.address1,
+            id: record.activityType.id,
+            name: record.activityType.name,
+            description: record.activityType.description,
+            icon: record.activityType.icon,
+            color: record.activityType.color,
           }
         : undefined,
-      fieldManager: record.fieldManager
+      booking: record.booking
         ? {
-            id: record.fieldManager.id,
-            name: record.fieldManager.fullName || record.fieldManager.username,
-            email: record.fieldManager.email,
+            id: record.booking.id,
+            title: record.booking.title,
+            startDate: record.booking.startDate,
+            endDate: record.booking.endDate,
+            status: record.booking.status,
           }
         : undefined,
     }));
 
-    return NextResponse.json(formattedEvents);
+    return NextResponse.json(formattedActivities);
   } catch (error: any) {
-    console.error("Error fetching event instances:", error);
+    console.error("Error fetching booking activities:", error);
     return NextResponse.json(
-      { error: error.message || "Failed to fetch event instances" },
+      { error: error.message || "Failed to fetch booking activities" },
       { status: 500 },
     );
   }

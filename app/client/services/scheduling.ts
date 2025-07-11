@@ -35,7 +35,7 @@ export async function getAllSchedules(
 
   if (filters.organizationId)
     params.append("organizationId", filters.organizationId);
-  if (filters.eventId) params.append("eventId", filters.eventId);
+  if (filters.bookingId) params.append("bookingId", filters.bookingId);
   if (filters.startDate) params.append("startDate", filters.startDate);
   if (filters.endDate) params.append("endDate", filters.endDate);
   if (filters.createdById) params.append("createdById", filters.createdById);
@@ -76,7 +76,7 @@ export async function createSchedule(
   // Invalidate schedules cache
   queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
   queryClient.invalidateQueries({
-    queryKey: ["/api/events", data.eventId, "schedules"],
+    queryKey: ["/api/bookings", data.bookingId, "schedules"],
   });
 
   return response.json();
@@ -95,10 +95,10 @@ export async function updateSchedule(
   queryClient.invalidateQueries({ queryKey: ["/api/schedules", id] });
   queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
 
-  // If changing event, invalidate event-related caches
-  if (data.eventId) {
+  // If changing booking, invalidate booking-related caches
+  if (data.bookingId) {
     queryClient.invalidateQueries({
-      queryKey: ["/api/events", data.eventId, "schedules"],
+      queryKey: ["/api/bookings", data.bookingId, "schedules"],
     });
   }
 
@@ -110,7 +110,7 @@ export async function updateSchedule(
  */
 export async function deleteSchedule(
   id: string,
-  eventId: string,
+  bookingId: string,
 ): Promise<void> {
   await apiRequest("DELETE", `/api/schedules/${id}`);
 
@@ -118,7 +118,7 @@ export async function deleteSchedule(
   queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
   queryClient.invalidateQueries({ queryKey: ["/api/schedules", id] });
   queryClient.invalidateQueries({
-    queryKey: ["/api/events", eventId, "schedules"],
+    queryKey: ["/api/bookings", bookingId, "schedules"],
   });
 }
 
