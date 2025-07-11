@@ -195,11 +195,11 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
           approvedById: reviewerId,
           approvedByName: reviewerName,
           approvedAt: now.toISOString(),
-          submittedById: location.requestedBy || undefined,
+          submittedById: location.requested_by || undefined,
         };
 
         await publishEvent(AppEvent.LOCATION_APPROVED, approvalPayload, {
-          targetUserId: location.requestedBy, // Send notification to the user who requested it
+          targetUserId: location.requested_by, // Send notification to the user who requested it
         });
 
         // Also publish a system notification for all users
@@ -217,11 +217,11 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
           rejectedByName: reviewerName,
           rejectedAt: now.toISOString(),
           rejectionReason: body.notes || undefined,
-          submittedById: location.requestedBy || undefined,
+          submittedById: location.requested_by || undefined,
         };
 
         await publishEvent(AppEvent.LOCATION_REJECTED, rejectionPayload, {
-          targetUserId: location.requestedBy, // Send notification to the user who requested it
+          targetUserId: location.requested_by, // Send notification to the user who requested it
         });
       }
 

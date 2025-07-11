@@ -47,7 +47,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         contactEmail: locations.contactEmail,
         contactPhone: locations.contactPhone,
         notes: locations.notes,
-        requestedBy: locations.requestedBy,
+        requestedBy: locations.requested_by,
         status: locations.status,
         geoLat: locations.geo_lat,
         geoLng: locations.geo_lng,

@@ -254,6 +254,8 @@ This configuration successfully passed Azure build validation and deployment pha
 - **SCHEMA TIMESTAMP ALIGNMENT**: All timestamp field access now properly aligned with database schema naming conventions
 - **COORDINATE FIELD CONSISTENCY FIXES**: Fixed geographic coordinate field references from geoLat/geoLng to geo_lat/geo_lng across admin locations and approved locations API routes
 - **COMPLETE SCHEMA ALIGNMENT**: All database property access now matches actual database column names (snake_case for locations table coordinates and timestamps)
+- **REQUESTED_BY FIELD CONSISTENCY FIXES**: Fixed all requestedBy property access to use correct database column name requested_by across 4 API route files
+- **COMPREHENSIVE FIELD AUDIT**: Updated admin locations, approved locations, and pending locations routes with proper snake_case database column references
 
 ### January 11, 2025 - DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL READY (FINAL)
 - **REMAINING EVENT REFERENCES ELIMINATED**: Fixed final event schema import errors in bookings API routes that were causing Vercel build failures
