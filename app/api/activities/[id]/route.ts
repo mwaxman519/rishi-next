@@ -120,7 +120,7 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = params.id;
+    const { id } = await params;
     const body = await request.json();
 
     // First, check if activity exists and user is authorized
@@ -225,7 +225,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = params.id;
+    const { id } = await params;
 
     // Check if activity exists and user is authorized
     const [existingActivity] = await db
