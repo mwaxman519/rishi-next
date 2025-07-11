@@ -143,8 +143,8 @@ export async function createUser(
             fullName: userData.fullName || userData.username,
             role: userData.role || "brand_agent",
             active: true,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            created_at: new Date(),
+            updated_at: new Date(),
           } as unknown as schema.User,
         };
       }
@@ -305,8 +305,8 @@ export async function createOrganization(orgData: any) {
         .values({
           id: uuidv4(),
           ...orgData,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
         })
         .returning();
       return org;
@@ -332,12 +332,11 @@ export async function assignUserToOrganization(
       const [assignment] = await db
         .insert(schema.userOrganizations)
         .values({
-          userId,
-          organizationId,
+          user_id: userId,
+          organization_id: organizationId,
           role,
-          isPrimary,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          is_default: isPrimary,
+          created_at: new Date(),
         })
         .returning();
       return assignment;
@@ -382,12 +381,11 @@ export async function setupUserOrganization(
 
       // Create a simulated userOrg object
       const mockUserOrg = {
-        userId,
-        organizationId: options.orgId || defaultOrgId,
+        user_id: userId,
+        organization_id: options.orgId || defaultOrgId,
         role: options.role || "brand_agent",
-        isPrimary: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        is_default: true,
+        created_at: new Date(),
       };
 
       return { userOrg: mockUserOrg };
@@ -591,14 +589,14 @@ export async function getUserOrganizations(userId: string) {
           orgName: schema.organizations.name,
           orgType: schema.organizations.type,
           role: schema.userOrganizations.role,
-          isPrimary: schema.userOrganizations.isPrimary,
+          isPrimary: schema.userOrganizations.is_default,
         })
         .from(schema.userOrganizations)
         .innerJoin(
           schema.organizations,
-          eq(schema.userOrganizations.organizationId, schema.organizations.id),
+          eq(schema.userOrganizations.organization_id, schema.organizations.id),
         )
-        .where(eq(schema.userOrganizations.userId, userId));
+        .where(eq(schema.userOrganizations.user_id, userId));
 
       return userOrgs || [];
     },
@@ -620,12 +618,12 @@ export async function getUserPermissions(
       const db = dbManager.getDatabase();
       
       // Build query conditions
-      const conditions = [eq(schema.userOrganizations.userId, userId)];
+      const conditions = [eq(schema.userOrganizations.user_id, userId)];
 
       // Add organization filter if provided
       if (organizationId) {
         conditions.push(
-          eq(schema.userOrganizations.organizationId, organizationId),
+          eq(schema.userOrganizations.organization_id, organizationId),
         );
       }
 
