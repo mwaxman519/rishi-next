@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
             memberId: assignment.brandAgentId,
             eventId: assignment.eventId,
             assignedBy: assignment.assignedBy,
-            organizationId: session.(user as any).organizationId,
+            organizationId: (session.user as any).organizationId,
           },
           timestamp: new Date().toISOString(),
         }),

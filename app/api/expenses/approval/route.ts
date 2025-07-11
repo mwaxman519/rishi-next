@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       validatedApproval,
       session.user.id,
       session.user.role || "brand_agent",
-      session.(user as any).organizationId || "",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {

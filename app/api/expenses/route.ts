@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     // Extract filter parameters
     const filters = {
-      organizationId: session.(user as any).organizationId || "",
+      organizationId: (session.user as any).organizationId || "",
       agentId: searchParams.get("agentId") || undefined,
       eventId: searchParams.get("eventId") || undefined,
       shiftId: searchParams.get("shiftId") || undefined,
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
       validatedFilters,
       session.user.id,
       session.user.role || "brand_agent",
-      session.(user as any).organizationId || "",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {
@@ -86,14 +86,14 @@ export async function POST(request: NextRequest) {
       result = await expenseService.saveDraft(
         validatedData,
         session.user.id,
-        session.(user as any).organizationId || "",
+        (session.user as any).organizationId || "",
       );
     } else {
       // Submit expense
       result = await expenseService.submitExpense(
         validatedData,
         session.user.id,
-        session.(user as any).organizationId || "",
+        (session.user as any).organizationId || "",
       );
     }
 
@@ -138,7 +138,7 @@ export async function PUT(request: NextRequest) {
       validatedUpdates,
       session.user.id,
       session.user.role || "brand_agent",
-      session.(user as any).organizationId || "",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {
@@ -181,7 +181,7 @@ export async function DELETE(request: NextRequest) {
       expenseId,
       session.user.id,
       session.user.role || "brand_agent",
-      session.(user as any).organizationId || "",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {

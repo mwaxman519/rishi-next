@@ -140,7 +140,7 @@ export async function GET(req: NextRequest) {
     // For client users, only show locations associated with their organization
     if (!isAdmin && session?.user?.organizationId) {
       // We also need to check if locations have organizationId field
-      // locationConditions.push(eq(locations.organizationId, session.(user as any).organizationId));
+      // locationConditions.push(eq(locations.organizationId, (session.user as any).organizationId));
     }
 
     const locationsList = await db
