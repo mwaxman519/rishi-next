@@ -153,7 +153,14 @@ export async function createUser(
     // For real users in production, attempt to insert into the database
     try {
       // Insert the new user using the standard database connection
-      const [user] = await db.insert(schema.users).values(userData).returning();
+      const user = await dbManager.executeQuery(
+        async () => {
+          const db = dbManager.getDatabase();
+          const [newUser] = await db.insert(schema.users).values(userData).returning();
+          return newUser;
+        },
+        `createUser(${userData.username})`
+      );
 
       if (!user) {
         return {
@@ -227,79 +234,87 @@ export async function createUser(
  * Get an organization by ID
  */
 export async function getOrganizationById(orgId: string) {
-  try {
-    const [organization] = await db
-      .select()
-      .from(schema.organizations)
-      .where(eq(schema.organizations.id, orgId));
+  const organization = await dbManager.executeQuery(
+    async () => {
+      const db = dbManager.getDatabase();
+      const [org] = await db
+        .select()
+        .from(schema.organizations)
+        .where(eq(schema.organizations.id, orgId));
+      return org;
+    },
+    `getOrganizationById(${orgId})`
+  );
 
-    return organization;
-  } catch (error) {
-    console.error("Error getting organization by ID:", error);
-    return null;
-  }
+  return organization;
 }
 
 /**
  * Get all organizations
  */
 export async function getAllOrganizations() {
-  try {
-    const organizations = await db.select().from(schema.organizations);
+  const organizations = await dbManager.executeQuery(
+    async () => {
+      const db = dbManager.getDatabase();
+      return await db.select().from(schema.organizations);
+    },
+    `getAllOrganizations()`
+  );
 
-    return organizations;
-  } catch (error) {
-    console.error("Error getting all organizations:", error);
-    return [];
-  }
+  return organizations || [];
 }
 
 /**
  * Get default organization (usually the Rishi Internal organization)
  */
 export async function getDefaultOrganization() {
-  try {
-    // Try to find Rishi Internal organization first
-    const [organization] = await db
-      .select()
-      .from(schema.organizations)
-      .where(eq(schema.organizations.type, "internal"))
-      .limit(1);
+  const organization = await dbManager.executeQuery(
+    async () => {
+      const db = dbManager.getDatabase();
+      
+      // Try to find Rishi Internal organization first
+      const [org] = await db
+        .select()
+        .from(schema.organizations)
+        .where(eq(schema.organizations.type, "internal"))
+        .limit(1);
 
-    // If not found, get the first organization
-    if (!organization) {
-      const [firstOrg] = await db.select().from(schema.organizations).limit(1);
+      // If not found, get the first organization
+      if (!org) {
+        const [firstOrg] = await db.select().from(schema.organizations).limit(1);
+        return firstOrg;
+      }
 
-      return firstOrg;
-    }
+      return org;
+    },
+    `getDefaultOrganization()`
+  );
 
-    return organization;
-  } catch (error) {
-    console.error("Error getting default organization:", error);
-    return null;
-  }
+  return organization;
 }
 
 /**
  * Create a new organization
  */
 export async function createOrganization(orgData: any) {
-  try {
-    const [organization] = await db
-      .insert(schema.organizations)
-      .values({
-        id: uuidv4(),
-        ...orgData,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-      .returning();
+  const organization = await dbManager.executeQuery(
+    async () => {
+      const db = dbManager.getDatabase();
+      const [org] = await db
+        .insert(schema.organizations)
+        .values({
+          id: uuidv4(),
+          ...orgData,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .returning();
+      return org;
+    },
+    `createOrganization(${orgData.name})`
+  );
 
-    return organization;
-  } catch (error) {
-    console.error("Error creating organization:", error);
-    return null;
-  }
+  return organization;
 }
 
 /**
