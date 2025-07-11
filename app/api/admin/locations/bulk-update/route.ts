@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     // Publish events for each updated location
     const eventPromises = locationIds.map((locationId) => {
       const locationBefore = locationsBeforeUpdate.find(
-        (loc: { id: string; status?: string; type?: string }) =>
+        (loc: { id: string; status: string | null; type: string | null }) =>
           loc.id === locationId,
       );
 
