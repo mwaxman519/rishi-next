@@ -131,8 +131,8 @@ export async function POST(request: NextRequest) {
       .values({
         id,
         ...validatedData,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       })
       .returning();
 

@@ -51,8 +51,8 @@ export async function POST(req: Request) {
       geoLat: data.geo_lat ? data.geo_lat.toString() : null,
       geoLng: data.geo_lng ? data.geo_lng.toString() : null,
       // active field removed - using status field only
-      createdAt: now,
-      updatedAt: now,
+      created_at: now,
+      updated_at: now,
     };
 
     // Import locations table and use insert
@@ -153,8 +153,8 @@ export async function GET(req: Request) {
       submittedById: location.requestedBy,
       createdById: location.requestedBy,
       notes: location.notes,
-      createdAt: location.createdAt?.toISOString(),
-      updatedAt: location.updatedAt?.toISOString(),
+      createdAt: location.created_at?.toISOString(),
+      updatedAt: location.updated_at?.toISOString(),
     }));
 
     console.log(

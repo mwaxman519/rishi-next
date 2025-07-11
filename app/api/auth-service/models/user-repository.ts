@@ -141,8 +141,8 @@ export async function createUser(
             fullName: userData.fullName || userData.username,
             role: userData.role || "brand_agent",
             active: true,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            created_at: new Date(),
+            updated_at: new Date(),
           } as unknown as schema.User,
         };
       }
@@ -288,8 +288,8 @@ export async function createOrganization(orgData: any) {
       .values({
         id: uuidv4(),
         ...orgData,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       })
       .returning();
 
@@ -317,8 +317,8 @@ export async function assignUserToOrganization(
         organizationId,
         role,
         isPrimary,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       })
       .returning();
 

@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest) {
           settingKey: key,
           settingValue: String(value),
           updatedBy: session.user.id,
-          updatedAt: new Date(),
+          updated_at: new Date(),
         })
         .onConflictDoUpdate({
           target: [
@@ -87,7 +87,7 @@ export async function PUT(request: NextRequest) {
           set: {
             settingValue: String(value),
             updatedBy: session.user.id,
-            updatedAt: new Date(),
+            updated_at: new Date(),
           },
         });
     }
