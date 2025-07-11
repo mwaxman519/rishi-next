@@ -262,6 +262,9 @@ This configuration successfully passed Azure build validation and deployment pha
 - **RBAC DEFAULTS API ROUTE UPDATED**: Fixed property access errors by using correct snake_case field names (setting_key, setting_value, organization_id) in both GET and PUT methods
 - **DRIZZLE ORM NULL HANDLING PATTERN FIXED**: Fixed critical "breaking overload error" by replacing eq(field, null) with isNull(field) - this was the 3rd consecutive deployment blocker of this type
 - **SYSTEMATIC NULL PATTERN RESOLUTION**: Conducted comprehensive search across entire codebase - only one instance found and fixed in rbac-defaults route with proper isNull() import
+- **NULL INDEX TYPE ERROR FIXED**: Fixed "Type 'null' cannot be used as an index type" error in 2 API routes by adding null safety checks for nullable field indexing
+- **ORGANIZATION SETTINGS FIELD ALIGNMENT**: Fixed organizations feature-settings route to use correct snake_case field names (organization_id, setting_key, setting_value) matching database schema
+- **COMPREHENSIVE NULL SAFETY PATTERN**: Applied consistent null safety pattern `if (setting.settingKey && setting.settingValue !== null)` to prevent nullable field indexing errors
 
 ### January 11, 2025 - DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL READY (FINAL)
 - **REMAINING EVENT REFERENCES ELIMINATED**: Fixed final event schema import errors in bookings API routes that were causing Vercel build failures

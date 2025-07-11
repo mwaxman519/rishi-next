@@ -19,13 +19,13 @@ export async function GET(
     // Get organization feature settings
     const settings = await db
       .select({
-        settingKey: organizationSettings.settingKey,
-        settingValue: organizationSettings.settingValue,
+        settingKey: organizationSettings.setting_key,
+        settingValue: organizationSettings.setting_value,
       })
       .from(organizationSettings)
       .where(
         and(
-          eq(organizationSettings.organizationId, organizationId),
+          eq(organizationSettings.organization_id, organizationId),
           eq(organizationSettings.category, "rbac_features"),
         ),
       );
@@ -33,7 +33,9 @@ export async function GET(
     // Convert to object format
     const settingsObject: Record<string, boolean> = {};
     settings.forEach((setting) => {
-      settingsObject[setting.settingKey] = setting.settingValue === "true";
+      if (setting.settingKey && setting.settingValue !== null) {
+        settingsObject[setting.settingKey] = setting.settingValue === "true";
+      }
     });
 
     // Set defaults for missing settings
@@ -75,23 +77,21 @@ export async function PUT(
       await db
         .insert(organizationSettings)
         .values({
-          organizationId,
+          organization_id: organizationId,
           category: "rbac_features",
-          settingKey: key,
-          settingValue: String(value),
-          updatedBy: session.user.id,
-          updatedAt: new Date(),
+          setting_key: key,
+          setting_value: String(value),
+          updated_by: session.user.id,
         })
         .onConflictDoUpdate({
           target: [
-            organizationSettings.organizationId,
+            organizationSettings.organization_id,
             organizationSettings.category,
-            organizationSettings.settingKey,
+            organizationSettings.setting_key,
           ],
           set: {
-            settingValue: String(value),
-            updatedBy: session.user.id,
-            updatedAt: new Date(),
+            setting_value: String(value),
+            updated_by: session.user.id,
           },
         });
     }

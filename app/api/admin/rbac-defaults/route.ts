@@ -37,7 +37,9 @@ export async function GET() {
     // Convert to object format
     const currentDefaults: Record<string, boolean> = {};
     systemSettings.forEach((setting) => {
-      currentDefaults[setting.settingKey] = setting.settingValue === "true";
+      if (setting.settingKey && setting.settingValue !== null) {
+        currentDefaults[setting.settingKey] = setting.settingValue === "true";
+      }
     });
 
     // Merge with hardcoded defaults for any missing settings
