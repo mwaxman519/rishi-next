@@ -74,22 +74,24 @@ export async function getUserByUsername(
  * Get a user by email
  */
 export async function getUserByEmail(email: string) {
-  try {
-    if (!email) return null;
+  const result = await dbManager.executeQuery(
+    async () => {
+      const db = dbManager.getDatabase();
+      const [user] = await db
+        .select()
+        .from(schema.users)
+        .where(eq(schema.users.email, email));
 
-    // Get user by email using standard database connection
-    const [user] = await db
-      .select()
-      .from(schema.users)
-      .where(eq(schema.users.email, email));
+      return user;
+    },
+    `getUserByEmail(${email})`
+  );
 
-    return user;
-  } catch (error) {
-    console.error("Error getting user by email:", error);
-    // Return null instead of throwing error to prevent registration from failing
-    // if we're just checking if an email exists
-    return null;
+  if (result === null) {
+    console.error("[Auth Service] Database connection failed during user lookup by email");
   }
+
+  return result;
 }
 
 /**
