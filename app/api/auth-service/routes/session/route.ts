@@ -61,6 +61,9 @@ export async function GET(request: NextRequest) {
       const payload = await verifyToken(accessToken);
 
       // Get the complete user data
+      if (!payload.sub) {
+        return errorResponse("Invalid token: missing user ID", 401);
+      }
       const user = await getUserById(payload.sub);
 
       if (!user) {
