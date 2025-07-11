@@ -40,7 +40,7 @@ export async function GET(
         ? {
             id: record.location.id,
             name: record.location.name,
-            address: record.location.address,
+            address: record.location.address1,
           }
         : undefined,
       fieldManager: record.fieldManager

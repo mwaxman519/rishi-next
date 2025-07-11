@@ -73,13 +73,13 @@ export async function GET(request: NextRequest) {
         ? {
             id: item.location.id,
             name: item.location.name,
-            address: item.location.address,
+            address: item.location.address1,
             city: item.location.city,
-            state: item.location.state,
-            zipCode: item.location.zipCode,
+            state: item.location.state_id,
+            zipCode: item.location.zipcode,
             coordinates: {
-              lat: item.location.latitude,
-              lng: item.location.longitude,
+              lat: item.location.geo_lat,
+              lng: item.location.geo_lng,
             },
           }
         : null,
@@ -163,13 +163,13 @@ export async function POST(request: NextRequest) {
         ? {
             id: activity.location.id,
             name: activity.location.name,
-            address: activity.location.address,
+            address: activity.location.address1,
             city: activity.location.city,
-            state: activity.location.state,
-            zipCode: activity.location.zipCode,
+            state: activity.location.state_id,
+            zipCode: activity.location.zipcode,
             coordinates: {
-              lat: activity.location.latitude,
-              lng: activity.location.longitude,
+              lat: activity.location.geo_lat,
+              lng: activity.location.geo_lng,
             },
           }
         : null,

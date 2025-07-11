@@ -75,13 +75,13 @@ export async function GET(
         ? {
             id: activityData.location.id,
             name: activityData.location.name,
-            address: activityData.location.address,
+            address: activityData.location.address1,
             city: activityData.location.city,
-            state: activityData.location.state,
-            zipCode: activityData.location.zipCode,
+            state: activityData.location.state_id,
+            zipCode: activityData.location.zipcode,
             coordinates: {
-              lat: activityData.location.latitude,
-              lng: activityData.location.longitude,
+              lat: activityData.location.geo_lat,
+              lng: activityData.location.geo_lng,
             },
           }
         : null,
@@ -192,13 +192,13 @@ export async function PUT(
         ? {
             id: activityData.location.id,
             name: activityData.location.name,
-            address: activityData.location.address,
+            address: activityData.location.address1,
             city: activityData.location.city,
-            state: activityData.location.state,
-            zipCode: activityData.location.zipCode,
+            state: activityData.location.state_id,
+            zipCode: activityData.location.zipcode,
             coordinates: {
-              lat: activityData.location.latitude,
-              lng: activityData.location.longitude,
+              lat: activityData.location.geo_lat,
+              lng: activityData.location.geo_lng,
             },
           }
         : null,

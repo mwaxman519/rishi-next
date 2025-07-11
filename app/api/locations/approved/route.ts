@@ -38,7 +38,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         address1: locations.address1,
         address2: locations.address2,
         city: locations.city,
-        stateId: locations.stateId,
+        stateId: locations.state_id,
         zipcode: locations.zipcode,
         phone: locations.phone,
         email: locations.email,
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     // Add filters if provided
     if (stateId) {
-      whereConditions.push(eq(locations.stateId, stateId));
+      whereConditions.push(eq(locations.state_id, stateId));
     }
 
     if (searchTerm) {

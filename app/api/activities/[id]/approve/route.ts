@@ -111,11 +111,11 @@ export async function POST(
             name: activityData.location.name,
             address: activityData.location.address1,
             city: activityData.location.city,
-            state: activityData.location.stateId,
+            state: activityData.location.state_id,
             zipCode: activityData.location.zipcode,
             coordinates: {
-              lat: activityData.location.latitude,
-              lng: activityData.location.longitude,
+              lat: activityData.location.geo_lat,
+              lng: activityData.location.geo_lng,
             },
           }
         : null,

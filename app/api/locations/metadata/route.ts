@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
       locations.forEach((location) => {
         if (location.state) states.add(location.state);
         if (location.city) cities.add(location.city);
-        if (location.zipCode) zipCodes.add(location.zipCode);
+        if (location.zipcode) zipCodes.add(location.zipcode);
         if (location.locationType) locationTypes.add(location.locationType);
         if (location.status) statuses.add(location.status);
       });

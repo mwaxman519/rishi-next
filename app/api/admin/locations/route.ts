@@ -44,12 +44,12 @@ export async function POST(req: Request) {
       type: data.locationType || "retail",
       address1: data.address,
       city: data.city || "",
-      zipcode: data.zipCode || "",
+      zipcode: data.zipcode || "",
       status: "approved", // Using the simplified status system: approved, pending, rejected, inactive
       requestedBy: "261143cd-fa2b-4660-8b54-364c87b63882", // Use a valid user ID (mike)
       reviewDate: now,
-      geoLat: data.latitude ? data.latitude.toString() : null,
-      geoLng: data.longitude ? data.longitude.toString() : null,
+      geoLat: data.geo_lat ? data.geo_lat.toString() : null,
+      geoLng: data.geo_lng ? data.geo_lng.toString() : null,
       // active field removed - using status field only
       createdAt: now,
       updatedAt: now,
@@ -142,7 +142,7 @@ export async function GET(req: Request) {
       address:
         location.address1 + (location.address2 ? ", " + location.address2 : ""),
       city: location.city,
-      state: location.stateId, // We need to properly join with states table for the state name
+      state: location.state_id, // We need to properly join with states table for the state name
       zipCode: location.zipcode,
       latitude: location.geoLat ? parseFloat(location.geoLat.toString()) : null,
       longitude: location.geoLng
@@ -161,7 +161,7 @@ export async function GET(req: Request) {
       "Returning transformed location data for map component:",
       locations_data.length,
       "locations with coordinates:",
-      locations_data.filter((loc) => loc.latitude && loc.longitude).length,
+      locations_data.filter((loc) => loc.geo_lat && loc.geo_lng).length,
     );
 
     return NextResponse.json(locations_data);

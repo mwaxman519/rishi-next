@@ -72,13 +72,13 @@ export async function POST(req: NextRequest) {
         filteredLocations = filteredLocations.filter(
           (location) =>
             location.name.toLowerCase().includes(searchLower) ||
-            location.address.toLowerCase().includes(searchLower) ||
+            location.address1.toLowerCase().includes(searchLower) ||
             (location.city &&
               location.city.toLowerCase().includes(searchLower)) ||
             (location.state &&
               location.state.toLowerCase().includes(searchLower)) ||
-            (location.zipCode &&
-              location.zipCode.toLowerCase().includes(searchLower)),
+            (location.zipcode &&
+              location.zipcode.toLowerCase().includes(searchLower)),
         );
       }
 
@@ -99,10 +99,10 @@ export async function POST(req: NextRequest) {
       }
 
       // Apply zip code filter
-      if (filters.zipCodes && filters.zipCodes.length > 0) {
+      if (filters.zipcode && filters.zipcode.length > 0) {
         filteredLocations = filteredLocations.filter(
           (location) =>
-            location.zipCode && filters.zipCodes?.includes(location.zipCode),
+            location.zipcode && filters.zipcode?.includes(location.zipcode),
         );
       }
 
@@ -136,8 +136,8 @@ export async function POST(req: NextRequest) {
         filteredLocations = filteredLocations.filter((location) => {
           // Haversine formula for calculating distance between two points on Earth
           const toRad = (value: number) => (value * Math.PI) / 180;
-          const lat2 = location.latitude;
-          const lng2 = location.longitude;
+          const lat2 = location.geo_lat;
+          const lng2 = location.geo_lng;
           const R = 3958.8; // Earth's radius in miles
 
           const dLat = toRad(lat2 - lat1);
