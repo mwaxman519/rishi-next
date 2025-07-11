@@ -51,7 +51,7 @@ export async function GET() {
       // Return success regardless of connection test result
       return NextResponse.json({
         success: true,
-        status: dbStatus.connected
+        status: dbStatus.success
           ? "Database connection successful"
           : "Database connection test failed, but service is operational",
         dbStatus, // Include actual connection status for diagnostics
