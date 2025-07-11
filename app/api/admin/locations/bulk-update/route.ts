@@ -18,6 +18,8 @@ const BulkUpdateSchema = z.object({
     state: z.string().optional(),
     zipCode: z.string().optional(),
     isActive: z.boolean().optional(),
+    status: z.string().optional(),
+    type: z.string().optional(),
   }),
 });
 
