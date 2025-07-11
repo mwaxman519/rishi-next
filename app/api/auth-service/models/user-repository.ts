@@ -408,11 +408,18 @@ export async function setupUserOrganization(
       );
 
       // Find the Rishi Internal organization
-      const [rishiInternalOrg] = await db
-        .select()
-        .from(schema.organizations)
-        .where(eq(schema.organizations.type, "internal"))
-        .limit(1);
+      const rishiInternalOrg = await dbManager.executeQuery(
+        async () => {
+          const db = dbManager.getDatabase();
+          const [org] = await db
+            .select()
+            .from(schema.organizations)
+            .where(eq(schema.organizations.type, "internal"))
+            .limit(1);
+          return org;
+        },
+        `findRishiInternalOrg()`
+      );
 
       if (rishiInternalOrg) {
         // Assign the user to Rishi Internal as primary organization
