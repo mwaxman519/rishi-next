@@ -161,6 +161,8 @@ export const activityTypes = pgTable("activity_types", {
   category: text("category"),
   icon: text("icon"),
   color: text("color"),
+  organizationId: uuid("organization_id").references(() => organizations.id),
+  isSystemDefined: boolean("is_system_defined").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
