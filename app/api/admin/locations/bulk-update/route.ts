@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   const userHasPermission = hasPermission(
     session.user,
     "locations",
-    "update"
+    "write"
   );
 
   if (!userHasPermission) {
