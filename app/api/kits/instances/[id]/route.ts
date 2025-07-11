@@ -62,7 +62,7 @@ export async function PATCH(
     const data = await req.json();
 
     // Update kit
-    const kit = await kitsService.updateKit(id, data, session.user.id);
+    const kit = await kitsService.updateKit(id, data, (session.user as any).id);
 
     return NextResponse.json(kit);
   } catch (error) {

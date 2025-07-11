@@ -73,7 +73,7 @@ export async function POST(
       .update(bookings)
       .set({
         status: "rejected",
-        rejectedById: session.user.id,
+        rejectedById: (session.user as any).id,
         rejectedAt: new Date(),
         rejectionReason: validatedData.reason,
         updatedAt: new Date(),
@@ -85,7 +85,7 @@ export async function POST(
     await eventBus.publish("BOOKING_REJECTED", {
       bookingId: updatedBooking.id,
       clientId: updatedBooking.clientOrganizationId,
-      rejectedBy: session.user.id,
+      rejectedBy: (session.user as any).id,
       rejectedAt: new Date().toISOString(),
       reason: validatedData.reason,
       allowResubmission: true,

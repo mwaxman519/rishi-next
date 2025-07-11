@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     const result = await expenseService.processApproval(
       validatedApproval,
-      session.user.id,
+      (session.user as any).id,
       session.user.role || "brand_agent",
       (session.user as any).organizationId || "",
     );

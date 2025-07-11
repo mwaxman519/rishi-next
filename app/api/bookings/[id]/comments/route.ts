@@ -129,7 +129,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
     // Validate the comment data
     const commentData = insertBookingCommentSchema.parse({
       bookingId: id,
-      userId: session.user.id,
+      userId: (session.user as any).id,
       comment: data.comment,
       isInternal: isAdmin ? data.isInternal || false : false,
     });

@@ -45,7 +45,7 @@ export async function POST(
       .update(bookings)
       .set({
         status: "approved",
-        approvedById: session.user.id,
+        approvedById: (session.user as any).id,
         approvedAt: new Date(),
         updatedAt: new Date(),
       })

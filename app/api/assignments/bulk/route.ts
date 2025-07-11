@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       eventId: assignment.eventId,
       status: assignment.status || "assigned",
       assignedAt: new Date(assignment.assignedAt || Date.now()),
-      assignedBy: assignment.assignedBy || session.user.id,
+      assignedBy: assignment.assignedBy || (session.user as any).id,
       createdAt: new Date(),
       updatedAt: new Date(),
     }));

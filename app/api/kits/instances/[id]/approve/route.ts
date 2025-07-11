@@ -30,7 +30,7 @@ export async function POST(
     const { notes } = await req.json();
 
     // Approve kit
-    const kit = await kitsService.approveKit({ id, notes }, session.user.id);
+    const kit = await kitsService.approveKit({ id, notes }, (session.user as any).id);
 
     return NextResponse.json(kit);
   } catch (error) {

@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       .insert(tasks)
       .values({
         assigneeId,
-        assignerId: session.user.id,
+        assignerId: (session.user as any).id,
         title,
         description: description || "",
         dueDate: dueDate ? new Date(dueDate) : null,

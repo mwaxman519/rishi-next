@@ -38,7 +38,7 @@ export async function POST(
     }
 
     // Reject kit
-    const kit = await kitsService.rejectKit({ id, reason }, session.user.id);
+    const kit = await kitsService.rejectKit({ id, reason }, (session.user as any).id);
 
     return NextResponse.json(kit);
   } catch (error) {

@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
     // Get expenses using the service
     const result = await expenseService.getExpenses(
       validatedFilters,
-      session.user.id,
+      (session.user as any).id,
       session.user.role || "brand_agent",
       (session.user as any).organizationId || "",
     );
@@ -85,14 +85,14 @@ export async function POST(request: NextRequest) {
       // Save as draft
       result = await expenseService.saveDraft(
         validatedData,
-        session.user.id,
+        (session.user as any).id,
         (session.user as any).organizationId || "",
       );
     } else {
       // Submit expense
       result = await expenseService.submitExpense(
         validatedData,
-        session.user.id,
+        (session.user as any).id,
         (session.user as any).organizationId || "",
       );
     }
@@ -136,7 +136,7 @@ export async function PUT(request: NextRequest) {
     const result = await expenseService.updateExpense(
       id,
       validatedUpdates,
-      session.user.id,
+      (session.user as any).id,
       session.user.role || "brand_agent",
       (session.user as any).organizationId || "",
     );
@@ -179,7 +179,7 @@ export async function DELETE(request: NextRequest) {
 
     const result = await expenseService.deleteExpense(
       expenseId,
-      session.user.id,
+      (session.user as any).id,
       session.user.role || "brand_agent",
       (session.user as any).organizationId || "",
     );

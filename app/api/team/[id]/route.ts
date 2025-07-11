@@ -106,7 +106,7 @@ export async function PUT(
         payload: {
           memberId: params.id,
           updatedData: body,
-          updatedBy: session.user.id,
+          updatedBy: (session.user as any).id,
           organizationId: (session.user as any).organizationId,
         },
         timestamp: new Date().toISOString(),

@@ -62,7 +62,7 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
   try {
     const session = await getServerSession();
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -77,7 +77,7 @@ export async function PUT(request: NextRequest) {
           category: "rbac_features",
           setting_key: key,
           setting_value: String(value),
-          updated_by: session.user.id,
+          updated_by: (session.user as any).id,
         })
         .onConflictDoUpdate({
           target: [
@@ -87,7 +87,7 @@ export async function PUT(request: NextRequest) {
           ],
           set: {
             setting_value: String(value),
-            updated_by: session.user.id,
+            updated_by: (session.user as any).id,
           },
         });
     }

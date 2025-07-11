@@ -153,7 +153,7 @@ export async function PATCH(
     const canEdit =
       isAdmin ||
       (existingBooking.status === BOOKING_STATUS.DRAFT &&
-        existingBooking.createdById === session.user.id);
+        existingBooking.createdById === (session.user as any).id);
 
     if (!canEdit) {
       return NextResponse.json(
@@ -234,7 +234,7 @@ export async function DELETE(
     const canDelete = isAdmin
       ? existingBooking.status !== BOOKING_STATUS.COMPLETED
       : existingBooking.status === BOOKING_STATUS.DRAFT &&
-        existingBooking.createdById === session.user.id;
+        existingBooking.createdById === (session.user as any).id;
 
     if (!canDelete) {
       return NextResponse.json(

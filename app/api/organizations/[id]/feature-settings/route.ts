@@ -81,7 +81,7 @@ export async function PUT(
           category: "rbac_features",
           setting_key: key,
           setting_value: String(value),
-          updated_by: session.user.id,
+          updated_by: (session.user as any).id,
         })
         .onConflictDoUpdate({
           target: [
@@ -91,7 +91,7 @@ export async function PUT(
           ],
           set: {
             setting_value: String(value),
-            updated_by: session.user.id,
+            updated_by: (session.user as any).id,
           },
         });
     }
