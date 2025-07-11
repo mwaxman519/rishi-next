@@ -169,7 +169,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
     // Update the location status
     const now = new Date();
     const newStatus = body.status === "approved" ? "active" : "rejected";
-    const reviewerName = user.fullName || user.username || "Administrator";
+    const reviewerName = user.name || user.username || "Administrator";
 
     const [updatedLocation] = await db
       .update(schema.locations)
