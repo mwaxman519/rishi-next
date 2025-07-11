@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       .update(locations)
       .set({
         ...updates,
-        updated_at: new Date(),
+        updatedAt: new Date(),
       })
       .where(inArray(locations.id, locationIds));
 

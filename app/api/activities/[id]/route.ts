@@ -157,7 +157,7 @@ export async function PUT(
       .update(activities)
       .set({
         ...body,
-        updated_at: new Date(),
+        updatedAt: new Date(),
       })
       .where(eq(activities.id, id))
       .returning();

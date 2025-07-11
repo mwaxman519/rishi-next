@@ -69,7 +69,7 @@ export async function POST(request: Request, { params }: Params) {
         notes: reason
           ? `${activity.notes || ""}\n\nRejection reason: ${reason}`.trim()
           : activity.notes,
-        updated_at: new Date(),
+        updatedAt: new Date(),
       })
       .where(eq(activities.id, id))
       .returning();

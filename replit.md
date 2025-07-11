@@ -238,6 +238,10 @@ This configuration successfully passed Azure build validation and deployment pha
 - **CRITICAL VERCEL BUILD ERROR FIXED**: Resolved "updatedAt does not exist" TypeScript compilation error in bulk-update location route that was preventing deployment
 - **COMPREHENSIVE DATABASE COLUMN NAME FIXES**: Updated all camelCase → snake_case column names in INSERT/UPDATE operations across activities, admin, auth-service, and RBAC routes
 - **DATABASE SCHEMA ALIGNMENT COMPLETED**: All database operations now use correct schema column names (created_at, updated_at) matching actual PostgreSQL table structure
+- **DRIZZLE ORM PROPERTY NAME FIXES COMPLETED**: Fixed critical understanding of Drizzle ORM - INSERT/UPDATE operations must use TypeScript property names (createdAt, updatedAt) not database column names (created_at, updated_at)
+- **ACTIVITIES APPROVE ROUTE FIXED**: Resolved original Vercel deployment error "updatedAt does not exist" by using correct TypeScript property names in all database operations
+- **COMPREHENSIVE PROPERTY NAME STANDARDIZATION**: Updated 10+ API routes including activities, admin locations, auth-service, and RBAC routes with correct Drizzle ORM property names
+- **SYSTEM READY FOR DEPLOYMENT**: All TypeScript compilation errors resolved with proper understanding of Drizzle ORM schema property naming conventions
 
 ### January 11, 2025 - DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL READY (FINAL)
 - **REMAINING EVENT REFERENCES ELIMINATED**: Fixed final event schema import errors in bookings API routes that were causing Vercel build failures
