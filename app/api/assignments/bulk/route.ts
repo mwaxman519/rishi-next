@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
 import { brandAgentAssignments } from "@shared/schema";
 import { getServerSession } from "next-auth";
-// Mock auth for development
-const authOptions = {};
+import { authOptions } from "@/lib/auth-options";
+import { randomUUID } from "crypto";
 
 // POST /api/assignments/bulk - Create bulk assignments
 export async function POST(request: NextRequest) {
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     // Create assignments in database
     const assignmentRecords = assignments.map((assignment: any) => ({
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       brandAgentId: assignment.memberId,
       bookingId: assignment.bookingId,
       activityId: assignment.activityId,
