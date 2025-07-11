@@ -24,7 +24,7 @@ export async function GET(
     }
 
     const { brandId } = await params;
-    const organizationId = user.organizationId;
+    const organizationId = (user as any).organizationId;
 
     // Check if the brand belongs to the user's organization
     const brandExists = await db
@@ -93,7 +93,7 @@ export async function POST(
     }
 
     const { brandId } = await params;
-    const organizationId = user.organizationId;
+    const organizationId = (user as any).organizationId;
 
     // Check if the brand belongs to the user's organization
     const brandExists = await db

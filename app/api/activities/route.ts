@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId =
-      searchParams.get("organizationId") || user.organizationId;
+      searchParams.get("organizationId") || (user as any).organizationId;
     const typeId = searchParams.get("typeId");
     const status = searchParams.get("status");
     const startDate = searchParams.get("startDate");
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     const validatedData = insertActivitySchema.parse({
       ...body,
       createdById: user.id,
-      organizationId: user.organizationId,
+      organizationId: (user as any).organizationId,
     });
 
     // Create a new UUID for the activity

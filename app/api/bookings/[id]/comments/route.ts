@@ -49,7 +49,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       "internal_field_manager",
     ].includes(session.user.role);
     const isInClientOrg =
-      booking.clientOrganizationId === session.user.organizationId;
+      booking.clientOrganizationId === (session.user as any).organizationId;
 
     if (!isAdmin && !isInClientOrg) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -110,7 +110,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
       "internal_field_manager",
     ].includes(session.user.role);
     const isInClientOrg =
-      booking.clientOrganizationId === session.user.organizationId;
+      booking.clientOrganizationId === (session.user as any).organizationId;
 
     if (!isAdmin && !isInClientOrg) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });

@@ -61,9 +61,9 @@ export async function GET(
     ].includes(session.user.role);
 
     // Only allow users to see bookings from their organization if they're not an admin
-    if (!isAdmin && session.user.organizationId) {
+    if (!isAdmin && (session.user as any).organizationId) {
       conditions.push(
-        eq(bookings.clientOrganizationId, session.user.organizationId),
+        eq(bookings.clientOrganizationId, (session.user as any).organizationId),
       );
     }
 
@@ -127,9 +127,9 @@ export async function PATCH(
     ].includes(session.user.role);
 
     // Only allow users to update bookings from their organization if they're not an admin
-    if (!isAdmin && session.user.organizationId) {
+    if (!isAdmin && (session.user as any).organizationId) {
       conditions.push(
-        eq(bookings.clientOrganizationId, session.user.organizationId),
+        eq(bookings.clientOrganizationId, (session.user as any).organizationId),
       );
     }
 
@@ -208,9 +208,9 @@ export async function DELETE(
       "internal_field_manager",
     ].includes(session.user.role);
 
-    if (!isAdmin && session.user.organizationId) {
+    if (!isAdmin && (session.user as any).organizationId) {
       conditions.push(
-        eq(bookings.clientOrganizationId, session.user.organizationId),
+        eq(bookings.clientOrganizationId, (session.user as any).organizationId),
       );
     }
 

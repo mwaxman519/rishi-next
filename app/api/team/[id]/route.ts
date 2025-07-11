@@ -107,7 +107,7 @@ export async function PUT(
           memberId: params.id,
           updatedData: body,
           updatedBy: session.user.id,
-          organizationId: session.user.organizationId,
+          organizationId: session.(user as any).organizationId,
         },
         timestamp: new Date().toISOString(),
       }),

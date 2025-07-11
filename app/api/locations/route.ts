@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
     const locationService = LocationService.getInstance();
     const activeLocations = await locationService.getAllLocations(
       user.id,
-      user.organizationId,
+      (user as any).organizationId,
       correlationId
     );
 

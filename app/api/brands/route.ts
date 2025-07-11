@@ -22,7 +22,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const organizationId = user.organizationId;
+    const organizationId = (user as any).organizationId;
 
     // Get all active brands belonging to the user's organization
     const brandsList = await db

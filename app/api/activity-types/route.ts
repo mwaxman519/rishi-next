@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId =
-      searchParams.get("organizationId") || user.organizationId;
+      searchParams.get("organizationId") || (user as any).organizationId;
 
     // Fetch both system-defined activity types and organization-specific types
     const types = await db

@@ -329,7 +329,7 @@ export async function GET(request: NextRequest) {
     const bookingService = BookingService.getInstance();
     const allBookings = await bookingService.getAllBookings(
       user.id,
-      user.organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+      (user as any).organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86",
       correlationId
     );
 

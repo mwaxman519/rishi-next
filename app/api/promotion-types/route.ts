@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
 
     // Future implementation would look like:
     // const orgTypes = await db.select().from(promotionTypes)
-    //  .where(eq(promotionTypes.organizationId, user.organizationId))
+    //  .where(eq(promotionTypes.organizationId, (user as any).organizationId))
     //  .orderBy(promotionTypes.name);
 
     // const allTypes = [...SYSTEM_PROMOTION_TYPES, ...orgTypes];
