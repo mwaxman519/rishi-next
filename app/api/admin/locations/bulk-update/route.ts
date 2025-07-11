@@ -20,6 +20,7 @@ const BulkUpdateSchema = z.object({
     isActive: z.boolean().optional(),
     status: z.string().optional(),
     type: z.string().optional(),
+    notes: z.string().optional(),
   }),
 });
 
