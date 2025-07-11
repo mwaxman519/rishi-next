@@ -47,7 +47,7 @@ export async function GET(
 
     // Get the roles to determine default permissions
     const allRoles = getAllRoles();
-    const roleDefinition = allRoles.find((r) => r.id === userRecord.role);
+    const roleDefinition = allRoles.find((r: any) => r.id === userRecord.role);
 
     if (!roleDefinition) {
       return NextResponse.json(

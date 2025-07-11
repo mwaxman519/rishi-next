@@ -43,10 +43,10 @@ export async function GET(req: NextRequest) {
       }));
 
       // Find the default organization or use Rishi Internal
-      let defaultOrg = userOrganizations.find((org) => org.isDefault);
+      let defaultOrg = userOrganizations.find((org: any) => org.isDefault);
       if (!defaultOrg) {
         defaultOrg = userOrganizations.find(
-          (org) => org.name === "Rishi Internal",
+          (org: any) => org.name === "Rishi Internal",
         );
       }
       if (!defaultOrg && userOrganizations.length > 0) {

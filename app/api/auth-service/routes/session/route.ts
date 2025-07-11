@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
       const userOrgs = await getUserOrganizations(user.id);
 
       // Find default organization
-      const defaultOrg = userOrgs.find((org) => org.isDefault) || userOrgs[0];
+      const defaultOrg = userOrgs.find((org: any) => org.isDefault) || userOrgs[0];
 
       // Return session information
       return successResponse({

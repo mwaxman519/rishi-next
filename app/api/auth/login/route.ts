@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
     console.log("User organizations:", userOrgs);
 
     // Set default organization
-    let defaultOrg = userOrgs.find((org) => org.isPrimary) || userOrgs[0];
+    let defaultOrg = userOrgs.find((org: any) => org.isPrimary) || userOrgs[0];
 
     // Create JWT token
     const token = await new SignJWT({

@@ -440,7 +440,7 @@ export async function POST(request: NextRequest) {
     const userOrgs = await getUserOrganizations(userId);
 
     // Find primary organization or use the first one
-    const defaultOrg = userOrgs.find((org) => org.isPrimary) || userOrgs[0];
+    const defaultOrg = userOrgs.find((org: any) => org.isPrimary) || userOrgs[0];
 
     // Create token
     const token = await createToken(newUser.id);
