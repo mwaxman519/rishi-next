@@ -252,6 +252,8 @@ This configuration successfully passed Azure build validation and deployment pha
 - **COMPREHENSIVE FIELD VALIDATION**: Added notes field to BulkUpdateSchema - all referenced fields now properly validated
 - **TIMESTAMP FIELD CONSISTENCY FIXES**: Fixed locations table timestamp references from createdAt/updatedAt to created_at/updated_at across multiple API routes
 - **SCHEMA TIMESTAMP ALIGNMENT**: All timestamp field access now properly aligned with database schema naming conventions
+- **COORDINATE FIELD CONSISTENCY FIXES**: Fixed geographic coordinate field references from geoLat/geoLng to geo_lat/geo_lng across admin locations and approved locations API routes
+- **COMPLETE SCHEMA ALIGNMENT**: All database property access now matches actual database column names (snake_case for locations table coordinates and timestamps)
 
 ### January 11, 2025 - DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL READY (FINAL)
 - **REMAINING EVENT REFERENCES ELIMINATED**: Fixed final event schema import errors in bookings API routes that were causing Vercel build failures

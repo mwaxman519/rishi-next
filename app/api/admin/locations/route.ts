@@ -144,9 +144,9 @@ export async function GET(req: Request) {
       city: location.city,
       state: location.state_id, // We need to properly join with states table for the state name
       zipCode: location.zipcode,
-      latitude: location.geoLat ? parseFloat(location.geoLat.toString()) : null,
-      longitude: location.geoLng
-        ? parseFloat(location.geoLng.toString())
+      latitude: location.geo_lat ? parseFloat(location.geo_lat.toString()) : null,
+      longitude: location.geo_lng
+        ? parseFloat(location.geo_lng.toString())
         : null,
       type: location.type,
       status: location.status,
@@ -161,7 +161,7 @@ export async function GET(req: Request) {
       "Returning transformed location data for map component:",
       locations_data.length,
       "locations with coordinates:",
-      locations_data.filter((loc) => loc.geo_lat && loc.geo_lng).length,
+      locations_data.filter((loc) => loc.latitude && loc.longitude).length,
     );
 
     return NextResponse.json(locations_data);
