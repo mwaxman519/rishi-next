@@ -57,8 +57,8 @@ export async function GET(
           type: locations.type,
           status: locations.status,
           submittedById: locations.submittedById,
-          createdAt: locations.createdAt,
-          updatedAt: locations.updatedAt,
+          createdAt: locations.created_at,
+          updatedAt: locations.updated_at,
         },
       })
       .from(brandLocations)

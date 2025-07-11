@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
         .select()
         .from(locations)
         .where(eq(locations.status, "pending"))
-        .orderBy(desc(locations.createdAt));
+        .orderBy(desc(locations.created_at));
 
       return NextResponse.json(pendingLocations);
     } catch (dbError) {

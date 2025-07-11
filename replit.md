@@ -250,6 +250,8 @@ This configuration successfully passed Azure build validation and deployment pha
 - **SCHEMA VALIDATION CONSISTENCY**: Added missing status and type fields to BulkUpdateSchema in bulk-update route to match code usage patterns
 - **TYPE SAFETY ENFORCEMENT**: All request validation schemas now properly define all fields referenced in API route logic
 - **COMPREHENSIVE FIELD VALIDATION**: Added notes field to BulkUpdateSchema - all referenced fields now properly validated
+- **TIMESTAMP FIELD CONSISTENCY FIXES**: Fixed locations table timestamp references from createdAt/updatedAt to created_at/updated_at across multiple API routes
+- **SCHEMA TIMESTAMP ALIGNMENT**: All timestamp field access now properly aligned with database schema naming conventions
 
 ### January 11, 2025 - DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL READY (FINAL)
 - **REMAINING EVENT REFERENCES ELIMINATED**: Fixed final event schema import errors in bookings API routes that were causing Vercel build failures

@@ -51,8 +51,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         status: locations.status,
         geoLat: locations.geoLat,
         geoLng: locations.geoLng,
-        createdAt: locations.createdAt,
-        updatedAt: locations.updatedAt,
+        createdAt: locations.created_at,
+        updatedAt: locations.updated_at,
       })
       .from(locations);
 
