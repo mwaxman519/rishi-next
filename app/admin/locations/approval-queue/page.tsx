@@ -21,10 +21,10 @@ export default function LocationApprovalQueuePage() {
 
   // Check if user has admin permissions
   const { data: hasPermission, error: permissionError } = useQuery<boolean>({
-    queryKey: ["/api/permissions/check", "manage:locations"],
+    queryKey: ["/api/permissions/check", "update:locations"],
     queryFn: async () => {
       const res = await fetch(
-        "/api/permissions/check?permission=manage:locations",
+        "/api/permissions/check?permission=update:locations",
       );
       if (!res.ok) {
         throw new Error("Failed to check permissions");

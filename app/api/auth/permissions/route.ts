@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
         'manage:roles',
         'manage:permissions',
         'manage:bookings',
-        'manage:locations',
+        'update:locations',
         'manage:reports',
         'manage:system',
         'view:all',
@@ -103,7 +103,7 @@ function getRolePermissions(role: string): string[] {
       'manage:roles', 
       'manage:permissions',
       'manage:bookings',
-      'manage:locations',
+      'update:locations',
       'manage:reports',
       'manage:system',
       'view:all',
@@ -114,14 +114,14 @@ function getRolePermissions(role: string): string[] {
     'internal_admin': [
       'manage:users',
       'manage:bookings',
-      'manage:locations',
+      'update:locations',
       'view:reports',
       'edit:organization',
       'view:all'
     ],
     'internal_field_manager': [
       'manage:bookings',
-      'manage:locations',
+      'update:locations',
       'view:reports',
       'edit:assigned',
       'view:assigned'

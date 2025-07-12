@@ -31,8 +31,8 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Check if user has permission to manage locations
-    if (!(await checkPermission(req, "manage:locations"))) {
+    // Check if user has permission to update locations
+    if (!(await checkPermission(user, "update:locations"))) {
       return NextResponse.json(
         { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
