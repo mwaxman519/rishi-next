@@ -176,7 +176,7 @@ export async function POST(
       brandId,
       locationId,
       active: true, // Active by default when added
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
     };
 
     await db.insert(brandLocations).values(newBrandLocation);
