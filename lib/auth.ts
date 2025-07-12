@@ -163,29 +163,3 @@ export async function getJwtPayload(token?: string) {
 // Export other auth-related functions for development
 export const signIn = async () => ({ ok: true, error: null });
 export const signOut = async () => ({ ok: true, error: null });
-
-// Mock auth options for NextAuth compatibility
-export const authOptions = {
-  providers: [],
-  session: {
-    strategy: "jwt" as const,
-  },
-  callbacks: {
-    async jwt({ token, user }: any) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-        token.organizationId = user.organizationId;
-      }
-      return token;
-    },
-    async session({ session, token }: any) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-        session.user.organizationId = token.organizationId;
-      }
-      return session;
-    },
-  },
-};
