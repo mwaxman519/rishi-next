@@ -18,7 +18,7 @@ import {
 } from "../services/users/models";
 
 import { hasPermission } from "../lib/rbac";
-import { getAuthUser } from "../lib/auth-server";
+import { getCurrentUser } from "../lib/auth";
 
 // Server action for fetching all users with permission check
 export async function getAllUsers(): Promise<UsersResponse> {
