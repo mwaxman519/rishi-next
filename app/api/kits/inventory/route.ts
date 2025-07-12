@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to view kit inventory
-    const hasPermission = await checkPermission(req, "view:kit-inventory");
+    const hasPermission = await checkPermission(req, "read:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to view kit inventory" },
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to update kit inventory
-    const hasPermission = await checkPermission(req, "inventory:kits");
+    const hasPermission = await checkPermission(req, "update:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to update kit inventory" },

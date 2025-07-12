@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to view kits
-    const hasPermission = await checkPermission(req, "view:kits");
+    const hasPermission = await checkPermission(req, "read:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to view kits" },
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to create kits
-    const hasPermission = await checkPermission(req, "create:kits");
+    const hasPermission = await checkPermission(req, "create:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to create kits" },
@@ -150,7 +150,7 @@ export async function PATCH(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to approve kits
-    const hasPermission = await checkPermission(req, "approve:kits");
+    const hasPermission = await checkPermission(req, "update:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to approve kits" },

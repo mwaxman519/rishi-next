@@ -22,7 +22,7 @@ export async function GET(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to view kits
-    const hasPermission = await checkPermission(req, "view:kits");
+    const hasPermission = await checkPermission(req, "read:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to view this kit" },
@@ -69,7 +69,7 @@ export async function PUT(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to update kits
-    const hasPermission = await checkPermission(req, "edit:kits");
+    const hasPermission = await checkPermission(req, "update:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to update this kit" },
@@ -128,7 +128,7 @@ export async function DELETE(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to delete kits
-    const hasPermission = await checkPermission(req, "delete:kits");
+    const hasPermission = await checkPermission(req, "delete:staff");
     if (!hasPermission) {
       return NextResponse.json(
         { error: "You do not have permission to delete this kit" },

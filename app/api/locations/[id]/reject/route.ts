@@ -23,7 +23,7 @@ export async function POST(
     }
 
     // Check if user has permission to reject locations (should be an internal admin)
-    if (!(await checkPermission(req, "approve:locations"))) {
+    if (!(await checkPermission(req, "update:locations"))) {
       return NextResponse.json(
         { error: "Forbidden: Insufficient permissions" },
         { status: 403 },

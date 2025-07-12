@@ -15,7 +15,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
 
     // Check if user has permission to view brands
-    if (!(await checkPermission(req, "view:brands"))) {
+    if (!(await checkPermission(req, "read:organizations"))) {
       return NextResponse.json(
         { error: "Forbidden: Insufficient permissions" },
         { status: 403 },

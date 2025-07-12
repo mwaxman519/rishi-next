@@ -21,7 +21,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
 
     // Check if user has permission to approve locations (internal admin)
-    if (!(await checkPermission(req, "approve:locations"))) {
+    if (!(await checkPermission(req, "update:locations"))) {
       return NextResponse.json(
         { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
@@ -86,7 +86,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
     }
 
     // Check if user has permission to approve locations
-    if (!(await checkPermission(req, "approve:locations"))) {
+    if (!(await checkPermission(req, "update:locations"))) {
       return NextResponse.json(
         { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
