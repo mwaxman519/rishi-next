@@ -117,10 +117,7 @@ export const authOptions = {
   },
 };
 
-// Get user function - used by API routes
-export async function getUser() {
-  return await getCurrentUser();
-}
+
 
 // Get user organizations
 export async function getUserOrganizations(userId: string) {
