@@ -1,5 +1,5 @@
-import { comparePasswords, signJwt, verifyJwt } from "../../lib/auth-client";
-import { createTokenCookie, clearTokenCookie } from "../../lib/auth-server";
+import { comparePasswords } from "@/lib/auth-server";
+import { createTokenCookie, clearTokenCookie } from "@/lib/auth-server";
 import { USER_ROLES, UserRole } from "../../../shared/schema";
 import { eventBus } from "../../shared/events";
 import { userService } from "../users/userService";

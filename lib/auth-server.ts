@@ -57,6 +57,19 @@ export function generateToken(user: AuthUser): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 }
 
+// JWT functions for compatibility
+export const signJwt = generateToken;
+export const verifyJwt = verifyToken;
+
+// Add createTokenCookie and clearTokenCookie functions
+export function createTokenCookie(token: string) {
+  return `auth-token=${token}; HttpOnly; Secure; SameSite=Strict; Max-Age=${7 * 24 * 60 * 60}; Path=/`;
+}
+
+export function clearTokenCookie() {
+  return `auth-token=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/`;
+}
+
 /**
  * Verify and decode a JWT token
  */

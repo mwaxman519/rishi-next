@@ -236,6 +236,9 @@ This configuration successfully passed Azure build validation and deployment pha
 - **VERCEL DEPLOYMENT IMPORT FIXES**: Fixed critical @/app/lib/auth import path issues by standardizing all auth imports to use @/lib/auth-server module
 - **AUTH FUNCTION COMPATIBILITY**: Added getUser() and auth() functions to lib/auth-server.ts for complete API route compatibility
 - **DEPLOYMENT BLOCKER RESOLUTION**: Fixed "Can't resolve '@/app/lib/auth'" errors that were preventing Vercel build success
+- **ADMIN LAYOUT AUTH IMPORT FIX**: Fixed '@/lib/auth-client' import error in admin layout by using correct '@/lib/rbac/hasPermission' path
+- **AUTH SERVICE COMPATIBILITY**: Updated authService.ts to use standardized auth imports and added missing JWT functions (signJwt, verifyJwt, createTokenCookie, clearTokenCookie) to lib/auth-server.ts
+- **COMPREHENSIVE AUTH MODULE STANDARDIZATION**: All authentication functions now properly exported from single lib/auth-server.ts module for consistent import paths
 - **BRAND SCHEMA FIELD CORRECTIONS**: Fixed brands.clientId → brands.organizationId and brands.active → brands.isActive to match actual database schema
 - **DRIZZLE-ZOD SCHEMA OPTIMIZATION**: Simplified all insert schemas to use createInsertSchema() without complex omit statements, allowing Drizzle ORM to handle field exclusions automatically
 - **TYPESCRIPT COMPILATION SUCCESS**: Achieved zero TypeScript compilation errors - system now compiles cleanly for production deployment
