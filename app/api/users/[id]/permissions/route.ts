@@ -111,7 +111,7 @@ export async function PUT(
     }
 
     // Check if the current user has permission to edit permissions
-    if (!user.permissions.includes("edit:permissions")) {
+    if (!user.role || !['super_admin', 'internal_admin'].includes(user.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

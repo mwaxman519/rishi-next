@@ -26,8 +26,18 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify permissions
-    if (!session.user.permissions?.includes("approve:bookings")) {
+    // Verify permissions using proper authentication check
+    if (!session.user || !(session.user as any).role) {
+      return NextResponse.json(
+        { error: "Forbidden: Insufficient permissions" },
+        { status: 403 },
+      );
+    }
+    
+    const userRole = (session.user as any).role;
+    const allowedRoles = ['super_admin', 'internal_admin', 'internal_field_manager'];
+    
+    if (!allowedRoles.includes(userRole)) {
       return NextResponse.json(
         { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
