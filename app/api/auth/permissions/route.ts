@@ -146,5 +146,5 @@ function getRolePermissions(role: string): string[] {
     ]
   };
 
-  return permissions[role] || permissions['brand_agent'];
+  return permissions[role] || permissions['brand_agent'] || [];
 }
