@@ -53,9 +53,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       // Build query filters
       const baseFilters = [
-        eq(availabilityBlocks.agentId, userId),
-        sql`${availabilityBlocks.startDateTime} < ${new Date(endDate)}`,
-        sql`${availabilityBlocks.endDateTime} > ${new Date(startDate)}`,
+        eq(availabilityBlocks.user_id, userId),
+        sql`${availabilityBlocks.start_date} < ${new Date(endDate)}`,
+        sql`${availabilityBlocks.end_date} > ${new Date(startDate)}`,
       ];
 
       // Add exclude filter if needed
