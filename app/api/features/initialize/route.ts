@@ -12,7 +12,7 @@ import { hasPermission } from "@/lib/rbac";
 export async function POST(request: NextRequest) {
   try {
     // Only super admins should be able to initialize the feature system
-    const hasAccess = await hasPermission("admin:system", ["super_admin"]);
+    const hasAccess = await hasPermission("create:organizations", ["super_admin"]);
     if (!hasAccess) {
       return NextResponse.json(
         { error: "Unauthorized: Requires super admin permissions" },

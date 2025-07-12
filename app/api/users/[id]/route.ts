@@ -70,7 +70,7 @@ export async function PUT(
     const requestingUser = await getUserFromRequest(request);
     
     // Verify the user has permission to update users
-    if (!requestingUser || !hasPermission('edit:users', requestingUser.role)) {
+    if (!requestingUser || !hasPermission('update:users', requestingUser.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }
     */

@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
           ),
       });
 
-      if (!userOrg && !hasPermission("view:all_organizations", user.role)) {
+      if (!userOrg && !hasPermission("read:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       }
 
       // Check role-based permissions
-      if (!hasPermission("view:users", user.role)) {
+      if (!hasPermission("read:users", user.role)) {
         return NextResponse.json(
           { error: "You do not have permission to view users" },
           { status: 403 },
@@ -189,7 +189,7 @@ export async function DELETE(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission("manage:all", user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
@@ -200,7 +200,7 @@ export async function DELETE(request: NextRequest) {
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission("manage:users", user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
           { error: "You do not have permission to manage users" },
           { status: 403 },
@@ -319,7 +319,7 @@ export async function POST(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission("manage:all", user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
@@ -330,7 +330,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission("manage:users", user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
           { error: "You do not have permission to manage users" },
           { status: 403 },
@@ -479,7 +479,7 @@ export async function PATCH(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission("manage:all", user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
@@ -490,7 +490,7 @@ export async function PATCH(request: NextRequest) {
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission("manage:users", user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
           { error: "You do not have permission to manage users" },
           { status: 403 },

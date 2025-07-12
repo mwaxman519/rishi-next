@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if user has permission to view organization settings
-    const canViewSettings = await hasPermission("view:organization_settings", {
+    const canViewSettings = await hasPermission("read:organizations", {
       organizationId,
     });
     if (!canViewSettings) {
