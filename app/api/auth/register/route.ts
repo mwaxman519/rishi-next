@@ -75,10 +75,8 @@ export async function POST(request: NextRequest) {
         username,
         email,
         password: hashedPassword,
-        firstName,
-        lastName,
+        fullName: `${firstName} ${lastName}`,
         role: "client_user", // Default role
-        organizationId: organizationId,
       })
       .returning();
 
