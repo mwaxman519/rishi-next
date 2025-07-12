@@ -233,6 +233,22 @@ export async function createUser(userData: {
 }
 
 /**
+ * Get current authenticated user (for API route compatibility)
+ */
+export async function getCurrentAuthUser(): Promise<AuthUser | null> {
+  // In production, this would get user from session/token
+  // For now, return mock user for development
+  return {
+    id: "mock-user-id",
+    username: "mike",
+    email: "mike@example.com",
+    role: "super_admin",
+    full_name: "Mike User",
+    active: true
+  };
+}
+
+/**
  * Update user password
  */
 export async function updateUserPassword(userId: string, newPassword: string): Promise<boolean> {
