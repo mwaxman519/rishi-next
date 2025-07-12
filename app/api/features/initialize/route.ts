@@ -4,7 +4,7 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { initializeFeatureSystem } from "../../../../shared/features/initialize";
-import { db } from "../../../../server/db";
+import { db } from "../../../../db";
 import { organizations } from "@shared/schema";
 import { initializeOrganizationFeatures } from "../../../../shared/features/registry";
 import { hasPermission } from "../../../lib/rbac";

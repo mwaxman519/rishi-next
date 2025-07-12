@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../server/db";
+import { db } from "../../../../db";
 import {
   brandLocations,
   brands,
@@ -30,7 +30,7 @@ export async function GET(
     const brandExists = await db
       .select({ id: brands.id })
       .from(brands)
-      .where(and(eq(brands.id, brandId), eq(brands.clientId, organizationId)))
+      .where(and(eq(brands.id, brandId), eq(brands.organizationId, organizationId)))
       .limit(1);
 
     if (brandExists.length === 0) {
@@ -48,15 +48,15 @@ export async function GET(
         location: {
           id: locations.id,
           name: locations.name,
-          address: locations.address,
+          address: locations.address1,
           city: locations.city,
-          state: locations.state,
+          state: locations.state_id,
           zipCode: locations.zipcode,
           latitude: locations.geo_lat,
           longitude: locations.geo_lng,
           type: locations.type,
           status: locations.status,
-          submittedById: locations.submittedById,
+          submittedById: locations.requested_by,
           createdAt: locations.created_at,
           updatedAt: locations.updated_at,
         },
@@ -99,7 +99,7 @@ export async function POST(
     const brandExists = await db
       .select({ id: brands.id })
       .from(brands)
-      .where(and(eq(brands.id, brandId), eq(brands.clientId, organizationId)))
+      .where(and(eq(brands.id, brandId), eq(brands.organizationId, organizationId)))
       .limit(1);
 
     if (brandExists.length === 0) {

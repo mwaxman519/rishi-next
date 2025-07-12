@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../../server/db";
+import { db } from "../../../../../../db";
 import { brandLocations, brands } from "../../../../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { getCurrentUser } from "../../../../../lib/auth";
@@ -29,7 +29,7 @@ export async function PATCH(
     const brandExists = await db
       .select({ id: brands.id })
       .from(brands)
-      .where(and(eq(brands.id, brandId), eq(brands.clientId, organizationId)))
+      .where(and(eq(brands.id, brandId), eq(brands.organizationId, organizationId)))
       .limit(1);
 
     if (brandExists.length === 0) {
@@ -114,7 +114,7 @@ export async function DELETE(
     const brandExists = await db
       .select({ id: brands.id })
       .from(brands)
-      .where(and(eq(brands.id, brandId), eq(brands.clientId, organizationId)))
+      .where(and(eq(brands.id, brandId), eq(brands.organizationId, organizationId)))
       .limit(1);
 
     if (brandExists.length === 0) {

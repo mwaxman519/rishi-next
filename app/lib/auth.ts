@@ -5,7 +5,7 @@
 
 import { db } from "./db";
 import { eq } from "drizzle-orm";
-import * as schema from "@shared/schema";
+import * as schema from "../../shared/schema";
 import { cookies } from "next/headers";
 import { verify } from "jsonwebtoken";
 
@@ -13,7 +13,7 @@ import { verify } from "jsonwebtoken";
 export async function getCurrentUser() {
   try {
     const cookieStore = cookies();
-    const token = cookieStore.get("auth-token")?.value;
+    const token = (await cookieStore).get("auth-token")?.value;
     
     if (!token) {
       return null;
@@ -42,6 +42,10 @@ export async function auth() {
     return null;
   }
 
+  // Get user's primary organization
+  const userOrgs = await getUserOrganizations(user.id);
+  const primaryOrg = userOrgs.find(org => org.is_default) || userOrgs[0];
+
   return {
     user: {
       id: user.id,
@@ -49,8 +53,8 @@ export async function auth() {
       username: user.username,
       email: user.email,
       role: user.role,
-      organizationId: user.organizationId,
-      organizationName: user.organizationName,
+      organizationId: primaryOrg?.id || null,
+      organizationName: primaryOrg?.name || null,
       image: user.profileImage,
     },
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
@@ -77,39 +81,45 @@ export async function isAuthenticated() {
 
 // Get user function - used by API routes
 export async function getUser() {
-  if (process.env.NODE_ENV === "development") {
-    console.log("DEVELOPMENT MODE: Using mock user for testing");
-    return mockUser;
-  }
-
-  // For staging/production, get actual user from database
-  console.log("STAGING/PRODUCTION MODE: Using real database user");
-  return mockUser; // Production implementation - real user data from database
+  return await getCurrentUser();
 }
 
-// Removed duplicate getCurrentUser function
-
 // Get user organizations
-export async function getUserOrganizations() {
-  if (process.env.NODE_ENV === "development") {
-    console.log("DEVELOPMENT MODE: Using mock user organizations for testing");
-    return mockUserOrganizations;
+export async function getUserOrganizations(userId: string) {
+  try {
+    const organizations = await db
+      .select({
+        id: schema.organizations.id,
+        name: schema.organizations.name,
+        type: schema.organizations.type,
+        tier: schema.organizations.tier,
+        role: schema.userOrganizations.role,
+        is_default: schema.userOrganizations.is_default,
+      })
+      .from(schema.userOrganizations)
+      .innerJoin(schema.organizations, eq(schema.userOrganizations.organization_id, schema.organizations.id))
+      .where(eq(schema.userOrganizations.user_id, userId));
+    
+    return organizations;
+  } catch (error) {
+    console.error("Error getting user organizations:", error);
+    return [];
   }
-
-  // For staging/production, get actual user organizations from database
-  console.log("STAGING/PRODUCTION MODE: Using real database organizations");
-  return mockUserOrganizations; // Production implementation - real organization data from database
 }
 
 // Get JWT payload from token - used by RBAC system
 export async function getJwtPayload(token?: string) {
-  if (process.env.NODE_ENV === "development") {
-    return mockJwtPayload;
+  if (!token) {
+    return null;
   }
-
-  // For staging/production, decode actual JWT from database
-  console.log("STAGING/PRODUCTION MODE: Using real database JWT");
-  return mockJwtPayload; // Production implementation - real JWT payload from authentication
+  
+  try {
+    const decoded = verify(token, process.env.JWT_SECRET || "fallback-secret") as any;
+    return decoded;
+  } catch (error) {
+    console.error("Error decoding JWT token:", error);
+    return null;
+  }
 }
 
 // Export other auth-related functions for development

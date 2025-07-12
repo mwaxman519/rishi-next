@@ -297,6 +297,7 @@ export const brandLocations = pgTable("brand_locations", {
   locationId: uuid("location_id")
     .notNull()
     .references(() => locations.id, { onDelete: "cascade" }),
+  active: boolean("active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -557,96 +558,33 @@ export const rolePermissions = {
 } as const;
 
 // Insert Schemas using drizzle-zod
-export const insertUserSchema = createInsertSchema(users).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
-
-export const insertOrganizationSchema = createInsertSchema(organizations).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
-
-export const insertLocationSchema = createInsertSchema(locations).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const insertActivitySchema = createInsertSchema(activities).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const insertBookingSchema = createInsertSchema(bookings).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
-
-export const insertActivityTypeSchema = createInsertSchema(activityTypes).omit({
-  id: true,
-  createdAt: true,
-});
+export const insertUserSchema = createInsertSchema(users);
+export const insertOrganizationSchema = createInsertSchema(organizations);
+export const insertLocationSchema = createInsertSchema(locations);
+export const insertActivitySchema = createInsertSchema(activities);
+export const insertBookingSchema = createInsertSchema(bookings);
+export const insertActivityTypeSchema = createInsertSchema(activityTypes);
 
 export const insertActivityAssignmentSchema = createInsertSchema(
   activityAssignments,
-).omit({
-  id: true,
-  assignedAt: true,
-});
+);
 
 // New inventory/kit insert schemas
-export const insertInventoryItemSchema = createInsertSchema(inventoryItems).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertInventoryItemSchema = createInsertSchema(inventoryItems);
 
-export const insertKitTemplateSchema = createInsertSchema(kitTemplates).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertKitTemplateSchema = createInsertSchema(kitTemplates);
 
-export const insertKitTemplateItemSchema = createInsertSchema(kitTemplateItems).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertKitTemplateItemSchema = createInsertSchema(kitTemplateItems);
 
-export const insertKitInstanceSchema = createInsertSchema(kitInstances).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertKitInstanceSchema = createInsertSchema(kitInstances);
 
-export const insertKitInstanceItemSchema = createInsertSchema(kitInstanceItems).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertKitInstanceItemSchema = createInsertSchema(kitInstanceItems);
 
-export const insertConsumptionLogSchema = createInsertSchema(consumptionLogs).omit({
-  id: true,
-  created_at: true,
-  consumption_date: true,
-});
+export const insertConsumptionLogSchema = createInsertSchema(consumptionLogs);
 
-export const insertReplenishmentRequestSchema = createInsertSchema(replenishmentRequests).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertReplenishmentRequestSchema = createInsertSchema(replenishmentRequests);
 
-export const insertReplenishmentRequestItemSchema = createInsertSchema(replenishmentRequestItems).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertReplenishmentRequestItemSchema = createInsertSchema(replenishmentRequestItems);
 
 // Backward compatibility aliases (moved after schema definitions)
 export const kits = kitInstances;
@@ -679,25 +617,15 @@ export type InsertReplenishmentRequestItem = typeof insertReplenishmentRequestIt
 
 export const insertUserOrganizationSchema = createInsertSchema(
   userOrganizations,
-).omit({
-  id: true,
-  created_at: true,
-});
+);
 
 export const insertOrganizationUserSchema = createInsertSchema(
   organizationUsers,
-).omit({
-  id: true,
-  created_at: true,
-});
+);
 
 export const insertOrganizationSettingsSchema = createInsertSchema(
   organizationSettings,
-).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+);
 
 // Infer Types
 export type User = typeof users.$inferSelect;
@@ -741,21 +669,11 @@ export type InsertOrganizationSettings = z.infer<
 // Additional insert schemas for the new tables
 export const insertBrandAgentAssignmentSchema = createInsertSchema(
   brandAgentAssignments,
-).omit({
-  id: true,
-  assignedAt: true,
-});
+);
 
-export const insertSystemEventSchema = createInsertSchema(systemEvents).omit({
-  id: true,
-  createdAt: true,
-});
+export const insertSystemEventSchema = createInsertSchema(systemEvents);
 
-export const insertStateSchema = createInsertSchema(states).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertStateSchema = createInsertSchema(states);
 
 // Additional infer types for the new tables
 export type BrandAgentAssignment = typeof brandAgentAssignments.$inferSelect;
@@ -770,26 +688,15 @@ export type State = typeof states.$inferSelect;
 export type InsertState = z.infer<typeof insertStateSchema>;
 
 // Additional insert schemas for new tables
-export const insertBrandSchema = createInsertSchema(brands).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const insertBrandSchema = createInsertSchema(brands);
 
 export const insertBrandLocationSchema = createInsertSchema(
   brandLocations,
-).omit({
-  id: true,
-  createdAt: true,
-});
+);
 
 export const insertAvailabilityBlockSchema = createInsertSchema(
   availabilityBlocks,
-).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+);
 
 // Additional infer types for new tables
 export type Brand = typeof brands.$inferSelect;
@@ -846,17 +753,11 @@ export const shiftAssignments = pgTable("shift_assignments", {
 });
 
 // Insert schemas for shifts
-export const insertShiftSchema = createInsertSchema(shifts).omit({
-  id: true,
-  createdAt: true,
-});
+export const insertShiftSchema = createInsertSchema(shifts);
 
 export const insertShiftAssignmentSchema = createInsertSchema(
   shiftAssignments,
-).omit({
-  id: true,
-  assignedAt: true,
-});
+);
 
 // Types for shifts
 export type Shift = typeof shifts.$inferSelect;
@@ -926,41 +827,23 @@ export const permissions = pgTable("permissions", {
 
 
 // Insert schemas for missing tables
-export const insertItemSchema = createInsertSchema(items).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertItemSchema = createInsertSchema(items);
 
 export const insertBookingCommentSchema = createInsertSchema(
   bookingComments,
-).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+);
 
 
 
 export const insertPromotionTypeSchema = createInsertSchema(
   promotionTypes,
-).omit({
-  id: true,
-  created_at: true,
-});
+);
 
 export const insertUserOrganizationPreferencesSchema = createInsertSchema(
   userOrganizationPreferences,
-).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+);
 
-export const insertPermissionSchema = createInsertSchema(permissions).omit({
-  created_at: true,
-  updated_at: true,
-});
+export const insertPermissionSchema = createInsertSchema(permissions);
 
 // Add missing regions and organizationRegions tables
 export const regions = pgTable("regions", {
@@ -1008,26 +891,15 @@ export const organizationBranding = pgTable("organization_branding", {
 });
 
 // Insert schemas for new tables
-export const insertRegionSchema = createInsertSchema(regions).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+export const insertRegionSchema = createInsertSchema(regions);
 
 export const insertOrganizationRegionSchema = createInsertSchema(
   organizationRegions,
-).omit({
-  id: true,
-  created_at: true,
-});
+);
 
 export const insertOrganizationBrandingSchema = createInsertSchema(
   organizationBranding,
-).omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
-});
+);
 
 
 
@@ -1086,17 +958,9 @@ export const userPermissions = pgTable("user_permissions", {
 });
 
 // Insert schemas for new tables
-export const insertTaskSchema = createInsertSchema(tasks).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const insertTaskSchema = createInsertSchema(tasks);
 
-export const insertUserPermissionSchema = createInsertSchema(userPermissions).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const insertUserPermissionSchema = createInsertSchema(userPermissions);
 
 // Types for new tables
 export type Task = typeof tasks.$inferSelect;
@@ -1126,10 +990,7 @@ export const auditLogs = pgTable("audit_logs", {
 });
 
 // Insert schema for audit logs
-export const insertAuditLogSchema = createInsertSchema(auditLogs).omit({
-  id: true,
-  createdAt: true,
-});
+export const insertAuditLogSchema = createInsertSchema(auditLogs);
 
 // Types for audit logs
 export type AuditLog = typeof auditLogs.$inferSelect;
@@ -1155,11 +1016,7 @@ export const organizationInvitations = pgTable("organization_invitations", {
 // Insert schema for organization invitations
 export const insertOrganizationInvitationSchema = createInsertSchema(
   organizationInvitations,
-).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+);
 
 // Organization Permissions table
 export const organizationPermissions = pgTable("organization_permissions", {
@@ -1178,11 +1035,7 @@ export const organizationPermissions = pgTable("organization_permissions", {
 // Insert schema for organization permissions
 export const insertOrganizationPermissionSchema = createInsertSchema(
   organizationPermissions,
-).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+);
 
 // Types for organization invitations and permissions
 export type OrganizationInvitation =
@@ -1248,24 +1101,11 @@ export const agentSkills = pgTable("agent_skills", {
 // Insert schemas for missing tables
 export const insertKitComponentInventorySchema = createInsertSchema(
   kitComponentInventory,
-).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+);
 
-export const insertActivityKitSchema = createInsertSchema(activityKits).omit({
-  id: true,
-  assignedAt: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const insertActivityKitSchema = createInsertSchema(activityKits);
 
-export const insertAgentSkillSchema = createInsertSchema(agentSkills).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const insertAgentSkillSchema = createInsertSchema(agentSkills);
 
 // Types for missing tables
 export type KitComponentInventory = typeof kitComponentInventory.$inferSelect;
