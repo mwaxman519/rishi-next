@@ -239,8 +239,14 @@ export async function updateUserPassword(userId: string, newPassword: string): P
 }
 
 // Add getUser function for compatibility
-export async function getUser(id: string) {
+export async function getUser(id?: string) {
   try {
+    // If no ID provided, get current user from cookies/session
+    if (!id) {
+      const user = await getCurrentUser();
+      return user;
+    }
+    
     const [user] = await db
       .select()
       .from(users)
@@ -250,6 +256,84 @@ export async function getUser(id: string) {
   } catch (error) {
     console.error("Error getting user:", error);
     return null;
+  }
+}
+
+// Add auth function for compatibility
+export async function auth() {
+  const user = await getCurrentUser();
+  
+  if (!user) {
+    return null;
+  }
+
+  // Get user's primary organization
+  const userOrgs = await getUserOrganizations(user.id);
+  const primaryOrg = userOrgs.find(org => org.is_default) || userOrgs[0];
+
+  return {
+    user: {
+      id: user.id,
+      name: user.fullName || user.username,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      organizationId: primaryOrg?.id || null,
+      organizationName: primaryOrg?.name || null,
+      image: user.profileImage,
+    },
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  };
+}
+
+// Helper function to get current user from cookies
+async function getCurrentUser() {
+  try {
+    const { cookies } = await import("next/headers");
+    const cookieStore = cookies();
+    const token = (await cookieStore).get("auth-token")?.value;
+    
+    if (!token) {
+      return null;
+    }
+
+    const decoded = verifyToken(token);
+    if (!decoded) {
+      return null;
+    }
+    
+    // Get user from database
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, decoded.id));
+
+    return user || null;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
+}
+
+// Helper function to get user organizations
+async function getUserOrganizations(userId: string) {
+  try {
+    const { organizations, userOrganizations } = await import("@/shared/schema");
+    
+    const userOrgs = await db
+      .select({
+        id: organizations.id,
+        name: organizations.name,
+        is_default: userOrganizations.isDefault,
+      })
+      .from(userOrganizations)
+      .innerJoin(organizations, eq(userOrganizations.organizationId, organizations.id))
+      .where(eq(userOrganizations.userId, userId));
+
+    return userOrgs;
+  } catch (error) {
+    console.error("Error getting user organizations:", error);
+    return [];
   }
 }
 
