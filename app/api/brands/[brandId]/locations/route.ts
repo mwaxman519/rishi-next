@@ -136,7 +136,15 @@ export async function POST(
       );
     }
 
-    if (locationExists[0].status !== "approved") {
+    const location = locationExists[0];
+    if (!location) {
+      return NextResponse.json(
+        { error: "Location not found" },
+        { status: 404 }
+      );
+    }
+
+    if (location.status !== "approved") {
       return NextResponse.json(
         { error: "Location is not approved for use" },
         { status: 400 },

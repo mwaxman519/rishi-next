@@ -64,6 +64,12 @@ export async function POST(req: Request) {
       .values(locationData)
       .returning();
     const location = insertResult[0];
+    if (!location) {
+      return NextResponse.json(
+        { error: "Failed to create location" },
+        { status: 500 }
+      );
+    }
 
     console.log("Location created successfully:", location);
 
@@ -93,12 +99,6 @@ export async function POST(req: Request) {
     }
 
     // Return the created location
-    if (!location) {
-      return NextResponse.json(
-        { error: "Failed to create location" },
-        { status: 500 },
-      );
-    }
 
     return NextResponse.json(
       {
