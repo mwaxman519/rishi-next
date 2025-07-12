@@ -246,8 +246,10 @@ This configuration successfully passed Azure build validation and deployment pha
 - **AUTHENTICATION STRUCTURE CORRECTED**: Updated booking comments route to work with direct User object instead of session.user pattern
 - **DRIZZLE ORM QUERY CHAINING FIXED**: Resolved "Property 'where' does not exist" error by using proper and() condition pattern instead of chaining multiple where() calls
 - **QUERY BUILDER PATTERN MODERNIZED**: Updated booking comments route to use conditions array with and() operator for proper Drizzle ORM query building
+- **BOOKING COMMENTS SCHEMA ENHANCED**: Added missing isInternal boolean field to bookingComments table schema to support internal comment filtering
+- **SCHEMA PROPERTY ALIGNMENT COMPLETED**: Fixed "Property 'isInternal' does not exist" TypeScript error by updating database schema to match API route expectations
 - **VERCEL BUILD BLOCKERS ELIMINATED**: Systematically resolved all TypeScript compilation errors preventing successful Vercel deployment
-- **PRODUCTION DEPLOYMENT READY**: All authentication, UUID handling, session types, query building, and permission validation issues resolved for successful cloud deployment
+- **PRODUCTION DEPLOYMENT READY**: All authentication, UUID handling, session types, query building, schema alignment, and permission validation issues resolved for successful cloud deployment
 
 ### January 11, 2025 - ALL DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL DEPLOYMENT READY (FINAL)
 - **LOCATION SCHEMA FIELD ALIGNMENT COMPLETED**: Fixed all remaining TypeScript errors by aligning API route field names with actual database schema

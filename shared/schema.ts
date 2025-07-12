@@ -877,6 +877,7 @@ export const bookingComments = pgTable("booking_comments", {
   bookingId: uuid("booking_id").notNull().references(() => bookings.id),
   authorId: uuid("author_id").notNull().references(() => users.id),
   content: text("content").notNull(),
+  isInternal: boolean("is_internal").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -933,7 +934,8 @@ export const insertBookingCommentSchema = createInsertSchema(
   bookingComments,
 ).omit({
   id: true,
-  created_at: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 
