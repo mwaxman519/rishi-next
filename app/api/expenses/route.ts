@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     const result = await expenseService.getExpenses(
       validatedFilters,
       (session.user as any).id,
-      session.user.role || "brand_agent",
+      (session.user as any).role || "brand_agent",
       (session.user as any).organizationId || "",
     );
 
@@ -137,7 +137,7 @@ export async function PUT(request: NextRequest) {
       id,
       validatedUpdates,
       (session.user as any).id,
-      session.user.role || "brand_agent",
+      (session.user as any).role || "brand_agent",
       (session.user as any).organizationId || "",
     );
 
@@ -180,7 +180,7 @@ export async function DELETE(request: NextRequest) {
     const result = await expenseService.deleteExpense(
       expenseId,
       (session.user as any).id,
-      session.user.role || "brand_agent",
+      (session.user as any).role || "brand_agent",
       (session.user as any).organizationId || "",
     );
 
