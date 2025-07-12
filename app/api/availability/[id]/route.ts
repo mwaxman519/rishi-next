@@ -233,8 +233,9 @@ export async function DELETE(
   const headers = createNoCacheHeaders();
 
   try {
-    // Validate that we have an ID parameter
-    if (!context.params || !id) {
+    // Await params and validate that we have an ID parameter
+    const params = await context.params;
+    if (!params || !params.id) {
       console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
@@ -247,7 +248,7 @@ export async function DELETE(
     }
 
     // Parse the ID
-    const id = parseInt(id);
+    const id = parseInt(params.id);
 
     // Validate ID format
     if (isNaN(id)) {
