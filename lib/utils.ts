@@ -86,17 +86,7 @@ export function formatZodError(error: any): string {
   return error?.message || 'Validation error';
 }
 
-export function extractFirstParagraph(content: string): string {
-  const paragraphs = content.split('\n\n')
-  return paragraphs[0] || ''
-}
 
-export function formatZodError(error: any): string {
-  if (error.issues) {
-    return error.issues.map((issue: any) => issue.message).join(', ')
-  }
-  return error.message || 'Validation error'
-}
 
 export function generateCorrelationId(): string {
   return `${Date.now()}_${Math.random().toString(36).substring(2, 15)}`
