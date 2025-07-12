@@ -131,7 +131,7 @@ async function getAllDocs(): Promise<DocInfo[]> {
                 : entry.name.replace(/\.(md|mdx)$/, "").replace(/-/g, " "),
             lastModified: stat.mtime,
             excerpt: excerpt || "No description available",
-            tags,
+            tags: tags || [],
           });
         } catch (error) {
           console.error(`Error processing document ${fullPath}:`, error);
