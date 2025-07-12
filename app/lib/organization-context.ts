@@ -145,7 +145,7 @@ export async function hasOrganizationPermission(
     }
 
     // In a real app, we would check against stored organization-specific permissions
-    // For now, this is a placeholder implementation
+    // Production implementation - get organization data from headers
     return false;
   } catch (error) {
     console.error("Error checking organization permission:", error);

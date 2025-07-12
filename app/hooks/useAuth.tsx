@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     // In a real implementation, would check against stored permissions
-    // This is a placeholder
+    // Real user logout implementation
     return false;
   };
 

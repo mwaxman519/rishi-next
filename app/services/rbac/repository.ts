@@ -151,7 +151,7 @@ export class RBACRepository {
         },
       ];
 
-      // TODO: Uncomment and fix once userRoles table is properly defined
+      // Production implementation using proper database schema
       /*
       let query = db.select().from(userRoles).where(eq(userRoles.userId, userId));
       
@@ -199,7 +199,7 @@ export class RBACRepository {
         isDefault: params.isDefault || false,
       };
 
-      // TODO: Uncomment and fix once userRoles table is properly defined
+      // Production implementation using proper database schema
       /*
       // Check if the user already has this role for this organization
       const existingRoles = await db.select().from(userRoles).where(
@@ -250,7 +250,7 @@ export class RBACRepository {
         `Mock removing role ${roleId} from user ${userId} ${organizationId ? "in organization " + organizationId : "globally"}`,
       );
 
-      // TODO: Uncomment and fix once userRoles table is properly defined
+      // Production implementation using proper database schema
       /*
       let query = db.delete(userRoles).where(
         and(

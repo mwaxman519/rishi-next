@@ -11,25 +11,34 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // In a real app, you would verify the credentials against your database
-        // For development purposes, we're using a mock user
-        // Always return mock user for development
-        return {
-          id: "00000000-0000-0000-0000-000000000001",
-          name: "Admin User",
-          email: credentials?.email || "admin@example.com",
-          role: "super_admin",
-          organizationId: "00000000-0000-0000-0000-000000000001",
-        };
-
-        // Non-development environment: Actually validate credentials
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
         try {
-          // Validate with your authentication service
-          // This is a placeholder - implement proper authentication
+          // Validate credentials against database
+          const response = await fetch(`${process.env.NEXTAUTH_URL}/api/auth-service/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              username: credentials.email,
+              password: credentials.password,
+            }),
+          });
+
+          if (response.ok) {
+            const user = await response.json();
+            return {
+              id: user.id,
+              name: user.fullName || user.username,
+              email: user.email,
+              role: user.role,
+              organizationId: user.organizationId,
+            };
+          }
+          
           return null;
         } catch (error) {
           console.error("Authentication error:", error);

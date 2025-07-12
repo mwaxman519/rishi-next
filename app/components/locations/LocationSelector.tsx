@@ -15,39 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-// Mock location data
-const mockLocations = [
-  {
-    id: "1",
-    name: "Westfield Mall",
-    address: "865 Market St, San Francisco, CA 94103",
-    coordinates: { lat: 37.7841, lng: -122.4077 },
-  },
-  {
-    id: "2",
-    name: "Union Square",
-    address: "333 Post St, San Francisco, CA 94108",
-    coordinates: { lat: 37.7879, lng: -122.4075 },
-  },
-  {
-    id: "3",
-    name: "Embarcadero Center",
-    address: "4 Embarcadero Center, San Francisco, CA 94111",
-    coordinates: { lat: 37.7952, lng: -122.3996 },
-  },
-  {
-    id: "4",
-    name: "Stonestown Galleria",
-    address: "3251 20th Ave, San Francisco, CA 94132",
-    coordinates: { lat: 37.7285, lng: -122.4778 },
-  },
-  {
-    id: "5",
-    name: "Fisherman's Wharf",
-    address: "Beach Street & The Embarcadero, San Francisco, CA 94133",
-    coordinates: { lat: 37.8087, lng: -122.4098 },
-  },
-];
+// Location data will be fetched from database via API
 
 interface LocationSelectorProps {
   selectedLocationId: string;
@@ -59,14 +27,34 @@ export default function LocationSelector({
   onLocationChange,
 }: LocationSelectorProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [locations, setLocations] = useState(mockLocations);
-  const [selectedLocation, setSelectedLocation] = useState<
-    (typeof mockLocations)[0] | null
-  >(null);
+  const [locations, setLocations] = useState<any[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch locations from database
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/locations');
+        if (response.ok) {
+          const data = await response.json();
+          setLocations(data.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+        setLocations([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLocations();
+  }, []);
 
   // Find the initially selected location
   useEffect(() => {
-    if (selectedLocationId) {
+    if (selectedLocationId && locations.length > 0) {
       const location = locations.find((loc) => loc.id === selectedLocationId);
       if (location) {
         setSelectedLocation(location);

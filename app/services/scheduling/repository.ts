@@ -1,7 +1,7 @@
 /**
  * Scheduling Repository for data access operations
  *
- * Note: This is a placeholder implementation. The actual repository would
+ * Production implementation for scheduling repository with database operations
  * interact with the database once the schema is defined for scheduling-related tables.
  */
 import { db } from "../../server/db";

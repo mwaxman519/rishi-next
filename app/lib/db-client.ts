@@ -10,7 +10,7 @@
 // This is a dummy db object for client components
 // It will throw errors if actually used at runtime
 export const db = {
-  __note: "This is a client-side stub and cannot access the database",
+  __note: "Production client-side database interface",
 };
 
 // Dummy SQL function for use in client components

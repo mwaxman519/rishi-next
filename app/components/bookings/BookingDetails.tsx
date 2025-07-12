@@ -54,75 +54,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Mock data for booking details - in real app, this would come from an API
-const mockBookingDetails = {
-  id: "1",
-  title: "Product Demo at Westfield Mall",
-  description:
-    "Showcase our new product lineup with interactive demonstrations for mall visitors.",
-  activityType: "event",
-  activityStatus: "pending",
-  location: {
-    id: "1",
-    name: "Westfield Mall",
-    address: "865 Market St, San Francisco, CA 94103",
-    coordinates: { lat: 37.7841, lng: -122.4077 },
-  },
-  startDate: new Date("2025-05-15T10:00:00"),
-  endDate: new Date("2025-05-15T16:00:00"),
-  allDay: false,
-  createdBy: {
-    id: "123",
-    name: "Michael Scott",
-    avatar: null,
-  },
-  createdAt: new Date("2025-05-01T08:34:21"),
-  updatedAt: new Date("2025-05-02T14:22:58"),
-  priority: "medium",
-  budget: 1500,
-  promotionType: "Product Launch",
-  kitTemplate: {
-    id: "5",
-    name: "Event Standard Kit",
-    items: 15,
-  },
-  requiredStaffCount: 3,
-  specialInstructions:
-    "Ensure all demo units are fully charged. Bring extra product literature.",
-  assignments: [
-    {
-      id: "1",
-      userId: "456",
-      userName: "Jim Halpert",
-      userAvatar: null,
-      role: "lead",
-      status: "accepted",
-    },
-    {
-      id: "2",
-      userId: "789",
-      userName: "Pam Beesly",
-      userAvatar: null,
-      role: "assistant",
-      status: "pending",
-    },
-  ],
-  approvalHistory: [
-    {
-      id: "1",
-      status: "draft",
-      timestamp: new Date("2025-05-01T08:34:21"),
-      user: "Michael Scott",
-    },
-    {
-      id: "2",
-      status: "pending",
-      timestamp: new Date("2025-05-02T14:22:58"),
-      user: "Michael Scott",
-      notes: "Submitted for approval",
-    },
-  ],
-};
+// Booking details will be fetched from database via API
 
 // Status badge mapper
 const activityStatusMapper: Record<
@@ -189,30 +121,68 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
   //   fetchDetails();
   // }, [id]);
 
-  // Use mock data for now
-  const booking = mockBookingDetails;
+  // State for booking data
+  const [booking, setBooking] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch booking details from API
+  useEffect(() => {
+    const fetchBooking = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`/api/bookings/${bookingId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setBooking(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching booking details:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (bookingId) {
+      fetchBooking();
+    }
+  }, [bookingId]);
 
   const handleApprove = async () => {
     setIsLoading(true);
 
     try {
-      // In a real app, call API to approve
-      // await fetch(`/api/activities/${id}/approve`, {
-      //   method: 'POST',
-      // });
+      const response = await fetch(`/api/bookings/${bookingId}/approve`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ notes: 'Approved via booking details' }),
+      });
 
-      // Mock the API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setShowApproveDialog(false);
-
-      // Refresh booking data
-      // router.refresh();
-
-      // For mock, alert
-      alert("Booking approved successfully!");
+      if (response.ok) {
+        setShowApproveDialog(false);
+        
+        // Refresh booking data
+        const updatedResponse = await fetch(`/api/bookings/${bookingId}`);
+        if (updatedResponse.ok) {
+          const updatedData = await updatedResponse.json();
+          setBooking(updatedData.data);
+        }
+        
+        toast({
+          title: "Booking Approved",
+          description: "The booking has been approved successfully.",
+        });
+      } else {
+        throw new Error('Failed to approve booking');
+      }
     } catch (error) {
       console.error("Error approving booking:", error);
+      toast({
+        title: "Error",
+        description: "Failed to approve the booking. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -222,28 +192,39 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
     setIsLoading(true);
 
     try {
-      // In a real app, call API to reject with reason
-      // await fetch(`/api/activities/${id}/reject`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ reason: rejectionReason }),
-      // });
+      const response = await fetch(`/api/bookings/${bookingId}/reject`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ reason: rejectionReason }),
+      });
 
-      // Mock the API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (response.ok) {
+        setShowRejectDialog(false);
+        setRejectionReason("");
 
-      setShowRejectDialog(false);
-      setRejectionReason("");
+        // Refresh booking data
+        const updatedResponse = await fetch(`/api/bookings/${bookingId}`);
+        if (updatedResponse.ok) {
+          const updatedData = await updatedResponse.json();
+          setBooking(updatedData.data);
+        }
 
-      // Refresh booking data
-      // router.refresh();
-
-      // For mock, alert
-      alert("Booking rejected successfully!");
+        toast({
+          title: "Booking Rejected",
+          description: "The booking has been rejected successfully.",
+        });
+      } else {
+        throw new Error('Failed to reject booking');
+      }
     } catch (error) {
       console.error("Error rejecting booking:", error);
+      toast({
+        title: "Error",
+        description: "Failed to reject the booking. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -258,18 +239,27 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
       setIsLoading(true);
 
       try {
-        // In a real app, call API to delete
-        // await fetch(`/api/activities/${id}`, {
-        //   method: 'DELETE',
-        // });
+        const response = await fetch(`/api/bookings/${bookingId}`, {
+          method: 'DELETE',
+        });
 
-        // Mock the API call
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Navigate back to bookings list
-        router.push("/bookings");
+        if (response.ok) {
+          toast({
+            title: "Booking Deleted",
+            description: "The booking has been deleted successfully.",
+          });
+          // Navigate back to bookings list
+          router.push("/bookings");
+        } else {
+          throw new Error('Failed to delete booking');
+        }
       } catch (error) {
         console.error("Error deleting booking:", error);
+        toast({
+          title: "Error",
+          description: "Failed to delete the booking. Please try again.",
+          variant: "destructive",
+        });
         setIsLoading(false);
       }
     }

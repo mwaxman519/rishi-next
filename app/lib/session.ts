@@ -1,7 +1,13 @@
 /**
  * Session helper functions
- * In a real implementation, this would use Next-Auth or a similar library
+ * Production implementation using database authentication
  */
+
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import * as schema from "@shared/schema";
+import { cookies } from "next/headers";
+import { verify } from "jsonwebtoken";
 
 interface User {
   id: string;
@@ -12,23 +18,39 @@ interface User {
 
 /**
  * Get the user from the session
- * This is a mock implementation
+ * Production implementation using JWT and database
  */
 export async function getUserFromSession(): Promise<User | null> {
-  // In development, return a mock user for testing
-  if (process.env.NODE_ENV === "development") {
-    console.log("DEVELOPMENT MODE: Using mock user for testing");
-    return {
-      id: "user-1",
-      name: "Mock User",
-      email: "mockuser@example.com",
-      role: "admin",
-    };
-  }
+  try {
+    const cookieStore = cookies();
+    const token = cookieStore.get("auth-token")?.value;
+    
+    if (!token) {
+      return null;
+    }
 
-  // In production, we would get the user from the session
-  // For now, return null to indicate not implemented
-  return null;
+    const decoded = verify(token, process.env.JWT_SECRET || "fallback-secret") as any;
+    
+    // Get user from database
+    const [user] = await db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.id, decoded.id));
+
+    if (!user) {
+      return null;
+    }
+
+    return {
+      id: user.id,
+      name: user.fullName || user.username,
+      email: user.email || "",
+      role: user.role,
+    };
+  } catch (error) {
+    console.error("Error getting user from session:", error);
+    return null;
+  }
 }
 
 /**

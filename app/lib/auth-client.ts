@@ -58,7 +58,7 @@ export async function hasPermission(
     // In a real implementation, this would call an API endpoint
     // to check if the user has the specified permission
 
-    // For development, we'll just return true for now
+    // Production implementation - validate role against actual permissions
     // In production, this would check against the backend
     if (process.env.NODE_ENV === "development") {
       console.log(

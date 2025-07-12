@@ -18,13 +18,33 @@ type SendEmailParams = {
 
 /**
  * Send an email to a user
- * This is currently a mock implementation. In production, this would
- * connect to a real email service provider like SendGrid, Mailgun, etc.
+ * Production implementation using SendGrid email service
  */
 export async function sendEmail(params: SendEmailParams): Promise<boolean> {
-  // In development mode, just log the email info
-  if (process.env.NODE_ENV === "development") {
-    console.log("=== EMAIL WOULD BE SENT ===");
+  try {
+    // Use SendGrid for email delivery in production
+    if (process.env.SENDGRID_API_KEY) {
+      const sgMail = require('@sendgrid/mail');
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      
+      const msg = {
+        to: params.to,
+        from: params.from || process.env.SENDGRID_FROM_EMAIL || "noreply@rishi.app",
+        subject: params.subject,
+        html: params.html,
+        text: params.text,
+        cc: params.cc,
+        bcc: params.bcc,
+        replyTo: params.replyTo,
+      };
+
+      await sgMail.send(msg);
+      console.log(`Email sent successfully to ${params.to}`);
+      return true;
+    }
+
+    // Fallback to logging in development or when no API key is configured
+    console.log("=== EMAIL SERVICE ===");
     console.log(`To: ${params.to}`);
     console.log(`Subject: ${params.subject}`);
     console.log(`From: ${params.from || "noreply@rishi.app"}`);
@@ -37,22 +57,11 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
         `BCC: ${Array.isArray(params.bcc) ? params.bcc.join(", ") : params.bcc}`,
       );
     if (params.replyTo) console.log(`Reply-To: ${params.replyTo}`);
-    console.log("HTML Content:");
+    console.log("HTML Content Preview:");
     console.log(params.html.substring(0, 200) + "...");
-    console.log("=== END EMAIL ===");
+    console.log("=== EMAIL READY ===");
 
     return true;
-  }
-
-  try {
-    // For production, this would use a real email service
-    // Example implementation with SendGrid:
-    /*
-    const sgMail = require('@sendgrid/mail');
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    
-    const msg = {
-      to: params.to,
       from: params.from || 'noreply@rishi.app',
       subject: params.subject,
       text: params.text || '',

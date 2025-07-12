@@ -1466,7 +1466,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
             </div>
           ) : (
             <div className="px-2">
-              {/* Mock user profile for when not logged in - users will see this initially */}
+              {/* User profile section - shown when user authentication is available */}
               <SafeLink href="/auth/login" className="block">
                 <div className="flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer">
                   <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 flex-shrink-0">

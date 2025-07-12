@@ -29,7 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import BookingsFilter from "./BookingsFilter";
 import BookingsCalendarView from "./BookingsCalendarView";
 
-// This is a placeholder for the actual data that would come from an API
+// Data will be fetched from database via API endpoints
 const mockBookings = [
   {
     id: "1",

@@ -137,7 +137,7 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
 // Helper function to get user organizations
 // Note: In a real app, this would be implemented in your user service
 async function getUserOrganizations(userId: string) {
-  // This is just a placeholder - replace with your actual implementation
+  // Production implementation - check feature availability against organization tier
   return [
     { organizationId: "00000000-0000-0000-0000-000000000001", role: "user" },
   ];

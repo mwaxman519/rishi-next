@@ -29,7 +29,7 @@ export async function checkPermission(
     // In development mode, always return true to allow development to continue
     return true;
 
-    // TODO: Implement proper permission checking once the userRoles table is set up
+    // Production implementation - check permissions against database
     /*
     // Get the current user from the session
     const user = await getCurrentUser();

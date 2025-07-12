@@ -1,78 +1,77 @@
 /**
- * Simple auth module for development
- * This provides a mock authentication implementation for local development
+ * Production authentication module
+ * This provides real database authentication for production use
  */
 
-// Mock user for development
-const mockUser = {
-  id: "00000000-0000-0000-0000-000000000001",
-  name: "Admin User",
-  username: "admin@example.com",
-  email: "admin@example.com",
-  role: "super_admin",
-  organizationId: "00000000-0000-0000-0000-000000000001",
-  organizationName: "Corporate HQ",
-  image: null,
-};
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import * as schema from "@shared/schema";
+import { cookies } from "next/headers";
+import { verify } from "jsonwebtoken";
 
-// Mock JWT payload structure
-const mockJwtPayload = {
-  id: mockUser.id,
-  username: mockUser.username,
-  role: mockUser.role,
-  fullName: mockUser.name,
-  organizationId: mockUser.organizationId,
-  organizationRole: "super_admin",
-  regionIds: [],
-  iat: Math.floor(Date.now() / 1000),
-  exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours
-};
+// Get current user from JWT token in cookies
+export async function getCurrentUser() {
+  try {
+    const cookieStore = cookies();
+    const token = cookieStore.get("auth-token")?.value;
+    
+    if (!token) {
+      return null;
+    }
 
-// Mock session for development
-const mockSession = {
-  user: mockUser,
-  expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
-};
+    const decoded = verify(token, process.env.JWT_SECRET || "fallback-secret") as any;
+    
+    // Get user from database
+    const [user] = await db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.id, decoded.id));
 
-// Mock organizations for the user
-const mockUserOrganizations = [
-  {
-    id: "00000000-0000-0000-0000-000000000001",
-    name: "Corporate HQ",
-    role: "super_admin",
-    isDefault: true,
-  },
-  {
-    id: "00000000-0000-0000-0000-000000000002",
-    name: "East Coast Division",
-    role: "admin",
-    isDefault: false,
-  },
-];
+    return user || null;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
+}
 
-// Auth function that returns a mock session
+// Auth function that returns database session
 export async function auth() {
-  console.log("DEVELOPMENT MODE: Using mock auth session");
-  return mockSession;
+  const user = await getCurrentUser();
+  
+  if (!user) {
+    return null;
+  }
+
+  return {
+    user: {
+      id: user.id,
+      name: user.fullName || user.username,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      organizationId: user.organizationId,
+      organizationName: user.organizationName,
+      image: user.profileImage,
+    },
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  };
 }
 
 // Function to get the current session with user information
 export async function getSession() {
-  return mockSession;
+  return await auth();
 }
 
 // Function to check if a user is authenticated
 export async function isAuthenticated() {
-  return true; // Always authenticated in development
+  const session = await auth();
+  return session !== null;
 }
 
 // Get user function - used by API routes
 export async function getUser() {
-  console.log("DEVELOPMENT MODE: Using mock user for testing");
-  return mockUser;
+  return await getCurrentUser();
 }
-
-// Get current user function for API routes
 export async function getCurrentUser(req?: Request) {
   console.log("DEVELOPMENT MODE: Using mock user for testing");
   return mockUser;

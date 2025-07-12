@@ -40,40 +40,7 @@ import { useToast } from "@/hooks/use-toast";
 import LocationSelector from "@/components/locations/LocationSelector";
 // TimeRangePicker is imported but not used, using native time inputs instead
 
-// Mock data for booking details - in real app, this would come from an API
-const mockBookingDetails = {
-  id: "1",
-  title: "Product Demo at Westfield Mall",
-  description:
-    "Showcase our new product lineup with interactive demonstrations for mall visitors.",
-  activityType: "event",
-  activityStatus: "pending",
-  location: {
-    id: "1",
-    name: "Westfield Mall",
-    address: "865 Market St, San Francisco, CA 94103",
-    coordinates: { lat: 37.7841, lng: -122.4077 },
-  },
-  startDate: new Date("2025-05-15T10:00:00"),
-  endDate: new Date("2025-05-15T16:00:00"),
-  allDay: false,
-  priority: "medium",
-  budget: 1500,
-  promotionType: "Product Launch",
-  kitTemplateId: "5",
-  requiredStaffCount: 3,
-  specialInstructions:
-    "Ensure all demo units are fully charged. Bring extra product literature.",
-};
-
-// Mock data for kit templates
-const mockKitTemplates = [
-  { id: "1", name: "Basic Kit" },
-  { id: "2", name: "Standard Promotion Kit" },
-  { id: "3", name: "Premium Display Kit" },
-  { id: "4", name: "Training Session Kit" },
-  { id: "5", name: "Event Standard Kit" },
-];
+// Data will be fetched from database via API
 
 // Activity types
 const activityTypes = [
@@ -161,20 +128,35 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [initialData, setInitialData] = useState<
-    typeof mockBookingDetails | null
-  >(null);
+  const [initialData, setInitialData] = useState<any>(null);
+  const [kitTemplates, setKitTemplates] = useState<any[]>([]);
 
-  // In a real app, fetch data from API
+  // Fetch data from API
   useEffect(() => {
-    // Simulate API call to get booking details
     const fetchData = async () => {
-      // const response = await fetch(`/api/activities/${id}`);
-      // const data = await response.json();
-      // setInitialData(data);
-
-      // Mock API response
-      setInitialData(mockBookingDetails);
+      try {
+        setIsLoading(true);
+        
+        // Fetch kit templates
+        const kitResponse = await fetch('/api/kit-templates');
+        if (kitResponse.ok) {
+          const kitData = await kitResponse.json();
+          setKitTemplates(kitData.data || []);
+        }
+        
+        // Fetch booking details if editing
+        if (id && id !== "new") {
+          const bookingResponse = await fetch(`/api/bookings/${id}`);
+          if (bookingResponse.ok) {
+            const bookingData = await bookingResponse.json();
+            setInitialData(bookingData.data);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchData();
@@ -282,25 +264,26 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
       delete formattedData.startTime;
       delete formattedData.endTime;
 
-      // In a real app, send data to API
-      // await fetch(`/api/activities/${id}`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(formattedData),
-      // });
-
-      // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      toast({
-        title: "Activity updated",
-        description: "The activity has been successfully updated.",
+      // Send data to API
+      const response = await fetch(`/api/bookings/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formattedData),
       });
 
-      // Redirect to booking detail page
-      router.push(`/bookings/${id}`);
+      if (response.ok) {
+        toast({
+          title: "Booking updated",
+          description: "The booking has been successfully updated.",
+        });
+
+        // Redirect to booking detail page
+        router.push(`/bookings/${id}`);
+      } else {
+        throw new Error('Failed to update booking');
+      }
     } catch (error) {
       console.error("Error updating activity:", error);
       toast({
@@ -685,7 +668,7 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="">None</SelectItem>
-                    {mockKitTemplates.map((kit) => (
+                    {kitTemplates.map((kit) => (
                       <SelectItem key={kit.id} value={kit.id}>
                         {kit.name}
                       </SelectItem>
