@@ -52,7 +52,7 @@ export async function GET(
 
     // Validate ID format
     if (isNaN(id)) {
-      console.error(`Invalid ID format: ${context.context.context.params.id}`);
+      console.error(`Invalid ID format: ${id}`);
       return NextResponse.json(
         {
           success: false,
@@ -139,7 +139,7 @@ export async function PUT(
 
     // Validate ID format
     if (isNaN(id)) {
-      console.error(`Invalid ID format: ${context.context.context.params.id}`);
+      console.error(`Invalid ID format: ${id}`);
       return NextResponse.json(
         {
           success: false,
@@ -234,7 +234,7 @@ export async function DELETE(
 
   try {
     // Validate that we have an ID parameter
-    if (!context.params || !context.context.context.params.id) {
+    if (!context.params || !id) {
       console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
@@ -247,11 +247,11 @@ export async function DELETE(
     }
 
     // Parse the ID
-    const id = parseInt(context.context.context.params.id);
+    const id = parseInt(id);
 
     // Validate ID format
     if (isNaN(id)) {
-      console.error(`Invalid ID format: ${context.context.context.params.id}`);
+      console.error(`Invalid ID format: ${id}`);
       return NextResponse.json(
         {
           success: false,
