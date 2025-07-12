@@ -131,14 +131,14 @@ export async function GET(req: NextRequest) {
       "super_admin",
       "internal_admin",
       "internal_field_manager",
-    ].includes(session?.user?.role || "");
+    ].includes((session?.user as any)?.role || "");
 
     // We need to address the fact that locations may not have an approved field
     // Instead of looking for it directly, let's select all locations for now
     // locationConditions.push(eq(locations.approved, true));
 
     // For client users, only show locations associated with their organization
-    if (!isAdmin && session?.user?.organizationId) {
+    if (!isAdmin && (session?.user as any)?.organizationId) {
       // We also need to check if locations have organizationId field
       // locationConditions.push(eq(locations.organizationId, (session.user as any).organizationId));
     }
