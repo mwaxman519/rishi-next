@@ -125,9 +125,9 @@ export async function POST(request: NextRequest) {
       .from(userOrganizations)
       .innerJoin(
         organizations,
-        eq(userOrganizations.organizationId, organizations.id),
+        eq(userOrganizations.organization_id, organizations.id),
       )
-      .where(eq(userOrganizations.userId, user.id));
+      .where(eq(userOrganizations.user_id, user.id));
 
     console.log("User organizations:", userOrgs);
 
