@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
         id: org.id,
         name: org.name,
         type: org.type,
-        tier: org.tier,
+        tier: org.tier || "tier_1",
         role: "super_admin", // Development mode: super_admin access to all organizations
         isDefault: org.name === "Rishi Internal",
       }));

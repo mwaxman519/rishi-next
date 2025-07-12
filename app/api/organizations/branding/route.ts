@@ -34,7 +34,7 @@ const brandingSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationId = searchParams.get("organizationId");
+    const organizationId = searchParams.get("organizationId") || undefined;
 
     if (!organizationId) {
       return NextResponse.json(
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
     // Check if organization can customize branding based on tier
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
-      organization.tier === "tier_3" ||
+      (organization.tier || "tier_1") === "tier_3" ||
       (await hasPermission("manage:organization_branding", ["super_admin"]));
 
     const branding = await db.query.organizationBranding.findFirst({
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
     // Check if organization can customize branding based on tier
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
-      organization.tier === "tier_3" ||
+      (organization.tier || "tier_1") === "tier_3" ||
       (await hasPermission("manage:organization_branding", ["super_admin"]));
 
     if (!canCustomize) {

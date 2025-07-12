@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if feature is available for the organization's tier
-    const isAvailable = isFeatureAvailableForTier(featureId, organization.tier);
+    const isAvailable = isFeatureAvailableForTier(featureId, organization.tier || "tier_1");
 
     if (!isAvailable) {
       return NextResponse.json({

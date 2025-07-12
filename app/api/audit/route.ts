@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
 
     // Organization filter (organization admins can only see their org's logs)
-    let organizationId = searchParams.get("organizationId");
+    let organizationId = searchParams.get("organizationId") || undefined;
 
     // Check if user can see logs across all organizations
     const canViewAllOrgs = await hasPermission(

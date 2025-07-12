@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const organizationId = searchParams.get("organizationId");
+    const organizationId = searchParams.get("organizationId") || undefined;
     const permissions = searchParams.get("permissions")?.split(",") || [];
 
     if (!organizationId) {
@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
       // Get organization details
       const organization = userOrganization.organization;
       const organizationType = organization.type;
-      const organizationTier = organization.tier;
+      const organizationTier = organization.tier || "tier_1";
 
       // Get organization-specific permissions from database
       const orgPermissions = await db

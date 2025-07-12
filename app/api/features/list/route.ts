@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   try {
     // Get the organization ID from query parameters
     const searchParams = request.nextUrl.searchParams;
-    const organizationId = searchParams.get("organizationId");
+    const organizationId = searchParams.get("organizationId") || undefined;
 
     if (!organizationId) {
       return NextResponse.json(
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
       organization: {
         id: organization.id,
         name: organization.name,
-        tier: organization.tier,
+        tier: organization.tier || "tier_1",
       },
     });
   } catch (error) {
