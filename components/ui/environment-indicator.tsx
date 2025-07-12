@@ -7,8 +7,8 @@
  */
 
 import React from "react";
-import { getEnvironmentIndicator } from "../../config/environment";
-import { useClientOnly } from "../../hooks/useClientOnly";
+import { getEnvironmentIndicator } from "@/components/../config/environment";
+import { useClientOnly } from "@/components/../hooks/useClientOnly";
 
 export function EnvironmentIndicator() {
   // Use our client-only hook for consistency

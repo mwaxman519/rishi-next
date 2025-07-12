@@ -2,20 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import { z } from "zod";
-import { FormControl, FormLabel } from "../ui/form";
+import { FormControl, FormLabel } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Input } from "../ui/input";
-import { Checkbox } from "../ui/checkbox";
-import { DatePicker } from "../ui/date-picker";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DatePicker } from "@/components/ui/date-picker";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { addDays, addMonths, addWeeks, format } from "date-fns";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Calendar, Info } from "lucide-react";
 import { CheckedState } from "@radix-ui/react-checkbox";
 
