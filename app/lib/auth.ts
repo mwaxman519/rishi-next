@@ -116,11 +116,6 @@ export const authOptions = {
     },
   },
 };
-  console.log(
-    "STAGING/PRODUCTION MODE: Using real database authentication check",
-  );
-  return true; // Temporary: return true until real auth check is implemented
-}
 
 // Get user function - used by API routes
 export async function getUser() {

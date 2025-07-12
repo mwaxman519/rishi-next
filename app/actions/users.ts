@@ -24,7 +24,7 @@ import { getAuthUser } from "../lib/auth-server";
 export async function getAllUsers(): Promise<UsersResponse> {
   try {
     // Get current user from the server-side auth context
-    const currentUser = await getAuthUser();
+    const currentUser = await getCurrentUser();
 
     // If no user is authenticated, return unauthorized
     if (!currentUser) {

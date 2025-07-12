@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthUser } from "@/lib/auth-server";
+import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   organizations,
@@ -21,7 +21,7 @@ export async function GET(
 ) {
   try {
     // Get authenticated user
-    const user = await getAuthUser();
+    const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

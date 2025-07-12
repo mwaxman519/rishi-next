@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getAuthUser } from "@/lib/auth-server";
+import { getCurrentUser } from "@/lib/auth";
 import { users } from "@shared/schema";
 import {
   hasEnhancedPermission,
@@ -12,7 +12,7 @@ import { desc } from "drizzle-orm";
 export async function GET(request: NextRequest) {
   try {
     // Check authentication and authorization
-    const authUser = await getAuthUser();
+    const authUser = await getCurrentUser();
     if (!authUser) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

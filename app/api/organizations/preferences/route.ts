@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthUser } from "@/lib/auth-server";
+import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import {
   userOrganizationPreferences,
@@ -29,7 +29,7 @@ import { z } from "zod";
 export async function GET(request: NextRequest) {
   try {
     // Get the current authenticated user
-    const user = await getAuthUser();
+    const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -144,7 +144,7 @@ const updatePreferenceSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     // Get the current authenticated user
-    const user = await getAuthUser();
+    const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthUser } from "@/lib/auth-server";
+import { getCurrentUser } from "@/lib/auth";
 import { getAuditLogs } from "@/lib/audit-log";
 import {
   hasPermission,
@@ -17,7 +17,7 @@ import { USER_ROLES } from "../../../shared/rbac/roles";
 export async function GET(request: NextRequest) {
   try {
     // Get authenticated user
-    const user = await getAuthUser();
+    const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
