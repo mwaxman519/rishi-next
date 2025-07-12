@@ -92,9 +92,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const searchParams = request.nextUrl.searchParams;
-    const userId = searchParams.get("userId");
-    const startDate = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate");
+    const userId = searchParams.get("userId") || undefined;
+    const startDate = searchParams.get("startDate") || undefined;
+    const endDate = searchParams.get("endDate") || undefined;
     const status = searchParams.get("status") as
       | "available"
       | "unavailable"

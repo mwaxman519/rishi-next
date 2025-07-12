@@ -60,11 +60,11 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
 
   // Filter by organization if provided
-  const organizationId = searchParams.get("organizationId");
+  const organizationId = searchParams.get("organizationId") || undefined;
 
   // Filter by date range if provided
-  const startDate = searchParams.get("startDate");
-  const endDate = searchParams.get("endDate");
+  const startDate = searchParams.get("startDate") || undefined;
+  const endDate = searchParams.get("endDate") || undefined;
 
   // In a real implementation, we would apply these filters
   // For now, just return the mock data

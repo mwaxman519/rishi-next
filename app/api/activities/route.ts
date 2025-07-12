@@ -22,10 +22,10 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const organizationId =
       searchParams.get("organizationId") || (user as any).organizationId;
-    const typeId = searchParams.get("typeId");
-    const status = searchParams.get("status");
-    const startDate = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate");
+    const typeId = searchParams.get("typeId") || undefined;
+    const status = searchParams.get("status") || undefined;
+    const startDate = searchParams.get("startDate") || undefined;
+    const endDate = searchParams.get("endDate") || undefined;
 
     // Build the query with joins to get related data
     // Activities don't have organizationId - filter through parent booking

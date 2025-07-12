@@ -14,8 +14,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const searchParams = request.nextUrl.searchParams;
 
   // Parse the date range parameters
-  const startDateParam = searchParams.get("startDate");
-  const endDateParam = searchParams.get("endDate");
+  const startDateParam = searchParams.get("startDate") || undefined;
+  const endDateParam = searchParams.get("endDate") || undefined;
 
   // Get the auth token and verify user
   const authHeader = request.headers.get("authorization");

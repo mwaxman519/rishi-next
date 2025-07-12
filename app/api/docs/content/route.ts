@@ -20,7 +20,7 @@ interface DocMetadata {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const docPath = searchParams.get("path");
+    const docPath = searchParams.get("path") || undefined;
 
     console.log(
       `[DOCS CONTENT API] Received request for document path: ${docPath}`,

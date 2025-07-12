@@ -83,10 +83,10 @@ export async function GET(request: NextRequest) {
 
     // Get query parameters for filtering
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status");
-    const organizationId = searchParams.get("organizationId");
-    const startDate = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate");
+    const status = searchParams.get("status") || undefined;
+    const organizationId = searchParams.get("organizationId") || undefined;
+    const startDate = searchParams.get("startDate") || undefined;
+    const endDate = searchParams.get("endDate") || undefined;
 
     // Apply filters
     let filteredBookings = [...allBookings];

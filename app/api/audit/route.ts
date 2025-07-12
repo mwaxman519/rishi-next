@@ -54,10 +54,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Other filters
-    const userId = searchParams.get("userId");
-    const action = searchParams.get("action");
-    const resource = searchParams.get("resource");
-    const resourceId = searchParams.get("resourceId");
+    const userId = searchParams.get("userId") || undefined;
+    const action = searchParams.get("action") || undefined;
+    const resource = searchParams.get("resource") || undefined;
+    const resourceId = searchParams.get("resourceId") || undefined;
 
     // Date range filters
     const startDate = searchParams.get("startDate")
