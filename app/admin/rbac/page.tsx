@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import SidebarLayout from "@/app/components/SidebarLayout";
+import SidebarLayout from "@/components/SidebarLayout";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import { USER_ROLES } from "../../../shared/schema";
 import {

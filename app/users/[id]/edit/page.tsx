@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
-import SidebarLayout from "@/app/components/SidebarLayout";
+import SidebarLayout from "@/components/SidebarLayout";
 import UserDetailPanel from "@/components/users/UserDetailPanel";
 
 /**
