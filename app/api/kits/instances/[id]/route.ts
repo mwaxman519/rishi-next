@@ -4,7 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { kitsService } from "../../../../services/kits";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/auth-server";
 
 /**
  * GET /api/kits/instances/[id]

@@ -238,6 +238,21 @@ export async function updateUserPassword(userId: string, newPassword: string): P
   }
 }
 
+// Add getUser function for compatibility
+export async function getUser(id: string) {
+  try {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, id));
+
+    return user || null;
+  } catch (error) {
+    console.error("Error getting user:", error);
+    return null;
+  }
+}
+
 /**
  * Get user from request (alternative function name)
  */

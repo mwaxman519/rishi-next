@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { activities } from "@/shared/schema";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/auth-server";
 import { eq } from "drizzle-orm";
 import { USER_ROLES } from "@/shared/schema";
 
