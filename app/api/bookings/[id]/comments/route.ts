@@ -25,8 +25,8 @@ interface RouteParams {
  */
 export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
-    const session = await getAuthSession();
-    if (!session || !session.user) {
+    const user = await getAuthSession();
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -47,9 +47,9 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       "super_admin",
       "internal_admin",
       "internal_field_manager",
-    ].includes(session.user.role);
+    ].includes(user.role);
     const isInClientOrg =
-      booking.clientOrganizationId === (session.user as any).organizationId;
+      booking.clientOrganizationId === (user as any).organizationId;
 
     if (!isAdmin && !isInClientOrg) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -85,8 +85,8 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
  */
 export async function POST(req: NextRequest, { params }: RouteParams) {
   try {
-    const session = await getAuthSession();
-    if (!session || !session.user) {
+    const user = await getAuthSession();
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -108,9 +108,9 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
       "super_admin",
       "internal_admin",
       "internal_field_manager",
-    ].includes(session.user.role);
+    ].includes(user.role);
     const isInClientOrg =
-      booking.clientOrganizationId === (session.user as any).organizationId;
+      booking.clientOrganizationId === (user as any).organizationId;
 
     if (!isAdmin && !isInClientOrg) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -129,7 +129,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
     // Validate the comment data
     const commentData = insertBookingCommentSchema.parse({
       bookingId: id,
-      userId: (session.user as any).id,
+      userId: user.id,
       comment: data.comment,
       isInternal: isAdmin ? data.isInternal || false : false,
     });
