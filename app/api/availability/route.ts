@@ -124,7 +124,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // Create query options with proper validation
     const options = {
-      userId: parseInt(userId),
+      userId: userId, // Keep as string for UUID comparison
       startDate: startDate ? new Date(startDate) : undefined,
       endDate: endDate ? new Date(endDate) : undefined,
       status: status || undefined,
@@ -169,8 +169,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         "➡️ Querying availabilityBlocks table with filters",
       );
 
-      // Build query filters
-      const filters = [eq(schema.availabilityBlocks.user_id, options.userId)];
+      // Build query filters - only add user_id filter if it's a valid UUID string
+      const filters = [];
+      if (options.userId && typeof options.userId === 'string') {
+        filters.push(eq(schema.availabilityBlocks.user_id, options.userId));
+      }
 
       // Add date filters if provided
       if (options.startDate) {

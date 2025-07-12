@@ -30,13 +30,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json(errorResponse, { status: 400 });
     }
 
-    const userIdNum = parseInt(userId);
+    const userIdString = userId; // Keep as string for UUID comparison
     const excludeBlockId = excludeBlockIdStr
       ? parseInt(excludeBlockIdStr)
       : undefined;
 
     if (
-      isNaN(userIdNum) ||
+      !userIdString ||
       (excludeBlockIdStr && isNaN(excludeBlockId as number))
     ) {
       const errorResponse: ConflictCheckResponse = {
@@ -48,12 +48,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     try {
       console.log(
-        `[conflicts/route GET] Checking conflicts for userId=${userIdNum}, startDate=${startDate}, endDate=${endDate}`,
+        `[conflicts/route GET] Checking conflicts for userId=${userIdString}, startDate=${startDate}, endDate=${endDate}`,
       );
 
       // Build query filters
       const baseFilters = [
-        eq(availabilityBlocks.user_id, userId),
+        eq(availabilityBlocks.user_id, userIdString),
         sql`${availabilityBlocks.start_date} < ${new Date(endDate)}`,
         sql`${availabilityBlocks.end_date} > ${new Date(startDate)}`,
       ];
@@ -163,10 +163,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     try {
       // Convert userId to number if it's a string
-      const userIdNum = typeof userId === "string" ? parseInt(userId) : userId;
+      const userIdString = typeof userId === "string" ? userId : userId;
 
       console.log(
-        `[conflicts/route POST] Checking conflicts for userId=${userIdNum}, startDate=${startDate}, endDate=${endDate}`,
+        `[conflicts/route POST] Checking conflicts for userId=${userIdString}, startDate=${startDate}, endDate=${endDate}`,
       );
 
       // Build query filters with UUID agentId
