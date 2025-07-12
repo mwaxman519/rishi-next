@@ -43,7 +43,7 @@ export async function GET(
       "super_admin",
       "internal_admin",
       "internal_field_manager",
-    ].includes(session.user.role);
+    ].includes((session.user as any).role);
 
     // Only allow users to see bookings from their organization if they're not an admin
     if (!isAdmin && (session.user as any).organizationId) {
@@ -109,7 +109,7 @@ export async function PATCH(
       "super_admin",
       "internal_admin",
       "internal_field_manager",
-    ].includes(session.user.role);
+    ].includes((session.user as any).role);
 
     // Only allow users to update bookings from their organization if they're not an admin
     if (!isAdmin && (session.user as any).organizationId) {
@@ -191,7 +191,7 @@ export async function DELETE(
       "super_admin",
       "internal_admin",
       "internal_field_manager",
-    ].includes(session.user.role);
+    ].includes((session.user as any).role);
 
     if (!isAdmin && (session.user as any).organizationId) {
       conditions.push(
