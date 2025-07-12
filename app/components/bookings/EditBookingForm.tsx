@@ -37,7 +37,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import LocationSelector from "@/app/components/locations/LocationSelector";
+import LocationSelector from "@/components/locations/LocationSelector";
 // TimeRangePicker is imported but not used, using native time inputs instead
 
 // Data will be fetched from database via API

@@ -22,7 +22,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { AlertCircle, Building, Search } from "lucide-react";
 import { GoogleMapsProvider } from "@/contexts/GoogleMapsContext";
-import ClientLocationsList from "@/app/components/locations/ClientLocationsList";
+import ClientLocationsList from "@/components/locations/ClientLocationsList";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 // Define interface for brand data

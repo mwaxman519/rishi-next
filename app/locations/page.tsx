@@ -31,10 +31,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PendingLocationsList } from "@/app/components/locations/PendingLocationsList";
-import { LocationMap } from "@/app/components/maps/LocationMap";
-import { ClusteredLocationMap } from "@/app/components/maps/ClusteredLocationMap";
-import { GoogleMapsProvider } from "@/app/components/maps/GoogleMapsContext";
+import { PendingLocationsList } from "@/components/locations/PendingLocationsList";
+import { LocationMap } from "@/components/maps/LocationMap";
+import { ClusteredLocationMap } from "@/components/maps/ClusteredLocationMap";
+import { GoogleMapsProvider } from "@/components/maps/GoogleMapsContext";
 import { useRouter } from "next/navigation";
 import { useLocations, LocationFilters } from "@/hooks/useLocations";
 

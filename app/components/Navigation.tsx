@@ -23,9 +23,9 @@ import {
   SUPER_ADMIN_NAV,
   SUPER_ADMIN_SECONDARY_NAV,
 } from "./navigation/SuperAdminNav";
-import Sidebar from "@/app/components/Sidebar";
-import TopBar from "@/app/components/TopBar";
-import MobileNavigation from "@/app/components/MobileNavigation";
+import Sidebar from "@/components/Sidebar";
+import TopBar from "@/components/TopBar";
+import MobileNavigation from "@/components/MobileNavigation";
 import { hasMyAvailability } from "@/utils/navigation-utils";
 
 // Extend User type to include the properties we're using

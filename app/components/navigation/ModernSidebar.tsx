@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { OrganizationSwitcher } from "@/app/components/layout/OrganizationSwitcher";
+import { OrganizationSwitcher } from "@/components/layout/OrganizationSwitcher";
 import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import { AnimatePresence, motion } from "framer-motion";
 

@@ -30,7 +30,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
-import FinalLocationPicker from "@/app/components/locations/FinalLocationPicker";
+import FinalLocationPicker from "@/components/locations/FinalLocationPicker";
 import { useGoogleMaps } from "@/contexts/GoogleMapsContext";
 
 interface Location {
