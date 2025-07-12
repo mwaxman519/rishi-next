@@ -7,8 +7,8 @@
 
 import { NextRequest } from "next/server";
 import { db } from "./db";
-import { auditLogs } from "../../shared/schema";
-import { InsertAuditLog } from "../../shared/schema";
+import { auditLogs } from "@/shared/schema";
+import { InsertAuditLog } from "@/shared/schema";
 import { eq, gte, lte, desc } from "drizzle-orm";
 
 interface AuditLogParams {

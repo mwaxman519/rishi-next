@@ -3,7 +3,7 @@
  * Provides authentication functions and user management
  */
 
-import { User, UserRole } from "../../shared/schema";
+import { User, UserRole } from "@/shared/schema";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 

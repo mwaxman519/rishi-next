@@ -6,7 +6,7 @@
 import type { JwtPayload } from "./auth-server";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { UserRole } from "../../shared/rbac/roles";
+import { UserRole } from "@/shared/rbac/roles";
 
 // Export all server-side functions
 export { hashPassword, comparePasswords } from "./auth-server";

@@ -5,15 +5,15 @@
  * and implements the enhanced permission model with features and scopes.
  */
 
-import { USER_ROLES, UserRole } from "../../shared/rbac/roles";
+import { USER_ROLES, UserRole } from "@/shared/rbac/roles";
 import {
   PermissionFeature,
   featureToString,
   parseFeature,
   permissionCovers,
   PERMISSION_SCOPES,
-} from "../../shared/rbac/features";
-import { ROLE_HIERARCHY, ROLE_PERMISSIONS } from "../../shared/rbac/roles";
+} from "@/shared/rbac/features";
+import { ROLE_HIERARCHY, ROLE_PERMISSIONS } from "@/shared/rbac/roles";
 
 /**
  * Type for organization-aware permission checking context

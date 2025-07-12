@@ -1,14 +1,14 @@
 /**
  * Permissions utility functions for checking user access
  */
-import { db } from "../../server/db";
+import { db } from "@/lib/db";
 import { eq, and, or } from "drizzle-orm";
-import { organizationUsers, organizations, users } from "../../shared/schema";
+import { organizationUsers, organizations, users } from "@/shared/schema";
 import {
   roleHasPermission,
   UserRole,
   USER_ROLES,
-} from "../../shared/rbac/roles";
+} from "@/shared/rbac/roles";
 
 /**
  * Check if a user has a specific permission

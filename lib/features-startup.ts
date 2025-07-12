@@ -2,7 +2,7 @@
  * Feature Module Initialization
  * Initializes all feature modules during application startup
  */
-import { registerFeatureModules } from "../../shared/features";
+import { registerFeatureModules } from "@/shared/features";
 
 let featuresInitialized = false;
 

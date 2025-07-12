@@ -3,7 +3,7 @@
  * Provides functions to check user permissions based on roles and organization context
  */
 
-import { UserRole } from "../../shared/schema";
+import { UserRole } from "@/shared/schema";
 
 // Define permission levels
 export type PermissionLevel = 'read' | 'write' | 'admin' | 'full';

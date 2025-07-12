@@ -11,7 +11,7 @@
  * These utilities are used by the OrganizationProvider and other components
  * to implement organization context switching and permission-based UI elements.
  */
-import { JwtPayload } from "../../shared/types";
+import { JwtPayload } from "@/shared/types";
 
 /**
  * Sign a JWT token with payload

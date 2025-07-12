@@ -3,7 +3,7 @@
  * Contains type-safe conversion functions between DB and domain models
  */
 import { UserRole } from "./schema";
-import { UserProfile, UserWithCredentials } from "../services/users/models";
+import { UserProfile, UserWithCredentials } from "@/services/users/models";
 
 /**
  * Safely converts a database user record to the UserWithCredentials domain model
