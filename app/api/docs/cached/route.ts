@@ -48,8 +48,8 @@ export async function GET(request: NextRequest) {
       title: doc.metadata.title,
       description: doc.metadata.description || "",
       tags: doc.metadata.tags || [],
-      lastUpdated: doc.metadata.lastUpdated
-        ? doc.metadata.lastUpdated.toISOString()
+      lastUpdated: doc.lastModified
+        ? doc.lastModified.toISOString()
         : null,
       // We can't include the actual content as it's a React node
       // But we include the metadata to help with prefetching
