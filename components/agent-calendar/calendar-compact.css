@@ -1,0 +1,43 @@
+/* Compact Calendar Header Styling */
+
+/* Smaller calendar title */
+.fc .fc-toolbar-title {
+  font-size: 1.2rem !important;
+  font-weight: 600;
+  margin: 0 !important;
+  padding: 0 0.5rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Compact header toolbar */
+.fc-header-toolbar {
+  margin-bottom: 0.5em !important;
+  padding: 0 !important;
+}
+
+/* Fix calendar button groups */
+.fc .fc-button-group {
+  display: inline-flex !important;
+  gap: 0 !important;
+}
+
+/* More compact header cells */
+.fc .fc-col-header-cell {
+  padding: 0.2rem 0 !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+  padding: 0.2rem !important;
+  font-size: 0.9rem !important;
+}
+
+/* Adjust spacing between toolbar sections */
+.fc-toolbar-chunk {
+  margin: 0 0.2rem !important;
+}
+
+/* Make the today button more compact */
+.fc-today-button {
+  font-size: 0.9rem !important;
+  padding: 0.3rem 0.5rem !important;
+}
