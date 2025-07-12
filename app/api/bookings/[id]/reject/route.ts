@@ -79,7 +79,7 @@ export async function POST(
     }
 
     // Update booking status to rejected
-    const [updatedBooking] = await db
+    const updateResult = await db
       .update(bookings)
       .set({
         status: "rejected",
@@ -90,6 +90,14 @@ export async function POST(
       })
       .where(eq(bookings.id, bookingId))
       .returning();
+
+    const updatedBooking = updateResult[0];
+    if (!updatedBooking) {
+      return NextResponse.json(
+        { error: "Failed to update booking" },
+        { status: 500 }
+      );
+    }
 
     // Publish event
     await eventBus.publish("BOOKING_REJECTED", {

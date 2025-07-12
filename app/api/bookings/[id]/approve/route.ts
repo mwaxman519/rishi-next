@@ -51,7 +51,7 @@ export async function POST(
     const validatedData = approvalSchema.parse(data);
 
     // Approve the booking by updating its status
-    const [updatedBooking] = await db
+    const updateResult = await db
       .update(bookings)
       .set({
         status: "approved",
@@ -61,6 +61,14 @@ export async function POST(
       })
       .where(eq(bookings.id, bookingId))
       .returning();
+
+    const updatedBooking = updateResult[0];
+    if (!updatedBooking) {
+      return NextResponse.json(
+        { error: "Failed to update booking" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
