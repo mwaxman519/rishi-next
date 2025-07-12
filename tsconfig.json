@@ -43,9 +43,9 @@
     "types": ["node"],
     "paths": {
       "@/*": ["./app/*"],
-      "@/lib/*": ["./app/lib/*", "./lib/*"],
-      "@/components/*": ["./app/components/*", "./components/*"],
-      "@/components/ui/*": ["./app/components/ui/*", "./components/ui/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/components/*": ["./components/*"],
+      "@/components/ui/*": ["./components/ui/*"],
       "@/shared/*": ["./shared/*"],
       "@shared/*": ["./shared/*"],
       "@db": ["./db"]

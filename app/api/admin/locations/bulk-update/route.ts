@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { locations } from "@/shared/schema";
 import { eq, inArray } from "drizzle-orm";
 import { authOptions } from "@/lib/auth-options";
-import { hasPermission } from "@/lib/rbac/hasPermission";
+import { hasPermission, type PermissionLevel } from "@/lib/rbac/hasPermission";
 import { locationEventBus } from "../../../../services/infrastructure/messaging/locationEvents";
 
 // Define the shape of the request body
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
   const userHasPermission = hasPermission(
     userRole,
     "locations",
-    "write"
+    "write" as PermissionLevel
   );
 
   if (!userHasPermission) {

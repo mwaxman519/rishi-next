@@ -47,9 +47,9 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(process.cwd(), 'app'),
+      '@/lib': path.resolve(process.cwd(), 'lib'),
       '@/components': path.resolve(process.cwd(), 'components'),
       '@/components/ui': path.resolve(process.cwd(), 'components/ui'),
-      '@/lib': path.resolve(process.cwd(), 'lib'),
       '@/shared': path.resolve(process.cwd(), 'shared'),
       '@shared': path.resolve(process.cwd(), 'shared'),
       '@/services': path.resolve(process.cwd(), 'app/services'),
