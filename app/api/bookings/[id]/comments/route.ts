@@ -10,7 +10,7 @@ import {
   insertBookingCommentSchema,
 } from "../../../../../shared/schema";
 import { getAuthSession } from "../../../../lib/session";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { z } from "zod";
 
 interface RouteParams {
@@ -55,19 +55,19 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Query to get comments
-    let query = db
-      .select()
-      .from(bookingComments)
-      .where(eq(bookingComments.bookingId, id))
-      .orderBy(desc(bookingComments.createdAt));
-
+    // Query to get comments with proper condition handling
+    const conditions = [eq(bookingComments.bookingId, id)];
+    
     // If not admin, filter out internal comments
     if (!isAdmin) {
-      query = query.where(eq(bookingComments.isInternal, false));
+      conditions.push(eq(bookingComments.isInternal, false));
     }
 
-    const comments = await query;
+    const comments = await db
+      .select()
+      .from(bookingComments)
+      .where(and(...conditions))
+      .orderBy(desc(bookingComments.createdAt));
 
     return NextResponse.json(comments);
   } catch (error) {

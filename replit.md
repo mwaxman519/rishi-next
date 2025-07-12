@@ -244,8 +244,10 @@ This configuration successfully passed Azure build validation and deployment pha
 - **RBAC PERMISSION CHECKS STANDARDIZED**: All permission validation now uses ['super_admin', 'internal_admin', 'internal_field_manager'] role arrays instead of permission arrays
 - **SESSION TYPE ERRORS RESOLVED**: Fixed "Property 'user' does not exist on type 'User'" errors in booking comments route by correctly handling getAuthSession() return type
 - **AUTHENTICATION STRUCTURE CORRECTED**: Updated booking comments route to work with direct User object instead of session.user pattern
+- **DRIZZLE ORM QUERY CHAINING FIXED**: Resolved "Property 'where' does not exist" error by using proper and() condition pattern instead of chaining multiple where() calls
+- **QUERY BUILDER PATTERN MODERNIZED**: Updated booking comments route to use conditions array with and() operator for proper Drizzle ORM query building
 - **VERCEL BUILD BLOCKERS ELIMINATED**: Systematically resolved all TypeScript compilation errors preventing successful Vercel deployment
-- **PRODUCTION DEPLOYMENT READY**: All authentication, UUID handling, session types, and permission validation issues resolved for successful cloud deployment
+- **PRODUCTION DEPLOYMENT READY**: All authentication, UUID handling, session types, query building, and permission validation issues resolved for successful cloud deployment
 
 ### January 11, 2025 - ALL DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL DEPLOYMENT READY (FINAL)
 - **LOCATION SCHEMA FIELD ALIGNMENT COMPLETED**: Fixed all remaining TypeScript errors by aligning API route field names with actual database schema
