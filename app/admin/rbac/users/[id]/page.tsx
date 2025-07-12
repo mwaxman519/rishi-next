@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import SidebarLayout from "@/components/SidebarLayout";
+import SidebarLayout from "@/app/components/SidebarLayout";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useToast } from "@/hooks/use-toast";
