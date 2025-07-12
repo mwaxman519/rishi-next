@@ -33,7 +33,14 @@ export async function POST(request: NextRequest) {
       validatedData.rate || 0.67, // Default IRS mileage rate
     );
 
-    return NextResponse.json(mileageCalculation);
+    if (!mileageCalculation.success) {
+      return NextResponse.json(
+        { error: mileageCalculation.error || "Failed to calculate mileage" },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json(mileageCalculation.data);
   } catch (error) {
     console.error("Error calculating mileage:", error);
 

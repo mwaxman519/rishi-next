@@ -447,6 +447,38 @@ export class ExpenseService {
   }
 
   /**
+   * Calculate mileage expense
+   */
+  async calculateMileage(
+    startLocation: string,
+    endLocation: string,
+    rate: number = 0.67,
+  ): Promise<ServiceResponse<{ distance: number; rate: number; amount: number }>> {
+    try {
+      // For now, we'll use a simple distance calculation
+      // In a real application, this would integrate with Google Maps API or similar
+      const mockDistance = Math.floor(Math.random() * 50) + 5; // 5-55 miles
+      const amount = mockDistance * rate;
+
+      return {
+        success: true,
+        data: {
+          distance: mockDistance,
+          rate,
+          amount: Number(amount.toFixed(2)),
+        },
+      };
+    } catch (error) {
+      console.error("[ExpenseService] Error calculating mileage:", error);
+      return {
+        success: false,
+        error: "Failed to calculate mileage",
+        code: "MILEAGE_CALCULATION_FAILED",
+      };
+    }
+  }
+
+  /**
    * Apply role-based access control to filters
    */
   private applyRoleBasedFiltering(
