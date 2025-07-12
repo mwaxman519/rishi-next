@@ -5,10 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { useAuthorization } from "../hooks/useAuthorization";
-import { useSidebarState } from "../hooks/useSidebarState";
-import { Permission } from "../lib/rbac";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
+import { useSidebarState } from "@/hooks/useSidebarState";
+import { Permission } from "@/lib/rbac";
 import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   filterLinksByPermission,
@@ -19,7 +19,7 @@ import {
   getNavigationForRole,
   getPlatformAdminNav,
 } from "@shared/navigation-structure";
-import { ThemeToggle } from "./ui/theme-toggle";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   ChevronLeft,
   ChevronRight,
