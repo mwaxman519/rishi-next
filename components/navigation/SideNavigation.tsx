@@ -17,7 +17,7 @@ import {
   Package,
 } from "lucide-react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../ui/button";
 import {
   Sheet,

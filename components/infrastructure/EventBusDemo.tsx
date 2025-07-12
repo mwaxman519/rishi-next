@@ -43,7 +43,7 @@ import {
   WifiOff,
 } from "lucide-react";
 import { useEventSocket } from "@/hooks/useEventSocket";
-import { AppEvent } from "../../../shared/events";
+import { AppEvent } from "@/shared/events";
 import { useToast } from "@/hooks/use-toast";
 
 export function EventBusDemo() {
