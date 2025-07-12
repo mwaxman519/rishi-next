@@ -166,39 +166,50 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     try {
       console.log(
-        "➡️ Calling availabilityService.getAvailabilityBlocks with options",
+        "➡️ Querying availabilityBlocks table with filters",
       );
 
-      // Mock availability service for demonstration
-      const availabilityService = {
-        getAvailabilityBlocks: async (options: any) => {
-          return {
-            success: true,
-            data: [
-              {
-                id: uuidv4(),
-                userId: options.userId,
-                startTime: new Date("2025-06-18T09:00:00Z"),
-                endTime: new Date("2025-06-18T17:00:00Z"),
-                isAvailable: true,
-                notes: "Available for cannabis booking assignments",
-              },
-            ],
-          };
-        },
+      // Build query filters
+      const filters = [eq(schema.availabilityBlocks.user_id, options.userId)];
+
+      // Add date filters if provided
+      if (options.startDate) {
+        filters.push(
+          eq(schema.availabilityBlocks.start_date, options.startDate)
+        );
+      }
+      if (options.endDate) {
+        filters.push(
+          eq(schema.availabilityBlocks.end_date, options.endDate)
+        );
+      }
+
+      // Add status filter if provided
+      if (options.status) {
+        filters.push(eq(schema.availabilityBlocks.status, options.status));
+      }
+
+      // Execute database query
+      const availabilityBlocks = await db
+        .select()
+        .from(schema.availabilityBlocks)
+        .where(and(...filters));
+
+      // Transform database results to API format
+      const result = {
+        success: true,
+        data: availabilityBlocks.map((block) => ({
+          id: block.id,
+          userId: block.user_id,
+          startTime: block.start_date,
+          endTime: block.end_date,
+          isAvailable: block.status === "available",
+          notes: block.title || "",
+          status: block.status,
+          isRecurring: block.is_recurring,
+          dayOfWeek: block.day_of_week,
+        })),
       };
-
-      // Wrap service call in a timeout to prevent hanging
-      const serviceCallPromise =
-        availabilityService.getAvailabilityBlocks(options);
-
-      // Set timeout for service call (10 seconds - longer timeout)
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("Service call timed out")), 10000);
-      });
-
-      // Race the service call against the timeout
-      const result = await Promise.race([serviceCallPromise, timeoutPromise]);
 
       if (!result || !result.success) {
         console.log(
