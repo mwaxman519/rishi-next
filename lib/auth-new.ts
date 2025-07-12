@@ -69,10 +69,12 @@ export async function isAuthenticated() {
 }
 
 // Get user function - used by API routes
-export async function getUser() {
+export async function getCurrentAuthUser() {
   return await getCurrentUser();
 }
-export async function getCurrentUser(req?: Request) {
+
+// Development mode getCurrentUser function
+export async function getCurrentUserDev(req?: Request) {
   console.log("DEVELOPMENT MODE: Using mock user for testing");
   return mockUser;
 }

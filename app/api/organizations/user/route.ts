@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import { db } from "@db";
 
 /**
@@ -11,7 +11,7 @@ import { db } from "@db";
 export async function GET(req: NextRequest) {
   try {
     // Get the current user
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     // Check if user is authenticated
     if (!user) {

@@ -5,7 +5,7 @@
 import { db } from "@/lib/db";
 import { organizations, organizationUsers } from "@/shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getUser } from "./auth-server";
+import { getCurrentAuthUser } from "./auth-server";
 
 /**
  * Retrieves all organizations associated with a user

@@ -117,8 +117,8 @@ export const authOptions = {
   },
 };
 
-// Get user function - used by API routes
-export async function getUser() {
+// Get current user function - used by API routes
+export async function getCurrentAuthUser() {
   return await getCurrentUser();
 }
 

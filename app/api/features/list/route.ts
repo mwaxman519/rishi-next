@@ -2,7 +2,7 @@
  * API endpoint to list all features for an organization
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import {
   isUserInOrganization,
   getOrganizationById,
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check authentication
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
     if (!user) {
       return NextResponse.json(
         { error: "Authentication required" },

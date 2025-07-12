@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import { db } from "@db";
 import { organizationInvitations, userOrganizations } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
@@ -17,7 +17,7 @@ import { randomBytes } from "crypto";
 export async function GET(request: NextRequest) {
   try {
     // Get the current user
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     // Check if user is authenticated
     if (!user) {
@@ -151,7 +151,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // Get the current user
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     // Check if user is authenticated
     if (!user) {
@@ -310,7 +310,7 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     // Get the current user
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     // Check if user is authenticated
     if (!user) {
@@ -435,7 +435,7 @@ export async function DELETE(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     // Get the current user
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     // Check if user is authenticated
     if (!user) {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import { SignJWT } from "jose";
 
 /**
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get the current user
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     // Check if user is authenticated
     if (!user) {

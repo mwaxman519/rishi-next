@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 
 /**
  * Get current authenticated user
@@ -7,7 +7,7 @@ import { getUser } from "@/lib/auth-server";
  */
 export async function GET(req: NextRequest) {
   try {
-    const user = await getUser();
+    const user = await getCurrentAuthUser();
 
     if (!user) {
       return NextResponse.json(
