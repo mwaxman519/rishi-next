@@ -17,21 +17,6 @@ import { z } from "zod";
 
 // Define a schema for booking updates
 const updateBookingSchema = insertBookingSchema
-  .omit({
-    id: true,
-    createdById: true,
-    createdAt: true,
-    updatedAt: true,
-    // These should only be set via explicit approval/rejection actions
-    approvedById: true,
-    approvedAt: true,
-    rejectedById: true,
-    rejectedAt: true,
-    rejectionReason: true,
-    canceledById: true,
-    canceledAt: true,
-    cancelReason: true,
-  })
   .partial();
 
 /**

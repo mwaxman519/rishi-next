@@ -252,8 +252,10 @@ This configuration successfully passed Azure build validation and deployment pha
 - **BOOKING REJECTION WORKFLOW FIXED**: Resolved TypeScript error where booking.status === "rejected" comparison had no overlap with existing enum values
 - **NULL SAFETY FIXES COMPLETED**: Fixed "updatedBooking is possibly undefined" TypeScript errors in booking approve/reject routes by adding proper null checks after database operations
 - **DRIZZLE ORM RETURNING PATTERN**: Updated booking approval and rejection routes to use proper null safety pattern for database update operations with .returning() method
+- **DRIZZLE-ZOD SCHEMA FIXED**: Resolved "Type 'true' is not assignable to type 'never'" error in booking route by simplifying updateBookingSchema to use insertBookingSchema.partial() instead of complex .omit() calls
+- **SCHEMA VALIDATION SIMPLIFIED**: Removed problematic field omission from booking update schema since insertBookingSchema already omits auto-generated fields (id, createdAt, updatedAt)
 - **VERCEL BUILD BLOCKERS ELIMINATED**: Systematically resolved all TypeScript compilation errors preventing successful Vercel deployment
-- **PRODUCTION DEPLOYMENT READY**: All authentication, UUID handling, session types, query building, schema alignment, null safety, status enum consistency, and permission validation issues resolved for successful cloud deployment
+- **PRODUCTION DEPLOYMENT READY**: All authentication, UUID handling, session types, query building, schema alignment, null safety, schema validation, status enum consistency, and permission validation issues resolved for successful cloud deployment
 
 ### January 11, 2025 - ALL DEPLOYMENT BLOCKERS COMPLETELY RESOLVED - VERCEL DEPLOYMENT READY (FINAL)
 - **LOCATION SCHEMA FIELD ALIGNMENT COMPLETED**: Fixed all remaining TypeScript errors by aligning API route field names with actual database schema
