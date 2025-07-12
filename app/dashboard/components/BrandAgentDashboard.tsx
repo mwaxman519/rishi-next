@@ -34,65 +34,51 @@ import {
   Phone,
 } from "lucide-react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
-const mockEvents = [
-  {
-    id: "c0a80121-7ac0-11e8-adc0-fa7ae01bbebc",
-    title: "Product Launch - Tech Hub",
-    date: "2025-06-20",
-    time: "10:00 AM - 6:00 PM",
-    location: "Downtown Mall",
-    status: "confirmed",
-    pay: "$240",
-  },
-  {
-    id: "d0b91232-8bd1-22f9-bec1-gb8bf02ccfcd",
-    title: "Summer Brand Activation",
-    date: "2025-06-22",
-    time: "12:00 PM - 8:00 PM",
-    location: "Central Plaza",
-    status: "pending",
-    pay: "$320",
-  },
-  {
-    id: "e1c02343-9ce2-33ga-cfd2-hc9cg03ddgde",
-    title: "Corporate Trade Show",
-    date: "2025-06-25",
-    time: "9:00 AM - 5:00 PM",
-    location: "Convention Center",
-    status: "confirmed",
-    pay: "$280",
-  },
-];
-
-const recentTasks = [
-  {
-    id: "f2d13454-adf3-44hb-dge3-id0dh04eehef",
-    title: "Submit event photos from Tech Hub launch",
-    type: "Event Data",
-    dueDate: "2025-06-21",
-    priority: "high",
-    completed: false,
-  },
-  {
-    id: "g3e24565-beg4-55ic-ehf4-je1ei15ffgfg",
-    title: "Clock in for today's shift",
-    type: "Attendance",
-    dueDate: "2025-06-16",
-    priority: "urgent",
-    completed: true,
-  },
-  {
-    id: "h4f35676-cfh5-66jd-fig5-kf2fj26gghgh",
-    title: "Complete safety training module",
-    type: "Training",
-    dueDate: "2025-06-18",
-    priority: "medium",
-    completed: false,
-  },
-];
 
 export default function BrandAgentDashboard() {
+  const [events, setEvents] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Fetch user's assigned bookings/events
+        const eventsResponse = await fetch('/api/bookings?assignedToMe=true');
+        if (eventsResponse.ok) {
+          const eventsData = await eventsResponse.json();
+          setEvents(eventsData.data || []);
+        }
+
+        // Fetch user's tasks
+        const tasksResponse = await fetch('/api/tasks?assignedToMe=true');
+        if (tasksResponse.ok) {
+          const tasksData = await tasksResponse.json();
+          setTasks(tasksData.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="container mx-auto p-6 space-y-8">
@@ -208,7 +194,7 @@ export default function BrandAgentDashboard() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {mockEvents.map((event) => (
+                  {events.map((event) => (
                     <div
                       key={event.id}
                       className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white border border-gray-100 rounded-xl p-4"
@@ -306,7 +292,7 @@ export default function BrandAgentDashboard() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-3">
-                  {recentTasks.map((task) => (
+                  {tasks.map((task) => (
                     <div
                       key={task.id}
                       className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"

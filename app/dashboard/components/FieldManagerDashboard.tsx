@@ -35,101 +35,60 @@ import {
   Mail,
 } from "lucide-react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
-const mockTeamPerformance = [
-  {
-    id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    name: "Sarah Johnson",
-    role: "Brand Agent",
-    eventsThisWeek: 3,
-    rating: 4.8,
-    status: "active",
-    availability: "Available",
-  },
-  {
-    id: "b2c3d4e5-f6g7-8901-bcde-f23456789012",
-    name: "Michael Chen",
-    role: "Brand Agent",
-    eventsThisWeek: 2,
-    rating: 4.6,
-    status: "on_event",
-    availability: "Working",
-  },
-  {
-    id: "c3d4e5f6-g7h8-9012-cdef-345678901234",
-    name: "Emily Rodriguez",
-    role: "Brand Agent",
-    eventsThisWeek: 4,
-    rating: 4.9,
-    status: "active",
-    availability: "Available",
-  },
-];
 
-const upcomingEvents = [
-  {
-    id: "d4e5f6g7-h8i9-0123-defg-456789012345",
-    title: "Tech Product Launch",
-    date: "2025-06-20",
-    time: "10:00 AM - 6:00 PM",
-    location: "Downtown Mall",
-    staffAssigned: 4,
-    staffRequired: 5,
-    status: "understaffed",
-    client: "TechHub Events",
-  },
-  {
-    id: "e5f6g7h8-i9j0-1234-efgh-567890123456",
-    title: "Summer Brand Activation",
-    date: "2025-06-22",
-    time: "12:00 PM - 8:00 PM",
-    location: "Central Plaza",
-    staffAssigned: 6,
-    staffRequired: 6,
-    status: "fully_staffed",
-    client: "Premium Events Ltd",
-  },
-  {
-    id: "f6g7h8i9-j0k1-2345-fghi-678901234567",
-    title: "Corporate Trade Show",
-    date: "2025-06-25",
-    time: "9:00 AM - 5:00 PM",
-    location: "Convention Center",
-    staffAssigned: 8,
-    staffRequired: 8,
-    status: "fully_staffed",
-    client: "Acme Corp",
-  },
-];
-
-const pendingRequests = [
-  {
-    id: "g7h8i9j0-k1l2-3456-ghij-789012345678",
-    type: "Time Off Request",
-    from: "Sarah Johnson",
-    date: "2025-06-28",
-    priority: "medium",
-    status: "pending",
-  },
-  {
-    id: "h8i9j0k1-l2m3-4567-hijk-890123456789",
-    type: "Schedule Change",
-    from: "Michael Chen",
-    date: "2025-06-22",
-    priority: "high",
-    status: "pending",
-  },
-  {
-    id: "i9j0k1l2-m3n4-5678-ijkl-901234567890",
-    type: "Event Assignment",
-    from: "Emily Rodriguez",
-    date: "2025-06-25",
-    priority: "low",
-    status: "pending",
-  },
-];
 
 export default function FieldManagerDashboard() {
+  const [teamPerformance, setTeamPerformance] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Fetch team performance data
+        const teamResponse = await fetch('/api/users?role=brand_agent&includeMetrics=true');
+        if (teamResponse.ok) {
+          const teamData = await teamResponse.json();
+          setTeamPerformance(teamData.data || []);
+        }
+
+        // Fetch upcoming events
+        const eventsResponse = await fetch('/api/bookings?status=upcoming&limit=10');
+        if (eventsResponse.ok) {
+          const eventsData = await eventsResponse.json();
+          setUpcomingEvents(eventsData.data || []);
+        }
+
+        // Fetch pending requests
+        const requestsResponse = await fetch('/api/requests?status=pending&limit=10');
+        if (requestsResponse.ok) {
+          const requestsData = await requestsResponse.json();
+          setPendingRequests(requestsData.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
       <div className="container mx-auto p-6 space-y-8">
@@ -348,7 +307,7 @@ export default function FieldManagerDashboard() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {mockTeamPerformance.map((member) => (
+                  {teamPerformance.map((member) => (
                     <div
                       key={member.id}
                       className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
