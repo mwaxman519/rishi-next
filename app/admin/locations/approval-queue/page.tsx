@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Card } from "@/components/ui/card";
-import { PendingLocationsList } from "@/app/components/locations/PendingLocationsList";
+import { PendingLocationsList } from "@/components/locations/PendingLocationsList";
 import { ArrowLeft, ClipboardCheck, Map } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";

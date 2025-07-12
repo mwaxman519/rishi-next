@@ -14,8 +14,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs-fixed";
-import UsersTable from "@/app/components/users/UsersTable";
-import UserDetailPanel from "@/app/components/users/UserDetailPanel";
+import UsersTable from "@/components/users/UsersTable";
+import UserDetailPanel from "@/components/users/UserDetailPanel";
 import {
   Card,
   CardContent,

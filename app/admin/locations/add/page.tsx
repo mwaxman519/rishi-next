@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTheme } from "next-themes";
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 // UI Components
 import { Button } from "@/components/ui/button";
@@ -56,8 +56,8 @@ import { GoogleMap, InfoWindow } from "@react-google-maps/api";
 import { useGoogleMaps } from "@/hooks/useGoogleMaps";
 
 // Custom components
-import ManualAddressEntry from "@/app/components/locations/ManualAddressEntry";
-import PlaceAutocompleteAddressPicker from "@/app/components/locations/PlaceAutocompleteAddressPicker";
+import ManualAddressEntry from "@/components/locations/ManualAddressEntry";
+import PlaceAutocompleteAddressPicker from "@/components/locations/PlaceAutocompleteAddressPicker";
 
 // API Key and Configuration
 const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";

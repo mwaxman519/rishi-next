@@ -14,7 +14,7 @@ import {
   PaintBucket,
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-import { OrganizationUsers } from "@/app/components/organizations/OrganizationUsers";
+import { OrganizationUsers } from "@/components/organizations/OrganizationUsers";
 import type { Organization } from "@shared/schema";
 
 // Placeholder components for other tabs - will be implemented later

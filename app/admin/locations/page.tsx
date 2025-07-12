@@ -35,9 +35,9 @@ import { useToast } from "@/hooks/use-toast";
 import {
   LocationFilters,
   LocationFilterValues,
-} from "@/app/components/locations/LocationFilters";
+} from "@/components/locations/LocationFilters";
 
-import { SimplifiedLocationMap } from "@/app/components/maps/SimplifiedLocationMap";
+import { SimplifiedLocationMap } from "@/components/maps/SimplifiedLocationMap";
 
 interface Location {
   id: string;

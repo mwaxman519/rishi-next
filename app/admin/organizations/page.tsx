@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { PermissionGuard } from "@/app/components/rbac/PermissionGuard";
+import { PermissionGuard } from "@/components/rbac/PermissionGuard";
 import type { Organization } from "@shared/schema";
 
 export default function OrganizationsPage() {
