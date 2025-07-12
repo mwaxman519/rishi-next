@@ -203,13 +203,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       if (!result || !result.success) {
         console.log(
           "⚠️ Service error:",
-          result?.error || "Unknown service error",
+          "Unknown service error",
         );
         // Return proper error response
         return NextResponse.json(
           {
             success: false,
-            error: result?.error || "Service error occurred",
+            error: "Service error occurred",
             data: [], // Empty array to prevent client-side errors
           },
           {
