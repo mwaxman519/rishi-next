@@ -3,15 +3,15 @@
 import * as React from "react";
 import { useState } from "react";
 import { Search, MapPin } from "lucide-react";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import { NewLocationRequestDialog } from "./NewLocationRequestDialog";
 
 // Importing the location types from the booking form
