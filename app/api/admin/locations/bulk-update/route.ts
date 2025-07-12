@@ -32,8 +32,9 @@ export async function POST(req: NextRequest) {
   }
 
   // Verify user has permissions to update locations
+  const userRole = (session.user as any).role || 'client_user';
   const userHasPermission = hasPermission(
-    session.user,
+    userRole,
     "locations",
     "write"
   );

@@ -75,6 +75,18 @@ export function getDocsDirectory() {
 }
 
 export function extractFirstParagraph(content: string): string {
+  const paragraphs = content.split('\n\n');
+  return paragraphs[0] || '';
+}
+
+export function formatZodError(error: any): string {
+  if (error?.issues) {
+    return error.issues.map((issue: any) => `${issue.path.join('.')}: ${issue.message}`).join(', ');
+  }
+  return error?.message || 'Validation error';
+}
+
+export function extractFirstParagraph(content: string): string {
   const paragraphs = content.split('\n\n')
   return paragraphs[0] || ''
 }
