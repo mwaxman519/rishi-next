@@ -59,17 +59,17 @@ function getDocMetadata(content: string): {
   let title: string | null = null;
   let tags: string[] | undefined;
 
-  if (titleMatch) {
+  if (titleMatch && titleMatch[1]) {
     title = titleMatch[1].trim();
   }
 
-  if (frontmatterMatch) {
+  if (frontmatterMatch && frontmatterMatch[1]) {
     const frontmatter = frontmatterMatch[1];
 
     // Extract title from frontmatter if not already found
     if (!title) {
       const frontmatterTitleMatch = frontmatter.match(/title:\s*(.+)(\n|$)/);
-      if (frontmatterTitleMatch) {
+      if (frontmatterTitleMatch && frontmatterTitleMatch[1]) {
         title = frontmatterTitleMatch[1].trim();
       }
     }
