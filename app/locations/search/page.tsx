@@ -8,10 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { LocationSearch } from "@/components/locations/LocationSearch";
+import { LocationSearch } from "@/app/components/locations/LocationSearch";
 import { GoogleMapsProvider } from "@/contexts/GoogleMapsContext";
-import LocationMap from "@/components/locations/LocationMap";
-import PlacesAutocomplete from "@/components/locations/PlacesAutocomplete";
+import LocationMap from "@/app/components/locations/LocationMap";
+import PlacesAutocomplete from "@/app/components/locations/PlacesAutocomplete";
 import { MapPin, Navigation } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

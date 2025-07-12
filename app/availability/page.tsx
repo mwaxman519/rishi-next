@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import AgentCalendar from "@/components/agent-calendar/AgentCalendar";
+import AgentCalendar from "@/app/components/agent-calendar/AgentCalendar";
 
 export default function AvailabilityPage() {
   const router = useRouter();

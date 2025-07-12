@@ -53,7 +53,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useLocations } from "@/hooks/useLocations";
 import { LocationDTO } from "@/services/locations";
-import LocationMap from "@/components/locations/LocationMap";
+import LocationMap from "@/app/components/locations/LocationMap";
 
 export default function LocationApprovalPage() {
   const router = useRouter();

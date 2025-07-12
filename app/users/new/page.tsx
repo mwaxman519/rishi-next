@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
-import SidebarLayout from "@/components/SidebarLayout";
+import SidebarLayout from "@/app/components/SidebarLayout";
 import { useToast } from "@/hooks/use-toast";
 import { USER_ROLES } from "@shared/schema";
 import Link from "next/link";

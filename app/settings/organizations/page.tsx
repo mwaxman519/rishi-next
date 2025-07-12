@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useOrganization } from "@/contexts/OrganizationProvider";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { AuthGuard } from "@/components/AuthGuard";
+import { AuthGuard } from "@/app/components/AuthGuard";
 
 interface Organization {
   id: string;

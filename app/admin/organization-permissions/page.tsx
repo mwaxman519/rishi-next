@@ -39,7 +39,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PermissionGuard } from "@/components/rbac/PermissionGuard";
+import { PermissionGuard } from "@/app/components/rbac/PermissionGuard";
 
 // Define types for the component
 interface Organization {

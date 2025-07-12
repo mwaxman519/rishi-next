@@ -1,6 +1,6 @@
 "use client";
 
-import { EventBusDemo } from "@/components/infrastructure/EventBusDemo";
+import { EventBusDemo } from "@/app/components/infrastructure/EventBusDemo";
 
 export default function InfrastructurePage() {
   return (

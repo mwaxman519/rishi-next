@@ -11,8 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LocationList,
   type Location,
-} from "@/components/locations/LocationList";
-import LocationMap from "@/components/locations/LocationMap";
+} from "@/app/components/locations/LocationList";
+import LocationMap from "@/app/components/locations/LocationMap";
 import { useToast } from "@/hooks/use-toast";
 
 export default function LocationsDirectoryPage() {

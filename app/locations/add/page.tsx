@@ -53,7 +53,7 @@ import {
 } from "@react-google-maps/api";
 
 // Custom components
-import ManualAddressEntry from "@/components/locations/ManualAddressEntry";
+import ManualAddressEntry from "@/app/components/locations/ManualAddressEntry";
 
 // API Key and Configuration
 const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";

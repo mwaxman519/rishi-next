@@ -41,9 +41,9 @@ import { GoogleMap, InfoWindow } from "@react-google-maps/api";
 import {
   GoogleMapsProvider,
   useGoogleMaps,
-} from "@/components/maps/GoogleMapsContext";
-import { GooglePlacesInput } from "@/components/maps/GooglePlacesInput";
-import { LocationData } from "@/components/maps/types";
+} from "@/app/components/maps/GoogleMapsContext";
+import { GooglePlacesInput } from "@/app/components/maps/GooglePlacesInput";
+import { LocationData } from "@/app/components/maps/types";
 import { useTheme } from "next-themes";
 
 // Map styles and configuration

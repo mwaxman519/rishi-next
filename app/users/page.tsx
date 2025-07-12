@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useToast } from "@/hooks/use-toast";
-import SidebarLayout from "@/components/SidebarLayout";
+import SidebarLayout from "@/app/components/SidebarLayout";
 import Link from "next/link";
 import { getAllUsers } from "@/actions/users";
 import { UserProfile } from "@/services/users/models";
@@ -15,8 +15,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs-fixed"; // Using fixed UI component without cn
-import UsersTable from "@/components/users/UsersTable";
-import UserDetailPanel from "@/components/users/UserDetailPanel";
+import UsersTable from "@/app/components/users/UsersTable";
+import UserDetailPanel from "@/app/components/users/UserDetailPanel";
 
 export default function UsersPage() {
   const { user, isLoading: isAuthLoading } = useAuth();

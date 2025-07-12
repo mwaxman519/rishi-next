@@ -56,8 +56,8 @@ import { GoogleMap, InfoWindow } from "@react-google-maps/api";
 import { useGoogleMaps } from "@/hooks/useGoogleMaps";
 
 // Custom components
-import ManualAddressEntry from "@/components/locations/ManualAddressEntry";
-import PlaceAutocompleteAddressPicker from "@/components/locations/PlaceAutocompleteAddressPicker";
+import ManualAddressEntry from "@/app/components/locations/ManualAddressEntry";
+import PlaceAutocompleteAddressPicker from "@/app/components/locations/PlaceAutocompleteAddressPicker";
 
 // API Key and Configuration
 const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";

@@ -44,7 +44,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon, Clock, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import SimplifiedLocationMap from "@/components/maps/SimplifiedLocationMap";
+import SimplifiedLocationMap from "@/app/components/maps/SimplifiedLocationMap";
 
 // Define an interface for form data
 interface BookingFormData {
