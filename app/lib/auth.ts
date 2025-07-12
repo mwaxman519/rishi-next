@@ -87,17 +87,7 @@ export async function getUser() {
   return mockUser; // Production implementation - real user data from database
 }
 
-// Get current user function for API routes
-export async function getCurrentUser(req?: Request) {
-  if (process.env.NODE_ENV === "development") {
-    console.log("DEVELOPMENT MODE: Using mock user for testing");
-    return mockUser;
-  }
-
-  // For staging/production, get actual current user from database
-  console.log("STAGING/PRODUCTION MODE: Using real database current user");
-  return mockUser; // Production implementation - real user data from database
-}
+// Removed duplicate getCurrentUser function
 
 // Get user organizations
 export async function getUserOrganizations() {

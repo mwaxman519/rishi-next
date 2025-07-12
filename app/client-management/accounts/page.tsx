@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Building,
   Plus,
@@ -41,60 +41,34 @@ import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "../../hooks/useAuthorization";
 
 // Mock data for client accounts
-const mockClientAccounts = [
-  {
-    id: 1,
-    name: "Evergreen Dispensary",
-    type: "Client",
-    tier: "Tier 2",
-    status: "Active",
-    logoUrl: null,
-    dateCreated: "2024-02-15",
-  },
-  {
-    id: 2,
-    name: "Emerald Coast Cannabis",
-    type: "Client",
-    tier: "Tier 3",
-    status: "Active",
-    logoUrl: null,
-    dateCreated: "2024-03-05",
-  },
-  {
-    id: 3,
-    name: "Healing Leaves Medical",
-    type: "Client",
-    tier: "Tier 1",
-    status: "Active",
-    logoUrl: null,
-    dateCreated: "2024-01-22",
-  },
-  {
-    id: 4,
-    name: "GreenPath Wellness",
-    type: "Client",
-    tier: "Tier 2",
-    status: "Inactive",
-    logoUrl: null,
-    dateCreated: "2023-11-10",
-  },
-  {
-    id: 5,
-    name: "Herbal Solutions",
-    type: "Client",
-    tier: "Tier 1",
-    status: "Pending",
-    logoUrl: null,
-    dateCreated: "2024-04-01",
-  },
-];
 
 export default function ClientAccountsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const { checkPermission } = useAuthorization();
 
   // Filter clients based on search query
-  const filteredClients = mockClientAccounts.filter(
+  const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const response = await fetch('/api/client-accounts');
+        if (response.ok) {
+          const data = await response.json();
+          setAccounts(data.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching client accounts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAccounts();
+  }, []);
+
+  const filteredClients = accounts.filter(
     (client) =>
       client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       client.tier.toLowerCase().includes(searchQuery.toLowerCase()) ||

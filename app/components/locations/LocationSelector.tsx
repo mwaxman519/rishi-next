@@ -62,20 +62,19 @@ export default function LocationSelector({
     }
   }, [selectedLocationId, locations]);
 
-  // In a real app, this would fetch locations from API based on search query
-  const handleSearch = (query: string) => {
+  // Real API search implementation
+  const handleSearch = async (query: string) => {
     setSearchQuery(query);
 
-    // Filter locations based on search query
-    if (query) {
-      const filteredLocations = mockLocations.filter(
-        (location) =>
-          location.name.toLowerCase().includes(query.toLowerCase()) ||
-          location.address.toLowerCase().includes(query.toLowerCase()),
-      );
-      setLocations(filteredLocations);
-    } else {
-      setLocations(mockLocations);
+    try {
+      // Fetch locations from API with search query
+      const response = await fetch(`/api/locations?search=${encodeURIComponent(query)}&limit=20`);
+      if (response.ok) {
+        const data = await response.json();
+        setLocations(data.data || []);
+      }
+    } catch (error) {
+      console.error('Error searching locations:', error);
     }
   };
 

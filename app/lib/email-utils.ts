@@ -62,22 +62,6 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
     console.log("=== EMAIL READY ===");
 
     return true;
-      from: params.from || 'noreply@rishi.app',
-      subject: params.subject,
-      text: params.text || '',
-      html: params.html,
-    };
-    
-    if (params.cc) msg.cc = params.cc;
-    if (params.bcc) msg.bcc = params.bcc;
-    if (params.replyTo) msg.replyTo = params.replyTo;
-    
-    await sgMail.send(msg);
-    */
-
-    // For now, just simulate a successful send in production
-    console.log(`Email sent to ${params.to}`);
-    return true;
   } catch (error) {
     console.error("Error sending email:", error);
     return false;

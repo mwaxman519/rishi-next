@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Users,
   User,
@@ -46,75 +46,34 @@ import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "../../hooks/useAuthorization";
 
 // Mock data for staff
-const mockStaff = [
-  {
-    id: 1,
-    name: "Sarah Johnson",
-    role: "Sales Associate",
-    location: "Evergreen Main Dispensary",
-    client: "Evergreen Dispensary",
-    status: "Active",
-    certified: true,
-    assignedSince: "2024-01-15",
-    email: "sarah.j@example.com",
-    phone: "(555) 123-4567",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    role: "Shift Manager",
-    location: "Emerald Coast North",
-    client: "Emerald Coast Cannabis",
-    status: "Active",
-    certified: true,
-    assignedSince: "2023-11-10",
-    email: "michael.c@example.com",
-    phone: "(555) 234-5678",
-  },
-  {
-    id: 3,
-    name: "David Martinez",
-    role: "Budtender",
-    location: "Healing Leaves Clinic",
-    client: "Healing Leaves Medical",
-    status: "Active",
-    certified: true,
-    assignedSince: "2024-02-05",
-    email: "david.m@example.com",
-    phone: "(555) 345-6789",
-  },
-  {
-    id: 4,
-    name: "Jessica Park",
-    role: "Inventory Specialist",
-    location: "GreenPath Downtown",
-    client: "GreenPath Wellness",
-    status: "On Leave",
-    certified: true,
-    assignedSince: "2023-10-20",
-    email: "jessica.p@example.com",
-    phone: "(555) 456-7890",
-  },
-  {
-    id: 5,
-    name: "Alex Rivera",
-    role: "Processing Technician",
-    location: "Herbal Solutions Processing",
-    client: "Herbal Solutions",
-    status: "Training",
-    certified: false,
-    assignedSince: "2024-04-01",
-    email: "alex.r@example.com",
-    phone: "(555) 567-8901",
-  },
-];
 
 export default function StaffManagementPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const { checkPermission } = useAuthorization();
 
   // Filter staff based on search query
-  const filteredStaff = mockStaff.filter(
+  const [staff, setStaff] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        const response = await fetch('/api/staff');
+        if (response.ok) {
+          const data = await response.json();
+          setStaff(data.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching staff:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStaff();
+  }, []);
+
+  const filteredStaff = staff.filter(
     (staff) =>
       staff.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       staff.role.toLowerCase().includes(searchQuery.toLowerCase()) ||

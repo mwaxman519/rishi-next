@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   CreditCard,
   Plus,
@@ -53,112 +53,8 @@ import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "../../hooks/useAuthorization";
 
 // Mock data for invoices
-const mockInvoices = [
-  {
-    id: "INV-2024-0101",
-    client: "Evergreen Dispensary",
-    amount: "$2,450.00",
-    dueDate: "2024-05-15",
-    status: "Paid",
-    description: "April 2024 Services",
-    issueDate: "2024-04-01",
-    paymentDate: "2024-04-10",
-  },
-  {
-    id: "INV-2024-0102",
-    client: "Emerald Coast Cannabis",
-    amount: "$3,150.00",
-    dueDate: "2024-05-15",
-    status: "Pending",
-    description: "April 2024 Services",
-    issueDate: "2024-04-01",
-    paymentDate: null,
-  },
-  {
-    id: "INV-2024-0103",
-    client: "Healing Leaves Medical",
-    amount: "$1,850.00",
-    dueDate: "2024-05-15",
-    status: "Paid",
-    description: "April 2024 Services",
-    issueDate: "2024-04-01",
-    paymentDate: "2024-04-05",
-  },
-  {
-    id: "INV-2024-0104",
-    client: "GreenPath Wellness",
-    amount: "$2,250.00",
-    dueDate: "2024-05-15",
-    status: "Overdue",
-    description: "April 2024 Services",
-    issueDate: "2024-04-01",
-    paymentDate: null,
-  },
-  {
-    id: "INV-2024-0105",
-    client: "Herbal Solutions",
-    amount: "$1,650.00",
-    dueDate: "2024-05-15",
-    status: "Pending",
-    description: "April 2024 Services",
-    issueDate: "2024-04-01",
-    paymentDate: null,
-  },
-];
 
 // Mock data for payment methods
-const mockPaymentMethods = [
-  {
-    id: 1,
-    client: "Evergreen Dispensary",
-    type: "Credit Card",
-    lastFour: "4242",
-    expiryDate: "05/2025",
-    default: true,
-    status: "Active",
-    addedDate: "2023-10-05",
-  },
-  {
-    id: 2,
-    client: "Emerald Coast Cannabis",
-    type: "ACH Bank Transfer",
-    lastFour: "7890",
-    expiryDate: "N/A",
-    default: true,
-    status: "Active",
-    addedDate: "2023-11-10",
-  },
-  {
-    id: 3,
-    client: "Healing Leaves Medical",
-    type: "Credit Card",
-    lastFour: "5678",
-    expiryDate: "08/2026",
-    default: true,
-    status: "Active",
-    addedDate: "2024-01-15",
-  },
-  {
-    id: 4,
-    client: "GreenPath Wellness",
-    type: "Credit Card",
-    lastFour: "9012",
-    expiryDate: "12/2024",
-    default: true,
-    status: "Expired",
-    addedDate: "2023-09-20",
-  },
-  {
-    id: 5,
-    client: "Herbal Solutions",
-    type: "ACH Bank Transfer",
-    lastFour: "3456",
-    expiryDate: "N/A",
-    default: true,
-    status: "Active",
-    addedDate: "2024-03-05",
-  },
-];
 
 export default function BillingPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -166,7 +62,7 @@ export default function BillingPage() {
   const { checkPermission } = useAuthorization();
 
   // Filter invoices based on search query
-  const filteredInvoices = mockInvoices.filter(
+  const filteredInvoices = invoices.filter(
     (invoice) =>
       invoice.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       invoice.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -175,7 +71,38 @@ export default function BillingPage() {
   );
 
   // Filter payment methods based on search query
-  const filteredPaymentMethods = mockPaymentMethods.filter(
+  const [invoices, setInvoices] = useState([]);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBillingData = async () => {
+      try {
+        const [invoicesResponse, paymentMethodsResponse] = await Promise.all([
+          fetch('/api/invoices'),
+          fetch('/api/payment-methods')
+        ]);
+
+        if (invoicesResponse.ok) {
+          const invoicesData = await invoicesResponse.json();
+          setInvoices(invoicesData.data || []);
+        }
+
+        if (paymentMethodsResponse.ok) {
+          const paymentMethodsData = await paymentMethodsResponse.json();
+          setPaymentMethods(paymentMethodsData.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching billing data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBillingData();
+  }, []);
+
+  const filteredPaymentMethods = paymentMethods.filter(
     (method) =>
       method.client.toLowerCase().includes(searchQuery.toLowerCase()) ||
       method.type.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -135,15 +135,20 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
 
   // Fetch brands on component mount
   useEffect(() => {
-    // This would normally fetch from an API
-    // For now, let's use mock data
-    const mockBrands: BrandOption[] = [
-      { id: 1, name: "Acme Cannabis" },
-      { id: 2, name: "Green Leaf Distributors" },
-      { id: 3, name: "Herbal Essentials" },
-    ];
+    const fetchBrands = async () => {
+      try {
+        const response = await fetch('/api/brands');
+        if (response.ok) {
+          const data = await response.json();
+          setBrands(data.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+        setBrands([]);
+      }
+    };
 
-    setBrands(mockBrands);
+    fetchBrands();
   }, []);
 
   // Fetch existing template data if editing

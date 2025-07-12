@@ -26,44 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle2, Package } from "lucide-react";
 
 // Mock data for kit instances
-const mockKitInstances = [
-  {
-    id: "1",
-    name: "Demo Kit #001",
-    description: "Product demonstration kit for California region",
-    templateId: "1",
-    template: { id: "1", name: "Demo Setup Kit" },
-    status: "available" as const,
-    condition: "good" as const,
-    assignedToActivityId: null,
-    createdAt: new Date("2024-01-15"),
-    updatedAt: new Date("2024-06-20"),
-    notes: "Recently serviced and ready for deployment",
-  },
-  {
-    id: "2",
-    name: "Marketing Kit #002",
-    description: "Marketing materials for Portland events",
-    templateId: "2",
-    template: { id: "2", name: "Marketing Materials Kit" },
-    status: "in_use" as const,
-    condition: "good" as const,
-    assignedToActivityId: "event-123",
-    createdAt: new Date("2024-02-10"),
-    updatedAt: new Date("2024-06-18"),
-    notes: "Currently deployed at Portland Cannabis Expo",
-  },
-];
 
-const mockKitTemplates = [
-  { id: "1", name: "Demo Setup Kit", description: "Complete demo setup" },
-  {
-    id: "2",
-    name: "Marketing Materials Kit",
-    description: "Promotional materials",
-  },
-  { id: "3", name: "Training Kit", description: "Educational resources" },
-];
 
 export default function KitInstancesClient() {
   const router = useRouter();

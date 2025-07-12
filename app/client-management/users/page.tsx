@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   UserCog,
@@ -46,65 +46,34 @@ import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "../../hooks/useAuthorization";
 
 // Mock data for client users
-const mockUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@evergreen.com",
-    role: "Admin",
-    client: "Evergreen Dispensary",
-    status: "Active",
-    lastLogin: "2024-04-18",
-    dateCreated: "2023-11-10",
-  },
-  {
-    id: 2,
-    name: "Emma Wilson",
-    email: "emma.wilson@emeraldcoast.com",
-    role: "Manager",
-    client: "Emerald Coast Cannabis",
-    status: "Active",
-    lastLogin: "2024-04-20",
-    dateCreated: "2023-12-05",
-  },
-  {
-    id: 3,
-    name: "Robert Lee",
-    email: "robert.lee@healingleaves.com",
-    role: "Admin",
-    client: "Healing Leaves Medical",
-    status: "Active",
-    lastLogin: "2024-04-15",
-    dateCreated: "2024-01-12",
-  },
-  {
-    id: 4,
-    name: "Diana Torres",
-    email: "diana.torres@greenpath.com",
-    role: "Inventory Manager",
-    client: "GreenPath Wellness",
-    status: "Inactive",
-    lastLogin: "2024-03-10",
-    dateCreated: "2023-09-15",
-  },
-  {
-    id: 5,
-    name: "Sam Crawford",
-    email: "sam.crawford@herbalsolutions.com",
-    role: "Reporting",
-    client: "Herbal Solutions",
-    status: "Pending",
-    lastLogin: "Never",
-    dateCreated: "2024-04-10",
-  },
-];
 
 export default function ClientUsersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const { checkPermission } = useAuthorization();
 
   // Filter users based on search query
-  const filteredUsers = mockUsers.filter(
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('/api/users');
+        if (response.ok) {
+          const data = await response.json();
+          setUsers(data.data || []);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
