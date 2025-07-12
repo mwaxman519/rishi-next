@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { hasPermission } from "@/lib/rbac/hasPermission";
+import { canAccessAdmin } from "@/lib/rbac/hasPermission";
+import { useAuth } from "@/app/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -18,10 +19,18 @@ export default function AdminLayout({
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const { user, isLoading: authLoading } = useAuth();
+
   useEffect(() => {
-    const checkAccess = async () => {
+    if (!authLoading) {
+      if (!user) {
+        setAuthorized(false);
+        setLoading(false);
+        return;
+      }
+
       try {
-        const hasAccess = await hasPermission("view:admin");
+        const hasAccess = canAccessAdmin(user.role);
         setAuthorized(hasAccess);
       } catch (error) {
         console.error("Error checking permissions:", error);
@@ -29,10 +38,8 @@ export default function AdminLayout({
       } finally {
         setLoading(false);
       }
-    };
-
-    checkAccess();
-  }, []);
+    }
+  }, [user, authLoading]);
 
   if (loading) {
     return (

@@ -239,6 +239,9 @@ This configuration successfully passed Azure build validation and deployment pha
 - **ADMIN LAYOUT AUTH IMPORT FIX**: Fixed '@/lib/auth-client' import error in admin layout by using correct '@/lib/rbac/hasPermission' path
 - **AUTH SERVICE COMPATIBILITY**: Updated authService.ts to use standardized auth imports and added missing JWT functions (signJwt, verifyJwt, createTokenCookie, clearTokenCookie) to lib/auth-server.ts
 - **COMPREHENSIVE AUTH MODULE STANDARDIZATION**: All authentication functions now properly exported from single lib/auth-server.ts module for consistent import paths
+- **HASPERMISSION FUNCTION SIGNATURE FIX**: Fixed TypeScript error "Expected 3 arguments, but got 1" in admin layout by using canAccessAdmin helper function instead of direct hasPermission call
+- **ADMIN LAYOUT AUTH INTEGRATION**: Updated admin layout to use useAuth hook and proper role-based permission checking with canAccessAdmin function
+- **RBAC PERMISSION SYSTEM ALIGNMENT**: Admin access control now properly uses RBAC system with user role validation instead of string-based permission checking
 - **BRAND SCHEMA FIELD CORRECTIONS**: Fixed brands.clientId → brands.organizationId and brands.active → brands.isActive to match actual database schema
 - **DRIZZLE-ZOD SCHEMA OPTIMIZATION**: Simplified all insert schemas to use createInsertSchema() without complex omit statements, allowing Drizzle ORM to handle field exclusions automatically
 - **TYPESCRIPT COMPILATION SUCCESS**: Achieved zero TypeScript compilation errors - system now compiles cleanly for production deployment
