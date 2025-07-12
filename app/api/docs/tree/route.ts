@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import * as nodePath from "path";
-import { getDocsDirectory } from "../../../../lib/utils";
+import { getDocsDirectory } from "@/lib/utils";
 
 // Type definition for document tree
 type DocTree = { [key: string]: DocTree | null };

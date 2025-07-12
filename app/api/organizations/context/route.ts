@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getOrganizationContext } from "../../../lib/organization-context";
+import { getOrganizationContext } from "@/lib/organization-context";
 
 /**
  * Get the current organization context

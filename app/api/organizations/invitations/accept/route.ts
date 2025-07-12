@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
-import { db } from "../../../../lib/db";
-import { getCurrentUser } from "../../../../lib/auth-utils";
+import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth-utils";
 import {
   organizationInvitations,
   userOrganizations,
   userOrganizationPreferences,
   organizations,
-} from "../../../../../shared/schema";
-import { sendEmail } from "../../../../lib/email-utils";
+} from "@/shared/schema";
+import { sendEmail } from "@/lib/email-utils";
 
 /**
  * POST handler for accepting an organization invitation

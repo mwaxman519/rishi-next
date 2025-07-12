@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "../../../lib/auth";
+import { getUser } from "@/lib/auth";
 import { db } from "@db";
 import { users, userOrganizations } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
-import { hasPermission } from "../../../lib/rbac";
+import { hasPermission } from "@/lib/rbac";
 
 /**
  * GET /api/organizations/users

@@ -3,7 +3,7 @@
  * Provides data needed to populate the booking form
  */
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import {
   activityTypes,
   locations,
@@ -12,7 +12,7 @@ import {
 } from "@shared/schema";
 import { getServerSession } from "next-auth";
 import { eq, and } from "drizzle-orm";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 
 export async function GET(req: NextRequest) {
   try {

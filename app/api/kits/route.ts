@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "../../lib/db";
-import { kits, insertKitSchema, USER_ROLES } from "../../lib/schema";
+import { db } from "@/lib/db";
+import { kits, insertKitSchema, USER_ROLES } from "@/lib/schema";
 import { and, eq } from "drizzle-orm";
-import { getOrganizationHeaderData } from "../../lib/organization-context";
-import { getCurrentUser } from "../../lib/auth";
-import { checkPermission } from "../../lib/rbac";
+import { getOrganizationHeaderData } from "@/lib/organization-context";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
 
 // GET /api/kits
 export async function GET(req: NextRequest) {

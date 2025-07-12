@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
-import { permissions } from "../../../lib/schema";
+import { db } from "@/lib/db";
+import { permissions } from "@/lib/schema";
 
 /**
  * Fetch all available permissions

@@ -3,7 +3,7 @@
  * Handles single booking operations - get, update, delete
  */
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import {
   bookings,
   activities,
@@ -12,7 +12,7 @@ import {
 } from "@shared/schema";
 import { getServerSession } from "next-auth";
 import { eq, and } from "drizzle-orm";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { z } from "zod";
 
 // Define a schema for booking updates

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
-import { getAuthUser } from "../../../lib/auth-server";
+import { db } from "@/lib/db";
+import { getAuthUser } from "@/lib/auth-server";
 import { users } from "@shared/schema";
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from "../../../lib/rbac-enhanced";
+} from "@/lib/rbac-enhanced";
 import { desc } from "drizzle-orm";
 
 // GET /api/admin/users - Get all users

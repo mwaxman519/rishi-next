@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
 import { brands } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getCurrentUser } from "../../lib/auth";
-import { checkPermission } from "../../lib/rbac";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
 
 // Get all brands for the current user's organization
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const brandsList = await db
       .select()
       .from(brands)
-      .where(and(eq(brands.clientId, organizationId), eq(brands.active, true)))
+      .where(and(eq(brands.organizationId, organizationId), eq(brands.isActive, true)))
       .orderBy(brands.name);
 
     return NextResponse.json({ brands: brandsList });

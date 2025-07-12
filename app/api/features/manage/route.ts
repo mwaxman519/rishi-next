@@ -2,10 +2,10 @@
  * API endpoint to manage feature settings for an organization
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "../../../lib/auth-server";
-import { isUserInOrganization } from "../../../lib/organization-server";
+import { getUser } from "@/lib/auth-server";
+import { isUserInOrganization } from "@/lib/organization-server";
 import { setFeatureStatus } from "../../../../shared/features/registry";
-import { hasPermission } from "../../../lib/rbac";
+import { hasPermission } from "@/lib/rbac";
 
 export async function POST(request: NextRequest) {
   try {

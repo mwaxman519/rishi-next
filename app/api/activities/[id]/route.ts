@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import {
   activities,
   activityTypes,
@@ -8,7 +8,7 @@ import {
   users,
   bookings,
 } from "@shared/schema";
-import { currentUser } from "../../../lib/session";
+import { currentUser } from "@/lib/session";
 import { eq } from "drizzle-orm";
 
 // GET /api/activities/[id]

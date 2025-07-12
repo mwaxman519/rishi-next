@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
-import { extractFirstParagraph, getDocsDirectory } from "../../../../lib/utils";
+import { extractFirstParagraph, getDocsDirectory } from "@/lib/utils";
 
 // Type definitions
 interface DocInfo {

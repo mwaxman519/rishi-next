@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../lib/db";
+import { db } from "@/lib/db";
 import {
   activities,
   insertActivitySchema,
@@ -7,7 +7,7 @@ import {
   locations,
   bookings,
 } from "@shared/schema";
-import { currentUser } from "../../lib/session";
+import { currentUser } from "@/lib/session";
 import { v4 as uuidv4 } from "uuid";
 import { eq, and, gte, lte } from "drizzle-orm";
 

@@ -4,10 +4,10 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { initializeFeatureSystem } from "../../../../shared/features/initialize";
-import { db } from "../../../../db";
+import { db } from "@/lib/db";
 import { organizations } from "@shared/schema";
 import { initializeOrganizationFeatures } from "../../../../shared/features/registry";
-import { hasPermission } from "../../../lib/rbac";
+import { hasPermission } from "@/lib/rbac";
 
 export async function POST(request: NextRequest) {
   try {

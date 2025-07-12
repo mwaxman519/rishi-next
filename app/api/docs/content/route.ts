@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 // Using direct values instead of problematic imports
-// import { extractFirstParagraph, getDocsDirectory } from "../../../lib/utils";
+// import { extractFirstParagraph, getDocsDirectory } from "@/lib/utils";
 
 // Type definitions
 interface DocMetadata {

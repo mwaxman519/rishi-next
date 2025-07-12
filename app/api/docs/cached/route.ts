@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDocumentByPath, getDocTree } from "../../../lib/docs";
+import { getDocumentByPath, getDocTree } from "@/lib/docs";
 
 // Cache duration in seconds
 const CACHE_MAX_AGE = 86400; // 24 hours

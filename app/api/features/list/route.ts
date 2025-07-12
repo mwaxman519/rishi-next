@@ -2,11 +2,11 @@
  * API endpoint to list all features for an organization
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "../../../lib/auth-server";
+import { getUser } from "@/lib/auth-server";
 import {
   isUserInOrganization,
   getOrganizationById,
-} from "../../../lib/organization-server";
+} from "@/lib/organization-server";
 import {
   FeatureModuleRegistry,
   getAllModules,

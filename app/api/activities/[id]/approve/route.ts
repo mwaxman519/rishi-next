@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../lib/db";
+import { db } from "@/lib/db";
 import {
   activities,
   activityTypes,
   locations,
   users,
-} from "../../../../../shared/schema";
-import { currentUser } from "../../../../lib/session";
+} from "@/shared/schema";
+import { currentUser } from "@/lib/session";
 import { eq } from "drizzle-orm";
 
 // POST /api/activities/[id]/approve

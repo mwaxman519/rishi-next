@@ -10,8 +10,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthUser } from "../../../lib/auth-server";
-import { db } from "../../../lib/db";
+import { getAuthUser } from "@/lib/auth-server";
+import { db } from "@/lib/db";
 import {
   userOrganizationPreferences,
   userOrganizations,

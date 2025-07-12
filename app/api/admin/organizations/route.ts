@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
-import { getAuthUser } from "../../../lib/auth-server";
+import { getAuthUser } from "@/lib/auth-server";
 import { organizations } from "@shared/schema";
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from "../../../lib/rbac-enhanced";
+} from "@/lib/rbac-enhanced";
 
 // GET /api/admin/organizations - Get all organizations
 export async function GET(request: NextRequest) {

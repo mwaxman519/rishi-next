@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
 import { existsSync, mkdirSync, statSync, readdirSync, copyFileSync } from "fs";
-import { getDocsDirectory } from "../../../../lib/utils";
+import { getDocsDirectory } from "@/lib/utils";
 
 /**
  * Copy directory recursively

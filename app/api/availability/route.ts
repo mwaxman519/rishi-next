@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { EventBusService } from "../../../services/event-bus-service";
 import { v4 as uuidv4 } from "uuid";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import * as schema from "@shared/schema";
 import { eq, and, between } from "drizzle-orm";
 

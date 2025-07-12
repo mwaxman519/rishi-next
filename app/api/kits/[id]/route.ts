@@ -3,8 +3,8 @@ import { z } from "zod";
 import { db } from "@db";
 import { kits, kitComponentInventory } from "@shared/schema";
 import { eq } from "drizzle-orm";
-import { getOrganizationHeaderData } from "../../../lib/organization-context";
-import { checkPermission } from "../../../lib/rbac";
+import { getOrganizationHeaderData } from "@/lib/organization-context";
+import { checkPermission } from "@/lib/rbac";
 
 // Helper function to get kit by ID
 async function getKit(id: number) {

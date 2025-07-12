@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "../../../lib/auth";
+import { getUser } from "@/lib/auth";
 
 /**
  * Get current authenticated user

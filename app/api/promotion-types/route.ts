@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { currentUser } from "../../lib/session";
+import { currentUser } from "@/lib/session";
 
 // Define system promotion types
 const SYSTEM_PROMOTION_TYPES = [

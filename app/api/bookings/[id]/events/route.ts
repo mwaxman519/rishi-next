@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../db";
+import { db } from "@/lib/db";
 import { eq, desc } from "drizzle-orm";
-import { activities, activityTypes, bookings } from "../../../../../shared/schema";
+import { activities, activityTypes, bookings } from "@/shared/schema";
 
 export async function GET(
   request: NextRequest,

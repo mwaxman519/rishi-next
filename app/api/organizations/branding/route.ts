@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
 import { organizationBranding, organizations } from "@shared/schema";

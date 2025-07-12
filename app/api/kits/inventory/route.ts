@@ -7,8 +7,8 @@ import {
   kits,
 } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getOrganizationHeaderData } from "../../../lib/organization-context";
-import { checkPermission } from "../../../lib/rbac";
+import { getOrganizationHeaderData } from "@/lib/organization-context";
+import { checkPermission } from "@/lib/rbac";
 
 // GET /api/kits/inventory
 export async function GET(req: NextRequest) {
