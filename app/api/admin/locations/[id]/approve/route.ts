@@ -94,7 +94,7 @@ export async function POST(
           locationId: updatedLocation.id,
           name: updatedLocation.name || "Unknown location",
           approvedById: user.id,
-          approvedByName: user.full_name || user.username || "Unknown user",
+          approvedByName: user.fullName || user.username || "Unknown user",
           approvedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
           // This might be called requested_by instead of submittedById in our implementation
           submittedById: updatedLocation.requested_by || "unknown",
