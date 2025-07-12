@@ -155,6 +155,31 @@ export async function authenticateUser(username: string, password: string): Prom
   }
 }
 
+// Auth options for NextAuth compatibility
+export const authOptions = {
+  session: {
+    strategy: 'jwt' as const,
+  },
+  callbacks: {
+    async session({ session, token }: any) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.role = token.role;
+        session.user.organizationId = token.organizationId;
+      }
+      return session;
+    },
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+        token.organizationId = user.organizationId;
+      }
+      return token;
+    },
+  },
+};
+
 /**
  * Create a new user
  */

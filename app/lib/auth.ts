@@ -73,6 +73,49 @@ export async function isAuthenticated() {
   }
 
   // For staging/production, implement actual authentication check
+  const user = await getCurrentUser();
+  return user !== null;
+}
+
+// Get user by ID
+export async function getUser(id: string) {
+  try {
+    const [user] = await db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.id, id));
+
+    return user || null;
+  } catch (error) {
+    console.error("Error getting user:", error);
+    return null;
+  }
+}
+
+// Auth options for NextAuth compatibility
+export const authOptions = {
+  session: {
+    strategy: 'jwt' as const,
+  },
+  callbacks: {
+    async session({ session, token }: any) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.role = token.role;
+        session.user.organizationId = token.organizationId;
+      }
+      return session;
+    },
+    async jwt({ token, user }: any) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+        token.organizationId = user.organizationId;
+      }
+      return token;
+    },
+  },
+};
   console.log(
     "STAGING/PRODUCTION MODE: Using real database authentication check",
   );
