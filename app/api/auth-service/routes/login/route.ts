@@ -105,15 +105,15 @@ export async function POST(request: NextRequest) {
       return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
     }
 
-    // Verify password - using plain text for now
+    // Verify password using bcrypt
     let validPassword = false;
 
     try {
       // Cast user to expected type with password
       const userWithPassword = user as { password: string };
       
-      // For now, use plain text comparison
-      validPassword = password === userWithPassword.password;
+      // Use bcrypt to compare password
+      validPassword = await comparePasswords(password, userWithPassword.password);
       
       console.log(`[Auth Service] Password check for ${username}: ${validPassword ? 'VALID' : 'INVALID'}`);
     } catch (passwordError) {
