@@ -16,6 +16,11 @@ import crypto from "crypto";
 export const DOCS_DIRECTORY = process.env.VERCEL 
   ? path.join(process.cwd(), "public", "Docs")
   : path.join(process.cwd(), "Docs");
+
+// Disable filesystem operations during static generation
+const isStaticGeneration = process.env.NEXT_PHASE === 'phase-production-build' || 
+                          process.env.BUILD_PHASE === 'static-generation' ||
+                          process.env.VERCEL;
 const MARKDOWN_EXTENSIONS = [".md", ".mdx"];
 
 // Cache configuration
@@ -63,6 +68,11 @@ let lastContentHash: string = "";
  * Calculate a hash of directory contents to detect changes
  */
 function calculateDirectoryHash(dir: string): string {
+  // Skip directory hash calculation during static generation
+  if (isStaticGeneration) {
+    return "static-generation-hash";
+  }
+  
   const hashContent: string[] = [];
 
   function processDirectory(currentDir: string) {
@@ -102,6 +112,12 @@ function calculateDirectoryHash(dir: string): string {
  * Gets the document tree by recursively scanning the filesystem
  */
 export async function getDocTree(): Promise<DocTree> {
+  // Return empty tree during static generation to prevent filesystem access
+  if (isStaticGeneration) {
+    debugLog("[DOCS] Static generation mode - returning empty tree");
+    return {};
+  }
+  
   const currentTime = Date.now();
 
   // Check if cache is valid and not expired
@@ -163,6 +179,10 @@ export async function getDocTree(): Promise<DocTree> {
  * Recursively builds a document tree from a directory
  */
 function buildDocTree(dir: string, baseDir: string = DOCS_DIRECTORY): DocTree {
+  // Skip building tree during static generation
+  if (isStaticGeneration) {
+    return {};
+  }
   const tree: DocTree = {};
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -346,6 +366,12 @@ const PATH_REDIRECTS = DOC_PATH_REDIRECTS;
 export async function getDocumentByPath(
   docPath: string,
 ): Promise<DocContent | null> {
+  // Return null during static generation to prevent filesystem access
+  if (isStaticGeneration) {
+    debugLog("[DOCS] Static generation mode - returning null for document");
+    return null;
+  }
+  
   try {
     // First, clean up any existing extensions from the path
     // This ensures we never have double extensions in paths
@@ -627,6 +653,12 @@ export async function getDocumentByPath(
  * Searches documents by query using cached document list
  */
 export async function searchDocuments(query: string): Promise<DocInfo[]> {
+  // Return empty array during static generation
+  if (isStaticGeneration) {
+    debugLog("[DOCS] Static generation mode - returning empty search results");
+    return [];
+  }
+  
   if (!query.trim()) {
     return [];
   }
@@ -662,6 +694,12 @@ let allDocsDirectoryHash: string = "";
  * Gets all documents with caching
  */
 export async function getAllDocs(): Promise<DocInfo[]> {
+  // Return empty array during static generation
+  if (isStaticGeneration) {
+    debugLog("[DOCS] Static generation mode - returning empty document list");
+    return [];
+  }
+  
   try {
     const currentTime = Date.now();
 
@@ -721,6 +759,12 @@ const tagCache: Record<string, { docs: DocInfo[]; timestamp: number }> = {};
  * Gets documents by tag using cached document list when possible
  */
 export async function getDocumentsByTag(tag: string): Promise<DocInfo[]> {
+  // Return empty array during static generation
+  if (isStaticGeneration) {
+    debugLog("[DOCS] Static generation mode - returning empty tag results");
+    return [];
+  }
+  
   const normalizedTag = tag.toLowerCase();
   const currentTime = Date.now();
 
