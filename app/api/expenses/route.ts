@@ -11,7 +11,7 @@ import {
   ExpenseFiltersSchema,
 } from "../../services/expenses/models";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { authOptions } from "../../../lib/auth-options";
 
 const expenseService = new ExpenseService();
 
@@ -29,15 +29,15 @@ export async function GET(request: NextRequest) {
     // Extract filter parameters
     const filters = {
       organizationId: (session.user as any).organizationId || "",
-      ...(searchParams.get("agentId") && { agentId: searchParams.get("agentId") }),
-      ...(searchParams.get("bookingId") && { bookingId: searchParams.get("bookingId") }),
-      ...(searchParams.get("shiftId") && { shiftId: searchParams.get("shiftId") }),
-      ...(searchParams.get("status") && { status: searchParams.get("status") }),
-      ...(searchParams.get("expenseType") && { expenseType: searchParams.get("expenseType") }),
-      ...(searchParams.get("startDate") && { startDate: searchParams.get("startDate") }),
-      ...(searchParams.get("endDate") && { endDate: searchParams.get("endDate") }),
-      page: parseInt(searchParams.get("page") || "1"),
-      limit: parseInt(searchParams.get("limit") || "50"),
+      ...((searchParams.get("agentId") || undefined) && { agentId: (searchParams.get("agentId") || undefined) }),
+      ...((searchParams.get("bookingId") || undefined) && { bookingId: (searchParams.get("bookingId") || undefined) }),
+      ...((searchParams.get("shiftId") || undefined) && { shiftId: (searchParams.get("shiftId") || undefined) }),
+      ...((searchParams.get("status") || undefined) && { status: (searchParams.get("status") || undefined) }),
+      ...((searchParams.get("expenseType") || undefined) && { expenseType: (searchParams.get("expenseType") || undefined) }),
+      ...((searchParams.get("startDate") || undefined) && { startDate: (searchParams.get("startDate") || undefined) }),
+      ...((searchParams.get("endDate") || undefined) && { endDate: (searchParams.get("endDate") || undefined) }),
+      page: parseInt((searchParams.get("page") || undefined) || "1"),
+      limit: parseInt((searchParams.get("limit") || undefined) || "50"),
     };
 
     // Validate filters
@@ -168,7 +168,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const expenseId = searchParams.get("id");
+    const expenseId = (searchParams.get("id") || undefined);
 
     if (!expenseId) {
       return NextResponse.json(

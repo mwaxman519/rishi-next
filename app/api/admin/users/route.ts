@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { getCurrentUser } from "@/lib/auth";
-import { users } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { getCurrentUser } from "../../../lib/auth";
+import { users } from "../../../shared/schema";
 import {
   hasEnhancedPermission,
   createPermissionContext,

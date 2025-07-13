@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { BookingService } from "@/services/BookingService";
 import { getCurrentUser } from "../auth-service/utils/auth-utils";
 import { z } from "zod";
-import { BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
+import { BOOKING_STATUS, BOOKING_PRIORITY } from "../../../shared/schema";
 
 // Cannabis Booking Creation Schema
 const CreateCannabisBookingSchema = z.object({
@@ -83,10 +83,10 @@ export async function GET(request: NextRequest) {
 
     // Get query parameters for filtering
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status") || undefined;
-    const organizationId = searchParams.get("organizationId") || undefined;
-    const startDate = searchParams.get("startDate") || undefined;
-    const endDate = searchParams.get("endDate") || undefined;
+    const status = (searchParams.get("status") || undefined) || undefined;
+    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined) || undefined;
+    const endDate = (searchParams.get("endDate") || undefined) || undefined;
 
     // Apply filters
     let filteredBookings = [...allBookings];

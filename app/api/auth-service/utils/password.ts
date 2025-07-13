@@ -3,7 +3,7 @@
  *
  * Functions for securely handling passwords.
  */
-import bcrypt from "bcryptjs";
+import * as bcrypt from "bcryptjs";
 import { AUTH_CONFIG } from "../config";
 
 /**

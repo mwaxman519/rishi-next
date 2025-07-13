@@ -4,11 +4,11 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { initializeFeatureSystem } from "../../../../shared/features/initialize";
-import { db } from "@/lib/db";
-import { organizations } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { organizations } from "../../../shared/schema";
 import { initializeOrganizationFeatures } from "../../../../shared/features/registry";
-import { hasPermission } from "@/lib/permissions";
-import { getCurrentUser } from "@/lib/auth";
+import { hasPermission } from "../../../lib/permissions";
+import { getCurrentUser } from "../../../lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // Get all active organizations
     const allOrgs = await db.query.organizations.findMany({
-      where: (organizations, { eq }) => eq(organizations.status, "active"),
+      where: eq(organizations.status, "active"),
     });
 
     // Initialize features for each organization

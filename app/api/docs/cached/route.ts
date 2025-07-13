@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   try {
     // Extract the document path from the URL
     const searchParams = new URL(request.url).searchParams;
-    const docPath = searchParams.get("path") || "";
+    const docPath = (searchParams.get("path") || undefined) || "";
 
     console.log(`[DOCS CACHE API] Requesting cached document: ${docPath}`);
 

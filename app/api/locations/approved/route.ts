@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { locations, brandLocations } from "@shared/schema";
+import { locations, brandLocations } from "../../../shared/schema";
 import { eq, and, not, inArray, like, ilike, SQL } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "@/lib/rbac";
 import { sql } from "drizzle-orm";
 
@@ -25,9 +25,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     // Parse query parameters
     const url = new URL(req.url);
-    const excludeBrandId = url.searchParams.get("excludeBrandId");
-    const stateId = url.searchParams.get("stateId");
-    const searchTerm = url.searchParams.get("search");
+    const excludeBrandId = url.(searchParams.get("excludeBrandId") || undefined);
+    const stateId = url.(searchParams.get("stateId") || undefined);
+    const searchTerm = url.(searchParams.get("search") || undefined);
 
     // Build the query with only columns that exist in the database
     let baseQuery = db

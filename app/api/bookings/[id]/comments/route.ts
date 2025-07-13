@@ -3,7 +3,7 @@
  * Handles adding and retrieving comments for bookings
  */
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../lib/db";
 import {
   bookings,
   bookingComments,

@@ -1,81 +1,118 @@
 /**
- * Permissions utility functions for checking user access
+ * Permissions module for RBAC system
+ * Handles permission checking and role-based access control
  */
-import { db } from "@/lib/db";
-import { eq, and, or } from "drizzle-orm";
-import { organizationUsers, organizations, users } from "@/shared/schema";
-import {
-  roleHasPermission,
-  UserRole,
-  USER_ROLES,
-} from "@/shared/rbac/roles";
+
+import { db } from "./db";
+import { eq, and } from "drizzle-orm";
+import { users, userOrganizations } from "../shared/schema";
+
+// Define permission levels
+export type PermissionLevel = "read" | "write" | "admin" | "full";
+
+// Define available permissions
+export type Permission = 
+  | "create:organizations"
+  | "read:organizations"
+  | "update:organizations"
+  | "delete:organizations"
+  | "create:users"
+  | "read:users"
+  | "update:users"
+  | "delete:users"
+  | "create:bookings"
+  | "read:bookings"
+  | "update:bookings"
+  | "delete:bookings"
+  | "create:activities"
+  | "read:activities"
+  | "update:activities"
+  | "delete:activities"
+  | "create:locations"
+  | "read:locations"
+  | "update:locations"
+  | "delete:locations"
+  | "create:staff"
+  | "read:staff"
+  | "update:staff"
+  | "delete:staff";
+
+// Role to permissions mapping
+const rolePermissions = {
+  super_admin: [
+    "create:organizations", "read:organizations", "update:organizations", "delete:organizations",
+    "create:users", "read:users", "update:users", "delete:users",
+    "create:bookings", "read:bookings", "update:bookings", "delete:bookings",
+    "create:activities", "read:activities", "update:activities", "delete:activities",
+    "create:locations", "read:locations", "update:locations", "delete:locations",
+    "create:staff", "read:staff", "update:staff", "delete:staff"
+  ] as Permission[],
+  internal_admin: [
+    "read:organizations", "update:organizations",
+    "create:users", "read:users", "update:users",
+    "create:bookings", "read:bookings", "update:bookings",
+    "create:activities", "read:activities", "update:activities",
+    "create:locations", "read:locations", "update:locations",
+    "create:staff", "read:staff", "update:staff"
+  ] as Permission[],
+  internal_field_manager: [
+    "read:organizations",
+    "read:users",
+    "create:bookings", "read:bookings", "update:bookings",
+    "create:activities", "read:activities", "update:activities",
+    "read:locations", "update:locations",
+    "read:staff", "update:staff"
+  ] as Permission[],
+  brand_agent: [
+    "read:organizations",
+    "read:users",
+    "create:bookings", "read:bookings", "update:bookings",
+    "read:activities", "update:activities",
+    "read:locations",
+    "read:staff"
+  ] as Permission[],
+  client_manager: [
+    "read:organizations",
+    "read:users",
+    "read:bookings",
+    "read:activities",
+    "read:locations",
+    "read:staff"
+  ] as Permission[],
+  client_user: [
+    "read:bookings",
+    "read:activities",
+    "read:locations"
+  ] as Permission[]
+};
 
 /**
  * Check if a user has a specific permission
- *
- * @param userId The user ID to check permissions for
- * @param permission The permission to check (format: 'action:resource')
- * @param organizationId Optional organization ID to check permissions within
- * @returns Promise<boolean> True if user has permission, false otherwise
  */
 export async function hasPermission(
-  userId: string,
-  permission: string,
-  organizationId?: string,
+  userId: string, 
+  permission: Permission, 
+  organizationId?: string
 ): Promise<boolean> {
   try {
-    if (!userId) {
+    // Get user and their role
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId));
+
+    if (!user) {
       return false;
     }
 
-    // Get user from the database
-    const user = await db.query.users.findFirst({
-      where: eq(users.id, userId),
-    });
-
-    if (!user || !user.active) {
-      return false;
-    }
-
-    // Special case: Super admins always have all permissions
-    if (user.role === USER_ROLES.SUPER_ADMIN) {
+    // Super admin has all permissions
+    if (user.role === "super_admin") {
       return true;
     }
 
-    // Check if the permission is directly granted by the user's role
-    const hasDirectPermission = roleHasPermission(
-      user.role as string,
-      permission,
-    );
-
-    // If no organization specified, just check direct permission
-    if (!organizationId) {
-      return hasDirectPermission;
-    }
-
-    // Verify user belongs to the organization
-    const userOrg = await db.query.organizationUsers.findFirst({
-      where: and(
-        eq(organizationUsers.user_id, userId),
-        eq(organizationUsers.organization_id, organizationId),
-      ),
-    });
-
-    if (!userOrg) {
-      return false;
-    }
-
-    // Check organizational permissions
-    const org = await db.query.organizations.findFirst({
-      where: eq(organizations.id, organizationId),
-    });
-
-    if (!org || !org.active) {
-      return false;
-    }
-
-    // For now, just return the direct permission check
-    return hasDirectPermission;
+    // Check if the user has the permission based on their role
+    const userPermissions = rolePermissions[user.role] || [];
+    return userPermissions.includes(permission);
   } catch (error) {
     console.error("Error checking permission:", error);
     return false;
@@ -83,128 +120,22 @@ export async function hasPermission(
 }
 
 /**
- * Check if a user belongs to a specific organization
- *
- * @param userId The user ID to check
- * @param organizationId The organization ID to check
- * @returns Promise<boolean> True if user belongs to organization, false otherwise
+ * Get all permissions for a user
  */
-export async function userBelongsToOrganization(
-  userId: string,
-  organizationId: string,
-): Promise<boolean> {
+export async function getUserPermissions(userId: string): Promise<Permission[]> {
   try {
-    const userOrg = await db.query.organizationUsers.findFirst({
-      where: and(
-        eq(organizationUsers.user_id, userId),
-        eq(organizationUsers.organization_id, organizationId),
-      ),
-    });
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, userId));
 
-    return !!userOrg;
-  } catch (error) {
-    console.error("Error checking organization membership:", error);
-    return false;
-  }
-}
-
-/**
- * Get all organizations a user belongs to
- *
- * @param userId The user ID to get organizations for
- * @returns Promise<Array> List of organizations the user belongs to
- */
-export async function getUserOrganizations(userId: string) {
-  try {
-    // Join organization_users with organizations to get full details
-    const userOrgs = await db
-      .select({
-        id: organizations.id,
-        name: organizations.name,
-        type: organizations.type,
-        tier: organizations.tier,
-        active: organizations.active,
-        is_primary: organizationUsers.is_primary,
-      })
-      .from(organizationUsers)
-      .innerJoin(
-        organizations,
-        eq(organizationUsers.organization_id, organizations.id),
-      )
-      .where(
-        and(
-          eq(organizationUsers.user_id, userId),
-          eq(organizations.active, true),
-        ),
-      );
-
-    return userOrgs;
-  } catch (error) {
-    console.error("Error fetching user organizations:", error);
-    return [];
-  }
-}
-
-/**
- * Get a user's primary organization
- *
- * @param userId The user ID to get primary organization for
- * @returns Promise<Object|null> The primary organization or null if none found
- */
-export async function getUserPrimaryOrganization(userId: string) {
-  try {
-    // First look for an organization marked as primary
-    const primaryOrg = await db
-      .select({
-        id: organizations.id,
-        name: organizations.name,
-        type: organizations.type,
-        tier: organizations.tier,
-        active: organizations.active,
-      })
-      .from(organizationUsers)
-      .innerJoin(
-        organizations,
-        eq(organizationUsers.organization_id, organizations.id),
-      )
-      .where(
-        and(
-          eq(organizationUsers.user_id, userId),
-          eq(organizationUsers.is_primary, true),
-          eq(organizations.active, true),
-        ),
-      )
-      .limit(1);
-
-    if (primaryOrg.length > 0) {
-      return primaryOrg[0];
+    if (!user) {
+      return [];
     }
 
-    // If no primary organization found, return the first active one
-    const anyOrg = await db
-      .select({
-        id: organizations.id,
-        name: organizations.name,
-        type: organizations.type,
-        tier: organizations.tier,
-        active: organizations.active,
-      })
-      .from(organizationUsers)
-      .innerJoin(
-        organizations,
-        eq(organizationUsers.organization_id, organizations.id),
-      )
-      .where(
-        and(
-          eq(organizationUsers.user_id, userId),
-          eq(organizations.active, true),
-        ),
-      )
-      .limit(1);
-
-    return anyOrg.length > 0 ? anyOrg[0] : null;
+    return rolePermissions[user.role] || [];
   } catch (error) {
-    console.error("Error fetching primary organization:", error);
-    return null;
+    console.error("Error getting user permissions:", error);
+    return [];
   }
 }

@@ -24,17 +24,17 @@ export async function GET(request: NextRequest) {
 
     // Extract filter parameters
     const filters: ShiftFilters = {
-      ...(searchParams.get("organizationId") && { organizationId: searchParams.get("organizationId") }),
-      ...(searchParams.get("bookingId") && { bookingId: searchParams.get("bookingId") }),
-      ...(searchParams.get("locationId") && { locationId: searchParams.get("locationId") }),
-      ...(searchParams.get("brandId") && { brandId: searchParams.get("brandId") }),
-      ...(searchParams.get("status") && { status: searchParams.get("status") as any }),
-      ...(searchParams.get("agentId") && { agentId: searchParams.get("agentId") }),
-      startDate: searchParams.get("startDate")
-        ? new Date(searchParams.get("startDate")!)
+      ...((searchParams.get("organizationId") || undefined) && { organizationId: (searchParams.get("organizationId") || undefined) }),
+      ...((searchParams.get("bookingId") || undefined) && { bookingId: (searchParams.get("bookingId") || undefined) }),
+      ...((searchParams.get("locationId") || undefined) && { locationId: (searchParams.get("locationId") || undefined) }),
+      ...((searchParams.get("brandId") || undefined) && { brandId: (searchParams.get("brandId") || undefined) }),
+      ...((searchParams.get("status") || undefined) && { status: (searchParams.get("status") || undefined) as any }),
+      ...((searchParams.get("agentId") || undefined) && { agentId: (searchParams.get("agentId") || undefined) }),
+      startDate: (searchParams.get("startDate") || undefined)
+        ? new Date((searchParams.get("startDate") || undefined)!)
         : undefined,
-      endDate: searchParams.get("endDate")
-        ? new Date(searchParams.get("endDate")!)
+      endDate: (searchParams.get("endDate") || undefined)
+        ? new Date((searchParams.get("endDate") || undefined)!)
         : undefined,
     };
 

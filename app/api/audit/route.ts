@@ -6,12 +6,12 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "../../../lib/auth";
 import { getAuditLogs } from "@/lib/audit-log";
 import {
   hasPermission,
   getUserPrimaryOrganization,
-} from "@/lib/permissions";
+} from "../../../lib/permissions";
 import { USER_ROLES } from "../../../shared/rbac/roles";
 
 export async function GET(request: NextRequest) {
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
 
     // Organization filter (organization admins can only see their org's logs)
-    let organizationId = searchParams.get("organizationId") || undefined;
+    let organizationId = (searchParams.get("organizationId") || undefined) || undefined;
 
     // Check if user can see logs across all organizations
     const canViewAllOrgs = await hasPermission(
@@ -54,27 +54,27 @@ export async function GET(request: NextRequest) {
     }
 
     // Other filters
-    const userId = searchParams.get("userId") || undefined;
-    const action = searchParams.get("action") || undefined;
-    const resource = searchParams.get("resource") || undefined;
-    const resourceId = searchParams.get("resourceId") || undefined;
+    const userId = (searchParams.get("userId") || undefined) || undefined;
+    const action = (searchParams.get("action") || undefined) || undefined;
+    const resource = (searchParams.get("resource") || undefined) || undefined;
+    const resourceId = (searchParams.get("resourceId") || undefined) || undefined;
 
     // Date range filters
-    const startDate = searchParams.get("startDate")
-      ? new Date(searchParams.get("startDate") as string)
+    const startDate = (searchParams.get("startDate") || undefined)
+      ? new Date((searchParams.get("startDate") || undefined) as string)
       : undefined;
 
-    const endDate = searchParams.get("endDate")
-      ? new Date(searchParams.get("endDate") as string)
+    const endDate = (searchParams.get("endDate") || undefined)
+      ? new Date((searchParams.get("endDate") || undefined) as string)
       : undefined;
 
     // Pagination
     const limit = searchParams.has("limit")
-      ? parseInt(searchParams.get("limit") as string, 10)
+      ? parseInt((searchParams.get("limit") || undefined) as string, 10)
       : 100;
 
     const offset = searchParams.has("offset")
-      ? parseInt(searchParams.get("offset") as string, 10)
+      ? parseInt((searchParams.get("offset") || undefined) as string, 10)
       : 0;
 
     // Get the logs

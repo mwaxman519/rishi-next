@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BOOKING_STATUS } from "@shared/schema";
+import { BOOKING_STATUS } from "../../../shared/schema";
 
 // Mock booking statistics
 const mockBookingStats = {
@@ -60,11 +60,11 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
 
   // Filter by organization if provided
-  const organizationId = searchParams.get("organizationId") || undefined;
+  const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
 
   // Filter by date range if provided
-  const startDate = searchParams.get("startDate") || undefined;
-  const endDate = searchParams.get("endDate") || undefined;
+  const startDate = (searchParams.get("startDate") || undefined) || undefined;
+  const endDate = (searchParams.get("endDate") || undefined) || undefined;
 
   // In a real implementation, we would apply these filters
   // For now, just return the mock data

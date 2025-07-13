@@ -2,7 +2,7 @@
  * API endpoint to list all features for an organization
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "../../../lib/auth-server";
 import {
   isUserInOrganization,
   getOrganizationById,
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   try {
     // Get the organization ID from query parameters
     const searchParams = request.nextUrl.searchParams;
-    const organizationId = searchParams.get("organizationId") || undefined;
+    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
 
     if (!organizationId) {
       return NextResponse.json(
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     // Check if each feature is enabled for this organization
     const featuresWithStatus = featureModules.map((module) => {
       const orgTier =
-        (organization.tier as "tier_1" | "tier_2" | "tier_3") || "tier_1";
+        ((organization.tier || "tier_1") as "tier_1" | "tier_2" | "tier_3") || "tier_1";
       const enabled = isFeatureAvailableForTier(module.id, orgTier);
 
       return {
@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
       organization: {
         id: organization.id,
         name: organization.name,
-        tier: organization.tier || "tier_1",
+        tier: (organization.tier || "tier_1") || "tier_1",
       },
     });
   } catch (error) {

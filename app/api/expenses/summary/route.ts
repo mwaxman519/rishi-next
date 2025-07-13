@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ExpenseService } from "../../../services/expenses/ExpenseService";
 import { ExpenseFiltersSchema } from "../../../services/expenses/models";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { authOptions } from "../../../lib/auth-options";
 
 const expenseService = new ExpenseService();
 
@@ -25,9 +25,9 @@ export async function GET(request: NextRequest) {
     // Extract filter parameters for summary
     const filters = {
       organizationId: (session.user as any).organizationId || "",
-      ...(searchParams.get("agentId") && { agentId: searchParams.get("agentId") || undefined }),
-      ...(searchParams.get("startDate") && { startDate: searchParams.get("startDate") || undefined }),
-      ...(searchParams.get("endDate") && { endDate: searchParams.get("endDate") || undefined }),
+      ...((searchParams.get("agentId") || undefined) && { agentId: (searchParams.get("agentId") || undefined) || undefined }),
+      ...((searchParams.get("startDate") || undefined) && { startDate: (searchParams.get("startDate") || undefined) || undefined }),
+      ...((searchParams.get("endDate") || undefined) && { endDate: (searchParams.get("endDate") || undefined) || undefined }),
     };
 
     const result = await expenseService.getExpenseSummary(

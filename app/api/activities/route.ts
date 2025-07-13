@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../lib/db";
 import {
   activities,
   insertActivitySchema,
   activityTypes,
   locations,
   bookings,
-} from "@shared/schema";
-import { currentUser } from "@/lib/session";
+} from "../../../shared/schema";
+import { getCurrentUser } from "../../../lib/auth-server";
 import { v4 as uuidv4 } from "uuid";
 import { eq, and, gte, lte } from "drizzle-orm";
 
@@ -21,11 +21,11 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId =
-      searchParams.get("organizationId") || (user as any).organizationId;
-    const typeId = searchParams.get("typeId") || undefined;
-    const status = searchParams.get("status") || undefined;
-    const startDate = searchParams.get("startDate") || undefined;
-    const endDate = searchParams.get("endDate") || undefined;
+      (searchParams.get("organizationId") || undefined) || (user as any).organizationId;
+    const typeId = (searchParams.get("typeId") || undefined) || undefined;
+    const status = (searchParams.get("status") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined) || undefined;
+    const endDate = (searchParams.get("endDate") || undefined) || undefined;
 
     // Build the query with joins to get related data
     // Activities don't have organizationId - filter through parent booking

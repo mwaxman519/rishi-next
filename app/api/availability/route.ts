@@ -3,8 +3,8 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { EventBusService } from "../../../services/event-bus-service";
 import { v4 as uuidv4 } from "uuid";
-import { db } from "@/lib/db";
-import * as schema from "@shared/schema";
+import { db } from "../../../lib/db";
+import * as schema from "../../../shared/schema";
 import { eq, and, between } from "drizzle-orm";
 
 /**
@@ -92,10 +92,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const searchParams = request.nextUrl.searchParams;
-    const userId = searchParams.get("userId") || undefined;
-    const startDate = searchParams.get("startDate") || undefined;
-    const endDate = searchParams.get("endDate") || undefined;
-    const status = searchParams.get("status") as
+    const userId = (searchParams.get("userId") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined) || undefined;
+    const endDate = (searchParams.get("endDate") || undefined) || undefined;
+    const status = (searchParams.get("status") || undefined) as
       | "available"
       | "unavailable"
       | "tentative"

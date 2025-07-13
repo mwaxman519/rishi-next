@@ -4,8 +4,8 @@ import {
   AvailabilityDTO,
   ConflictCheckResponse,
 } from "../../../services/availability/models";
-import { db } from "@/lib/db";
-import { availabilityBlocks } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { availabilityBlocks } from "../../../shared/schema";
 import { and, eq, sql } from "drizzle-orm";
 
 /**
@@ -17,10 +17,10 @@ import { and, eq, sql } from "drizzle-orm";
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const userId = searchParams.get("userId") || undefined;
-    const startDate = searchParams.get("startDate") || undefined;
-    const endDate = searchParams.get("endDate") || undefined;
-    const excludeBlockIdStr = searchParams.get("excludeBlockId") || undefined;
+    const userId = (searchParams.get("userId") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined) || undefined;
+    const endDate = (searchParams.get("endDate") || undefined) || undefined;
+    const excludeBlockIdStr = (searchParams.get("excludeBlockId") || undefined) || undefined;
 
     if (!userId || !startDate || !endDate) {
       const errorResponse: ConflictCheckResponse = {

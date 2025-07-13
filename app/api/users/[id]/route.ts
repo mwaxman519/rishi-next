@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import * as userService from "../../../services/users/userService";
-import { getUserFromRequest } from "@/lib/auth-server";
+import { getUserFromRequest } from "../../../lib/auth-server";
 import { hasPermission } from "@/lib/rbac";
 import { formatZodError } from "@/lib/utils";
 

@@ -5,7 +5,7 @@ import {
   kitComponentInventory,
   insertKitComponentInventorySchema,
   kits,
-} from "@shared/schema";
+} from "../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { getOrganizationHeaderData } from "@/lib/organization-context";
 import { checkPermission } from "@/lib/rbac";
@@ -28,8 +28,8 @@ export async function GET(req: NextRequest) {
     // Get query parameters
     const url = new URL(req.url);
     const searchParams = url.searchParams;
-    const kitId = searchParams.get("kitId");
-    const lowStock = searchParams.get("lowStock");
+    const kitId = (searchParams.get("kitId") || undefined);
+    const lowStock = (searchParams.get("lowStock") || undefined);
 
     // Build the query
     let query = db.select().from(kitComponentInventory);

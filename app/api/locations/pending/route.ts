@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import * as schema from "@shared/schema";
+import { db } from "../../../lib/db";
+import * as schema from "../../../shared/schema";
 import { eq } from "drizzle-orm";
 import {
   AppEvent,
@@ -30,8 +30,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     // Parse query parameters
     const url = new URL(req.url);
-    const sortBy = url.searchParams.get("sortBy") || "createdAt";
-    const sortOrder = url.searchParams.get("sortOrder") || "desc";
+    const sortBy = url.(searchParams.get("sortBy") || undefined) || "createdAt";
+    const sortOrder = url.(searchParams.get("sortOrder") || undefined) || "desc";
 
     // Get all locations from the database using Drizzle ORM
     const allLocations = await db.select().from(schema.locations);
@@ -169,7 +169,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
     // Update the location status
     const now = new Date();
     const newStatus = body.status === "approved" ? "active" : "rejected";
-    const reviewerName = user.fullName || user.username || "Administrator";
+    const reviewerName = user.fullName || user.name || user.username || "Administrator";
 
     const [updatedLocation] = await db
       .update(schema.locations)

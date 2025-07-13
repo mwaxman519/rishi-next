@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { users, userOrganizations } from "@shared/schema";
+import { users, userOrganizations } from "../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { getServerSession } from "next-auth";
 // Mock auth for development

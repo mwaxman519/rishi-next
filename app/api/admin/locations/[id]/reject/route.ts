@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { locations } from "../../../shared/schema";
 import { publishLocationRejectedEvent } from "../../../../../services/locations/locationEventPublisher";
 import { eq } from "drizzle-orm";
 
@@ -78,7 +78,7 @@ export async function POST(
           locationId: updatedLocation.id,
           name: updatedLocation.name || "Unknown location",
           rejectedById: user.id,
-          rejectedByName: user.fullName || user.username || "Unknown user",
+          rejectedByName: user.fullName || user.name || user.username || "Unknown user",
           rejectedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
           rejectionReason: rejectionReason || "Rejected by administrator",
           submittedById: updatedLocation.requested_by || "unknown",

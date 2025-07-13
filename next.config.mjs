@@ -14,8 +14,8 @@ const nextConfig = {
   poweredByHeader: false,
   
   typescript: {
-    // Continue building to see all errors at once
-    ignoreBuildErrors: true,
+    // Enable type checking to see all errors
+    ignoreBuildErrors: false,
   },
   
   eslint: {

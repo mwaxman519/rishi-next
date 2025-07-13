@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { authOptions } from "../../../lib/auth-options";
 
 /**
  * GET /api/locations/cities
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     // Parse state filter from query params
     const { searchParams } = new URL(request.url);
-    const statesParam = searchParams.get("states");
+    const statesParam = (searchParams.get("states") || undefined);
     const stateFilters = statesParam ? statesParam.split(",") : [];
 
     // In a real implementation, this would query the database for cities
