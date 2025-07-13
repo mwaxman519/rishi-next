@@ -10,7 +10,7 @@ import { randomUUID } from "crypto";
 const { Client } = pg;
 
 // Use staging database URL from .env.staging
-const STAGING_DATABASE_URL = "postgresql://rishinext_owner:npg_okpv0Hhtfwu2@ep-sweet-flower-a87a0ldg-pooler.eastus2.azure.neon.tech/rishinext_staging?sslmode=require&channel_binding=require";
+const STAGING_DATABASE_URL = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_staging?sslmode=require&channel_binding=require";
 
 async function createMikeUserInStaging() {
   try {
