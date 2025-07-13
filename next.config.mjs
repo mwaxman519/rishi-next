@@ -56,6 +56,8 @@ const nextConfig = {
       '@db': path.resolve(process.cwd(), 'db'),
     };
     
+
+    
     config.resolve.fallback = {
       fs: false,
       net: false,

@@ -12,7 +12,10 @@ import crypto from "crypto";
 // This allows for safer deployment in cases where MDX files have issues
 
 // Base directories for documentation
-export const DOCS_DIRECTORY = path.join(process.cwd(), "Docs");
+// Use public/Docs for Vercel deployment compatibility
+export const DOCS_DIRECTORY = process.env.VERCEL 
+  ? path.join(process.cwd(), "public", "Docs")
+  : path.join(process.cwd(), "Docs");
 const MARKDOWN_EXTENSIONS = [".md", ".mdx"];
 
 // Cache configuration
