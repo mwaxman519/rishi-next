@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     // Check if user has permission to view audit logs
     // Only users with 'view:audit' permission can view audit logs
-    const hasAuditAccess = await hasPermission("read:users", ["super_admin"]);
+    const hasAuditAccess = await hasPermission(user.id, "read:users");
     if (!hasAuditAccess) {
       return NextResponse.json(
         { error: "Insufficient permissions" },

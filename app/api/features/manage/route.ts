@@ -3,9 +3,10 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentAuthUser } from "@/lib/auth-server";
+import { getCurrentUser } from "@/lib/auth";
 import { isUserInOrganization } from "@/lib/organization-server";
 import { setFeatureStatus } from "../../../../shared/features/registry";
-import { hasPermission } from "@/lib/rbac";
+import { hasPermission } from "@/lib/permissions";
 
 export async function POST(request: NextRequest) {
   try {
@@ -42,7 +43,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has permission to manage features
-    const canManageFeatures = await hasPermission("create:organizations", ["super_admin"]);
+    // Get current user for permission check
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    
+    const canManageFeatures = await hasPermission(currentUser.id, "create:organizations");
     if (!canManageFeatures) {
       return NextResponse.json(
         { error: "You do not have permission to manage features" },

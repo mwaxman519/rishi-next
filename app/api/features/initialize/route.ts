@@ -7,12 +7,19 @@ import { initializeFeatureSystem } from "../../../../shared/features/initialize"
 import { db } from "@/lib/db";
 import { organizations } from "@shared/schema";
 import { initializeOrganizationFeatures } from "../../../../shared/features/registry";
-import { hasPermission } from "@/lib/rbac";
+import { hasPermission } from "@/lib/permissions";
+import { getCurrentUser } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
     // Only super admins should be able to initialize the feature system
-    const hasAccess = await hasPermission("create:organizations", ["super_admin"]);
+    // Get current user for permission check
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    
+    const hasAccess = await hasPermission(currentUser.id, "create:organizations");
     if (!hasAccess) {
       return NextResponse.json(
         { error: "Unauthorized: Requires super admin permissions" },
