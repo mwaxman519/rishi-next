@@ -38,8 +38,14 @@ class DatabaseConnectionManager {
     try {
       console.log("[DB Manager] Initializing database connection...");
       
+      // Get DATABASE_URL with production fallback
+      const databaseUrl = process.env.DATABASE_URL || 
+        "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
+      
+      console.log(`[DB Manager] Using database: ${databaseUrl.substring(0, 50)}...`);
+      
       // Create neon connection with optimized settings
-      this.sql = neon(process.env.DATABASE_URL!, {
+      this.sql = neon(databaseUrl, {
         fullResults: true,
         arrayMode: false,
       });
