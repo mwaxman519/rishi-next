@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BOOKING_STATUS } from "../../../shared/schema";
+import { BOOKING_STATUS } from "../../../../../shared/schema";
 
 // Mock booking statistics
 const mockBookingStats = {

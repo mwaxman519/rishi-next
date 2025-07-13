@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "../../../lib/auth-server";
+import { getCurrentAuthUser } from "../../../../../lib/auth-server";
 import { db } from "@db";
-import { organizationInvitations, userOrganizations } from "../../../shared/schema";
+import { organizationInvitations, userOrganizations } from "../../../../../shared/schema";
 import { eq, and } from "drizzle-orm";
-import { hasPermission } from "@/lib/rbac";
+import { hasPermission } from "../../../../../lib/rbac";
 import { randomBytes } from "crypto";
 
 /**

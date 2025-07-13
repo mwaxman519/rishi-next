@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { availabilityService } from "../../../services/availability/availabilityService";
-import { USER_ROLES } from "../../../../shared/rbac/roles";
-import { verifyJwt } from "../../../lib/auth-utils";
+import { USER_ROLES } from "../../../../../shared/rbac/roles";
+import { verifyJwt } from "../../../../../lib/auth-utils";
 
 /**
  * GET /api/availability/team - Get team members' availability blocks

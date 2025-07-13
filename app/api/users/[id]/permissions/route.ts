@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db, sql } from "../../../lib/db";
+import { db, sql } from "../../../../../../lib/db";
 import { eq, and } from "drizzle-orm";
 import { users, userPermissions } from "@/shared/schema";
-import { validateRequest } from "../../../lib/auth-server";
-import { getAllRoles } from "../../../../../shared/rbac/roles";
+import { validateRequest } from "../../../../../../lib/auth-server";
+import { getAllRoles } from "../../../../../../shared/rbac/roles";
 
 interface PermissionRecord {
   permission: string;

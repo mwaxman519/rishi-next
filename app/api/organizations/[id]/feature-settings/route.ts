@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "../../../auth-service/db";
 import { eq, and } from "drizzle-orm";
-import { organizationSettings } from "../../../shared/schema";
+import { organizationSettings } from "../../../../../../shared/schema";
 
 export async function GET(
   request: NextRequest,

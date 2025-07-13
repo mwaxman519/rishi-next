@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
-import { db } from "../../../lib/db";
+import { db } from "../../../../../../lib/db";
 import { locations } from "@/shared/schema";
 import { eq, inArray } from "drizzle-orm";
-import { authOptions } from "../../../lib/auth-options";
-import { hasPermission, type PermissionLevel } from "@/lib/rbac/hasPermission";
+import { authOptions } from "../../../../../../lib/auth-options";
+import { hasPermission, type PermissionLevel } from "../../../../../../lib/rbac/hasPermission";
 import { locationEventBus } from "../../../../services/infrastructure/messaging/locationEvents";
 
 // Define the shape of the request body

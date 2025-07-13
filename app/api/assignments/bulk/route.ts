@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { brandAgentAssignments } from "../../../shared/schema";
+import { brandAgentAssignments } from "../../../../../shared/schema";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "../../../../../lib/auth-options";
 import { randomUUID } from "crypto";
 
 // POST /api/assignments/bulk - Create bulk assignments

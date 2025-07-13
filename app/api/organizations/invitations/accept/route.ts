@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
-import { db } from "../../../lib/db";
-import { getCurrentUser } from "../../../lib/auth-utils";
+import { db } from "../../../../../../lib/db";
+import { getCurrentUser } from "../../../../../../lib/auth-utils";
 import {
   organizationInvitations,
   userOrganizations,

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { db } from "../../../lib/db";
-import * as schema from "../../../shared/schema";
+import { getCurrentUser } from "../../../../../lib/auth";
+import { checkPermission } from "../../../../../lib/rbac";
+import { db } from "../../../../../lib/db";
+import * as schema from "../../../../../shared/schema";
 import { eq } from "drizzle-orm";
 import {
   AppEvent,

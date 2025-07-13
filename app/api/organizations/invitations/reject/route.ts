@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { db } from "../../../lib/db";
-import { getCurrentUser } from "../../../lib/auth-utils";
+import { db } from "../../../../../../lib/db";
+import { getCurrentUser } from "../../../../../../lib/auth-utils";
 import { organizationInvitations } from "@/shared/schema";
 import { sendEmail } from "@/lib/email-utils";
 

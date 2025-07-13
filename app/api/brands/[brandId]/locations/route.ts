@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "../../../../../../lib/db";
 import {
   brandLocations,
   brands,
   locations,
 } from "@/shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getCurrentUser } from "../../../lib/auth";
-import { checkPermission } from "@/lib/rbac";
+import { getCurrentUser } from "../../../../../../lib/auth";
+import { checkPermission } from "../../../../../../lib/rbac";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
 

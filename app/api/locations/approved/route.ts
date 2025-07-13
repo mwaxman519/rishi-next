@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { locations, brandLocations } from "../../../shared/schema";
+import { locations, brandLocations } from "../../../../../shared/schema";
 import { eq, and, not, inArray, like, ilike, SQL } from "drizzle-orm";
-import { getCurrentUser } from "../../../lib/auth";
-import { checkPermission } from "@/lib/rbac";
+import { getCurrentUser } from "../../../../../lib/auth";
+import { checkPermission } from "../../../../../lib/rbac";
 import { sql } from "drizzle-orm";
 
 // Get all approved locations

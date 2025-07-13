@@ -10,13 +10,13 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../lib/auth";
-import { db } from "../../../lib/db";
+import { getCurrentUser } from "../../../../../lib/auth";
+import { db } from "../../../../../lib/db";
 import {
   userOrganizationPreferences,
   userOrganizations,
   organizations,
-} from "../../../shared/schema";
+} from "../../../../../shared/schema";
 import { eq, and, or, asc, desc } from "drizzle-orm";
 import { z } from "zod";
 

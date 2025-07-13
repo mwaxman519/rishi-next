@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
-import { organizationPermissions } from "../../../shared/schema";
+import { db } from "../../../../../lib/db";
+import { organizationPermissions } from "../../../../../shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getCurrentUser } from "../../../lib/auth-utils";
-import { hasPermission } from "@/lib/rbac";
+import { getCurrentUser } from "../../../../../lib/auth-utils";
+import { hasPermission } from "../../../../../lib/rbac";
 
 /**
  * GET /api/rbac/organization-permissions

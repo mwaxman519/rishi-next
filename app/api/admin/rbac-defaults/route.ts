@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "../../auth-service/db";
 import { eq, isNull } from "drizzle-orm";
-import { organizationSettings } from "../../../shared/schema";
+import { organizationSettings } from "../../../../../shared/schema";
 
 // System-wide RBAC defaults that apply to all organizations
 const SYSTEM_RBAC_DEFAULTS = {
