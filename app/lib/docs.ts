@@ -19,7 +19,8 @@ export const DOCS_DIRECTORY = process.env.VERCEL
 
 // Disable filesystem operations during static generation
 const isStaticGeneration = process.env.NEXT_PHASE === 'phase-production-build' || 
-                          process.env.BUILD_PHASE === 'static-generation';
+                          process.env.BUILD_PHASE === 'static-generation' ||
+                          process.env.VERCEL_ENV === 'production';
 const MARKDOWN_EXTENSIONS = [".md", ".mdx"];
 
 // Cache configuration
@@ -120,6 +121,13 @@ export async function getDocTree(): Promise<DocTree> {
   // Check if docs directory exists
   if (!fs.existsSync(DOCS_DIRECTORY)) {
     debugLog(`[DOCS] Directory not found: ${DOCS_DIRECTORY}`);
+    
+    // During production builds, return empty tree instead of throwing
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') {
+      debugLog("[DOCS] Production build - returning empty tree for missing directory");
+      return {};
+    }
+    
     throw new Error(`Documentation directory not found: ${DOCS_DIRECTORY}`);
   }
   
