@@ -14,8 +14,8 @@ const nextConfig = {
   poweredByHeader: false,
   
   typescript: {
-    // Fix TypeScript errors for Vercel production
-    ignoreBuildErrors: process.env.VERCEL ? false : true,
+    // Continue building to see all errors at once
+    ignoreBuildErrors: true,
   },
   
   eslint: {

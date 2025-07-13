@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     // Get all active organizations
     const allOrgs = await db.query.organizations.findMany({
-      where: { status: "active" },
+      where: (organizations, { eq }) => eq(organizations.status, "active"),
     });
 
     // Initialize features for each organization
