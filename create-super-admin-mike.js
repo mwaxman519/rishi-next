@@ -6,25 +6,14 @@
  */
 
 import { config } from 'dotenv';
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
+import { db } from './db.ts';
+import { users, organizations, userOrganizations } from './shared/schema.ts';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import ws from 'ws';
-import {
-  users,
-  organizations,
-  userOrganizations,
-} from './shared/schema.ts';
 
 // Load environment variables
 config();
-
-neonConfig.webSocketConstructor = ws;
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const db = drizzle(pool);
 
 async function hashPassword(password) {
   return await bcrypt.hash(password, 12);
@@ -115,8 +104,6 @@ async function createSuperAdminUser() {
   } catch (error) {
     console.error('❌ Error creating super admin user:', error);
     process.exit(1);
-  } finally {
-    await pool.end();
   }
 }
 

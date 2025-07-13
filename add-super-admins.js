@@ -23,8 +23,14 @@ async function addSuperAdmins() {
     await client.connect();
     console.log("Connected to the database");
 
-    // Create super admin users (Matt and Ryan)
+    // Create super admin users (Mike, Matt and Ryan)
     const superAdmins = [
+      {
+        username: "mike",
+        password: "wrench519",
+        email: "mike@rishi.com",
+        full_name: "Mike Waxman",
+      },
       {
         username: "matt",
         password: "password",
