@@ -105,18 +105,17 @@ export async function POST(request: NextRequest) {
       return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
     }
 
-    // Verify password using plain text comparison
+    // Verify password using bcrypt
     let validPassword = false;
 
     try {
       // Cast user to expected type with password
       const userWithPassword = user as { password: string };
       
-      // Use plain text comparison for now
-      validPassword = password === userWithPassword.password;
+      // Use bcrypt to compare password
+      validPassword = await comparePasswords(password, userWithPassword.password);
       
       console.log(`[Auth Service] Password check for ${username}: ${validPassword ? 'VALID' : 'INVALID'}`);
-      console.log(`[Auth Service] Expected: ${password}, Got: ${userWithPassword.password}`);
     } catch (passwordError) {
       console.error(
         `[Auth Service] Password verification error for ${username}:`,
