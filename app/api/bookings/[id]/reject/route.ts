@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../../../lib/db";
+import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { bookings } from "@/shared/schema";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { z } from "zod";
 import { eventBus } from "../../../../events/event-bus";
 

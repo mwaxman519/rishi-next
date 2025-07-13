@@ -8,10 +8,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../../../../../lib/auth";
-import { checkPermission } from "../../../../../../../lib/rbac";
-import { db } from "../../../../../../../lib/db";
-import { locations } from "../../../../../../../shared/schema";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
+import { db } from "@/lib/db";
+import { locations } from "@shared/schema";
 import { publishLocationApprovedEvent } from "../../../../../services/locations/locationEventPublisher";
 import { eq } from "drizzle-orm";
 
