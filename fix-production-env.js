@@ -3,25 +3,34 @@
  * This script ensures production uses the correct database
  */
 
-const fs = require('fs');
-const path = require('path');
+import { neon } from '@neondatabase/serverless';
 
-// Ensure environment files exist
-const envProd = `DATABASE_URL=postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require
-NODE_ENV=production
-NEXT_PUBLIC_APP_ENV=production
-`;
+// Production database URL (correct one)
+const PRODUCTION_DB_URL = 'postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require';
 
-fs.writeFileSync('.env.production', envProd);
-console.log('✅ .env.production file updated');
+async function testProductionDatabase() {
+  console.log('🔧 Testing production database connection...');
+  
+  try {
+    const sql = neon(PRODUCTION_DB_URL);
+    
+    // Test connection
+    const result = await sql`SELECT NOW() as current_time, current_database() as db_name`;
+    console.log('✅ Production database connection successful');
+    console.log('Database:', result[0].db_name);
+    console.log('Time:', result[0].current_time);
+    
+    // Test user lookup
+    const users = await sql`SELECT username, email, role, active FROM users WHERE username = 'mike'`;
+    console.log('✅ User lookup successful');
+    console.log('Users found:', users.length);
+    if (users.length > 0) {
+      console.log('User details:', users[0]);
+    }
+    
+  } catch (error) {
+    console.error('❌ Production database test failed:', error.message);
+  }
+}
 
-// Create a small change to trigger deployment
-const timestamp = new Date().toISOString();
-const deploymentTrigger = `# Production Database Fix - ${timestamp}
-This file triggers a new deployment to apply the updated DATABASE_URL environment variable.
-Production database: rishiapp_prod
-Status: Ready for deployment
-`;
-
-fs.writeFileSync('DEPLOYMENT_TRIGGER.md', deploymentTrigger);
-console.log('✅ Deployment trigger created');
+testProductionDatabase();

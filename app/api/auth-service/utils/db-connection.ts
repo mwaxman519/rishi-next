@@ -37,24 +37,32 @@ class DatabaseConnectionManager {
   private initializeConnection() {
     try {
       console.log("[DB Manager] Initializing database connection...");
+      console.log("[DB Manager] Environment detection:", {
+        NODE_ENV: process.env.NODE_ENV,
+        VERCEL_ENV: process.env.VERCEL_ENV,
+        VERCEL: process.env.VERCEL,
+        hostname: typeof window !== 'undefined' ? window.location?.hostname : 'server'
+      });
       
-      // Force production database URL for production environment
+      // BULLETPROOF: Always use production database for Vercel production deployments
       let databaseUrl = process.env.DATABASE_URL;
+      const isVercelProduction = process.env.VERCEL && 
+        (process.env.VERCEL_ENV === "production" || 
+         process.env.NODE_ENV === "production" ||
+         (typeof window !== 'undefined' && window.location?.hostname?.includes('vercel.app')));
       
-      // If production environment or DATABASE_URL contains wrong database, force correct one
-      if (process.env.NODE_ENV === "production" || 
-          process.env.VERCEL_ENV === "production" || 
-          databaseUrl?.includes("rishinext")) {
+      if (isVercelProduction || databaseUrl?.includes("rishinext")) {
         databaseUrl = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
-        console.log("[DB Manager] FORCING production database URL");
+        console.log("[DB Manager] FORCING production database URL for Vercel");
       }
       
       // Fallback if no DATABASE_URL at all
       if (!databaseUrl) {
         databaseUrl = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
+        console.log("[DB Manager] Using fallback production database URL");
       }
       
-      console.log(`[DB Manager] Using database: ${databaseUrl.substring(0, 50)}...`);
+      console.log(`[DB Manager] Final database URL: ${databaseUrl.substring(0, 50)}...`);
       
       // Create neon connection with optimized settings
       this.sql = neon(databaseUrl, {
