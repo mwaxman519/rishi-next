@@ -9,8 +9,8 @@ import { randomUUID } from "crypto";
 
 const { Client } = pg;
 
-// Use production database URL - you'll need to provide this
-const PRODUCTION_DATABASE_URL = process.env.DATABASE_URL || "YOUR_PRODUCTION_DATABASE_URL_HERE";
+// Use production database URL from Vercel deployment
+const PRODUCTION_DATABASE_URL = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
 
 async function createMikeUserInProduction() {
   try {
