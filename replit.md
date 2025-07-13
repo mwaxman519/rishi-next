@@ -11,6 +11,10 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **CRITICAL**: Always refer to the platform as "Rishi Platform" only
 - Never use "cannabis workforce management platform" or similar descriptors
 - Platform operates in cannabis industry but should be called "Rishi Platform"
+- **ACCURACY REQUIRED**: User frustrated with premature "deployment ready" claims over past week
+- Distinguish between build compilation success and actual deployment success
+- Only claim deployment readiness after successful Vercel deployment, not just build success
+- Build compilation working ≠ successful Vercel deployment
 
 ## System Architecture
 
