@@ -46,14 +46,15 @@ class DatabaseConnectionManager {
       
       // BULLETPROOF: Always use production database for Vercel production deployments
       let databaseUrl = process.env.DATABASE_URL;
-      const isVercelProduction = process.env.VERCEL && 
-        (process.env.VERCEL_ENV === "production" || 
-         process.env.NODE_ENV === "production" ||
-         (typeof window !== 'undefined' && window.location?.hostname?.includes('vercel.app')));
+      const isVercelProduction = process.env.VERCEL || 
+        process.env.VERCEL_ENV === "production" || 
+        process.env.NODE_ENV === "production" ||
+        (typeof window !== 'undefined' && window.location?.hostname?.includes('vercel.app'));
       
-      if (isVercelProduction || databaseUrl?.includes("rishinext")) {
+      // Force production database for Vercel OR if wrong database detected
+      if (isVercelProduction || databaseUrl?.includes("rishinext") || databaseUrl?.includes("ep-blue")) {
         databaseUrl = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
-        console.log("[DB Manager] FORCING production database URL for Vercel");
+        console.log("[DB Manager] FORCING production database URL - detected Vercel or wrong database");
       }
       
       // Fallback if no DATABASE_URL at all
