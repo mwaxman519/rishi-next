@@ -3,95 +3,53 @@
  * This script creates user 'mike' with password 'wrench519' in the production database
  */
 
-import pg from "pg";
-import * as bcrypt from "bcryptjs";
-import { randomUUID } from "crypto";
+import { Client } from 'pg';
+import bcrypt from 'bcryptjs';
 
-const { Client } = pg;
-
-// Use production database URL from Vercel deployment
-const PRODUCTION_DATABASE_URL = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
+const DATABASE_URL = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
 
 async function createMikeUserInProduction() {
+  const client = new Client({
+    connectionString: DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+  });
+
   try {
-    console.log("🔄 Connecting to production database...");
-    
-    // Connect to production database
-    const client = new Client({
-      connectionString: PRODUCTION_DATABASE_URL,
-    });
     await client.connect();
-    console.log("✅ Connected to production database");
-
-    // Check if user already exists
-    const userCheck = await client.query(
-      "SELECT * FROM users WHERE username = $1",
-      ["mike"]
-    );
-
-    if (userCheck.rows.length > 0) {
-      console.log("⚠️  User 'mike' already exists in production database");
-      
-      // Update existing user
-      const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash("wrench519", salt);
-      
+    console.log('Connected to production database');
+    
+    // Hash the password
+    const hashedPassword = await bcrypt.hash('wrench519', 10);
+    console.log('Password hashed successfully');
+    
+    // Check if user exists
+    const existingUser = await client.query('SELECT * FROM users WHERE username = $1', ['mike']);
+    
+    if (existingUser.rows.length > 0) {
+      console.log('User mike already exists, updating password...');
       await client.query(
-        "UPDATE users SET password = $1, role = $2, active = $3 WHERE username = $4",
-        [hashedPassword, "super_admin", true, "mike"]
+        'UPDATE users SET password = $1 WHERE username = $2',
+        [hashedPassword, 'mike']
       );
-      
-      console.log("✅ User 'mike' updated in production database");
+      console.log('Password updated successfully');
     } else {
-      console.log("🔄 Creating new user 'mike' in production database...");
-      
-      // Hash password using bcrypt
-      const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash("wrench519", salt);
-      const userId = randomUUID();
-
-      // Create new user
+      console.log('Creating new user mike...');
       await client.query(
-        `INSERT INTO users (id, username, password, email, full_name, role, active)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-        [
-          userId,
-          "mike",
-          hashedPassword,
-          "mike@rishi.com",
-          "Mike Waxman",
-          "super_admin",
-          true,
-        ]
+        'INSERT INTO users (username, password, email, full_name, role) VALUES ($1, $2, $3, $4, $5)',
+        ['mike', hashedPassword, 'mike@rishiapp.com', 'Mike Waxman', 'super_admin']
       );
-
-      console.log(`✅ User 'mike' created in production database with ID: ${userId}`);
+      console.log('User created successfully');
     }
-
-    // Test the password
-    const testResult = await bcrypt.compare("wrench519", await bcrypt.hash("wrench519", 12));
-    console.log("🧪 Password test:", testResult ? "✅ PASS" : "❌ FAIL");
-
-    await client.end();
-    console.log("🎉 Production user creation completed!");
+    
+    // Verify user creation
+    const verifyUser = await client.query('SELECT username, email, full_name, role FROM users WHERE username = $1', ['mike']);
+    console.log('User verification:', verifyUser.rows[0]);
     
   } catch (error) {
-    console.error("❌ Error creating user in production:", error);
-    
-    if (error.message.includes("relation \"users\" does not exist")) {
-      console.log("💡 Database schema may need to be initialized first");
-      console.log("   Run: npm run db:push");
-    }
-    
-    process.exit(1);
+    console.error('Error:', error);
+  } finally {
+    await client.end();
   }
 }
 
-// Run the script
-createMikeUserInProduction().then(() => {
-  console.log("🏁 Script completed successfully!");
-  process.exit(0);
-}).catch((error) => {
-  console.error("💥 Script failed:", error);
-  process.exit(1);
-});
+createMikeUserInProduction().catch(console.error);

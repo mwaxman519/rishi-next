@@ -1,47 +1,47 @@
-import pg from "pg";
-import * as bcrypt from "bcryptjs";
-
-const { Client } = pg;
+const { Client } = require('pg');
+const bcrypt = require('bcryptjs');
 
 async function fixMikePassword() {
+  const client = new Client({
+    connectionString: "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require",
+    ssl: { rejectUnauthorized: false }
+  });
+
   try {
-    // Connect to the database
-    const client = new Client({
-      connectionString: process.env.DATABASE_URL,
-    });
     await client.connect();
-    console.log("Connected to the database");
-
-    // Hash the password using bcrypt (same as auth service)
-    const salt = await bcrypt.genSalt(12);
-    const hashedPassword = await bcrypt.hash("wrench519", salt);
-
-    // Update Mike's password with the correctly hashed version
-    await client.query(
-      "UPDATE users SET password = $1 WHERE username = $2",
-      [hashedPassword, "mike"]
-    );
-
-    console.log("✅ Mike's password updated with correct bcrypt hash");
-    console.log("🔍 Testing the new password hash...");
-
-    // Test the password comparison
-    const testResult = await bcrypt.compare("wrench519", hashedPassword);
-    console.log("Password comparison test:", testResult ? "✅ PASS" : "❌ FAIL");
-
+    console.log('✅ Connected to production database');
+    
+    // Get user's current password hash
+    const result = await client.query('SELECT password FROM users WHERE username = $1', ['mike']);
+    const storedHash = result.rows[0]?.password;
+    
+    if (storedHash) {
+      console.log('✅ User mike found');
+      
+      // Test current password
+      const isValid = await bcrypt.compare('wrench519', storedHash);
+      console.log('Current password valid:', isValid);
+      
+      if (!isValid) {
+        console.log('🔧 Updating password hash...');
+        const newHash = await bcrypt.hash('wrench519', 10);
+        await client.query('UPDATE users SET password = $1 WHERE username = $2', [newHash, 'mike']);
+        console.log('✅ Password updated successfully');
+        
+        // Verify the update
+        const verifyResult = await client.query('SELECT password FROM users WHERE username = $1', ['mike']);
+        const verifyValid = await bcrypt.compare('wrench519', verifyResult.rows[0].password);
+        console.log('✅ Password verification:', verifyValid);
+      }
+    } else {
+      console.log('❌ User mike not found');
+    }
+    
     await client.end();
-    console.log("🎉 Password fix completed!");
   } catch (error) {
-    console.error("❌ Error fixing password:", error);
-    process.exit(1);
+    console.error('❌ Error:', error.message);
+    await client.end();
   }
 }
 
-// Run the script
-fixMikePassword().then(() => {
-  console.log("🏁 Script completed successfully!");
-  process.exit(0);
-}).catch((error) => {
-  console.error("💥 Script failed:", error);
-  process.exit(1);
-});
+fixMikePassword().catch(console.error);
