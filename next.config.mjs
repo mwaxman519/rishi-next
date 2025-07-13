@@ -2,12 +2,12 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // CRITICAL: NO static export for Vercel - API routes need serverless functions
-  // Only use static export for Azure Static Web Apps, not for Vercel
-  output: process.env.VERCEL ? undefined : 
+  // CRITICAL: NO static export for Vercel or Replit Autoscale - API routes need serverless functions
+  // Only use static export for Azure Static Web Apps, not for Vercel or Replit Autoscale
+  output: process.env.VERCEL || process.env.REPLIT ? undefined : 
     (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' 
       ? 'export'  // Static export for Azure only
-      : undefined), // Server mode for development, staging, and Vercel
+      : undefined), // Server mode for development, staging (Replit Autoscale), and Vercel
   
   // Serverless optimizations
   compress: true,
@@ -34,8 +34,8 @@ const nextConfig = {
     optimizeCss: false, // Reduce build complexity
   },
   
-  // Static export configuration (only for production Azure, not Vercel)
-  ...(process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' && !process.env.VERCEL && {
+  // Static export configuration (only for production Azure, not Vercel or Replit Autoscale)
+  ...(process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' && !process.env.VERCEL && !process.env.REPLIT && {
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
     distDir: 'out',
