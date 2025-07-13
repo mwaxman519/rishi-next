@@ -139,3 +139,21 @@ export async function getUserPermissions(userId: string): Promise<Permission[]> 
     return [];
   }
 }
+
+/**
+ * Get user primary organization
+ */
+export async function getUserPrimaryOrganization(userId: string): Promise<string | null> {
+  try {
+    // Get user's primary organization from the database
+    const [userOrg] = await db
+      .select()
+      .from(userOrganizations)
+      .where(eq(userOrganizations.userId, userId));
+
+    return userOrg?.organizationId || null;
+  } catch (error) {
+    console.error("Error getting user primary organization:", error);
+    return null;
+  }
+}

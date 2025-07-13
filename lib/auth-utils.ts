@@ -9,7 +9,7 @@ import { cookies } from "next/headers";
 import { UserRole } from "@/shared/rbac/roles";
 
 // Export all server-side functions
-export { hashPassword, comparePasswords } from "./auth-server";
+
 
 // Export types properly with export type
 export type { JwtPayload } from "./auth-server";
@@ -68,3 +68,7 @@ export async function getCurrentUser(): Promise<JwtPayload | null> {
     return null;
   }
 }
+
+
+// Re-export auth functions
+export { hashPassword, comparePasswords } from "./auth-server";

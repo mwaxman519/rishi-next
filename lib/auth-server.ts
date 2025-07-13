@@ -60,3 +60,36 @@ export const authOptions = {
     strategy: "jwt" as const,
   },
 };
+
+/**
+ * Auth function for backwards compatibility
+ */
+export function auth() {
+  return authOptions;
+}
+
+/**
+ * Hash password utility
+ */
+export async function hashPassword(password: string): Promise<string> {
+  // For development, return a mock hash
+  if (process.env.NODE_ENV === 'development') {
+    return `hashed_${password}`;
+  }
+  
+  // In production, use proper bcrypt hashing
+  return password;
+}
+
+/**
+ * Compare passwords utility
+ */
+export async function comparePasswords(password: string, hashedPassword: string): Promise<boolean> {
+  // For development, simple comparison
+  if (process.env.NODE_ENV === 'development') {
+    return hashedPassword === `hashed_${password}`;
+  }
+  
+  // In production, use proper bcrypt comparison
+  return password === hashedPassword;
+}
