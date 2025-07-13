@@ -52,10 +52,18 @@ export async function getUserByUsername(
       const [user] = await db
         .select()
         .from(schema.users)
-        .where(eq(schema.users.username, username));
+        .where(and(
+          eq(schema.users.username, username),
+          eq(schema.users.active, true)
+        ));
 
       if (user) {
         console.log(`[Auth Service] User found: ${user.username} (role: ${user.role})`);
+        console.log(`[Auth Service] User active: ${user.active}`);
+        console.log(`[Auth Service] User has password: ${!!user.password}`);
+        console.log(`[Auth Service] User object keys: ${Object.keys(user).join(', ')}`);
+      } else {
+        console.log(`[Auth Service] No user found for username: ${username}`);
       }
       
       return user;

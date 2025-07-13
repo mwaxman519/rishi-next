@@ -1,15 +1,18 @@
-# DEPLOY NOW - PRODUCTION AUTHENTICATION FIX
-
-## CRITICAL FIX APPLIED
-Fixed production authentication by hardcoding correct database URL in db-connection.ts
+# DEPLOY NOW - AUTHENTICATION DEBUG VERSION
 
 ## Changes Made:
-1. Added production database URL fallback in auth service
-2. Ensures production authentication uses rishiapp_prod database
-3. Direct database test confirms user 'mike' exists with correct password
+1. Added comprehensive logging to user repository
+2. Added active filter to user lookup
+3. Schema field mapping confirmed correct
 
-## Status: READY FOR IMMEDIATE DEPLOYMENT
+## Expected Result:
+After deployment, the auth logs will show exactly what's happening during user lookup.
 
-This fix will resolve the authentication issue immediately once deployed.
+## Test Command:
+```bash
+node test-production-auth.js
+```
+
+Deploy this version immediately to get detailed authentication logs.
 
 Timestamp: $(date)
