@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../../lib/db";
+import { db } from "@/lib/db";
 import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
-import { organizationSettings } from "../../../../../shared/schema";
+import { organizationSettings } from "@shared/schema";
 import { hasPermission } from "../auth-helper";
 import { z } from "zod";
 

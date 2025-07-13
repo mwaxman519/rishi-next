@@ -4,8 +4,8 @@ import {
   AvailabilityDTO,
   ConflictCheckResponse,
 } from "../../../services/availability/models";
-import { db } from "../../../../../lib/db";
-import { availabilityBlocks } from "../../../../../shared/schema";
+import { db } from "@/lib/db";
+import { availabilityBlocks } from "@shared/schema";
 import { and, eq, sql } from "drizzle-orm";
 
 /**

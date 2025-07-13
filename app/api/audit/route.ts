@@ -6,13 +6,13 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { getAuditLogs } from "@/lib/audit-log";
 import {
   hasPermission,
   getUserPrimaryOrganization,
-} from "../../../../lib/permissions";
-import { USER_ROLES } from "../../../../shared/rbac/roles";
+} from "@/lib/permissions";
+import { USER_ROLES } from "@shared/rbac/roles";
 
 export async function GET(request: NextRequest) {
   try {

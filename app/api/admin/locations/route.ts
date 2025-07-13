@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { auth } from "../../../../../lib/auth-server";
-import { db } from "../../../../../lib/db";
-import * as schema from "../../../../../shared/schema";
+import { auth } from "@/lib/auth-server";
+import { db } from "@/lib/db";
+import * as schema from "@shared/schema";
 import { randomUUID } from "crypto";
 
 // This is the admin location creation endpoint

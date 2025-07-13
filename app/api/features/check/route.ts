@@ -2,7 +2,7 @@
  * API endpoint to check if a specific feature is enabled for an organization
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "../../../../../lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import {
   isUserInOrganization,
   getOrganizationById,
@@ -10,7 +10,7 @@ import {
 import {
   isFeatureEnabled,
   isFeatureAvailableForTier,
-} from "../../../../../shared/features/registry";
+} from "@shared/features/registry";
 
 export async function GET(request: NextRequest) {
   try {

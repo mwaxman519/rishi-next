@@ -5,11 +5,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { users } from "../../../../shared/schema";
+import { users } from "@shared/schema";
 import { scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { cookies } from "next/headers";
-import { getEnvironment } from "../../../../lib/db-connection";
+import { getEnvironment } from "@/lib/db-connection";
 import { eq } from "drizzle-orm";
 
 // Convert scrypt to a promise-based function

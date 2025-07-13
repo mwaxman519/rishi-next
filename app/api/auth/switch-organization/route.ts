@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getCurrentAuthUser } from "../../../../../lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import { SignJWT } from "jose";
 
 /**

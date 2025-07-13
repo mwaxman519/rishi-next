@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { BookingService } from "@/services/BookingService";
 import { getCurrentUser } from "../auth-service/utils/auth-utils";
 import { z } from "zod";
-import { BOOKING_STATUS, BOOKING_PRIORITY } from "../../../../shared/schema";
+import { BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
 
 // Cannabis Booking Creation Schema
 const CreateCannabisBookingSchema = z.object({

@@ -4,8 +4,8 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { geocodingService } from "../../../services/maps";
-import { getCurrentUser } from "../../../../../lib/auth";
-import { checkPermission } from "../../../../../lib/rbac";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
 
 // Geocode an address
 export async function POST(req: NextRequest) {

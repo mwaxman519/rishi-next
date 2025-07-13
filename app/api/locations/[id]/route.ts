@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../../lib/db";
-import { locations, updateLocationSchema } from "../../../../../shared/schema";
-import { getCurrentUser } from "../../../../../lib/auth";
-import { checkPermission } from "../../../../../lib/rbac";
+import { db } from "@/lib/db";
+import { locations, updateLocationSchema } from "@shared/schema";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
 import { publishLocationUpdatedEvent } from "../../../services/locations/locationEventPublisher";
 import { eq } from "drizzle-orm";
 

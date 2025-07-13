@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../../lib/db";
+import { db } from "@/lib/db";
 import { and, eq } from "drizzle-orm";
-import { getCurrentUser } from "../../../../../lib/auth";
-import { organizationUsers } from "../../../../../shared/schema";
+import { getCurrentUser } from "@/lib/auth";
+import { organizationUsers } from "@shared/schema";
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from "../../../../../lib/rbac-enhanced";
+} from "@/lib/rbac-enhanced";
 
 // POST /api/admin/organization-users - Create new organization user association
 export async function POST(request: NextRequest) {
