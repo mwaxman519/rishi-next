@@ -480,6 +480,15 @@ This configuration successfully passed Azure build validation and deployment pha
 - **SITEMAP GENERATION OPTIONAL**: Sitemap generation is not critical for deployment success
 - **DEPLOYMENT READY**: System now guaranteed to complete Vercel deployment successfully without postbuild failures
 
+### January 13, 2025 - NEXT-SITEMAP DEPENDENCY ISSUE IDENTIFIED - USER MANUAL FIX REQUIRED
+- **THIRD DEPLOYMENT FAILURE CONFIRMED**: User provided third deployment log showing persistent "next-sitemap: command not found" error
+- **ROOT CAUSE IDENTIFIED**: next-sitemap was installed as devDependency instead of production dependency
+- **DEVDEPENDENCIES NOT AVAILABLE**: Vercel production builds don't include devDependencies, causing command not found error
+- **PACKAGER TOOL LIMITATION**: Cannot reliably move packages between dependency types via packager tool
+- **USER MANUAL FIX REQUIRED**: User needs to manually add "next-sitemap": "^4.2.3" to dependencies section in package.json
+- **PROPER SITEMAP SOLUTION**: With correct dependency placement, sitemap generation will work during deployment
+- **DEPLOYMENT READY PENDING**: System will be deployment-ready once user moves next-sitemap to production dependencies
+
 ### January 12, 2025 - VERCEL PATH MAPPING ISSUE COMPLETELY RESOLVED - DEPLOYMENT READY (FINAL)
 - **CRITICAL PATH MAPPING ISSUE IDENTIFIED**: Root cause was @/app/components/SidebarLayout resolving to ./app/app/components/ (double app directory) causing "Module not found" errors in Vercel production builds
 - **COMPONENT RELOCATION COMPLETED**: Moved SidebarLayout.tsx from app/components/ to components/ directory for proper @/components/ path resolution
