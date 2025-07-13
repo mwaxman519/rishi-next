@@ -97,14 +97,7 @@ export async function POST(request: NextRequest) {
             id: uuidv4(),
             username: requestBody.username,
             email: requestBody.email || `${requestBody.username}@example.com`,
-            fullName:
-              requestBody.fullName ||
-              (
-                (requestBody.fullName || requestBody.firstName || "") +
-                " " +
-                (requestBody.lastName || "")
-              ).trim() ||
-              requestBody.username,
+            fullName: requestBody.fullName || requestBody.username,
             role: requestBody.role || "brand_agent",
             active: true,
             createdAt: new Date().toISOString(),
@@ -277,8 +270,6 @@ export async function POST(request: NextRequest) {
       confirmPassword,
       registrationPasscode,
       fullName,
-      firstName,
-      lastName,
       role,
       organizationId,
       organizationName,
@@ -288,16 +279,8 @@ export async function POST(request: NextRequest) {
       isInternalRequest,
     } = result.data;
 
-    // Combine fullName into fullName if provided
-    const computedFullName =
-      fullName ||
-      (fullName
-        ? `${fullName}`
-        : firstName
-          ? firstName
-          : lastName
-            ? lastName
-            : username);
+    // Use fullName or fallback to username
+    const computedFullName = fullName || username;
 
     // Password match is already validated by the schema's refine method
 
