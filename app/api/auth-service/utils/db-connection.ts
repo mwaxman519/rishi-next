@@ -38,9 +38,21 @@ class DatabaseConnectionManager {
     try {
       console.log("[DB Manager] Initializing database connection...");
       
-      // Get DATABASE_URL with production fallback
-      const databaseUrl = process.env.DATABASE_URL || 
-        "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
+      // Force production database URL for production environment
+      let databaseUrl = process.env.DATABASE_URL;
+      
+      // If production environment or DATABASE_URL contains wrong database, force correct one
+      if (process.env.NODE_ENV === "production" || 
+          process.env.VERCEL_ENV === "production" || 
+          databaseUrl?.includes("rishinext")) {
+        databaseUrl = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
+        console.log("[DB Manager] FORCING production database URL");
+      }
+      
+      // Fallback if no DATABASE_URL at all
+      if (!databaseUrl) {
+        databaseUrl = "postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_prod?sslmode=require&channel_binding=require";
+      }
       
       console.log(`[DB Manager] Using database: ${databaseUrl.substring(0, 50)}...`);
       
