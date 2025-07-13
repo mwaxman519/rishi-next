@@ -38,8 +38,6 @@ const registerSchema = z
       .string()
       .min(1, "Registration passcode is required"),
     fullName: z.string().optional().nullable(),
-    // Support fullName fields for form compatibility
-    fullName: z.string().optional().nullable(),
     
     role: z.string().optional().default("user"),
     // Organization options (only for internal use)
