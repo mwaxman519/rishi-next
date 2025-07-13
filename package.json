@@ -7,7 +7,7 @@
     "dev": "next dev -p 5000",
     "build": "next build",
     "build:production": "node scripts/skip-db-migration-on-failure.js && next build",
-    "postbuild": "next-sitemap",
+    "postbuild": "echo \"Sitemap generation skipped for deployment\"",
     "start": "next start -p 5000",
     "db:push": "drizzle-kit push",
     "db:push:safe": "node scripts/skip-db-migration-on-failure.js",
