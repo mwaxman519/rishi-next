@@ -25,9 +25,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     // Parse query parameters
     const url = new URL(req.url);
-    const excludeBrandId = url.(searchParams.get("excludeBrandId") || undefined);
-    const stateId = url.(searchParams.get("stateId") || undefined);
-    const searchTerm = url.(searchParams.get("search") || undefined);
+    const excludeBrandId = url.searchParams.get("excludeBrandId") || undefined;
+    const stateId = url.searchParams.get("stateId") || undefined;
+    const searchTerm = url.searchParams.get("search") || undefined;
 
     // Build the query with only columns that exist in the database
     let baseQuery = db

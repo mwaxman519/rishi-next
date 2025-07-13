@@ -30,8 +30,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     // Parse query parameters
     const url = new URL(req.url);
-    const sortBy = url.(searchParams.get("sortBy") || undefined) || "createdAt";
-    const sortOrder = url.(searchParams.get("sortOrder") || undefined) || "desc";
+    const sortBy = url.searchParams.get("sortBy") || "createdAt";
+    const sortOrder = url.searchParams.get("sortOrder") || "desc";
 
     // Get all locations from the database using Drizzle ORM
     const allLocations = await db.select().from(schema.locations);
