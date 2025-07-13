@@ -99,11 +99,21 @@ export async function POST(request: NextRequest) {
     const { username, password } = result.data;
 
     // Find user in database
+    console.log(`[Auth Service] Looking up user: ${username}`);
     const user = await getUserByUsername(username);
 
     if (!user) {
+      console.log(`[Auth Service] User not found: ${username}`);
       return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
     }
+
+    console.log(`[Auth Service] User found: ${username}, role: ${user.role}`);
+    console.log(`[Auth Service] User has password: ${!!user.password}`);
+    console.log(`[Auth Service] User active: ${user.active}`);
+    console.log(`[Auth Service] User fullName: ${user.fullName || user.name}`);
+    console.log(`[Auth Service] User email: ${user.email}`);
+    console.log(`[Auth Service] Raw user object keys: ${Object.keys(user).join(', ')}`);
+    console.log(`[Auth Service] Raw user object: ${JSON.stringify(user, null, 2)}`);  
 
     // Verify password using bcrypt
     let validPassword = false;

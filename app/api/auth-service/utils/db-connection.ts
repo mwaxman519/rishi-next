@@ -102,13 +102,20 @@ class DatabaseConnectionManager {
         
         const result = await operation();
         this.handleConnectionSuccess();
+        console.log(`[DB Manager] ${operationName} completed successfully`);
         return result;
         
       } catch (error) {
         console.error(`[DB Manager] ${operationName} failed (attempt ${attempt}/${this.maxRetries}):`, error);
+        console.error(`[DB Manager] Error details:`, {
+          message: error.message,
+          code: error.code,
+          stack: error.stack
+        });
         
         if (attempt === this.maxRetries) {
           this.handleConnectionFailure();
+          console.error(`[DB Manager] All retry attempts failed for ${operationName}`);
           return null;
         }
         
