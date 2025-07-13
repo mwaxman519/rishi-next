@@ -38,9 +38,9 @@ const registerSchema = z
       .string()
       .min(1, "Registration passcode is required"),
     fullName: z.string().optional().nullable(),
-    // Support firstName/lastName fields for form compatibility
-    firstName: z.string().optional().nullable(),
-    lastName: z.string().optional().nullable(),
+    // Support fullName fields for form compatibility
+    fullName: z.string().optional().nullable(),
+    
     role: z.string().optional().default("user"),
     // Organization options (only for internal use)
     organizationId: z.string().optional(),
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
             fullName:
               requestBody.fullName ||
               (
-                (requestBody.firstName || "") +
+                (requestBody.fullName || requestBody.firstName || "") +
                 " " +
                 (requestBody.lastName || "")
               ).trim() ||
@@ -290,11 +290,11 @@ export async function POST(request: NextRequest) {
       isInternalRequest,
     } = result.data;
 
-    // Combine firstName and lastName into fullName if provided
+    // Combine fullName into fullName if provided
     const computedFullName =
       fullName ||
-      (firstName && lastName
-        ? `${firstName} ${lastName}`
+      (fullName
+        ? `${fullName}`
         : firstName
           ? firstName
           : lastName

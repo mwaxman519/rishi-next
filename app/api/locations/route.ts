@@ -221,8 +221,8 @@ async function getOrCreateTestUserId(): Promise<string> {
     .values({
       id: uuidv4(),
       email: 'test@example.com',
-      firstName: 'Test',
-      lastName: 'User',
+      fullName: "Test User",
+      
       active: true,
       created_at: new Date(),
       updated_at: new Date()

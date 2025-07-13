@@ -9,14 +9,14 @@ const CreateOrganizationSchema = z.object({
   name: z.string().min(1).max(100),
   type: z.enum(["internal", "client", "partner"]),
   tier: z.enum(["tier_1", "tier_2", "tier_3"]),
-  active: z.boolean().optional().default(true),
+  status: z.string().optional().default("active"),
 });
 
 const UpdateOrganizationSchema = z.object({
   name: z.string().min(1).max(100).optional(),
   type: z.enum(["internal", "client", "partner"]).optional(),
   tier: z.enum(["tier_1", "tier_2", "tier_3"]).optional(),
-  active: z.boolean().optional(),
+  status: z.string().optional(),
 });
 
 /**

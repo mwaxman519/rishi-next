@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     // Create full name from first and last name if provided
     let fullName = undefined;
     if (firstName && lastName) {
-      fullName = `${firstName} ${lastName}`;
+      fullName = firstName + " " + lastName;
     }
 
     // Create the user
