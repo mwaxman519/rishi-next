@@ -163,4 +163,5 @@ export const APP_EVENTS: AppEvent[] = [
 ];
 
 // Export a singleton instance of the LocalEventBus
-export const distributedEventBus = new LocalEventBus();
+// Import the connected distributedEventBus from the main file
+export { distributedEventBus } from "./distributedEventBus";

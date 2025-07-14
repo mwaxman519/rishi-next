@@ -105,4 +105,34 @@ class LocalEventBus implements EventBus {
 }
 
 // Export the singleton instance of the event bus
-export const distributedEventBus = new LocalEventBus();
+// Import EventBusService to connect existing events
+import { eventBusService } from "../EventBusService";
+
+/**
+ * Enhanced LocalEventBus that forwards events to EventBusService
+ * This ensures existing publish() calls also flow through the centralized EventBusService
+ */
+class ConnectedLocalEventBus extends LocalEventBus {
+  async publish<E extends AppEvent>(
+    event: E,
+    payload: PayloadFor<E>,
+    options?: any,
+  ): Promise<boolean> {
+    // Call original publish method
+    const result = await super.publish(event, payload, options);
+    
+    // Also forward to EventBusService for centralized handling
+    try {
+      await eventBusService.publish(event as string, payload, {
+        source: 'distributedEventBus',
+        ...options
+      });
+    } catch (error) {
+      console.warn(`[distributedEventBus] Failed to forward event ${event} to EventBusService:`, error);
+    }
+    
+    return result;
+  }
+}
+
+export const distributedEventBus = new ConnectedLocalEventBus();
