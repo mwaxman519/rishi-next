@@ -144,26 +144,20 @@ superAdminNavigation.push(
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Managers",
-        href: "/dashboard", // Fallback to dashboard since staff section isn't implemented yet
+        href: "/staff/managers",
         icon: <UserCog className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Brand Agents",
-        href: "/roster",
+        href: "/staff/agents",
         icon: <BadgeCheck className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Schedule",
-        href: "/shifts",
+        href: "/staff/schedule",
         icon: <Calendar className="h-5 w-5" />,
-      },
-      {
-        type: NAV_ITEM_TYPES.LINK,
-        label: "Onboarding",
-        href: "/dashboard", // Fallback to dashboard since staff section isn't implemented yet
-        icon: <UserPlus className="h-5 w-5" />,
       },
     ],
   },
@@ -182,9 +176,15 @@ superAdminNavigation.push(
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Dashboard",
-        href: "/dashboard",
+        label: "Directory",
+        href: "/locations/directory",
         icon: <Building className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Admin",
+        href: "/admin/locations",
+        icon: <Cog className="h-5 w-5" />,
       },
     ],
   },
@@ -198,19 +198,19 @@ superAdminNavigation.push(
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Organizations",
-        href: "/dashboard",
+        href: "/admin/organizations",
         icon: <Network className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Contacts",
-        href: "/dashboard",
+        href: "/contacts",
         icon: <Users className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Analytics",
-        href: "/dashboard",
+        href: "/analytics",
         icon: <LineChart className="h-5 w-5" />,
       },
     ],
@@ -251,20 +251,20 @@ superAdminNavigation.push(
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Dashboard",
-        href: "/dashboard",
+        label: "Overview",
+        href: "/analytics",
         icon: <LayoutDashboard className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Reports",
-        href: "/dashboard",
+        href: "/reports",
         icon: <FileText className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Raw Data",
-        href: "/dashboard",
+        label: "Admin Analytics",
+        href: "/admin/analytics",
         icon: <Table className="h-5 w-5" />,
       },
     ],
@@ -278,14 +278,14 @@ superAdminNavigation.push(
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Courses",
-        href: "/dashboard",
+        label: "Training",
+        href: "/training",
         icon: <BookOpenCheck className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Certifications",
-        href: "/dashboard",
+        href: "/training",
         icon: <CheckSquare className="h-5 w-5" />,
       },
     ],
@@ -306,7 +306,7 @@ superAdminNavigation.push(
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Roles",
-        href: "/dashboard",
+        href: "/admin/rbac",
         icon: <KeySquare className="h-5 w-5" />,
       },
       {
@@ -317,14 +317,8 @@ superAdminNavigation.push(
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Integrations",
-        href: "/dashboard",
-        icon: <Server className="h-5 w-5" />,
-      },
-      {
-        type: NAV_ITEM_TYPES.LINK,
         label: "System Status",
-        href: "/dashboard",
+        href: "/admin/system-settings",
         icon: <AlertCircle className="h-5 w-5" />,
       },
     ],
@@ -358,7 +352,7 @@ internalAdminNavigation.push(
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Calendar",
-        href: "/calendar",
+        href: "/bookings/calendar",
         icon: <Calendar className="h-5 w-5" />,
       },
     ],
@@ -373,19 +367,19 @@ internalAdminNavigation.push(
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Field Managers",
-        href: "/dashboard",
+        href: "/staff/managers",
         icon: <UserCog className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Brand Agents",
-        href: "/dashboard",
+        href: "/staff/agents",
         icon: <BadgeCheck className="h-5 w-5" />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
         label: "Schedule",
-        href: "/dashboard",
+        href: "/staff/schedule",
         icon: <Calendar className="h-5 w-5" />,
       },
     ],
@@ -634,20 +628,12 @@ clientUserNavigation.push(
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
 
-  // Booking Management
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Booking Management",
-    href: "/bookings",
-    icon: <BookOpenCheck className="h-5 w-5" />,
-  },
-
   // Bookings
   {
     type: NAV_ITEM_TYPES.LINK,
     label: "Bookings",
     href: "/bookings",
-    icon: <Clock className="h-5 w-5" />,
+    icon: <BookOpenCheck className="h-5 w-5" />,
   },
 
   // Locations
