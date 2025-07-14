@@ -45,6 +45,8 @@ import {
   BookOpenCheck,
   Receipt,
   DollarSign,
+  TrendingUp,
+  Archive,
 } from "lucide-react";
 
 // Create and export the navigation arrays so they can be imported by other modules
@@ -615,7 +617,7 @@ brandAgentNavigation.push(
 );
 
 // ===============================================
-// Client User Navigation Structure
+// Client User Navigation Structure (Full Organizational Access)
 // ===============================================
 clientUserNavigation.push(
   // Dashboard
@@ -626,47 +628,82 @@ clientUserNavigation.push(
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
 
-  // Bookings
+  // Booking Management Section
   {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Bookings",
-    href: "/bookings",
-    icon: <BookOpenCheck className="h-5 w-5" />,
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Booking Management",
+    icon: <Calendar className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Bookings",
+        href: "/bookings",
+        icon: <ClipboardList className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Calendar",
+        href: "/bookings/calendar",
+        icon: <Calendar className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Schedule",
+        href: "/schedule",
+        icon: <Clock className="h-5 w-5" />,
+      },
+    ],
   },
 
-  // Locations
+  // Location Management Section
   {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Locations",
-    href: "/locations",
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Location Management",
     icon: <MapPin className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Locations Map",
+        href: "/locations",
+        icon: <Globe className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Directory",
+        href: "/locations/directory",
+        icon: <Building className="h-5 w-5" />,
+      },
+    ],
   },
 
-  // Analytics
+  // Staff Management Section
   {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Analytics",
-    href: "/analytics",
-    icon: <BarChart className="h-5 w-5" />,
-  },
-
-  // Time Tracking
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Time Tracking",
-    href: "/timetracking",
-    icon: <Clock className="h-5 w-5" />,
-  },
-
-  // Team
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Team",
-    href: "/team",
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Staff Management",
     icon: <Users className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Staff Directory",
+        href: "/staff",
+        icon: <Users className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Availability",
+        href: "/availability",
+        icon: <Clock className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Performance",
+        href: "/staff/performance",
+        icon: <TrendingUp className="h-5 w-5" />,
+      },
+    ],
   },
 
-  // Inventory
+  // Inventory Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
     label: "Inventory",
@@ -683,6 +720,93 @@ clientUserNavigation.push(
         label: "Kit Instances",
         href: "/inventory/kit-instances",
         icon: <Package className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Stock Management",
+        href: "/inventory/stock",
+        icon: <Archive className="h-5 w-5" />,
+      },
+    ],
+  },
+
+  // Analytics & Reports Section
+  {
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Analytics & Reports",
+    icon: <PieChart className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Overview",
+        href: "/analytics",
+        icon: <LayoutDashboard className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Reports",
+        href: "/reports",
+        icon: <FileText className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Performance Metrics",
+        href: "/analytics/performance",
+        icon: <TrendingUp className="h-5 w-5" />,
+      },
+    ],
+  },
+
+  // Training & Development Section
+  {
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Training & Development",
+    icon: <GraduationCap className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Training Materials",
+        href: "/training",
+        icon: <BookOpenCheck className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Certifications",
+        href: "/training/certifications",
+        icon: <CheckSquare className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Progress Tracking",
+        href: "/training/progress",
+        icon: <TrendingUp className="h-5 w-5" />,
+      },
+    ],
+  },
+
+  // Organization Settings
+  {
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Organization Settings",
+    icon: <Cog className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Organization Profile",
+        href: "/organization/profile",
+        icon: <Building className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "User Management",
+        href: "/organization/users",
+        icon: <Users className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Preferences",
+        href: "/organization/preferences",
+        icon: <Settings className="h-5 w-5" />,
       },
     ],
   },
