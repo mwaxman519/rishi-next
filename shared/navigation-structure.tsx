@@ -458,7 +458,7 @@ internalAdminNavigation.push(
 );
 
 // ===============================================
-// Field Manager Navigation Structure
+// Field Manager Navigation Structure (Territory-Focused Management)
 // ===============================================
 fieldManagerNavigation.push(
   // Dashboard
@@ -469,47 +469,61 @@ fieldManagerNavigation.push(
     icon: <LayoutDashboard className="h-5 w-5" />,
   },
 
-  // Bookings
+  // Team Management Section
   {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Bookings",
-    href: "/bookings",
-    icon: <Calendar className="h-5 w-5" />,
-  },
-
-  // Availability
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Availability",
-    href: "/availability",
-    icon: <Clock className="h-5 w-5" />,
-  },
-
-  // Brand Agents
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Brand Agents",
-    href: "/brand-agents",
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Team Management",
     icon: <Users className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "My Brand Agents",
+        href: "/brand-agents",
+        icon: <Users className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Team Schedule",
+        href: "/schedule",
+        icon: <Calendar className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Team Availability",
+        href: "/availability",
+        icon: <Clock className="h-5 w-5" />,
+      },
+    ],
   },
 
-  // Workforce
+  // Territory Operations Section
   {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Workforce",
-    href: "/workforce",
-    icon: <Clock className="h-5 w-5" />,
-  },
-
-  // Locations
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Locations",
-    href: "/locations",
+    type: NAV_ITEM_TYPES.SECTION,
+    label: "Territory Operations",
     icon: <MapPin className="h-5 w-5" />,
+    children: [
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Territory Bookings",
+        href: "/bookings",
+        icon: <Calendar className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Assigned Locations",
+        href: "/locations",
+        icon: <MapPin className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Territory Tasks",
+        href: "/tasks",
+        icon: <CheckSquare className="h-5 w-5" />,
+      },
+    ],
   },
 
-  // Inventory
+  // Inventory Management
   {
     type: NAV_ITEM_TYPES.SECTION,
     label: "Inventory",
@@ -523,17 +537,17 @@ fieldManagerNavigation.push(
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Kit Instances",
+        label: "Kit Assignments",
         href: "/inventory/kit-instances",
         icon: <Package className="h-5 w-5" />,
       },
     ],
   },
 
-  // Reports
+  // Territory Reports
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Reports",
+    label: "Territory Reports",
     href: "/reports",
     icon: <FileText className="h-5 w-5" />,
   },
