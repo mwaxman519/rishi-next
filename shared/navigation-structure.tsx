@@ -540,7 +540,7 @@ fieldManagerNavigation.push(
 );
 
 // ===============================================
-// Brand Agent Navigation Structure
+// Brand Agent Navigation Structure (Limited Access)
 // ===============================================
 brandAgentNavigation.push(
   // Dashboard
@@ -559,10 +559,10 @@ brandAgentNavigation.push(
     icon: <Calendar className="h-5 w-5" />,
   },
 
-  // Availability
+  // My Availability
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Availability",
+    label: "My Availability",
     href: "/availability",
     icon: <Clock className="h-5 w-5" />,
   },
@@ -572,34 +572,18 @@ brandAgentNavigation.push(
     type: NAV_ITEM_TYPES.LINK,
     label: "My Bookings",
     href: "/bookings",
-    icon: <Clock className="h-5 w-5" />,
+    icon: <Calendar className="h-5 w-5" />,
   },
 
-  // Locations
+  // My Tasks
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Locations",
-    href: "/locations",
-    icon: <MapPin className="h-5 w-5" />,
-  },
-
-  // Workforce (includes availability)
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Workforce",
-    href: "/workforce",
-    icon: <Clock className="h-5 w-5" />,
-  },
-
-  // Tasks
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Tasks",
+    label: "My Tasks",
     href: "/tasks",
     icon: <CheckSquare className="h-5 w-5" />,
   },
 
-  // Event Data
+  // Event Data Entry
   {
     type: NAV_ITEM_TYPES.LINK,
     label: "Event Data",
@@ -607,7 +591,7 @@ brandAgentNavigation.push(
     icon: <FileText className="h-5 w-5" />,
   },
 
-  // Training
+  // Training Materials
   {
     type: NAV_ITEM_TYPES.LINK,
     label: "Training",
