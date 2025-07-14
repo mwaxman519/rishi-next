@@ -2,12 +2,12 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // CRITICAL: NO static export for Vercel or Replit Autoscale - API routes need serverless functions
-  // Only use static export for Azure Static Web Apps, not for Vercel or Replit Autoscale
-  output: process.env.VERCEL || process.env.REPLIT ? undefined : 
+  // CRITICAL: Replit Autoscale uses serverless functions - NO static export
+  // Static export only for Azure Static Web Apps
+  output: process.env.REPLIT || process.env.VERCEL ? undefined : 
     (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' 
       ? 'export'  // Static export for Azure only
-      : undefined), // Server mode for development, staging (Replit Autoscale), and Vercel
+      : undefined), // Server mode for Replit Autoscale, Vercel, and development
   
   // Serverless optimizations
   compress: true,
@@ -39,6 +39,16 @@ const nextConfig = {
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
     distDir: 'out',
+  }),
+  
+  // Replit Autoscale specific configuration
+  ...(process.env.REPLIT && {
+    compress: true,
+    poweredByHeader: false,
+    generateEtags: false,
+    httpAgentOptions: {
+      keepAlive: true,
+    },
   }),
   
   // Webpack optimization for Azure Functions (244KB limit)
