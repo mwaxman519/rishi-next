@@ -50,6 +50,23 @@ const nextConfig = {
       keepAlive: true,
     },
   }),
+
+  // Documentation build error prevention
+  async redirects() {
+    return [
+      {
+        source: '/docs',
+        destination: '/docs/README',
+        permanent: false,
+      },
+    ];
+  },
+  
+  // Handle missing documentation files gracefully
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
   
   // Webpack optimization for Azure Functions (244KB limit)
   webpack: (config, { isServer, dev }) => {

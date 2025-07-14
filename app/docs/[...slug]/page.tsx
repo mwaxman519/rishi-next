@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import { getDocTree, getDocumentByPath, getAllDocs } from "../../lib/docs";
+import { shouldSkipDocsGeneration, getAllDocsProduction } from "../../lib/docs-production";
 import { DOC_PATH_REDIRECTS } from "../../lib/doc-redirects";
 
 // Import components using named imports
@@ -85,15 +86,19 @@ export default async function DocPage({ params }: DocPageProps) {
     // docPath should NOT include any extension at this point
     const doc = await getDocumentByPath(docPath);
 
-    // If document not found, check if it's a directory path that should redirect to README
+    // If document not found, handle gracefully based on environment
     if (!doc) {
       // Try to find a README file in this directory
       const readmePath = `${docPath}/README`;
-      const readmeDoc = await getDocumentByPath(readmePath);
       
-      if (readmeDoc) {
-        console.log(`[DOCS PAGE] Redirecting from ${docPath} to ${readmePath}`);
-        return redirect(`/docs/${readmePath}`);
+      try {
+        const readmeDoc = await getDocumentByPath(readmePath);
+        if (readmeDoc) {
+          console.log(`[DOCS PAGE] Redirecting from ${docPath} to ${readmePath}`);
+          return redirect(`/docs/${readmePath}`);
+        }
+      } catch (readmeError) {
+        // Ignore readme lookup errors
       }
 
       // If it's a directory path without README, try to find any document in that directory
@@ -108,15 +113,19 @@ export default async function DocPage({ params }: DocPageProps) {
           return redirect(`/docs/${firstDoc.path}`);
         }
       } catch (redirectError) {
-        console.error(`[DOCS PAGE] Error checking directory redirect: ${redirectError}`);
+        // Ignore redirect lookup errors in production
+        if (process.env.NODE_ENV === 'development') {
+          console.error(`[DOCS PAGE] Error checking directory redirect: ${redirectError}`);
+        }
       }
 
-      // Document truly not found - only log error in development
-      if (process.env.NODE_ENV === 'development') {
-        console.error(`[DOCS PAGE] Document not found: ${docPath}`);
-        console.error(`[DOCS PAGE] Attempted to load document at: ${docPath}`);
+      // For production builds, throw an error that can be caught
+      if (process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production') {
+        throw new Error(`NEXT_HTTP_ERROR_FALLBACK;404`);
       }
 
+      // Development mode - log and use notFound
+      console.error(`[DOCS PAGE] Document not found: ${docPath}`);
       notFound();
     }
 
@@ -154,21 +163,37 @@ export default async function DocPage({ params }: DocPageProps) {
   }
 }
 
-// Generate static paths for all documents - with robust error handling for build time
+// Generate static paths for all documents - only for documents that actually exist
 export async function generateStaticParams() {
+  // Check if we should skip docs generation entirely
+  if (shouldSkipDocsGeneration()) {
+    console.log("[DOCS generateStaticParams] Skipping all docs generation in production");
+    return [];
+  }
+
   try {
-    // Get all actual documents instead of relying on the tree structure
-    const allDocs = await getAllDocs();
+    // Get all actual documents using production-safe method
+    const allDocs = await getAllDocsProduction();
+    
+    if (allDocs.length === 0) {
+      console.log("[DOCS generateStaticParams] No documents found, returning minimal paths");
+      return [];
+    }
+
     const paths: { slug: string[] }[] = [];
 
-    // Generate paths only for documents that actually exist
+    // Generate paths only for documents that actually exist and are valid
     for (const doc of allDocs) {
       // Skip documents that don't have valid paths
-      if (!doc.path || doc.path.trim() === '') continue;
+      if (!doc.path || doc.path.trim() === '' || doc.path.includes('..')) continue;
       
       // Convert path to slug array (remove any .md extension)
       const pathWithoutExt = doc.path.replace(/\.(md|mdx)$/i, '');
-      const slug = pathWithoutExt.split('/').filter(segment => segment.length > 0);
+      const slug = pathWithoutExt.split('/').filter(segment => 
+        segment.length > 0 && 
+        !segment.startsWith('.') && 
+        segment !== 'node_modules'
+      );
       
       // Only add valid paths
       if (slug.length > 0) {
@@ -176,50 +201,24 @@ export async function generateStaticParams() {
       }
     }
 
-    // Also add directory paths for navigation
-    const docTree = await getDocTree();
-    const addDirectoryPaths = (tree: any, currentPath: string[] = []) => {
-      if (!tree || typeof tree !== "object") return;
-
-      for (const [key, value] of Object.entries(tree)) {
-        if (typeof value === "object" && value !== null) {
-          // This is a directory - add the directory path
-          const dirPath = [...currentPath, key];
-          paths.push({ slug: dirPath });
-          
-          // Process children
-          addDirectoryPaths(value, dirPath);
-        }
-      }
-    };
-
-    addDirectoryPaths(docTree);
-
-    // Remove duplicates
-    const uniquePaths = paths.filter((path, index, self) => 
-      index === self.findIndex(p => p.slug.join('/') === path.slug.join('/'))
-    );
-
-    // Log the result
+    // Log the result with better debugging
     console.log(
-      `[DOCS generateStaticParams] Generated ${uniquePaths.length} static paths from ${allDocs.length} documents`,
+      `[DOCS generateStaticParams] Generated ${paths.length} static paths from ${allDocs.length} documents`,
     );
+    
+    if (paths.length > 0) {
+      console.log(`[DOCS generateStaticParams] Sample paths:`, paths.slice(0, 5).map(p => p.slug.join('/')));
+    }
 
-    return uniquePaths;
+    return paths;
   } catch (error) {
-    // During build time, we need to handle errors to prevent build failures
+    // During build time, log error but don't fail the build
     console.error(
       "[DOCS generateStaticParams] Error generating paths during build:",
       error,
     );
 
-    // Return a minimal set of paths to allow the build to succeed
-    // These should correspond to actual documentation files
-    return [
-      { slug: ["README"] },
-      { slug: ["api", "README"] },
-      { slug: ["architecture", "README"] },
-      { slug: ["getting-started", "README"] },
-    ];
+    // Return empty array to avoid generating invalid paths
+    return [];
   }
 }
