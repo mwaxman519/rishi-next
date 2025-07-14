@@ -1,11 +1,19 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "node scripts/build-with-docs.js",
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
   "env": {
     "NODE_ENV": "production"
+  },
+  "functions": {
+    "app/api/docs/tree/route.ts": {
+      "includeFiles": "Docs/**"
+    },
+    "app/api/docs/*/route.ts": {
+      "includeFiles": "Docs/**"
+    }
   }
 }

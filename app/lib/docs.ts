@@ -12,8 +12,10 @@ import crypto from "crypto";
 // This allows for safer deployment in cases where MDX files have issues
 
 // Base directories for documentation
-// Use root Docs directory for both development and production
-export const DOCS_DIRECTORY = path.join(process.cwd(), "Docs");
+// Use root Docs directory for development, public/Docs for production
+export const DOCS_DIRECTORY = process.env.VERCEL_ENV === 'production' 
+  ? path.join(process.cwd(), "public", "Docs")
+  : path.join(process.cwd(), "Docs");
 
 // Disable filesystem operations during static generation
 const isStaticGeneration = process.env.NEXT_PHASE === 'phase-production-build' || 
