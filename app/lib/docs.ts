@@ -67,9 +67,9 @@ let lastContentHash: string = "";
  * Calculate a hash of directory contents to detect changes
  */
 function calculateDirectoryHash(dir: string): string {
-  // Skip directory hash calculation during static generation
-  if (isStaticGeneration) {
-    return "static-generation-hash";
+  // Allow hash calculation for production runtime
+  if (!fs.existsSync(dir)) {
+    return "directory-not-found";
   }
   
   const hashContent: string[] = [];
@@ -111,11 +111,8 @@ function calculateDirectoryHash(dir: string): string {
  * Gets the document tree by recursively scanning the filesystem
  */
 export async function getDocTree(): Promise<DocTree> {
-  // Return empty tree during static generation to prevent filesystem access
-  if (isStaticGeneration) {
-    debugLog("[DOCS] Static generation mode - returning empty tree");
-    return {};
-  }
+  // Skip static generation check for production runtime - we need docs to work
+  debugLog("[DOCS] Attempting to build document tree from filesystem");
   
   // Check if docs directory exists
   if (!fs.existsSync(DOCS_DIRECTORY)) {
@@ -191,10 +188,7 @@ export async function getDocTree(): Promise<DocTree> {
  * Recursively builds a document tree from a directory
  */
 function buildDocTree(dir: string, baseDir: string = DOCS_DIRECTORY): DocTree {
-  // Skip building tree during static generation
-  if (isStaticGeneration) {
-    return {};
-  }
+  // Allow building tree for production runtime
   const tree: DocTree = {};
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
