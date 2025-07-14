@@ -1,9 +1,7 @@
 /**
- * EventBus module - provides a unified event publishing and subscribing interface.
- * This file re-exports the distributedEventBus for backward compatibility.
+ * DEPRECATED: Use AdvancedEventBus instead
+ * This file provides backwards compatibility for existing imports
  */
-
-import { EventEmitter } from "events";
 
 // Define the app events and their payload types
 export type AppEvent =
@@ -162,6 +160,5 @@ export const APP_EVENTS: AppEvent[] = [
   "booking.cancelled",
 ];
 
-// Export a singleton instance of the LocalEventBus
-// Import the connected distributedEventBus from the main file
-export { distributedEventBus } from "./distributedEventBus";
+// Re-export the advanced event bus for backwards compatibility
+export { advancedEventBus as distributedEventBus } from "./AdvancedEventBus";

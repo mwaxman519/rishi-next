@@ -50,7 +50,7 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **API Structure**: Next.js API routes with serverless functions
 - **Authentication**: JWT-based authentication with NextAuth.js integration
 - **Database ORM**: Drizzle ORM with PostgreSQL (Neon serverless)
-- **Event System**: Custom event bus for application-wide event handling
+- **Event System**: AdvancedEventBus - Enterprise-grade unified event system with circuit breakers, metrics, and fault tolerance
 - **Service Layer**: Repository pattern with adapter design for data access
 
 ### Multi-Organization Architecture
@@ -105,13 +105,15 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 5. Database interaction through Drizzle ORM
 6. Response with proper error handling
 
-### Event Flow
+### Advanced Event Flow (Enterprise-Grade)
 
-1. Business logic triggers events
-2. Event bus publishes typed events
-3. Event handlers process asynchronous operations
-4. Database updates and external service calls
-5. Notification system for real-time updates
+1. Business logic triggers events with metadata (correlation IDs, user context)
+2. AdvancedEventBus validates and routes events through circuit breakers
+3. Priority-based event handlers process operations with fault tolerance
+4. Database updates and external service calls with retry logic
+5. Event history tracking and performance metrics collection
+6. Dead letter queue handling for failed events
+7. Real-time monitoring and graceful error recovery
 
 ## External Dependencies
 
