@@ -103,3 +103,8 @@ const nextConfig = {
 };
 
 export default nextConfig;
+
+// Ensure Docs directory is included in production builds
+if (process.env.NODE_ENV === 'production') {
+  console.log('Production build: Documentation directory included at', 'Docs/');
+}

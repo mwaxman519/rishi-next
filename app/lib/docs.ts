@@ -12,15 +12,12 @@ import crypto from "crypto";
 // This allows for safer deployment in cases where MDX files have issues
 
 // Base directories for documentation
-// Use public/Docs for Vercel deployment compatibility
-export const DOCS_DIRECTORY = process.env.VERCEL 
-  ? path.join(process.cwd(), "public", "Docs")
-  : path.join(process.cwd(), "Docs");
+// Use root Docs directory for both development and production
+export const DOCS_DIRECTORY = path.join(process.cwd(), "Docs");
 
 // Disable filesystem operations during static generation
 const isStaticGeneration = process.env.NEXT_PHASE === 'phase-production-build' || 
-                          process.env.BUILD_PHASE === 'static-generation' ||
-                          process.env.VERCEL_ENV === 'production';
+                          process.env.BUILD_PHASE === 'static-generation';
 const MARKDOWN_EXTENSIONS = [".md", ".mdx"];
 
 // Cache configuration
