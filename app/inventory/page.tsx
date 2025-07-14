@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Inventory | Rishi Workforce Management",
@@ -105,10 +106,12 @@ export default function InventoryPage() {
             Manage kit templates, items, and inventory tracking
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Item
-        </Button>
+        <Link href="/inventory/items/new">
+          <Button>
+            <Plus className="h-4 w-4 mr-2" />
+            Add Item
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

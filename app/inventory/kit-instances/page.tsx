@@ -20,6 +20,7 @@ import {
   Search
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Kit Instances | Rishi Platform",
@@ -114,10 +115,12 @@ function KitInstancesContent() {
             Track and manage deployed kit instances in the field
           </p>
         </div>
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Deploy New Kit
-        </Button>
+        <Link href="/inventory/new-kit">
+          <Button className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            Deploy New Kit
+          </Button>
+        </Link>
       </div>
 
       {/* Search and Filters */}

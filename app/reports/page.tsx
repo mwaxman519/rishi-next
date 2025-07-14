@@ -17,12 +17,8 @@ export default function ReportsPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Auto-redirect after 3 seconds
-    const timer = setTimeout(() => {
-      router.replace("/event-data");
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    // Immediate redirect to event-data (removing the 3-second delay)
+    router.replace("/event-data");
   }, [router]);
 
   return (
