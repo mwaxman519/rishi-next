@@ -46,21 +46,14 @@ export default function Home() {
       // Use useEffect to handle redirect to avoid React state update during render
       useEffect(() => {
         const handleRedirect = () => {
-          if (isInIframe) {
-            // For iframe environments, use Next.js router navigation
-            router.push("/dashboard");
-          } else {
-            // For regular browsers, use window.location redirect
-            if (typeof window !== "undefined") {
-              window.location.href = "/dashboard";
-            }
-          }
+          // Use Next.js router navigation
+          router.push("/dashboard");
         };
         
         // Small delay to ensure component is mounted
         const timeoutId = setTimeout(handleRedirect, 100);
         return () => clearTimeout(timeoutId);
-      }, [isInIframe, router]);
+      }, [router]);
       
       // Show loading while redirect happens
       return (
