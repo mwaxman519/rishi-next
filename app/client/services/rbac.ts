@@ -163,8 +163,15 @@ export async function hasPermission(
 
   try {
     const response = await apiRequest("GET", url);
+    
+    // Check if response is ok
+    if (!response.ok) {
+      console.warn(`Permission check failed with status ${response.status}`);
+      return false;
+    }
+    
     const data = await response.json();
-    return data.hasPermission;
+    return data.hasPermission || false;
   } catch (error) {
     console.warn("Failed to check permission, denying access:", error);
     return false;
