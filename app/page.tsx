@@ -19,28 +19,13 @@ export default function Home() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
-  // Robust iframe detection for Replit Preview and other environments
-  const isInIframe = typeof window !== "undefined" && (
-    window.self !== window.top || 
-    window.frameElement !== null ||
-    window.location !== window.parent.location ||
-    document.referrer.includes("replit") ||
-    window.location.hostname.includes("replit")
-  );
-  
   useEffect(() => {
-    console.log("Iframe detection:", isInIframe);
-    console.log("Window self !== window.top:", window.self !== window.top);
-    console.log("Window frameElement:", window.frameElement);
-    console.log("Document referrer:", document.referrer);
-    console.log("Window hostname:", window.location.hostname);
-    
-    // For regular browsers (not iframe), redirect super admin users
-    if (!isInIframe && user && user.role === "super_admin") {
-      console.log("Regular browser: Redirecting super admin to dashboard");
-      window.location.href = "/dashboard";
+    // Simple redirect for authenticated users
+    if (user && user.role === "super_admin") {
+      console.log("Redirecting super admin to dashboard");
+      router.push("/dashboard");
     }
-  }, [user, isInIframe]);
+  }, [user, router]);
 
   // Show loading state while authentication is initializing
   if (isLoading) {

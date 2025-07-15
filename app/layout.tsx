@@ -10,12 +10,16 @@ export const metadata: Metadata = {
   title: "Rishi Platform",
   description: "Rishi Platform for workforce management and operations",
   manifest: "/manifest.json",
-  themeColor: "#0f172a",
-  viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: "/favicon.ico",
     apple: "/icons/icon-192x192.svg",
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0f172a',
 };
 
 export default function RootLayout({
