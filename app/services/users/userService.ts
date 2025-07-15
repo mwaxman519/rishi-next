@@ -163,11 +163,16 @@ export async function createUser(
 
       // Emit user created event
       console.log("[userService] Emitting user.created event");
-      eventBus.emit("user.created", {
-        id: newUser.id,
-        username: newUser.username,
-        role: newUser.role,
-      });
+      try {
+        eventBus.emit("user.created", {
+          id: newUser.id,
+          username: newUser.username,
+          role: newUser.role,
+        });
+      } catch (eventError) {
+        console.warn("Failed to emit user.created event:", eventError);
+        // Continue with the operation even if event emission fails
+      }
 
       // Convert DB model to domain model
       const userProfile = mapDatabaseUserToProfile(newUser);
@@ -244,10 +249,15 @@ export async function updateUser(
     }
 
     // Emit user updated event
-    eventBus.emit("user.updated", {
-      id: updatedUser.id,
-      changes: userData,
-    });
+    try {
+      eventBus.emit("user.updated", {
+        id: updatedUser.id,
+        changes: userData,
+      });
+    } catch (eventError) {
+      console.warn("Failed to emit user.updated event:", eventError);
+      // Continue with the operation even if event emission fails
+    }
 
     // Convert DB model to domain model
     const userProfile = mapDatabaseUserToProfile(updatedUser);
@@ -290,7 +300,12 @@ export async function deleteUser(
     }
 
     // Emit user deleted event
-    eventBus.emit("user.deleted", { id });
+    try {
+      eventBus.emit("user.deleted", { id });
+    } catch (eventError) {
+      console.warn("Failed to emit user.deleted event:", eventError);
+      // Continue with the operation even if event emission fails
+    }
 
     return { success: true, data: true };
   } catch (error) {
