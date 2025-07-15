@@ -9,6 +9,8 @@ interface RBACContextType {
   userPermissions: Permission[];
   isLoading: boolean;
   roles: Record<string, Role>;
+  hasPermission: (permission: string) => boolean;
+  userRole?: string;
 }
 
 // Create the context with a default value
@@ -17,6 +19,8 @@ export const RBACContext = createContext<RBACContextType>({
   userPermissions: [],
   isLoading: true,
   roles: ROLES,
+  hasPermission: () => false,
+  userRole: undefined,
 });
 
 interface RBACProviderProps {
@@ -56,6 +60,11 @@ export function RBACProvider({
     setIsLoading(false);
   }, [initialRoles, initialPermissions, userRoles]);
 
+  // hasPermission function
+  const hasPermission = (permission: string) => {
+    return userPermissions.includes(permission as Permission);
+  };
+
   // Provide the RBAC context to children
   return (
     <RBACContext.Provider
@@ -64,6 +73,8 @@ export function RBACProvider({
         userPermissions,
         isLoading,
         roles: ROLES,
+        hasPermission,
+        userRole: userRoles[0],
       }}
     >
       {children}

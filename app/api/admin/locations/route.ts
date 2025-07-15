@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth-server";
+import { getCurrentUser } from "@/lib/auth-server";
 import { db } from "@/lib/db";
 import * as schema from "@shared/schema";
 import { randomUUID } from "crypto";
@@ -11,9 +11,9 @@ import { randomUUID } from "crypto";
 export async function POST(req: Request) {
   try {
     // Check if user is authenticated and is an admin
-    const session = await auth();
+    const user = await getCurrentUser();
 
-    if (!session || !session.user) {
+    if (!user) {
       return NextResponse.json(
         { error: "Unauthorized. You must be logged in." },
         { status: 401 },
@@ -120,9 +120,9 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   try {
     // Check if user is authenticated
-    const session = await auth();
+    const user = await getCurrentUser();
 
-    if (!session || !session.user) {
+    if (!user) {
       return NextResponse.json(
         { error: "Unauthorized. You must be logged in." },
         { status: 401 },
