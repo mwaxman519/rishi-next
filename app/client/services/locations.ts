@@ -18,7 +18,7 @@ export class LocationsClientService {
       const response = await api.get(
         `/api/locations${queryString ? `?${queryString}` : ""}`,
       );
-      return response.data.locations;
+      return response.data.locations || response.data.data || [];
     } catch (error) {
       console.error("Error fetching locations:", error);
       throw error;
@@ -31,7 +31,7 @@ export class LocationsClientService {
   async getLocationById(id: string): Promise<LocationDTO | null> {
     try {
       const response = await api.get(`/api/locations/${id}`);
-      return response.data.location;
+      return response.data.location || response.data.data || null;
     } catch (error) {
       console.error(`Error fetching location with ID ${id}:`, error);
       throw error;
@@ -51,7 +51,7 @@ export class LocationsClientService {
         throw new Error("Server returned an invalid response format");
       }
 
-      return response.data.location;
+      return response.data.location || response.data.data;
     } catch (error) {
       console.error("Error creating location:", error);
       throw error;
@@ -74,7 +74,7 @@ export class LocationsClientService {
         throw new Error("Server returned an invalid response format");
       }
 
-      return response.data.location;
+      return response.data.location || response.data.data;
     } catch (error) {
       console.error(`Error updating location with ID ${id}:`, error);
       throw error;
@@ -106,7 +106,7 @@ export class LocationsClientService {
         throw new Error("Server returned an invalid response format");
       }
 
-      return response.data.location;
+      return response.data.location || response.data.data;
     } catch (error) {
       console.error(`Error approving location with ID ${id}:`, error);
       throw error;
@@ -134,7 +134,7 @@ export class LocationsClientService {
         throw new Error("Server returned an invalid response format");
       }
 
-      return response.data.location;
+      return response.data.location || response.data.data;
     } catch (error) {
       console.error(`Error rejecting location with ID ${id}:`, error);
       throw error;
