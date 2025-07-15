@@ -41,7 +41,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-// Mock booking data
+// Mock booking data - react-big-calendar format
 const mockBookings = [
   {
     id: 1,
@@ -97,16 +97,35 @@ export default function BookingsCalendarPage() {
     statusFilter === "all" || booking.status === statusFilter
   );
 
+  // Event styling based on status
   const eventStyleGetter = (event) => {
-    const backgroundColor = statusColors[event.status] || "bg-gray-500";
+    let backgroundColor = "#3174ad";
+    let borderColor = "#3174ad";
+
+    switch (event.status) {
+      case "confirmed":
+        backgroundColor = "#10b981";
+        borderColor = "#059669";
+        break;
+      case "pending":
+        backgroundColor = "#f59e0b";
+        borderColor = "#d97706";
+        break;
+      case "cancelled":
+        backgroundColor = "#ef4444";
+        borderColor = "#dc2626";
+        break;
+      case "completed":
+        backgroundColor = "#3b82f6";
+        borderColor = "#2563eb";
+        break;
+    }
+
     return {
       style: {
-        backgroundColor: backgroundColor.replace("bg-", "#"),
-        borderRadius: "4px",
-        opacity: 0.8,
+        backgroundColor,
+        borderColor,
         color: "white",
-        border: "0px",
-        display: "block",
       },
     };
   };

@@ -87,8 +87,6 @@ export async function isAuthenticated() {
   // For staging/production, check if user exists
   const user = await getCurrentUser();
   return user !== null;
-  const user = await getCurrentUser();
-  return user !== null;
 }
 
 // Get user by ID
