@@ -2,7 +2,8 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // CRITICAL: Replit Autoscale uses serverless functions - NO static export
+  // CRITICAL: PWA deployments need proper output configuration
+  // Replit Autoscale and Vercel use serverless functions
   // Static export only for Azure Static Web Apps
   output: process.env.REPLIT || process.env.VERCEL ? undefined : 
     (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' 

@@ -9,9 +9,12 @@ import { Providers } from "./providers";
 export const metadata: Metadata = {
   title: "Rishi Platform",
   description: "Rishi Platform for workforce management and operations",
+  manifest: "/manifest.json",
+  themeColor: "#0f172a",
+  viewport: "width=device-width, initial-scale=1",
   icons: {
     icon: "/favicon.ico",
-    apple: "/favicon.ico",
+    apple: "/icons/icon-192x192.svg",
   },
 };
 
@@ -22,7 +25,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head></head>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(registrationError => console.log('SW registration failed'));
+                });
+              }
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
         <ClientLayout>{children}</ClientLayout>
       </body>
