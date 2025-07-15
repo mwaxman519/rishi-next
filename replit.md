@@ -16,6 +16,14 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - Only claim deployment readiness after successful Vercel deployment, not just build success
 - Build compilation working ≠ successful Vercel deployment
 
+### Mobile App Development Priority
+
+- **CURRENT FOCUS**: Native mobile app generation using VoltBuilder cloud service
+- **DEPLOYMENT STRATEGY**: Option 1 (both platforms) but starting with Android first
+- **COST STRUCTURE**: VoltBuilder $15/month + Apple Developer Program $99/year for iOS
+- **DISTRIBUTION METHOD**: Firebase App Distribution for direct installation (no app stores)
+- **PACKAGE STATUS**: VoltBuilder package created (38.7 MB zip file ready for upload)
+
 ## System Architecture
 
 ### Environment Architecture (3-Tier)
