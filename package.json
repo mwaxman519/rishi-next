@@ -59,6 +59,16 @@
     }
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/app": "^7.0.1",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/ios": "^7.4.2",
+    "@capacitor/keyboard": "^7.0.1",
+    "@capacitor/local-notifications": "^7.0.1",
+    "@capacitor/push-notifications": "^7.0.1",
+    "@capacitor/splash-screen": "^7.0.1",
+    "@capacitor/status-bar": "^7.0.1",
     "@eslint/config-array": "^0.18.0",
     "@eslint/object-schema": "^2.1.6",
     "@fullcalendar/core": "^6.1.15",
