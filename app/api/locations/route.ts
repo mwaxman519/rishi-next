@@ -37,7 +37,17 @@ const UpdateLocationSchema = z.object({
 
 async function getCurrentUser(req: NextRequest) {
   try {
-    const authToken = req.cookies.get("auth_token");
+    // In development mode, return mock user
+    if (process.env.NODE_ENV === "development") {
+      return {
+        id: "mock-user-id",
+        username: "admin",
+        role: "super_admin",
+        organizationId: "00000000-0000-0000-0000-000000000001",
+      };
+    }
+
+    const authToken = req.cookies.get("auth-token");
     
     if (!authToken) {
       return null;

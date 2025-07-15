@@ -1,15 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    // Clear the auth cookie (await is required in Next.js 15.2.2)
-    const cookieStore = await cookies();
-    await cookieStore.delete("auth-token");
+    const response = NextResponse.json({ success: true });
+    
+    // Clear the auth token cookie
+    response.cookies.set("auth-token", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 0, // Expire immediately
+    });
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return response;
   } catch (error) {
     console.error("Logout error:", error);
-    return NextResponse.json({ error: "Failed to log out" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

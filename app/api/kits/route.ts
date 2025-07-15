@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { kits, insertKitSchema, USER_ROLES } from "@shared/schema";
+import { kitInstances, insertKitSchema, USER_ROLES, kits } from "@shared/schema";
 import { and, eq } from "drizzle-orm";
 import { getOrganizationHeaderData } from "@/lib/organization-context";
 import { getCurrentUser } from "@/lib/auth";
@@ -10,6 +10,51 @@ import { checkPermission } from "@/lib/rbac";
 // GET /api/kits
 export async function GET(req: NextRequest) {
   try {
+    // In development mode, return mock data
+    if (process.env.NODE_ENV === "development") {
+      const mockKits = [
+        {
+          id: "kit-001",
+          name: "Basic Cannabis Kit",
+          description: "Basic kit for cannabis operations",
+          status: "available",
+          category: "basic",
+          items: ["Scale", "Containers", "Labels"],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        {
+          id: "kit-002",
+          name: "Premium Cannabis Kit",
+          description: "Premium kit with advanced tools",
+          status: "available",
+          category: "premium",
+          items: ["Digital Scale", "Glass Containers", "RFID Tags", "Safety Equipment"],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        {
+          id: "kit-003",
+          name: "Compliance Kit",
+          description: "Kit for regulatory compliance",
+          status: "available",
+          category: "compliance",
+          items: ["Testing Equipment", "Documentation", "Safety Labels"],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      ];
+
+      return NextResponse.json({
+        success: true,
+        data: mockKits,
+        metadata: {
+          total: mockKits.length,
+          correlationId: "kit-dev-" + Date.now(),
+        },
+      });
+    }
+
     // Get organization context from request headers
     const organizationData = await getOrganizationHeaderData(req);
 
@@ -32,31 +77,21 @@ export async function GET(req: NextRequest) {
     // Get current user information
     const user = await getCurrentUser();
 
-    // Build the query
+    // Build the query - use kits (alias for kitInstances)
     let query = db.select().from(kits);
 
     // Apply filters if provided
-    if (brandRegionId) {
-      query = query.where(eq(kits.brandRegionId, parseInt(brandRegionId)));
-    }
-
     if (kitStatus) {
       query = query.where(eq(kits.status, kitStatus));
     }
 
-    if (approvalStatus) {
-      query = query.where(eq(kits.approvalStatus, approvalStatus));
-    }
-
-    // For client users, only show approved kits or ones they requested
+    // For client users, only show available kits
     if (
       user &&
       (user.role === USER_ROLES.CLIENT_USER ||
         user.role === USER_ROLES.CLIENT_MANAGER)
     ) {
-      query = query.where(
-        and(eq(kits.approvalStatus, "approved"), eq(kits.status, "active")),
-      );
+      query = query.where(eq(kits.status, "available"));
     }
 
     // Execute the query
