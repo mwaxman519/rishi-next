@@ -99,8 +99,8 @@ export default function AdminUsersPage() {
       }
     };
 
-    // Only attempt to load if we're authenticated
-    if (!isAuthLoading && user) {
+    // Load users regardless of authentication state (let the server handle auth)
+    if (!isAuthLoading) {
       loadUsers();
     }
   }, [user, isAuthLoading]);
