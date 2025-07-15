@@ -18,33 +18,45 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Force light mode as default
+  // Initialize theme from localStorage or default to light
   const [theme, setTheme] = useState<Theme>("light");
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Effect to set the theme when component mounts
+  // Effect to load theme from localStorage on mount
   useEffect(() => {
     // Check if window is defined (client-side only)
     if (typeof window !== "undefined") {
-      // Always start with light mode - ignore system preference and stored theme
-      setTheme("light");
-
-      // Ensure the HTML element doesn't have dark class on load
-      const root = window.document.documentElement;
-      root.classList.remove("dark");
-
-      // Clear any stored theme to force light mode
+      let savedTheme: Theme = "light";
+      
       try {
-        localStorage.setItem("theme", "light");
+        // Try to get saved theme from localStorage
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme === "dark" || storedTheme === "light") {
+          savedTheme = storedTheme as Theme;
+        }
       } catch (error) {
-        console.error("Failed to save theme to localStorage:", error);
+        console.error("Failed to load theme from localStorage:", error);
       }
+
+      // Set the theme state
+      setTheme(savedTheme);
+      
+      // Apply theme to DOM immediately
+      const root = window.document.documentElement;
+      if (savedTheme === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+      
+      setIsLoaded(true);
     }
   }, []);
 
-  // Effect to update DOM when theme changes
+  // Effect to update DOM when theme changes (only after initial load)
   useEffect(() => {
-    // Check if window is defined (client-side only)
-    if (typeof window !== "undefined") {
+    // Only run this effect after the initial load to avoid hydration issues
+    if (isLoaded && typeof window !== "undefined") {
       const root = window.document.documentElement;
 
       // Remove old theme class and add new one
@@ -61,7 +73,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         console.error("Failed to save theme to localStorage:", error);
       }
     }
-  }, [theme]);
+  }, [theme, isLoaded]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
