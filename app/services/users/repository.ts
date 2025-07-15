@@ -100,4 +100,13 @@ export const userRepository = {
     await db.delete(users).where(eq(users.id, id));
     return true;
   },
+
+  /**
+   * Get all users
+   */
+  getAllUsers: async () => {
+    return await db.query.users.findMany({
+      orderBy: (users, { desc }) => [desc(users.createdAt)],
+    });
+  },
 };

@@ -1,6 +1,6 @@
 "use server";
 
-import { hashPassword } from "../../lib/auth-utils";
+import { hashPassword } from "../../lib/auth-server";
 import { USER_ROLES, UserRole } from "../../../shared/rbac/roles";
 import { eventBus } from "../../../shared/events";
 import {
@@ -23,9 +23,18 @@ import {
  */
 export async function getAllUsers(): Promise<UsersResponse> {
   try {
-    // We'll implement a mock function since getAllUsers doesn't exist in the repository
-    const users: UserProfile[] = []; // Temporary placeholder - in production this would call repository.getAllUsers()
-    return { success: true, data: users };
+    console.log("[userService] Getting all users");
+    const users = await userRepository.getAllUsers();
+    console.log(`[userService] Found ${users?.length || 0} users`);
+    
+    if (!users) {
+      return { success: true, data: [] };
+    }
+
+    // Convert DB models to domain models
+    const userProfiles = users.map(mapDatabaseUserToProfile);
+    
+    return { success: true, data: userProfiles };
   } catch (error) {
     console.error("Error in getAllUsers:", error);
     return {
