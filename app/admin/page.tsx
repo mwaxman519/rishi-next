@@ -153,7 +153,7 @@ export default function AdminDashboard() {
             <Button onClick={() => router.push("/admin/organizations/create")}>
               Add Organization
             </Button>
-            <Button onClick={() => router.push("/admin/users/create")}>
+            <Button onClick={() => router.push("/users/new")}>
               Add User
             </Button>
             <Button onClick={() => router.push("/admin/features")}>

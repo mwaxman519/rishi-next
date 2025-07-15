@@ -226,7 +226,7 @@ export default function AdminUsersPage() {
             <Users className="h-4 w-4 mr-2" />
             Regular View
           </Button>
-          <Button onClick={() => router.push("/admin/users/create")}>
+          <Button onClick={() => router.push("/users/new")}>
             <PlusCircle className="h-4 w-4 mr-2" />
             Add User
           </Button>

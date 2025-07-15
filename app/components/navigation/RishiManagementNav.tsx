@@ -61,7 +61,7 @@ export const RISHI_MANAGEMENT_NAV: NavItem[] = [
       },
       {
         label: "Create User",
-        path: "/admin/users/create",
+        path: "/users/new",
         icon: <Users size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },

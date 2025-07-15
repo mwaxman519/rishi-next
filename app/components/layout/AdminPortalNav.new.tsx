@@ -119,7 +119,7 @@ export const SUPER_ADMIN_NAV: NavItem[] = [
       },
       {
         label: "Add New User",
-        path: "/admin/users/create",
+        path: "/users/new",
         icon: <UserPlus size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
@@ -223,7 +223,7 @@ export const INTERNAL_ADMIN_NAV: NavItem[] = [
       },
       {
         label: "Add New Staff",
-        path: "/admin/users/create",
+        path: "/users/new",
         icon: <UserPlus size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
