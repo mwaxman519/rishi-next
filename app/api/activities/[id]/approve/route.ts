@@ -5,7 +5,7 @@ import {
   activityTypes,
   locations,
   users,
-} from "@/shared/schema";
+} from "../../../../shared/schema";
 import { getCurrentUser } from "../../../lib/auth-server";
 import { eq } from "drizzle-orm";
 

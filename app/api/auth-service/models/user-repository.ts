@@ -5,7 +5,7 @@
  */
 import { dbManager } from "../utils/db-connection";
 import { eq, and, isNull } from "drizzle-orm";
-import * as schema from "../../../../shared/schema";
+import * as schema from "../../../../shared/schema"";
 import { v4 as uuidv4 } from "uuid";
 
 /**

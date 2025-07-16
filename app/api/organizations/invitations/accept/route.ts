@@ -7,7 +7,7 @@ import {
   userOrganizations,
   userOrganizationPreferences,
   organizations,
-} from "@/shared/schema";
+} from "../../../../shared/schema";
 import { sendEmail } from "@/lib/email-utils";
 
 /**

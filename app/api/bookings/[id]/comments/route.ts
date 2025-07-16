@@ -8,7 +8,7 @@ import {
   bookings,
   bookingComments,
   insertBookingCommentSchema,
-} from "@/shared/schema";
+} from "../../../../shared/schema";
 import { getAuthSession } from "@/lib/session";
 import { eq, desc, and } from "drizzle-orm";
 import { z } from "zod";

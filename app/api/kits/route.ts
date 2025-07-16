@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "../../../lib/db";
-import { kitInstances, insertKitSchema, USER_ROLES, kits } from "../../../shared/schema";
+import { kitInstances, insertKitSchema, USER_ROLES, kits } from "../../shared/schema";
 import { and, eq } from "drizzle-orm";
 import { getOrganizationHeaderData } from "@/lib/organization-context";
 import { getCurrentUser } from "../../../lib/auth";

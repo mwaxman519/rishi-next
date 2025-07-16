@@ -12,7 +12,7 @@ import {
   organizations,
   users,
   organizationUsers,
-} from "@/shared/schema";
+} from "../../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function GET(

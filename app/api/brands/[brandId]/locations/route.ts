@@ -4,7 +4,7 @@ import {
   brandLocations,
   brands,
   locations,
-} from "@/shared/schema";
+} from "../../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "@/lib/rbac";

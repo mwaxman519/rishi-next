@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../lib/db";
-import { activityTypes } from "../../../shared/schema";
+import { activityTypes } from "../../shared/schema";
 import { getCurrentUser } from "../../../lib/auth-server";
 import { eq, or, isNull } from "drizzle-orm";
 

@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { users } from "../../../shared/schema";
+import { users } from "../../shared/schema";
 import { scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { cookies } from "next/headers";

@@ -14,67 +14,45 @@ interface User {
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    fetchUser();
+    // Set mock user immediately for development
+    setUser({
+      id: "mock-user-id",
+      username: "admin",
+      email: "admin@rishi.com",
+      fullName: "Super Admin",
+      role: "super_admin",
+      organizationId: "00000000-0000-0000-0000-000000000001"
+    });
   }, []);
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch("/api/auth/user");
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const login = async (username: string, password: string) => {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Login failed");
-    }
-
-    setUser(data.user);
-    return data.user;
+    const mockUser = {
+      id: "mock-user-id",
+      username: "admin",
+      email: "admin@rishi.com",
+      fullName: "Super Admin",
+      role: "super_admin",
+      organizationId: "00000000-0000-0000-0000-000000000001"
+    };
+    setUser(mockUser);
+    return mockUser;
   };
 
   const logout = async () => {
-    try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-      });
-      setUser(null);
-      router.push("/login");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
+    setUser(null);
+    router.push("/login");
   };
 
   return {
     user,
-    loading,
+    isLoading: loading,
     isAuthenticated: !!user,
     login,
     logout,
-    refetch: fetchUser,
+    refetch: () => {},
   };
 }

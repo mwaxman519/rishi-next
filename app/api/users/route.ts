@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { EventBusService } from "../../../services/event-bus-service";
 import { authOptions } from "../../../lib/auth-options";
 import * as userService from "../../services/users/userService";
-import { insertUserSchema } from "../../../shared/schema";
+import { insertUserSchema } from "../../shared/schema";
 import { z } from "zod";
 
 /**

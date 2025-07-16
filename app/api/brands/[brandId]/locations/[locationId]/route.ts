@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../lib/db";
-import { brandLocations, brands } from "@/shared/schema";
+import { brandLocations, brands } from "../../../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { getCurrentUser } from "../../../lib/auth";
 import { z } from "zod";
