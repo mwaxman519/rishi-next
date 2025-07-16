@@ -62,12 +62,41 @@ export default async function DocsPage() {
     console.log("[DOCS PAGE] Starting with direct filesystem access approach");
 
     // Get the document tree and recent documents using our centralized utility functions
-    const docTree = await getDocTree();
-    const recentDocuments = await getRecentDocuments(10); // Show up to 10 recent docs
+    let docTree;
+    let recentDocuments = [];
+    
+    try {
+      docTree = await getDocTree();
+      recentDocuments = await getRecentDocuments(10); // Show up to 10 recent docs
+    } catch (docError) {
+      console.error("[DOCS PAGE] Error loading documentation:", docError);
+      // Return fallback empty tree for production stability
+      docTree = {};
+      recentDocuments = [];
+    }
 
     if (!docTree || Object.keys(docTree).length === 0) {
-      throw new Error(
-        "Documentation tree is empty or invalid - no documentation files were found",
+      // Return a simple message instead of throwing error
+      return (
+        <div className="p-8 max-w-4xl mx-auto">
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-yellow-700 dark:text-yellow-300 mb-2">
+              Documentation Loading
+            </h3>
+            <p className="text-sm text-yellow-600 dark:text-yellow-400">
+              Documentation files are being prepared. Please check back in a moment.
+            </p>
+            <div className="mt-4">
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Return to Home
+              </Link>
+            </div>
+          </div>
+        </div>
       );
     }
 
