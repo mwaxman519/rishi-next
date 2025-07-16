@@ -3,10 +3,9 @@ import path from 'path';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Simple output configuration - let Vercel handle serverless optimization
-  output: process.env.VERCEL ? undefined : 
-    (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' 
-      ? 'export'  // Static export for Azure only
-      : undefined), // Server mode for Vercel, Replit, and development
+  // CRITICAL: Never use static export with dynamic API routes - causes build failures
+  // Static export only for Azure Static Web Apps AND not staging environment
+  output: (process.env.AZURE_STATIC_WEB_APPS_API_TOKEN && process.env.NEXT_PUBLIC_APP_ENV !== 'staging') ? 'export' : undefined,
   
   // Basic serverless optimizations
   compress: true,
@@ -34,8 +33,8 @@ const nextConfig = {
     cssChunking: 'strict', // Better CSS chunking for production
   },
   
-  // Static export configuration (only for production Azure, not Vercel)
-  ...(process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' && !process.env.VERCEL && {
+  // Static export configuration (only for Azure Static Web Apps and not staging)
+  ...(process.env.AZURE_STATIC_WEB_APPS_API_TOKEN && process.env.NEXT_PUBLIC_APP_ENV !== 'staging' && {
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
     distDir: 'out',
