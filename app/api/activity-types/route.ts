@@ -7,7 +7,7 @@ import { eq, or, isNull } from "drizzle-orm";
 // GET /api/activity-types
 export async function GET(request: NextRequest) {
   try {
-    const user = await currentUser();
+    const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
