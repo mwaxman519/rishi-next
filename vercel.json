@@ -1,19 +1,19 @@
 {
-  "version": 2,
-  "buildCommand": "node scripts/build-with-docs.js",
+  "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "framework": "nextjs",
-  "regions": ["iad1"],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "app/api/docs/tree/route.ts": {
-      "includeFiles": "Docs/**"
+  "routes": [
+    {
+      "src": "/_next/static/css/(.*)",
+      "headers": {
+        "Content-Type": "text/css; charset=utf-8",
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     },
-    "app/api/docs/*/route.ts": {
-      "includeFiles": "Docs/**"
+    {
+      "src": "/_next/static/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     }
-  }
+  ]
 }

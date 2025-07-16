@@ -24,7 +24,30 @@ const nextConfig = {
             key: 'Content-Type',
             value: 'text/css; charset=utf-8',
           },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
         ],
+      },
+      {
+        source: '/_next/static/chunks/(.*).css',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8',
+          },
+        ],
+      },
+    ];
+  },
+
+  // Fix asset serving in production
+  async rewrites() {
+    return [
+      {
+        source: '/_next/static/css/:path*',
+        destination: '/_next/static/css/:path*',
       },
     ];
   },
@@ -48,6 +71,8 @@ const nextConfig = {
   // Experimental features for serverless
   experimental: {
     optimizeCss: false, // Reduce build complexity
+    cssChunking: 'strict', // Better CSS chunking for production
+    optimizeServerReact: false, // Prevent CSS serving issues
   },
   
   // Static export configuration (only for production Azure, not Vercel or Replit Autoscale)
