@@ -91,8 +91,10 @@ export function useAuth() {
     // Clear user state and redirect immediately
     setUser(null);
     
-    // Use window.location.replace for logout to prevent back navigation
-    window.location.replace("/auth/login");
+    // Use setTimeout to ensure the "Logging out..." state is visible briefly
+    setTimeout(() => {
+      window.location.href = "/auth/login";
+    }, 500);
   };
 
   return {
