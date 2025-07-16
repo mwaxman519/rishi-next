@@ -138,27 +138,44 @@ const nextConfig = {
       config.optimization.minimize = true;
     }
     
-    // Bundle optimization for serverless
-    if (!dev && !isServer) {
+    // Enhanced chunk loading configuration for better reliability
+    if (!isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
-        maxSize: 244000, // 244KB for Azure Functions
+        maxSize: dev ? 500000 : 244000, // Larger chunks in dev for better reliability
+        minSize: 20000,
         cacheGroups: {
-          default: false,
-          vendors: false,
-          vendor: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             chunks: 'all',
-            priority: 1,
+            priority: -10,
             enforce: true,
+          },
+          // Common chunks for better loading
+          common: {
+            name: 'common',
+            minChunks: 2,
+            priority: -15,
+            reuseExistingChunk: true,
           },
         },
       };
       
-      // Reduce bundle complexity
-      config.optimization.usedExports = false;
-      config.optimization.providedExports = false;
+      // Improve chunk loading reliability
+      config.optimization.chunkIds = 'named';
+      config.optimization.moduleIds = 'named';
+      
+      // Better error handling for chunks
+      if (!dev) {
+        config.optimization.usedExports = false;
+        config.optimization.providedExports = false;
+      }
     }
     
     return config;
