@@ -1451,7 +1451,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 <Button
                   variant="default"
                   size="sm"
-                  disabled={isLoading}
+                  disabled={loading}
                   onClick={logout}
                   className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
                 >
@@ -1460,7 +1460,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     className={sidebarCollapsed ? "" : "mr-2"}
                   />
                   {!sidebarCollapsed &&
-                    (isLoading ? "Logging out..." : "Logout")}
+                    (loading ? "Logging out..." : "Logout")}
                 </Button>
               </div>
             </div>
@@ -1870,7 +1870,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Button
                 variant="default"
                 size="sm"
-                disabled={isLoading}
+                disabled={loading}
                 onClick={async () => {
                   try {
                     // First try using the hook's logout function
@@ -1898,7 +1898,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
               >
                 <LogOut size={16} className="mr-2" />
-                {isLoading ? "Logging out..." : "Logout"}
+                {loading ? "Logging out..." : "Logout"}
               </Button>
             </>
           ) : (
