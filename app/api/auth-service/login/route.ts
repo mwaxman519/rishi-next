@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
     console.log(`[Auth Service] User found: ${username}, role: ${user.role}`);
     console.log(`[Auth Service] User has password: ${!!user.password}`);
     console.log(`[Auth Service] User active: ${user.active}`);
-    console.log(`[Auth Service] User fullName: ${user.fullName || user.name}`);
+    console.log(`[Auth Service] User fullName: ${user.fullName || 'No fullName'}`);
     console.log(`[Auth Service] User email: ${user.email}`);
     console.log(`[Auth Service] Raw user object keys: ${Object.keys(user).join(', ')}`);
     console.log(`[Auth Service] Raw user object: ${JSON.stringify(user, null, 2)}`);
@@ -191,7 +191,7 @@ export async function POST(request: NextRequest) {
       id: user.id,
       username: user.username,
       email: user.email || null,
-      fullName: user.fullName || user.name || null,
+      fullName: user.fullName || null,
       role: user.role || "brand_agent",
       active: Boolean(user.active !== false),
     };
@@ -205,7 +205,7 @@ export async function POST(request: NextRequest) {
       {
         user: {
           ...userWithoutPassword,
-          fullName: user.fullName || user.name || username,
+          fullName: user.fullName || username,
           organizations: userOrgs,
           currentOrganization: defaultOrg,
         },
