@@ -25,6 +25,10 @@ export async function getCurrentUser(request?: NextRequest) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string, username: string };
     
     // Get user from database
+    const { db } = await import("@/lib/db");
+    const { users } = await import("@/shared/schema");
+    const { eq } = await import("drizzle-orm");
+    
     const [user] = await db.select().from(users).where(eq(users.id, decoded.id));
     
     return user || null;

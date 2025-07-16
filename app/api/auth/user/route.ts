@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/auth-server";
 
 export async function GET(req: NextRequest) {
   try {
-    const user = await getCurrentUser();
+    const user = await getCurrentUser(req);
     
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
       email: user.email,
       fullName: user.fullName,
       role: user.role,
-      isActive: user.isActive,
+      isActive: user.active,
     });
   } catch (error) {
     console.error("Error fetching user:", error);

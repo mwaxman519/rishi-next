@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SafeLink } from "@/components/ui/safe-link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
+// Removed useAuth dependency to fix loading issues
 import { LabeledInput } from "@/components/ui/labeled-input";
 import { Button } from "@/components/ui/button";
 
@@ -14,7 +14,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { login } = useAuth();
+  // Direct authentication without useAuth hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,11 +29,13 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data);
         // Use router.push for better navigation
         router.push("/dashboard");
       } else {
         const data = await response.json().catch(() => ({}));
-        setError(data.message || "Login failed. Please check your credentials.");
+        setError(data.error || "Login failed. Please check your credentials.");
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
