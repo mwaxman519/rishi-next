@@ -1,69 +1,189 @@
-# Architecture Documentation
+# System Architecture
 
-This directory contains documentation about the architecture of the Rishi Workforce Management platform.
+## Overview
 
-## System Architecture
+The Rishi Platform is built on a modern, scalable architecture designed to handle the complex requirements of cannabis workforce management. This document outlines the key architectural components and design decisions.
 
-- [Authentication System](authentication-system.md) - Comprehensive documentation of the authentication and authorization system
-- [Authentication RBAC System](authentication-rbac-system.md) - Role-Based Access Control implementation details
-- [Authentication Architecture V2](authentication-architecture-v2.md) - Updated authentication architecture
+## Architecture Principles
 
-## Core Principles
+### Design Philosophy
+- **Scalability**: Built to handle growth from small teams to enterprise deployments
+- **Reliability**: High availability and fault tolerance
+- **Security**: End-to-end security with role-based access control
+- **Performance**: Optimized for fast response times and efficient resource usage
+- **Maintainability**: Clean, modular code structure for easy maintenance
 
-The Rishi platform architecture follows these core principles:
-
-1. **Modular Design** - Components are loosely coupled and independently deployable
-2. **Event-Driven Architecture** - System components communicate via events
-3. **Microservices** - Core functionality is split into distinct, specialized services
-4. **API-First Development** - All functionality is exposed through well-defined APIs
-5. **Progressive Enhancement** - The system works on basic devices and enhances with capabilities
-6. **Responsive UI** - The interface adapts to different screen sizes and devices
+### Technology Stack
+- **Frontend**: Next.js 15.3.5 with React and TypeScript
+- **Backend**: Node.js with Express.js and serverless functions
+- **Database**: PostgreSQL with Neon serverless
+- **Authentication**: JWT-based authentication with NextAuth.js
+- **Deployment**: Multiple deployment options (Vercel, Azure, Replit)
 
 ## System Components
 
-The platform consists of several core components:
+### Frontend Architecture
+- **Next.js App Router**: Modern routing with server and client components
+- **React Components**: Reusable UI components with TypeScript
+- **State Management**: React Context for global state
+- **Styling**: Tailwind CSS with Shadcn/UI components
+- **Forms**: React Hook Form with Zod validation
 
-- **Authentication System** - User authentication and authorization
-- **Location Management** - Handling of physical locations and regions
-- **Booking System** - Event and booking management with recurrence support
-- **Staff Management** - Staff profiles, availability, and assignments
-- **Client Management** - Client information and preferences
-- **Reporting System** - Analytics and reporting capabilities
-- **Notification System** - User notifications via various channels
+### Backend Architecture
+- **API Routes**: RESTful API with Next.js API routes
+- **Authentication Service**: JWT-based authentication system
+- **Database ORM**: Drizzle ORM with PostgreSQL
+- **Event System**: Advanced event bus for system integration
+- **Service Layer**: Business logic separation
 
-## Technology Stack
+### Database Design
+- **PostgreSQL**: Primary database with ACID compliance
+- **Drizzle ORM**: Type-safe database operations
+- **Multi-tenant**: Organization-based data isolation
+- **Audit Trail**: Comprehensive activity logging
+- **Backup Strategy**: Automated backups and recovery
 
-The platform is built using the following technologies:
+## Multi-Tier Architecture
 
-- **Frontend**: Next.js, React, TailwindCSS, Shadcn UI
-- **Backend**: Next.js API Routes, Express.js
-- **Database**: PostgreSQL with Drizzle ORM
-- **Real-time Communication**: WebSocket for event notifications
-- **Maps Integration**: Google Maps Platform
-- **State Management**: TanStack Query
-- **Form Management**: React Hook Form with Zod validation
-- **Authentication**: Custom solution with NextAuth.js
+### Environment Separation
+- **Development**: Local development with Replit database
+- **Staging**: Pre-production environment with staging database
+- **Production**: Live environment with production database
 
-## Deployment Architecture
-
-The application is deployed using a scalable architecture:
-
-- **Frontend**: Static assets served through a CDN
-- **Backend**: Serverless functions for API endpoints
-- **Database**: Managed PostgreSQL instance
-- **WebSockets**: Dedicated WebSocket service for real-time communication
-- **Asset Storage**: Cloud storage for user uploads and static assets
+### Service Tiers
+- **Tier 1**: Staff Leasing - Basic workforce management
+- **Tier 2**: Event Staffing - Enhanced event management
+- **Tier 3**: White-label - Full customization and branding
 
 ## Security Architecture
 
-Security is implemented at multiple levels:
+### Authentication & Authorization
+- **JWT Tokens**: Secure token-based authentication
+- **Role-Based Access Control (RBAC)**: Six-tier permission system
+- **Multi-Factor Authentication**: Enhanced security options
+- **Session Management**: Secure session handling
 
-- **Authentication**: Secure user identification with JWTs and session management
-- **Authorization**: Role-based permissions system for access control
-- **Data Protection**: Encrypted storage and transport of sensitive data
-- **API Security**: Rate limiting, CORS, and request validation
-- **Attack Prevention**: Measures against XSS, CSRF, and injection attacks
+### Data Protection
+- **Encryption**: Data encryption at rest and in transit
+- **API Security**: Rate limiting and request validation
+- **Audit Logging**: Comprehensive security event logging
+- **Compliance**: Industry-standard security practices
 
-## Development Workflow
+## Integration Architecture
 
-For information about the development workflow, see the [Development Guides](../development-guides/README.md).
+### API Integration
+- **RESTful APIs**: Standard HTTP-based APIs
+- **GraphQL Support**: Flexible query interface
+- **Webhooks**: Real-time event notifications
+- **Rate Limiting**: API usage controls
+
+### Third-Party Integrations
+- **Google Maps**: Location services integration
+- **Firebase**: Mobile app distribution
+- **External Systems**: ERP, HR, and other business systems
+- **Payment Processing**: Secure payment integration
+
+## Deployment Architecture
+
+### Cloud Deployment
+- **Vercel**: Optimized for Next.js applications
+- **Azure Static Web Apps**: Enterprise-grade hosting
+- **Replit Autoscale**: Development and staging environments
+- **CDN**: Global content delivery network
+
+### Mobile Deployment
+- **VoltBuilder**: Native mobile app generation
+- **Firebase Distribution**: Direct app installation
+- **Progressive Web App**: Browser-based mobile experience
+- **Offline Support**: Limited offline functionality
+
+## Performance Architecture
+
+### Optimization Strategies
+- **Code Splitting**: Optimized JavaScript bundles
+- **Image Optimization**: Responsive image delivery
+- **Caching**: Multi-level caching strategy
+- **Database Optimization**: Query optimization and indexing
+
+### Monitoring & Analytics
+- **Performance Monitoring**: Real-time performance tracking
+- **Error Tracking**: Comprehensive error logging
+- **User Analytics**: Usage patterns and behavior
+- **System Metrics**: Infrastructure monitoring
+
+## Scalability Architecture
+
+### Horizontal Scaling
+- **Serverless Functions**: Auto-scaling compute resources
+- **Database Scaling**: Connection pooling and read replicas
+- **CDN Distribution**: Global content delivery
+- **Load Balancing**: Traffic distribution
+
+### Vertical Scaling
+- **Resource Optimization**: Efficient resource utilization
+- **Caching Strategies**: Reduced database load
+- **Query Optimization**: Faster data access
+- **Code Optimization**: Improved execution efficiency
+
+## Data Architecture
+
+### Data Models
+- **User Management**: User accounts and profiles
+- **Organization Structure**: Multi-tenant organization hierarchy
+- **Booking System**: Event and booking management
+- **Staff Management**: Employee and contractor data
+- **Inventory System**: Equipment and resource tracking
+
+### Data Flow
+- **Request Flow**: Client to server data flow
+- **Event Flow**: Internal event processing
+- **Batch Processing**: Background data processing
+- **Real-time Updates**: Live data synchronization
+
+## Development Architecture
+
+### Development Workflow
+- **Feature Branches**: Git-based development workflow
+- **Code Review**: Pull request review process
+- **Testing**: Automated testing pipeline
+- **CI/CD**: Continuous integration and deployment
+
+### Quality Assurance
+- **TypeScript**: Type safety and error prevention
+- **ESLint**: Code quality and consistency
+- **Testing Framework**: Jest and React Testing Library
+- **Code Coverage**: Comprehensive test coverage
+
+## Maintenance Architecture
+
+### System Maintenance
+- **Update Management**: Automated dependency updates
+- **Security Patches**: Regular security updates
+- **Database Maintenance**: Routine database optimization
+- **Backup Management**: Automated backup and recovery
+
+### Monitoring & Alerting
+- **Health Checks**: System health monitoring
+- **Performance Alerts**: Performance degradation alerts
+- **Error Notifications**: Real-time error notifications
+- **Capacity Monitoring**: Resource usage tracking
+
+## Future Architecture
+
+### Planned Enhancements
+- **Microservices**: Service decomposition for scalability
+- **Event Sourcing**: Enhanced audit trail and history
+- **Machine Learning**: Predictive analytics and optimization
+- **Advanced Analytics**: Business intelligence and reporting
+
+### Technology Roadmap
+- **Next.js Updates**: Keeping up with framework evolution
+- **Database Optimization**: Advanced database features
+- **Cloud Native**: Cloud-native architecture adoption
+- **Edge Computing**: Edge deployment for performance
+
+For detailed information about specific architectural components, see the related documentation sections:
+- [Database Architecture](database/README.md)
+- [Integration Architecture](integration/README.md)
+- [System Design](system-design/README.md)
+- [Microservices Architecture](microservices/README.md)
