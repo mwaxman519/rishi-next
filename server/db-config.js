@@ -64,14 +64,7 @@ function getDatabaseUrl() {
 
   if (!url) {
     console.error("DATABASE_URL environment variable is not set");
-    if (environment === "production" || environment === "replit") {
-      throw new Error(`DATABASE_URL must be set in ${environment} environment`);
-    } else {
-      console.warn(
-        "Using a default DATABASE_URL for development, this is not secure for production",
-      );
-      return "postgres://default:default@localhost:5432/default";
-    }
+    throw new Error(`DATABASE_URL must be set in all environments - no fallback allowed`);
   }
 
   // For Replit environment, log confirmation but not the URL itself (for security)

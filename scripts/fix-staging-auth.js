@@ -10,7 +10,15 @@ const { neon } = require('@neondatabase/serverless');
 async function fixStagingAuthentication() {
   console.log('🔧 Fixing staging authentication...');
   
-  const sql = neon('postgresql://neondb_owner:npg_UgTA70PJweka@ep-jolly-cherry-a8pw3fqw-pooler.eastus2.azure.neon.tech/rishiapp_staging?sslmode=require&channel_binding=require');
+  const databaseUrl = process.env.DATABASE_URL;
+  
+  if (!databaseUrl) {
+    console.error('❌ DATABASE_URL environment variable is not set');
+    console.error('❌ This script requires DATABASE_URL to be configured');
+    process.exit(1);
+  }
+  
+  const sql = neon(databaseUrl);
   
   try {
     // Test database connection
