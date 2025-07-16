@@ -7,22 +7,34 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "../shared/schema";
 
-// Get the database URL from environment
-function getDatabaseUrl(): string {
-  const databaseUrl = process.env.DATABASE_URL;
-  if (!databaseUrl) {
-    throw new Error("DATABASE_URL environment variable is not set");
+// Lazy-load database connection to prevent build-time errors
+let _sql: ReturnType<typeof neon> | null = null;
+let _db: ReturnType<typeof drizzle> | null = null;
+
+function getDatabase() {
+  if (!_db) {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      throw new Error("DATABASE_URL environment variable is not set");
+    }
+    _sql = neon(databaseUrl);
+    _db = drizzle(_sql, { schema });
   }
-  return databaseUrl;
+  return { sql: _sql!, db: _db };
 }
 
-// Create the database connection
-const sql = neon(getDatabaseUrl());
-export const db = drizzle(sql, { schema });
+// Export a proxy that lazy-loads the database connection
+export const db = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(target, prop) {
+    const { db: actualDb } = getDatabase();
+    return actualDb[prop as keyof typeof actualDb];
+  }
+});
 
 // Export a function to test the connection
 export async function testConnection() {
   try {
+    const { sql } = getDatabase();
     await sql`SELECT 1`;
     return true;
   } catch (error) {
