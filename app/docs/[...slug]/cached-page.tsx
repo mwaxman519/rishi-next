@@ -25,7 +25,7 @@ export default function CachedDocPage({
   useEffect(() => {
     // Add page to browser history for improved navigation
     if (typeof window !== "undefined") {
-      const title = metadata.title || "Documentation";
+      const title = metadata.title || null;
       window.history.replaceState(
         { docPath, title },
         title,

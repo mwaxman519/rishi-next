@@ -33,8 +33,8 @@ export default function EditAvailabilityForm({
   const endDate = new Date(availabilityBlock.endDate);
 
   const [formValues, setFormValues] = useState({
-    title: availabilityBlock.title || "",
-    status: availabilityBlock.status || "available",
+    title: availabilityBlock.title || null,
+    status: availabilityBlock.status || null,
     date: format(startDate, "yyyy-MM-dd"),
     startTime: format(startDate, "HH:mm"),
     endTime: format(endDate, "HH:mm"),
@@ -43,7 +43,7 @@ export default function EditAvailabilityForm({
       availabilityBlock.dayOfWeek !== undefined
         ? availabilityBlock.dayOfWeek
         : startDate.getDay(),
-    recurrencePattern: availabilityBlock.recurrencePattern || "weekly",
+    recurrencePattern: availabilityBlock.recurrencePattern || null,
   });
 
   const handleChange = (
@@ -163,7 +163,7 @@ export default function EditAvailabilityForm({
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.error || "Failed to update availability block",
+          errorData.error || "No error details available",
         );
       }
 

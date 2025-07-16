@@ -271,7 +271,7 @@ async function initDocs(forceInit: boolean = false) {
 
   // Setup mode - we're either copying real docs or creating samples
   let isCreateMode = false;
-  let workingSourceDir = sourceDir ?? "";
+  let workingSourceDir = sourceDir || null;
 
   // If force initialization is enabled, create sample documentation even if a source exists
   if (forceInit && sourceDir) {
@@ -506,7 +506,7 @@ export async function GET(request: Request) {
     // Get the current docs dir before initialization to compare
     const beforeDocsDir = await getDocsDirectory();
     console.log(
-      `[DOCS INIT API] Current docs directory before initialization: ${beforeDocsDir ?? "Not found"}`,
+      `[DOCS INIT API] Current docs directory before initialization: ${beforeDocsDir || "Not found"}`,
     );
 
     if (beforeDocsDir) {
@@ -597,7 +597,7 @@ export async function GET(request: Request) {
     if (result) {
       // Confirm current location of docs directory for the app
       const docsDir = await getDocsDirectory();
-      const docsDirPath = docsDir ?? "No docs directory found";
+      const docsDirPath = docsDir || "No docs directory found";
       console.log(
         `[DOCS INIT API] Current docs directory after initialization: ${docsDirPath}`,
       );

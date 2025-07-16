@@ -151,7 +151,7 @@ export function OrganizationUsers({
     onError: (error: Error) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to send invitation",
+        description: error.message || "No error details available",
         variant: "destructive",
       });
     },
@@ -180,7 +180,7 @@ export function OrganizationUsers({
     onError: (error: Error) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to cancel invitation",
+        description: error.message || "No error details available",
         variant: "destructive",
       });
     },
@@ -208,7 +208,7 @@ export function OrganizationUsers({
     onError: (error: Error) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to remove user",
+        description: error.message || "No error details available",
         variant: "destructive",
       });
     },

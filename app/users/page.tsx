@@ -45,7 +45,11 @@ export default function UsersPage() {
         if (response.success && response.data) {
           setUsers(response.data);
         } else {
-          setError(response.error || "Failed to load users data");
+          if (!response.error) {
+            setError("Failed to load users data - no error details provided");
+          } else {
+            setError(response.error);
+          }
         }
       } catch (error) {
         console.error("Failed to load users:", error);

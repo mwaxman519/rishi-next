@@ -57,7 +57,7 @@ export default async function ItemsPage() {
                 <div key={item.id} className="card">
                   <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
                   <p className="text-gray-600 mb-4">
-                    {item.description || "No description"}
+                    {item.description || null}
                   </p>
                   <div className="flex justify-between items-center mt-4">
                     <span className="text-sm text-gray-500">

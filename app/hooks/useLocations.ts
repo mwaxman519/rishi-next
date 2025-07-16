@@ -65,7 +65,7 @@ export function useLocations(filters: LocationFilters = {}): {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to create location",
+        description: error.message || "No error details available",
         variant: "destructive",
       });
     },
@@ -85,7 +85,7 @@ export function useLocations(filters: LocationFilters = {}): {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to update location",
+        description: error.message || "No error details available",
         variant: "destructive",
       });
     },
@@ -104,7 +104,7 @@ export function useLocations(filters: LocationFilters = {}): {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to delete location",
+        description: error.message || "No error details available",
         variant: "destructive",
       });
     },

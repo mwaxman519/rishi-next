@@ -105,7 +105,7 @@ export default function BookingApproval({
       toast({
         title: "Approval Failed",
         description:
-          error.message || "An error occurred while approving the booking.",
+          error.message || "No error details available",
         variant: "destructive",
       });
     } finally {
@@ -155,7 +155,7 @@ export default function BookingApproval({
       toast({
         title: "Rejection Failed",
         description:
-          error.message || "An error occurred while rejecting the booking.",
+          error.message || "No error details available",
         variant: "destructive",
       });
     } finally {

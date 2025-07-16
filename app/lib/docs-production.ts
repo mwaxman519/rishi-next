@@ -26,7 +26,7 @@ export async function getAllDocsProduction() {
     }
     return [];
   } catch (error) {
-    console.warn('[DOCS PRODUCTION] Error loading docs, returning empty array:', error?.message || 'Unknown error');
+    console.warn('[DOCS PRODUCTION] Error loading docs, returning empty array:', error?.message || 'No error message available');
     return [];
   }
 }
@@ -40,7 +40,7 @@ export async function getDocumentByPathProduction(path: string) {
     }
     return null;
   } catch (error) {
-    console.warn('[DOCS PRODUCTION] Error loading document:', path, error?.message || 'Unknown error');
+    console.warn('[DOCS PRODUCTION] Error loading document:', path, error?.message || 'No error message available');
     return null;
   }
 }
@@ -54,7 +54,7 @@ export async function getDocTreeProduction() {
     }
     return {};
   } catch (error) {
-    console.warn('[DOCS PRODUCTION] Error loading doc tree, returning empty object:', error?.message || 'Unknown error');
+    console.warn('[DOCS PRODUCTION] Error loading doc tree, returning empty object:', error?.message || 'No error message available');
     return {};
   }
 }

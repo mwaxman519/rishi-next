@@ -21,6 +21,10 @@ export function hasPermission(
 
   const userPermissions = getRolePermissions(user.role);
 
-  // Check if the user has the specified permission for the resource
-  return userPermissions[resource]?.includes(permission) || false;
+  // Check if the user has the specified permission for the resource - NO FALLBACK
+  const resourcePermissions = userPermissions[resource];
+  if (!resourcePermissions) {
+    return false;
+  }
+  return resourcePermissions.includes(permission);
 }

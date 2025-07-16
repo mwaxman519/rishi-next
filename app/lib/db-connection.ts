@@ -44,19 +44,29 @@ export function getEnvironment(): "development" | "staging" | "production" {
 export function getDatabaseUrl(): string {
   const env = getEnvironment();
 
-  // Check for environment-specific database URLs first
-  if (env === "staging" && process.env.STAGING_DATABASE_URL) {
+  // CRITICAL SECURITY: Environment-specific database URLs - NO CROSS-ENVIRONMENT ACCESS
+  if (env === "staging") {
+    if (!process.env.STAGING_DATABASE_URL) {
+      throw new Error("SECURITY: STAGING_DATABASE_URL must be set for staging environment");
+    }
     return process.env.STAGING_DATABASE_URL;
   }
 
-  if (env === "production" && process.env.PRODUCTION_DATABASE_URL) {
+  if (env === "production") {
+    if (!process.env.PRODUCTION_DATABASE_URL) {
+      throw new Error("SECURITY: PRODUCTION_DATABASE_URL must be set for production environment");
+    }
+    // Additional security check: Never allow production database access from non-production environments
+    if (process.env.NODE_ENV !== "production" || process.env.VERCEL_ENV !== "production") {
+      throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}, VERCEL_ENV: ${process.env.VERCEL_ENV}`);
+    }
     return process.env.PRODUCTION_DATABASE_URL;
   }
 
-  // Fall back to the default DATABASE_URL
+  // Development environment - only allow development database
   if (!process.env.DATABASE_URL) {
     throw new Error(
-      "DATABASE_URL must be set. Did you forget to provision a database?",
+      "DATABASE_URL must be set for development environment. Did you forget to provision a database?",
     );
   }
 

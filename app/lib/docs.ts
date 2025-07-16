@@ -312,7 +312,7 @@ function extractDocInfo(
   const { data, content: markdownContent } = matter(content);
 
   // Get title from frontmatter or first heading
-  let title = data.title || "";
+  let title = data.title || null;
   if (!title) {
     // Look for first heading
     const titleMatch = markdownContent.match(/^#\s+(.+)$/m);
@@ -537,7 +537,7 @@ export async function getDocumentByPath(
     const { data, content } = matter(source);
 
     // Extract title from frontmatter or first heading
-    let title = data.title || "";
+    let title = data.title || null;
     if (!title) {
       const titleMatch = content.match(/^#\s+(.+)$/m);
       if (titleMatch && titleMatch[1] && typeof titleMatch[1] === "string") {
@@ -912,7 +912,7 @@ function formatErrorDetails(error: any): string {
     }
 
     // For regular errors
-    let details = error.message || String(error);
+    let details = error.message || "No error details available";
     if (error.stack) {
       details += `\nStack: ${error.stack.split("\n")[0]}`;
     }

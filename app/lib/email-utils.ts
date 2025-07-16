@@ -27,9 +27,14 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
       const sgMail = require('@sendgrid/mail');
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
       
+      const fromEmail = params.from || process.env.SENDGRID_FROM_EMAIL;
+      if (!fromEmail) {
+        throw new Error("SENDGRID_FROM_EMAIL environment variable is required when from parameter is not provided");
+      }
+
       const msg = {
         to: params.to,
-        from: params.from || process.env.SENDGRID_FROM_EMAIL || "noreply@rishi.app",
+        from: fromEmail,
         subject: params.subject,
         html: params.html,
         text: params.text,
@@ -47,7 +52,11 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
     console.log("=== EMAIL SERVICE ===");
     console.log(`To: ${params.to}`);
     console.log(`Subject: ${params.subject}`);
-    console.log(`From: ${params.from || "noreply@rishi.app"}`);
+    const fromEmail = params.from || process.env.SENDGRID_FROM_EMAIL;
+    if (!fromEmail) {
+      throw new Error("SENDGRID_FROM_EMAIL environment variable is required when from parameter is not provided");
+    }
+    console.log(`From: ${fromEmail}`);
     if (params.cc)
       console.log(
         `CC: ${Array.isArray(params.cc) ? params.cc.join(", ") : params.cc}`,
@@ -153,7 +162,7 @@ export function generateEmailTemplate({
     <body>
       <div class="container">
         <div class="header">
-          ${organizationLogo ? `<img class="logo" src="${organizationLogo}" alt="${organizationName || "Rishi"} Logo">` : ""}
+          ${organizationLogo ? `<img class="logo" src="${organizationLogo}" alt="${organizationName || "Organization"} Logo">` : ""}
           <h2>${title}</h2>
         </div>
         <div class="content">
@@ -161,7 +170,7 @@ export function generateEmailTemplate({
           ${buttonText && buttonUrl ? `<div style="text-align: center;"><a href="${buttonUrl}" class="button">${buttonText}</a></div>` : ""}
         </div>
         <div class="footer">
-          <p>${footerText || `&copy; ${new Date().getFullYear()} ${organizationName || "Rishi"} | All rights reserved.`}</p>
+          <p>${footerText || `&copy; ${new Date().getFullYear()} ${organizationName || "Organization"} | All rights reserved.`}</p>
           <p>If you received this email by mistake, please ignore or contact support.</p>
         </div>
       </div>

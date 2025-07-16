@@ -174,7 +174,7 @@ export default function AvailabilityForm({
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.error || "Failed to create availability block",
+          errorData.error || "No error details available",
         );
       }
 

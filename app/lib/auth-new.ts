@@ -19,7 +19,11 @@ export async function getCurrentUser() {
       return null;
     }
 
-    const decoded = verify(token, process.env.JWT_SECRET || "fallback-secret") as any;
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET environment variable is required");
+    }
+    const decoded = verify(token, jwtSecret) as any;
     
     // Get user from database
     const [user] = await db

@@ -30,9 +30,8 @@ export async function apiRequest(
     }
   } catch (networkError) {
     console.error(`Network error fetching ${url}:`, networkError);
-    throw new Error(
-      `Network error: ${networkError.message || "Unable to connect to server"}`,
-    );
+    const errorMessage = networkError.message || "Network error with no message";
+    throw new Error(`Network error: ${errorMessage}`);
   }
 
   if (!response.ok) {

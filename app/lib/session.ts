@@ -29,7 +29,11 @@ export async function getUserFromSession(): Promise<User | null> {
       return null;
     }
 
-    const decoded = verify(token, process.env.JWT_SECRET || "fallback-secret") as any;
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET environment variable is required");
+    }
+    const decoded = verify(token, jwtSecret) as any;
     
     // Get user from database
     const [user] = await db
@@ -44,7 +48,7 @@ export async function getUserFromSession(): Promise<User | null> {
     return {
       id: user.id,
       name: user.fullName || user.username,
-      email: user.email || "",
+      email: user.email || null,
       role: user.role,
     };
   } catch (error) {

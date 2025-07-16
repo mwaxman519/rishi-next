@@ -75,9 +75,13 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  secret:
-    process.env.NEXTAUTH_SECRET ||
-    "development-secret-key-for-local-development-only",
+  secret: (() => {
+    const secret = process.env.NEXTAUTH_SECRET;
+    if (!secret) {
+      throw new Error("NEXTAUTH_SECRET environment variable is required");
+    }
+    return secret;
+  })(),
   debug: false,
   trustHost: true,
   useSecureCookies: false,

@@ -148,7 +148,10 @@ export default function NewBookingForm() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || "Failed to create booking");
+        if (!error.message) {
+          throw new Error("Failed to create booking - no error details provided");
+        }
+        throw new Error(error.message);
       }
 
       return await response.json();

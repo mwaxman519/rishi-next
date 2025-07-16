@@ -113,7 +113,10 @@ export default function NewUserPage() {
             .join(", ");
           throw new Error(`Validation error: ${validationErrors}`);
         }
-        throw new Error(data.error || "Failed to create user");
+        if (!data.error) {
+          throw new Error("Failed to create user - no error details provided");
+        }
+        throw new Error(data.error);
       }
 
       toast({

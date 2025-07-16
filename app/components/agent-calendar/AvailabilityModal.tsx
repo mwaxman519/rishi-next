@@ -82,7 +82,7 @@ export default function AvailabilityModal({
 
   // Use userId from props or fallback to default UUID
   const [userId, setUserId] = useState<string | number>(
-    propUserId || "00000000-0000-0000-0000-000000000001",
+    propUserId,
   );
 
   // Update userId when prop changes

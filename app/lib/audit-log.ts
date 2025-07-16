@@ -48,7 +48,7 @@ export async function auditLog(params: AuditLogParams) {
         request.headers.get("x-forwarded-for") ||
         request.headers.get("x-real-ip") ||
         "unknown";
-      user_agent = request.headers.get("user-agent") || "unknown";
+      user_agent = request.headers.get("user-agent") || null;
     }
 
     // Create the audit log entry

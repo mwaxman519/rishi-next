@@ -33,7 +33,7 @@ export default function RBACSettingsPage() {
 
   // Get current organization ID - fallback to default org if not available
   const organizationId =
-    user?.organizationId ?? "00000000-0000-0000-0000-000000000001";
+    user?.organizationId;
 
   useEffect(() => {
     loadSettings();

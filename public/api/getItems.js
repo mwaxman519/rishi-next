@@ -2,8 +2,12 @@ import { neon } from "@neondatabase/serverless";
 
 export default async function (context, req) {
   try {
-    // Get the database URL from environment variables
-    const sql = neon(process.env.DATABASE_URL || "");
+    // Get the database URL from environment variables - NO FALLBACK
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      throw new Error("DATABASE_URL environment variable is required");
+    }
+    const sql = neon(databaseUrl);
 
     // Execute the query
     const items = await sql`

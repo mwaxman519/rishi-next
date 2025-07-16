@@ -22,8 +22,11 @@ export type { JwtPayload } from "./auth-server";
  */
 export async function verifyJwt(token: string): Promise<JwtPayload | null> {
   try {
-    // Get the JWT secret from environment variables
-    const secret = process.env.JWT_SECRET || "development_secret_key";
+    // Get the JWT secret from environment variables - NO FALLBACK
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("JWT_SECRET environment variable is required");
+    }
 
     // Verify the token
     const { payload } = await jwtVerify(
