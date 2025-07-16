@@ -2,7 +2,7 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: undefined,
   compress: true,
   poweredByHeader: false,
   
@@ -39,7 +39,26 @@ const nextConfig = {
       crypto: false,
     };
     
-
+    // Vercel-specific optimizations
+    if (!isServer && !dev) {
+      // Ensure consistent chunk naming
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
+          },
+        },
+      };
+    }
     
     return config;
   },
