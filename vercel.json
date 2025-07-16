@@ -1,19 +1,33 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "routes": [
+  "functions": {
+    "app/**/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
     {
-      "src": "/_next/static/css/(.*)",
-      "headers": {
-        "Content-Type": "text/css; charset=utf-8",
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
+      "source": "/_next/static/css/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
-      "src": "/_next/static/(.*)",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }

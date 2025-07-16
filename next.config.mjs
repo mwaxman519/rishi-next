@@ -2,59 +2,19 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // CRITICAL: PWA deployments need proper output configuration
-  // Replit Autoscale and Vercel use serverless functions
-  // Static export only for Azure Static Web Apps
-  output: process.env.REPLIT || process.env.VERCEL ? undefined : 
+  // Simple output configuration - let Vercel handle serverless optimization
+  output: process.env.VERCEL ? undefined : 
     (process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' 
       ? 'export'  // Static export for Azure only
-      : undefined), // Server mode for Replit Autoscale, Vercel, and development
+      : undefined), // Server mode for Vercel, Replit, and development
   
-  // Serverless optimizations
+  // Basic serverless optimizations
   compress: true,
   poweredByHeader: false,
   
-  // Fix CSS MIME type issues in production
-  async headers() {
-    return [
-      {
-        source: '/_next/static/css/(.*)',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/_next/static/chunks/(.*).css',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8',
-          },
-        ],
-      },
-    ];
-  },
-
-  // Fix asset serving in production
-  async rewrites() {
-    return [
-      {
-        source: '/_next/static/css/:path*',
-        destination: '/_next/static/css/:path*',
-      },
-    ];
-  },
-  
   typescript: {
-    // Continue through all errors to see comprehensive list
-    ignoreBuildErrors: true,
+    // Only ignore build errors in development
+    ignoreBuildErrors: process.env.NODE_ENV === 'development',
   },
   
   eslint: {
@@ -68,48 +28,20 @@ const nextConfig = {
     domains: process.env.VERCEL ? ['localhost', 'vercel.app'] : [],
   },
   
-  // Experimental features for serverless
+  // Simplified experimental features
   experimental: {
     optimizeCss: false, // Reduce build complexity
     cssChunking: 'strict', // Better CSS chunking for production
-    optimizeServerReact: false, // Prevent CSS serving issues
   },
   
-  // Static export configuration (only for production Azure, not Vercel or Replit Autoscale)
-  ...(process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' && !process.env.VERCEL && !process.env.REPLIT && {
+  // Static export configuration (only for production Azure, not Vercel)
+  ...(process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_APP_ENV === 'production' && !process.env.VERCEL && {
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
     distDir: 'out',
   }),
   
-  // Replit Autoscale specific configuration
-  ...(process.env.REPLIT && {
-    compress: true,
-    poweredByHeader: false,
-    generateEtags: false,
-    httpAgentOptions: {
-      keepAlive: true,
-    },
-  }),
-
-  // Documentation build error prevention
-  async redirects() {
-    return [
-      {
-        source: '/docs/README',
-        destination: '/docs',
-        permanent: false,
-      },
-    ];
-  },
-  
-  // Handle missing documentation files gracefully
-  onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
-  },
-  
-  // Webpack optimization for Azure Functions (244KB limit)
+  // Simplified webpack configuration for better Vercel compatibility
   webpack: (config, { isServer, dev }) => {
     // Path aliases
     config.resolve.alias = {
@@ -124,8 +56,7 @@ const nextConfig = {
       '@db': path.resolve(process.cwd(), 'db'),
     };
     
-
-    
+    // Fallback configuration for serverless
     config.resolve.fallback = {
       fs: false,
       net: false,
@@ -133,13 +64,8 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Production CSS optimization
-    if (!dev) {
-      config.optimization.minimize = true;
-    }
-    
-    // Bundle optimization for serverless
-    if (!dev && !isServer) {
+    // Only apply complex optimization for Azure (not Vercel)
+    if (!dev && !isServer && !process.env.VERCEL) {
       config.optimization.splitChunks = {
         chunks: 'all',
         maxSize: 244000, // 244KB for Azure Functions
@@ -155,10 +81,6 @@ const nextConfig = {
           },
         },
       };
-      
-      // Reduce bundle complexity
-      config.optimization.usedExports = false;
-      config.optimization.providedExports = false;
     }
     
     return config;
@@ -166,8 +88,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-
-// Ensure Docs directory is included in production builds
-if (process.env.NODE_ENV === 'production') {
-  console.log('Production build: Documentation directory included at', 'Docs/');
-}

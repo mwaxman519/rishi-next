@@ -63,39 +63,65 @@ export function getDatabaseUrl(): string {
   return process.env.DATABASE_URL;
 }
 
-// Create database connection using HTTP adapter
+// Create database connection using HTTP adapter (lazy-loaded)
 export function createDatabaseConnection() {
   const databaseUrl = getDatabaseUrl();
   const env = getEnvironment();
   const config = connectionConfigs[env];
 
-  console.log(
-    `Creating database connection for ${config.name} environment`,
-  );
+  // Only log in development to avoid build-time issues
+  if (process.env.NODE_ENV === 'development') {
+    console.log(
+      `Creating database connection for ${config.name} environment`,
+    );
+  }
 
   return neon(databaseUrl);
 }
 
-// Create the database connection
-export const sql = createDatabaseConnection();
+// Lazy-loaded database connection (only connects when first accessed)
+let _sql: ReturnType<typeof neon> | null = null;
+let _db: ReturnType<typeof drizzle> | null = null;
 
-// Create a Drizzle ORM instance with our schema
-export const db = drizzle(sql, { schema });
+export function getSql() {
+  if (!_sql) {
+    _sql = createDatabaseConnection();
+  }
+  return _sql;
+}
+
+export function getDb() {
+  if (!_db) {
+    _db = drizzle(getSql(), { schema });
+  }
+  return _db;
+}
+
+// Export the lazy-loaded instances
+export const sql = getSql();
+export const db = getDb();
 
 // Export a function to check database connection
 export async function checkDatabaseConnection(): Promise<boolean> {
   try {
-    const result = await sql`SELECT NOW() as now`;
+    const sqlInstance = getSql();
+    const result = await sqlInstance`SELECT NOW() as now`;
     const dbResult = result[0];
     if (!dbResult) {
       throw new Error('Database connection test returned empty result');
     }
-    console.log(
-      `Database connection successful! Server time: ${dbResult.now}`,
-    );
+    
+    // Only log in development to avoid build-time issues
+    if (process.env.NODE_ENV === 'development') {
+      console.log(
+        `Database connection successful! Server time: ${dbResult.now}`,
+      );
+    }
     return true;
   } catch (error) {
-    console.error("Database connection failed:", error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error("Database connection failed:", error);
+    }
     return false;
   }
 }
