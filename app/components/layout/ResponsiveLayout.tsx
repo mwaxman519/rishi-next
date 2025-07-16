@@ -148,12 +148,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
         "true"
       : false;
 
-  // Handle authentication redirects with useEffect to avoid render errors
-  useEffect(() => {
-    if (mounted && !loading && !user && !loggingOut && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
-      router.push("/auth/login");
-    }
-  }, [mounted, loading, user, loggingOut, isFullWidthPage, pathname, router]);
+  // Authentication redirect is handled by the login page itself to avoid loops
 
   // During logout, keep showing the current screen to prevent flashing
   // The logout button will show "Logging Out..." and then redirect will happen
@@ -190,12 +185,6 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Force public layout if URL parameter is set or user is not authenticated
   if (hasUnauthenticatedParam || (!user && !loggingOut)) {
-    // If redirecting to login, show loading state
-    if (typeof window !== "undefined" && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
-      return <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
-      </div>;
-    }
     return <PublicLayout>{children}</PublicLayout>;
   }
 
