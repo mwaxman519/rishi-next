@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { SafeLink } from "@/components/ui/safe-link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Lock, User, ArrowRight, AlertCircle } from "lucide-react";
+// Removed useAuth dependency to fix loading issues
+import { LabeledInput } from "@/components/ui/labeled-input";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  // Direct authentication without useAuth hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +31,7 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
+        // Use router.push for better navigation
         router.push("/dashboard");
       } else {
         const data = await response.json().catch(() => ({}));
@@ -42,126 +46,102 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-amber-500/10"></div>
-        <div className="relative z-10 flex flex-col justify-center px-16 text-white">
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl mb-6 shadow-lg">
-              <span className="text-2xl font-bold">R</span>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-md w-full space-y-8 p-8">
+        <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+          {/* Logo and Title */}
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/favicon.ico"
+                alt="Rishi Platform"
+                width={48}
+                height={48}
+                className="h-12 w-12"
+              />
             </div>
-            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Rishi Platform
             </h1>
-            <p className="text-xl text-slate-300 leading-relaxed">
-              The industry's most sophisticated workforce management platform for cannabis brands.
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              Sign in to your account
             </p>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-              <span className="text-slate-300">Advanced performance tracking</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-              <span className="text-slate-300">Real-time analytics dashboard</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
-              <span className="text-slate-300">Multi-tier organizational control</span>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 to-amber-400"></div>
-      </div>
 
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-12 bg-gradient-to-br from-slate-50 to-white">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="lg:hidden inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl mb-6 shadow-lg">
-              <span className="text-2xl font-bold text-white">R</span>
-            </div>
-            <h2 className="text-3xl font-bold text-slate-900 mb-2">Welcome back</h2>
-            <p className="text-slate-600">Sign in to your account to continue</p>
-          </div>
-
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center space-x-3">
-              <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
-              <span className="text-red-700 text-sm">{error}</span>
-            </div>
-          )}
-
+          {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 block">Username</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-slate-900 placeholder-slate-400"
-                  placeholder="Enter your username"
-                  required
-                />
-              </div>
+            <div className="space-y-4">
+              <LabeledInput
+                label="Username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Enter your username"
+                className="w-full"
+              />
+              
+              <LabeledInput
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
+                className="w-full"
+              />
             </div>
 
-            {/* Password Field */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 block">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-slate-900 placeholder-slate-400"
-                  placeholder="Enter your password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
-                >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                </button>
+            {error && (
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+                <p className="text-sm text-red-800 dark:text-red-400">{error}</p>
               </div>
-            </div>
+            )}
 
-            {/* Submit Button */}
-            <button
+            <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-medium py-3 px-6 rounded-xl hover:from-emerald-700 hover:to-emerald-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
             >
-              {isLoading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>Signing in...</span>
-                </>
-              ) : (
-                <>
-                  <span>Sign in</span>
-                  <ArrowRight className="h-5 w-5" />
-                </>
-              )}
-            </button>
+              {isLoading ? "Signing in..." : "Sign in"}
+            </Button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-slate-600 text-sm">
+          {/* Additional Links */}
+          <div className="mt-6 text-center space-y-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
-              <SafeLink href="/auth/signup" className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors">
-                Sign up here
+              <SafeLink
+                href="/auth/register"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+              >
+                Sign up
+              </SafeLink>
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              By signing in, you agree to our{" "}
+              <SafeLink
+                href="/terms"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                Terms of Service
+              </SafeLink>{" "}
+              and{" "}
+              <SafeLink
+                href="/privacy"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                Privacy Policy
               </SafeLink>
             </p>
           </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            © 2025 Rishi Platform. All rights reserved.
+          </p>
         </div>
       </div>
     </div>
