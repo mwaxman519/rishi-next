@@ -153,7 +153,8 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // During server render, initial client render, or loading auth data, 
   // show a single unified loading state to prevent multiple animations
-  if (!mounted || loading) {
+  // But don't show loading during logout process
+  if (!mounted || (loading && !loggingOut)) {
     return <ServerPlaceholder>{children}</ServerPlaceholder>;
   }
 
