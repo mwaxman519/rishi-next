@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -179,12 +179,17 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     );
   }
 
+  // Handle authentication redirects with useEffect to avoid render errors
+  useEffect(() => {
+    if (mounted && !user && !loggingOut && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
+      router.push("/auth/login");
+    }
+  }, [mounted, user, loggingOut, isFullWidthPage, pathname, router]);
+
   // Force public layout if URL parameter is set or user is not authenticated
   if (hasUnauthenticatedParam || (!user && !loggingOut)) {
-    // If user is not authenticated and trying to access protected content,
-    // redirect immediately to login instead of showing any screen
+    // If redirecting to login, show loading state
     if (typeof window !== "undefined" && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
-      router.push("/auth/login");
       return <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
       </div>;
