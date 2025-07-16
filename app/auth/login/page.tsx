@@ -1,12 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { SafeLink } from "@/components/ui/safe-link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { LabeledInput } from "@/components/ui/labeled-input";
+import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +29,8 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
-        window.location.href = "/dashboard";
+        // Use router.push for better navigation
+        router.push("/dashboard");
       } else {
         const data = await response.json().catch(() => ({}));
         setError(data.message || "Login failed. Please check your credentials.");
@@ -35,116 +44,103 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      backgroundColor: '#f9fafb',
-      padding: '20px'
-    }}>
-      <div style={{
-        backgroundColor: 'white',
-        padding: '40px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        width: '100%',
-        maxWidth: '400px'
-      }}>
-        <h1 style={{ 
-          textAlign: 'center', 
-          marginBottom: '30px',
-          color: '#1f2937',
-          fontSize: '24px',
-          fontWeight: '600'
-        }}>
-          Rishi Platform Login
-        </h1>
-        
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ 
-              display: 'block',
-              marginBottom: '6px',
-              color: '#374151',
-              fontSize: '14px',
-              fontWeight: '500'
-            }}>
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #d1d5db',
-                borderRadius: '4px',
-                fontSize: '16px',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-          
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ 
-              display: 'block',
-              marginBottom: '6px',
-              color: '#374151',
-              fontSize: '14px',
-              fontWeight: '500'
-            }}>
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                padding: '10px',
-                border: '1px solid #d1d5db',
-                borderRadius: '4px',
-                fontSize: '16px',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-          
-          {error && (
-            <div style={{
-              backgroundColor: '#fef2f2',
-              color: '#dc2626',
-              padding: '12px',
-              borderRadius: '4px',
-              marginBottom: '20px',
-              fontSize: '14px'
-            }}>
-              {error}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-md w-full space-y-8 p-8">
+        <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
+          {/* Logo and Title */}
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/favicon.ico"
+                alt="Rishi Platform"
+                width={48}
+                height={48}
+                className="h-12 w-12"
+              />
             </div>
-          )}
-          
-          <button
-            type="submit"
-            disabled={isLoading}
-            style={{
-              width: '100%',
-              padding: '12px',
-              backgroundColor: isLoading ? '#9ca3af' : '#2563eb',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '16px',
-              fontWeight: '500',
-              cursor: isLoading ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {isLoading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Rishi Platform
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              Sign in to your account
+            </p>
+          </div>
+
+          {/* Login Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
+              <LabeledInput
+                label="Username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Enter your username"
+                className="w-full"
+              />
+              
+              <LabeledInput
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Enter your password"
+                className="w-full"
+              />
+            </div>
+
+            {error && (
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+                <p className="text-sm text-red-800 dark:text-red-400">{error}</p>
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+            >
+              {isLoading ? "Signing in..." : "Sign in"}
+            </Button>
+          </form>
+
+          {/* Additional Links */}
+          <div className="mt-6 text-center space-y-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Don't have an account?{" "}
+              <SafeLink
+                href="/auth/register"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+              >
+                Sign up
+              </SafeLink>
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              By signing in, you agree to our{" "}
+              <SafeLink
+                href="/terms"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                Terms of Service
+              </SafeLink>{" "}
+              and{" "}
+              <SafeLink
+                href="/privacy"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+              >
+                Privacy Policy
+              </SafeLink>
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            © 2025 Rishi Platform. All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   );
