@@ -150,10 +150,10 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Handle authentication redirects with useEffect to avoid render errors
   useEffect(() => {
-    if (mounted && !user && !loggingOut && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
+    if (mounted && !loading && !user && !loggingOut && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
       router.push("/auth/login");
     }
-  }, [mounted, user, loggingOut, isFullWidthPage, pathname, router]);
+  }, [mounted, loading, user, loggingOut, isFullWidthPage, pathname, router]);
 
   // During logout, keep showing the current screen to prevent flashing
   // The logout button will show "Logging Out..." and then redirect will happen
