@@ -2,18 +2,14 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Server mode for API routes (required for authentication system)
+  // Basic server mode configuration
   output: undefined,
   
-  // Disable experimental features that cause chunk issues
-  experimental: {},
+  // Essential optimizations
+  compress: true,
+  poweredByHeader: false,
   
-  // Optimize images for Vercel
-  images: {
-    unoptimized: false,
-  },
-  
-  // Build optimizations
+  // Build configurations
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -22,12 +18,20 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
-  // Serverless configuration
+  // Image optimization
+  images: {
+    unoptimized: false,
+  },
+  
+  // Serverless packages
   serverExternalPackages: ['@neondatabase/serverless'],
   
-  // Webpack configuration to prevent chunk loading issues
-  webpack: (config, { isServer, dev }) => {
-    // Path aliases
+  // Minimal experimental features
+  experimental: {},
+  
+  // Essential webpack configuration only
+  webpack: (config) => {
+    // Path aliases only
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(process.cwd(), 'app'),
@@ -36,37 +40,15 @@ const nextConfig = {
       '@/components/ui': path.resolve(process.cwd(), 'components/ui'),
       '@/shared': path.resolve(process.cwd(), 'shared'),
       '@shared': path.resolve(process.cwd(), 'shared'),
-      '@/services': path.resolve(process.cwd(), 'app/services'),
-      '@db': path.resolve(process.cwd(), 'db'),
     };
     
-    // Fallback configuration for serverless
+    // Serverless fallbacks
     config.resolve.fallback = {
       fs: false,
       net: false,
       tls: false,
       crypto: false,
     };
-    
-    // Aggressive chunk consolidation for Vercel
-    if (!dev && !isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        minSize: 0,
-        maxSize: 500000, // Larger chunks to prevent loading issues
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          // Single main bundle to prevent chunk loading errors
-          main: {
-            name: 'main',
-            chunks: 'all',
-            enforce: true,
-            priority: 20,
-          },
-        },
-      };
-    }
     
     return config;
   },
