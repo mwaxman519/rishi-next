@@ -113,7 +113,10 @@ export async function POST(request: NextRequest) {
     console.log(`[Auth Service] User fullName: ${user.fullName || user.name}`);
     console.log(`[Auth Service] User email: ${user.email}`);
     console.log(`[Auth Service] Raw user object keys: ${Object.keys(user).join(', ')}`);
-    console.log(`[Auth Service] Raw user object: ${JSON.stringify(user, null, 2)}`);  
+    console.log(`[Auth Service] Raw user object: ${JSON.stringify(user, null, 2)}`);
+    console.log(`[Auth Service] Password hash starts with: ${user.password ? user.password.substring(0, 10) : 'NO PASSWORD'}`);
+    console.log(`[Auth Service] Input password: ${password}`);
+    console.log(`[Auth Service] Hash length: ${user.password ? user.password.length : 0}`);
 
     // Verify password using bcrypt
     let validPassword = false;

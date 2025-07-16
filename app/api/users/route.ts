@@ -69,7 +69,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       });
 
       if (!result.success) {
-        const status = result.error === "Username already exists" ? 409 : 500;
+        const status = (result.error === "Username already exists" || result.error === "Email already exists") ? 409 : 500;
         console.log(
           `Returning error response with status ${status}:`,
           result.error,

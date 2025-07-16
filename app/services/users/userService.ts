@@ -124,6 +124,20 @@ export async function createUser(
       };
     }
 
+    // Check if email already exists (if provided)
+    if (userData.email) {
+      console.log("[userService] Checking if email already exists");
+      const existingEmailUser = await userRepository.findByEmail(userData.email);
+
+      if (existingEmailUser) {
+        console.log("[userService] Email already exists:", userData.email);
+        return {
+          success: false,
+          error: "Email already exists",
+        };
+      }
+    }
+
     // Hash password
     console.log("[userService] Hashing password");
     try {

@@ -43,6 +43,15 @@ export const userRepository = {
   },
 
   /**
+   * Find user by email
+   */
+  findByEmail: async (email: string) => {
+    return await db.query.users.findFirst({
+      where: eq(users.email, email),
+    });
+  },
+
+  /**
    * Get a user by username with password for authentication
    */
   findByUsernameWithPassword: async (username: string) => {
