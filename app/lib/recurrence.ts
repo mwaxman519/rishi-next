@@ -132,7 +132,7 @@ export function parseRecurrencePattern(
 
     return result as RecurrencePattern;
   } catch (error) {
-    console.error(`Error parsing recurrence pattern: ${error.message}`);
+    console.error(`Error parsing recurrence pattern: ${error instanceof Error ? error.message : 'Unknown error'}`);
     return null;
   }
 }

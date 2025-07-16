@@ -158,9 +158,9 @@ class DatabaseConnectionManager {
       } catch (error) {
         console.error(`[DB Manager] ${operationName} failed (attempt ${attempt}/${this.maxRetries}):`, error);
         console.error(`[DB Manager] Error details:`, {
-          message: error.message,
-          code: error.code,
-          stack: error.stack
+          message: error instanceof Error ? error.message : 'Unknown error',
+          code: (error as any)?.code || 'Unknown',
+          stack: error instanceof Error ? error.stack : 'No stack trace'
         });
         
         if (attempt === this.maxRetries) {

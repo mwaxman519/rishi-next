@@ -912,8 +912,8 @@ function formatErrorDetails(error: any): string {
     }
 
     // For regular errors
-    let details = error.message || "No error details available";
-    if (error.stack) {
+    let details = (error instanceof Error ? error.message : 'Unknown error') || "No error details available";
+    if (error instanceof Error && error.stack) {
       details += `\nStack: ${error.stack.split("\n")[0]}`;
     }
 
