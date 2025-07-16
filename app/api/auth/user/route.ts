@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
       email: user.email,
       fullName: user.fullName,
       role: user.role,
-      isActive: user.active,
+      isActive: user.isActive,
     });
   } catch (error) {
     console.error("Error fetching user:", error);
