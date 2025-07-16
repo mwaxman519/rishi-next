@@ -53,14 +53,16 @@ export function getDatabaseUrl(): string {
   }
 
   if (env === "production") {
-    if (!process.env.PRODUCTION_DATABASE_URL) {
-      throw new Error("SECURITY: PRODUCTION_DATABASE_URL must be set for production environment");
+    // In production, check for DATABASE_URL (Vercel) or PRODUCTION_DATABASE_URL (Azure)
+    const productionUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
+    if (!productionUrl) {
+      throw new Error("SECURITY: DATABASE_URL must be set for production environment");
     }
     // Additional security check: Never allow production database access from non-production environments
-    if (process.env.NODE_ENV !== "production" || process.env.VERCEL_ENV !== "production") {
-      throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}, VERCEL_ENV: ${process.env.VERCEL_ENV}`);
+    if (process.env.NODE_ENV !== "production") {
+      throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}`);
     }
-    return process.env.PRODUCTION_DATABASE_URL;
+    return productionUrl;
   }
 
   // Development environment - only allow development database

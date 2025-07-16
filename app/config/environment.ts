@@ -200,8 +200,10 @@ export const isAzureStaticWebApp =
   process.env.AZURE_STATIC_WEB_APPS_API_TOKEN !== undefined;
 
 export const getDatabaseUrl = () => {
-  if (isAzureStaticWebApp) {
-    return process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
+  // Always prioritize DATABASE_URL (Vercel standard), fallback to PRODUCTION_DATABASE_URL (Azure)
+  const databaseUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
+  if (!databaseUrl) {
+    throw new Error("SECURITY: DATABASE_URL must be set for database access");
   }
-  return process.env.DATABASE_URL;
+  return databaseUrl;
 };

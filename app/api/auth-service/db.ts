@@ -41,8 +41,11 @@ function getDatabaseUrl(): string {
     return process.env.STAGING_DATABASE_URL;
   }
 
-  if (env === "production" && process.env.PRODUCTION_DATABASE_URL) {
-    return process.env.PRODUCTION_DATABASE_URL;
+  if (env === "production") {
+    const productionUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
+    if (productionUrl) {
+      return productionUrl;
+    }
   }
 
   // Fall back to the default DATABASE_URL

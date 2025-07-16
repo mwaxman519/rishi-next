@@ -20,7 +20,7 @@ export function getDatabaseUrl(): string {
   } else if (environment === "staging") {
     return process.env.STAGING_DATABASE_URL || process.env.DATABASE_URL || "";
   } else {
-    return process.env.PRODUCTION_DATABASE_URL || "";
+    return process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL || "";
   }
 }
 

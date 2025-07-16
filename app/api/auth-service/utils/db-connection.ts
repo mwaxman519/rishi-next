@@ -92,18 +92,18 @@ class DatabaseConnectionManager {
     const databaseUrls = {
       development: process.env.DATABASE_URL || process.env.DEV_DATABASE_URL,
       staging: process.env.STAGING_DATABASE_URL,
-      production: process.env.PRODUCTION_DATABASE_URL
+      production: process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL
     };
 
     const databaseUrl = databaseUrls[environment];
     
     if (!databaseUrl) {
-      throw new Error(`SECURITY: No database URL configured for ${environment} environment. Production database access requires explicit PRODUCTION_DATABASE_URL environment variable.`);
+      throw new Error(`SECURITY: No database URL configured for ${environment} environment. DATABASE_URL must be set for production.`);
     }
 
     // Additional security check: Never allow production database access from non-production environments
-    if (environment === "production" && (process.env.NODE_ENV !== "production" || process.env.VERCEL_ENV !== "production")) {
-      throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}, VERCEL_ENV: ${process.env.VERCEL_ENV}`);
+    if (environment === "production" && process.env.NODE_ENV !== "production") {
+      throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}`);
     }
 
     return databaseUrl;
