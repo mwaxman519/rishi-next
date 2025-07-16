@@ -32,8 +32,7 @@ export async function POST(request: NextRequest) {
       username,
       email,
       password,
-      firstName,
-      lastName,
+      fullName,
       organizationId = 1,
     } = body;
 
@@ -75,7 +74,7 @@ export async function POST(request: NextRequest) {
         username,
         email,
         password: hashedPassword,
-        fullName: firstName + " " + lastName,
+        fullName: fullName || username,
         role: "client_user", // Default role
       })
       .returning();
@@ -102,7 +101,7 @@ export async function POST(request: NextRequest) {
     const cookieStore = await cookies();
     await cookieStore.set("auth-token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: (process.env.NODE_ENV as string) === "production",
       maxAge: 60 * 60 * 24, // 1 day
       path: "/",
     });

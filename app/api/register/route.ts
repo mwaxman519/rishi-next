@@ -32,8 +32,7 @@ export async function POST(request: NextRequest) {
       username,
       email,
       password,
-      firstName,
-      lastName,
+      fullName,
       role,
       organizationOption,
     } = body;
@@ -63,11 +62,7 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await hashPassword(password);
 
-    // Create full name from first and last name if provided
-    let fullName = undefined;
-    if (firstName && lastName) {
-      fullName = firstName + " " + lastName;
-    }
+    // Use fullName from request body or default to username
 
     // Create the user
     const [newUser] = await db
@@ -76,7 +71,7 @@ export async function POST(request: NextRequest) {
         username,
         password: hashedPassword,
         role: role || "user",
-        fullName,
+        fullName: fullName || username,
         email: email || username, // Use email if provided, otherwise use username
       })
       .returning({

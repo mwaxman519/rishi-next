@@ -9,7 +9,10 @@ import { AUTH_CONFIG } from "../config";
 
 // Create a secret key from the environment variable
 const getSecretKey = () => {
-  const secret = process.env.JWT_SECRET || AUTH_CONFIG.DEFAULT_JWT_SECRET;
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("JWT_SECRET environment variable is required");
+  }
   return new TextEncoder().encode(secret);
 };
 
