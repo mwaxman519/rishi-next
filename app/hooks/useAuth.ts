@@ -6,10 +6,24 @@ import { useRouter } from "next/navigation";
 interface User {
   id: string;
   username: string;
-  email: string;
-  fullName: string;
+  email: string | null;
+  fullName: string | null;
   role: string;
-  organizationId: string;
+  active: boolean;
+  organizations: Array<{
+    orgId: string;
+    orgName: string;
+    orgType: string;
+    role: string;
+    isPrimary: boolean;
+  }>;
+  currentOrganization: {
+    orgId: string;
+    orgName: string;
+    orgType: string;
+    role: string;
+    isPrimary: boolean;
+  };
 }
 
 export function useAuth() {
@@ -23,10 +37,14 @@ export function useAuth() {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("/api/auth/user");
+      const response = await fetch("/api/auth-service/session");
       if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
+        const sessionData = await response.json();
+        if (sessionData.success && sessionData.user) {
+          setUser(sessionData.user);
+        } else {
+          setUser(null);
+        }
       } else {
         setUser(null);
       }

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { successResponse, errorResponse } from "../utils/response";
-import { verifyToken } from "../utils/jwt";
 import { AUTH_CONFIG } from "../config";
 import { getUserById } from "../models/user-repository";
+import * as jwt from "jsonwebtoken";
 
 /**
  * GET /api/auth-service/session
@@ -12,24 +12,30 @@ export async function GET(request: NextRequest) {
   try {
     console.log("[Auth Service] Session request received");
 
-    // Get the auth token from cookies
-    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME);
+    // Get the auth token from cookies (check both cookie names for compatibility)
+    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME) || request.cookies.get("auth-token");
     
     if (!authToken) {
       console.log("[Auth Service] No auth token found in cookies");
       return successResponse({ user: null }, 200);
     }
 
-    // Verify the token
-    const payload = await verifyToken(authToken.value);
+    // Verify the token using the same method as login
+    let payload;
+    try {
+      payload = jwt.verify(authToken.value, process.env.JWT_SECRET!) as { id: string, username: string };
+    } catch (error) {
+      console.log("[Auth Service] Invalid token:", error);
+      return successResponse({ user: null }, 200);
+    }
     
-    if (!payload || !payload.sub) {
-      console.log("[Auth Service] Invalid token");
+    if (!payload || !payload.id) {
+      console.log("[Auth Service] Invalid token payload");
       return successResponse({ user: null }, 200);
     }
 
-    // Get user from database (sub is the user ID)
-    const user = await getUserById(payload.sub as string);
+    // Get user from database (id is the user ID)
+    const user = await getUserById(payload.id);
     
     if (!user) {
       console.log("[Auth Service] User not found for token");
