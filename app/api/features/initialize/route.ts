@@ -4,11 +4,11 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { initializeFeatureSystem } from "@shared/features/initialize";
-import { db } from "@/lib/db";
-import { organizations } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { organizations } from "../../../shared/schema";
 import { initializeOrganizationFeatures } from "@shared/features/registry";
-import { hasPermission } from "@/lib/permissions";
-import { getCurrentUser } from "@/lib/auth";
+import { hasPermission } from "../../../lib/permissions";
+import { getCurrentUser } from "../../../lib/auth";
 
 export async function POST(request: NextRequest) {
   try {

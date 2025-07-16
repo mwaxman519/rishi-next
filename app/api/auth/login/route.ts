@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../lib/db";
 import { eq } from "drizzle-orm";
 import * as schema from "../../../../shared/schema";
-import { comparePasswords } from "@/lib/auth-server";
+import { comparePasswords } from "../../../lib/auth-server";
 import { sign } from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
         id: user.id,
         username: user.username,
         email: user.email,
-        fullName: user.fullName,
+        fullName: user.fullName || user.name,
         role: user.role,
       },
     });

@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
     // Get organization ID from query params
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get('organizationId') || undefined) || undefined;
+    const organizationId = ((searchParams.get('organizationId') || undefined) || undefined) || undefined;
 
     // For super_admin, return all permissions
     if (user.role === 'super_admin') {

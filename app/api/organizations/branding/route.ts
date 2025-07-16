@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../lib/db";
 import { randomUUID } from "crypto";
 import { eq } from "drizzle-orm";
-import { organizationBranding, organizations } from "@shared/schema";
+import { organizationBranding, organizations } from "../../../shared/schema";
 import { hasPermission } from "../auth-helper";
 import { z } from "zod";
 
@@ -34,7 +34,7 @@ const brandingSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
+    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined) || undefined;
 
     if (!organizationId) {
       return NextResponse.json(
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
     // Check if organization can customize branding based on tier
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
-      ((organization.tier || "tier_1") || "tier_1") === "tier_3" ||
+      (((organization.tier || "tier_1") || "tier_1") || "tier_1") === "tier_3" ||
       (await hasPermission(user.id, "update:organizations"));
 
     const branding = await db.query.organizationBranding.findFirst({
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
     // Check if organization can customize branding based on tier
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
-      ((organization.tier || "tier_1") || "tier_1") === "tier_3" ||
+      (((organization.tier || "tier_1") || "tier_1") || "tier_1") === "tier_3" ||
       (await hasPermission(user.id, "update:organizations"));
 
     if (!canCustomize) {

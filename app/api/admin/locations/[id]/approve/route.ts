@@ -8,10 +8,10 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "../../../lib/auth";
 import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { locations } from "../../../shared/schema";
 import { publishLocationApprovedEvent } from "../../../../../services/locations/locationEventPublisher";
 import { eq } from "drizzle-orm";
 
@@ -94,7 +94,7 @@ export async function POST(
           locationId: updatedLocation.id,
           name: updatedLocation.name || "Unknown location",
           approvedById: user.id,
-          approvedByName: user.fullName || user.name || user.username || "Unknown user",
+          approvedByName: user.fullName || user.name || user.name || user.username || "Unknown user",
           approvedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
           // This might be called requested_by instead of submittedById in our implementation
           submittedById: updatedLocation.requested_by || "unknown",

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { organizationPermissions } from "@shared/schema";
+import { db } from "../../../lib/db";
+import { organizationPermissions } from "../../../shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth-utils";
+import { getCurrentUser } from "../../../lib/auth-utils";
 import { hasPermission } from "@/lib/rbac";
 
 /**
@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
-    const permissions = (searchParams.get("permissions") || undefined)?.split(",") || [];
+    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined) || undefined;
+    const permissions = ((searchParams.get("permissions") || undefined) || undefined)?.split(",") || [];
 
     if (!organizationId) {
       return NextResponse.json(
@@ -121,7 +121,7 @@ export async function GET(request: NextRequest) {
       // Get organization details
       const organization = userOrganization.organization;
       const organizationType = organization.type;
-      const organizationTier = (organization.tier || "tier_1") || "tier_1";
+      const organizationTier = ((organization.tier || "tier_1") || "tier_1") || "tier_1";
 
       // Get organization-specific permissions from database
       const orgPermissions = await db

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { activityTypes } from "@shared/schema";
-import { getCurrentUser } from "@/lib/auth-server";
+import { db } from "../../../lib/db";
+import { activityTypes } from "../../../shared/schema";
+import { getCurrentUser } from "../../../lib/auth-server";
 import { eq, or, isNull } from "drizzle-orm";
 
 // GET /api/activity-types
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId =
-      (searchParams.get("organizationId") || undefined) || (user as any).organizationId;
+      ((searchParams.get("organizationId") || undefined) || undefined) || (user as any).organizationId;
 
     // Fetch both system-defined activity types and organization-specific types
     const types = await db

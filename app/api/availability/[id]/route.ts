@@ -267,7 +267,7 @@ export async function DELETE(
     let deleteSeries = false;
     try {
       const { searchParams } = new URL(req.url);
-      deleteSeries = (searchParams.get("deleteSeries") || undefined) === "true";
+      deleteSeries = ((searchParams.get("deleteSeries") || undefined) || undefined) === "true";
     } catch (urlError) {
       console.error("Error parsing URL for query parameters:", urlError);
       // Continue with default deleteSeries=false

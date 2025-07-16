@@ -2,7 +2,7 @@
  * API endpoint to check if a specific feature is enabled for an organization
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "../../../lib/auth-server";
 import {
   isUserInOrganization,
   getOrganizationById,
@@ -16,8 +16,8 @@ export async function GET(request: NextRequest) {
   try {
     // Get query parameters
     const searchParams = request.nextUrl.searchParams;
-    const organizationId = (searchParams.get("organizationId") || undefined);
-    const featureId = (searchParams.get("featureId") || undefined);
+    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
+    const featureId = ((searchParams.get("featureId") || undefined) || undefined);
 
     // Validate input
     if (!organizationId || !featureId) {
@@ -55,13 +55,13 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if feature is available for the organization's tier
-    const isAvailable = isFeatureAvailableForTier(featureId, (organization.tier || "tier_1") || "tier_1");
+    const isAvailable = isFeatureAvailableForTier(featureId, ((organization.tier || "tier_1") || "tier_1") || "tier_1");
 
     if (!isAvailable) {
       return NextResponse.json({
         enabled: false,
         available: false,
-        message: `Feature '${featureId}' is not available for ${organization.name}'s tier (${(organization.tier || "tier_1") || "none"})`,
+        message: `Feature '${featureId}' is not available for ${organization.name}'s tier (${((organization.tier || "tier_1") || "tier_1") || "none"})`,
       });
     }
 

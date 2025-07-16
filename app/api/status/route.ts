@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // Using direct database connection instead of problematic import
-// import { testDatabaseConnection } from "@/lib/db";
-import { db } from "@/lib/db";
+// import { testDatabaseConnection } from "../../../lib/db";
+import { db } from "../../../lib/db";
 
 /**
  * Safely extract hostname from DATABASE_URL

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const query = (searchParams.get("query") || undefined);
+    const query = ((searchParams.get("query") || undefined) || undefined);
 
     if (!query) {
       return NextResponse.json(

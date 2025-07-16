@@ -44,12 +44,25 @@ export function getEnvironment(): "development" | "staging" | "production" {
 export function getDatabaseUrl(): string {
   const env = getEnvironment();
 
+  // For development, always use the default DATABASE_URL (Replit's database)
+  if (env === "development") {
+    if (!process.env.DATABASE_URL) {
+      throw new Error(
+        "DATABASE_URL must be set. Did you forget to provision a database?",
+      );
+    }
+    console.log("[DB Manager] Using development database (Replit)");
+    return process.env.DATABASE_URL;
+  }
+
   // Check for environment-specific database URLs first
   if (env === "staging" && process.env.STAGING_DATABASE_URL) {
+    console.log("[DB Manager] Using staging database");
     return process.env.STAGING_DATABASE_URL;
   }
 
   if (env === "production" && process.env.PRODUCTION_DATABASE_URL) {
+    console.log("[DB Manager] Using production database");
     return process.env.PRODUCTION_DATABASE_URL;
   }
 
@@ -60,6 +73,7 @@ export function getDatabaseUrl(): string {
     );
   }
 
+  console.log(`[DB Manager] Using default database for ${env} environment`);
   return process.env.DATABASE_URL;
 }
 

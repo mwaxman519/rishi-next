@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { authOptions } from "../../../lib/auth-options";
 
 /**
  * GET /api/locations/zipcodes
@@ -20,8 +20,8 @@ export async function GET(request: NextRequest) {
 
     // Parse filters from query params
     const { searchParams } = new URL(request.url);
-    const statesParam = (searchParams.get("states") || undefined);
-    const citiesParam = (searchParams.get("cities") || undefined);
+    const statesParam = ((searchParams.get("states") || undefined) || undefined);
+    const citiesParam = ((searchParams.get("cities") || undefined) || undefined);
 
     const stateFilters = statesParam ? statesParam.split(",") : [];
     const cityFilters = citiesParam ? citiesParam.split(",") : [];

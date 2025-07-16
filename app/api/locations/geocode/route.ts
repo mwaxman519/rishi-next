@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   try {
     // Extract the address from the URL query parameters
     const { searchParams } = new URL(request.url);
-    const address = (searchParams.get("address") || undefined);
+    const address = ((searchParams.get("address") || undefined) || undefined);
 
     if (!address) {
       return NextResponse.json(

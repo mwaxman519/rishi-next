@@ -19,7 +19,7 @@ interface DocInfo {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const tag = (searchParams.get("tag") || undefined) || "";
+    const tag = ((searchParams.get("tag") || undefined) || undefined) || "";
 
     if (!tag.trim()) {
       return NextResponse.json([]);

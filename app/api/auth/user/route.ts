@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser } from "../../../lib/auth";
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
       id: user.id,
       username: user.username,
       email: user.email,
-      fullName: user.fullName,
+      fullName: user.fullName || user.name,
       role: user.role,
       organizationId: user.organizationId || "00000000-0000-0000-0000-000000000001",
     });

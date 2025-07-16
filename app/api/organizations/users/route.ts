@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from "../../../lib/auth-server";
 import { db } from "@db";
-import { users, userOrganizations } from "@shared/schema";
+import { users, userOrganizations } from "../../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { hasPermission } from "@/lib/rbac";
 
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     // Get organizationId from query params
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get("organizationId") || undefined);
+    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
 
     if (!organizationId) {
       return NextResponse.json(
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
       // Format the result
       const formattedUsers = orgUsers.map((orgUser) => ({
         id: orgUser.userId,
-        name: orgUser.user.fullName || user.name || orgUser.user.username,
+        name: orgUser.user.fullName || user.name || user.name || orgUser.user.username,
         email: orgUser.user.email,
         role: orgUser.role,
         is_primary: orgUser.isPrimary,
@@ -168,8 +168,8 @@ export async function DELETE(request: NextRequest) {
 
     // Get userId and organizationId from query params
     const { searchParams } = new URL(request.url);
-    const userId = (searchParams.get("userId") || undefined);
-    const organizationId = (searchParams.get("organizationId") || undefined);
+    const userId = ((searchParams.get("userId") || undefined) || undefined);
+    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
 
     if (!userId || !organizationId) {
       return NextResponse.json(
