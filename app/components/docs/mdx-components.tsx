@@ -2,309 +2,253 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { cn } from "../../lib/client-utils";
+import { MDXComponents } from "mdx/types";
+import { 
+  AlertTriangle, 
+  CheckCircle, 
+  Info, 
+  Lightbulb, 
+  Code, 
+  ExternalLink,
+  Copy,
+  Check
+} from "lucide-react";
 
-// Helper to add ID to headings for anchor links
-function HeadingWithAnchor({
-  as: Component,
-  id,
-  className,
-  ...props
-}: {
-  as: React.ElementType;
-  id?: string;
-  className?: string;
-  [key: string]: any;
-}) {
-  const generatedId =
-    id ||
-    props.children
-      ?.toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]/g, "");
+// Professional Alert Component
+function Alert({ type = "info", children }: { type?: "info" | "warning" | "error" | "success" | "tip"; children: React.ReactNode }) {
+  const configs = {
+    info: {
+      icon: Info,
+      gradient: "from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20",
+      border: "border-blue-200/50 dark:border-blue-800/50",
+      iconBg: "from-blue-500 to-indigo-500",
+      textColor: "text-blue-900 dark:text-blue-100",
+      subtextColor: "text-blue-800 dark:text-blue-300"
+    },
+    warning: {
+      icon: AlertTriangle,
+      gradient: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
+      border: "border-amber-200/50 dark:border-amber-800/50",
+      iconBg: "from-amber-500 to-orange-500",
+      textColor: "text-amber-900 dark:text-amber-100",
+      subtextColor: "text-amber-800 dark:text-amber-300"
+    },
+    error: {
+      icon: AlertTriangle,
+      gradient: "from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20",
+      border: "border-red-200/50 dark:border-red-800/50",
+      iconBg: "from-red-500 to-rose-500",
+      textColor: "text-red-900 dark:text-red-100",
+      subtextColor: "text-red-800 dark:text-red-300"
+    },
+    success: {
+      icon: CheckCircle,
+      gradient: "from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20",
+      border: "border-green-200/50 dark:border-green-800/50",
+      iconBg: "from-green-500 to-emerald-500",
+      textColor: "text-green-900 dark:text-green-100",
+      subtextColor: "text-green-800 dark:text-green-300"
+    },
+    tip: {
+      icon: Lightbulb,
+      gradient: "from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20",
+      border: "border-purple-200/50 dark:border-purple-800/50",
+      iconBg: "from-purple-500 to-violet-500",
+      textColor: "text-purple-900 dark:text-purple-100",
+      subtextColor: "text-purple-800 dark:text-purple-300"
+    }
+  };
+
+  const config = configs[type];
+  const IconComponent = config.icon;
 
   return (
-    <Component
-      id={generatedId}
-      className={cn("scroll-mt-20 group flex items-center", className)}
-      {...props}
-    >
-      <span>{props.children}</span>
-      {generatedId && (
-        <a
-          href={`#${generatedId}`}
-          className="ml-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-primary transition-opacity"
-          aria-label="Anchor to section"
-        >
-          #
-        </a>
-      )}
-    </Component>
+    <div className={`p-6 rounded-2xl shadow-lg border ${config.gradient} ${config.border} my-8`}>
+      <div className="flex items-start gap-4">
+        <div className={`flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r ${config.iconBg} shadow-lg`}>
+          <IconComponent className="h-5 w-5 text-white" />
+        </div>
+        <div className={`flex-1 ${config.textColor}`}>
+          {children}
+        </div>
+      </div>
+    </div>
   );
 }
 
-// Custom components for MDX content
-export const MDXComponents = {
-  // Headings with gradient text
-  h1: (props: any) => (
-    <HeadingWithAnchor
-      as="h1"
-      className="text-3xl font-bold mt-8 mb-4 bg-gradient-to-r from-purple-700 to-teal-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-teal-300"
-      {...props}
-    />
-  ),
-  h2: (props: any) => (
-    <HeadingWithAnchor
-      as="h2"
-      className="text-2xl font-bold mt-8 mb-4 bg-gradient-to-r from-purple-700 to-teal-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-teal-300"
-      {...props}
-    />
-  ),
-  h3: (props: any) => (
-    <HeadingWithAnchor
-      as="h3"
-      className="text-xl font-bold mt-6 mb-3 bg-gradient-to-r from-purple-700 to-teal-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-teal-300"
-      {...props}
-    />
-  ),
-  h4: (props: any) => (
-    <HeadingWithAnchor
-      as="h4"
-      className="text-lg font-bold mt-4 mb-2 bg-gradient-to-r from-purple-700 to-teal-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-teal-300"
-      {...props}
-    />
-  ),
-  h5: (props: any) => (
-    <HeadingWithAnchor
-      as="h5"
-      className="text-base font-bold mt-4 mb-2 bg-gradient-to-r from-purple-700 to-teal-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-teal-300"
-      {...props}
-    />
-  ),
-  h6: (props: any) => (
-    <HeadingWithAnchor
-      as="h6"
-      className="text-sm font-bold mt-4 mb-2 bg-gradient-to-r from-purple-700 to-teal-600 bg-clip-text text-transparent dark:from-purple-400 dark:to-teal-300"
-      {...props}
-    />
-  ),
-
-  // Basic elements
-  p: (props: any) => (
-    <p className="mb-4 leading-7 text-gray-700 dark:text-gray-300" {...props} />
-  ),
-  a: ({ href, ...props }: any) => {
-    // Handle absolute URLs or anchor links
-    if (href.startsWith("http") || href.startsWith("#")) {
-      return (
-        <a
-          href={href}
-          className="text-purple-600 dark:text-teal-400 hover:underline font-medium"
-          target={href.startsWith("http") ? "_blank" : undefined}
-          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-          {...props}
-        />
-      );
+// Professional Code Block with Copy Button
+function CodeBlock({ children, className, ...props }: React.HTMLAttributes<HTMLPreElement>) {
+  const [copied, setCopied] = React.useState(false);
+  
+  const handleCopy = async () => {
+    if (typeof children === 'string') {
+      await navigator.clipboard.writeText(children);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
+  };
 
-    // Handle internal links
+  return (
+    <div className="relative group my-6">
+      <pre 
+        className={`p-6 rounded-2xl bg-slate-900 dark:bg-slate-800 border border-slate-700 overflow-x-auto shadow-xl ${className}`}
+        {...props}
+      >
+        <code className="text-slate-300 dark:text-slate-200 font-mono text-sm leading-relaxed">
+          {children}
+        </code>
+      </pre>
+      <button
+        onClick={handleCopy}
+        className="absolute top-4 right-4 p-2 rounded-lg bg-slate-800 dark:bg-slate-700 border border-slate-600 dark:border-slate-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-slate-700 dark:hover:bg-slate-600"
+      >
+        {copied ? (
+          <Check className="h-4 w-4 text-green-400" />
+        ) : (
+          <Copy className="h-4 w-4 text-slate-400" />
+        )}
+      </button>
+    </div>
+  );
+}
+
+// Professional Link Component
+function CustomLink({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  const isExternal = href?.startsWith('http');
+  const isInternal = href?.startsWith('/');
+  
+  if (isExternal) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors group"
+        {...props}
+      >
+        {children}
+        <ExternalLink className="h-4 w-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+      </a>
+    );
+  }
+  
+  if (isInternal) {
     return (
       <Link
         href={href}
-        className="text-purple-600 dark:text-teal-400 hover:underline font-medium"
+        className="text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
         {...props}
-      />
+      >
+        {children}
+      </Link>
     );
-  },
-
-  // Lists
-  ul: (props: any) => (
-    <ul
-      className="list-disc pl-6 mb-4 text-gray-700 dark:text-gray-300"
+  }
+  
+  return (
+    <a
+      href={href}
+      className="text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
       {...props}
-    />
-  ),
-  ol: (props: any) => (
-    <ol
-      className="list-decimal pl-6 mb-4 text-gray-700 dark:text-gray-300"
-      {...props}
-    />
-  ),
-  li: (props: any) => <li className="mb-1" {...props} />,
+    >
+      {children}
+    </a>
+  );
+}
 
-  // Block elements
-  hr: (props: any) => (
-    <hr className="my-8 border-gray-200 dark:border-gray-700" {...props} />
-  ),
-  blockquote: (props: any) => (
-    <blockquote
-      className="border-l-4 border-l-purple-500 dark:border-l-teal-500 pl-4 italic my-4 text-gray-700 dark:text-gray-300 bg-purple-50/50 dark:bg-teal-900/10 py-2 pr-2 rounded-r-md"
-      {...props}
-    />
-  ),
-
-  // Tables
-  table: (props: any) => (
-    <div className="overflow-x-auto mb-6">
-      <table className="w-full border-collapse text-sm" {...props} />
+// Professional Table Component
+function Table({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="overflow-x-auto my-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg">
+      <table className="w-full">
+        {children}
+      </table>
     </div>
-  ),
-  thead: (props: any) => (
-    <thead className="bg-gray-50 dark:bg-gray-800" {...props} />
-  ),
-  tbody: (props: any) => (
-    <tbody
-      className="divide-y divide-gray-200 dark:divide-gray-700"
-      {...props}
-    />
-  ),
-  tr: (props: any) => (
-    <tr className="even:bg-gray-50 dark:even:bg-gray-800/50" {...props} />
-  ),
-  th: (props: any) => (
-    <th
-      className="px-4 py-3 text-left font-medium text-gray-700 dark:text-gray-300"
-      {...props}
-    />
-  ),
-  td: (props: any) => (
-    <td className="px-4 py-3 text-gray-700 dark:text-gray-300" {...props} />
-  ),
+  );
+}
 
-  // Code blocks
-  pre: (props: any) => (
-    <pre
-      className="rounded-lg bg-gray-900 p-4 overflow-x-auto text-sm text-white my-6"
-      {...props}
-    />
-  ),
-  code: ({ className, ...props }: any) => {
-    // If it's a code block (with language className from highlight.js)
-    if (className?.startsWith("language-")) {
-      return <code className={cn(className, "block")} {...props} />;
-    }
-    // For inline code
-    return (
-      <code
-        className="rounded bg-purple-50 px-1.5 py-0.5 font-mono text-sm text-purple-800 dark:bg-purple-900/30 dark:text-teal-300 rounded-md"
-        {...props}
-      />
-    );
-  },
+function TableHead({ children }: { children: React.ReactNode }) {
+  return (
+    <thead className="bg-slate-50 dark:bg-slate-800">
+      {children}
+    </thead>
+  );
+}
 
-  // Custom components
-  Image: (props: any) => (
-    <div className="my-6">
-      <Image
-        className="rounded-lg mx-auto"
-        {...props}
-        alt={props.alt || "Documentation image"}
-        sizes="(min-width: 1024px) 80vw, 100vw"
-      />
-      {props.caption && (
-        <figcaption className="mt-2 text-center text-sm text-gray-500 dark:text-gray-400">
-          {props.caption}
-        </figcaption>
-      )}
-    </div>
-  ),
+function TableRow({ children }: { children: React.ReactNode }) {
+  return (
+    <tr className="border-b border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+      {children}
+    </tr>
+  );
+}
 
-  // Alert components
-  Tip: ({ children }: any) => (
-    <div className="rounded-lg border-l-4 border-green-500 bg-green-50 p-4 mb-4 dark:bg-green-500/10 dark:border-green-400">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <svg
-            className="h-5 w-5 text-green-600 dark:text-green-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="text-sm text-green-700 dark:text-green-400">
-            {children}
-          </p>
-        </div>
+function TableCell({ children, isHeader = false }: { children: React.ReactNode; isHeader?: boolean }) {
+  const Tag = isHeader ? 'th' : 'td';
+  return (
+    <Tag className={`px-6 py-4 text-left ${isHeader ? 'font-semibold text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'}`}>
+      {children}
+    </Tag>
+  );
+}
+
+// Professional Blockquote Component
+function Blockquote({ children }: { children: React.ReactNode }) {
+  return (
+    <blockquote className="border-l-4 border-blue-500 bg-blue-50/50 dark:bg-blue-900/20 py-6 px-8 rounded-r-2xl my-8 shadow-lg">
+      <div className="text-slate-700 dark:text-slate-300 text-lg leading-relaxed italic">
+        {children}
       </div>
-    </div>
-  ),
+    </blockquote>
+  );
+}
 
-  Warning: ({ children }: any) => (
-    <div className="rounded-lg border-l-4 border-yellow-500 bg-yellow-50 p-4 mb-4 dark:bg-yellow-500/10 dark:border-yellow-400">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <svg
-            className="h-5 w-5 text-yellow-600 dark:text-yellow-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="text-sm text-yellow-700 dark:text-yellow-400">
-            {children}
-          </p>
-        </div>
-      </div>
-    </div>
-  ),
+// Professional Heading Components
+function Heading({ level, children, id, ...props }: { level: 1 | 2 | 3 | 4; children: React.ReactNode; id?: string }) {
+  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const sizes = {
+    1: "text-4xl lg:text-5xl font-bold mb-8 pb-6 border-b border-slate-200 dark:border-slate-700",
+    2: "text-3xl lg:text-4xl font-bold mb-6 mt-16",
+    3: "text-2xl lg:text-3xl font-bold mb-4 mt-12",
+    4: "text-xl lg:text-2xl font-bold mb-3 mt-10"
+  };
 
-  Danger: ({ children }: any) => (
-    <div className="rounded-lg border-l-4 border-red-500 bg-red-50 p-4 mb-4 dark:bg-red-500/10 dark:border-red-400">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <svg
-            className="h-5 w-5 text-red-600 dark:text-red-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="text-sm text-red-700 dark:text-red-400">{children}</p>
-        </div>
-      </div>
-    </div>
-  ),
+  return (
+    <Tag 
+      id={id}
+      className={`${sizes[level]} bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text text-transparent scroll-mt-20`}
+      {...props}
+    >
+      {children}
+    </Tag>
+  );
+}
 
-  Info: ({ children }: any) => (
-    <div className="rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4 mb-4 dark:bg-blue-500/10 dark:border-blue-400">
-      <div className="flex">
-        <div className="flex-shrink-0">
-          <svg
-            className="h-5 w-5 text-blue-600 dark:text-blue-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="text-sm text-blue-700 dark:text-blue-400">{children}</p>
-        </div>
-      </div>
-    </div>
+// Export Professional MDX Components
+export const mdxComponents: MDXComponents = {
+  h1: (props) => <Heading level={1} {...props} />,
+  h2: (props) => <Heading level={2} {...props} />,
+  h3: (props) => <Heading level={3} {...props} />,
+  h4: (props) => <Heading level={4} {...props} />,
+  p: (props) => <p className="text-lg leading-relaxed text-slate-700 dark:text-slate-300 mb-6" {...props} />,
+  a: CustomLink,
+  pre: CodeBlock,
+  blockquote: Blockquote,
+  table: Table,
+  thead: TableHead,
+  tr: TableRow,
+  th: (props) => <TableCell isHeader {...props} />,
+  td: TableCell,
+  Alert,
+  ul: (props) => <ul className="space-y-2 mb-6 pl-6" {...props} />,
+  ol: (props) => <ol className="space-y-2 mb-6 pl-6" {...props} />,
+  li: (props) => <li className="text-slate-700 dark:text-slate-300 leading-relaxed" {...props} />,
+  strong: (props) => <strong className="font-semibold text-slate-900 dark:text-white" {...props} />,
+  em: (props) => <em className="italic text-slate-800 dark:text-slate-200" {...props} />,
+  code: (props) => (
+    <code 
+      className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 px-2 py-1 rounded-md text-sm font-medium" 
+      {...props} 
+    />
   ),
+  hr: (props) => <hr className="border-slate-200 dark:border-slate-700 my-12" {...props} />,
 };

@@ -47,67 +47,97 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
   };
 
   return (
-    // Only visible on desktop
-    <aside className="hidden lg:block w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 h-screen overflow-y-auto sticky top-0 shadow-xl">
-      <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20">
-        <Link href="/" className="flex items-center mb-4">
-          <Image
-            src="/favicon.ico"
-            alt="Rishi Logo"
-            width={120}
-            height={40}
-            className="h-8 w-auto"
-            priority
-          />
-        </Link>
-        <h3 className="text-xl font-bold flex items-center gap-3 text-slate-900 dark:text-white">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500 dark:from-teal-400 dark:to-cyan-400 flex items-center justify-center">
-            <BookOpen className="w-5 h-5 text-white" />
+    // Only visible on desktop - Professional Elegant Sidebar
+    <aside className="hidden lg:block w-96 bg-gradient-to-br from-white via-slate-50 to-blue-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/50 dark:border-slate-700/50 h-screen overflow-y-auto sticky top-0 shadow-2xl backdrop-blur-sm">
+      {/* Stunning Header Section */}
+      <div className="p-8 border-b border-slate-200/50 dark:border-slate-700/50 bg-gradient-to-br from-slate-50 via-white to-blue-50/50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <Link href="/" className="group flex items-center mb-6 transition-all duration-300 hover:scale-105">
+          <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg group-hover:shadow-xl transition-all duration-300">
+            <Image
+              src="/favicon.ico"
+              alt="Rishi Logo"
+              width={24}
+              height={24}
+              className="w-6 h-6 filter brightness-0 invert"
+              priority
+            />
           </div>
-          <span>Documentation</span>
-        </h3>
+          <span className="ml-3 text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+            Rishi Platform
+          </span>
+        </Link>
+        
+        {/* Professional Documentation Header */}
+        <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 shadow-lg">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg">
+            <BookOpen className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+              Documentation
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Comprehensive guides & API references
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="p-4 overflow-y-auto">
+      {/* Navigation Content */}
+      <div className="p-6 overflow-y-auto">
         {!isValidTree ? (
-          <div className="space-y-4">
-            <div className="p-3 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-md">
-              <div className="flex items-start gap-2 text-amber-700 dark:text-amber-400">
-                <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+          <div className="space-y-6">
+            {/* Professional Error Display */}
+            <div className="p-6 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200/50 dark:border-amber-800/50 rounded-2xl shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 shadow-lg">
+                  <AlertTriangle className="h-5 w-5 text-white" />
+                </div>
                 <div>
-                  <p className="text-sm font-medium">
-                    Documentation tree is empty
-                  </p>
-                  <p className="text-xs mt-1">
-                    No documentation structure was found or loaded.
+                  <h4 className="text-lg font-semibold text-amber-900 dark:text-amber-100 mb-2">
+                    Documentation Loading
+                  </h4>
+                  <p className="text-sm text-amber-800 dark:text-amber-300">
+                    The documentation structure is being prepared. This may take a moment.
                   </p>
                 </div>
               </div>
             </div>
 
+            {/* Professional Action Button */}
             <button
               onClick={handleReinitializeDocs}
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 text-sm bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800 rounded-md transition-colors"
+              className="w-full group flex items-center justify-center gap-3 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:from-slate-400 disabled:to-slate-500 text-white rounded-2xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:transform-none"
             >
               {isLoading ? (
                 <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                  <span>Reinitializing...</span>
+                  <RefreshCw className="h-5 w-5 animate-spin" />
+                  <span>Initializing Documentation...</span>
                 </>
               ) : (
                 <>
-                  <RefreshCw className="h-4 w-4" />
-                  <span>Reinitialize Documentation</span>
+                  <RefreshCw className="h-5 w-5 group-hover:rotate-180 transition-transform duration-300" />
+                  <span>Reload Documentation</span>
                 </>
               )}
             </button>
 
             {error && (
-              <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-md">
-                <p className="text-xs text-red-700 dark:text-red-400">
-                  {error}
-                </p>
+              <div className="p-6 bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/20 dark:to-rose-900/20 border border-red-200/50 dark:border-red-800/50 rounded-2xl shadow-lg">
+                <div className="flex items-start gap-4">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r from-red-500 to-rose-500 shadow-lg">
+                    <AlertTriangle className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-red-900 dark:text-red-100 mb-2">
+                      Error Loading Documentation
+                    </h4>
+                    <p className="text-sm text-red-800 dark:text-red-300 font-mono bg-red-100 dark:bg-red-900/30 px-3 py-2 rounded-lg">
+                      {error}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 

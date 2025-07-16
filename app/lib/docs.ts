@@ -4,7 +4,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeHighlight from "rehype-highlight";
-import { MDXComponents } from "../components/docs/mdx-components";
+import { mdxComponents } from "../components/docs/mdx-components";
 import matter from "gray-matter";
 import crypto from "crypto";
 
@@ -579,7 +579,7 @@ export async function getDocumentByPath(
 
       const { content: compiledContent } = await compileMDX({
         source: sanitizedSource,
-        components: MDXComponents,
+        components: mdxComponents,
         options: {
           parseFrontmatter: true,
           mdxOptions: {
