@@ -24,13 +24,12 @@ export async function POST(req: NextRequest) {
         email: "admin@rishi.com",
         fullName: "Super Admin",
         role: "super_admin",
-        organizationId: "00000000-0000-0000-0000-000000000001",
       };
 
       // Create JWT token
       const token = sign(
         { id: mockUser.id, username: mockUser.username },
-        process.env.JWT_SECRET!
+        process.env.JWT_SECRET!,
         { expiresIn: "24h" }
       );
 
@@ -75,7 +74,7 @@ export async function POST(req: NextRequest) {
     // Create JWT token
     const token = sign(
       { id: user.id, username: user.username },
-      process.env.JWT_SECRET!
+      process.env.JWT_SECRET!,
       { expiresIn: "24h" }
     );
 
@@ -93,7 +92,7 @@ export async function POST(req: NextRequest) {
     // Set cookie
     response.cookies.set("auth-token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: (process.env.NODE_ENV as string) === "production",
       sameSite: "lax",
       maxAge: 24 * 60 * 60, // 24 hours
     });
