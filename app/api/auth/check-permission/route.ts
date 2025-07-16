@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     // Check authentication using the same approach as the auth-service
     const cookieStore = await cookies();
-    const authToken = cookieStore.get("auth-token");
+    const authToken = cookieStore.get("auth_token");
     
     if (!authToken) {
       return NextResponse.json(
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     try {
       const sessionResponse = await fetch(`${request.nextUrl.origin}/api/auth-service/session`, {
         headers: {
-          'Cookie': `auth-token=${authToken.value}`,
+          'Cookie': `auth_token=${authToken.value}`,
         },
       });
 
@@ -43,14 +43,15 @@ export async function GET(request: NextRequest) {
 
       const sessionData = await sessionResponse.json();
       
-      if (!sessionData.user) {
+      // FIX: Check sessionData.success and sessionData.data.user structure
+      if (!sessionData.success || !sessionData.data || !sessionData.data.user) {
         return NextResponse.json(
           { error: "User not authenticated" },
           { status: 401 }
         );
       }
 
-      const user = sessionData.user;
+      const user = sessionData.data.user;
 
       // For development/staging: Super admin has all permissions
       if (user.role === 'super_admin') {

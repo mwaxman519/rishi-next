@@ -14,6 +14,21 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // Fix CSS MIME type issues in production
+  async headers() {
+    return [
+      {
+        source: '/_next/static/css/(.*)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8',
+          },
+        ],
+      },
+    ];
+  },
+  
   typescript: {
     // Continue through all errors to see comprehensive list
     ignoreBuildErrors: true,
@@ -92,6 +107,11 @@ const nextConfig = {
       tls: false,
       crypto: false,
     };
+    
+    // Production CSS optimization
+    if (!dev) {
+      config.optimization.minimize = true;
+    }
     
     // Bundle optimization for serverless
     if (!dev && !isServer) {
