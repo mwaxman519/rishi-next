@@ -39,36 +39,21 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Vercel-specific optimizations
+    // Vercel-specific optimizations - simplified to prevent chunking issues
     if (!isServer && !dev) {
-      // Ensure consistent chunk naming and proper generation
+      // Minimal chunking configuration
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
+          default: false,
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             priority: -10,
             chunks: 'all',
           },
-          // Ensure login components are properly chunked
-          auth: {
-            test: /[\\/]app[\\/]auth[\\/]/,
-            name: 'auth',
-            priority: 10,
-            chunks: 'all',
-          },
         },
       };
-      
-      // Ensure proper chunk naming for production
-      config.optimization.chunkIds = 'deterministic';
-      config.optimization.moduleIds = 'deterministic';
     }
     
     return config;
