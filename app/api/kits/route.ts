@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "../../../lib/db";
-import { kitInstances, insertKitSchema, USER_ROLES, kits } from "../../shared/schema";
+import { db } from "@/lib/db";
+import { kitInstances, insertKitSchema, USER_ROLES, kits } from "@shared/schema";
 import { and, eq } from "drizzle-orm";
 import { getOrganizationHeaderData } from "@/lib/organization-context";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { checkPermission } from "@/lib/rbac";
 
 // GET /api/kits
@@ -70,9 +70,9 @@ export async function GET(req: NextRequest) {
     // Get query parameters
     const url = new URL(req.url);
     const searchParams = url.searchParams;
-    const brandRegionId = ((searchParams.get("brandRegionId") || undefined) || undefined);
-    const kitStatus = ((searchParams.get("status") || undefined) || undefined);
-    const approvalStatus = ((searchParams.get("approvalStatus") || undefined) || undefined);
+    const brandRegionId = (searchParams.get("brandRegionId") || undefined);
+    const kitStatus = (searchParams.get("status") || undefined);
+    const approvalStatus = (searchParams.get("approvalStatus") || undefined);
 
     // Get current user information
     const user = await getCurrentUser();

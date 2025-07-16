@@ -4,7 +4,7 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { geocodingService } from "../../../services/maps";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { checkPermission } from "@/lib/rbac";
 
 // Geocode an address
@@ -76,8 +76,8 @@ export async function GET(req: NextRequest) {
 
     // Get coordinates from query params
     const searchParams = req.nextUrl.searchParams;
-    const lat = parseFloat(((searchParams.get("lat") || undefined) || undefined) || "");
-    const lng = parseFloat(((searchParams.get("lng") || undefined) || undefined) || "");
+    const lat = parseFloat((searchParams.get("lat") || undefined) || "");
+    const lng = parseFloat((searchParams.get("lng") || undefined) || "");
 
     if (isNaN(lat) || isNaN(lng)) {
       return NextResponse.json(

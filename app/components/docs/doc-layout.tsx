@@ -348,40 +348,9 @@ export function DocLayout({
         {/* Content area */}
         <div className="flex">
           {/* Document content */}
-          <div className="flex-1 min-w-0 p-4 pt-16 md:p-8 md:pt-16 lg:p-10 lg:pt-10 bg-gradient-to-br from-purple-50 via-white to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-            {/* Decorative Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute top-20 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-400/5 to-blue-400/5 rounded-full blur-3xl animate-pulse"></div>
-              <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-gradient-to-r from-teal-400/5 to-green-400/5 rounded-full blur-3xl animate-pulse"></div>
-              <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-blue-400/3 to-purple-400/3 rounded-full blur-2xl animate-pulse"></div>
-            </div>
-            
-            <div className="relative max-w-5xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 p-8 md:p-12 lg:p-16 overflow-hidden">
-              {/* Top decorative border */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500"></div>
-              <article className="prose prose-xl prose-slate max-w-none dark:prose-invert 
-                prose-headings:scroll-mt-20 prose-headings:font-bold prose-headings:tracking-tight
-                prose-h1:text-5xl prose-h1:mb-10 prose-h1:mt-0 prose-h1:leading-tight prose-h1:bg-gradient-to-r prose-h1:from-purple-700 prose-h1:to-teal-600 prose-h1:bg-clip-text prose-h1:text-transparent dark:prose-h1:from-purple-400 dark:prose-h1:to-teal-300
-                prose-h2:text-4xl prose-h2:mt-16 prose-h2:mb-8 prose-h2:leading-tight prose-h2:bg-gradient-to-r prose-h2:from-purple-600 prose-h2:to-teal-500 prose-h2:bg-clip-text prose-h2:text-transparent dark:prose-h2:from-purple-300 dark:prose-h2:to-teal-200 prose-h2:border-b prose-h2:border-gradient-to-r prose-h2:pb-4
-                prose-h3:text-3xl prose-h3:mt-12 prose-h3:mb-6 prose-h3:leading-tight prose-h3:bg-gradient-to-r prose-h3:from-purple-500 prose-h3:to-teal-400 prose-h3:bg-clip-text prose-h3:text-transparent dark:prose-h3:from-purple-200 dark:prose-h3:to-teal-100
-                prose-h4:text-2xl prose-h4:mt-10 prose-h4:mb-4 prose-h4:text-slate-800 dark:prose-h4:text-slate-200 prose-h4:font-semibold
-                prose-h5:text-xl prose-h5:mt-8 prose-h5:mb-3 prose-h5:text-slate-700 dark:prose-h5:text-slate-300 prose-h5:font-medium
-                prose-h6:text-lg prose-h6:mt-6 prose-h6:mb-2 prose-h6:text-slate-600 dark:prose-h6:text-slate-400
-                prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-p:leading-relaxed prose-p:text-lg prose-p:mb-8 prose-p:font-light
-                prose-a:text-purple-600 dark:prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-a:font-medium prose-a:decoration-2 prose-a:underline-offset-4 prose-a:transition-all prose-a:duration-200 hover:prose-a:text-purple-700 dark:hover:prose-a:text-teal-300
-                prose-strong:text-slate-900 dark:prose-strong:text-slate-100 prose-strong:font-semibold prose-strong:bg-gradient-to-r prose-strong:from-purple-600/10 prose-strong:to-teal-600/10 prose-strong:px-1 prose-strong:py-0.5 prose-strong:rounded
-                prose-em:text-slate-800 dark:prose-em:text-slate-200 prose-em:italic prose-em:font-medium
-                prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:bg-gradient-to-r prose-blockquote:from-purple-50 prose-blockquote:to-teal-50 dark:prose-blockquote:from-purple-900/20 dark:prose-blockquote:to-teal-900/20 prose-blockquote:pl-8 prose-blockquote:py-6 prose-blockquote:my-10 prose-blockquote:rounded-r-xl prose-blockquote:text-slate-700 dark:prose-blockquote:text-slate-300 prose-blockquote:italic prose-blockquote:font-medium prose-blockquote:shadow-lg
-                prose-code:bg-gradient-to-r prose-code:from-purple-50 prose-code:to-teal-50 prose-code:text-purple-800 dark:prose-code:from-purple-900/30 dark:prose-code:to-teal-900/30 dark:prose-code:text-teal-300 prose-code:px-3 prose-code:py-1.5 prose-code:rounded-lg prose-code:font-mono prose-code:text-sm prose-code:before:content-[''] prose-code:after:content-[''] prose-code:border prose-code:border-purple-200 dark:prose-code:border-purple-700/50
-                prose-pre:bg-gradient-to-br prose-pre:from-slate-900 prose-pre:to-slate-800 dark:prose-pre:from-slate-900 dark:prose-pre:to-slate-950 prose-pre:text-slate-100 prose-pre:rounded-2xl prose-pre:p-8 prose-pre:shadow-2xl prose-pre:border prose-pre:border-slate-700 prose-pre:overflow-x-auto prose-pre:my-10
-                prose-ol:list-decimal prose-ol:ml-8 prose-ol:text-slate-700 dark:prose-ol:text-slate-300 prose-ol:space-y-3
-                prose-ul:list-disc prose-ul:ml-8 prose-ul:text-slate-700 dark:prose-ul:text-slate-300 prose-ul:space-y-3
-                prose-li:text-slate-700 dark:prose-li:text-slate-300 prose-li:mb-3 prose-li:leading-relaxed prose-li:text-lg
-                prose-table:border-collapse prose-table:w-full prose-table:my-10 prose-table:border prose-table:border-slate-300 dark:prose-table:border-slate-700 prose-table:rounded-xl prose-table:overflow-hidden prose-table:shadow-xl prose-table:bg-white dark:prose-table:bg-slate-800
-                prose-th:bg-gradient-to-r prose-th:from-slate-100 prose-th:to-slate-50 dark:prose-th:from-slate-800 dark:prose-th:to-slate-700 prose-th:text-slate-900 dark:prose-th:text-slate-100 prose-th:font-semibold prose-th:p-6 prose-th:text-left
-                prose-td:p-6 prose-td:border-t prose-td:border-slate-200 dark:prose-td:border-slate-700 prose-td:text-slate-700 dark:prose-td:text-slate-300
-                prose-hr:border-slate-300 dark:prose-hr:border-slate-700 prose-hr:my-16 prose-hr:border-t-2
-                prose-img:rounded-2xl prose-img:shadow-2xl prose-img:my-12 prose-img:mx-auto prose-img:border prose-img:border-slate-200 dark:prose-img:border-slate-700">
+          <div className="flex-1 min-w-0 p-4 pt-16 md:p-8 md:pt-16 lg:p-10 lg:pt-10">
+            <div className="max-w-4xl mx-auto">
+              <article className="prose prose-gray max-w-none dark:prose-invert prose-headings:bg-gradient-to-r prose-headings:from-purple-700 prose-headings:to-teal-600 prose-headings:bg-clip-text prose-headings:text-transparent dark:prose-headings:from-purple-400 dark:prose-headings:to-teal-300 prose-a:text-purple-600 dark:prose-a:text-teal-400 prose-a:no-underline hover:prose-a:underline prose-a:font-medium prose-code:bg-purple-50 prose-code:text-purple-800 dark:prose-code:bg-purple-900/30 dark:prose-code:text-teal-300 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-[''] prose-code:after:content-['']">
                 {children}
               </article>
 

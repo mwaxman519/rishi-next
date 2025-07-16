@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and } from "drizzle-orm";
-import { db } from "../../../lib/db";
-import { getCurrentUser } from "../../../lib/auth-utils";
+import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth-utils";
 import {
   organizationInvitations,
   userOrganizations,
   userOrganizationPreferences,
   organizations,
-} from "../../../../shared/schema";
+} from "@/shared/schema";
 import { sendEmail } from "@/lib/email-utils";
 
 /**
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = ((searchParams.get("token") || undefined) || undefined);
+    const token = (searchParams.get("token") || undefined);
 
     if (!token) {
       return NextResponse.json({ error: "Token is required" }, { status: 400 });

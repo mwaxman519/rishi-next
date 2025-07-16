@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
       id: user.id,
       username: user.username,
       email: user.email || null,
-      fullName: user.fullName || user.name || user.name || null,
+      fullName: user.fullName || user.name || null,
       role: user.role || "brand_agent",
       active: Boolean(user.active !== false),
     };
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
       {
         user: {
           ...userWithoutPassword,
-          fullName: user.fullName || user.name || user.name || username,
+          fullName: user.fullName || user.name || username,
           organizations: userOrgs,
           currentOrganization: defaultOrg,
         },

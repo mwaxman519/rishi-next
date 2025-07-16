@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const placeId = ((searchParams.get("placeId") || undefined) || undefined);
+    const placeId = (searchParams.get("placeId") || undefined);
 
     if (!placeId) {
       return NextResponse.json(

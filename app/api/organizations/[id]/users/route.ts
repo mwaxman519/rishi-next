@@ -6,13 +6,13 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../lib/auth";
-import { db } from "../../../lib/db";
+import { getCurrentUser } from "@/lib/auth";
+import { db } from "@/lib/db";
 import {
   organizations,
   users,
   organizationUsers,
-} from "../../../../shared/schema";
+} from "@/shared/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function GET(

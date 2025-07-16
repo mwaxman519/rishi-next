@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { availabilityService } from "../../../services/availability/availabilityService";
 import { USER_ROLES } from "@shared/rbac/roles";
-import { verifyJwt } from "../../../lib/auth-utils";
+import { verifyJwt } from "@/lib/auth-utils";
 
 /**
  * GET /api/availability/team - Get team members' availability blocks
@@ -14,8 +14,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const searchParams = request.nextUrl.searchParams;
 
   // Parse the date range parameters
-  const startDateParam = ((searchParams.get("startDate") || undefined) || undefined) || undefined;
-  const endDateParam = ((searchParams.get("endDate") || undefined) || undefined) || undefined;
+  const startDateParam = (searchParams.get("startDate") || undefined) || undefined;
+  const endDateParam = (searchParams.get("endDate") || undefined) || undefined;
 
   // Get the auth token and verify user
   const authHeader = request.headers.get("authorization");

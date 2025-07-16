@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "../../../lib/auth-server";
+import { getCurrentAuthUser } from "@/lib/auth-server";
 import { db } from "@db";
-import { organizationInvitations, userOrganizations } from "../../../shared/schema";
+import { organizationInvitations, userOrganizations } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
 import { hasPermission } from "@/lib/rbac";
 import { randomBytes } from "crypto";
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     // Get organizationId from query params
     const { searchParams } = new URL(request.url);
-    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(
@@ -319,7 +319,7 @@ export async function DELETE(request: NextRequest) {
 
     // Get invitationId from query params
     const { searchParams } = new URL(request.url);
-    const invitationId = ((searchParams.get("id") || undefined) || undefined);
+    const invitationId = (searchParams.get("id") || undefined);
 
     if (!invitationId) {
       return NextResponse.json(

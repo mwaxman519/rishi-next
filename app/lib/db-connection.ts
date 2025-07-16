@@ -25,25 +25,15 @@ const connectionConfigs = {
 
 // Detect current environment
 export function getEnvironment(): "development" | "staging" | "production" {
-  // Check if we're explicitly in Replit development
-  if (process.env.REPLIT === "true" || process.env.REPL_ID) {
-    console.log("[DB Manager] Detected Replit environment - using development");
-    return "development";
-  }
-
   // Check if we're in a staging deployment
   const isStaging =
     process.env.DEPLOY_ENV === "staging" ||
     process.env.STAGING === "true" ||
-    process.env.VERCEL_ENV === "staging" ||
     (typeof process.env.NODE_ENV === "string" &&
       process.env.NODE_ENV.includes("staging"));
 
   // Check if we're in production
-  const isProduction = 
-    process.env.NODE_ENV === "production" && 
-    !isStaging &&
-    (process.env.VERCEL_ENV === "production" || process.env.DEPLOY_ENV === "production");
+  const isProduction = process.env.NODE_ENV === "production" && !isStaging;
 
   if (isStaging) return "staging";
   if (isProduction) return "production";
@@ -54,36 +44,13 @@ export function getEnvironment(): "development" | "staging" | "production" {
 export function getDatabaseUrl(): string {
   const env = getEnvironment();
 
-  // Environment-specific database URL mapping
-  if (env === "development") {
-    // For development in Replit, always use the built-in DATABASE_URL
-    if (!process.env.DATABASE_URL) {
-      throw new Error(
-        "DATABASE_URL must be set. Did you forget to provision a database?",
-      );
-    }
-    console.log("[DB Manager] Using development database (Replit built-in)");
-    return process.env.DATABASE_URL;
+  // Check for environment-specific database URLs first
+  if (env === "staging" && process.env.STAGING_DATABASE_URL) {
+    return process.env.STAGING_DATABASE_URL;
   }
 
-  if (env === "staging") {
-    // For staging, use staging-specific database or fall back to staging environment variable
-    const stagingUrl = process.env.STAGING_DATABASE_URL || process.env.NEON_STAGING_DATABASE_URL;
-    if (stagingUrl) {
-      console.log("[DB Manager] Using staging database (Neon staging)");
-      return stagingUrl;
-    }
-    console.log("[DB Manager] WARNING: No staging database URL found, falling back to default");
-  }
-
-  if (env === "production") {
-    // For production, use production-specific database
-    const productionUrl = process.env.PRODUCTION_DATABASE_URL || process.env.NEON_PRODUCTION_DATABASE_URL;
-    if (productionUrl) {
-      console.log("[DB Manager] Using production database (Neon production)");
-      return productionUrl;
-    }
-    console.log("[DB Manager] WARNING: No production database URL found, falling back to default");
+  if (env === "production" && process.env.PRODUCTION_DATABASE_URL) {
+    return process.env.PRODUCTION_DATABASE_URL;
   }
 
   // Fall back to the default DATABASE_URL
@@ -93,7 +60,6 @@ export function getDatabaseUrl(): string {
     );
   }
 
-  console.log(`[DB Manager] Using default database for ${env} environment`);
   return process.env.DATABASE_URL;
 }
 

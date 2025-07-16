@@ -10,13 +10,13 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../lib/auth";
-import { db } from "../../../lib/db";
+import { getCurrentUser } from "@/lib/auth";
+import { db } from "@/lib/db";
 import {
   userOrganizationPreferences,
   userOrganizations,
   organizations,
-} from "../../../shared/schema";
+} from "@shared/schema";
 import { eq, and, or, asc, desc } from "drizzle-orm";
 import { z } from "zod";
 
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
 
     // If a specific organization is requested
     if (organizationId) {

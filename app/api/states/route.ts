@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { states } from "../../shared/schema";
+import { states } from "@shared/schema";
 import { eq } from "drizzle-orm";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 
 // Get all states
 export async function GET(req: NextRequest): Promise<NextResponse> {

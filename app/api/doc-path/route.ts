@@ -9,7 +9,7 @@ const DOCS_DIRECTORIES = [
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const docPath = ((searchParams.get("path") || undefined) || undefined) || undefined;
+  const docPath = (searchParams.get("path") || undefined) || undefined;
 
   if (!docPath) {
     return NextResponse.json({ error: "No path provided" }, { status: 400 });

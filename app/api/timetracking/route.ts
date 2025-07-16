@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { EventBusService } from "../../../services/event-bus-service";
 import { simpleTimeTrackingService } from "../../services/timetracking/SimpleTimeTrackingService";
 import { z } from "zod";
@@ -19,12 +19,12 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
 
-    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
-    const agentId = ((searchParams.get("agentId") || undefined) || undefined) || undefined;
-    const shiftId = ((searchParams.get("shiftId") || undefined) || undefined) || undefined;
-    const startDate = ((searchParams.get("startDate") || undefined) || undefined);
-    const endDate = ((searchParams.get("endDate") || undefined) || undefined);
-    const status = ((searchParams.get("status") || undefined) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
+    const agentId = (searchParams.get("agentId") || undefined) || undefined;
+    const shiftId = (searchParams.get("shiftId") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined);
+    const endDate = (searchParams.get("endDate") || undefined);
+    const status = (searchParams.get("status") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(

@@ -31,8 +31,8 @@ export async function GET(request: NextRequest) {
 
     // Get query parameters
     const { searchParams } = new URL(request.url);
-    const checkName = ((searchParams.get('check') || undefined) || undefined);
-    const format = ((searchParams.get('format') || undefined) || undefined) || 'json';
+    const checkName = (searchParams.get('check') || undefined);
+    const format = (searchParams.get('format') || undefined) || 'json';
 
     // Get specific health check if requested
     if (checkName) {

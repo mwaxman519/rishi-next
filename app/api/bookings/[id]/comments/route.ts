@@ -3,12 +3,12 @@
  * Handles adding and retrieving comments for bookings
  */
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
+import { db } from "@/lib/db";
 import {
   bookings,
   bookingComments,
   insertBookingCommentSchema,
-} from "../../../../shared/schema";
+} from "@/shared/schema";
 import { getAuthSession } from "@/lib/session";
 import { eq, desc, and } from "drizzle-orm";
 import { z } from "zod";

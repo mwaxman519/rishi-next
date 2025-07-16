@@ -113,8 +113,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const shiftId = ((searchParams.get("shiftId") || undefined) || undefined);
-    const agentId = ((searchParams.get("agentId") || undefined) || undefined);
+    const shiftId = (searchParams.get("shiftId") || undefined);
+    const agentId = (searchParams.get("agentId") || undefined);
 
     if (!shiftId || !agentId) {
       return NextResponse.json(

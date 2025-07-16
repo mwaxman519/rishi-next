@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
       id: user.id,
       username: user.username,
       email: user.email || null,
-      fullName: user.fullName || user.name || user.name || null,
+      fullName: user.fullName || user.name || null,
       role: user.role || "brand_agent",
       active: Boolean(user.active !== false),
       organizations: [

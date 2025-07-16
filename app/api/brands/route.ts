@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { brands } from "../../shared/schema";
+import { brands } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { checkPermission } from "@/lib/rbac";
 
 // Get all brands for the current user's organization

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@db";
-import { kits, kitComponentInventory } from "../../../shared/schema";
+import { kits, kitComponentInventory } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { getOrganizationHeaderData } from "@/lib/organization-context";
 import { checkPermission } from "@/lib/rbac";

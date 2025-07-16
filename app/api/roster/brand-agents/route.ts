@@ -11,7 +11,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { EventBusService } from "../../../../services/event-bus-service";
 import { rosterService } from "../../../services/roster/RosterService";
 import { validateBrandAgentAssignment } from "../../../services/roster/types";
@@ -24,8 +24,8 @@ import { validateBrandAgentAssignment } from "../../../services/roster/types";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationId = ((searchParams.get("organizationId") || undefined) || undefined);
-    const brandId = ((searchParams.get("brandId") || undefined) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
+    const brandId = (searchParams.get("brandId") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(

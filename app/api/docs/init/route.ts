@@ -493,8 +493,8 @@ export async function GET(request: Request) {
   try {
     // Check request parameters
     const url = new URL(request.url);
-    const isEmergency = (url.(searchParams.get("emergency") || undefined) || undefined) === "true";
-    const forceInit = (url.(searchParams.get("force") || undefined) || undefined) === "true";
+    const isEmergency = (url.searchParams.get("emergency") || undefined) === "true";
+    const forceInit = (url.searchParams.get("force") || undefined) === "true";
 
     // Run in both production and development, but with different levels of verbosity
     const isProduction = process.env.NODE_ENV === "production";

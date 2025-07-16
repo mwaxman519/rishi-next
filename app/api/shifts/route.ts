@@ -24,17 +24,17 @@ export async function GET(request: NextRequest) {
 
     // Extract filter parameters
     const filters: ShiftFilters = {
-      ...(((searchParams.get("organizationId") || undefined) || undefined) && { organizationId: ((searchParams.get("organizationId") || undefined) || undefined) }),
-      ...(((searchParams.get("bookingId") || undefined) || undefined) && { bookingId: ((searchParams.get("bookingId") || undefined) || undefined) }),
-      ...(((searchParams.get("locationId") || undefined) || undefined) && { locationId: ((searchParams.get("locationId") || undefined) || undefined) }),
-      ...(((searchParams.get("brandId") || undefined) || undefined) && { brandId: ((searchParams.get("brandId") || undefined) || undefined) }),
-      ...(((searchParams.get("status") || undefined) || undefined) && { status: ((searchParams.get("status") || undefined) || undefined) as any }),
-      ...(((searchParams.get("agentId") || undefined) || undefined) && { agentId: ((searchParams.get("agentId") || undefined) || undefined) }),
-      startDate: ((searchParams.get("startDate") || undefined) || undefined)
-        ? new Date(((searchParams.get("startDate") || undefined) || undefined)!)
+      ...((searchParams.get("organizationId") || undefined) && { organizationId: (searchParams.get("organizationId") || undefined) }),
+      ...((searchParams.get("bookingId") || undefined) && { bookingId: (searchParams.get("bookingId") || undefined) }),
+      ...((searchParams.get("locationId") || undefined) && { locationId: (searchParams.get("locationId") || undefined) }),
+      ...((searchParams.get("brandId") || undefined) && { brandId: (searchParams.get("brandId") || undefined) }),
+      ...((searchParams.get("status") || undefined) && { status: (searchParams.get("status") || undefined) as any }),
+      ...((searchParams.get("agentId") || undefined) && { agentId: (searchParams.get("agentId") || undefined) }),
+      startDate: (searchParams.get("startDate") || undefined)
+        ? new Date((searchParams.get("startDate") || undefined)!)
         : undefined,
-      endDate: ((searchParams.get("endDate") || undefined) || undefined)
-        ? new Date(((searchParams.get("endDate") || undefined) || undefined)!)
+      endDate: (searchParams.get("endDate") || undefined)
+        ? new Date((searchParams.get("endDate") || undefined)!)
         : undefined,
     };
 

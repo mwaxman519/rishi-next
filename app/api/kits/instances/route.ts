@@ -3,7 +3,7 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { kitsService } from "../../../services/kits";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 
 /**
  * GET /api/kits/instances
@@ -21,24 +21,24 @@ export async function GET(req: NextRequest) {
     // Extract filter parameters
     if (searchParams.has("brandRegionId")) {
       filters.brandRegionId = parseInt(
-        ((searchParams.get("brandRegionId") || undefined) || undefined) as string,
+        (searchParams.get("brandRegionId") || undefined) as string,
       );
     }
 
     if (searchParams.has("templateId")) {
-      filters.templateId = parseInt(((searchParams.get("templateId") || undefined) || undefined) as string);
+      filters.templateId = parseInt((searchParams.get("templateId") || undefined) as string);
     }
 
     if (searchParams.has("status")) {
-      filters.status = ((searchParams.get("status") || undefined) || undefined);
+      filters.status = (searchParams.get("status") || undefined);
     }
 
     if (searchParams.has("approvalStatus")) {
-      filters.approvalStatus = ((searchParams.get("approvalStatus") || undefined) || undefined);
+      filters.approvalStatus = (searchParams.get("approvalStatus") || undefined);
     }
 
     if (searchParams.has("search")) {
-      filters.search = ((searchParams.get("search") || undefined) || undefined);
+      filters.search = (searchParams.get("search") || undefined);
     }
 
     // Get all kits with filters

@@ -4,7 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { kitsService } from "../../../services/kits";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth-server";
+import { authOptions } from "@/lib/auth-server";
 
 /**
  * GET /api/kits/activity-kits
@@ -18,23 +18,23 @@ export async function GET(req: NextRequest) {
 
     // Extract filter parameters
     if (searchParams.has("activityId")) {
-      filters.activityId = ((searchParams.get("activityId") || undefined) || undefined);
+      filters.activityId = (searchParams.get("activityId") || undefined);
     }
 
     if (searchParams.has("kitTemplateId")) {
-      filters.kitTemplateId = ((searchParams.get("kitTemplateId") || undefined) || undefined);
+      filters.kitTemplateId = (searchParams.get("kitTemplateId") || undefined);
     }
 
     if (searchParams.has("kitInstanceId")) {
-      filters.kitInstanceId = ((searchParams.get("kitInstanceId") || undefined) || undefined);
+      filters.kitInstanceId = (searchParams.get("kitInstanceId") || undefined);
     }
 
     if (searchParams.has("status")) {
-      filters.status = ((searchParams.get("status") || undefined) || undefined);
+      filters.status = (searchParams.get("status") || undefined);
     }
 
     if (searchParams.has("assignedToId")) {
-      filters.assignedToId = ((searchParams.get("assignedToId") || undefined) || undefined);
+      filters.assignedToId = (searchParams.get("assignedToId") || undefined);
     }
 
     // Get all activity kits with filters

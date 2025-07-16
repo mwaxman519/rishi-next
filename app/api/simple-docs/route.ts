@@ -36,7 +36,7 @@ function findDocsDirectory(): string | null {
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const requestedPath = ((searchParams.get("path") || undefined) || undefined) || "";
+  const requestedPath = (searchParams.get("path") || undefined) || "";
 
   const docsDir = findDocsDirectory();
 

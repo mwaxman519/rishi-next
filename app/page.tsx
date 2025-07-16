@@ -19,6 +19,14 @@ export default function Home() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    // Simple redirect for authenticated users
+    if (user && user.role === "super_admin") {
+      console.log("Redirecting super admin to dashboard");
+      router.push("/dashboard");
+    }
+  }, [user, router]);
+
   // Show loading state while authentication is initializing
   if (isLoading) {
     return (
@@ -31,18 +39,42 @@ export default function Home() {
     );
   }
 
-  // If user is logged in, show dashboard link instead of redirecting
+  // If user is logged in, handle accordingly
   if (user) {
+    // For super admin users, redirect to dashboard directly
+    if (user.role === "super_admin") {
+      // Use useEffect to handle redirect to avoid React state update during render
+      useEffect(() => {
+        const handleRedirect = () => {
+          // Use Next.js router navigation
+          router.push("/dashboard");
+        };
+        
+        // Small delay to ensure component is mounted
+        const timeoutId = setTimeout(handleRedirect, 100);
+        return () => clearTimeout(timeoutId);
+      }, [router]);
+      
+      // Show loading while redirect happens
+      return (
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-center">
+            <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading dashboard...</p>
+          </div>
+        </div>
+      );
+    }
 
-    // Show welcome with dashboard link for all authenticated users
+    // For other roles, show welcome with dashboard link
     return (
       <div className="container mx-auto py-12 px-4">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-6">
-            Welcome back, {user.fullName}!
+            Welcome back, {user.name}!
           </h1>
           <p className="text-xl mb-8">
-            You're logged into the Rishi Platform as {user.role}.
+            You're logged into the Rishi Workforce Management platform.
           </p>
           <Link href="/dashboard">
             <Button size="lg" className="mr-4">

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { checkPermission } from "@/lib/rbac";
-import { db } from "../../../lib/db";
-import { locations } from "../../../../shared/schema";
+import { db } from "@/lib/db";
+import { locations } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {

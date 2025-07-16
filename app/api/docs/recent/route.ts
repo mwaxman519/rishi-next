@@ -18,7 +18,7 @@ interface DocInfo {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(((searchParams.get("limit") || undefined) || undefined) || "5", 10);
+    const limit = parseInt((searchParams.get("limit") || undefined) || "5", 10);
 
     const recentDocs = await getRecentDocuments(limit);
     return NextResponse.json(recentDocs);

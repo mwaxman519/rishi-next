@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { USER_ROLES } from "../../../shared/schema";
+import { USER_ROLES } from "@shared/schema";
 import { UserRole } from "@/lib/rbac";
 
 export async function POST(request: NextRequest) {

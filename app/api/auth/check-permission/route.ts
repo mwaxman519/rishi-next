@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "../../../lib/auth";
+import { getCurrentUser } from "@/lib/auth";
 import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const permission = (searchParams.get('permission') || undefined);
-    const organizationId = (searchParams.get('organizationId') || undefined);
+    const permission = searchParams.get('permission');
+    const organizationId = searchParams.get('organizationId');
 
     if (!permission) {
       return NextResponse.json(

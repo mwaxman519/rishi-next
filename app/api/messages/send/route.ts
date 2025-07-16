@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { systemSystemEvents } from "../../../shared/schema";
+import { systemSystemEvents } from "@shared/schema";
 
 export async function POST(request: NextRequest) {
   try {

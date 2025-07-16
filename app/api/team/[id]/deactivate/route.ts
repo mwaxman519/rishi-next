@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@db";
-import { users, systemSystemEvents } from "../../../../shared/schema";
+import { users, systemSystemEvents } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
 export async function POST(

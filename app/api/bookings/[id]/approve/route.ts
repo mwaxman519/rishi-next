@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db";
-import { bookings } from "../../../../shared/schema";
+import { db } from "@/lib/db";
+import { bookings } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth-options";
+import { authOptions } from "@/lib/auth-options";
 import { z } from "zod";
 
 // Validation schema for approval
