@@ -155,9 +155,9 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Once fully mounted and data is loaded, render the appropriate layout
 
-  // Special case for full-width pages
+  // Special case for full-width pages - bypass all sidebar logic
   if (isFullWidthPage) {
-    return <FullWidthLayout>{children}</FullWidthLayout>;
+    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>;
   }
 
   // Force public layout if URL parameter is set or user is not authenticated

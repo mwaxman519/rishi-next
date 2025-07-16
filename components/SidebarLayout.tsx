@@ -88,6 +88,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     useSidebarState();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Skip sidebar for login/auth pages
+  if (pathname?.startsWith("/auth/")) {
+    return <>{children}</>;
+  }
+
   // Don't render sidebar for unauthenticated users
   // Check for URL parameters that indicate we should force unauthenticated mode
   useEffect(() => {
@@ -144,11 +149,23 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     );
   }
 
+  // Don't render sidebar while loading user data
+  if (loading) {
+    return <>{children}</>;
+  }
+
+  // Don't render sidebar if user is not authenticated
+  if (!user) {
+    return <>{children}</>;
+  }
+
   console.log(
     "### SidebarLayout RENDERED ### isSuperAdmin =",
     isSuperAdmin,
     "role =",
     user?.role,
+    "pathname =",
+    pathname,
   );
 
   // Public links available to all users
