@@ -48,8 +48,8 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
 
   return (
     // Only visible on desktop
-    <aside className="hidden lg:block w-64 border-r border-[rgb(var(--border))] h-screen overflow-y-auto sticky top-0">
-      <div className="p-4 border-b border-[rgb(var(--border))]">
+    <aside className="hidden lg:block w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 h-screen overflow-y-auto sticky top-0 shadow-xl">
+      <div className="p-6 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20">
         <Link href="/" className="flex items-center mb-4">
           <Image
             src="/favicon.ico"
@@ -60,8 +60,10 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
             priority
           />
         </Link>
-        <h3 className="text-lg font-semibold flex items-center gap-2 text-[rgb(var(--primary))]">
-          <BookOpen className="w-5 h-5" />
+        <h3 className="text-xl font-bold flex items-center gap-3 text-slate-900 dark:text-white">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500 dark:from-teal-400 dark:to-cyan-400 flex items-center justify-center">
+            <BookOpen className="w-5 h-5 text-white" />
+          </div>
           <span>Documentation</span>
         </h3>
       </div>
