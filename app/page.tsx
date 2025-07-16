@@ -19,14 +19,6 @@ export default function Home() {
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    // Simple redirect for authenticated users
-    if (user && user.role === "super_admin") {
-      console.log("Redirecting super admin to dashboard");
-      router.push("/dashboard");
-    }
-  }, [user, router]);
-
   // Show loading state while authentication is initializing
   if (isLoading) {
     return (
@@ -39,30 +31,18 @@ export default function Home() {
     );
   }
 
-  // If user is logged in, handle accordingly
+  // If user is logged in, show dashboard link instead of redirecting
   if (user) {
-    // For super admin users, redirect to dashboard directly
-    if (user.role === "super_admin") {
-      // Show loading while redirect happens
-      return (
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading dashboard...</p>
-          </div>
-        </div>
-      );
-    }
 
-    // For other roles, show welcome with dashboard link
+    // Show welcome with dashboard link for all authenticated users
     return (
       <div className="container mx-auto py-12 px-4">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-6">
-            Welcome back, {user.name}!
+            Welcome back, {user.fullName}!
           </h1>
           <p className="text-xl mb-8">
-            You're logged into the Rishi Workforce Management platform.
+            You're logged into the Rishi Platform as {user.role}.
           </p>
           <Link href="/dashboard">
             <Button size="lg" className="mr-4">
