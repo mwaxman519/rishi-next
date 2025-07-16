@@ -42,36 +42,7 @@ export default async function DocPage({ params }: DocPageProps) {
   console.log(`[DOCS PAGE] Loading document page for path: ${docPath}`);
   console.log(`[DOCS PAGE] Original slug array:`, slug);
 
-  // PRODUCTION SAFETY: Handle common documentation paths that might not exist
-  if (process.env.NODE_ENV === 'production') {
-    // Return simple documentation placeholder for production
-    return (
-      <div className="p-8 max-w-4xl mx-auto">
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-700 dark:text-blue-300 mb-2">
-            Documentation: {docPath}
-          </h3>
-          <p className="text-sm text-blue-600 dark:text-blue-400 mb-4">
-            Documentation content is being prepared. Please contact support for specific guidance.
-          </p>
-          <div className="space-y-2">
-            <a
-              href="/"
-              className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              ← Return to Home
-            </a>
-            <a
-              href="/docs"
-              className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              ← Documentation Index
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
+
 
   // Special handling for specific paths with known issues
   if (
