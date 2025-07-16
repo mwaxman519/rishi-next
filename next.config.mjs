@@ -2,10 +2,10 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Simple output configuration - let Vercel handle serverless optimization
+  // Simple output configuration - Replit Autoscale uses serverless functions
   // CRITICAL: Never use static export with dynamic API routes - causes build failures
-  // Static export only for Azure Static Web Apps AND not staging environment
-  output: (process.env.AZURE_STATIC_WEB_APPS_API_TOKEN && process.env.NEXT_PUBLIC_APP_ENV !== 'staging') ? 'export' : undefined,
+  // Server mode for all environments (Azure deployments are descoped)
+  output: undefined, // Always use server mode for Replit Autoscale
   
   // Basic serverless optimizations
   compress: true,
@@ -33,12 +33,8 @@ const nextConfig = {
     cssChunking: 'strict', // Better CSS chunking for production
   },
   
-  // Static export configuration (only for Azure Static Web Apps and not staging)
-  ...(process.env.AZURE_STATIC_WEB_APPS_API_TOKEN && process.env.NEXT_PUBLIC_APP_ENV !== 'staging' && {
-    trailingSlash: true,
-    skipTrailingSlashRedirect: true,
-    distDir: 'out',
-  }),
+  // Static export configuration removed - Azure deployments are descoped
+  // All deployments use server mode for Replit Autoscale compatibility
   
   // Simplified webpack configuration for better Vercel compatibility
   webpack: (config, { isServer, dev }) => {
@@ -63,11 +59,10 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Only apply complex optimization for Azure (not Vercel)
-    if (!dev && !isServer && !process.env.VERCEL) {
+    // Replit Autoscale optimization (serverless functions)
+    if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
-        maxSize: 244000, // 244KB for Azure Functions
         cacheGroups: {
           default: false,
           vendors: false,

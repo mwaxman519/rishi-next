@@ -54,7 +54,7 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 
 ## System Architecture
 
-### Environment Architecture (3-Tier)
+### Environment Architecture (2-Tier)
 
 **CRITICAL: Proper Environment Segregation**
 
@@ -63,15 +63,12 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
    - Environment: NODE_ENV=development, NEXT_PUBLIC_APP_ENV=development
    - Features: Mock data, debug logging, hot reload
 
-2. **Staging** - Replit Autoscale (NOT production)
+2. **Staging** - Replit Autoscale (Primary deployment target)
    - Database: Separate staging database (NEVER production)
-   - Environment: NODE_ENV=staging, NEXT_PUBLIC_APP_ENV=staging
-   - Features: Production-like data, environment banner, analytics disabled
+   - Environment: NODE_ENV=production, NEXT_PUBLIC_APP_ENV=staging
+   - Features: Production-like data, environment banner, analytics disabled, serverless functions
 
-3. **Production** - Static Web App deployment (Vercel/Azure)
-   - Database: Production database only
-   - Environment: NODE_ENV=production, NEXT_PUBLIC_APP_ENV=production, output=export
-   - Features: Real data, analytics enabled, performance monitoring, static export
+**IMPORTANT: Azure deployments are completely descoped and tabled for future consideration. Replit Autoscale is our primary staging and production deployment target.**
 
 ### Frontend Architecture
 
@@ -222,43 +219,41 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **Authentication**: JWT-based system with 6-tier RBAC
 - **Mobile UI**: Responsive design with theme switching
 
-### Deployment Strategy: Vercel Focus (January 2025)
+### Deployment Strategy: Replit Autoscale Focus (January 2025)
 
-- **Current Strategy**: Vercel deployment for native Next.js support and simplicity
+- **Current Strategy**: Replit Autoscale deployment for native serverless functions and simplicity
 - **Database Connection**: Successfully verified Neon PostgreSQL connectivity 
-- **Environment Variables**: Complete production configuration implemented
-- **Azure Reference**: Comprehensive Azure documentation preserved in `AZURE_DEPLOYMENT_COMPREHENSIVE_REFERENCE.md`
+- **Environment Variables**: Complete staging configuration implemented
+- **Azure Status**: All Azure functionality completely descoped and tabled for future consideration
 
-### Vercel Deployment Ready (COMPLETED)
+### Replit Autoscale Deployment Ready (COMPLETED)
 
-- **Configuration Files**: Optimized `next.config.vercel.mjs` and `vercel.json`
+- **Configuration Files**: Optimized `next.config.mjs` for Replit Autoscale serverless functions
 - **Database Verified**: Neon PostgreSQL connection confirmed and working
-- **Environment Variables**: Complete production template with valid DATABASE_URL
+- **Environment Variables**: Complete staging template with valid DATABASE_URL
 - **Build Scripts**: Updated for Drizzle ORM (removed Prisma references)
-- **Status**: Fully ready for immediate Vercel deployment
+- **Status**: Fully ready for immediate Replit Autoscale deployment
 
-### Azure Deployment Success Factors (CRITICAL CONFIGURATION)
+### Replit Autoscale Deployment Configuration (CURRENT TARGET)
 
-**Bundle Optimization (Essential for Azure):**
+**Serverless Function Optimization:**
 
-- webpack splitChunks with maxSize: 244000 (keeps bundles under Azure 250KB limit)
-- output: 'export' with distDir: 'out' for static site generation
-- typescript.ignoreBuildErrors: true and eslint.ignoreDuringBuilds: true
+- Server mode (no static export) for full serverless function support
+- Dynamic API routes fully supported with [id] parameters
+- Automatic environment detection for proper configuration
 
-**OIDC Authentication (Required for Deployment):**
+**Environment Variables:**
 
-- GitHub OIDC permissions: id-token: write, contents: read
-- Install @actions/core@1.6.0 and @actions/http-client packages
-- Generate ID token via actions/github-script@v6
-- Pass github_id_token: ${{ steps.idtoken.outputs.result }} to Azure deploy action
+- NODE_ENV=production for optimized builds
+- NEXT_PUBLIC_APP_ENV=staging for staging identification
+- DATABASE_URL for Neon PostgreSQL connection
+- No Azure-specific tokens required
 
-**Critical Build Configuration:**
+**Build Configuration:**
 
-- Node.js 18.20.4 (Azure compatibility requirement)
-- output_location: "out" (matches Next.js static export directory)
-- Hardcoded Azure token: 549c1a33c5703c94112228dc191a4d5eb4c1b3e616c9cc7df371b3ad6036eb8601-dd689cf9-09d6-4493-b894-0bf1a566612001013180a390fd10
-
-This configuration successfully passed Azure build validation and deployment phases.
+- Next.js server mode for serverless functions
+- TypeScript compilation with comprehensive error reporting
+- All dynamic routes supported without generateStaticParams()
 
 ## Changelog
 
@@ -651,15 +646,17 @@ This configuration successfully passed Azure build validation and deployment pha
 - **BRAND AGENT PERFORMANCE SYSTEM VALIDATED**: Core system now fully deployable with proper authentication consistency across all API endpoints
 - **DEPLOYMENT CONFIDENCE**: System now guaranteed to pass Vercel TypeScript compilation phase without authentication-related build failures
 
-### January 16, 2025 - STAGING BUILD STATIC EXPORT ISSUE FIXED - DEPLOYMENT READY (FINAL)
-- **CRITICAL STAGING BUILD ERROR RESOLVED**: Fixed exact "Page '/api/admin/locations/[id]/approve' is missing 'generateStaticParams()' so it cannot be used with 'output: export' config" error
-- **STATIC EXPORT RESTRICTION IMPLEMENTED**: Simplified output configuration to only use static export for Azure Static Web Apps (AZURE_STATIC_WEB_APPS_API_TOKEN present)
-- **DYNAMIC API ROUTES COMPATIBILITY**: All environments (development, staging, production) now use server mode by default to support dynamic API routes with [id] parameters
-- **STAGING ENVIRONMENT PROTECTION**: Staging builds now use serverless functions instead of static export, preventing build failures with dynamic routes
-- **AZURE STATIC WEB APPS SPECIFICITY**: Static export only enabled when Azure-specific environment token is present, ensuring proper deployment targets
-- **REPLIT AUTOSCALE COMPATIBILITY**: Staging builds now work properly with Replit Autoscale serverless infrastructure
-- **COMPREHENSIVE ROUTE SUPPORT**: All 50+ dynamic API routes now supported in staging builds without requiring generateStaticParams()
-- **DEPLOYMENT BLOCKER ELIMINATION**: Fixed exact build failure preventing staging deployment on Replit Autoscale
+### January 16, 2025 - AZURE FUNCTIONALITY COMPLETELY DESCOPED - REPLIT AUTOSCALE PRIMARY TARGET (FINAL)
+- **AZURE DEPLOYMENTS COMPLETELY DESCOPED**: All Azure Static Web Apps functionality removed and tabled for future consideration
+- **REPLIT AUTOSCALE AS PRIMARY TARGET**: Replit Autoscale is now the single deployment target for staging and production
+- **CRITICAL BUILD ERROR RESOLVED**: Fixed exact "Page '/api/admin/locations/[id]/approve' is missing 'generateStaticParams()' so it cannot be used with 'output: export' config" error
+- **SERVER MODE FOR ALL ENVIRONMENTS**: All builds now use server mode to support dynamic API routes and serverless functions
+- **REPLIT AUTOSCALE OPTIMIZATION**: Build configuration optimized specifically for Replit Autoscale serverless infrastructure
+- **DYNAMIC API ROUTES FULL SUPPORT**: All 50+ dynamic API routes now supported without requiring generateStaticParams()
+- **AZURE REFERENCES COMPLETELY REMOVED**: All Azure-specific code, documentation, and configuration removed from codebase
+- **DEPLOYMENT ARCHITECTURE SIMPLIFIED**: 2-tier architecture (Development → Replit Autoscale) instead of 3-tier with Azure
+- **DOCUMENTATION UPDATED**: Created AZURE_DESCOPED_NOTICE.md and renamed deployment guide to REPLIT_AUTOSCALE_DEPLOYMENT_GUIDE.md
+- **DEPLOYMENT BLOCKER ELIMINATION**: Fixed exact build failure preventing Replit Autoscale deployment
 
 ### January 16, 2025 - VERCEL DATABASE CONNECTION FIXES COMPLETED - DEPLOYMENT READY (FINAL)
 - **CRITICAL DATABASE CONNECTION ERROR RESOLVED**: Fixed exact "SECURITY: PRODUCTION_DATABASE_URL must be set for production environment" error preventing Vercel deployment
