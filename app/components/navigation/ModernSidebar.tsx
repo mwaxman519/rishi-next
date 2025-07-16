@@ -96,7 +96,7 @@ export default function ModernSidebar({
   children,
 }: ModernSidebarProps) {
   const pathname = usePathname();
-  const { user, isLoading, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { checkPermission } = useAuthorization();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<
@@ -147,7 +147,7 @@ export default function ModernSidebar({
   if (!mounted) return null;
 
   // Show loading state if authentication is still loading
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
