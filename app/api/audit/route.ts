@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     // If user can't see all orgs and we have their primary org, restrict to that organization
     if (!canViewAllOrgs && userOrg) {
       // Override any provided organizationId for users who don't have all-org access
-      organizationId = userOrg.id;
+      organizationId = userOrg;
     }
 
     // Other filters
