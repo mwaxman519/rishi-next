@@ -21,7 +21,7 @@ import { JwtPayload } from "../../shared/types";
 export async function signJwt(payload: JwtPayload): Promise<string> {
   // For development, we'll just return the stringified payload
   // In production, this would sign the payload with a secret key
-  if (process.env.NODE_ENV === "development") {
+  if ((process.env.NODE_ENV as string) === "development") {
     return JSON.stringify(payload);
   }
 
@@ -60,7 +60,7 @@ export async function hasPermission(
 
     // Production implementation - validate role against actual permissions
     // In production, this would check against the backend
-    if (process.env.NODE_ENV === "development") {
+    if ((process.env.NODE_ENV as string) === "development") {
       console.log(
         `DEV MODE: Permission check for ${permission}${organizationId ? ` in org ${organizationId}` : ""} => true`,
       );

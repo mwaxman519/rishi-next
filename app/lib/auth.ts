@@ -13,7 +13,7 @@ import { verify } from "jsonwebtoken";
 export async function getCurrentUser() {
   try {
     // In development mode, return mock user
-    if (process.env.NODE_ENV === "development") {
+    if ((process.env.NODE_ENV as string) === "development") {
       return {
         id: "mock-user-id",
         username: "admin",
@@ -84,7 +84,7 @@ export async function getSession() {
 
 // Function to check if a user is authenticated
 export async function isAuthenticated() {
-  if (process.env.NODE_ENV === "development") {
+  if ((process.env.NODE_ENV as string) === "development") {
     return true; // Always authenticated in development
   }
 

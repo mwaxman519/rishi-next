@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     }
 
     // In development, use mock authentication
-    if (process.env.NODE_ENV === "development") {
+    if ((process.env.NODE_ENV as string) === "development") {
       const mockUser = {
         id: "mock-user-id",
         username: "admin",
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       // Set cookie
       response.cookies.set("auth-token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: (process.env.NODE_ENV as string) === "production",
         sameSite: "lax",
         maxAge: 24 * 60 * 60, // 24 hours
       });

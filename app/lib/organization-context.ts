@@ -137,7 +137,7 @@ export async function hasOrganizationPermission(
     }
 
     // In development mode, always grant permissions for testing
-    if (process.env.NODE_ENV === "development") {
+    if ((process.env.NODE_ENV as string) === "development") {
       console.log(
         `DEVELOPMENT MODE: Granting permission '${permission}' in organization ${context.organizationId}`,
       );
