@@ -79,21 +79,28 @@ export function useAuth() {
   const logout = async () => {
     try {
       setLoggingOut(true);
-      // Clear user state immediately for instant feedback
-      setUser(null);
       
-      // Make the logout API call
-      await fetch("/api/auth/logout", {
+      // Make the logout API call using the auth service
+      const response = await fetch("/api/auth-service/logout", {
         method: "POST",
       });
       
-      // Redirect to login page
-      router.push("/auth/login");
+      if (response.ok) {
+        // Clear user state only after successful logout
+        setUser(null);
+        
+        // Use replace to prevent user from going back to logged in state
+        router.replace("/auth/login");
+      } else {
+        // If logout fails, still clear user state for security
+        setUser(null);
+        router.replace("/auth/login");
+      }
     } catch (error) {
       console.error("Error logging out:", error);
       // Even if the API call fails, we still want to clear the user state
       setUser(null);
-      router.push("/auth/login");
+      router.replace("/auth/login");
     } finally {
       setLoggingOut(false);
     }
@@ -101,7 +108,8 @@ export function useAuth() {
 
   return {
     user,
-    loading: loading || loggingOut,
+    loading,
+    loggingOut,
     isAuthenticated: !!user,
     login,
     logout,

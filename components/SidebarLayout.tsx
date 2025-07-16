@@ -82,7 +82,7 @@ interface SidebarLayoutProps {
 
 export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const pathname = usePathname();
-  const { user, loading, logout } = useAuth();
+  const { user, loading, logout, loggingOut } = useAuth();
   const { checkPermission, can } = useAuthorization();
   const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } =
     useSidebarState();
@@ -1887,35 +1887,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Button
                 variant="default"
                 size="sm"
-                disabled={loading}
+                disabled={loggingOut}
                 onClick={async () => {
-                  try {
-                    // First try using the hook's logout function
-                    if (typeof logout === "function") {
-                      await logout();
-                    } else {
-                      // Fallback for production if hook function is not available
-                      // Direct fetch to logout endpoint
-                      const response = await fetch("/api/auth/logout", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                      });
-
-                      if (response.ok) {
-                        // Redirect to home page or login
-                        window.location.href = "/";
-                      }
-                    }
-                  } catch (error) {
-                    console.error("Logout error:", error);
-                    // Fallback redirect on error
-                    window.location.href = "/";
+                  if (typeof logout === "function") {
+                    await logout();
                   }
                 }}
                 className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
               >
                 <LogOut size={16} className="mr-2" />
-                {loading ? "Logging out..." : "Logout"}
+                {loggingOut ? "Logging out..." : "Logout"}
               </Button>
             </>
           ) : (
