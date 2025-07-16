@@ -41,21 +41,8 @@ export default function Home() {
 
   // If user is logged in, handle accordingly
   if (user) {
-    // For super admin users, redirect to dashboard directly
+    // For super admin users, show loading while redirect happens
     if (user.role === "super_admin") {
-      // Use useEffect to handle redirect to avoid React state update during render
-      useEffect(() => {
-        const handleRedirect = () => {
-          // Use Next.js router navigation
-          router.push("/dashboard");
-        };
-        
-        // Small delay to ensure component is mounted
-        const timeoutId = setTimeout(handleRedirect, 100);
-        return () => clearTimeout(timeoutId);
-      }, [router]);
-      
-      // Show loading while redirect happens
       return (
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
