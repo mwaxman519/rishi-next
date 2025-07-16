@@ -20,6 +20,19 @@ export class EventBusService {
     return EventBusService.instance;
   }
   
+  // Static method for direct access
+  static publish(eventData: any) {
+    const instance = EventBusService.getInstance();
+    
+    // Handle both object format and separate parameters
+    if (typeof eventData === 'object' && eventData.type) {
+      return instance.publish(eventData.type, eventData, {});
+    }
+    
+    // Handle direct parameters
+    return instance.publish(eventData, {}, {});
+  }
+  
   // Delegate all methods to the advanced event bus
   publish(eventType: string, payload: any, options?: any) {
     return EventBusService.getInstance().publish(eventType, payload, options);
