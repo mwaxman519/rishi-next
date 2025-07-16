@@ -11,40 +11,37 @@ export default function DocsError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Only log in development
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Documentation error:', error);
-    }
+    // Log the error to an error reporting service
+    console.error('Documentation error:', error);
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center">
-        <h1 className="text-4xl font-bold text-red-600 mb-4">Oops!</h1>
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+    <div className="p-8 max-w-4xl mx-auto">
+      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-red-700 dark:text-red-300 mb-2">
           Documentation Error
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Something went wrong while loading this documentation page.
+        </h3>
+        <p className="text-sm text-red-600 dark:text-red-400 mb-4">
+          Sorry, there was an error loading the documentation. This might be a temporary issue.
         </p>
-        <div className="space-y-3">
+        <div className="space-y-2">
           <button
             onClick={reset}
-            className="block w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-red-600 dark:text-red-400 hover:underline"
           >
-            Try Again
+            ↻ Try again
           </button>
           <Link
-            href="/docs"
-            className="block w-full text-blue-600 hover:text-blue-700 transition-colors"
+            href="/"
+            className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Back to Documentation
+            ← Return to Home
           </Link>
           <Link
-            href="/"
-            className="block w-full text-gray-600 hover:text-gray-700 transition-colors"
+            href="/docs"
+            className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Go to Home
+            ← Documentation Index
           </Link>
         </div>
       </div>

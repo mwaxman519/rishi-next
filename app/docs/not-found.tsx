@@ -1,28 +1,27 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function DocsNotFound() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+    <div className="p-8 max-w-4xl mx-auto">
+      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-yellow-700 dark:text-yellow-300 mb-2">
           Documentation Not Found
-        </h2>
-        <p className="text-gray-600 mb-6">
-          The documentation page you're looking for doesn't exist or has been moved.
+        </h3>
+        <p className="text-sm text-yellow-600 dark:text-yellow-400 mb-4">
+          The requested documentation page could not be found. It may have been moved or is no longer available.
         </p>
-        <div className="space-y-3">
-          <Link
-            href="/docs"
-            className="block w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Back to Documentation
-          </Link>
+        <div className="space-y-2">
           <Link
             href="/"
-            className="block w-full text-blue-600 hover:text-blue-700 transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Go to Home
+            ← Return to Home
+          </Link>
+          <Link
+            href="/docs"
+            className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            ← Documentation Index
           </Link>
         </div>
       </div>

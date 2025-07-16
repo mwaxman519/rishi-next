@@ -96,8 +96,8 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/docs',
-        destination: '/docs/README',
+        source: '/docs/README',
+        destination: '/docs',
         permanent: false,
       },
     ];
