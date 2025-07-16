@@ -11,7 +11,7 @@ const scryptAsync = promisify(scrypt);
 
 // Secret key for JWT signing - should be in env variables for production
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "development-secret-key-change-in-production",
+  process.env.JWT_SECRET!
 );
 
 export async function POST(request: NextRequest) {

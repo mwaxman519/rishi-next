@@ -44,15 +44,17 @@ export async function POST(req: NextRequest) {
     const cookieOptions = {
       path: "/",
       httpOnly: true, // Can't be accessed by client-side JavaScript
-      secure: process.env.NODE_ENV === "production", // Only send over HTTPS in production
+      secure: (process.env.NODE_ENV as string) === "production", // Only send over HTTPS in production
       sameSite: "lax" as const, // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60, // 30 days
     };
 
     // Create a new JWT token with the updated organization context
-    const secretKey = new TextEncoder().encode(
-      process.env.JWT_SECRET || "default_development_secret",
-    );
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET environment variable is required");
+    }
+    const secretKey = new TextEncoder().encode(jwtSecret);
 
     // Create the payload with organization information
     const payload = {

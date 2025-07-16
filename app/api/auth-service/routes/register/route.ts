@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     console.log("[Auth Service] Registration attempt");
 
     // Only use mock data in development environment, not in staging or production
-    if (process.env.NODE_ENV === "development") {
+    if ((process.env.NODE_ENV as string) === "development") {
       try {
         // Clone the request to avoid "Already consumed" errors when body is read multiple times
         const clonedRequest = request.clone();
@@ -523,7 +523,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Provide more detailed error information in development environment
-      if (process.env.NODE_ENV === "development") {
+      if ((process.env.NODE_ENV as string) === "development") {
         errorDetails = {
           message: error.message,
           stack: error.stack,
@@ -533,7 +533,7 @@ export async function POST(request: NextRequest) {
     } else {
       // For non-Error objects, convert to string for logging
       const errorString = String(error);
-      if (process.env.NODE_ENV === "development") {
+      if ((process.env.NODE_ENV as string) === "development") {
         errorDetails = errorString;
       }
     }

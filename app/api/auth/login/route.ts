@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       // Create JWT token
       const token = sign(
         { id: mockUser.id, username: mockUser.username },
-        process.env.JWT_SECRET || "fallback-secret",
+        process.env.JWT_SECRET!
         { expiresIn: "24h" }
       );
 
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     // Create JWT token
     const token = sign(
       { id: user.id, username: user.username },
-      process.env.JWT_SECRET || "fallback-secret",
+      process.env.JWT_SECRET!
       { expiresIn: "24h" }
     );
 
