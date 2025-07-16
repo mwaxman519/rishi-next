@@ -1469,15 +1469,22 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                   variant="default"
                   size="sm"
                   disabled={loggingOut}
-                  onClick={logout}
-                  className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log("Logout button clicked");
+                    logout();
+                  }}
+                  className={`w-full flex items-center justify-center text-white transition-colors ${
+                    loggingOut 
+                      ? "bg-purple-500 cursor-not-allowed" 
+                      : "bg-purple-600 hover:bg-purple-700"
+                  }`}
                 >
                   <LogOut
                     size={16}
                     className={sidebarCollapsed ? "" : "mr-2"}
                   />
-                  {!sidebarCollapsed &&
-                    (loggingOut ? "Logging out..." : "Logout")}
+                  {!sidebarCollapsed && (loggingOut ? "Logging out..." : "Logout")}
                 </Button>
               </div>
             </div>
@@ -1888,12 +1895,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 variant="default"
                 size="sm"
                 disabled={loggingOut}
-                onClick={async () => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  console.log("Mobile logout button clicked");
                   if (typeof logout === "function") {
                     logout();
                   }
                 }}
-                className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
+                className={`w-full flex items-center justify-center text-white transition-colors ${
+                  loggingOut 
+                    ? "bg-purple-500 cursor-not-allowed" 
+                    : "bg-purple-600 hover:bg-purple-700"
+                }`}
               >
                 <LogOut size={16} className="mr-2" />
                 {loggingOut ? "Logging out..." : "Logout"}

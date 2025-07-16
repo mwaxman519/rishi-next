@@ -77,24 +77,34 @@ export function useAuth() {
   };
 
   const logout = async () => {
+    console.log("Logout clicked - setting loggingOut to true");
     setLoggingOut(true);
     
+    // Force React to update the UI immediately
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     try {
-      // Make the logout API call
-      await fetch("/api/auth-service/logout", {
+      // Make the logout API call but don't wait for it
+      fetch("/api/auth-service/logout", {
         method: "POST",
+      }).catch((error) => {
+        console.error("Error logging out:", error);
       });
     } catch (error) {
       console.error("Error logging out:", error);
     }
     
-    // Clear user state and redirect immediately
-    setUser(null);
+    // Don't clear user state immediately - let the redirect handle it
+    // This prevents loading screens from appearing during logout
     
-    // Use setTimeout to ensure the "Logging out..." state is visible briefly
+    // Use setTimeout to ensure the "Logging out..." state is visible
     setTimeout(() => {
-      window.location.href = "/auth/login";
-    }, 500);
+      // Clear user state just before redirect
+      setUser(null);
+      setLoggingOut(false);
+      // Use replace to avoid loading screen
+      window.location.replace("/auth/login");
+    }, 700);
   };
 
   return {
