@@ -9,6 +9,12 @@ interface ErrorProps {
 }
 
 export default function Error({ error, reset }: ErrorProps) {
+  // Handle chunk loading errors
+  if (error.message?.includes('ChunkLoadError') || error.message?.includes('Loading chunk')) {
+    console.log('Chunk loading error detected, attempting page reload...');
+    window.location.reload();
+    return null;
+  }
   useEffect(() => {
     // Log the error to console for debugging
     console.error("Application error:", error);

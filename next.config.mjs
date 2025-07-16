@@ -31,10 +31,7 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'], // Fix serverless package issues
   
   // Simplified experimental features
-  experimental: {
-    optimizeCss: false, // Reduce build complexity
-    cssChunking: false, // Disabled to fix production chunk loading // Better CSS chunking for production
-  },
+  experimental: {},
   
   // Static export configuration removed - Azure deployments are descoped
   // All deployments use server mode for Replit Autoscale compatibility
@@ -62,21 +59,14 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Simplified optimization for better chunk generation
+    // Simplified optimization for Vercel deployment
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
-        maxSize: 244000, // Keep chunks under 244KB for better loading
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            priority: -10,
             chunks: 'all',
           },
         },
