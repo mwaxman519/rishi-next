@@ -16,38 +16,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // In development, use mock authentication
-    if ((process.env.NODE_ENV as string) === "development") {
-      const mockUser = {
-        id: "mock-user-id",
-        username: "admin",
-        email: "admin@rishi.com",
-        fullName: "Super Admin",
-        role: "super_admin",
-      };
-
-      // Create JWT token
-      const token = sign(
-        { id: mockUser.id, username: mockUser.username },
-        process.env.JWT_SECRET!,
-        { expiresIn: "24h" }
-      );
-
-      const response = NextResponse.json({
-        success: true,
-        user: mockUser,
-      });
-
-      // Set cookie
-      response.cookies.set("auth-token", token, {
-        httpOnly: true,
-        secure: (process.env.NODE_ENV as string) === "production",
-        sameSite: "lax",
-        maxAge: 24 * 60 * 60, // 24 hours
-      });
-
-      return response;
-    }
+    // Use real database authentication for both development and production
 
     // Production authentication
     const [user] = await db

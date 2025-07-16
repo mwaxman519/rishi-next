@@ -13,22 +13,21 @@ import { users } from "../shared/schema";
  */
 export async function getCurrentUser(request?: NextRequest) {
   try {
-    // For development, return a mock user
-    if (process.env.NODE_ENV === "development") {
-      return {
-        id: "dev-user-1",
-        username: "dev-user",
-        email: "dev@example.com",
-        role: "super_admin" as const,
-        fullName: "Development User",
-        isActive: true,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
+    // Always use real database authentication - no mock data
+    const token = request?.cookies.get("auth-token")?.value;
+    
+    if (!token) {
+      return null;
     }
 
-    // In production, implement proper JWT token validation
-    return null;
+    // Verify JWT token and get user from database
+    const jwt = require("jsonwebtoken");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string, username: string };
+    
+    // Get user from database
+    const [user] = await db.select().from(users).where(eq(users.id, decoded.id));
+    
+    return user || null;
   } catch (error) {
     console.error("Error getting current user:", error);
     return null;
@@ -72,24 +71,25 @@ export function auth() {
  * Hash password utility
  */
 export async function hashPassword(password: string): Promise<string> {
-  // For development, return a mock hash
-  if (process.env.NODE_ENV === 'development') {
-    return `hashed_${password}`;
+  try {
+    const bcrypt = require('bcryptjs');
+    const saltRounds = 12;
+    return await bcrypt.hash(password, saltRounds);
+  } catch (error) {
+    console.error('Error hashing password:', error);
+    throw error;
   }
-  
-  // In production, use proper bcrypt hashing
-  return password;
 }
 
 /**
  * Compare passwords utility
  */
 export async function comparePasswords(password: string, hashedPassword: string): Promise<boolean> {
-  // For development, simple comparison
-  if (process.env.NODE_ENV === 'development') {
-    return hashedPassword === `hashed_${password}`;
+  try {
+    const bcrypt = require('bcryptjs');
+    return await bcrypt.compare(password, hashedPassword);
+  } catch (error) {
+    console.error('Error comparing passwords:', error);
+    return false;
   }
-  
-  // In production, use proper bcrypt comparison
-  return password === hashedPassword;
 }

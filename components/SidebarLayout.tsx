@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useSidebarState } from "@/hooks/useSidebarState";
-import { Permission } from "@/lib/rbac";
+import { hasPermission } from "@/lib/rbac";
 import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   filterLinksByPermission,
@@ -272,7 +272,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     {
       href: "/admin",
       label: "Admin",
-      permission: "view:admin" as Permission,
+      permission: "view:admin",
       icon: <Settings size={20} />,
       type: NAV_ITEM_TYPES.PRIMARY,
     },
