@@ -1,18 +1,15 @@
-# Don't ignore the Docs directory - we need it for production
-# This file ensures Vercel includes our documentation files
-
-# Ignore development files
+.next/
+node_modules/
 .env.local
-.env.development
-node_modules
-.next
-out
-
-# Keep documentation files
-!Docs/
-!Docs/**
-
-# Ignore build logs
+.env.*.local
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+out/
+build/
+dist/
+*.log

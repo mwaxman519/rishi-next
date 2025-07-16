@@ -26,7 +26,10 @@
     "lint:build": "eslint app/ --ext .ts,.tsx --config .eslintrc.build.json",
     "type-check": "tsc --noEmit",
     "pre-commit": "bash scripts/pre-commit-hook.sh",
-    "setup-hooks": "cp scripts/pre-commit-hook.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit"
+    "setup-hooks": "cp scripts/pre-commit-hook.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit",
+    "build:vercel": "next build",
+    "export:vercel": "next export",
+    "deploy:vercel": "next build && next export"
   },
   "resolutions": {
     "@babel/traverse": "^7.23.2",

@@ -2,41 +2,30 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Simple output configuration - Replit Autoscale uses serverless functions
-  // CRITICAL: Never use static export with dynamic API routes - causes build failures
-  // Server mode for all environments (Azure deployments are descoped)
-  output: undefined, // Always use server mode for Replit Autoscale
+  // Server mode for API routes (required for authentication system)
+  output: undefined,
   
-  // Basic serverless optimizations
-  compress: true,
-  poweredByHeader: false,
+  // Disable experimental features that cause chunk issues
+  experimental: {},
   
-  typescript: {
-    // Allow comprehensive error capture - continue building to surface all errors
-    ignoreBuildErrors: true, // Continue building to surface all errors for fixing
+  // Optimize images for Vercel
+  images: {
+    unoptimized: false,
   },
   
+  // Build optimizations
   eslint: {
-    // Skip ESLint during builds for faster deployment
     ignoreDuringBuilds: true,
   },
   
-  images: {
-    // Use Vercel image optimization when available
-    unoptimized: process.env.VERCEL ? false : true,
-    domains: process.env.VERCEL ? ['localhost', 'vercel.app'] : [],
+  typescript: {
+    ignoreBuildErrors: true,
   },
   
-  // External packages configuration
-  serverExternalPackages: ['@neondatabase/serverless'], // Fix serverless package issues
+  // Serverless configuration
+  serverExternalPackages: ['@neondatabase/serverless'],
   
-  // Simplified experimental features
-  experimental: {},
-  
-  // Static export configuration removed - Azure deployments are descoped
-  // All deployments use server mode for Replit Autoscale compatibility
-  
-  // Simplified webpack configuration for better Vercel compatibility
+  // Webpack configuration to prevent chunk loading issues
   webpack: (config, { isServer, dev }) => {
     // Path aliases
     config.resolve.alias = {
@@ -59,15 +48,21 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Simplified optimization for Vercel deployment
+    // Aggressive chunk consolidation for Vercel
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
+        minSize: 0,
+        maxSize: 500000, // Larger chunks to prevent loading issues
         cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
+          default: false,
+          vendors: false,
+          // Single main bundle to prevent chunk loading errors
+          main: {
+            name: 'main',
             chunks: 'all',
+            enforce: true,
+            priority: 20,
           },
         },
       };

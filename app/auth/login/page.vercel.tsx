@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -14,6 +12,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
+      // Direct API call without router for static export
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -21,6 +20,7 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
+        // Direct navigation for static export
         window.location.href = "/dashboard";
       } else {
         const data = await response.json().catch(() => ({}));

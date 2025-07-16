@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import Link from "next/link";
+import { useEffect } from 'react';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -9,60 +8,47 @@ interface ErrorProps {
 }
 
 export default function Error({ error, reset }: ErrorProps) {
-  // Handle chunk loading errors
-  if (error.message?.includes('ChunkLoadError') || error.message?.includes('Loading chunk')) {
-    console.log('Chunk loading error detected, attempting page reload...');
-    window.location.reload();
-    return null;
-  }
   useEffect(() => {
-    // Log the error to console for debugging
-    console.error("Application error:", error);
+    // Handle chunk loading errors
+    if (error.message?.includes('ChunkLoadError') || error.message?.includes('Loading chunk')) {
+      console.log('Chunk loading error detected, attempting page reload...');
+      window.location.reload();
+      return;
+    }
+    
+    // Log other errors for debugging
+    console.error('Application error:', error);
   }, [error]);
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
-      <div className="border border-[rgb(var(--border))] rounded-lg bg-[rgb(var(--card))] p-8 shadow-md max-w-2xl">
-        <h1 className="text-2xl font-bold mb-4 text-[rgb(var(--foreground))]">
-          Something went wrong
-        </h1>
-
-        <div className="text-[rgb(var(--muted-foreground))] mb-6">
-          {error.message && <p className="mb-2">{error.message}</p>}
-          {error.digest && (
-            <p className="text-xs opacity-50">Error ID: {error.digest}</p>
-          )}
+  // For chunk loading errors, show minimal UI while reloading
+  if (error.message?.includes('ChunkLoadError') || error.message?.includes('Loading chunk')) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
         </div>
+      </div>
+    );
+  }
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full text-center">
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Something went wrong!
+          </h2>
+          <p className="text-gray-600 mb-6">
+            An error occurred while loading the page.
+          </p>
           <button
             onClick={reset}
-            className="px-4 py-2 bg-[rgb(var(--primary))] text-white rounded-md hover:bg-[rgb(var(--primary-dark))] transition-colors"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
           >
             Try again
           </button>
-
-          <Link
-            href="/"
-            className="px-4 py-2 border border-[rgb(var(--border))] rounded-md hover:bg-[rgba(var(--primary),0.1)] transition-colors"
-          >
-            Return home
-          </Link>
         </div>
-
-        {/* Only show the error details in development */}
-        {process.env.NODE_ENV === "development" && (
-          <div className="mt-8 text-left border-t border-[rgb(var(--border))] pt-4">
-            <details className="text-xs text-[rgb(var(--muted-foreground))]">
-              <summary className="cursor-pointer mb-2 font-medium">
-                Error details (development only)
-              </summary>
-              <pre className="overflow-auto p-4 bg-[rgb(var(--muted))] rounded-md">
-                {error.stack || JSON.stringify(error, null, 2)}
-              </pre>
-            </details>
-          </div>
-        )}
       </div>
     </div>
   );
