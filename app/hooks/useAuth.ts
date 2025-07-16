@@ -29,6 +29,7 @@ interface User {
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -77,19 +78,30 @@ export function useAuth() {
 
   const logout = async () => {
     try {
+      setLoggingOut(true);
+      // Clear user state immediately for instant feedback
+      setUser(null);
+      
+      // Make the logout API call
       await fetch("/api/auth/logout", {
         method: "POST",
       });
-      setUser(null);
-      router.push("/login");
+      
+      // Redirect to login page
+      router.push("/auth/login");
     } catch (error) {
       console.error("Error logging out:", error);
+      // Even if the API call fails, we still want to clear the user state
+      setUser(null);
+      router.push("/auth/login");
+    } finally {
+      setLoggingOut(false);
     }
   };
 
   return {
     user,
-    loading,
+    loading: loading || loggingOut,
     isAuthenticated: !!user,
     login,
     logout,
