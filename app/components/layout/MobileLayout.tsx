@@ -24,6 +24,7 @@ import {
   LogOut,
   ChevronDown,
   Check,
+  BookOpen,
 } from "lucide-react";
 import { ThemeToggle } from "../ui/theme-toggle";
 import { useAuth } from "@/hooks/useAuth";
@@ -292,6 +293,14 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
 
               {/* Support */}
               <div className="mb-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+                <Link
+                  href="/docs"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  onClick={toggleMenu}
+                >
+                  <BookOpen size={18} />
+                  <span>Documentation</span>
+                </Link>
                 <Link
                   href="/help"
                   className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
