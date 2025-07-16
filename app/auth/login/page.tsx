@@ -31,8 +31,8 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
-        // Use router.push but don't set isLoading to false - let navigation complete
-        router.push("/dashboard");
+        // Force a full page reload to ensure authentication state is properly updated
+        window.location.href = "/dashboard";
         // Keep button in loading state during navigation
         return;
       } else {

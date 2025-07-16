@@ -72,7 +72,8 @@ export function useAuth() {
       throw new Error(data.error || "Login failed");
     }
 
-    setUser(data.user);
+    // After successful login, refetch user data to get complete session info
+    await fetchUser();
     return data.user;
   };
 
