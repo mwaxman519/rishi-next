@@ -1468,7 +1468,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 <Button
                   variant="default"
                   size="sm"
-                  disabled={loading}
+                  disabled={loggingOut}
                   onClick={logout}
                   className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
                 >
@@ -1477,7 +1477,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     className={sidebarCollapsed ? "" : "mr-2"}
                   />
                   {!sidebarCollapsed &&
-                    (loading ? "Logging out..." : "Logout")}
+                    (loggingOut ? "Logging out..." : "Logout")}
                 </Button>
               </div>
             </div>

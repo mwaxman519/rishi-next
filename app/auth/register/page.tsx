@@ -65,12 +65,16 @@ export default function RegisterPage() {
       );
 
       if (result.success) {
-        router.push("/dashboard");
+        // Use window.location.href for immediate navigation without reverting button state
+        window.location.href = "/dashboard";
+        // Don't set isLoading to false here - let the navigation handle it
+      } else {
+        setError("Registration failed. Please check your information and try again.");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Registration error:", error);
       setError("Registration failed. Please check your information and try again.");
-    } finally {
       setIsLoading(false);
     }
   };

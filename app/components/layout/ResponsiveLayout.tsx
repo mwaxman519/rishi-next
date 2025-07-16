@@ -147,10 +147,8 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
         "true"
       : false;
 
-  // During logout, don't show any loading state - let it redirect immediately
-  if (loggingOut) {
-    return null;
-  }
+  // During logout, keep showing the current screen to prevent flashing
+  // The logout button will show "Logging Out..." and then redirect will happen
 
   // During server render, initial client render, or loading auth data, 
   // show a single unified loading state to prevent multiple animations
@@ -163,6 +161,20 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // Special case for full-width pages - bypass all sidebar logic
   if (isFullWidthPage) {
     return <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>;
+  }
+
+  // During logout, don't change layout - keep showing current authenticated screen
+  if (loggingOut) {
+    // Keep the current layout as-is during logout
+    return (
+      <>
+        {isDesktop ? (
+          <SidebarLayout>{children}</SidebarLayout>
+        ) : (
+          <MobileLayout>{children}</MobileLayout>
+        )}
+      </>
+    );
   }
 
   // Force public layout if URL parameter is set or user is not authenticated

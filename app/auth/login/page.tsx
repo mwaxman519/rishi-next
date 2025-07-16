@@ -31,16 +31,17 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
-        // Use router.push for better navigation
-        router.push("/dashboard");
+        // Use window.location.href for immediate navigation without reverting button state
+        window.location.href = "/dashboard";
+        // Don't set isLoading to false here - let the navigation handle it
       } else {
         const data = await response.json().catch(() => ({}));
         setError(data.error || "Login failed. Please check your credentials.");
+        setIsLoading(false);
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
       console.error("Login error:", err);
-    } finally {
       setIsLoading(false);
     }
   };

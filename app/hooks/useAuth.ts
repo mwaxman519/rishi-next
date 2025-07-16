@@ -77,28 +77,22 @@ export function useAuth() {
   };
 
   const logout = async () => {
+    setLoggingOut(true);
+    
     try {
-      setLoggingOut(true);
-      
-      // Immediately clear user state to prevent any authentication checks
-      setUser(null);
-      
-      // Make the logout API call in the background
-      fetch("/api/auth-service/logout", {
+      // Make the logout API call
+      await fetch("/api/auth-service/logout", {
         method: "POST",
-      }).catch(error => {
-        console.error("Background logout API call failed:", error);
       });
-      
-      // Immediately redirect to login page
-      window.location.href = "/auth/login";
     } catch (error) {
       console.error("Error logging out:", error);
-      // Force redirect even if something fails
-      window.location.href = "/auth/login";
-    } finally {
-      setLoggingOut(false);
     }
+    
+    // Clear user state and redirect immediately
+    setUser(null);
+    
+    // Force immediate redirect without any delays
+    window.location.replace("/auth/login");
   };
 
   return {
