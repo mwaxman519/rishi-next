@@ -128,7 +128,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // These hooks are safe to call in all environments but will only have meaningful
   // values after hydration is complete
-  const { user, loading } = useAuth();
+  const { user, loading, loggingOut } = useAuth();
   const pathname = usePathname();
 
   // Check for full-width pages like login/register
@@ -146,6 +146,11 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
       ? new URLSearchParams(window.location.search).get("unauthenticated") ===
         "true"
       : false;
+
+  // During logout, don't show any loading state - let it redirect immediately
+  if (loggingOut) {
+    return null;
+  }
 
   // During server render, initial client render, or loading auth data, 
   // show a single unified loading state to prevent multiple animations
