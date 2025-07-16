@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { redirect } from "next/navigation";
 import { getDocTree, getDocumentByPath, getAllDocs } from "../../lib/docs";
 import { shouldSkipDocsGeneration, getAllDocsProduction } from "../../lib/docs-production";
-import { DOC_PATH_REDIRECTS } from "../../lib/doc-redirects";
+import { DOC_PATH_REDIRECTS, getDocRedirect, isKnownDocPath } from "../../lib/doc-redirects";
 
 // Import components using named imports
 import { DocContent } from "../../components/docs/DocContent";
@@ -56,13 +56,11 @@ export default async function DocPage({ params }: DocPageProps) {
 
   try {
     // Check if we should redirect this path based on our central redirects
-    const normalizedPath = docPath.replace(/\.(md|mdx)$/i, "");
-    if (DOC_PATH_REDIRECTS[normalizedPath]) {
-      const redirectTarget = DOC_PATH_REDIRECTS[normalizedPath];
+    const redirectTarget = getDocRedirect(docPath);
+    if (redirectTarget) {
       console.log(
-        `[DOCS PAGE] Redirecting from ${normalizedPath} to ${redirectTarget}`,
+        `[DOCS PAGE] Redirecting from ${docPath} to ${redirectTarget}`,
       );
-      // Return redirect instead of using it directly
       return redirect(`/docs/${redirectTarget}`);
     }
 
@@ -88,11 +86,12 @@ export default async function DocPage({ params }: DocPageProps) {
     // docPath should NOT include any extension at this point
     const doc = await getDocumentByPath(docPath);
 
-    // If document not found, handle gracefully based on environment
+    // If document not found, handle gracefully with comprehensive fallbacks
     if (!doc) {
+      console.log(`[DOCS PAGE] Document not found: ${docPath}, attempting fallbacks`);
+      
       // Try to find a README file in this directory
       const readmePath = `${docPath}/README`;
-      
       try {
         const readmeDoc = await getDocumentByPath(readmePath);
         if (readmeDoc) {
@@ -100,33 +99,45 @@ export default async function DocPage({ params }: DocPageProps) {
           return redirect(`/docs/${readmePath}`);
         }
       } catch (readmeError) {
-        // Ignore readme lookup errors
+        console.log(`[DOCS PAGE] No README found for ${docPath}`);
       }
 
-      // If it's a directory path without README, try to find any document in that directory
+      // Try to find an index file in this directory
+      const indexPath = `${docPath}/index`;
+      try {
+        const indexDoc = await getDocumentByPath(indexPath);
+        if (indexDoc) {
+          console.log(`[DOCS PAGE] Redirecting from ${docPath} to ${indexPath}`);
+          return redirect(`/docs/${indexPath}`);
+        }
+      } catch (indexError) {
+        console.log(`[DOCS PAGE] No index found for ${docPath}`);
+      }
+
+      // If it's a directory path, try to find any document in that directory
       try {
         const allDocs = await getAllDocs();
         const directoryDocs = allDocs.filter(d => d.path.startsWith(docPath + '/'));
         
         if (directoryDocs.length > 0) {
-          // Redirect to the first document in the directory
+          // Sort by path length to get the most relevant document
+          directoryDocs.sort((a, b) => a.path.length - b.path.length);
           const firstDoc = directoryDocs[0];
           console.log(`[DOCS PAGE] Redirecting from ${docPath} to ${firstDoc.path}`);
           return redirect(`/docs/${firstDoc.path}`);
         }
       } catch (redirectError) {
-        // Ignore redirect lookup errors in production
-        if (process.env.NODE_ENV === 'development') {
-          console.error(`[DOCS PAGE] Error checking directory redirect: ${redirectError}`);
-        }
+        console.log(`[DOCS PAGE] Error checking directory redirect: ${redirectError}`);
       }
 
-      // For production builds, throw an error that can be caught
-      if (process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production') {
-        throw new Error(`NEXT_HTTP_ERROR_FALLBACK;404`);
+      // Check if it's a known path that should exist
+      if (isKnownDocPath(docPath)) {
+        console.error(`[DOCS PAGE] Known document path not found: ${docPath}`);
+        // For known paths, return a 500 error since this is a system issue
+        throw new Error(`Documentation file should exist but was not found: ${docPath}`);
       }
 
-      // Development mode - log and use notFound
+      // For unknown paths, return 404
       console.error(`[DOCS PAGE] Document not found: ${docPath}`);
       notFound();
     }
