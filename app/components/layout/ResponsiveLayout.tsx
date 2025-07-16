@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useClientOnly } from "@/hooks/useClientOnly";
@@ -130,6 +130,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // values after hydration is complete
   const { user, loading, loggingOut } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
 
   // Check for full-width pages like login/register
   const isFullWidthPage =
@@ -181,8 +182,8 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   if (hasUnauthenticatedParam || !user) {
     // If user is not authenticated and trying to access protected content,
     // redirect immediately to login instead of showing any screen
-    if (typeof window !== "undefined" && !isFullWidthPage) {
-      window.location.replace("/auth/login");
+    if (typeof window !== "undefined" && !isFullWidthPage && !pathname?.startsWith("/auth/")) {
+      router.push("/auth/login");
       return <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
       </div>;

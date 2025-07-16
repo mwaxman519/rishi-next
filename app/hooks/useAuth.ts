@@ -45,31 +45,13 @@ export function useAuth() {
           setUser(sessionData.user);
         } else {
           setUser(null);
-          // If user is not authenticated and trying to access protected content,
-          // redirect immediately to login
-          if (typeof window !== "undefined" && !window.location.pathname.startsWith("/auth/")) {
-            window.location.replace("/auth/login");
-            return;
-          }
         }
       } else {
         setUser(null);
-        // If user is not authenticated and trying to access protected content,
-        // redirect immediately to login
-        if (typeof window !== "undefined" && !window.location.pathname.startsWith("/auth/")) {
-          window.location.replace("/auth/login");
-          return;
-        }
       }
     } catch (error) {
       console.error("Error fetching user:", error);
       setUser(null);
-      // If user is not authenticated and trying to access protected content,
-      // redirect immediately to login
-      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/auth/")) {
-        window.location.replace("/auth/login");
-        return;
-      }
     } finally {
       setLoading(false);
     }
