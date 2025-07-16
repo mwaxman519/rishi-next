@@ -179,6 +179,14 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Force public layout if URL parameter is set or user is not authenticated
   if (hasUnauthenticatedParam || !user) {
+    // If user is not authenticated and trying to access protected content,
+    // redirect immediately to login instead of showing any screen
+    if (typeof window !== "undefined" && !isFullWidthPage) {
+      window.location.replace("/auth/login");
+      return <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
+      </div>;
+    }
     return <PublicLayout>{children}</PublicLayout>;
   }
 

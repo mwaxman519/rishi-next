@@ -31,9 +31,10 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
-        // Use window.location.href for immediate navigation without reverting button state
-        window.location.href = "/dashboard";
-        // Don't set isLoading to false here - let the navigation handle it
+        // Use router.push but don't set isLoading to false - let navigation complete
+        router.push("/dashboard");
+        // Keep button in loading state during navigation
+        return;
       } else {
         const data = await response.json().catch(() => ({}));
         setError(data.error || "Login failed. Please check your credentials.");

@@ -65,9 +65,10 @@ export default function RegisterPage() {
       );
 
       if (result.success) {
-        // Use window.location.href for immediate navigation without reverting button state
-        window.location.href = "/dashboard";
-        // Don't set isLoading to false here - let the navigation handle it
+        // Use router.push but don't set isLoading to false - let navigation complete
+        router.push("/dashboard");
+        // Keep button in loading state during navigation
+        return;
       } else {
         setError("Registration failed. Please check your information and try again.");
         setIsLoading(false);
