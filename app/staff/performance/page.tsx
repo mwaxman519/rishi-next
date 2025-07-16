@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { 
   Star, 
   Clock, 
@@ -18,7 +19,12 @@ import {
   CheckCircle,
   AlertCircle,
   Filter,
-  Download
+  Download,
+  Eye,
+  Calendar,
+  Building,
+  User,
+  ClipboardList
 } from "lucide-react";
 
 interface BrandAgentPerformance {
@@ -41,12 +47,75 @@ interface BrandAgentPerformance {
   totalBookings: number;
   joinDate: string;
   status: "active" | "inactive" | "on_leave";
+  compositeRecords: {
+    managerReviews: Array<{
+      id: string;
+      date: string;
+      reviewer: string;
+      rating: number;
+      comments: string;
+      bookingRef: string;
+    }>;
+    attendanceRecords: Array<{
+      id: string;
+      bookingDate: string;
+      scheduledTime: string;
+      actualArrival: string;
+      location: string;
+      status: "on_time" | "late" | "absent";
+      minutesLate?: number;
+    }>;
+    locationRecords: Array<{
+      id: string;
+      bookingDate: string;
+      expectedLocation: string;
+      actualLocation: string;
+      checkInTime: string;
+      status: "correct" | "incorrect" | "missing";
+      gpsCoordinates?: string;
+    }>;
+    dispensaryFeedback: Array<{
+      id: string;
+      dispensaryName: string;
+      date: string;
+      rating: number;
+      feedback: string;
+      bookingRef: string;
+    }>;
+    staffFeedback: Array<{
+      id: string;
+      staffName: string;
+      role: string;
+      date: string;
+      rating: number;
+      feedback: string;
+      bookingRef: string;
+    }>;
+    activityRecords: Array<{
+      id: string;
+      activityName: string;
+      dueDate: string;
+      completedDate?: string;
+      status: "completed" | "pending" | "overdue";
+      bookingRef: string;
+    }>;
+    formRecords: Array<{
+      id: string;
+      formType: string;
+      submittedDate: string;
+      completionRate: number;
+      qualityRating: number;
+      reviewer: string;
+      bookingRef: string;
+    }>;
+  };
 }
 
 export default function BrandAgentPerformance() {
   const [activeTab, setActiveTab] = useState("overview");
   const [sortBy, setSortBy] = useState("overallScore");
   const [filterBy, setFilterBy] = useState("all");
+  const [selectedAgent, setSelectedAgent] = useState<BrandAgentPerformance | null>(null);
 
   const brandAgents: BrandAgentPerformance[] = [
     {
@@ -68,7 +137,99 @@ export default function BrandAgentPerformance() {
       recentBookings: 12,
       totalBookings: 156,
       joinDate: "2023-03-15",
-      status: "active"
+      status: "active",
+      compositeRecords: {
+        managerReviews: [
+          {
+            id: "1",
+            date: "2025-01-15",
+            reviewer: "John Smith",
+            rating: 5,
+            comments: "Excellent performance at Green Valley Dispensary",
+            bookingRef: "BK-2025-001"
+          },
+          {
+            id: "2", 
+            date: "2025-01-10",
+            reviewer: "Mary Johnson",
+            rating: 4.5,
+            comments: "Great customer engagement, minor improvement on product knowledge",
+            bookingRef: "BK-2025-002"
+          }
+        ],
+        attendanceRecords: [
+          {
+            id: "1",
+            bookingDate: "2025-01-15",
+            scheduledTime: "09:00",
+            actualArrival: "08:55",
+            location: "Green Valley Dispensary",
+            status: "on_time"
+          },
+          {
+            id: "2",
+            bookingDate: "2025-01-12",
+            scheduledTime: "10:00", 
+            actualArrival: "10:15",
+            location: "Cannabis Corner",
+            status: "late",
+            minutesLate: 15
+          }
+        ],
+        locationRecords: [
+          {
+            id: "1",
+            bookingDate: "2025-01-15",
+            expectedLocation: "Green Valley Dispensary",
+            actualLocation: "Green Valley Dispensary",
+            checkInTime: "08:55",
+            status: "correct",
+            gpsCoordinates: "40.7128,-74.0060"
+          }
+        ],
+        dispensaryFeedback: [
+          {
+            id: "1",
+            dispensaryName: "Green Valley Dispensary",
+            date: "2025-01-15",
+            rating: 5,
+            feedback: "Outstanding brand representative, customers loved the product demos",
+            bookingRef: "BK-2025-001"
+          }
+        ],
+        staffFeedback: [
+          {
+            id: "1",
+            staffName: "Amanda Wilson",
+            role: "Budtender",
+            date: "2025-01-15",
+            rating: 4.5,
+            feedback: "Professional and knowledgeable, worked well with our team",
+            bookingRef: "BK-2025-001"
+          }
+        ],
+        activityRecords: [
+          {
+            id: "1",
+            activityName: "Product Demo Setup",
+            dueDate: "2025-01-15",
+            completedDate: "2025-01-15",
+            status: "completed",
+            bookingRef: "BK-2025-001"
+          }
+        ],
+        formRecords: [
+          {
+            id: "1",
+            formType: "Post-Event Report",
+            submittedDate: "2025-01-15",
+            completionRate: 100,
+            qualityRating: 4.8,
+            reviewer: "John Smith",
+            bookingRef: "BK-2025-001"
+          }
+        ]
+      }
     },
     {
       id: "2",
@@ -89,7 +250,82 @@ export default function BrandAgentPerformance() {
       recentBookings: 8,
       totalBookings: 89,
       joinDate: "2023-07-20",
-      status: "active"
+      status: "active",
+      compositeRecords: {
+        managerReviews: [
+          {
+            id: "1",
+            date: "2025-01-14",
+            reviewer: "Sarah Davis",
+            rating: 4.5,
+            comments: "Solid performance, good customer interaction",
+            bookingRef: "BK-2025-003"
+          }
+        ],
+        attendanceRecords: [
+          {
+            id: "1",
+            bookingDate: "2025-01-14",
+            scheduledTime: "11:00",
+            actualArrival: "11:30",
+            location: "Herb Haven",
+            status: "late",
+            minutesLate: 30
+          }
+        ],
+        locationRecords: [
+          {
+            id: "1",
+            bookingDate: "2025-01-14",
+            expectedLocation: "Herb Haven",
+            actualLocation: "Herb Haven",
+            checkInTime: "11:30",
+            status: "correct"
+          }
+        ],
+        dispensaryFeedback: [
+          {
+            id: "1",
+            dispensaryName: "Herb Haven",
+            date: "2025-01-14",
+            rating: 4.0,
+            feedback: "Good product knowledge, arrived late but made up for it",
+            bookingRef: "BK-2025-003"
+          }
+        ],
+        staffFeedback: [
+          {
+            id: "1",
+            staffName: "Mike Torres",
+            role: "Store Manager",
+            date: "2025-01-14",
+            rating: 4.2,
+            feedback: "Professional attitude, customers responded well",
+            bookingRef: "BK-2025-003"
+          }
+        ],
+        activityRecords: [
+          {
+            id: "1",
+            activityName: "Customer Education Session",
+            dueDate: "2025-01-14",
+            completedDate: "2025-01-14",
+            status: "completed",
+            bookingRef: "BK-2025-003"
+          }
+        ],
+        formRecords: [
+          {
+            id: "1",
+            formType: "Activity Summary",
+            submittedDate: "2025-01-14",
+            completionRate: 95,
+            qualityRating: 4.0,
+            reviewer: "Sarah Davis",
+            bookingRef: "BK-2025-003"
+          }
+        ]
+      }
     },
     {
       id: "3",
@@ -110,7 +346,16 @@ export default function BrandAgentPerformance() {
       recentBookings: 10,
       totalBookings: 67,
       joinDate: "2023-09-10",
-      status: "active"
+      status: "active",
+      compositeRecords: {
+        managerReviews: [],
+        attendanceRecords: [],
+        locationRecords: [],
+        dispensaryFeedback: [],
+        staffFeedback: [],
+        activityRecords: [],
+        formRecords: []
+      }
     },
     {
       id: "4",
@@ -131,7 +376,16 @@ export default function BrandAgentPerformance() {
       recentBookings: 6,
       totalBookings: 45,
       joinDate: "2023-11-05",
-      status: "active"
+      status: "active",
+      compositeRecords: {
+        managerReviews: [],
+        attendanceRecords: [],
+        locationRecords: [],
+        dispensaryFeedback: [],
+        staffFeedback: [],
+        activityRecords: [],
+        formRecords: []
+      }
     },
     {
       id: "5",
@@ -152,7 +406,16 @@ export default function BrandAgentPerformance() {
       recentBookings: 4,
       totalBookings: 23,
       joinDate: "2024-01-12",
-      status: "active"
+      status: "active",
+      compositeRecords: {
+        managerReviews: [],
+        attendanceRecords: [],
+        locationRecords: [],
+        dispensaryFeedback: [],
+        staffFeedback: [],
+        activityRecords: [],
+        formRecords: []
+      }
     }
   ];
 
@@ -289,11 +552,254 @@ export default function BrandAgentPerformance() {
                             {agent.overallScore}%
                           </p>
                         </div>
-                        <Badge className={getScoreBadge(agent.overallScore)}>
-                          {agent.overallScore >= 90 ? "Excellent" : 
-                           agent.overallScore >= 80 ? "Good" : 
-                           agent.overallScore >= 70 ? "Fair" : "Needs Improvement"}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <Badge className={getScoreBadge(agent.overallScore)}>
+                            {agent.overallScore >= 90 ? "Excellent" : 
+                             agent.overallScore >= 80 ? "Good" : 
+                             agent.overallScore >= 70 ? "Fair" : "Needs Improvement"}
+                          </Badge>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="outline" size="sm" className="gap-1">
+                                <Eye className="w-3 h-3" />
+                                Details
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                              <DialogHeader>
+                                <DialogTitle className="flex items-center gap-3">
+                                  <Avatar className="w-8 h-8">
+                                    <AvatarImage src={agent.avatar} alt={agent.name} />
+                                    <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
+                                  </Avatar>
+                                  {agent.name} - Performance Details
+                                </DialogTitle>
+                              </DialogHeader>
+                              
+                              <div className="space-y-6">
+                                {/* Manager Reviews */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <Star className="w-4 h-4 text-yellow-500" />
+                                    Manager Reviews ({agent.metrics.managerReview}/5)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.managerReviews.length > 0 ? (
+                                      agent.compositeRecords.managerReviews.map((review) => (
+                                        <Card key={review.id} className="p-3">
+                                          <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                              <p className="font-medium">{review.reviewer}</p>
+                                              <p className="text-sm text-muted-foreground">{review.date}</p>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                              <Star className="w-4 h-4 text-yellow-500" />
+                                              <span className="font-bold">{review.rating}</span>
+                                            </div>
+                                          </div>
+                                          <p className="text-sm">{review.comments}</p>
+                                          <p className="text-xs text-muted-foreground mt-1">Booking: {review.bookingRef}</p>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No manager reviews available</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Attendance Records */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-blue-500" />
+                                    Attendance Records ({agent.metrics.onTimeRate}% on time)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.attendanceRecords.length > 0 ? (
+                                      agent.compositeRecords.attendanceRecords.map((record) => (
+                                        <Card key={record.id} className="p-3">
+                                          <div className="flex justify-between items-center">
+                                            <div>
+                                              <p className="font-medium">{record.location}</p>
+                                              <p className="text-sm text-muted-foreground">{record.bookingDate}</p>
+                                            </div>
+                                            <div className="text-right">
+                                              <p className="text-sm">
+                                                Scheduled: {record.scheduledTime} | Arrived: {record.actualArrival}
+                                              </p>
+                                              <Badge variant={record.status === "on_time" ? "default" : "destructive"}>
+                                                {record.status === "on_time" ? "On Time" : 
+                                                 record.status === "late" ? `Late (${record.minutesLate}min)` : "Absent"}
+                                              </Badge>
+                                            </div>
+                                          </div>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No attendance records available</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Location Records */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <MapPin className="w-4 h-4 text-green-500" />
+                                    Location Check-ins ({agent.metrics.onLocationRate}% correct)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.locationRecords.length > 0 ? (
+                                      agent.compositeRecords.locationRecords.map((record) => (
+                                        <Card key={record.id} className="p-3">
+                                          <div className="flex justify-between items-center">
+                                            <div>
+                                              <p className="font-medium">Expected: {record.expectedLocation}</p>
+                                              <p className="text-sm text-muted-foreground">
+                                                Actual: {record.actualLocation} | Check-in: {record.checkInTime}
+                                              </p>
+                                            </div>
+                                            <Badge variant={record.status === "correct" ? "default" : "destructive"}>
+                                              {record.status === "correct" ? "Correct Location" : 
+                                               record.status === "incorrect" ? "Wrong Location" : "No Check-in"}
+                                            </Badge>
+                                          </div>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No location records available</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Dispensary Feedback */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <Building className="w-4 h-4 text-purple-500" />
+                                    Dispensary Feedback ({agent.metrics.dispensaryRating}/5)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.dispensaryFeedback.length > 0 ? (
+                                      agent.compositeRecords.dispensaryFeedback.map((feedback) => (
+                                        <Card key={feedback.id} className="p-3">
+                                          <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                              <p className="font-medium">{feedback.dispensaryName}</p>
+                                              <p className="text-sm text-muted-foreground">{feedback.date}</p>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                              <Star className="w-4 h-4 text-yellow-500" />
+                                              <span className="font-bold">{feedback.rating}</span>
+                                            </div>
+                                          </div>
+                                          <p className="text-sm">{feedback.feedback}</p>
+                                          <p className="text-xs text-muted-foreground mt-1">Booking: {feedback.bookingRef}</p>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No dispensary feedback available</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Staff Feedback */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <User className="w-4 h-4 text-teal-500" />
+                                    Staff Feedback ({agent.metrics.staffRating}/5)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.staffFeedback.length > 0 ? (
+                                      agent.compositeRecords.staffFeedback.map((feedback) => (
+                                        <Card key={feedback.id} className="p-3">
+                                          <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                              <p className="font-medium">{feedback.staffName}</p>
+                                              <p className="text-sm text-muted-foreground">{feedback.role} | {feedback.date}</p>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                              <Star className="w-4 h-4 text-yellow-500" />
+                                              <span className="font-bold">{feedback.rating}</span>
+                                            </div>
+                                          </div>
+                                          <p className="text-sm">{feedback.feedback}</p>
+                                          <p className="text-xs text-muted-foreground mt-1">Booking: {feedback.bookingRef}</p>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No staff feedback available</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Activity Records */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <ClipboardList className="w-4 h-4 text-orange-500" />
+                                    Activity Completion ({agent.metrics.activityCompletion}%)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.activityRecords.length > 0 ? (
+                                      agent.compositeRecords.activityRecords.map((activity) => (
+                                        <Card key={activity.id} className="p-3">
+                                          <div className="flex justify-between items-center">
+                                            <div>
+                                              <p className="font-medium">{activity.activityName}</p>
+                                              <p className="text-sm text-muted-foreground">
+                                                Due: {activity.dueDate} 
+                                                {activity.completedDate && ` | Completed: ${activity.completedDate}`}
+                                              </p>
+                                            </div>
+                                            <Badge variant={activity.status === "completed" ? "default" : 
+                                                           activity.status === "pending" ? "secondary" : "destructive"}>
+                                              {activity.status === "completed" ? "Completed" : 
+                                               activity.status === "pending" ? "Pending" : "Overdue"}
+                                            </Badge>
+                                          </div>
+                                          <p className="text-xs text-muted-foreground mt-1">Booking: {activity.bookingRef}</p>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No activity records available</p>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Form Records */}
+                                <div>
+                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
+                                    <FileText className="w-4 h-4 text-red-500" />
+                                    Form Records ({agent.metrics.dataFormCompletion}% completion, {agent.metrics.dataFormQuality}/5 quality)
+                                  </h3>
+                                  <div className="space-y-2">
+                                    {agent.compositeRecords.formRecords.length > 0 ? (
+                                      agent.compositeRecords.formRecords.map((form) => (
+                                        <Card key={form.id} className="p-3">
+                                          <div className="flex justify-between items-start mb-2">
+                                            <div>
+                                              <p className="font-medium">{form.formType}</p>
+                                              <p className="text-sm text-muted-foreground">
+                                                Submitted: {form.submittedDate} | Reviewed by: {form.reviewer}
+                                              </p>
+                                            </div>
+                                            <div className="text-right">
+                                              <p className="text-sm">Completion: {form.completionRate}%</p>
+                                              <div className="flex items-center gap-1">
+                                                <Star className="w-4 h-4 text-yellow-500" />
+                                                <span className="font-bold">{form.qualityRating}</span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <p className="text-xs text-muted-foreground">Booking: {form.bookingRef}</p>
+                                        </Card>
+                                      ))
+                                    ) : (
+                                      <p className="text-sm text-muted-foreground">No form records available</p>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
                       </div>
                     </div>
                     
