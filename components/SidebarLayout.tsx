@@ -1469,9 +1469,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                   variant="default"
                   size="sm"
                   disabled={loggingOut}
+                  data-logout-button
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log("Logout button clicked");
+                    console.log("Logout button clicked, loggingOut state:", loggingOut);
                     logout();
                   }}
                   className={`w-full flex items-center justify-center text-white transition-colors ${
@@ -1484,7 +1485,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     size={16}
                     className={sidebarCollapsed ? "" : "mr-2"}
                   />
-                  {!sidebarCollapsed && (loggingOut ? "Logging out..." : "Logout")}
+                  {!sidebarCollapsed && (
+                    <span data-logout-text>
+                      {loggingOut ? "Logging out..." : "Logout"}
+                    </span>
+                  )}
                 </Button>
               </div>
             </div>
@@ -1895,9 +1900,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 variant="default"
                 size="sm"
                 disabled={loggingOut}
+                data-logout-button
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log("Mobile logout button clicked");
+                  console.log("Mobile logout button clicked, loggingOut state:", loggingOut);
                   if (typeof logout === "function") {
                     logout();
                   }
@@ -1909,7 +1915,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 }`}
               >
                 <LogOut size={16} className="mr-2" />
-                {loggingOut ? "Logging out..." : "Logout"}
+                <span data-logout-text>
+                  {loggingOut ? "Logging out..." : "Logout"}
+                </span>
               </Button>
             </>
           ) : (

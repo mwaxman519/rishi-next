@@ -77,7 +77,20 @@ export function useAuth() {
   };
 
   const logout = () => {
-    console.log("Logout clicked - setting loggingOut to true");
+    console.log("Logout clicked - updating button text immediately");
+    
+    // Immediately update button text by finding all logout buttons
+    const logoutButtons = document.querySelectorAll('[data-logout-button]');
+    logoutButtons.forEach(button => {
+      const textElement = button.querySelector('[data-logout-text]');
+      if (textElement) {
+        textElement.textContent = 'Logging out...';
+      }
+      (button as HTMLButtonElement).disabled = true;
+      button.classList.add('opacity-50', 'cursor-not-allowed');
+    });
+    
+    // Also set React state for consistency
     setLoggingOut(true);
     
     // Make the logout API call but don't wait for it
@@ -89,12 +102,13 @@ export function useAuth() {
     
     // Use setTimeout to ensure the "Logging out..." state is visible
     setTimeout(() => {
+      console.log("Timeout reached - about to redirect");
       // Clear user state just before redirect
       setUser(null);
       setLoggingOut(false);
       // Use replace to avoid loading screen
       window.location.replace("/auth/login");
-    }, 800);
+    }, 1000);
   };
 
   return {
