@@ -36,7 +36,7 @@ export default function AcceptInvitationPageWrapper() {
 function AcceptInvitationPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, isLoading: isAuthLoading } = useAuth();
+  const { user, loading: isAuthLoading } = useAuth();
   const [token, setToken] = useState<string | null>(null);
   const [status, setStatus] = useState<
     "loading" | "accepting" | "success" | "error"

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Home() {
   }, [user, router]);
 
   // Show loading state while authentication is initializing
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">

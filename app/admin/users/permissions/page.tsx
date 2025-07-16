@@ -102,7 +102,7 @@ const ROLE_PERMISSIONS = {
 
 export default function UserPermissionsPage() {
   const router = useRouter();
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [selectedRole, setSelectedRole] = useState("super_admin");
   const [rolePermissions, setRolePermissions] =
