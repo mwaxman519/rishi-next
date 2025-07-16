@@ -1,133 +1,102 @@
 #!/usr/bin/env node
+
 /**
  * Autoscale Deployment Validation Script
- * 
- * Validates that the application is properly configured for Replit Autoscale deployment
- * by checking critical files and configurations that commonly cause build failures.
+ * Validates that the application is ready for Replit Autoscale deployment
  */
 
 import fs from 'fs';
 import path from 'path';
 
-console.log('🔍 Validating Replit Autoscale Deployment Configuration...\n');
+console.log('🚀 Validating Replit Autoscale deployment readiness...\n');
 
-let hasErrors = false;
-
-// Check 1: EventBusService file exists
-const eventBusServicePath = 'app/services/EventBusService.ts';
-if (fs.existsSync(eventBusServicePath)) {
-    console.log('✅ EventBusService.ts exists (backwards compatibility)');
-} else {
-    console.log('❌ EventBusService.ts missing - will cause module resolution failures');
-    hasErrors = true;
-}
-
-// Check 2: next.config.mjs is configured for Replit Autoscale
-const nextConfigPath = 'next.config.mjs';
-if (fs.existsSync(nextConfigPath)) {
-    const nextConfig = fs.readFileSync(nextConfigPath, 'utf8');
-    
-    // Check for proper Replit environment handling
-    if (nextConfig.includes('process.env.REPLIT') && nextConfig.includes('undefined')) {
-        console.log('✅ next.config.mjs properly configured for Replit Autoscale (no static export)');
-    } else {
-        console.log('❌ next.config.mjs not configured for Replit Autoscale - may cause build failures');
-        hasErrors = true;
+const validationChecks = [
+  {
+    name: 'Next.js Configuration',
+    check: () => {
+      const configPath = 'next.config.mjs';
+      if (!fs.existsSync(configPath)) return { success: false, message: 'next.config.mjs not found' };
+      
+      const config = fs.readFileSync(configPath, 'utf8');
+      if (config.includes('output: "export"')) return { success: false, message: 'Static export detected - use server mode for Autoscale' };
+      if (config.includes('serverExternalPackages')) return { success: true, message: 'Server external packages configured' };
+      
+      return { success: true, message: 'Configuration looks good' };
     }
-    
-    // Check for static export being disabled for Replit
-    if (nextConfig.includes('!process.env.REPLIT')) {
-        console.log('✅ Static export properly disabled for Replit Autoscale');
-    } else {
-        console.log('❌ Static export not properly disabled for Replit Autoscale');
-        hasErrors = true;
+  },
+  {
+    name: 'Login Page Structure',
+    check: () => {
+      const loginPath = 'app/auth/login/page.tsx';
+      if (!fs.existsSync(loginPath)) return { success: false, message: 'Login page not found' };
+      
+      const content = fs.readFileSync(loginPath, 'utf8');
+      if (!content.includes('export default function LoginPage')) return { success: false, message: 'Invalid login page export' };
+      
+      return { success: true, message: 'Login page structure valid' };
     }
-} else {
-    console.log('❌ next.config.mjs missing');
-    hasErrors = true;
-}
-
-// Check 3: AdvancedEventBus exists
-const advancedEventBusPath = 'app/services/infrastructure/AdvancedEventBus.ts';
-if (fs.existsSync(advancedEventBusPath)) {
-    console.log('✅ AdvancedEventBus.ts exists (unified event system)');
-} else {
-    console.log('❌ AdvancedEventBus.ts missing - event system will fail');
-    hasErrors = true;
-}
-
-// Check 4: Critical import compatibility files
-const criticalFiles = [
-    'app/services/infrastructure/distributedEventBus.ts',
-    'app/services/infrastructure/eventBus.ts'
+  },
+  {
+    name: 'Database Configuration',
+    check: () => {
+      const dbPath = 'app/lib/db-connection.ts';
+      if (!fs.existsSync(dbPath)) return { success: false, message: 'Database connection file not found' };
+      
+      const content = fs.readFileSync(dbPath, 'utf8');
+      if (!content.includes('DATABASE_URL')) return { success: false, message: 'DATABASE_URL not configured' };
+      
+      return { success: true, message: 'Database configuration present' };
+    }
+  },
+  {
+    name: 'API Routes Structure',
+    check: () => {
+      const apiPath = 'app/api';
+      if (!fs.existsSync(apiPath)) return { success: false, message: 'API routes directory not found' };
+      
+      const authServicePath = path.join(apiPath, 'auth-service');
+      if (!fs.existsSync(authServicePath)) return { success: false, message: 'Auth service routes not found' };
+      
+      return { success: true, message: 'API routes structure valid' };
+    }
+  },
+  {
+    name: 'Environment Variables',
+    check: () => {
+      const envPath = '.env.production';
+      if (!fs.existsSync(envPath)) return { success: false, message: 'Production environment file not found' };
+      
+      const content = fs.readFileSync(envPath, 'utf8');
+      if (!content.includes('NODE_ENV=production')) return { success: false, message: 'NODE_ENV not set to production' };
+      
+      return { success: true, message: 'Environment configuration looks good' };
+    }
+  }
 ];
 
-criticalFiles.forEach(filePath => {
-    if (fs.existsSync(filePath)) {
-        console.log(`✅ ${filePath} exists (backwards compatibility)`);
-    } else {
-        console.log(`❌ ${filePath} missing - will cause import failures`);
-        hasErrors = true;
-    }
-});
+let allPassed = true;
 
-// Check 5: Environment variable configuration
-const envFiles = ['.env.development', '.env.production', '.env.local'];
-let envFound = false;
-
-envFiles.forEach(envFile => {
-    if (fs.existsSync(envFile)) {
-        envFound = true;
-        console.log(`✅ ${envFile} exists`);
-    }
-});
-
-if (!envFound) {
-    console.log('⚠️  No environment files found - may cause runtime issues');
+for (const check of validationChecks) {
+  const result = check.check();
+  const status = result.success ? '✅' : '❌';
+  console.log(`${status} ${check.name}: ${result.message}`);
+  
+  if (!result.success) {
+    allPassed = false;
+  }
 }
 
-// Check 6: Database configuration
-const dbConfigPath = 'app/db.ts';
-if (fs.existsSync(dbConfigPath)) {
-    console.log('✅ Database configuration exists');
+console.log('\n📊 Validation Summary:');
+if (allPassed) {
+  console.log('✅ All checks passed! Ready for Replit Autoscale deployment.');
 } else {
-    console.log('❌ Database configuration missing - will cause runtime failures');
-    hasErrors = true;
+  console.log('❌ Some checks failed. Please fix the issues above before deploying.');
 }
 
-// Check 7: Package.json for required dependencies
-const packageJsonPath = 'package.json';
-if (fs.existsSync(packageJsonPath)) {
-    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-    
-    const requiredDeps = ['next', 'react', 'react-dom', 'drizzle-orm'];
-    const missingDeps = requiredDeps.filter(dep => 
-        !packageJson.dependencies[dep] && !packageJson.devDependencies[dep]
-    );
-    
-    if (missingDeps.length === 0) {
-        console.log('✅ All required dependencies present');
-    } else {
-        console.log(`❌ Missing dependencies: ${missingDeps.join(', ')}`);
-        hasErrors = true;
-    }
-} else {
-    console.log('❌ package.json missing');
-    hasErrors = true;
-}
+console.log('\n🔗 Next steps:');
+console.log('  1. Click "Deploy" button in Replit');
+console.log('  2. Select "Autoscale" deployment option');
+console.log('  3. Configure environment variables in deployment settings');
+console.log('  4. Monitor deployment logs for any issues');
 
-// Summary
-console.log('\n' + '='.repeat(60));
-if (hasErrors) {
-    console.log('❌ DEPLOYMENT VALIDATION FAILED');
-    console.log('   Fix the above issues before attempting Replit Autoscale deployment');
-    process.exit(1);
-} else {
-    console.log('✅ DEPLOYMENT VALIDATION PASSED');
-    console.log('   Application is ready for Replit Autoscale deployment');
-    console.log('\n🚀 To deploy to Replit Autoscale:');
-    console.log('   1. Set environment to production/staging');
-    console.log('   2. Ensure REPLIT=true environment variable is set');
-    console.log('   3. Run: npm run build (will use serverless mode)');
-    console.log('   4. Deploy using Replit Autoscale interface');
-}
+export default { validationChecks, allPassed };

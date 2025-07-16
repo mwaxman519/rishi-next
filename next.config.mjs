@@ -13,7 +13,7 @@ const nextConfig = {
   
   typescript: {
     // Allow comprehensive error capture - continue building to surface all errors
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, // Continue building to surface all errors for fixing
   },
   
   eslint: {
@@ -27,10 +27,13 @@ const nextConfig = {
     domains: process.env.VERCEL ? ['localhost', 'vercel.app'] : [],
   },
   
+  // External packages configuration
+  serverExternalPackages: ['@neondatabase/serverless'], // Fix serverless package issues
+  
   // Simplified experimental features
   experimental: {
     optimizeCss: false, // Reduce build complexity
-    cssChunking: 'strict', // Better CSS chunking for production
+    cssChunking: false, // Disabled to fix production chunk loading // Better CSS chunking for production
   },
   
   // Static export configuration removed - Azure deployments are descoped
@@ -59,19 +62,22 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Replit Autoscale optimization (serverless functions)
+    // Simplified optimization for better chunk generation
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
+        maxSize: 244000, // Keep chunks under 244KB for better loading
         cacheGroups: {
-          default: false,
-          vendors: false,
-          vendor: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendors: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
+            priority: -10,
             chunks: 'all',
-            priority: 1,
-            enforce: true,
           },
         },
       };
