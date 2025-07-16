@@ -96,7 +96,7 @@ export default function ModernSidebar({
   children,
 }: ModernSidebarProps) {
   const pathname = usePathname();
-  const { user, isLoading, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { checkPermission } = useAuthorization();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<

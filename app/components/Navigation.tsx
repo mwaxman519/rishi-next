@@ -53,7 +53,7 @@ function deepCopyNavItems(items: NavItem[]): NavItem[] {
 }
 
 export function Navigation({ children }: NavigationProps) {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const orgPermissions = useOrganizationPermissions();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -75,7 +75,7 @@ export function Navigation({ children }: NavigationProps) {
   }, []);
 
   // Show loading spinner while authentication is in progress
-  if (isLoading) {
+  if (loading) {
     console.log("Navigation: Auth is still loading, showing loading state");
     return (
       <div className="flex items-center justify-center h-screen">

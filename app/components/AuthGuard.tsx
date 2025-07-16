@@ -16,11 +16,11 @@ export function AuthGuard({
   requireAuth = false, 
   requireSuperAdmin = false 
 }: AuthGuardProps) {
-  const { user, isSuperAdmin, isLoading } = useAuth();
+  const { user, isSuperAdmin, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!loading) {
       if (requireAuth && !user) {
         console.log("Auth required but user not authenticated, redirecting to login");
         router.push("/auth/login");
@@ -33,10 +33,10 @@ export function AuthGuard({
         return;
       }
     }
-  }, [user, isSuperAdmin, isLoading, requireAuth, requireSuperAdmin, router]);
+  }, [user, isSuperAdmin, loading, requireAuth, requireSuperAdmin, router]);
 
   // Show loading state
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">

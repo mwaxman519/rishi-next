@@ -62,7 +62,7 @@ export function EnhancedRBACProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [permissions, setPermissions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

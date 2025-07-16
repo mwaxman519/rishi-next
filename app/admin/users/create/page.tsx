@@ -70,7 +70,7 @@ type UserFormValues = z.infer<typeof userFormSchema>;
 export default function CreateUserPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { checkPermission } = useAuthorization();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

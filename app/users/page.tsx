@@ -19,7 +19,7 @@ import UsersTable from "@/components/users/UsersTable";
 import UserDetailPanel from "@/components/users/UserDetailPanel";
 
 export default function UsersPage() {
-  const { user, isLoading: isAuthLoading } = useAuth();
+  const { user, loading: isAuthLoading } = useAuth();
   const { checkPermission } = useAuthorization();
   const { toast } = useToast();
   const router = useRouter();

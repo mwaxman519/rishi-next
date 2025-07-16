@@ -26,7 +26,7 @@ interface Organization {
 }
 
 function OrganizationsPageContent() {
-  const { user, isSuperAdmin, isLoading: authLoading } = useAuth();
+  const { user, isSuperAdmin, loading: authLoading } = useAuth();
   const { currentOrganization, userOrganizations, switchOrganization } = useOrganization();
   const router = useRouter();
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null);

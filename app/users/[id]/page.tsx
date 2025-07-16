@@ -14,7 +14,7 @@ import UserDetailPanel from "@/components/users/UserDetailPanel";
 export default function UserDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const { user: currentUser, isLoading: isAuthLoading } = useAuth();
+  const { user: currentUser, loading: isAuthLoading } = useAuth();
   const { checkPermission } = useAuthorization();
 
   const userId = params.id as string;

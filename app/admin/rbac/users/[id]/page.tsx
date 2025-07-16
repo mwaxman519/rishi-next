@@ -57,7 +57,7 @@ export default function UserPermissionsPage({
   const userId = resolvedParams.id;
 
   const router = useRouter();
-  const { user, isLoading: isAuthLoading } = useAuth();
+  const { user, loading: isAuthLoading } = useAuth();
   const { checkPermission } = useAuthorization();
   const { toast } = useToast();
 

@@ -17,7 +17,7 @@ interface ModernLayoutProps {
 
 // Inner component that uses the navigation context
 function ModernLayoutInner({ children }: ModernLayoutProps) {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const pathname = usePathname();
   const { navItems, isMobile } = useNavigation();
   const [mounted, setMounted] = useState(false);

@@ -128,7 +128,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // These hooks are safe to call in all environments but will only have meaningful
   // values after hydration is complete
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const pathname = usePathname();
 
   // Check for full-width pages like login/register
@@ -149,7 +149,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // During server render, initial client render, or loading auth data, 
   // show a single unified loading state to prevent multiple animations
-  if (!mounted || isLoading) {
+  if (!mounted || loading) {
     return <ServerPlaceholder>{children}</ServerPlaceholder>;
   }
 

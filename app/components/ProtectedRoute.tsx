@@ -34,7 +34,7 @@ export function ProtectedRoute({
   requireAuth = true,
   context,
 }: ProtectedRouteProps) {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const {
     hasPermission,
     hasAllPermissions,
@@ -45,7 +45,7 @@ export function ProtectedRoute({
 
   useEffect(() => {
     // Skip during initial loading
-    if (isLoading || rbacLoading) return;
+    if (loading || rbacLoading) return;
 
     // If auth is required and user is not logged in, redirect
     if (requireAuth && !user) {
@@ -58,7 +58,7 @@ export function ProtectedRoute({
     }
 
     // If user is logged in and we have permission requirements
-    if (user && !isLoading) {
+    if (user && !loading) {
       // Create a merged context that includes the user's current organizational context
       const mergedContext: PermissionContext = {
         organizationId: user.organizationId,

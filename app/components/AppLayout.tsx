@@ -11,7 +11,7 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   // This ensures hydration mismatch doesn't occur
@@ -30,7 +30,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   }, [user, isClient]);
 
   // Show a loading indicator while authentication state is being determined
-  if (isLoading || !isClient) {
+  if (loading || !isClient) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />

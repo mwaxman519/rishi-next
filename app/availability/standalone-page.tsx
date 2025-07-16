@@ -31,7 +31,7 @@ interface SimpleAvailabilityDTO {
 
 export default function StandaloneAvailabilityPage() {
   // Auth and role-based access
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { isAtLeastRole } = useAuthorization();
   const { theme } = useTheme();
   const { sidebarCollapsed } = useSidebarState();

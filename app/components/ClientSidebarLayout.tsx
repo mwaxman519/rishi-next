@@ -15,7 +15,7 @@ export default function ClientSidebarLayout({
   children,
 }: ClientSidebarLayoutProps) {
   const pathname = usePathname();
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   // This ensures hydration mismatch doesn't occur
@@ -37,7 +37,7 @@ export default function ClientSidebarLayout({
 
   // Log auth status but continue rendering even if still loading
   // This ensures the app will render even if auth is slow
-  if (isLoading) {
+  if (loading) {
     console.log(
       "ClientSidebarLayout: Auth is still loading, proceeding with null user",
     );

@@ -82,7 +82,7 @@ interface SidebarLayoutProps {
 
 export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const pathname = usePathname();
-  const { user, isLoading, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
   const { checkPermission, can } = useAuthorization();
   const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } =
     useSidebarState();
@@ -567,7 +567,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   ];
 
   // Show loading spinner if authentication is still loading - AFTER all hooks are initialized
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full"></div>

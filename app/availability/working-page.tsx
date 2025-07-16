@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 
 export default function WorkingAvailabilityPage() {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Wait until auth is finished loading
