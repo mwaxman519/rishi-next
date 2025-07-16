@@ -41,7 +41,7 @@ const nextConfig = {
     
     // Vercel-specific optimizations
     if (!isServer && !dev) {
-      // Ensure consistent chunk naming
+      // Ensure consistent chunk naming and proper generation
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
@@ -56,8 +56,19 @@ const nextConfig = {
             priority: -10,
             chunks: 'all',
           },
+          // Ensure login components are properly chunked
+          auth: {
+            test: /[\\/]app[\\/]auth[\\/]/,
+            name: 'auth',
+            priority: 10,
+            chunks: 'all',
+          },
         },
       };
+      
+      // Ensure proper chunk naming for production
+      config.optimization.chunkIds = 'deterministic';
+      config.optimization.moduleIds = 'deterministic';
     }
     
     return config;
