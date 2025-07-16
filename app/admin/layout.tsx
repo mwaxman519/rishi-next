@@ -19,7 +19,7 @@ export default function AdminLayout({
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     if (!authLoading) {
