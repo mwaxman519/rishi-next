@@ -42,6 +42,10 @@ import {
   Smartphone,
   Tablet,
   Monitor,
+  ChevronRight,
+  Users,
+  ClipboardList,
+  Box,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -481,7 +485,7 @@ export default function InventoryPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [activeTab, setActiveTab] = useState("items");
+  const [activeTab, setActiveTab] = useState("templates");
   const { toast } = useToast();
 
   const filteredItems = inventoryData.items.filter((item) => {
@@ -502,16 +506,22 @@ export default function InventoryPage() {
       {/* Mobile-first header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Inventory</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Inventory Management</h1>
           <p className="text-sm text-gray-600">
-            Manage items, kits, and track usage across all locations
+            Manage kit templates, instances, components, and stock assignments
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Link href="/inventory/items/new">
+          <Link href="/inventory/templates/new">
             <Button size="sm" className="w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
-              Add Item
+              New Template
+            </Button>
+          </Link>
+          <Link href="/inventory/stock/new">
+            <Button size="sm" variant="outline" className="w-full sm:w-auto">
+              <Package className="w-4 h-4 mr-2" />
+              Add Stock Item
             </Button>
           </Link>
         </div>
@@ -629,13 +639,56 @@ export default function InventoryPage() {
 
       {/* Main content tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="items">Items ({filteredItems.length})</TabsTrigger>
-          <TabsTrigger value="kits">Kits ({filteredKits.length})</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="templates">Templates</TabsTrigger>
+          <TabsTrigger value="instances">Instances</TabsTrigger>
+          <TabsTrigger value="components">Components</TabsTrigger>
+          <TabsTrigger value="stock">Stock Items</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="items" className="space-y-4">
+        <TabsContent value="templates" className="space-y-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Kit Templates</h2>
+            <p className="text-sm text-gray-600">Pre-configured kits for different booking types</p>
+          </div>
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredKits.map((kit) => (
+              <KitTemplateCard key={kit.id} kit={kit} />
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="instances" className="space-y-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Kit Instances</h2>
+            <p className="text-sm text-gray-600">Active kits assigned to bookings and agents</p>
+          </div>
+          <Link href="/inventory/kit-instances">
+            <Card className="hover:shadow-md transition-all cursor-pointer">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <Package className="w-6 h-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">View Kit Instances</h3>
+                      <p className="text-sm text-gray-600">Manage active kit assignments</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </TabsContent>
+
+        <TabsContent value="components" className="space-y-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Kit Components</h2>
+            <p className="text-sm text-gray-600">Individual items that make up kits</p>
+          </div>
           <div
             className={`grid gap-4 ${
               viewMode === "grid"
@@ -649,46 +702,168 @@ export default function InventoryPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="kits" className="space-y-4">
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredKits.map((kit) => (
-              <KitTemplateCard key={kit.id} kit={kit} />
-            ))}
+        <TabsContent value="stock" className="space-y-4">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Stock Management</h2>
+            <p className="text-sm text-gray-600">Individual items assigned to brand agents</p>
           </div>
+          <Link href="/inventory/stock">
+            <Card className="hover:shadow-md transition-all cursor-pointer">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                      <Package className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Manage Stock Items</h3>
+                      <p className="text-sm text-gray-600">Tables, totes, equipment assigned to agents</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-4">
-          <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Inventory Analytics</h2>
+            <p className="text-sm text-gray-600">Kit performance and usage metrics</p>
+          </div>
+          
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Usage Analytics</CardTitle>
-                <CardDescription>Track inventory usage patterns</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <TrendingUp className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                    <p>Analytics dashboard will be displayed here</p>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <ClipboardList className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Active Kits</p>
+                    <p className="text-xl font-bold">45</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
             <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                    <Users className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Agents w/ Items</p>
+                    <p className="text-xl font-bold">28</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <Box className="w-5 h-5 text-yellow-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Items in Use</p>
+                    <p className="text-xl font-bold">156</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <AlertTriangle className="w-5 h-5 text-red-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Missing Items</p>
+                    <p className="text-xl font-bold">3</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Category Distribution</CardTitle>
-                <CardDescription>Items by category</CardDescription>
+                <CardTitle className="text-lg">Kit Template Performance</CardTitle>
+                <CardDescription>Most popular kit configurations</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {inventoryData.categories.map((category) => (
-                    <div key={category.id} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">{category.icon}</span>
-                        <span className="text-sm font-medium">{category.name}</span>
-                      </div>
-                      <Badge variant="outline">{category.count}</Badge>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                      <h4 className="font-medium text-sm">Product Demo Standard</h4>
+                      <p className="text-xs text-gray-600">Used 89 times • 4.8★</p>
                     </div>
-                  ))}
+                    <Badge className="bg-green-100 text-green-700">High Usage</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                      <h4 className="font-medium text-sm">Trade Show Premium</h4>
+                      <p className="text-xs text-gray-600">Used 45 times • 4.6★</p>
+                    </div>
+                    <Badge className="bg-yellow-100 text-yellow-700">Medium Usage</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                      <h4 className="font-medium text-sm">Street Team Activation</h4>
+                      <p className="text-xs text-gray-600">Used 23 times • 4.4★</p>
+                    </div>
+                    <Badge className="bg-gray-100 text-gray-700">Low Usage</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Stock Assignment Overview</CardTitle>
+                <CardDescription>Items assigned to brand agents</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Tables</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="h-2 bg-purple-500 rounded-full" style={{ width: "75%" }} />
+                      </div>
+                      <span className="text-sm font-medium">18/24</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Storage Totes</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="h-2 bg-purple-500 rounded-full" style={{ width: "90%" }} />
+                      </div>
+                      <span className="text-sm font-medium">27/30</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Tablecloths</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="h-2 bg-purple-500 rounded-full" style={{ width: "60%" }} />
+                      </div>
+                      <span className="text-sm font-medium">36/60</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm">Display Stands</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="h-2 bg-yellow-500 rounded-full" style={{ width: "40%" }} />
+                      </div>
+                      <span className="text-sm font-medium">8/20</span>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
