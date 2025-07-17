@@ -522,6 +522,12 @@ fieldManagerNavigation.push(
         href: "/tasks",
         icon: <CheckSquare className="h-5 w-5" />,
       },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Territory Reports",
+        href: "/reports",
+        icon: <FileText className="h-5 w-5" />,
+      },
     ],
   },
 
@@ -543,15 +549,13 @@ fieldManagerNavigation.push(
         href: "/inventory/kit-instances",
         icon: <Package className="h-5 w-5" />,
       },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Stock Management",
+        href: "/inventory/stock",
+        icon: <Archive className="h-5 w-5" />,
+      },
     ],
-  },
-
-  // Territory Reports
-  {
-    type: NAV_ITEM_TYPES.LINK,
-    label: "Territory Reports",
-    href: "/reports",
-    icon: <FileText className="h-5 w-5" />,
   },
 );
 
