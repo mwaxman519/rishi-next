@@ -89,17 +89,28 @@ export function useAuth() {
         // Clear user state only after successful logout
         setUser(null);
         
+        // Clear any client-side storage that might persist session
+        localStorage.removeItem("user");
+        localStorage.removeItem("auth-token");
+        localStorage.removeItem("session");
+        
         // Use replace to prevent user from going back to logged in state
         router.replace("/auth/login");
       } else {
         // If logout fails, still clear user state for security
         setUser(null);
+        localStorage.removeItem("user");
+        localStorage.removeItem("auth-token");
+        localStorage.removeItem("session");
         router.replace("/auth/login");
       }
     } catch (error) {
       console.error("Error logging out:", error);
       // Even if the API call fails, we still want to clear the user state
       setUser(null);
+      localStorage.removeItem("user");
+      localStorage.removeItem("auth-token");
+      localStorage.removeItem("session");
       router.replace("/auth/login");
     } finally {
       setLoggingOut(false);
