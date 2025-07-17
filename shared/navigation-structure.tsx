@@ -539,7 +539,7 @@ fieldManagerNavigation.push(
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Kit Assignments",
+        label: "Kit Instances",
         href: "/inventory/kit-instances",
         icon: <Package className="h-5 w-5" />,
       },
