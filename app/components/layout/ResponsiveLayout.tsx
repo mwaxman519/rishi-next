@@ -98,11 +98,7 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  // Check if we're on the client side
-  const mounted = useClientOnly();
-
-  // These hooks are safe to call in all environments but will only have meaningful
-  // values after hydration is complete
+  // COMPLETELY BYPASS ALL LOADING LOGIC - FORCE IMMEDIATE RENDER
   const { user, loggingOut } = useAuth(); // REMOVED LOADING COMPLETELY
   const pathname = usePathname();
   const router = useRouter();
@@ -115,23 +111,6 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Media query hook (only works on client side)
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-
-  // Check if the URL has the unauthenticated parameter for testing
-  const hasUnauthenticatedParam =
-    mounted && typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("unauthenticated") ===
-        "true"
-      : false;
-
-  // Authentication redirect is handled by the login page itself to avoid loops
-
-  // During logout, keep showing the current screen to prevent flashing
-  // The logout button will show "Logging Out..." and then redirect will happen
-
-  // Force immediate rendering without any loading screens
-  // Skip all loading logic completely
-
-  // Once fully mounted and data is loaded, render the appropriate layout
 
   // Special case for full-width pages - bypass all sidebar logic
   if (isFullWidthPage) {
@@ -152,10 +131,8 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     );
   }
 
-
-
-  // Force public layout if URL parameter is set or user is not authenticated
-  if (hasUnauthenticatedParam || (!user && !loggingOut)) {
+  // Force public layout if user is not authenticated - NO LOADING SCREENS
+  if (!user && !loggingOut) {
     return <PublicLayout>{children}</PublicLayout>;
   }
 
