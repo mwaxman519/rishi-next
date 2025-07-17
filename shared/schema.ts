@@ -380,24 +380,12 @@ export const inventoryItems = pgTable("inventory_items", {
 // Kit Templates - Predetermined by Rishi + client for specific brands/regions
 export const kitTemplates = pgTable("kit_templates", {
   id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull(),
+  name: text("name").notNull(),
   description: text("description"),
-  client_organization_id: uuid("client_organization_id")
+  organization_id: uuid("organization_id")
     .notNull()
     .references(() => organizations.id),
-  brand_id: uuid("brand_id").references(() => brands.id),
-  target_regions: text("target_regions").array(), // States/regions this template serves
-  template_type: varchar("template_type", { length: 50 }).notNull().default("standard"),
-  estimated_value: decimal("estimated_value", { precision: 10, scale: 2 }),
-  setup_instructions: text("setup_instructions"),
-  breakdown_instructions: text("breakdown_instructions"),
-  usage_notes: text("usage_notes"),
-  created_by: uuid("created_by")
-    .notNull()
-    .references(() => users.id),
-  approved_by: uuid("approved_by").references(() => users.id),
-  approved_at: timestamp("approved_at"),
-  is_active: boolean("is_active").notNull().default(true),
+  active: boolean("active").notNull().default(true),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -419,22 +407,17 @@ export const kitTemplateItems = pgTable("kit_template_items", {
 });
 
 // Kit Instances - Physical instances of templates in service
-export const kitInstances = pgTable("kit_instances", {
+export const kitInstances = pgTable("kits", {
   id: uuid("id").primaryKey().defaultRandom(),
-  kit_template_id: uuid("kit_template_id")
+  name: text("name").notNull(),
+  description: text("description"),
+  template_id: uuid("template_id").references(() => kitTemplates.id),
+  location_id: uuid("location_id").references(() => locations.id),
+  status: text("status").notNull().default("available"),
+  organization_id: uuid("organization_id")
     .notNull()
-    .references(() => kitTemplates.id),
-  instance_name: varchar("instance_name", { length: 255 }).notNull(),
-  serial_number: varchar("serial_number", { length: 100 }),
-  status: varchar("status", { length: 50 }).notNull().default("available"), // available, in_use, maintenance, needs_replenishment
-  current_location: varchar("current_location", { length: 255 }),
-  assigned_to: uuid("assigned_to").references(() => users.id),
-  assigned_at: timestamp("assigned_at"),
-  region: varchar("region", { length: 100 }),
-  condition: varchar("condition", { length: 50 }).notNull().default("good"), // good, fair, poor, damaged
-  last_inventory_check: timestamp("last_inventory_check"),
-  next_replenishment_due: timestamp("next_replenishment_due"),
-  notes: text("notes"),
+    .references(() => organizations.id),
+  active: boolean("active").notNull().default(true),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });

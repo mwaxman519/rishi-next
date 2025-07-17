@@ -48,7 +48,7 @@ export class KitRepository {
       }
 
       if (filters.status) {
-        queryFilters.push(eq(kitTemplates.approval_status, filters.status));
+        queryFilters.push(eq(kitTemplates.active, filters.status === 'active'));
       }
 
       if (filters.active !== undefined) {
@@ -273,7 +273,7 @@ export class KitRepository {
         queryFilters.push(
           or(
             like(kits.name, `%${filters.search}%`),
-            like(kits.description || "", `%${filters.search}%`),
+            like(kits.description, `%${filters.search}%`),
           ),
         );
       }
@@ -281,7 +281,10 @@ export class KitRepository {
       // Execute query with relations - using simpler approach without aliases
       // For requested users and approved users, we'll handle those in the service layer
       const kitsData = await db
-        .select()
+        .select({
+          kits: kits,
+          kit_templates: kitTemplates,
+        })
         .from(kits)
         .leftJoin(kitTemplates, eq(kits.template_id, kitTemplates.id))
         .where(queryFilters.length > 0 ? and(...queryFilters) : undefined)
@@ -303,7 +306,10 @@ export class KitRepository {
   async findKitById(id: string): Promise<KitDTO | null> {
     try {
       const [kitData] = await db
-        .select()
+        .select({
+          kits: kits,
+          kit_templates: kitTemplates,
+        })
         .from(kits)
         .leftJoin(kitTemplates, eq(kits.template_id, kitTemplates.id))
         .where(eq(kits.id, id));
