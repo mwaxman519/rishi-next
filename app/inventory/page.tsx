@@ -30,22 +30,18 @@ import {
   AlertTriangle,
   CheckCircle,
   Archive,
-  Barcode,
-  DollarSign,
+  Box,
   MapPin,
-  Calendar,
-  Star,
+  Building2,
+  Users,
+  ChevronRight,
+  MoreVertical,
   Eye,
   Edit,
-  MoreVertical,
   Copy,
-  Smartphone,
-  Tablet,
-  Monitor,
-  ChevronRight,
-  Users,
-  ClipboardList,
-  Box,
+  QrCode,
+  BarChart3,
+  X,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -55,425 +51,273 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
-// Modern inventory data structure
+// Scalable inventory data structure for hundreds of kits across states/territories
 const inventoryData = {
   stats: {
-    totalItems: 342,
-    totalValue: 28750,
-    lowStockItems: 12,
-    outOfStockItems: 3,
-    kitTemplates: 18,
-    lastUpdate: "2025-01-17T10:30:00Z",
+    totalKitTemplates: 186,
+    activeInstances: 2847,
+    totalBrands: 142,
+    totalStates: 23,
+    totalTerritories: 87,
+    lowStockAlerts: 34,
+    criticalAlerts: 8,
   },
-  categories: [
-    { id: "electronics", name: "Electronics", count: 45, icon: "📱" },
-    { id: "furniture", name: "Furniture", count: 32, icon: "🪑" },
-    { id: "marketing", name: "Marketing", count: 156, icon: "📊" },
-    { id: "audio", name: "Audio", count: 18, icon: "🎵" },
-    { id: "display", name: "Display", count: 28, icon: "🖼️" },
-    { id: "outdoor", name: "Outdoor", count: 21, icon: "🏕️" },
-    { id: "luxury", name: "Luxury", count: 12, icon: "💎" },
-    { id: "accessories", name: "Accessories", count: 30, icon: "🔧" },
+  brands: [
+    { id: "brand-001", name: "Elevated Essence", count: 245 },
+    { id: "brand-002", name: "Green Valley Collective", count: 189 },
+    { id: "brand-003", name: "Pacific Coast Cannabis", count: 342 },
+    { id: "brand-004", name: "Mountain High Brands", count: 128 },
+    { id: "brand-005", name: "Desert Bloom Co", count: 276 },
   ],
-  items: [
-    {
-      id: "1",
-      name: "LED Display Panel 55\"",
-      category: "Electronics",
-      sku: "LED-55-4K",
-      currentStock: 8,
-      minStock: 3,
-      maxStock: 12,
-      unitCost: 280,
-      totalValue: 2240,
-      status: "in_stock",
-      condition: "excellent",
-      location: "Warehouse B",
-      lastRestocked: "2025-01-10",
-      usageFrequency: "high",
-      tags: ["4K", "Premium", "Popular"],
-      image: "/api/placeholder/60/60",
-    },
-    {
-      id: "2",
-      name: "Demo Table Portable",
-      category: "Furniture",
-      sku: "DT-001-PRT",
-      currentStock: 15,
-      minStock: 5,
-      maxStock: 25,
-      unitCost: 125,
-      totalValue: 1875,
-      status: "in_stock",
-      condition: "good",
-      location: "Warehouse A",
-      lastRestocked: "2025-01-15",
-      usageFrequency: "very_high",
-      tags: ["Portable", "Standard", "Popular"],
-      image: "/api/placeholder/60/60",
-    },
-    {
-      id: "3",
-      name: "Crystal Product Stands",
-      category: "Luxury",
-      sku: "CPS-LUX-001",
-      currentStock: 2,
-      minStock: 6,
-      maxStock: 15,
-      unitCost: 85,
-      totalValue: 170,
-      status: "low_stock",
-      condition: "excellent",
-      location: "Warehouse C",
-      lastRestocked: "2025-01-05",
-      usageFrequency: "low",
-      tags: ["Luxury", "Premium", "Crystal"],
-      image: "/api/placeholder/60/60",
-    },
-    {
-      id: "4",
-      name: "Promotional Brochures",
-      category: "Marketing",
-      sku: "BRCH-GEN-001",
-      currentStock: 2500,
-      minStock: 500,
-      maxStock: 5000,
-      unitCost: 0.5,
-      totalValue: 1250,
-      status: "in_stock",
-      condition: "new",
-      location: "Warehouse A",
-      lastRestocked: "2025-01-16",
-      usageFrequency: "very_high",
-      tags: ["Bulk", "Disposable", "Marketing"],
-      image: "/api/placeholder/60/60",
-    },
-    {
-      id: "5",
-      name: "Professional Sound System",
-      category: "Audio",
-      sku: "SND-PRO-001",
-      currentStock: 4,
-      minStock: 2,
-      maxStock: 8,
-      unitCost: 350,
-      totalValue: 1400,
-      status: "in_stock",
-      condition: "good",
-      location: "Warehouse B",
-      lastRestocked: "2025-01-12",
-      usageFrequency: "medium",
-      tags: ["Professional", "Wireless", "Premium"],
-      image: "/api/placeholder/60/60",
-    },
-    {
-      id: "6",
-      name: "Portable Canopy Tent",
-      category: "Outdoor",
-      sku: "CNP-OUT-001",
-      currentStock: 0,
-      minStock: 3,
-      maxStock: 10,
-      unitCost: 120,
-      totalValue: 0,
-      status: "out_of_stock",
-      condition: "fair",
-      location: "Warehouse A",
-      lastRestocked: "2025-01-01",
-      usageFrequency: "high",
-      tags: ["Outdoor", "Weather-Resistant", "Urgent"],
-      image: "/api/placeholder/60/60",
-    },
+  states: [
+    { code: "CA", name: "California", territories: 28, kits: 892 },
+    { code: "CO", name: "Colorado", territories: 12, kits: 345 },
+    { code: "WA", name: "Washington", territories: 15, kits: 423 },
+    { code: "OR", name: "Oregon", territories: 10, kits: 287 },
+    { code: "NV", name: "Nevada", territories: 8, kits: 198 },
   ],
   kitTemplates: [
     {
-      id: "1",
+      id: "KT-001",
       name: "Product Demo Standard",
-      description: "Essential items for product demonstrations",
-      category: "Demo",
-      itemCount: 12,
-      totalValue: 485,
+      brand: "Elevated Essence",
+      brandId: "brand-001",
+      activeInstances: 145,
+      totalInstances: 245,
+      territories: ["CA-01", "CA-02", "CA-05", "NV-01"],
+      componentCount: 12,
+      avgRating: 4.8,
       status: "active",
-      usageCount: 28,
-      rating: 4.6,
-      lastUsed: "2025-01-15",
-      tags: ["Popular", "Standard", "Demo"],
+      lastModified: "2025-01-15",
     },
     {
-      id: "2",
+      id: "KT-002",
       name: "Trade Show Premium",
-      description: "Complete setup for trade shows",
-      category: "Trade Show",
-      itemCount: 25,
-      totalValue: 1251,
+      brand: "Green Valley Collective",
+      brandId: "brand-002",
+      activeInstances: 89,
+      totalInstances: 125,
+      territories: ["CO-01", "CO-03", "WA-02"],
+      componentCount: 25,
+      avgRating: 4.6,
       status: "active",
-      usageCount: 8,
-      rating: 4.9,
-      lastUsed: "2025-01-12",
-      tags: ["Premium", "Corporate", "High-Value"],
+      lastModified: "2025-01-12",
     },
     {
-      id: "3",
+      id: "KT-003",
       name: "Street Team Activation",
-      description: "Mobile kit for street marketing",
-      category: "Street Marketing",
-      itemCount: 8,
-      totalValue: 320,
+      brand: "Pacific Coast Cannabis",
+      brandId: "brand-003",
+      activeInstances: 234,
+      totalInstances: 342,
+      territories: ["CA-03", "CA-08", "OR-01", "OR-02", "WA-01"],
+      componentCount: 8,
+      avgRating: 4.4,
       status: "active",
-      usageCount: 15,
-      rating: 4.3,
-      lastUsed: "2025-01-10",
-      tags: ["Mobile", "Outdoor", "Activation"],
-    },
-    {
-      id: "4",
-      name: "Luxury Event Package",
-      description: "High-end equipment for VIP events",
-      category: "Luxury",
-      itemCount: 18,
-      totalValue: 2150,
-      status: "active",
-      usageCount: 4,
-      rating: 5.0,
-      lastUsed: "2025-01-08",
-      tags: ["Luxury", "VIP", "Premium"],
+      lastModified: "2025-01-14",
     },
   ],
 };
 
-// Mobile-first responsive item card
-const InventoryItemCard = ({ item, viewMode = "grid" }) => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "in_stock":
-        return "bg-green-50 text-green-700 border-green-200";
-      case "low_stock":
-        return "bg-yellow-50 text-yellow-700 border-yellow-200";
-      case "out_of_stock":
-        return "bg-red-50 text-red-700 border-red-200";
-      default:
-        return "bg-gray-50 text-gray-700 border-gray-200";
-    }
-  };
-
-  const getStockPercentage = () => {
-    return (item.currentStock / item.maxStock) * 100;
-  };
-
-  const getUsageIntensity = (frequency: string) => {
-    const colors = {
-      very_high: "bg-red-500",
-      high: "bg-orange-500",
-      medium: "bg-yellow-500",
-      low: "bg-green-500",
-    };
-    return colors[frequency as keyof typeof colors] || "bg-gray-500";
-  };
-
-  if (viewMode === "list") {
-    return (
-      <Card className="hover:shadow-md transition-all duration-200">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Package className="w-6 h-6 text-gray-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-sm truncate">{item.name}</h3>
-                  <p className="text-xs text-gray-500 mt-1">{item.category}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="outline" className="text-xs">
-                      {item.sku}
-                    </Badge>
-                    <span className="text-xs text-gray-500">
-                      {item.location}
-                    </span>
-                  </div>
-                </div>
-                <div className="text-right ml-4">
-                  <Badge
-                    className={`${getStatusColor(item.status)} text-xs border mb-1`}
-                  >
-                    {item.status.replace("_", " ")}
-                  </Badge>
-                  <div className="text-sm font-semibold">
-                    {item.currentStock}/{item.maxStock}
-                  </div>
-                  <div className="text-xs text-gray-500">${item.unitCost}</div>
-                </div>
-              </div>
-              <div className="mt-2 flex items-center gap-2">
-                <div className="flex-1 bg-gray-200 rounded-full h-1">
-                  <div
-                    className={`h-1 rounded-full transition-all duration-300 ${
-                      getStockPercentage() > 50
-                        ? "bg-green-500"
-                        : getStockPercentage() > 20
-                          ? "bg-yellow-500"
-                          : "bg-red-500"
-                    }`}
-                    style={{ width: `${Math.min(getStockPercentage(), 100)}%` }}
-                  />
-                </div>
-                <div
-                  className={`w-2 h-2 rounded-full ${getUsageIntensity(item.usageFrequency)}`}
-                  title={`Usage: ${item.usageFrequency}`}
-                />
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
+// Mobile-optimized filter sheet
+const FilterSheet = ({ 
+  selectedBrand, 
+  setSelectedBrand, 
+  selectedState, 
+  setSelectedState,
+  selectedStatus,
+  setSelectedStatus,
+  onClose
+}) => {
   return (
-    <Card className="hover:shadow-lg transition-all duration-200 h-full">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-3">
-          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-            <Package className="w-6 h-6 text-gray-600" />
-          </div>
-          <Badge
-            className={`${getStatusColor(item.status)} text-xs border`}
-          >
-            {item.status.replace("_", " ")}
-          </Badge>
-        </div>
-        
-        <div className="space-y-3">
-          <div>
-            <h3 className="font-semibold text-sm line-clamp-2">{item.name}</h3>
-            <p className="text-xs text-gray-500 mt-1">{item.category}</p>
-          </div>
-
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Stock</span>
-            <span className="font-semibold">
-              {item.currentStock}/{item.maxStock}
-            </span>
-          </div>
-
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className={`h-2 rounded-full transition-all duration-300 ${
-                getStockPercentage() > 50
-                  ? "bg-green-500"
-                  : getStockPercentage() > 20
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
-              }`}
-              style={{ width: `${Math.min(getStockPercentage(), 100)}%` }}
-            />
-          </div>
-
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Value</span>
-            <span className="font-semibold">${item.totalValue}</span>
-          </div>
-
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500">Usage</span>
-            <div className="flex items-center gap-1">
-              <div
-                className={`w-2 h-2 rounded-full ${getUsageIntensity(item.usageFrequency)}`}
-              />
-              <span className="text-xs">{item.usageFrequency}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-1 mt-2">
-            {item.tags.slice(0, 2).map((tag, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
+    <div className="space-y-6 p-1">
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Brand</h3>
+        <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Brands" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Brands</SelectItem>
+            {inventoryData.brands.map((brand) => (
+              <SelectItem key={brand.id} value={brand.id}>
+                {brand.name} ({brand.count})
+              </SelectItem>
             ))}
-            {item.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs">
-                +{item.tags.length - 2}
-              </Badge>
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-semibold mb-3">State/Region</h3>
+        <Select value={selectedState} onValueChange={setSelectedState}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All States" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All States</SelectItem>
+            {inventoryData.states.map((state) => (
+              <SelectItem key={state.code} value={state.code}>
+                {state.name} ({state.kits} kits)
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Status</h3>
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="low_stock">Low Stock</SelectItem>
+            <SelectItem value="critical">Critical</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex gap-2 pt-4">
+        <Button variant="outline" className="flex-1" onClick={() => {
+          setSelectedBrand("all");
+          setSelectedState("all");
+          setSelectedStatus("all");
+        }}>
+          Reset Filters
+        </Button>
+        <Button className="flex-1" onClick={onClose}>
+          Apply Filters
+        </Button>
+      </div>
+    </div>
   );
 };
 
-// Kit template card
-const KitTemplateCard = ({ kit }) => {
+// Mobile-optimized kit template card
+const KitTemplateCard = ({ template, isMobile }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
         return "bg-green-50 text-green-700 border-green-200";
-      case "draft":
+      case "low_stock":
         return "bg-yellow-50 text-yellow-700 border-yellow-200";
-      case "archived":
+      case "critical":
+        return "bg-red-50 text-red-700 border-red-200";
+      case "inactive":
         return "bg-gray-50 text-gray-700 border-gray-200";
       default:
         return "bg-gray-50 text-gray-700 border-gray-200";
     }
   };
 
+  const utilizationRate = Math.round((template.activeInstances / template.totalInstances) * 100);
+
   return (
-    <Card className="hover:shadow-lg transition-all duration-200">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-3">
-          <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-            <Archive className="w-6 h-6 text-purple-600" />
-          </div>
-          <Badge className={`${getStatusColor(kit.status)} text-xs border`}>
-            {kit.status}
-          </Badge>
-        </div>
-
+    <Card className="hover:shadow-md transition-all cursor-pointer">
+      <CardContent className="p-3 sm:p-4">
         <div className="space-y-3">
-          <div>
-            <h3 className="font-semibold text-sm line-clamp-2">{kit.name}</h3>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-              {kit.description}
-            </p>
+          {/* Header */}
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-sm sm:text-base truncate">
+                {template.name}
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 truncate">
+                {template.brand} • {template.id}
+              </p>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <Eye className="w-4 h-4 mr-2" />
+                  View Details
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Template
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Copy className="w-4 h-4 mr-2" />
+                  Duplicate
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <QrCode className="w-4 h-4 mr-2" />
+                  Generate QR
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 text-xs">
-            <div className="text-center bg-blue-50 rounded-lg p-2">
-              <div className="font-bold text-blue-600">{kit.itemCount}</div>
-              <div className="text-blue-700">Items</div>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+            <div>
+              <span className="text-gray-600">Active/Total</span>
+              <p className="font-semibold">
+                {template.activeInstances}/{template.totalInstances}
+              </p>
             </div>
-            <div className="text-center bg-green-50 rounded-lg p-2">
-              <div className="font-bold text-green-600">${kit.totalValue}</div>
-              <div className="text-green-700">Value</div>
-            </div>
-            <div className="text-center bg-purple-50 rounded-lg p-2">
-              <div className="font-bold text-purple-600">{kit.usageCount}</div>
-              <div className="text-purple-700">Uses</div>
+            <div>
+              <span className="text-gray-600">Utilization</span>
+              <p className="font-semibold">{utilizationRate}%</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          {/* Utilization bar */}
+          <div className="w-full bg-gray-200 rounded-full h-1.5">
+            <div
+              className={`h-1.5 rounded-full transition-all ${
+                utilizationRate > 80 ? "bg-green-500" : 
+                utilizationRate > 50 ? "bg-yellow-500" : "bg-red-500"
+              }`}
+              style={{ width: `${utilizationRate}%` }}
+            />
+          </div>
+
+          {/* Territories */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <MapPin className="w-3 h-3 text-gray-500" />
+            <div className="flex gap-1 flex-wrap">
+              {template.territories.slice(0, 3).map((territory) => (
+                <Badge key={territory} variant="outline" className="text-xs px-1.5 py-0">
+                  {territory}
+                </Badge>
+              ))}
+              {template.territories.length > 3 && (
+                <Badge variant="outline" className="text-xs px-1.5 py-0">
+                  +{template.territories.length - 3}
+                </Badge>
+              )}
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-2 border-t">
             <div className="flex items-center gap-1">
-              <Star className="w-3 h-3 text-yellow-500 fill-current" />
-              <span className="text-xs font-semibold">{kit.rating}</span>
+              <Box className="w-3 h-3 text-gray-500" />
+              <span className="text-xs text-gray-600">{template.componentCount} items</span>
             </div>
-            <span className="text-xs text-gray-500">
-              Used {new Date(kit.lastUsed).toLocaleDateString()}
-            </span>
-          </div>
-
-          <div className="flex flex-wrap gap-1">
-            {kit.tags.slice(0, 2).map((tag, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
-            {kit.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs">
-                +{kit.tags.length - 2}
-              </Badge>
-            )}
+            <div className="flex items-center gap-1">
+              <span className="text-xs text-yellow-600">★</span>
+              <span className="text-xs font-semibold">{template.avgRating}</span>
+            </div>
           </div>
         </div>
       </CardContent>
@@ -483,393 +327,234 @@ const KitTemplateCard = ({ kit }) => {
 
 export default function InventoryPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [activeTab, setActiveTab] = useState("templates");
+  const [selectedBrand, setSelectedBrand] = useState("all");
+  const [selectedState, setSelectedState] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [filterOpen, setFilterOpen] = useState(false);
   const { toast } = useToast();
 
-  const filteredItems = inventoryData.items.filter((item) => {
-    const matchesSearch = item.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" || item.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+  const filteredTemplates = inventoryData.kitTemplates.filter((template) => {
+    const matchesSearch = 
+      template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesBrand =
+      selectedBrand === "all" || template.brandId === selectedBrand;
+    return matchesSearch && matchesBrand;
   });
 
-  const filteredKits = inventoryData.kitTemplates.filter((kit) =>
-    kit.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const activeFilters = [
+    selectedBrand !== "all" && selectedBrand,
+    selectedState !== "all" && selectedState,
+    selectedStatus !== "all" && selectedStatus,
+  ].filter(Boolean).length;
 
   return (
-    <div className="container mx-auto p-4 space-y-6 max-w-7xl">
+    <div className="min-h-screen bg-gray-50">
       {/* Mobile-first header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Inventory Management</h1>
-          <p className="text-sm text-gray-600">
-            Manage kit templates, instances, components, and stock assignments
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link href="/inventory/templates/new">
-            <Button size="sm" className="w-full sm:w-auto">
-              <Plus className="w-4 h-4 mr-2" />
-              New Template
+      <div className="sticky top-0 z-20 bg-white border-b">
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-lg sm:text-xl font-bold">Inventory</h1>
+            <Button size="sm" className="h-8">
+              <Plus className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">New Kit</span>
             </Button>
-          </Link>
-          <Link href="/inventory/stock/new">
-            <Button size="sm" variant="outline" className="w-full sm:w-auto">
-              <Package className="w-4 h-4 mr-2" />
-              Add Stock Item
-            </Button>
-          </Link>
+          </div>
+
+          {/* Search bar with filter button */}
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="Search kits, brands, territories..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-3 h-9"
+              />
+            </div>
+            <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="h-9 px-3 relative">
+                  <Filter className="w-4 h-4" />
+                  {activeFilters > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600">
+                      {activeFilters}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                  <SheetDescription>
+                    Narrow down your inventory search
+                  </SheetDescription>
+                </SheetHeader>
+                <FilterSheet
+                  selectedBrand={selectedBrand}
+                  setSelectedBrand={setSelectedBrand}
+                  selectedState={selectedState}
+                  setSelectedState={setSelectedState}
+                  selectedStatus={selectedStatus}
+                  setSelectedStatus={setSelectedStatus}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
+
+        {/* Stats scroll */}
+        <div className="px-4 pb-3 overflow-x-auto">
+          <div className="flex gap-3 min-w-max">
+            <div className="bg-purple-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-purple-600">Templates</p>
+              <p className="text-lg font-bold text-purple-900">{inventoryData.stats.totalKitTemplates}</p>
+            </div>
+            <div className="bg-green-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-green-600">Active Kits</p>
+              <p className="text-lg font-bold text-green-900">{inventoryData.stats.activeInstances.toLocaleString()}</p>
+            </div>
+            <div className="bg-yellow-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-yellow-600">Brands</p>
+              <p className="text-lg font-bold text-yellow-900">{inventoryData.stats.totalBrands}</p>
+            </div>
+            <div className="bg-red-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-red-600">Alerts</p>
+              <p className="text-lg font-bold text-red-900">{inventoryData.stats.criticalAlerts}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="w-full justify-start rounded-none border-t h-10 p-0">
+            <TabsTrigger value="templates" className="flex-1 rounded-none text-xs sm:text-sm">
+              Templates
+            </TabsTrigger>
+            <TabsTrigger value="instances" className="flex-1 rounded-none text-xs sm:text-sm">
+              Active
+            </TabsTrigger>
+            <TabsTrigger value="stock" className="flex-1 rounded-none text-xs sm:text-sm">
+              Stock
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex-1 rounded-none text-xs sm:text-sm">
+              Analytics
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
       </div>
 
-      {/* Stats grid - responsive */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Package className="w-4 h-4 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Total Items</p>
-                <p className="text-2xl font-bold">
-                  {inventoryData.stats.totalItems}
-                </p>
-              </div>
+      {/* Content */}
+      <div className="p-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsContent value="templates" className="mt-0 space-y-4">
+            {/* Quick actions for mobile */}
+            <div className="grid grid-cols-2 gap-2 sm:hidden">
+              <Link href="/inventory/templates/new">
+                <Button variant="outline" className="w-full h-auto py-3">
+                  <Plus className="w-4 h-4 mb-1" />
+                  <span className="block text-xs">Create Template</span>
+                </Button>
+              </Link>
+              <Link href="/inventory/bulk-import">
+                <Button variant="outline" className="w-full h-auto py-3">
+                  <Archive className="w-4 h-4 mb-1" />
+                  <span className="block text-xs">Bulk Import</span>
+                </Button>
+              </Link>
             </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                <DollarSign className="w-4 h-4 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Total Value</p>
-                <p className="text-2xl font-bold">
-                  ${inventoryData.stats.totalValue.toLocaleString()}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <AlertTriangle className="w-4 h-4 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Low Stock</p>
-                <p className="text-2xl font-bold">
-                  {inventoryData.stats.lowStockItems}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Archive className="w-4 h-4 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Kit Templates</p>
-                <p className="text-2xl font-bold">
-                  {inventoryData.stats.kitTemplates}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
-      {/* Search and filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            placeholder="Search inventory..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Categories</SelectItem>
-              {inventoryData.categories.map((cat) => (
-                <SelectItem key={cat.id} value={cat.name}>
-                  {cat.icon} {cat.name} ({cat.count})
-                </SelectItem>
+            {/* Template grid */}
+            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {filteredTemplates.map((template) => (
+                <KitTemplateCard key={template.id} template={template} isMobile={true} />
               ))}
-            </SelectContent>
-          </Select>
-          <div className="flex items-center border rounded-lg">
-            <Button
-              variant={viewMode === "grid" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setViewMode("grid")}
-              className="rounded-r-none"
-            >
-              <Grid3x3 className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setViewMode("list")}
-              className="rounded-l-none"
-            >
-              <List className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="instances" className="mt-0 space-y-4">
+            <Link href="/inventory/kit-instances">
+              <Card className="hover:shadow-md transition-all cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <Package className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-sm">Active Kit Instances</h3>
+                        <p className="text-xs text-gray-600">{inventoryData.stats.activeInstances.toLocaleString()} kits deployed</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </TabsContent>
+
+          <TabsContent value="stock" className="mt-0 space-y-4">
+            <Link href="/inventory/stock">
+              <Card className="hover:shadow-md transition-all cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                        <Users className="w-5 h-5 text-green-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-sm">Stock Management</h3>
+                        <p className="text-xs text-gray-600">Track items assigned to agents</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="mt-0 space-y-4">
+            <div className="grid gap-3">
+              {/* Territory heat map preview */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base">Territory Coverage</CardTitle>
+                  <CardDescription className="text-xs">Kit distribution across {inventoryData.stats.totalStates} states</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {inventoryData.states.slice(0, 3).map((state) => (
+                      <div key={state.code} className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-3 h-3 text-gray-500" />
+                          <span className="text-sm font-medium">{state.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="h-2 bg-purple-500 rounded-full"
+                              style={{ width: `${(state.kits / 1000) * 100}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-600 min-w-[40px] text-right">{state.kits}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <Button variant="outline" size="sm" className="w-full mt-3">
+                    <BarChart3 className="w-4 h-4 mr-2" />
+                    View Full Analytics
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      {/* Main content tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="templates">Templates</TabsTrigger>
-          <TabsTrigger value="instances">Instances</TabsTrigger>
-          <TabsTrigger value="components">Components</TabsTrigger>
-          <TabsTrigger value="stock">Stock Items</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="templates" className="space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Kit Templates</h2>
-            <p className="text-sm text-gray-600">Pre-configured kits for different booking types</p>
-          </div>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredKits.map((kit) => (
-              <KitTemplateCard key={kit.id} kit={kit} />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="instances" className="space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Kit Instances</h2>
-            <p className="text-sm text-gray-600">Active kits assigned to bookings and agents</p>
-          </div>
-          <Link href="/inventory/kit-instances">
-            <Card className="hover:shadow-md transition-all cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                      <Package className="w-6 h-6 text-purple-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">View Kit Instances</h3>
-                      <p className="text-sm text-gray-600">Manage active kit assignments</p>
-                    </div>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </TabsContent>
-
-        <TabsContent value="components" className="space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Kit Components</h2>
-            <p className="text-sm text-gray-600">Individual items that make up kits</p>
-          </div>
-          <div
-            className={`grid gap-4 ${
-              viewMode === "grid"
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                : "grid-cols-1"
-            }`}
-          >
-            {filteredItems.map((item) => (
-              <InventoryItemCard key={item.id} item={item} viewMode={viewMode} />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="stock" className="space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Stock Management</h2>
-            <p className="text-sm text-gray-600">Individual items assigned to brand agents</p>
-          </div>
-          <Link href="/inventory/stock">
-            <Card className="hover:shadow-md transition-all cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                      <Package className="w-6 h-6 text-green-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold">Manage Stock Items</h3>
-                      <p className="text-sm text-gray-600">Tables, totes, equipment assigned to agents</p>
-                    </div>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </TabsContent>
-
-        <TabsContent value="analytics" className="space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Inventory Analytics</h2>
-            <p className="text-sm text-gray-600">Kit performance and usage metrics</p>
-          </div>
-          
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <ClipboardList className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Active Kits</p>
-                    <p className="text-xl font-bold">45</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Users className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Agents w/ Items</p>
-                    <p className="text-xl font-bold">28</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <Box className="w-5 h-5 text-yellow-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Items in Use</p>
-                    <p className="text-xl font-bold">156</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                    <AlertTriangle className="w-5 h-5 text-red-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Missing Items</p>
-                    <p className="text-xl font-bold">3</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Kit Template Performance</CardTitle>
-                <CardDescription>Most popular kit configurations</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <h4 className="font-medium text-sm">Product Demo Standard</h4>
-                      <p className="text-xs text-gray-600">Used 89 times • 4.8★</p>
-                    </div>
-                    <Badge className="bg-green-100 text-green-700">High Usage</Badge>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <h4 className="font-medium text-sm">Trade Show Premium</h4>
-                      <p className="text-xs text-gray-600">Used 45 times • 4.6★</p>
-                    </div>
-                    <Badge className="bg-yellow-100 text-yellow-700">Medium Usage</Badge>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div>
-                      <h4 className="font-medium text-sm">Street Team Activation</h4>
-                      <p className="text-xs text-gray-600">Used 23 times • 4.4★</p>
-                    </div>
-                    <Badge className="bg-gray-100 text-gray-700">Low Usage</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Stock Assignment Overview</CardTitle>
-                <CardDescription>Items assigned to brand agents</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Tables</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 bg-purple-500 rounded-full" style={{ width: "75%" }} />
-                      </div>
-                      <span className="text-sm font-medium">18/24</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Storage Totes</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 bg-purple-500 rounded-full" style={{ width: "90%" }} />
-                      </div>
-                      <span className="text-sm font-medium">27/30</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Tablecloths</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 bg-purple-500 rounded-full" style={{ width: "60%" }} />
-                      </div>
-                      <span className="text-sm font-medium">36/60</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm">Display Stands</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
-                        <div className="h-2 bg-yellow-500 rounded-full" style={{ width: "40%" }} />
-                      </div>
-                      <span className="text-sm font-medium">8/20</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-      </Tabs>
     </div>
   );
 }

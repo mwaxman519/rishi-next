@@ -34,6 +34,12 @@ import {
   Users,
   Archive,
   ArrowRight,
+  QrCode,
+  Truck,
+  BarChart3,
+  Building2,
+  RefreshCw,
+  Activity,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -43,114 +49,183 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
-// Kit instances data
+// Scalable kit instances data for hundreds of brands across territories
 const kitInstancesData = {
   stats: {
-    activeInstances: 45,
-    inPreparation: 8,
-    inTransit: 12,
-    deployed: 22,
-    returning: 3,
-    totalValue: 24580,
+    totalInstances: 2847,
+    activeDeployments: 1892,
+    inPreparation: 342,
+    inTransit: 456,
+    returning: 157,
+    totalValue: 1245800,
+    criticalIssues: 23,
+    territories: 87,
   },
+  territories: [
+    { code: "CA-01", name: "Northern California", instances: 342 },
+    { code: "CA-02", name: "Bay Area", instances: 456 },
+    { code: "CA-03", name: "Southern California", instances: 523 },
+    { code: "CO-01", name: "Denver Metro", instances: 287 },
+    { code: "WA-01", name: "Seattle Region", instances: 312 },
+  ],
+  brands: [
+    { id: "brand-001", name: "Elevated Essence", instances: 342 },
+    { id: "brand-002", name: "Green Valley Collective", instances: 289 },
+    { id: "brand-003", name: "Pacific Coast Cannabis", instances: 456 },
+    { id: "brand-004", name: "Mountain High Brands", instances: 198 },
+  ],
   instances: [
     {
-      id: "KI-001",
+      id: "KI-2847",
       templateName: "Product Demo Standard",
       templateId: "KT-001",
-      bookingRef: "BK-2025-0145",
+      bookingRef: "BK-2025-3421",
+      brand: "Elevated Essence",
+      brandId: "brand-001",
       status: "deployed",
       location: "Green Dragon Dispensary",
+      territory: "CA-01",
       agent: "Sarah Johnson",
-      agentId: "BA-045",
-      startDate: "2025-01-15",
-      endDate: "2025-01-16",
+      agentId: "BA-CA01-045",
+      startDate: "2025-01-17",
+      endDate: "2025-01-18",
       items: 12,
       totalValue: 485,
       completeness: 100,
+      lastUpdate: "2025-01-17T14:30:00Z",
+      coordinates: { lat: 37.7749, lng: -122.4194 },
     },
     {
-      id: "KI-002",
+      id: "KI-2846",
       templateName: "Trade Show Premium",
       templateId: "KT-002",
-      bookingRef: "BK-2025-0148",
+      bookingRef: "BK-2025-3420",
+      brand: "Green Valley Collective",
+      brandId: "brand-002",
       status: "in_preparation",
       location: "San Jose Convention Center",
+      territory: "CA-02",
       agent: "Mike Chen",
-      agentId: "BA-022",
-      startDate: "2025-01-18",
-      endDate: "2025-01-20",
+      agentId: "BA-CA02-022",
+      startDate: "2025-01-19",
+      endDate: "2025-01-21",
       items: 25,
       totalValue: 1251,
       completeness: 75,
+      lastUpdate: "2025-01-17T12:00:00Z",
+      coordinates: { lat: 37.3382, lng: -121.8863 },
     },
-    {
-      id: "KI-003",
-      templateName: "Street Team Activation",
-      templateId: "KT-003",
-      bookingRef: "BK-2025-0142",
-      status: "in_transit",
-      location: "Venice Beach Boardwalk",
-      agent: "Emma Wilson",
-      agentId: "BA-033",
-      startDate: "2025-01-16",
-      endDate: "2025-01-16",
-      items: 8,
-      totalValue: 320,
-      completeness: 100,
-    },
-    {
-      id: "KI-004",
-      templateName: "Product Demo Standard",
-      templateId: "KT-001",
-      bookingRef: "BK-2025-0141",
-      status: "returning",
-      location: "Purple Haze Collective",
-      agent: "James Rodriguez",
-      agentId: "BA-018",
-      startDate: "2025-01-14",
-      endDate: "2025-01-14",
-      items: 12,
-      totalValue: 485,
-      completeness: 92,
-    },
-    {
-      id: "KI-005",
-      templateName: "Luxury Event Package",
-      templateId: "KT-004",
-      bookingRef: "BK-2025-0150",
-      status: "in_preparation",
-      location: "Beverly Hills Hotel",
-      agent: "Lisa Park",
-      agentId: "BA-041",
-      startDate: "2025-01-22",
-      endDate: "2025-01-22",
-      items: 18,
-      totalValue: 2150,
-      completeness: 40,
-    },
+    // More instances would be loaded dynamically
   ],
-  itemDetails: {
-    "KI-001": [
-      { name: "Folding Table", quantity: 1, status: "deployed" },
-      { name: "Tablecloth", quantity: 1, status: "deployed" },
-      { name: "Product Samples", quantity: 6, status: "deployed" },
-      { name: "Brochures", quantity: 100, status: "deployed" },
-      { name: "Banner Stand", quantity: 1, status: "deployed" },
-      { name: "Storage Tote", quantity: 1, status: "deployed" },
-    ],
-    "KI-002": [
-      { name: "Display Booth", quantity: 1, status: "packed" },
-      { name: "LED Panels", quantity: 2, status: "packed" },
-      { name: "Demo Tables", quantity: 3, status: "preparing" },
-      { name: "Premium Samples", quantity: 12, status: "packed" },
-      { name: "Marketing Materials", quantity: 500, status: "preparing" },
-    ],
-  },
 };
 
-// Kit instance card
+// Mobile-optimized filter sheet
+const InstanceFilterSheet = ({ 
+  selectedBrand, 
+  setSelectedBrand, 
+  selectedTerritory, 
+  setSelectedTerritory,
+  selectedStatus,
+  setSelectedStatus,
+  selectedDateRange,
+  setSelectedDateRange,
+  onClose
+}) => {
+  return (
+    <div className="space-y-6 p-1">
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Brand</h3>
+        <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Brands" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Brands</SelectItem>
+            {kitInstancesData.brands.map((brand) => (
+              <SelectItem key={brand.id} value={brand.id}>
+                {brand.name} ({brand.instances})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Territory</h3>
+        <Select value={selectedTerritory} onValueChange={setSelectedTerritory}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Territories" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Territories ({kitInstancesData.stats.territories})</SelectItem>
+            {kitInstancesData.territories.map((territory) => (
+              <SelectItem key={territory.code} value={territory.code}>
+                {territory.name} ({territory.instances})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Status</h3>
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="deployed">Deployed</SelectItem>
+            <SelectItem value="in_preparation">In Preparation</SelectItem>
+            <SelectItem value="in_transit">In Transit</SelectItem>
+            <SelectItem value="returning">Returning</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <h3 className="text-sm font-semibold mb-3">Date Range</h3>
+        <Select value={selectedDateRange} onValueChange={setSelectedDateRange}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select Range" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Time</SelectItem>
+            <SelectItem value="today">Today</SelectItem>
+            <SelectItem value="week">This Week</SelectItem>
+            <SelectItem value="month">This Month</SelectItem>
+            <SelectItem value="quarter">This Quarter</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex gap-2 pt-4">
+        <Button variant="outline" className="flex-1" onClick={() => {
+          setSelectedBrand("all");
+          setSelectedTerritory("all");
+          setSelectedStatus("all");
+          setSelectedDateRange("all");
+        }}>
+          Reset
+        </Button>
+        <Button className="flex-1" onClick={onClose}>
+          Apply
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// Mobile-optimized kit instance card
 const KitInstanceCard = ({ instance }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -167,73 +242,132 @@ const KitInstanceCard = ({ instance }) => {
     }
   };
 
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "deployed":
+        return <CheckCircle className="w-3 h-3" />;
+      case "in_preparation":
+        return <Clock className="w-3 h-3" />;
+      case "in_transit":
+        return <Truck className="w-3 h-3" />;
+      case "returning":
+        return <RefreshCw className="w-3 h-3" />;
+      default:
+        return null;
+    }
+  };
+
   const getCompletenessColor = (percentage: number) => {
     if (percentage === 100) return "bg-green-500";
     if (percentage >= 75) return "bg-yellow-500";
     return "bg-red-500";
   };
 
-  return (
-    <Card className="hover:shadow-md transition-all">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Archive className="w-5 h-5 text-purple-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm">{instance.templateName}</h3>
-              <p className="text-xs text-gray-500">{instance.id} • {instance.bookingRef}</p>
-            </div>
-          </div>
-          <Badge className={`${getStatusColor(instance.status)} border`}>
-            {instance.status.replace("_", " ")}
-          </Badge>
-        </div>
+  const timeSinceUpdate = () => {
+    const lastUpdate = new Date(instance.lastUpdate);
+    const now = new Date();
+    const hours = Math.floor((now - lastUpdate) / (1000 * 60 * 60));
+    if (hours < 1) return "Just now";
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  };
 
+  return (
+    <Card className="hover:shadow-md transition-all cursor-pointer">
+      <CardContent className="p-3">
         <div className="space-y-3">
-          <div>
-            <div className="flex items-center gap-2 text-sm">
+          {/* Header */}
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold text-sm truncate">
+                  {instance.templateName}
+                </h3>
+                <Badge className={`${getStatusColor(instance.status)} border text-xs flex items-center gap-1`}>
+                  {getStatusIcon(instance.status)}
+                  {instance.status.replace("_", " ")}
+                </Badge>
+              </div>
+              <p className="text-xs text-gray-600">
+                {instance.id} • {instance.bookingRef}
+              </p>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <MoreVertical className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <QrCode className="w-4 h-4 mr-2" />
+                  View QR
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <MapPin className="w-4 h-4 mr-2" />
+                  Track
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Activity className="w-4 h-4 mr-2" />
+                  Activity Log
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {/* Info grid */}
+          <div className="space-y-1 text-xs">
+            <div className="flex items-center gap-2">
+              <Building2 className="w-3 h-3 text-gray-500" />
+              <span className="truncate">{instance.brand}</span>
+            </div>
+            <div className="flex items-center gap-2">
               <MapPin className="w-3 h-3 text-gray-500" />
               <span className="truncate">{instance.location}</span>
+              <span className="text-gray-500">• {instance.territory}</span>
             </div>
-            <div className="flex items-center gap-2 text-sm mt-1">
+            <div className="flex items-center gap-2">
               <Users className="w-3 h-3 text-gray-500" />
               <span>{instance.agent}</span>
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-600">Completeness</span>
-            <span className="font-semibold">{instance.completeness}%</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div
-              className={`h-2 rounded-full transition-all ${getCompletenessColor(instance.completeness)}`}
-              style={{ width: `${instance.completeness}%` }}
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 text-xs">
+          {/* Completeness */}
+          {instance.status === "in_preparation" && (
             <div>
-              <span className="text-gray-600">Items: </span>
-              <span className="font-semibold">{instance.items}</span>
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="text-gray-600">Preparation</span>
+                <span className="font-medium">{instance.completeness}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5">
+                <div
+                  className={`h-1.5 rounded-full transition-all ${getCompletenessColor(instance.completeness)}`}
+                  style={{ width: `${instance.completeness}%` }}
+                />
+              </div>
             </div>
-            <div>
-              <span className="text-gray-600">Value: </span>
-              <span className="font-semibold">${instance.totalValue}</span>
-            </div>
-          </div>
+          )}
 
+          {/* Footer */}
           <div className="flex items-center justify-between pt-2 border-t">
-            <div className="flex items-center gap-1 text-xs text-gray-500">
-              <Calendar className="w-3 h-3" />
-              <span>{new Date(instance.startDate).toLocaleDateString()}</span>
+            <div className="flex items-center gap-3 text-xs">
+              <div>
+                <span className="text-gray-600">Items: </span>
+                <span className="font-medium">{instance.items}</span>
+              </div>
+              <div>
+                <span className="text-gray-600">Value: </span>
+                <span className="font-medium">${instance.totalValue}</span>
+              </div>
             </div>
-            <Button size="sm" variant="ghost" className="h-7 text-xs">
-              View Details
-              <ArrowRight className="w-3 h-3 ml-1" />
-            </Button>
+            <div className="text-xs text-gray-500">
+              {timeSinceUpdate()}
+            </div>
           </div>
         </div>
       </CardContent>
@@ -241,230 +375,168 @@ const KitInstanceCard = ({ instance }) => {
   );
 };
 
-// Timeline view component
-const TimelineView = ({ instances }) => {
-  const today = new Date().toISOString().split('T')[0];
-  
+// Mobile list view component
+const InstanceListView = ({ instances }) => {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-4 mb-4">
-        <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-          <Clock className="w-3 h-3 mr-1" />
-          Upcoming
-        </Badge>
-        <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-          <CheckCircle className="w-3 h-3 mr-1" />
-          Active Today
-        </Badge>
-        <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">
-          <Archive className="w-3 h-3 mr-1" />
-          Completed
-        </Badge>
-      </div>
-
-      <div className="space-y-3">
-        {instances.map((instance) => {
-          const isToday = instance.startDate === today;
-          const isPast = new Date(instance.endDate) < new Date(today);
-          const isFuture = new Date(instance.startDate) > new Date(today);
-
-          return (
-            <Card key={instance.id} className={`${isToday ? 'border-green-500' : ''}`}>
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="text-center min-w-[60px]">
-                      <div className="text-xs text-gray-500">
-                        {new Date(instance.startDate).toLocaleDateString('en-US', { month: 'short' })}
-                      </div>
-                      <div className="text-2xl font-bold">
-                        {new Date(instance.startDate).getDate()}
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-semibold text-sm">{instance.templateName}</h4>
-                        <Badge className={`${getStatusColor(instance.status)} border text-xs`}>
-                          {instance.status.replace("_", " ")}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-4 text-xs text-gray-600">
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3" />
-                          {instance.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Users className="w-3 h-3" />
-                          {instance.agent}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-semibold">${instance.totalValue}</div>
-                    <div className="text-xs text-gray-500">{instance.items} items</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+    <div className="space-y-2">
+      {instances.map((instance) => (
+        <KitInstanceCard key={instance.id} instance={instance} />
+      ))}
     </div>
   );
 };
 
-function getStatusColor(status: string) {
-  switch (status) {
-    case "deployed":
-      return "bg-green-50 text-green-700 border-green-200";
-    case "in_preparation":
-      return "bg-yellow-50 text-yellow-700 border-yellow-200";
-    case "in_transit":
-      return "bg-purple-50 text-purple-700 border-purple-200";
-    case "returning":
-      return "bg-orange-50 text-orange-700 border-orange-200";
-    default:
-      return "bg-gray-50 text-gray-700 border-gray-200";
-  }
-}
+// Map view placeholder
+const MapView = () => {
+  return (
+    <Card>
+      <CardContent className="p-8 text-center">
+        <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+        <h3 className="font-semibold mb-2">Map View</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Track {kitInstancesData.stats.activeDeployments.toLocaleString()} active deployments across {kitInstancesData.stats.territories} territories
+        </p>
+        <Button>Open Full Map</Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default function KitInstancesPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("active");
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
+  const [selectedBrand, setSelectedBrand] = useState("all");
+  const [selectedTerritory, setSelectedTerritory] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
-  const [viewMode, setViewMode] = useState<"grid" | "timeline">("grid");
+  const [selectedDateRange, setSelectedDateRange] = useState("today");
+  const [filterOpen, setFilterOpen] = useState(false);
   const { toast } = useToast();
 
-  const filteredInstances = kitInstancesData.instances.filter((instance) => {
-    const matchesSearch = 
-      instance.templateName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      instance.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      instance.agent.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      instance.bookingRef.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus =
-      selectedStatus === "all" || instance.status === selectedStatus;
-    return matchesSearch && matchesStatus;
-  });
+  const activeFilters = [
+    selectedBrand !== "all" && selectedBrand,
+    selectedTerritory !== "all" && selectedTerritory,
+    selectedStatus !== "all" && selectedStatus,
+    selectedDateRange !== "all" && selectedDateRange,
+  ].filter(Boolean).length;
 
   return (
-    <div className="container mx-auto p-4 space-y-6 max-w-7xl">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Kit Instances</h1>
-          <p className="text-sm text-gray-600">
-            Active kits assigned to bookings and agents
-          </p>
-        </div>
-        <Button size="sm">
-          <Plus className="w-4 h-4 mr-2" />
-          Create Instance
-        </Button>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile-first sticky header */}
+      <div className="sticky top-0 z-20 bg-white border-b">
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-lg sm:text-xl font-bold">Kit Instances</h1>
+            <Button size="sm" className="h-8">
+              <Plus className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Create</span>
+            </Button>
+          </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">Active</p>
-              <p className="text-2xl font-bold">{kitInstancesData.stats.activeInstances}</p>
+          {/* Search and filter */}
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="Search kits, brands, locations..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-3 h-9"
+              />
             </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">Preparing</p>
-              <p className="text-2xl font-bold text-yellow-600">
-                {kitInstancesData.stats.inPreparation}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">In Transit</p>
-              <p className="text-2xl font-bold text-purple-600">
-                {kitInstancesData.stats.inTransit}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">Deployed</p>
-              <p className="text-2xl font-bold text-green-600">
-                {kitInstancesData.stats.deployed}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">Returning</p>
-              <p className="text-2xl font-bold text-orange-600">
-                {kitInstancesData.stats.returning}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-center">
-              <p className="text-sm text-gray-600">Total Value</p>
-              <p className="text-2xl font-bold">
-                ${kitInstancesData.stats.totalValue.toLocaleString()}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Search and filters */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            placeholder="Search by template, location, agent, or booking..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
+            <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="h-9 px-3 relative">
+                  <Filter className="w-4 h-4" />
+                  {activeFilters > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600">
+                      {activeFilters}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                  <SheetDescription>
+                    Filter instances across territories
+                  </SheetDescription>
+                </SheetHeader>
+                <InstanceFilterSheet
+                  selectedBrand={selectedBrand}
+                  setSelectedBrand={setSelectedBrand}
+                  selectedTerritory={selectedTerritory}
+                  setSelectedTerritory={setSelectedTerritory}
+                  selectedStatus={selectedStatus}
+                  setSelectedStatus={setSelectedStatus}
+                  selectedDateRange={selectedDateRange}
+                  setSelectedDateRange={setSelectedDateRange}
+                  onClose={() => setFilterOpen(false)}
+                />
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="w-full sm:w-[180px]">
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="in_preparation">In Preparation</SelectItem>
-            <SelectItem value="in_transit">In Transit</SelectItem>
-            <SelectItem value="deployed">Deployed</SelectItem>
-            <SelectItem value="returning">Returning</SelectItem>
-          </SelectContent>
-        </Select>
-        <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "grid" | "timeline")}>
-          <TabsList>
-            <TabsTrigger value="grid">Grid</TabsTrigger>
-            <TabsTrigger value="timeline">Timeline</TabsTrigger>
-          </TabsList>
-        </Tabs>
+
+        {/* Stats scroll */}
+        <div className="px-4 pb-3 overflow-x-auto">
+          <div className="flex gap-3 min-w-max">
+            <div className="bg-purple-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-purple-600">Total Active</p>
+              <p className="text-lg font-bold text-purple-900">{kitInstancesData.stats.totalInstances.toLocaleString()}</p>
+            </div>
+            <div className="bg-green-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-green-600">Deployed</p>
+              <p className="text-lg font-bold text-green-900">{kitInstancesData.stats.activeDeployments.toLocaleString()}</p>
+            </div>
+            <div className="bg-yellow-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-yellow-600">In Transit</p>
+              <p className="text-lg font-bold text-yellow-900">{kitInstancesData.stats.inTransit}</p>
+            </div>
+            <div className="bg-red-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-red-600">Issues</p>
+              <p className="text-lg font-bold text-red-900">{kitInstancesData.stats.criticalIssues}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs with view toggle */}
+        <div className="flex items-center justify-between px-4 pb-2">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
+            <TabsList className="h-8">
+              <TabsTrigger value="active" className="text-xs sm:text-sm">Active</TabsTrigger>
+              <TabsTrigger value="upcoming" className="text-xs sm:text-sm">Upcoming</TabsTrigger>
+              <TabsTrigger value="completed" className="text-xs sm:text-sm">Completed</TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as "list" | "map")}>
+            <TabsList className="h-8">
+              <TabsTrigger value="list" className="px-2">
+                <List className="w-4 h-4" />
+              </TabsTrigger>
+              <TabsTrigger value="map" className="px-2">
+                <MapPin className="w-4 h-4" />
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       {/* Content */}
-      {viewMode === "grid" ? (
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredInstances.map((instance) => (
-            <KitInstanceCard key={instance.id} instance={instance} />
-          ))}
+      <div className="p-4">
+        {viewMode === "list" ? (
+          <InstanceListView instances={kitInstancesData.instances} />
+        ) : (
+          <MapView />
+        )}
+
+        {/* Load more */}
+        <div className="text-center pt-4">
+          <Button variant="outline" className="w-full sm:w-auto">
+            Load More Instances
+          </Button>
         </div>
-      ) : (
-        <TimelineView instances={filteredInstances} />
-      )}
+      </div>
     </div>
   );
 }
