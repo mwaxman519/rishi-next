@@ -2,9 +2,10 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: undefined,
-  compress: true,
+  output: 'standalone',
+  compress: false,
   poweredByHeader: false,
+  trailingSlash: false,
   
   eslint: {
     ignoreDuringBuilds: true,
@@ -16,7 +17,6 @@ const nextConfig = {
   
   images: {
     unoptimized: true,
-    formats: ['image/webp'],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
@@ -45,25 +45,11 @@ const nextConfig = {
       crypto: false,
     };
     
-    // Vercel production fixes - prevent chunk loading issues
+    // CRITICAL: Completely disable all chunking for production
     if (!isServer && !dev) {
-      // Simplified bundling to prevent 404 errors
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        minSize: 20000,
-        maxSize: 244000,
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          // Single bundle approach to avoid 404 errors
-          bundle: {
-            name: 'bundle',
-            chunks: 'all',
-            enforce: true,
-            priority: 10,
-          },
-        },
-      };
+      config.optimization.splitChunks = false;
+      config.optimization.runtimeChunk = false;
+      config.optimization.minimize = false;
     }
     
     return config;
