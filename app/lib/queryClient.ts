@@ -55,10 +55,31 @@ export async function apiRequest(
   }
 }
 
+// Default queryFn for all queries
+async function defaultQueryFn({ queryKey }: { queryKey: readonly unknown[] }) {
+  const key = queryKey[0] as string;
+  
+  // Only process API routes
+  if (!key.startsWith('/api/')) {
+    throw new Error('Query key must be an API route starting with /api/');
+  }
+  
+  const response = await fetch(key, {
+    credentials: 'include',
+  });
+  
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.statusText}`);
+  }
+  
+  return response.json();
+}
+
 // Create a QueryClient instance
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      queryFn: defaultQueryFn,
       retry: 1,
       staleTime: 5 * 60 * 1000, // 5 minutes
       refetchOnWindowFocus: false,

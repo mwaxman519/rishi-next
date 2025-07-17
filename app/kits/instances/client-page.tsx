@@ -47,7 +47,7 @@ interface KitTemplate {
 export default function KitInstancesClient() {
   const router = useRouter();
 
-  // Use real API data
+  // Use real API data with default queryFn
   const { data: kitInstances = [], isLoading: isLoadingInstances, error: instancesError } = useQuery({
     queryKey: ["/api/kits/instances"],
   });
