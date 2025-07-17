@@ -124,11 +124,16 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Get user context from session
-    const userId = (session.user as any).id || "mock-user-id";
-    const userRole = (session.user as any).role || "internal_field_manager";
-    const organizationId =
-      (session.user as any).organizationId ||
-      "00000000-0000-0000-0000-000000000001";
+    const userId = (session.user as any).id;
+    const userRole = (session.user as any).role;
+    const organizationId = (session.user as any).organizationId;
+
+    if (!userId || !userRole || !organizationId) {
+      return NextResponse.json(
+        { error: "Invalid session data" },
+        { status: 401 },
+      );
+    }
 
     const result = await shiftService.unassignShift(
       shiftId,

@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
       .where(inArray(locations.id, locationIds));
 
     // Get user info for event metadata
-    // In development mode, we use a mock user with specific properties
+    // Get authenticated user from session
     const userId = (session.user as any).id || "unknown";
     const organizationId = (session.user as any).organizationId || "unknown";
 

@@ -115,14 +115,11 @@ export async function POST(request: NextRequest) {
     // Use service layer: Staff Assignment Service with event publishing
     const eventBus = new EventBusService();
 
-    // Mock assignment for demonstration
-    const assignment = {
-      id: uuidv4(),
-      bookingId: body.bookingId || uuidv4(),
-      staffId: body.userId,
-      assignedBy: "mock-user-id",
-      status: "assigned",
-    };
+    // Create real assignment through service layer
+    const assignment = await rosterService.createBrandAgentAssignment({
+      ...validatedAssignment,
+      assignedBy: session.user.id,
+    });
 
     // Publish event using EventBusService
     await eventBus.publish({

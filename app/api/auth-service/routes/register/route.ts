@@ -62,73 +62,7 @@ export async function POST(request: NextRequest) {
   try {
     console.log("[Auth Service] Registration attempt");
 
-    // Only use mock data in development environment, not in staging or production
-    if ((process.env.NODE_ENV as string) === "development") {
-      try {
-        // Clone the request to avoid "Already consumed" errors when body is read multiple times
-        const clonedRequest = request.clone();
-
-        // Parse the request body from the cloned request
-        const requestBody = await clonedRequest.json();
-
-        // In DEVELOPMENT environment ONLY, handle test accounts with simulated response
-        if (requestBody.username) {
-          console.log(
-            `[Auth Service] DEVELOPMENT MODE: Using mock registration for test account: ${requestBody.username}`,
-          );
-
-          // Verify registration passcode
-          if (
-            requestBody.registrationPasscode !==
-            AUTH_CONFIG.REGISTRATION_PASSCODE
-          ) {
-            console.log(
-              `[Auth Service] Invalid registration passcode: ${requestBody.registrationPasscode}`,
-            );
-            return errorResponse(
-              "Invalid registration passcode",
-              400,
-              "INVALID_PASSCODE",
-            );
-          }
-
-          // Create a simulated user with the provided details
-          const simulatedUser = {
-            id: uuidv4(),
-            username: requestBody.username,
-            email: requestBody.email || `${requestBody.username}@example.com`,
-            fullName: requestBody.fullName || requestBody.username,
-            role: requestBody.role || "brand_agent",
-            active: true,
-            createdAt: new Date().toISOString(),
-          };
-
-          // Create auth token asynchronously
-          const authToken = await createToken(simulatedUser.id);
-
-          // Return a simulated success response with auth cookie
-          return responseWithAuthCookie(
-            {
-              success: true,
-              message: "User registered successfully (DEVELOPMENT MODE)",
-              user: simulatedUser,
-              service: "auth-service",
-              version: "1.0.0",
-            },
-            authToken,
-            201,
-          );
-        }
-      } catch (parseError) {
-        console.log(
-          "[Auth Service] Unable to use mock registration flow:",
-          parseError,
-        );
-        // Continue with normal flow if parsing fails
-      }
-    }
-
-    // For staging and production environments, verify database connection with environment detection
+    // Process user registration with database connection
     if (process.env.NODE_ENV !== "development") {
       try {
         // Import database module with its environment detection

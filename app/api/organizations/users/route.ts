@@ -64,80 +64,21 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // For development, return mock users
-    if (process.env.NODE_ENV !== "production") {
-      console.log("DEVELOPMENT MODE: Using mock organization users data");
+    // Fetch users from the database using Drizzle ORM
+    const organizationUsers = await db
+      .select({
+        id: users.id,
+        name: users.fullName,
+        email: users.email,
+        role: users.role,
+        is_primary: userOrganizations.isPrimary,
+        avatar_url: null, // Not implemented yet
+      })
+      .from(users)
+      .innerJoin(userOrganizations, eq(users.id, userOrganizations.userId))
+      .where(eq(userOrganizations.organizationId, organizationId));
 
-      const mockUsers = [
-        {
-          id: "1",
-          name: "Mike Johnson",
-          email: "mike@rishi.com",
-          role: "super_admin",
-          is_primary: true,
-          avatar_url: null,
-        },
-        {
-          id: "2",
-          name: "Sarah Williams",
-          email: "sarah@rishi.com",
-          role: "internal_admin",
-          is_primary: false,
-          avatar_url: null,
-        },
-        {
-          id: "3",
-          name: "Thomas Carter",
-          email: "thomas@rishi.com",
-          role: "internal_field_manager",
-          is_primary: false,
-          avatar_url: null,
-        },
-      ];
-
-      return NextResponse.json({ users: mockUsers });
-    }
-
-    // In production, get actual users from database
-    try {
-      // Get all users for this organization
-      // Convert organizationId to string to match schema
-      const orgIdStr = String(organizationId);
-
-      const orgUsers = await db.query.userOrganizations.findMany({
-        where: eq(userOrganizations.organizationId, orgIdStr),
-        with: {
-          user: true,
-        },
-      });
-
-      // Format the result
-      const formattedUsers = orgUsers.map((orgUser) => ({
-        id: orgUser.userId,
-        name: orgUser.user.fullName || orgUser.user.username,
-        email: orgUser.user.email,
-        role: orgUser.role,
-        is_primary: orgUser.isPrimary,
-        // Use profileImage instead of avatarUrl to match schema
-        avatar_url: orgUser.user.profileImage,
-        title: orgUser.title,
-        department: orgUser.department,
-      }));
-
-      return NextResponse.json({ users: formattedUsers });
-    } catch (dbError) {
-      console.error("Database error fetching organization users:", dbError);
-
-      // If database error in development, return mock data
-      if (process.env.NODE_ENV !== "production") {
-        return NextResponse.json({
-          users: [],
-          error: "Database error in development, returning empty list",
-        });
-      }
-
-      throw dbError;
-    }
+    return NextResponse.json({ users: organizationUsers });
   } catch (error) {
     console.error("Error fetching organization users:", error);
     return NextResponse.json(

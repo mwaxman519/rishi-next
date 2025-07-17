@@ -23,26 +23,9 @@ export async function GET(request: NextRequest) {
     console.log("Organization permissions endpoint called");
 
     // Get user from authentication system
-    let user = await getCurrentUser();
+    const user = await getCurrentUser();
 
-    // In development mode, use a mock user
-    if (process.env.NODE_ENV !== "production" && !user) {
-      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
-      // Create a mock user that matches the schema expected by the rest of the code
-      user = {
-        id: 1,
-        username: "admin",
-        role: "super_admin",
-        fullName: "Admin User",
-      };
-    }
-
-    console.log(
-      "User from getCurrentUser:",
-      user ? "User found" : "No user found",
-    );
     if (!user) {
-      console.log("Returning 401 - User not authenticated");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -55,47 +38,6 @@ export async function GET(request: NextRequest) {
         { error: "Organization ID is required" },
         { status: 400 },
       );
-    }
-
-    // In development mode, return mock permissions data
-    if (process.env.NODE_ENV !== "production") {
-      console.log("DEVELOPMENT MODE: Using mock organization permissions data");
-
-      // Return mock permissions data based on organization ID
-      // This mimics the structure expected by the frontend
-      const organizationType = "internal"; // For example, could be 'client' or 'partner'
-      const organizationTier = "tier_3"; // For example, could be 'tier_1' or 'tier_2'
-
-      // Mock permission results
-      const permissionResults: Record<string, boolean> = {
-        "view:dashboard": true,
-        "view:analytics": true,
-        "manage:users": true,
-        "edit:settings": true,
-        "create:content": true,
-        "delete:content": true,
-        "manage:permissions": true,
-        "manage:brand": true,
-        "create:marketing": true,
-        "edit:whitelabel": user.role === "super_admin",
-      };
-
-      // If specific permissions were requested, filter the results
-      const filteredResults =
-        permissions.length > 0
-          ? Object.fromEntries(
-              Object.entries(permissionResults).filter(([key]) =>
-                permissions.includes(key),
-              ),
-            )
-          : permissionResults;
-
-      return NextResponse.json({
-        organizationId,
-        organizationType,
-        organizationTier,
-        permissions: filteredResults,
-      });
     }
 
     try {
@@ -173,26 +115,7 @@ export async function GET(request: NextRequest) {
     } catch (dbError) {
       console.error("Database error in organization permissions:", dbError);
 
-      // If database error in development, provide mock data
-      if (process.env.NODE_ENV !== "production") {
-        console.log("Returning mock data due to database error in development");
-
-        return NextResponse.json({
-          organizationId,
-          organizationType: "internal",
-          organizationTier: "tier_3",
-          permissions: {
-            "view:dashboard": true,
-            "view:analytics": true,
-            "manage:users": true,
-            "edit:settings": true,
-            "create:content": true,
-            "delete:content": true,
-          },
-        });
-      }
-
-      // In production, throw the error to be caught by the outer catch
+      // Throw database error instead of returning mock data
       throw dbError;
     }
   } catch (error) {
@@ -221,26 +144,9 @@ export async function POST(request: NextRequest) {
     console.log("Organization permissions POST endpoint called");
 
     // Get user from authentication system
-    let user = await getCurrentUser();
+    const user = await getCurrentUser();
 
-    // In development mode, use a mock user
-    if (process.env.NODE_ENV !== "production" && !user) {
-      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
-      // Create a mock user that matches the schema expected by the rest of the code
-      user = {
-        id: 1,
-        username: "admin",
-        role: "super_admin",
-        fullName: "Admin User",
-      };
-    }
-
-    console.log(
-      "User from getCurrentUser:",
-      user ? "User found" : "No user found",
-    );
     if (!user) {
-      console.log("Returning 401 - User not authenticated");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -254,30 +160,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // In development mode, return mock response
-    if (process.env.NODE_ENV !== "production") {
-      console.log(
-        "DEVELOPMENT MODE: Using mock response for organization permissions update",
-      );
-
-      // Create mock results based on the request
-      const mockResults = Object.entries(permissions).map(
-        ([permissionName, allowed], index) => ({
-          id: index + 1,
-          organizationId: parseInt(organizationId),
-          permissionName,
-          allowed: Boolean(allowed),
-          created_at: new Date(),
-          updated_at: new Date(),
-        }),
-      );
-
-      return NextResponse.json({
-        organizationId,
-        updatedPermissions: mockResults.length,
-        permissions: mockResults,
-      });
-    }
+    // Remove mock data - proceed with real database operations
 
     try {
       // Check if user has admin access to this organization or is a super admin
@@ -357,29 +240,7 @@ export async function POST(request: NextRequest) {
         dbError,
       );
 
-      // If database error in development, provide mock data
-      if (process.env.NODE_ENV !== "production") {
-        console.log("Returning mock data due to database error in development");
-
-        const mockResults = Object.entries(permissions).map(
-          ([permissionName, allowed], index) => ({
-            id: index + 1,
-            organizationId: parseInt(organizationId),
-            permissionName,
-            allowed: Boolean(allowed),
-            created_at: new Date(),
-            updated_at: new Date(),
-          }),
-        );
-
-        return NextResponse.json({
-          organizationId,
-          updatedPermissions: mockResults.length,
-          permissions: mockResults,
-        });
-      }
-
-      // In production, throw the error to be caught by the outer catch
+      // Throw database error instead of returning mock data
       throw dbError;
     }
   } catch (error) {

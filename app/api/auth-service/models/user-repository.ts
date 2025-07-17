@@ -119,46 +119,7 @@ export async function createUser(
       return { user: null, error: "Password is required" };
     }
 
-    // For non-production environments or when testing/debugging, use simulated users
-    // This helps bypass database connection issues in staging environments
-    if (
-      process.env.NODE_ENV !== "production" ||
-      process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ||
-      process.env.VERCEL_ENV === "preview"
-    ) {
-      // Only simulate test users to avoid unintended data in staging
-      const testUsernames = [
-        "test",
-        "demo",
-        "mike",
-        "user",
-        "admin",
-        "john",
-        "jane",
-      ];
-      if (testUsernames.includes(userData.username.toLowerCase())) {
-        console.log(
-          `[Auth Service] Using simulated user creation for test account: ${userData.username}`,
-        );
-
-        // Create a simulated user object that matches schema but doesn't touch the database
-        return {
-          user: {
-            id: userData.id || uuidv4(),
-            username: userData.username,
-            password: userData.password, // Already hashed by the registration process
-            email: userData.email || `${userData.username}@example.com`,
-            fullName: userData.fullName || userData.username,
-            role: userData.role || "brand_agent",
-            active: true,
-            created_at: new Date(),
-            updated_at: new Date(),
-          } as unknown as schema.User,
-        };
-      }
-    }
-
-    // For real users in production, attempt to insert into the database
+    // Insert the new user into the database
     try {
       // Insert the new user using the standard database connection
       const user = await dbManager.executeQuery(

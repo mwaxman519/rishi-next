@@ -60,22 +60,8 @@ export async function GET(req: NextRequest) {
     } catch (dbError) {
       console.error("Database error in user organizations:", dbError);
 
-      // Fallback to mock data for development
-      const mockOrganizations = [
-        {
-          id: "00000000-0000-0000-0000-000000000001",
-          name: "Rishi Internal",
-          type: "internal",
-          tier: "internal",
-          role: "super_admin",
-          isDefault: true,
-        },
-      ];
-
-      return NextResponse.json({
-        organizations: mockOrganizations,
-        defaultOrganization: mockOrganizations[0],
-      });
+      // Throw database error instead of returning mock data
+      throw dbError;
     }
   } catch (error) {
     console.error("Error fetching user organizations:", error);

@@ -4,6 +4,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 import { simpleExpenseService } from "../../../services/expenses/SimpleExpenseService";
 import { z } from "zod";
 
@@ -16,12 +18,12 @@ const mileageCalculationSchema = z.object({
 // POST /api/expenses/mileage - Calculate mileage expense
 export async function POST(request: NextRequest) {
   try {
-    console.log("DEVELOPMENT MODE: Using mock user for testing");
-    const user = {
-      id: "mock-user-id",
-      role: "brand_agent",
-      organizationId: "00000000-0000-0000-0000-000000000001",
-    };
+    // Get authenticated user from session
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const user = session.user as any;
 
     const body = await request.json();
     const validatedData = mileageCalculationSchema.parse(body);

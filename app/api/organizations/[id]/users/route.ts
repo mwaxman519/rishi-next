@@ -34,32 +34,7 @@ export async function GET(
       );
     }
 
-    // Special case for development user
-    if (user.id === "123e4567-e89b-12d3-a456-426614174000") {
-      // Return mock data for development user
-      return NextResponse.json({
-        users: [
-          {
-            id: "123e4567-e89b-12d3-a456-426614174000",
-            username: "dev_user",
-            name: "Development User",
-            role: "super_admin",
-          },
-          {
-            id: "223e4567-e89b-12d3-a456-426614174001",
-            username: "client_admin",
-            name: "Client Admin",
-            role: "client_admin",
-          },
-          {
-            id: "323e4567-e89b-12d3-a456-426614174002",
-            username: "client_user",
-            name: "Client User",
-            role: "client_user",
-          },
-        ],
-      });
-    }
+    // Removed mock data - using only real database queries
 
     // Check if the user has access to this organization
     const userOrg = await db.query.organizations.findFirst({

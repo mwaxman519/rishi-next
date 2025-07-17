@@ -34,28 +34,7 @@ export async function GET(
       );
     }
 
-    // Special case for development user
-    if (user.id === "123e4567-e89b-12d3-a456-426614174000") {
-      // Return mock data for development user
-      return NextResponse.json({
-        regions: [
-          {
-            id: 1,
-            name: "Northern California",
-            code: "CA-N",
-            type: "state",
-            is_primary: true,
-          },
-          {
-            id: 2,
-            name: "Southern California",
-            code: "CA-S",
-            type: "state",
-            is_primary: false,
-          },
-        ],
-      });
-    }
+    // Removed mock data - using only real database queries
 
     // Check if the user has access to this organization
     const userOrg = await db.query.organizations.findFirst({

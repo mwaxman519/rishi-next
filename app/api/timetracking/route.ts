@@ -8,14 +8,17 @@ import { z } from "zod";
 // Use the exported instance
 const timeTrackingService = simpleTimeTrackingService;
 
-// Initialize sample data on first load
-timeTrackingService.initializeSampleData();
+// Service is now ready for real data operations
 
 // GET /api/timetracking - Get time entries with filtering
 export async function GET(request: NextRequest) {
   try {
-    console.log("DEVELOPMENT MODE: Using mock user for testing");
-    const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+    // Get authenticated user from session
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const user = session.user as any;
 
     const { searchParams } = new URL(request.url);
 
@@ -86,8 +89,12 @@ export async function POST(request: NextRequest) {
     const { action, ...data } = body;
 
     if (action === "clock-in") {
-      console.log("DEVELOPMENT MODE: Using mock user for testing");
-      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+      // Get authenticated user from session
+      const session = await getServerSession(authOptions);
+      if (!session?.user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+      const user = session.user as any;
 
       const clockInSchema = z.object({
         agentId: z.string(),

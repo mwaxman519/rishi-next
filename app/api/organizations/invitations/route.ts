@@ -65,70 +65,18 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // For development, return mock invitations
-    if (process.env.NODE_ENV !== "production") {
-      console.log("DEVELOPMENT MODE: Using mock organization invitations data");
-
-      const mockInvitations = [
-        {
-          id: "1",
-          email: "johndoe@example.com",
-          role: "client_user",
-          status: "pending",
-          created_at: new Date(
-            Date.now() - 2 * 24 * 60 * 60 * 1000,
-          ).toISOString(), // 2 days ago
-        },
-        {
-          id: "2",
-          email: "janedoe@example.com",
-          role: "client_manager",
-          status: "pending",
-          created_at: new Date(
-            Date.now() - 1 * 24 * 60 * 60 * 1000,
-          ).toISOString(), // 1 day ago
-        },
-      ];
-
-      return NextResponse.json({ invitations: mockInvitations });
-    }
-
-    // In production, get actual invitations from database
-    try {
-      // Get all active invitations for this organization
-      // Cast or convert organizationId to integer when needed
-      const orgId =
-        typeof organizationId === "string"
-          ? parseInt(organizationId, 10)
-          : organizationId;
-
-      const invites = await db
-        .select()
-        .from(organizationInvitations)
-        .where(
-          and(
-            eq(organizationInvitations.organizationId, orgId),
-            eq(organizationInvitations.status, "pending"),
-          ),
-        );
-
-      return NextResponse.json({ invitations: invites });
-    } catch (dbError) {
-      console.error(
-        "Database error fetching organization invitations:",
-        dbError,
+    // Fetch invitations from the database using Drizzle ORM
+    const organizationInvitations = await db
+      .select()
+      .from(userOrganizations)
+      .where(
+        and(
+          eq(userOrganizations.organizationId, organizationId),
+          eq(userOrganizations.status, "pending"),
+        ),
       );
 
-      // If database error in development, return mock data
-      if (process.env.NODE_ENV !== "production") {
-        return NextResponse.json({
-          invitations: [],
-          error: "Database error in development, returning empty list",
-        });
-      }
-
-      throw dbError;
-    }
+    return NextResponse.json({ invitations: organizationInvitations });
   } catch (error) {
     console.error("Error fetching organization invitations:", error);
     return NextResponse.json(

@@ -20,8 +20,13 @@ export async function POST(req: Request) {
       );
     }
 
-    // In a real implementation, check if user has admin role
-    // For demo purposes we're allowing the mock admin user to proceed
+    // Check if user has admin role for location creation
+    if (user.role !== 'super_admin' && user.role !== 'internal_admin') {
+      return NextResponse.json(
+        { error: "Forbidden. Admin role required." },
+        { status: 403 },
+      );
+    }
 
     // Parse request body
     const data = await req.json();
@@ -46,7 +51,7 @@ export async function POST(req: Request) {
       city: data.city || "",
       zipcode: data.zipcode || "",
       status: "approved", // Using the simplified status system: approved, pending, rejected, inactive
-      requestedBy: "261143cd-fa2b-4660-8b54-364c87b63882", // Use a valid user ID (mike)
+      requestedBy: user.id, // Use authenticated user ID
       reviewDate: now,
       geoLat: data.geo_lat ? data.geo_lat.toString() : null,
       geoLng: data.geo_lng ? data.geo_lng.toString() : null,
