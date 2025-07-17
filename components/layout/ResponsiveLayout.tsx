@@ -123,9 +123,6 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  // Check if we're on the client side
-  const mounted = useClientOnly();
-
   // These hooks are safe to call in all environments but will only have meaningful
   // values after hydration is complete
   const { user, loading } = useAuth();
@@ -140,6 +137,9 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // Media query hook (only works on client side)
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
+  // Check if we're on the client side
+  const mounted = useClientOnly();
+
   // Check if the URL has the unauthenticated parameter for testing
   const hasUnauthenticatedParam =
     mounted && typeof window !== "undefined"
@@ -147,17 +147,14 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
         "true"
       : false;
 
-  // During server render, initial client render, or loading auth data, 
-  // show a single unified loading state to prevent multiple animations
-  if (!mounted || loading) {
-    return <ServerPlaceholder>{children}</ServerPlaceholder>;
-  }
-
-  // Once fully mounted and data is loaded, render the appropriate layout
-
-  // Special case for full-width pages
+  // Special case for full-width pages - render immediately to avoid hydration issues
   if (isFullWidthPage) {
     return <FullWidthLayout>{children}</FullWidthLayout>;
+  }
+
+  // During server render or while loading auth data, render a consistent loading state
+  if (!mounted || loading) {
+    return <ServerPlaceholder>{children}</ServerPlaceholder>;
   }
 
   // Force public layout if URL parameter is set or user is not authenticated

@@ -18,12 +18,14 @@ import {
 export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
     // Simple redirect for authenticated users
     if (!loading && user && user.role === "super_admin") {
       console.log("Redirecting super admin to dashboard");
-      router.push("/dashboard");
+      setRedirecting(true);
+      router.replace("/dashboard");
     }
   }, [user, loading, router]);
 
@@ -47,7 +49,17 @@ export default function Home() {
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
             <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading dashboard...</p>
+            <p className="text-muted-foreground">
+              {redirecting ? "Redirecting to dashboard..." : "Loading dashboard..."}
+            </p>
+            {/* Add a fallback button in case redirect fails */}
+            <div className="mt-4">
+              <Link href="/dashboard">
+                <Button variant="outline" size="sm">
+                  Go to Dashboard Manually
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       );
