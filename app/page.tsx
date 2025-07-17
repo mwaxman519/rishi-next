@@ -31,10 +31,16 @@ export default function Home() {
 
   // If user is logged in, handle accordingly
   if (user) {
-    // For super admin users, redirect happens via useEffect - no loading screen needed
+    // For super admin users, redirect happens via useEffect - show brief welcome
     if (user.role === "super_admin") {
-      // Let the redirect happen naturally without loading screen
-      return null;
+      return (
+        <div className="container mx-auto py-12 px-4">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-6">Welcome back, {user.name}!</h1>
+            <p className="text-xl">Redirecting to dashboard...</p>
+          </div>
+        </div>
+      );
     }
 
     // For other roles, show welcome with dashboard link
