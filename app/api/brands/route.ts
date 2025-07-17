@@ -36,10 +36,11 @@ export async function GET(req: NextRequest) {
       })
       .from(brands)
       .leftJoin(organizations, eq(brands.organizationId, organizations.id))
-      .where(and(
-        eq(brands.isActive, true),
-        organizationId ? eq(brands.organizationId, organizationId) : undefined
-      ));
+      .where(
+        organizationId 
+          ? and(eq(brands.active, true), eq(brands.organizationId, organizationId))
+          : eq(brands.active, true)
+      );
 
     // Apply role-based filtering
     if (user.role === "super_admin" || user.role === "internal_admin") {

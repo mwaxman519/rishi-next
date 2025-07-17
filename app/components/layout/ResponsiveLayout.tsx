@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -126,6 +126,9 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // These hooks are safe to call in all environments
   const { user, isLoading } = useAuth();
   const pathname = usePathname();
+  
+  // State to track if we're hydrated to avoid hydration mismatch
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Check for full-width pages like login/register
   const isFullWidthPage =
@@ -143,8 +146,13 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
         "true"
       : false;
 
-  // During auth loading, show a simple loading state
-  if (isLoading) {
+  // Effect to set hydrated state after component mounts
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  // During auth loading or before hydration, show a simple loading state
+  if (isLoading || !isHydrated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>

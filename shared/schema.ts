@@ -280,10 +280,10 @@ export const brands = pgTable("brands", {
   name: varchar("name", { length: 150 }).notNull(),
   description: text("description"),
   logoUrl: text("logo_url"),
-  organizationId: uuid("organization_id")
-    .notNull()
-    .references(() => organizations.id),
-  isActive: boolean("is_active").default(true),
+  primaryColor: text("primary_color"),
+  secondaryColor: text("secondary_color"),
+  organizationId: uuid("organization_id").references(() => organizations.id),
+  active: boolean("active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
