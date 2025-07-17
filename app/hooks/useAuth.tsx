@@ -102,12 +102,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         setIsLoading(true);
 
-        // Add small delay if in iframe to prevent rendering issues
-        const isInIframe = window.self !== window.top;
-        if (isInIframe) {
-          await new Promise((resolve) => setTimeout(resolve, 100));
-        }
-
         // Get session from auth service
         const { user: sessionUser } = await authService.getSession();
         setUser(sessionUser);

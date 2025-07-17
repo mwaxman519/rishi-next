@@ -4,7 +4,7 @@ import React, { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useClientOnly } from "@/hooks/useClientOnly";
+
 import { PageLoader } from "@/components/ui/skeletons";
 import SidebarLayout from "../SidebarLayout";
 import MobileLayout from "./MobileLayout";
@@ -123,12 +123,8 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  // Check if we're on the client side
-  const mounted = useClientOnly();
-
-  // These hooks are safe to call in all environments but will only have meaningful
-  // values after hydration is complete
-  const { user, loading } = useAuth();
+  // These hooks are safe to call in all environments
+  const { user, isLoading } = useAuth();
   const pathname = usePathname();
 
   // Check for full-width pages like login/register
@@ -142,18 +138,19 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Check if the URL has the unauthenticated parameter for testing
   const hasUnauthenticatedParam =
-    mounted && typeof window !== "undefined"
+    typeof window !== "undefined"
       ? new URLSearchParams(window.location.search).get("unauthenticated") ===
         "true"
       : false;
 
-  // During server render, initial client render, or loading auth data, 
-  // show a single unified loading state to prevent multiple animations
-  if (!mounted || loading) {
-    return <ServerPlaceholder>{children}</ServerPlaceholder>;
+  // During auth loading, show a simple loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
+      </div>
+    );
   }
-
-  // Once fully mounted and data is loaded, render the appropriate layout
 
   // Special case for full-width pages - bypass all sidebar logic
   if (isFullWidthPage) {
