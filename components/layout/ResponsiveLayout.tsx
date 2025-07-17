@@ -127,6 +127,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // values after hydration is complete
   const { user, loading } = useAuth();
   const pathname = usePathname();
+  const mounted = useClientOnly();
 
   // Check for full-width pages like login/register
   const isFullWidthPage =
@@ -136,9 +137,6 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Media query hook (only works on client side)
   const isDesktop = useMediaQuery("(min-width: 1024px)");
-
-  // Check if we're on the client side
-  const mounted = useClientOnly();
 
   // Check if the URL has the unauthenticated parameter for testing
   const hasUnauthenticatedParam =
@@ -152,8 +150,13 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     return <FullWidthLayout>{children}</FullWidthLayout>;
   }
 
-  // During server render or while loading auth data, render a consistent loading state
-  if (!mounted || loading) {
+  // During server render, always show placeholder to prevent hydration mismatch
+  if (!mounted) {
+    return <ServerPlaceholder>{children}</ServerPlaceholder>;
+  }
+
+  // Only after mounted, check loading state
+  if (loading) {
     return <ServerPlaceholder>{children}</ServerPlaceholder>;
   }
 

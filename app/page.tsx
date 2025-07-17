@@ -25,7 +25,10 @@ export default function Home() {
     if (!loading && user && user.role === "super_admin") {
       console.log("Redirecting super admin to dashboard");
       setRedirecting(true);
-      router.replace("/dashboard");
+      // Use a small delay to ensure hydration is complete before redirecting
+      setTimeout(() => {
+        router.replace("/dashboard");
+      }, 100);
     }
   }, [user, loading, router]);
 

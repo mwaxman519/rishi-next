@@ -42,6 +42,20 @@ export default function RootLayout({
                     .catch(registrationError => console.log('SW registration failed'));
                 });
               }
+              
+              // Prevent hydration issues in development
+              if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+                window.addEventListener('load', () => {
+                  // Force re-render after hydration is complete
+                  setTimeout(() => {
+                    if (document.readyState === 'complete') {
+                      // This helps with Replit preview refresh issues
+                      const event = new CustomEvent('replit-hydration-complete');
+                      window.dispatchEvent(event);
+                    }
+                  }, 500);
+                });
+              }
             `,
           }}
         />

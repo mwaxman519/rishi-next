@@ -30,11 +30,15 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    // Only fetch user once to prevent multiple calls
+    if (!initialized) {
+      fetchUser();
+    }
+  }, [initialized]);
 
   const fetchUser = async () => {
     try {
@@ -54,6 +58,7 @@ export function useAuth() {
       setUser(null);
     } finally {
       setLoading(false);
+      setInitialized(true);
     }
   };
 
