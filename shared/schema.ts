@@ -1116,3 +1116,244 @@ export type ActivityKit = typeof activityKits.$inferSelect;
 export type InsertActivityKit = z.infer<typeof insertActivityKitSchema>;
 export type AgentSkill = typeof agentSkills.$inferSelect;
 export type InsertAgentSkill = z.infer<typeof insertAgentSkillSchema>;
+
+// Brand Agent Performance Metrics Tables
+// These tables track the 8 specific metrics for brand agent performance measurement
+
+// 1. Manager Reviews (1-5 rating)
+export const managerReviews = pgTable("manager_reviews", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  managerId: uuid("manager_id")
+    .notNull()
+    .references(() => users.id),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  rating: integer("rating").notNull(), // 1-5 scale
+  reviewPeriod: text("review_period").notNull(), // e.g., "2025-01", "Q1-2025"
+  comments: text("comments"),
+  reviewDate: timestamp("review_date").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// 2. On-time Performance (percentage based on bookings)
+export const onTimePerformance = pgTable("on_time_performance", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  bookingId: uuid("booking_id")
+    .notNull()
+    .references(() => bookings.id),
+  scheduledStartTime: timestamp("scheduled_start_time").notNull(),
+  actualStartTime: timestamp("actual_start_time"),
+  isOnTime: boolean("is_on_time").notNull().default(false),
+  minutesLate: integer("minutes_late").default(0),
+  reason: text("reason"), // If late, reason provided
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// 3. On-location Compliance (percentage based on GPS/check-ins)
+export const locationCompliance = pgTable("location_compliance", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  bookingId: uuid("booking_id")
+    .notNull()
+    .references(() => bookings.id),
+  locationId: uuid("location_id")
+    .notNull()
+    .references(() => locations.id),
+  checkInTime: timestamp("check_in_time"),
+  checkOutTime: timestamp("check_out_time"),
+  isCompliant: boolean("is_compliant").notNull().default(false),
+  gpsLatitude: decimal("gps_latitude", { precision: 10, scale: 8 }),
+  gpsLongitude: decimal("gps_longitude", { precision: 11, scale: 8 }),
+  distanceFromLocation: decimal("distance_from_location", { precision: 8, scale: 2 }), // in meters
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// 4. Dispensary Ratings (1-5 from dispensary staff)
+export const dispensaryRatings = pgTable("dispensary_ratings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  locationId: uuid("location_id")
+    .notNull()
+    .references(() => locations.id),
+  bookingId: uuid("booking_id")
+    .notNull()
+    .references(() => bookings.id),
+  rating: integer("rating").notNull(), // 1-5 scale
+  ratedBy: text("rated_by"), // Dispensary staff name
+  ratedByTitle: text("rated_by_title"), // Their title/role
+  feedback: text("feedback"),
+  ratingDate: timestamp("rating_date").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// 5. Staff Ratings from Booking Locations (1-5 from other staff)
+export const staffRatings = pgTable("staff_ratings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  ratedById: uuid("rated_by_id")
+    .notNull()
+    .references(() => users.id),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  bookingId: uuid("booking_id")
+    .notNull()
+    .references(() => bookings.id),
+  rating: integer("rating").notNull(), // 1-5 scale
+  feedback: text("feedback"),
+  ratingDate: timestamp("rating_date").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// 6. Activity Completion Rates (percentage based on assigned activities)
+export const activityCompletionRates = pgTable("activity_completion_rates", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  activityId: uuid("activity_id")
+    .notNull()
+    .references(() => activities.id),
+  bookingId: uuid("booking_id")
+    .notNull()
+    .references(() => bookings.id),
+  assignedDate: timestamp("assigned_date").notNull(),
+  dueDate: timestamp("due_date"),
+  completedDate: timestamp("completed_date"),
+  isCompleted: boolean("is_completed").notNull().default(false),
+  completionQuality: integer("completion_quality"), // 1-5 scale if applicable
+  notes: text("notes"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// 7. Data Form Completion (percentage based on required forms)
+export const dataFormCompletion = pgTable("data_form_completion", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  bookingId: uuid("booking_id")
+    .notNull()
+    .references(() => bookings.id),
+  formType: text("form_type").notNull(), // e.g., "pre-visit", "post-visit", "inventory"
+  formData: jsonb("form_data"), // Actual form data
+  isCompleted: boolean("is_completed").notNull().default(false),
+  requiredDate: timestamp("required_date").notNull(),
+  submittedDate: timestamp("submitted_date"),
+  completionRate: decimal("completion_rate", { precision: 5, scale: 2 }), // 0-100%
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// 8. Data Form Quality Ratings (1-5 based on form review)
+export const dataFormQualityRatings = pgTable("data_form_quality_ratings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  formCompletionId: uuid("form_completion_id")
+    .notNull()
+    .references(() => dataFormCompletion.id),
+  reviewedById: uuid("reviewed_by_id")
+    .notNull()
+    .references(() => users.id),
+  qualityRating: integer("quality_rating").notNull(), // 1-5 scale
+  accuracyScore: integer("accuracy_score"), // 1-5 scale
+  completenessScore: integer("completeness_score"), // 1-5 scale
+  timelinessScore: integer("timeliness_score"), // 1-5 scale
+  feedback: text("feedback"),
+  reviewDate: timestamp("review_date").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// Performance Summary (aggregated metrics for quick access)
+export const performanceSummary = pgTable("performance_summary", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  brandAgentId: uuid("brand_agent_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id")
+    .notNull()
+    .references(() => organizations.id),
+  periodType: text("period_type").notNull(), // "monthly", "quarterly", "yearly"
+  periodValue: text("period_value").notNull(), // e.g., "2025-01", "Q1-2025", "2025"
+  
+  // Aggregated metrics
+  avgManagerReview: decimal("avg_manager_review", { precision: 3, scale: 2 }),
+  onTimePercentage: decimal("on_time_percentage", { precision: 5, scale: 2 }),
+  locationCompliancePercentage: decimal("location_compliance_percentage", { precision: 5, scale: 2 }),
+  avgDispensaryRating: decimal("avg_dispensary_rating", { precision: 3, scale: 2 }),
+  avgStaffRating: decimal("avg_staff_rating", { precision: 3, scale: 2 }),
+  activityCompletionPercentage: decimal("activity_completion_percentage", { precision: 5, scale: 2 }),
+  dataFormCompletionPercentage: decimal("data_form_completion_percentage", { precision: 5, scale: 2 }),
+  avgDataFormQualityRating: decimal("avg_data_form_quality_rating", { precision: 3, scale: 2 }),
+  
+  // Overall performance score
+  overallPerformanceScore: decimal("overall_performance_score", { precision: 5, scale: 2 }),
+  
+  calculatedAt: timestamp("calculated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// Insert schemas for performance metrics tables
+export const insertManagerReviewSchema = createInsertSchema(managerReviews);
+export const insertOnTimePerformanceSchema = createInsertSchema(onTimePerformance);
+export const insertLocationComplianceSchema = createInsertSchema(locationCompliance);
+export const insertDispensaryRatingSchema = createInsertSchema(dispensaryRatings);
+export const insertStaffRatingSchema = createInsertSchema(staffRatings);
+export const insertActivityCompletionRateSchema = createInsertSchema(activityCompletionRates);
+export const insertDataFormCompletionSchema = createInsertSchema(dataFormCompletion);
+export const insertDataFormQualityRatingSchema = createInsertSchema(dataFormQualityRatings);
+export const insertPerformanceSummarySchema = createInsertSchema(performanceSummary);
+
+// Types for performance metrics tables
+export type ManagerReview = typeof managerReviews.$inferSelect;
+export type InsertManagerReview = z.infer<typeof insertManagerReviewSchema>;
+export type OnTimePerformance = typeof onTimePerformance.$inferSelect;
+export type InsertOnTimePerformance = z.infer<typeof insertOnTimePerformanceSchema>;
+export type LocationCompliance = typeof locationCompliance.$inferSelect;
+export type InsertLocationCompliance = z.infer<typeof insertLocationComplianceSchema>;
+export type DispensaryRating = typeof dispensaryRatings.$inferSelect;
+export type InsertDispensaryRating = z.infer<typeof insertDispensaryRatingSchema>;
+export type StaffRating = typeof staffRatings.$inferSelect;
+export type InsertStaffRating = z.infer<typeof insertStaffRatingSchema>;
+export type ActivityCompletionRate = typeof activityCompletionRates.$inferSelect;
+export type InsertActivityCompletionRate = z.infer<typeof insertActivityCompletionRateSchema>;
+export type DataFormCompletion = typeof dataFormCompletion.$inferSelect;
+export type InsertDataFormCompletion = z.infer<typeof insertDataFormCompletionSchema>;
+export type DataFormQualityRating = typeof dataFormQualityRatings.$inferSelect;
+export type InsertDataFormQualityRating = z.infer<typeof insertDataFormQualityRatingSchema>;
+export type PerformanceSummary = typeof performanceSummary.$inferSelect;
+export type InsertPerformanceSummary = z.infer<typeof insertPerformanceSummarySchema>;
