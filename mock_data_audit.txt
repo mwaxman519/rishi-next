@@ -1,0 +1,804 @@
+./app/admin/alerts/[id]/page.tsx:47:// Mock alert data
+./app/admin/alerts/page.tsx:41:// Mock data
+./app/admin/page.tsx:68:    // For now, we're using mock data
+./app/admin/page.tsx:74:        // Mock data for development
+./app/admin/roles/page.tsx:967:    // Mock users for demonstration
+./app/admin/roles/page.tsx:968:    const mockUsers: User[] = Array.from(
+./app/admin/roles/page.tsx:997:              {mockUsers.slice(0, 10).map((user) => (
+./app/api/admin/locations/bulk-update/route.ts:93:    // In development mode, we use a mock user with specific properties
+./app/api/admin/locations/route.ts:24:    // For demo purposes we're allowing the mock admin user to proceed
+./app/api/auth-service/login/route.ts:43:        // Create a token for the mock user
+./app/api/auth-service/models/user-repository.ts:374:    // For non-production environments, create a mock organization connection
+./app/api/auth-service/models/user-repository.ts:391:      const mockUserOrg = {
+./app/api/auth-service/models/user-repository.ts:399:      return { userOrg: mockUserOrg };
+./app/api/auth-service/routes/login/route.ts:43:        // Create a token for the mock user
+./app/api/auth-service/routes/register/route.ts:124:          "[Auth Service] Unable to use mock registration flow:",
+./app/api/auth-service/routes/register/route.ts:215:        // Create a token for the mock user
+./app/api/auth-service/routes/register/route.ts:65:    // Only use mock data in development environment, not in staging or production
+./app/api/auth-service/routes/session/route.ts:39:      console.log("[Auth Service] DEVELOPMENT MODE: Using mock user session");
+./app/api/auth-service/status/route.ts:15: * 1. In development mode, always returns success to avoid breaking mock data flows
+./app/api/availability/route.ts:492:      // Mock availability service for demonstration
+./app/api/bookings/form-data/route.ts:26:    // Use mock data only in development mode to avoid database errors
+./app/api/bookings/stats/route.ts:4:// Mock booking statistics
+./app/api/bookings/stats/route.ts:57:  console.log("DEVELOPMENT MODE: Using mock booking stats");
+./app/api/bookings/stats/route.ts:5:const mockBookingStats = {
+./app/api/bookings/stats/route.ts:70:  // For now, just return the mock data
+./app/api/bookings/stats/route.ts:72:  return NextResponse.json(mockBookingStats);
+./app/api/expenses/mileage/route.ts:21:      id: "mock-user-id",
+./app/api/kits/route.ts:13:    // In development mode, return mock data
+./app/api/kits/route.ts:15:      const mockKits = [
+./app/api/kits/route.ts:50:        data: mockKits,
+./app/api/kits/route.ts:52:          total: mockKits.length,
+./app/api/locations/cities/route.ts:29:    // Mock data - would be replaced with database query
+./app/api/locations/pending/route.ts:165:        // Fall back to the mock user ID
+./app/api/locations/regions/route.ts:22:    // Mock regions for example purpose - replace with real data from database
+./app/api/locations/route.ts:40:    // In development mode, return mock user
+./app/api/locations/route.ts:43:        id: "mock-user-id",
+./app/api/locations/states/route.ts:22:    // Mock states for example purpose - replace with real data from database
+./app/api/locations/zipcodes/route.ts:32:    // Mock data - would be replaced with database query
+./app/api/notifications/[id]/read/route.ts:4:// Use mock auth for development
+./app/api/organizations/[id]/regions/route.ts:39:      // Return mock data for development user
+./app/api/organizations/[id]/users/route.ts:39:      // Return mock data for development user
+./app/api/organizations/invitations/route.ts:122:      // If database error in development, return mock data
+./app/api/organizations/invitations/route.ts:234:      // Return mock invitation data
+./app/api/organizations/invitations/route.ts:235:      const mockInvitation = {
+./app/api/organizations/invitations/route.ts:254:        invitation: mockInvitation,
+./app/api/organizations/invitations/route.ts:68:    // For development, return mock invitations
+./app/api/organizations/invitations/route.ts:70:      console.log("DEVELOPMENT MODE: Using mock organization invitations data");
+./app/api/organizations/invitations/route.ts:72:      const mockInvitations = [
+./app/api/organizations/invitations/route.ts:93:      return NextResponse.json({ invitations: mockInvitations });
+./app/api/organizations/user/route.ts:63:      // Fallback to mock data for development
+./app/api/organizations/user/route.ts:64:      const mockOrganizations = [
+./app/api/organizations/user/route.ts:76:        organizations: mockOrganizations,
+./app/api/organizations/user/route.ts:77:        defaultOrganization: mockOrganizations[0],
+./app/api/organizations/users/route.ts:131:      // If database error in development, return mock data
+./app/api/organizations/users/route.ts:67:    // For development, return mock users
+./app/api/organizations/users/route.ts:69:      console.log("DEVELOPMENT MODE: Using mock organization users data");
+./app/api/organizations/users/route.ts:71:      const mockUsers = [
+./app/api/organizations/users/route.ts:98:      return NextResponse.json({ users: mockUsers });
+./app/api/rbac/organization-permissions/route.ts:176:      // If database error in development, provide mock data
+./app/api/rbac/organization-permissions/route.ts:178:        console.log("Returning mock data due to database error in development");
+./app/api/rbac/organization-permissions/route.ts:226:    // In development mode, use a mock user
+./app/api/rbac/organization-permissions/route.ts:228:      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
+./app/api/rbac/organization-permissions/route.ts:229:      // Create a mock user that matches the schema expected by the rest of the code
+./app/api/rbac/organization-permissions/route.ts:257:    // In development mode, return mock response
+./app/api/rbac/organization-permissions/route.ts:260:        "DEVELOPMENT MODE: Using mock response for organization permissions update",
+./app/api/rbac/organization-permissions/route.ts:263:      // Create mock results based on the request
+./app/api/rbac/organization-permissions/route.ts:264:      const mockResults = Object.entries(permissions).map(
+./app/api/rbac/organization-permissions/route.ts:277:        updatedPermissions: mockResults.length,
+./app/api/rbac/organization-permissions/route.ts:278:        permissions: mockResults,
+./app/api/rbac/organization-permissions/route.ts:28:    // In development mode, use a mock user
+./app/api/rbac/organization-permissions/route.ts:30:      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
+./app/api/rbac/organization-permissions/route.ts:31:      // Create a mock user that matches the schema expected by the rest of the code
+./app/api/rbac/organization-permissions/route.ts:360:      // If database error in development, provide mock data
+./app/api/rbac/organization-permissions/route.ts:362:        console.log("Returning mock data due to database error in development");
+./app/api/rbac/organization-permissions/route.ts:364:        const mockResults = Object.entries(permissions).map(
+./app/api/rbac/organization-permissions/route.ts:377:          updatedPermissions: mockResults.length,
+./app/api/rbac/organization-permissions/route.ts:378:          permissions: mockResults,
+./app/api/rbac/organization-permissions/route.ts:60:    // In development mode, return mock permissions data
+./app/api/rbac/organization-permissions/route.ts:62:      console.log("DEVELOPMENT MODE: Using mock organization permissions data");
+./app/api/rbac/organization-permissions/route.ts:64:      // Return mock permissions data based on organization ID
+./app/api/rbac/organization-permissions/route.ts:69:      // Mock permission results
+./app/api/rbac/permissions/route.ts:16:    // In development mode, return mock permissions
+./app/api/rbac/permissions/route.ts:17:    console.log("DEVELOPMENT MODE: Using mock permissions for system view");
+./app/api/rbac/permissions/route.ts:19:    // Mock permissions based on different functional areas
+./app/api/rbac/permissions/route.ts:20:    const mockPermissions = [
+./app/api/rbac/permissions/route.ts:71:    return NextResponse.json(mockPermissions);
+./app/api/roster/brand-agents/route.ts:118:    // Mock assignment for demonstration
+./app/api/roster/brand-agents/route.ts:123:      assignedBy: "mock-user-id",
+./app/api/shifts/assignments/route.ts:127:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/assignments/route.ts:30:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/assignments/route.ts:42:    // Mock assignment for demonstration
+./app/api/shifts/[id]/route.ts:141:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/[id]/route.ts:29:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/[id]/route.ts:77:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/lifecycle/route.ts:26:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/route.ts:42:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/shifts/route.ts:85:    const userId = (session.user as any).id || "mock-user-id";
+./app/api/tasks/route.ts:54:          assignerId: "mock-user-id",
+./app/api/tasks/route.ts:58:          organizationId: "mock-org-id",
+./app/api/team/[id]/route.ts:6:// Mock auth for development
+./app/api/timetracking/route.ts:159:      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./app/api/timetracking/route.ts:18:    const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./app/api/timetracking/route.ts:90:      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./app/bookings/assignments/page.tsx:126:  const filteredAssignments = mockAssignments.filter(assignment => {
+./app/bookings/assignments/page.tsx:210:            <div className="text-2xl font-bold">{mockAssignments.length}</div>
+./app/bookings/assignments/page.tsx:217:              {mockAssignments.filter(a => a.status === "fully_assigned").length}
+./app/bookings/assignments/page.tsx:225:              {mockAssignments.filter(a => a.status === "needs_staff" || a.status === "partially_assigned").length}
+./app/bookings/assignments/page.tsx:233:              {mockAssignments.filter(a => a.status === "unassigned").length}
+./app/bookings/assignments/page.tsx:32:// Mock assignment data
+./app/bookings/assignments/page.tsx:33:const mockAssignments = [
+./app/bookings/calendar/page.tsx:249:              {mockBookings.filter(b => b.status === "confirmed").length}
+./app/bookings/calendar/page.tsx:257:              {mockBookings.filter(b => b.status === "pending").length}
+./app/bookings/calendar/page.tsx:265:              {mockBookings.filter(b => b.status === "completed").length}
+./app/bookings/calendar/page.tsx:273:              {mockBookings.length}
+./app/bookings/calendar/page.tsx:44:// Mock booking data - react-big-calendar format
+./app/bookings/calendar/page.tsx:45:const mockBookings = [
+./app/bookings/calendar/page.tsx:96:  const filteredBookings = mockBookings.filter(booking => 
+./app/bookings/[id]/edit/page.tsx:110:              notes: "Development mode - using mock booking data",
+./app/bookings/[id]/edit/page.tsx:112:            setBooking(mockBooking)
+./app/bookings/[id]/edit/page.tsx:61:        // Force using mock data for the edit page until API is working
+./app/bookings/[id]/edit/page.tsx:62:        console.log("DEBUG: Using mock data (bypassing API)");
+./app/bookings/[id]/edit/page.tsx:63:        // Use more specific mock data for development
+./app/bookings/[id]/edit/page.tsx:64:        const mockBooking = {
+./app/bookings/[id]/edit/page.tsx:78:          organizationId: "org-1", // Add organization ID to match mock orgs
+./app/bookings/[id]/edit/page.tsx:80:        console.log("DEBUG: Setting booking data:", mockBooking);
+./app/bookings/[id]/edit/page.tsx:81:        setBooking(mockBooking);
+./app/bookings/[id]/edit/page.tsx:95:          if (process.env.NODE_ENV === 'development' || true) { // Always use mock data for now
+./app/bookings/[id]/edit/page.tsx:96:            // For development, use mock data instead
+./app/bookings/[id]/edit/page.tsx:97:            console.log("Using mock data for development")
+./app/bookings/[id]/edit/page.tsx:98:            const mockBooking = {
+./app/bookings/regions/page.tsx:145:            <div className="text-2xl font-bold">{mockRegions.length}</div>
+./app/bookings/regions/page.tsx:152:              {mockRegions.reduce((sum, region) => sum + region.activeBookings, 0)}
+./app/bookings/regions/page.tsx:160:              {mockRegions.reduce((sum, region) => sum + region.staffCount, 0)}
+./app/bookings/regions/page.tsx:168:              ${mockRegions.reduce((sum, region) => sum + region.monthlyRevenue, 0).toLocaleString()}
+./app/bookings/regions/page.tsx:24:// Mock regions data
+./app/bookings/regions/page.tsx:25:const mockRegions = [
+./app/bookings/regions/page.tsx:80:  const filteredRegions = mockRegions.filter(region => {
+./app/bookings/reports/page.tsx:160:                <div className="text-2xl font-bold">{mockReportMetrics.totalBookings}</div>
+./app/bookings/reports/page.tsx:172:                  ${mockReportMetrics.totalRevenue.toLocaleString()}
+./app/bookings/reports/page.tsx:184:                <div className="text-2xl font-bold text-blue-600">+{mockReportMetrics.monthlyGrowth}%</div>
+./app/bookings/reports/page.tsx:196:                  {mockReportMetrics.completedBookings}
+./app/bookings/reports/page.tsx:229:                    <span className="font-medium">{mockReportMetrics.topRegion}</span>
+./app/bookings/reports/page.tsx:237:                    <span className="font-medium">{mockReportMetrics.topClient}</span>
+./app/bookings/reports/page.tsx:256:                {mockPerformanceData.map((metric, index) => (
+./app/bookings/reports/page.tsx:295:                  {mockBookingReports.map((report) => (
+./app/bookings/reports/page.tsx:31:// Mock report data
+./app/bookings/reports/page.tsx:32:const mockReportMetrics = {
+./app/bookings/reports/page.tsx:42:const mockBookingReports = [
+./app/bookings/reports/page.tsx:81:const mockPerformanceData = [
+./app/brand-agents/page.tsx:161:        {mockAgents.map((agent) => (
+./app/brand-agents/page.tsx:29:const mockAgents = [
+./app/calendar/page.tsx:183:    return mockBookings.filter((booking) => {
+./app/calendar/page.tsx:37:const mockBookings = [
+./app/calendar/page.tsx:433:                {mockBookings.map((booking) => (
+./app/client-management/accounts/page.tsx:43:// Mock data for client accounts
+./app/client-management/billing/page.tsx:55:// Mock data for invoices
+./app/client-management/billing/page.tsx:57:// Mock data for payment methods
+./app/client-management/staff/page.tsx:48:// Mock data for staff
+./app/client-management/users/page.tsx:48:// Mock data for client users
+./app/client/services/rbac.ts:122:      permissions: mockPermissions,
+./app/client/services/rbac.ts:93:  // In development mode, return mock permissions directly to avoid fetch issues
+./app/client/services/rbac.ts:95:    const mockPermissions = [
+./app/components/agent-calendar/AvailabilityModal.tsx:94:      // Use default UUID for mock user
+./app/expenses/page.tsx:207:        agentId: "mock-user-id",
+./app/hooks/useAuth.new.tsx:9: * - By default, a mock user with super_admin privileges is automatically logged in
+./app/hooks/useAuth.old.tsx:11: * - By default, a mock user with super_admin privileges is automatically logged in
+./app/hooks/useAuth.old.tsx:125:        // In development, use a mock user unless explicitly showing unauthenticated state
+./app/hooks/useAuth.old.tsx:27:// Define our own UserSession type based on the mock user in auth.ts
+./app/hooks/useAuth.tsx:9: * - By default, a mock user with super_admin privileges is automatically logged in
+./app/hooks/useStates.ts:118:          "Error parsing API response, using mock data:",
+./app/hooks/useStates.ts:121:        setStates(MOCK_STATES);
+./app/hooks/useStates.ts:128:      // Fallback to mock data on error
+./app/hooks/useStates.ts:129:      setStates(MOCK_STATES);
+./app/hooks/useStates.ts:7: * Mock US states data for development
+./app/hooks/useStates.ts:91:   * Fetch states from the API with fallback to mock data
+./app/hooks/useStates.ts:9:const MOCK_STATES = [
+./app/inventory/new-kit/page.tsx:35:// Mock inventory items
+./app/inventory/new-kit/page.tsx:36:const mockInventoryItems = [
+./app/inventory/new-kit/page.tsx:52:  const filteredItems = mockInventoryItems.filter(item =>
+./app/kits/instances/client-page.tsx:163:      // Create new kit instance (mock implementation)
+./app/kits/templates/client-page.tsx:24:// Mock data for kit templates
+./app/kits/templates/client-page.tsx:25:const mockKitTemplates = [
+./app/kits/templates/client-page.tsx:59:  const [templates, setTemplates] = useState(mockKitTemplates);
+./app/lib/auth-new.ts:81:  return mockUser;
+./app/lib/auth-new.ts:87:  return mockUserOrganizations;
+./app/lib/auth-new.ts:92:  return mockJwtPayload;
+./app/lib/auth-server.ts:26:  // Development mode mock user
+./app/lib/auth-server.ts:28:    id: "mock-user-id",
+./app/lib/auth-server.ts:41:  // Development mode mock user for API routes
+./app/lib/auth-server.ts:43:    id: "mock-user-id",
+./app/lib/auth.ts:15:    // In development mode, return mock user
+./app/lib/auth.ts:18:        id: "mock-user-id",
+./app/lib/rbac-new.ts:73:    // For mock implementation
+./app/profile/settings/page.tsx:11:  // Mock settings state
+./app/server/auth-utils.ts:15:    // In development mode, return mock user
+./app/server/db.ts:17:            id: "mock-location-1",
+./app/server/db.ts:24:            id: "mock-location-2",
+./app/server/db.ts:2: * Database mock for SQL operations
+./app/server/db.ts:59:          { id: "mock-location-1", name: "Updated Location", status: "active" },
+./app/server/db.ts:5:// Define a simple mock SQL execution engine
+./app/server/db.ts:7:  // Mock implementation that simulates SQL execution
+./app/server/jsonwebtoken.ts:12:  return "mock-jwt-token";
+./app/server/jsonwebtoken.ts:1:// Mock jsonwebtoken for deployment compatibility
+./app/server/jsonwebtoken.ts:3:  // Mock implementation for development
+./app/services/analytics/utils/ReportGenerator.ts:61:        fileSize: Math.floor(Math.random() * 1000000) + 100000, // Mock file size
+./app/services/expenses/ExpenseService.ts:460:      const mockDistance = Math.floor(Math.random() * 50) + 5; // 5-55 miles
+./app/services/expenses/ExpenseService.ts:461:      const amount = mockDistance * rate;
+./app/services/expenses/ExpenseService.ts:466:          distance: mockDistance,
+./app/services/infrastructure/messaging/errorHandlingStrategies.ts:190:    // Mock implementation
+./app/services/rbac/repository.ts:143:      // In development mode, return mock data instead of querying the database
+./app/services/rbac/repository.ts:194:      // In development mode, return mock data
+./app/services/rbac/repository.ts:250:        `Mock removing role ${roleId} from user ${userId} ${organizationId ? "in organization " + organizationId : "globally"}`,
+./app/services/states/statesService.ts:108:        // Simply return the same mock data as getAllStates() but filtered for active states
+./app/services/states/statesService.ts:131:        // Return a specific state from mock data
+./app/services/states/statesService.ts:154:        // Return a specific state from mock data
+./app/services/states/statesService.ts:203:        // Mock US regions data for development
+./app/services/states/statesService.ts:32:      // Only use mock data in development environment
+./app/services/states/statesService.ts:36:        // Mock US states data for development
+./app/team/[id]/deactivate/page.tsx:37:// Mock team member data
+./app/team/[id]/edit/page.tsx:44:// Mock data for team member details
+./app/team/[id]/message/page.tsx:78:// Mock team member data
+./app/team/[id]/page.tsx:45:// Mock data for team member details
+./app/workforce/page.tsx:181:            {mockTimeEntries.map((entry) => (
+./app/workforce/page.tsx:223:            {mockSchedule.map((item) => (
+./app/workforce/page.tsx:28:const mockTimeEntries = [
+./app/workforce/page.tsx:61:const mockSchedule = [
+./components/agent-calendar/AvailabilityModal.tsx:94:      // Use default UUID for mock user
+./components/bookings/BookingFormFinal.tsx:384:  const [isInternalUser, setIsInternalUser] = useState<boolean>(true); // Mock: In real app, get from auth context
+./components/bookings/BookingFormFinal.tsx:407:      // For mock purposes, we'll use Acme Corp
+./components/bookings/BookingFormFinal.tsx:60:// Mock location types and status for development
+./components/bookings/BookingFormFinal.tsx:720:                        // For now, we'll mock it with a pending status
+./components/locations/LocationSelector.tsx:117:  const filteredLocations = mockLocations.filter(
+./components/locations/LocationSelector.tsx:125:  const selectedLocation = mockLocations.find((loc) => loc.id === value);
+./components/locations/LocationSelector.tsx:46:// Mock data for demonstration
+./components/locations/LocationSelector.tsx:47:const mockLocations: LocationDTO[] = [
+./components/locations/PlacesAutocomplete.tsx:7:// Mock useToast hook if not available
+./components/performance/Review360.tsx:100:  const mockReviews: Review360Data[] = [
+./components/performance/Review360.tsx:299:                {mockReviews.map((review) => (
+./components/performance/Review360.tsx:384:            {mockReviews.map((review) => (
+./lib/auth/index.ts:109:  // For development, return mock user
+./lib/auth/index.ts:110:  return getMockUser();
+./lib/auth/index.ts:117:  // For development, return mock user
+./lib/auth/index.ts:118:  return getMockUser();
+./lib/auth/index.ts:148:  getMockUser,
+./lib/auth/index.ts:56: * Get mock user for development
+./lib/auth/index.ts:58:export function getMockUser(): User {
+./lib/auth-new.ts:79:  return mockUser;
+./lib/auth-new.ts:85:  return mockUserOrganizations;
+./lib/auth-new.ts:90:  return mockJwtPayload;
+./lib/auth-server.ts:16:    // Always use real database authentication - no mock data
+./lib/auth.ts:16:    // For development, return a mock user
+./lib/deployment-config.ts:32:      mockData: process.env.ENABLE_MOCK_DATA === 'true',
+./lib/rbac-new.ts:73:    // For mock implementation
+./rishi-deploy/api/auth/index.ts:13:    // Mock authentication for demo
+./rishi-deploy/api/auth/index.ts:27:          token: "mock-jwt-token",
+./rishi-deploy/api/bookings/index.js:10:    // Mock cannabis workforce management bookings data
+./rishi-deploy/api/bookings/index.ts:10:    // Mock bookings data for cannabis workforce management
+./rishi-deploy/api/organizations/index.ts:10:    // Mock organizations data
+./rishi-deploy/app/admin/alerts/[id]/page.tsx:47:// Mock alert data
+./rishi-deploy/app/admin/alerts/page.tsx:41:// Mock data
+./rishi-deploy/app/admin/page.tsx:68:    // For now, we're using mock data
+./rishi-deploy/app/admin/page.tsx:74:        // Mock data for development
+./rishi-deploy/app/admin/roles/page.tsx:967:    // Mock users for demonstration
+./rishi-deploy/app/admin/roles/page.tsx:968:    const mockUsers: User[] = Array.from(
+./rishi-deploy/app/admin/roles/page.tsx:997:              {mockUsers.slice(0, 10).map((user) => (
+./rishi-deploy/app/api/admin/locations/bulk-update/route.ts:93:    // In development mode, we use a mock user with specific properties
+./rishi-deploy/app/api/admin/locations/[id]/approve/route.ts:41:      // Get the location - using findById() which is implemented in our mock database
+./rishi-deploy/app/api/admin/locations/[id]/approve/route.ts:62:      // Using the correct update method for our mock db implementation
+./rishi-deploy/app/api/admin/locations/[id]/approve/route.ts:89:          // This might be called createdById instead of submittedById in our mock implementation
+./rishi-deploy/app/api/admin/locations/route.ts:24:    // For demo purposes we're allowing the mock admin user to proceed
+./rishi-deploy/app/api/assignments/bulk/route.ts:5:// Mock auth for development
+./rishi-deploy/app/api/auth/[...nextauth]/route.ts:16:        // For development purposes, we're using a mock user
+./rishi-deploy/app/api/auth/[...nextauth]/route.ts:17:        // Always return mock user for development
+./rishi-deploy/app/api/auth/permissions/route.ts:122:          mockPermissionsByRole[
+./rishi-deploy/app/api/auth/permissions/route.ts:123:            userRole as keyof typeof mockPermissionsByRole
+./rishi-deploy/app/api/auth/permissions/route.ts:124:          ] || mockPermissionsByRole.brand_agent,
+./rishi-deploy/app/api/auth/permissions/route.ts:15:    // Only use mock data in development mode
+./rishi-deploy/app/api/auth/permissions/route.ts:26:      const mockPermissionsByRole = {
+./rishi-deploy/app/api/auth-service/models/user-repository.ts:381:    // For non-production environments, create a mock organization connection
+./rishi-deploy/app/api/auth-service/models/user-repository.ts:398:      const mockUserOrg = {
+./rishi-deploy/app/api/auth-service/models/user-repository.ts:407:      return { userOrg: mockUserOrg };
+./rishi-deploy/app/api/auth-service/routes/login/route.ts:43:        // Create a token for the mock user
+./rishi-deploy/app/api/auth-service/routes/register/route.ts:133:          "[Auth Service] Unable to use mock registration flow:",
+./rishi-deploy/app/api/auth-service/routes/register/route.ts:224:        // Create a token for the mock user
+./rishi-deploy/app/api/auth-service/routes/register/route.ts:67:    // Only use mock data in development environment, not in staging or production
+./rishi-deploy/app/api/auth-service/routes/session/route.ts:39:      console.log("[Auth Service] DEVELOPMENT MODE: Using mock user session");
+./rishi-deploy/app/api/auth-service/status/route.ts:15: * 1. In development mode, always returns success to avoid breaking mock data flows
+./rishi-deploy/app/api/availability/route.ts:172:      // Mock availability service for demonstration
+./rishi-deploy/app/api/availability/route.ts:478:      // Mock availability service for demonstration
+./rishi-deploy/app/api/bookings/form-data/route.ts:26:    // Use mock data only in development mode to avoid database errors
+./rishi-deploy/app/api/bookings/route.ts:314:  console.log("DEVELOPMENT MODE: Using mock bookings data");
+./rishi-deploy/app/api/bookings/route.ts:330:  let filteredBookings = [...mockBookings];
+./rishi-deploy/app/api/bookings/route.ts:60:const mockBookings: Booking[] = [
+./rishi-deploy/app/api/bookings/stats/route.ts:4:// Mock booking statistics
+./rishi-deploy/app/api/bookings/stats/route.ts:57:  console.log("DEVELOPMENT MODE: Using mock booking stats");
+./rishi-deploy/app/api/bookings/stats/route.ts:5:const mockBookingStats = {
+./rishi-deploy/app/api/bookings/stats/route.ts:70:  // For now, just return the mock data
+./rishi-deploy/app/api/bookings/stats/route.ts:72:  return NextResponse.json(mockBookingStats);
+./rishi-deploy/app/api/expenses/mileage/route.ts:21:      id: "mock-user-id",
+./rishi-deploy/app/api/locations/cities/route.ts:29:    // Mock data - would be replaced with database query
+./rishi-deploy/app/api/locations/pending/route.ts:165:        // Fall back to the mock user ID
+./rishi-deploy/app/api/locations/regions/route.ts:22:    // Mock regions for example purpose - replace with real data from database
+./rishi-deploy/app/api/locations/route.ts:17:    id: (session.user as any).id || "mock-user-id",
+./rishi-deploy/app/api/locations/route.ts:18:    organizationId: (session.user as any).organizationId || "mock-org-id",
+./rishi-deploy/app/api/locations/route.ts:193:          // Fall back to the mock user ID
+./rishi-deploy/app/api/locations/states/route.ts:22:    // Mock states for example purpose - replace with real data from database
+./rishi-deploy/app/api/locations/zipcodes/route.ts:32:    // Mock data - would be replaced with database query
+./rishi-deploy/app/api/notifications/[id]/read/route.ts:4:// Use mock auth for development
+./rishi-deploy/app/api/organizations/[id]/regions/route.ts:39:      // Return mock data for development user
+./rishi-deploy/app/api/organizations/[id]/users/route.ts:39:      // Return mock data for development user
+./rishi-deploy/app/api/organizations/invitations/route.ts:122:      // If database error in development, return mock data
+./rishi-deploy/app/api/organizations/invitations/route.ts:234:      // Return mock invitation data
+./rishi-deploy/app/api/organizations/invitations/route.ts:235:      const mockInvitation = {
+./rishi-deploy/app/api/organizations/invitations/route.ts:254:        invitation: mockInvitation,
+./rishi-deploy/app/api/organizations/invitations/route.ts:68:    // For development, return mock invitations
+./rishi-deploy/app/api/organizations/invitations/route.ts:70:      console.log("DEVELOPMENT MODE: Using mock organization invitations data");
+./rishi-deploy/app/api/organizations/invitations/route.ts:72:      const mockInvitations = [
+./rishi-deploy/app/api/organizations/invitations/route.ts:93:      return NextResponse.json({ invitations: mockInvitations });
+./rishi-deploy/app/api/organizations/route.ts:56:      // Only use mock data in development environment
+./rishi-deploy/app/api/organizations/route.ts:59:        const mockOrganizations = [
+./rishi-deploy/app/api/organizations/route.ts:92:        return NextResponse.json(mockOrganizations);
+./rishi-deploy/app/api/organizations/route.ts:95:      // In production or staging, return an empty list rather than exposing mock data
+./rishi-deploy/app/api/organizations/user/route.ts:63:      // Fallback to mock data for development
+./rishi-deploy/app/api/organizations/user/route.ts:64:      const mockOrganizations = [
+./rishi-deploy/app/api/organizations/user/route.ts:76:        organizations: mockOrganizations,
+./rishi-deploy/app/api/organizations/user/route.ts:77:        defaultOrganization: mockOrganizations[0],
+./rishi-deploy/app/api/organizations/users/route.ts:131:      // If database error in development, return mock data
+./rishi-deploy/app/api/organizations/users/route.ts:67:    // For development, return mock users
+./rishi-deploy/app/api/organizations/users/route.ts:69:      console.log("DEVELOPMENT MODE: Using mock organization users data");
+./rishi-deploy/app/api/organizations/users/route.ts:71:      const mockUsers = [
+./rishi-deploy/app/api/organizations/users/route.ts:98:      return NextResponse.json({ users: mockUsers });
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:176:      // If database error in development, provide mock data
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:178:        console.log("Returning mock data due to database error in development");
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:226:    // In development mode, use a mock user
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:228:      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:229:      // Create a mock user that matches the schema expected by the rest of the code
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:257:    // In development mode, return mock response
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:260:        "DEVELOPMENT MODE: Using mock response for organization permissions update",
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:263:      // Create mock results based on the request
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:264:      const mockResults = Object.entries(permissions).map(
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:277:        updatedPermissions: mockResults.length,
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:278:        permissions: mockResults,
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:28:    // In development mode, use a mock user
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:30:      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:31:      // Create a mock user that matches the schema expected by the rest of the code
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:356:      // If database error in development, provide mock data
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:358:        console.log("Returning mock data due to database error in development");
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:360:        const mockResults = Object.entries(permissions).map(
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:373:          updatedPermissions: mockResults.length,
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:374:          permissions: mockResults,
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:60:    // In development mode, return mock permissions data
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:62:      console.log("DEVELOPMENT MODE: Using mock organization permissions data");
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:64:      // Return mock permissions data based on organization ID
+./rishi-deploy/app/api/rbac/organization-permissions/route.ts:69:      // Mock permission results
+./rishi-deploy/app/api/rbac/permissions/route.ts:16:    // In development mode, return mock permissions
+./rishi-deploy/app/api/rbac/permissions/route.ts:17:    console.log("DEVELOPMENT MODE: Using mock permissions for system view");
+./rishi-deploy/app/api/rbac/permissions/route.ts:19:    // Mock permissions based on different functional areas
+./rishi-deploy/app/api/rbac/permissions/route.ts:20:    const mockPermissions = [
+./rishi-deploy/app/api/rbac/permissions/route.ts:71:    return NextResponse.json(mockPermissions);
+./rishi-deploy/app/api/roster/brand-agents/route.ts:118:    // Mock assignment for demonstration
+./rishi-deploy/app/api/roster/brand-agents/route.ts:123:      assignedBy: "mock-user-id",
+./rishi-deploy/app/api/shifts/assignments/route.ts:127:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/assignments/route.ts:30:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/assignments/route.ts:42:    // Mock assignment for demonstration
+./rishi-deploy/app/api/shifts/[id]/route.ts:141:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/[id]/route.ts:29:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/[id]/route.ts:77:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/lifecycle/route.ts:26:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/route.ts:42:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/shifts/route.ts:85:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-deploy/app/api/tasks/route.ts:54:          assignerId: "mock-user-id",
+./rishi-deploy/app/api/tasks/route.ts:58:          organizationId: "mock-org-id",
+./rishi-deploy/app/api/team/[id]/route.ts:6:// Mock auth for development
+./rishi-deploy/app/api/timetracking/route.ts:159:      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./rishi-deploy/app/api/timetracking/route.ts:18:    const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./rishi-deploy/app/api/timetracking/route.ts:90:      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:110:              notes: "Development mode - using mock booking data",
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:112:            setBooking(mockBooking)
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:61:        // Force using mock data for the edit page until API is working
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:62:        console.log("DEBUG: Using mock data (bypassing API)");
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:63:        // Use more specific mock data for development
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:64:        const mockBooking = {
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:78:          organizationId: "org-1", // Add organization ID to match mock orgs
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:80:        console.log("DEBUG: Setting booking data:", mockBooking);
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:81:        setBooking(mockBooking);
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:95:          if (process.env.NODE_ENV === 'development' || true) { // Always use mock data for now
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:96:            // For development, use mock data instead
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:97:            console.log("Using mock data for development")
+./rishi-deploy/app/bookings/[id]/edit/page.tsx:98:            const mockBooking = {
+./rishi-deploy/app/brand-agents/page.tsx:161:        {mockAgents.map((agent) => (
+./rishi-deploy/app/brand-agents/page.tsx:29:const mockAgents = [
+./rishi-deploy/app/calendar/page.tsx:183:    return mockBookings.filter((booking) => {
+./rishi-deploy/app/calendar/page.tsx:37:const mockBookings = [
+./rishi-deploy/app/calendar/page.tsx:433:                {mockBookings.map((booking) => (
+./rishi-deploy/app/client-management/accounts/page.tsx:43:// Mock data for client accounts
+./rishi-deploy/app/client-management/accounts/page.tsx:44:const mockClientAccounts = [
+./rishi-deploy/app/client-management/accounts/page.tsx:97:  const filteredClients = mockClientAccounts.filter(
+./rishi-deploy/app/client-management/billing/page.tsx:109:// Mock data for payment methods
+./rishi-deploy/app/client-management/billing/page.tsx:110:const mockPaymentMethods = [
+./rishi-deploy/app/client-management/billing/page.tsx:169:  const filteredInvoices = mockInvoices.filter(
+./rishi-deploy/app/client-management/billing/page.tsx:178:  const filteredPaymentMethods = mockPaymentMethods.filter(
+./rishi-deploy/app/client-management/billing/page.tsx:55:// Mock data for invoices
+./rishi-deploy/app/client-management/billing/page.tsx:56:const mockInvoices = [
+./rishi-deploy/app/client-management/staff/page.tsx:117:  const filteredStaff = mockStaff.filter(
+./rishi-deploy/app/client-management/staff/page.tsx:48:// Mock data for staff
+./rishi-deploy/app/client-management/staff/page.tsx:49:const mockStaff = [
+./rishi-deploy/app/client-management/users/page.tsx:107:  const filteredUsers = mockUsers.filter(
+./rishi-deploy/app/client-management/users/page.tsx:48:// Mock data for client users
+./rishi-deploy/app/client-management/users/page.tsx:49:const mockUsers = [
+./rishi-deploy/app/expenses/page.tsx:207:        agentId: "mock-user-id",
+./rishi-deploy/app/hooks/useAuth.new.tsx:9: * - By default, a mock user with super_admin privileges is automatically logged in
+./rishi-deploy/app/hooks/useAuth.old.tsx:11: * - By default, a mock user with super_admin privileges is automatically logged in
+./rishi-deploy/app/hooks/useAuth.old.tsx:125:        // In development, use a mock user unless explicitly showing unauthenticated state
+./rishi-deploy/app/hooks/useAuth.old.tsx:27:// Define our own UserSession type based on the mock user in auth.ts
+./rishi-deploy/app/hooks/useAuthService.ts:148:      // In development mode, simulate successful login with mock data
+./rishi-deploy/app/hooks/useAuthService.ts:194:      // In development mode, simulate successful registration with mock data
+./rishi-deploy/app/hooks/useAuthService.ts:397:      // In development mode, use mock data and don't make HTTP requests to avoid NextAuth conflicts
+./rishi-deploy/app/hooks/useAuthService.ts:411:        // Return mock authenticated user without HTTP request to prevent NextAuth conflicts
+./rishi-deploy/app/hooks/useAuthService.ts:413:          "DEVELOPMENT MODE: Using mock user for session (no HTTP request)",
+./rishi-deploy/app/hooks/useAuth.tsx:9: * - By default, a mock user with super_admin privileges is automatically logged in
+./rishi-deploy/app/hooks/useStates.ts:118:          "Error parsing API response, using mock data:",
+./rishi-deploy/app/hooks/useStates.ts:121:        setStates(MOCK_STATES);
+./rishi-deploy/app/hooks/useStates.ts:128:      // Fallback to mock data on error
+./rishi-deploy/app/hooks/useStates.ts:129:      setStates(MOCK_STATES);
+./rishi-deploy/app/hooks/useStates.ts:7: * Mock US states data for development
+./rishi-deploy/app/hooks/useStates.ts:91:   * Fetch states from the API with fallback to mock data
+./rishi-deploy/app/hooks/useStates.ts:9:const MOCK_STATES = [
+./rishi-deploy/app/inventory/page.tsx:189:            {mockItems.map((item) => (
+./rishi-deploy/app/inventory/page.tsx:231:            {mockKitTemplates.map((kit) => (
+./rishi-deploy/app/inventory/page.tsx:28:const mockKitTemplates = [
+./rishi-deploy/app/inventory/page.tsx:58:const mockItems = [
+./rishi-deploy/app/kits/instances/client-page.tsx:183:      // Create new kit instance (mock implementation)
+./rishi-deploy/app/kits/instances/client-page.tsx:28:// Mock data for kit instances
+./rishi-deploy/app/kits/instances/client-page.tsx:29:const mockKitInstances = [
+./rishi-deploy/app/kits/instances/client-page.tsx:58:const mockKitTemplates = [
+./rishi-deploy/app/kits/instances/client-page.tsx:71:  // Use mock data for demonstration
+./rishi-deploy/app/kits/instances/client-page.tsx:72:  const kitInstances = mockKitInstances;
+./rishi-deploy/app/kits/instances/client-page.tsx:75:  const kitTemplates = mockKitTemplates;
+./rishi-deploy/app/kits/templates/client-page.tsx:24:// Mock data for kit templates
+./rishi-deploy/app/kits/templates/client-page.tsx:25:const mockKitTemplates = [
+./rishi-deploy/app/kits/templates/client-page.tsx:59:  const [templates, setTemplates] = useState(mockKitTemplates);
+./rishi-deploy/app/profile/settings/page.tsx:11:  // Mock settings state
+./rishi-deploy/app/team/[id]/deactivate/page.tsx:37:// Mock team member data
+./rishi-deploy/app/team/[id]/edit/page.tsx:44:// Mock data for team member details
+./rishi-deploy/app/team/[id]/message/page.tsx:78:// Mock team member data
+./rishi-deploy/app/team/[id]/page.tsx:45:// Mock data for team member details
+./rishi-deploy/app/workforce/page.tsx:181:            {mockTimeEntries.map((entry) => (
+./rishi-deploy/app/workforce/page.tsx:223:            {mockSchedule.map((item) => (
+./rishi-deploy/app/workforce/page.tsx:28:const mockTimeEntries = [
+./rishi-deploy/app/workforce/page.tsx:61:const mockSchedule = [
+./rishi-deploy/shared/features/types.ts:202:    // For simplicity, we'll create a mock status
+./rishi-deploy/shared/features/types.ts:217:    // For simplicity, we'll create mock statuses for all modules
+./rishi-upload/api/auth/index.ts:13:    // Mock authentication for demo
+./rishi-upload/api/auth/index.ts:27:          token: "mock-jwt-token",
+./rishi-upload/api/bookings/index.js:10:    // Mock cannabis workforce management bookings data
+./rishi-upload/api/bookings/index.ts:10:    // Mock bookings data for cannabis workforce management
+./rishi-upload/api/organizations/index.ts:10:    // Mock organizations data
+./rishi-upload/app/admin/alerts/[id]/page.tsx:47:// Mock alert data
+./rishi-upload/app/admin/alerts/page.tsx:41:// Mock data
+./rishi-upload/app/admin/page.tsx:68:    // For now, we're using mock data
+./rishi-upload/app/admin/page.tsx:74:        // Mock data for development
+./rishi-upload/app/admin/roles/page.tsx:967:    // Mock users for demonstration
+./rishi-upload/app/admin/roles/page.tsx:968:    const mockUsers: User[] = Array.from(
+./rishi-upload/app/admin/roles/page.tsx:997:              {mockUsers.slice(0, 10).map((user) => (
+./rishi-upload/app/api/admin/locations/bulk-update/route.ts:93:    // In development mode, we use a mock user with specific properties
+./rishi-upload/app/api/admin/locations/[id]/approve/route.ts:41:      // Get the location - using findById() which is implemented in our mock database
+./rishi-upload/app/api/admin/locations/[id]/approve/route.ts:62:      // Using the correct update method for our mock db implementation
+./rishi-upload/app/api/admin/locations/[id]/approve/route.ts:89:          // This might be called createdById instead of submittedById in our mock implementation
+./rishi-upload/app/api/admin/locations/route.ts:24:    // For demo purposes we're allowing the mock admin user to proceed
+./rishi-upload/app/api/assignments/bulk/route.ts:5:// Mock auth for development
+./rishi-upload/app/api/auth/[...nextauth]/route.ts:16:        // For development purposes, we're using a mock user
+./rishi-upload/app/api/auth/[...nextauth]/route.ts:17:        // Always return mock user for development
+./rishi-upload/app/api/auth/permissions/route.ts:122:          mockPermissionsByRole[
+./rishi-upload/app/api/auth/permissions/route.ts:123:            userRole as keyof typeof mockPermissionsByRole
+./rishi-upload/app/api/auth/permissions/route.ts:124:          ] || mockPermissionsByRole.brand_agent,
+./rishi-upload/app/api/auth/permissions/route.ts:15:    // Only use mock data in development mode
+./rishi-upload/app/api/auth/permissions/route.ts:26:      const mockPermissionsByRole = {
+./rishi-upload/app/api/auth-service/models/user-repository.ts:381:    // For non-production environments, create a mock organization connection
+./rishi-upload/app/api/auth-service/models/user-repository.ts:398:      const mockUserOrg = {
+./rishi-upload/app/api/auth-service/models/user-repository.ts:407:      return { userOrg: mockUserOrg };
+./rishi-upload/app/api/auth-service/routes/login/route.ts:43:        // Create a token for the mock user
+./rishi-upload/app/api/auth-service/routes/register/route.ts:133:          "[Auth Service] Unable to use mock registration flow:",
+./rishi-upload/app/api/auth-service/routes/register/route.ts:224:        // Create a token for the mock user
+./rishi-upload/app/api/auth-service/routes/register/route.ts:67:    // Only use mock data in development environment, not in staging or production
+./rishi-upload/app/api/auth-service/routes/session/route.ts:39:      console.log("[Auth Service] DEVELOPMENT MODE: Using mock user session");
+./rishi-upload/app/api/auth-service/status/route.ts:15: * 1. In development mode, always returns success to avoid breaking mock data flows
+./rishi-upload/app/api/availability/route.ts:172:      // Mock availability service for demonstration
+./rishi-upload/app/api/availability/route.ts:478:      // Mock availability service for demonstration
+./rishi-upload/app/api/bookings/form-data/route.ts:26:    // Use mock data only in development mode to avoid database errors
+./rishi-upload/app/api/bookings/route.ts:314:  console.log("DEVELOPMENT MODE: Using mock bookings data");
+./rishi-upload/app/api/bookings/route.ts:330:  let filteredBookings = [...mockBookings];
+./rishi-upload/app/api/bookings/route.ts:60:const mockBookings: Booking[] = [
+./rishi-upload/app/api/bookings/stats/route.ts:4:// Mock booking statistics
+./rishi-upload/app/api/bookings/stats/route.ts:57:  console.log("DEVELOPMENT MODE: Using mock booking stats");
+./rishi-upload/app/api/bookings/stats/route.ts:5:const mockBookingStats = {
+./rishi-upload/app/api/bookings/stats/route.ts:70:  // For now, just return the mock data
+./rishi-upload/app/api/bookings/stats/route.ts:72:  return NextResponse.json(mockBookingStats);
+./rishi-upload/app/api/events/[id]/activities/route.ts:321:    const activities = mockActivities[eventId] || [];
+./rishi-upload/app/api/events/[id]/activities/route.ts:3:// Mock activities data
+./rishi-upload/app/api/events/[id]/activities/route.ts:4:const mockActivities = {
+./rishi-upload/app/api/events/[id]/route.ts:109:    const event = mockEvents.find((e) => e.id === eventId);
+./rishi-upload/app/api/events/[id]/route.ts:132:    const event = mockEvents.find((e) => e.id === eventId);
+./rishi-upload/app/api/events/[id]/route.ts:164:    const event = mockEvents.find((e) => e.id === eventId);
+./rishi-upload/app/api/events/[id]/route.ts:3:// Mock event data (same as in the events route)
+./rishi-upload/app/api/events/[id]/route.ts:4:const mockEvents = [
+./rishi-upload/app/api/events/[id]/staff/route.ts:262:    const staffAssignments = mockStaffAssignments[eventId] || [];
+./rishi-upload/app/api/events/[id]/staff/route.ts:3:// Mock staff assignments data
+./rishi-upload/app/api/events/[id]/staff/route.ts:4:const mockStaffAssignments = {
+./rishi-upload/app/api/events/publish/route.ts:5:// Mock auth for development
+./rishi-upload/app/api/events/route.ts:113:      ? mockEvents.filter((event) => event.organizationId === organizationId)
+./rishi-upload/app/api/events/route.ts:114:      : mockEvents;
+./rishi-upload/app/api/events/route.ts:7:const mockEvents = [
+./rishi-upload/app/api/expenses/mileage/route.ts:21:      id: "mock-user-id",
+./rishi-upload/app/api/locations/cities/route.ts:29:    // Mock data - would be replaced with database query
+./rishi-upload/app/api/locations/pending/route.ts:165:        // Fall back to the mock user ID
+./rishi-upload/app/api/locations/regions/route.ts:22:    // Mock regions for example purpose - replace with real data from database
+./rishi-upload/app/api/locations/route.ts:17:    id: (session.user as any).id || "mock-user-id",
+./rishi-upload/app/api/locations/route.ts:18:    organizationId: (session.user as any).organizationId || "mock-org-id",
+./rishi-upload/app/api/locations/route.ts:193:          // Fall back to the mock user ID
+./rishi-upload/app/api/locations/states/route.ts:22:    // Mock states for example purpose - replace with real data from database
+./rishi-upload/app/api/locations/zipcodes/route.ts:32:    // Mock data - would be replaced with database query
+./rishi-upload/app/api/notifications/[id]/read/route.ts:4:// Use mock auth for development
+./rishi-upload/app/api/organizations/[id]/regions/route.ts:39:      // Return mock data for development user
+./rishi-upload/app/api/organizations/[id]/users/route.ts:39:      // Return mock data for development user
+./rishi-upload/app/api/organizations/invitations/route.ts:122:      // If database error in development, return mock data
+./rishi-upload/app/api/organizations/invitations/route.ts:234:      // Return mock invitation data
+./rishi-upload/app/api/organizations/invitations/route.ts:235:      const mockInvitation = {
+./rishi-upload/app/api/organizations/invitations/route.ts:254:        invitation: mockInvitation,
+./rishi-upload/app/api/organizations/invitations/route.ts:68:    // For development, return mock invitations
+./rishi-upload/app/api/organizations/invitations/route.ts:70:      console.log("DEVELOPMENT MODE: Using mock organization invitations data");
+./rishi-upload/app/api/organizations/invitations/route.ts:72:      const mockInvitations = [
+./rishi-upload/app/api/organizations/invitations/route.ts:93:      return NextResponse.json({ invitations: mockInvitations });
+./rishi-upload/app/api/organizations/route.ts:56:      // Only use mock data in development environment
+./rishi-upload/app/api/organizations/route.ts:59:        const mockOrganizations = [
+./rishi-upload/app/api/organizations/route.ts:92:        return NextResponse.json(mockOrganizations);
+./rishi-upload/app/api/organizations/route.ts:95:      // In production or staging, return an empty list rather than exposing mock data
+./rishi-upload/app/api/organizations/user/route.ts:63:      // Fallback to mock data for development
+./rishi-upload/app/api/organizations/user/route.ts:64:      const mockOrganizations = [
+./rishi-upload/app/api/organizations/user/route.ts:76:        organizations: mockOrganizations,
+./rishi-upload/app/api/organizations/user/route.ts:77:        defaultOrganization: mockOrganizations[0],
+./rishi-upload/app/api/organizations/users/route.ts:131:      // If database error in development, return mock data
+./rishi-upload/app/api/organizations/users/route.ts:67:    // For development, return mock users
+./rishi-upload/app/api/organizations/users/route.ts:69:      console.log("DEVELOPMENT MODE: Using mock organization users data");
+./rishi-upload/app/api/organizations/users/route.ts:71:      const mockUsers = [
+./rishi-upload/app/api/organizations/users/route.ts:98:      return NextResponse.json({ users: mockUsers });
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:176:      // If database error in development, provide mock data
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:178:        console.log("Returning mock data due to database error in development");
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:226:    // In development mode, use a mock user
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:228:      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:229:      // Create a mock user that matches the schema expected by the rest of the code
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:257:    // In development mode, return mock response
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:260:        "DEVELOPMENT MODE: Using mock response for organization permissions update",
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:263:      // Create mock results based on the request
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:264:      const mockResults = Object.entries(permissions).map(
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:277:        updatedPermissions: mockResults.length,
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:278:        permissions: mockResults,
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:28:    // In development mode, use a mock user
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:30:      console.log("DEVELOPMENT MODE: Using mock user for RBAC permissions");
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:31:      // Create a mock user that matches the schema expected by the rest of the code
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:356:      // If database error in development, provide mock data
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:358:        console.log("Returning mock data due to database error in development");
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:360:        const mockResults = Object.entries(permissions).map(
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:373:          updatedPermissions: mockResults.length,
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:374:          permissions: mockResults,
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:60:    // In development mode, return mock permissions data
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:62:      console.log("DEVELOPMENT MODE: Using mock organization permissions data");
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:64:      // Return mock permissions data based on organization ID
+./rishi-upload/app/api/rbac/organization-permissions/route.ts:69:      // Mock permission results
+./rishi-upload/app/api/rbac/permissions/route.ts:16:    // In development mode, return mock permissions
+./rishi-upload/app/api/rbac/permissions/route.ts:17:    console.log("DEVELOPMENT MODE: Using mock permissions for system view");
+./rishi-upload/app/api/rbac/permissions/route.ts:19:    // Mock permissions based on different functional areas
+./rishi-upload/app/api/rbac/permissions/route.ts:20:    const mockPermissions = [
+./rishi-upload/app/api/rbac/permissions/route.ts:71:    return NextResponse.json(mockPermissions);
+./rishi-upload/app/api/roster/brand-agents/route.ts:118:    // Mock assignment for demonstration
+./rishi-upload/app/api/roster/brand-agents/route.ts:123:      assignedBy: "mock-user-id",
+./rishi-upload/app/api/shifts/assignments/route.ts:127:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/assignments/route.ts:30:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/assignments/route.ts:42:    // Mock assignment for demonstration
+./rishi-upload/app/api/shifts/[id]/route.ts:141:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/[id]/route.ts:29:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/[id]/route.ts:77:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/lifecycle/route.ts:26:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/route.ts:42:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/shifts/route.ts:85:    const userId = (session.user as any).id || "mock-user-id";
+./rishi-upload/app/api/tasks/route.ts:54:          assignerId: "mock-user-id",
+./rishi-upload/app/api/tasks/route.ts:58:          organizationId: "mock-org-id",
+./rishi-upload/app/api/team/[id]/route.ts:6:// Mock auth for development
+./rishi-upload/app/api/timetracking/route.ts:159:      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./rishi-upload/app/api/timetracking/route.ts:18:    const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./rishi-upload/app/api/timetracking/route.ts:90:      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
+./rishi-upload/app/bookings/[id]/edit/page.tsx:110:              notes: "Development mode - using mock booking data",
+./rishi-upload/app/bookings/[id]/edit/page.tsx:112:            setBooking(mockBooking)
+./rishi-upload/app/bookings/[id]/edit/page.tsx:61:        // Force using mock data for the edit page until API is working
+./rishi-upload/app/bookings/[id]/edit/page.tsx:62:        console.log("DEBUG: Using mock data (bypassing API)");
+./rishi-upload/app/bookings/[id]/edit/page.tsx:63:        // Use more specific mock data for development
+./rishi-upload/app/bookings/[id]/edit/page.tsx:64:        const mockBooking = {
+./rishi-upload/app/bookings/[id]/edit/page.tsx:78:          organizationId: "org-1", // Add organization ID to match mock orgs
+./rishi-upload/app/bookings/[id]/edit/page.tsx:80:        console.log("DEBUG: Setting booking data:", mockBooking);
+./rishi-upload/app/bookings/[id]/edit/page.tsx:81:        setBooking(mockBooking);
+./rishi-upload/app/bookings/[id]/edit/page.tsx:95:          if (process.env.NODE_ENV === 'development' || true) { // Always use mock data for now
+./rishi-upload/app/bookings/[id]/edit/page.tsx:96:            // For development, use mock data instead
+./rishi-upload/app/bookings/[id]/edit/page.tsx:97:            console.log("Using mock data for development")
+./rishi-upload/app/bookings/[id]/edit/page.tsx:98:            const mockBooking = {
+./rishi-upload/app/brand-agents/page.tsx:161:        {mockAgents.map((agent) => (
+./rishi-upload/app/brand-agents/page.tsx:29:const mockAgents = [
+./rishi-upload/app/calendar/page.tsx:183:    return mockBookings.filter((booking) => {
+./rishi-upload/app/calendar/page.tsx:37:const mockBookings = [
+./rishi-upload/app/calendar/page.tsx:433:                {mockBookings.map((booking) => (
+./rishi-upload/app/client-management/accounts/page.tsx:43:// Mock data for client accounts
+./rishi-upload/app/client-management/accounts/page.tsx:44:const mockClientAccounts = [
+./rishi-upload/app/client-management/accounts/page.tsx:97:  const filteredClients = mockClientAccounts.filter(
+./rishi-upload/app/client-management/billing/page.tsx:109:// Mock data for payment methods
+./rishi-upload/app/client-management/billing/page.tsx:110:const mockPaymentMethods = [
+./rishi-upload/app/client-management/billing/page.tsx:169:  const filteredInvoices = mockInvoices.filter(
+./rishi-upload/app/client-management/billing/page.tsx:178:  const filteredPaymentMethods = mockPaymentMethods.filter(
+./rishi-upload/app/client-management/billing/page.tsx:55:// Mock data for invoices
+./rishi-upload/app/client-management/billing/page.tsx:56:const mockInvoices = [
+./rishi-upload/app/client-management/staff/page.tsx:117:  const filteredStaff = mockStaff.filter(
+./rishi-upload/app/client-management/staff/page.tsx:48:// Mock data for staff
+./rishi-upload/app/client-management/staff/page.tsx:49:const mockStaff = [
+./rishi-upload/app/client-management/users/page.tsx:107:  const filteredUsers = mockUsers.filter(
+./rishi-upload/app/client-management/users/page.tsx:48:// Mock data for client users
+./rishi-upload/app/client-management/users/page.tsx:49:const mockUsers = [
+./rishi-upload/app/client/services/rbac.ts:122:      permissions: mockPermissions,
+./rishi-upload/app/client/services/rbac.ts:93:  // In development mode, return mock permissions directly to avoid fetch issues
+./rishi-upload/app/client/services/rbac.ts:95:    const mockPermissions = [
+./rishi-upload/app/components/agent-calendar/AvailabilityModal.tsx:94:      // Use default UUID for mock user
+./rishi-upload/app/components/bookings/BookingDashboard.tsx:209:          {mockBookings.map((booking) => (
+./rishi-upload/app/components/bookings/BookingDashboard.tsx:290:            <BookingsCalendarView bookings={mockBookings} />
+./rishi-upload/app/components/bookings/BookingDashboard.tsx:33:const mockBookings = [
+./rishi-upload/app/components/bookings/BookingDetails.tsx:192:  // Use mock data for now
+./rishi-upload/app/components/bookings/BookingDetails.tsx:193:  const booking = mockBookingDetails;
+./rishi-upload/app/components/bookings/BookingDetails.tsx:204:      // Mock the API call
+./rishi-upload/app/components/bookings/BookingDetails.tsx:212:      // For mock, alert
+./rishi-upload/app/components/bookings/BookingDetails.tsx:234:      // Mock the API call
+./rishi-upload/app/components/bookings/BookingDetails.tsx:243:      // For mock, alert
+./rishi-upload/app/components/bookings/BookingDetails.tsx:266:        // Mock the API call
+./rishi-upload/app/components/bookings/BookingDetails.tsx:57:// Mock data for booking details - in real app, this would come from an API
+./rishi-upload/app/components/bookings/BookingDetails.tsx:58:const mockBookingDetails = {
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:165:    typeof mockBookingDetails | null
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:176:      // Mock API response
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:177:      setInitialData(mockBookingDetails);
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:294:      // Mock API call
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:43:// Mock data for booking details - in real app, this would come from an API
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:44:const mockBookingDetails = {
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:688:                    {mockKitTemplates.map((kit) => (
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:69:// Mock data for kit templates
+./rishi-upload/app/components/bookings/EditBookingForm.tsx:70:const mockKitTemplates = [
+./rishi-upload/app/components/kits/KitTemplateForm.tsx:139:    // For now, let's use mock data
+./rishi-upload/app/components/kits/KitTemplateForm.tsx:140:    const mockBrands: BrandOption[] = [
+./rishi-upload/app/components/kits/KitTemplateForm.tsx:146:    setBrands(mockBrands);
+./rishi-upload/app/components/locations/LocationSelector.tsx:18:// Mock location data
+./rishi-upload/app/components/locations/LocationSelector.tsx:19:const mockLocations = [
+./rishi-upload/app/components/locations/LocationSelector.tsx:62:  const [locations, setLocations] = useState(mockLocations);
+./rishi-upload/app/components/locations/LocationSelector.tsx:64:    (typeof mockLocations)[0] | null
+./rishi-upload/app/components/locations/LocationSelector.tsx:83:      const filteredLocations = mockLocations.filter(
+./rishi-upload/app/components/locations/LocationSelector.tsx:90:      setLocations(mockLocations);
+./rishi-upload/app/components/SidebarLayout.tsx:1293:              {/* Mock user profile for when not logged in - users will see this initially */}
+./rishi-upload/app/dashboard/components/BrandAgentDashboard.tsx:211:                  {mockEvents.map((event) => (
+./rishi-upload/app/dashboard/components/BrandAgentDashboard.tsx:38:const mockEvents = [
+./rishi-upload/app/dashboard/components/FieldManagerDashboard.tsx:351:                  {mockTeamPerformance.map((member) => (
+./rishi-upload/app/dashboard/components/FieldManagerDashboard.tsx:39:const mockTeamPerformance = [
+./rishi-upload/app/expenses/page.tsx:207:        agentId: "mock-user-id",
+./rishi-upload/app/hooks/useAuth.new.tsx:9: * - By default, a mock user with super_admin privileges is automatically logged in
+./rishi-upload/app/hooks/useAuth.old.tsx:11: * - By default, a mock user with super_admin privileges is automatically logged in
+./rishi-upload/app/hooks/useAuth.old.tsx:125:        // In development, use a mock user unless explicitly showing unauthenticated state
+./rishi-upload/app/hooks/useAuth.old.tsx:27:// Define our own UserSession type based on the mock user in auth.ts
+./rishi-upload/app/hooks/useAuthService.ts:148:      // In development mode, simulate successful login with mock data
+./rishi-upload/app/hooks/useAuthService.ts:194:      // In development mode, simulate successful registration with mock data
+./rishi-upload/app/hooks/useAuthService.ts:397:      // In development mode, use mock data and don't make HTTP requests to avoid NextAuth conflicts
+./rishi-upload/app/hooks/useAuthService.ts:411:        // Return mock authenticated user without HTTP request to prevent NextAuth conflicts
+./rishi-upload/app/hooks/useAuthService.ts:413:          "DEVELOPMENT MODE: Using mock user for session (no HTTP request)",
+./rishi-upload/app/hooks/useAuth.tsx:9: * - By default, a mock user with super_admin privileges is automatically logged in
+./rishi-upload/app/hooks/useStates.ts:118:          "Error parsing API response, using mock data:",
+./rishi-upload/app/hooks/useStates.ts:121:        setStates(MOCK_STATES);
+./rishi-upload/app/hooks/useStates.ts:128:      // Fallback to mock data on error
+./rishi-upload/app/hooks/useStates.ts:129:      setStates(MOCK_STATES);
+./rishi-upload/app/hooks/useStates.ts:7: * Mock US states data for development
+./rishi-upload/app/hooks/useStates.ts:91:   * Fetch states from the API with fallback to mock data
+./rishi-upload/app/hooks/useStates.ts:9:const MOCK_STATES = [
+./rishi-upload/app/inventory/page.tsx:189:            {mockItems.map((item) => (
+./rishi-upload/app/inventory/page.tsx:231:            {mockKitTemplates.map((kit) => (
+./rishi-upload/app/inventory/page.tsx:28:const mockKitTemplates = [
+./rishi-upload/app/inventory/page.tsx:58:const mockItems = [
+./rishi-upload/app/kits/instances/client-page.tsx:183:      // Create new kit instance (mock implementation)
+./rishi-upload/app/kits/instances/client-page.tsx:28:// Mock data for kit instances
+./rishi-upload/app/kits/instances/client-page.tsx:29:const mockKitInstances = [
+./rishi-upload/app/kits/instances/client-page.tsx:58:const mockKitTemplates = [
+./rishi-upload/app/kits/instances/client-page.tsx:71:  // Use mock data for demonstration
+./rishi-upload/app/kits/instances/client-page.tsx:72:  const kitInstances = mockKitInstances;
+./rishi-upload/app/kits/instances/client-page.tsx:75:  const kitTemplates = mockKitTemplates;
+./rishi-upload/app/kits/templates/client-page.tsx:24:// Mock data for kit templates
+./rishi-upload/app/kits/templates/client-page.tsx:25:const mockKitTemplates = [
+./rishi-upload/app/kits/templates/client-page.tsx:59:  const [templates, setTemplates] = useState(mockKitTemplates);
+./rishi-upload/app/lib/auth-new.ts:18:// Mock JWT payload structure
+./rishi-upload/app/lib/auth-new.ts:19:const mockJwtPayload = {
+./rishi-upload/app/lib/auth-new.ts:20:  id: mockUser.id,
+./rishi-upload/app/lib/auth-new.ts:21:  username: mockUser.username,
+./rishi-upload/app/lib/auth-new.ts:22:  role: mockUser.role,
+./rishi-upload/app/lib/auth-new.ts:23:  fullName: mockUser.name,
+./rishi-upload/app/lib/auth-new.ts:24:  organizationId: mockUser.organizationId,
+./rishi-upload/app/lib/auth-new.ts:31:// Mock session for development
+./rishi-upload/app/lib/auth-new.ts:32:const mockSession = {
+./rishi-upload/app/lib/auth-new.ts:33:  user: mockUser,
+./rishi-upload/app/lib/auth-new.ts:37:// Mock organizations for the user
+./rishi-upload/app/lib/auth-new.ts:38:const mockUserOrganizations = [
+./rishi-upload/app/lib/auth-new.ts:3: * This provides a mock authentication implementation for local development
+./rishi-upload/app/lib/auth-new.ts:53:// Auth function that returns a mock session
+./rishi-upload/app/lib/auth-new.ts:55:  console.log("DEVELOPMENT MODE: Using mock auth session");
+./rishi-upload/app/lib/auth-new.ts:56:  return mockSession;
+./rishi-upload/app/lib/auth-new.ts:61:  return mockSession;
+./rishi-upload/app/lib/auth-new.ts:6:// Mock user for development
+./rishi-upload/app/lib/auth-new.ts:72:  return mockUser;
+./rishi-upload/app/lib/auth-new.ts:78:  return mockUser;
+./rishi-upload/app/lib/auth-new.ts:7:const mockUser = {
+./rishi-upload/app/lib/auth-new.ts:84:  return mockUserOrganizations;
+./rishi-upload/app/lib/auth-new.ts:89:  return mockJwtPayload;
+./rishi-upload/app/lib/auth-server.ts:26:  // Development mode mock user
+./rishi-upload/app/lib/auth-server.ts:28:    id: "mock-user-id",
+./rishi-upload/app/lib/auth-server.ts:41:  // Development mode mock user for API routes
+./rishi-upload/app/lib/auth-server.ts:43:    id: "mock-user-id",
+./rishi-upload/app/lib/auth.ts:106:    return mockUser;
+./rishi-upload/app/lib/auth.ts:111:  return mockUser; // Temporary: using structured data until real user retrieval is implemented
+./rishi-upload/app/lib/auth.ts:118:    return mockUserOrganizations;
+./rishi-upload/app/lib/auth.ts:123:  return mockUserOrganizations; // Temporary: using structured data until real organization retrieval is implemented
+./rishi-upload/app/lib/auth.ts:129:    return mockJwtPayload;
+./rishi-upload/app/lib/auth.ts:134:  return mockJwtPayload; // Temporary: using structured data until real JWT decoding is implemented
+./rishi-upload/app/lib/auth.ts:141:// Mock auth options for NextAuth compatibility
+./rishi-upload/app/lib/auth.ts:18:// Mock JWT payload structure
+./rishi-upload/app/lib/auth.ts:19:const mockJwtPayload = {
+./rishi-upload/app/lib/auth.ts:20:  id: mockUser.id,
+./rishi-upload/app/lib/auth.ts:21:  username: mockUser.username,
+./rishi-upload/app/lib/auth.ts:22:  role: mockUser.role,
+./rishi-upload/app/lib/auth.ts:23:  fullName: mockUser.name,
+./rishi-upload/app/lib/auth.ts:24:  organizationId: mockUser.organizationId,
+./rishi-upload/app/lib/auth.ts:31:// Mock session for development
+./rishi-upload/app/lib/auth.ts:32:const mockSession = {
+./rishi-upload/app/lib/auth.ts:33:  user: mockUser,
+./rishi-upload/app/lib/auth.ts:37:// Mock organizations for the user
+./rishi-upload/app/lib/auth.ts:38:const mockUserOrganizations = [
+./rishi-upload/app/lib/auth.ts:3: * This provides a mock authentication implementation for local development
+./rishi-upload/app/lib/auth.ts:55:  // Only use mock data in development environment
+./rishi-upload/app/lib/auth.ts:57:    console.log("DEVELOPMENT MODE: Using mock auth session");
+./rishi-upload/app/lib/auth.ts:58:    return mockSession;
+./rishi-upload/app/lib/auth.ts:63:  return mockSession; // Temporary: using structured data until real auth is implemented
+./rishi-upload/app/lib/auth.ts:69:    return mockSession;
+./rishi-upload/app/lib/auth.ts:6:// Mock user for development
+./rishi-upload/app/lib/auth.ts:74:  return mockSession; // Temporary: using structured data until real session is implemented
+./rishi-upload/app/lib/auth.ts:7:const mockUser = {
+./rishi-upload/app/lib/auth.ts:94:    return mockUser;
+./rishi-upload/app/lib/auth.ts:99:  return mockUser; // Temporary: using structured data until real user retrieval is implemented
+./rishi-upload/app/lib/email-utils.ts:21: * This is currently a mock implementation. In production, this would
+./rishi-upload/app/lib/rbac-new.ts:73:    // For mock implementation
+./rishi-upload/app/lib/session.ts:15: * This is a mock implementation
+./rishi-upload/app/lib/session.ts:23:      name: "Mock User",
+./rishi-upload/app/lib/session.ts:24:      email: "mockuser@example.com",
+./rishi-upload/app/profile/settings/page.tsx:11:  // Mock settings state
+./rishi-upload/app/server/auth-utils.ts:15:    // In development mode, return mock user
+./rishi-upload/app/server/db.ts:17:            id: "mock-location-1",
+./rishi-upload/app/server/db.ts:24:            id: "mock-location-2",
+./rishi-upload/app/server/db.ts:2: * Database mock for SQL operations
+./rishi-upload/app/server/db.ts:59:          { id: "mock-location-1", name: "Updated Location", status: "active" },
+./rishi-upload/app/server/db.ts:5:// Define a simple mock SQL execution engine
+./rishi-upload/app/server/db.ts:7:  // Mock implementation that simulates SQL execution
+./rishi-upload/app/server/jsonwebtoken.ts:12:  return "mock-jwt-token";
+./rishi-upload/app/server/jsonwebtoken.ts:1:// Mock jsonwebtoken for deployment compatibility
+./rishi-upload/app/server/jsonwebtoken.ts:3:  // Mock implementation for development
+./rishi-upload/app/services/analytics/utils/ReportGenerator.ts:61:        fileSize: Math.floor(Math.random() * 1000000) + 100000, // Mock file size
+./rishi-upload/app/services/events/repository.ts:34:      // Mock implementation for now
+./rishi-upload/app/services/events/repository.ts:5: * implements a mock version that can be replaced with real database operations
+./rishi-upload/app/services/events/repository.ts:77:      const mockEvent: Event = {
+./rishi-upload/app/services/infrastructure/messaging/errorHandlingStrategies.ts:190:    // Mock implementation
+./rishi-upload/app/services/rbac/repository.ts:143:      // In development mode, return mock data instead of querying the database
+./rishi-upload/app/services/rbac/repository.ts:194:      // In development mode, return mock data
+./rishi-upload/app/services/rbac/repository.ts:250:        `Mock removing role ${roleId} from user ${userId} ${organizationId ? "in organization " + organizationId : "globally"}`,
+./rishi-upload/app/services/states/statesService.ts:108:        // Simply return the same mock data as getAllStates() but filtered for active states
+./rishi-upload/app/services/states/statesService.ts:131:        // Return a specific state from mock data
+./rishi-upload/app/services/states/statesService.ts:154:        // Return a specific state from mock data
+./rishi-upload/app/services/states/statesService.ts:203:        // Mock US regions data for development
+./rishi-upload/app/services/states/statesService.ts:32:      // Only use mock data in development environment
+./rishi-upload/app/services/states/statesService.ts:36:        // Mock US states data for development
+./rishi-upload/app/services/users/userService.ts:26:    // We'll implement a mock function since getAllUsers doesn't exist in the repository
+./rishi-upload/app/team/[id]/deactivate/page.tsx:37:// Mock team member data
+./rishi-upload/app/team/[id]/edit/page.tsx:44:// Mock data for team member details
+./rishi-upload/app/team/[id]/message/page.tsx:78:// Mock team member data
+./rishi-upload/app/team/[id]/page.tsx:45:// Mock data for team member details
+./rishi-upload/app/workforce/page.tsx:181:            {mockTimeEntries.map((entry) => (
+./rishi-upload/app/workforce/page.tsx:223:            {mockSchedule.map((item) => (
+./rishi-upload/app/workforce/page.tsx:28:const mockTimeEntries = [
+./rishi-upload/app/workforce/page.tsx:61:const mockSchedule = [
+./rishi-upload/shared/features/types.ts:202:    // For simplicity, we'll create a mock status
+./rishi-upload/shared/features/types.ts:217:    // For simplicity, we'll create mock statuses for all modules
+./scripts/data-sanitizer.js:41:  organizationPrefixes: ["Test", "Demo", "Sample", "Example", "Mock"],
+./server/routes.ts:131:      const mockUser = {
+./server/routes.ts:143:      res.status(200).json([mockUser]);
+./server/routes.ts:150:  // Mock endpoint for organization preferences
+./server/routes.ts:153:      console.log("Returning mock preferences for development user");
+./server/routes.ts:155:      // Return mock preferences for development
+./server/routes.ts:156:      const mockPreferences = {
+./server/routes.ts:164:      res.status(200).json(mockPreferences);
+./services/index.ts:5:      // Mock implementation for development
+./services/staff-assignment-service.ts:250:    // For now, returning mock data with proper UUID structure
+./shared/features/types.ts:202:    // For simplicity, we'll create a mock status
+./shared/features/types.ts:217:    // For simplicity, we'll create mock statuses for all modules

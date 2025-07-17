@@ -25,23 +25,40 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle2, Package } from "lucide-react";
 
-// Mock data for kit instances
+import { useQuery } from "@tanstack/react-query";
 
+interface KitInstance {
+  id: string;
+  name: string;
+  description: string;
+  templateId: string;
+  brandRegionId: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface KitTemplate {
+  id: string;
+  name: string;
+  description: string;
+}
 
 export default function KitInstancesClient() {
   const router = useRouter();
 
-  // Use mock data for demonstration
-  const kitInstances = mockKitInstances;
-  const isLoadingInstances = false;
-  const instancesError = null;
-  const kitTemplates = mockKitTemplates;
-  const isLoadingTemplates = false;
-  const templatesError = null;
+  // Use real API data
+  const { data: kitInstances = [], isLoading: isLoadingInstances, error: instancesError } = useQuery({
+    queryKey: ["/api/kits/instances"],
+  });
+  
+  const { data: kitTemplates = [], isLoading: isLoadingTemplates, error: templatesError } = useQuery({
+    queryKey: ["/api/kits/templates"],
+  });
 
   const [selectedTab, setSelectedTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredKits, setFilteredKits] = useState<KitDTO[]>([]);
+  const [filteredKits, setFilteredKits] = useState<KitInstance[]>([]);
 
   // Form state for creating new kit instance
   const [formData, setFormData] = useState({
