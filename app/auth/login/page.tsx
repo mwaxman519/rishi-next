@@ -53,7 +53,7 @@ export default function LoginPage() {
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             <img 
-              src="/favicon.ico" 
+              src="/rishi-logo-new.svg" 
               alt="Rishi Platform" 
               className="w-8 h-8 mr-2"
             />
