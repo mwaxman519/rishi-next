@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth(); // REMOVED LOADING COMPLETELY
   const router = useRouter();
 
   useEffect(() => {
@@ -26,8 +26,6 @@ export default function Home() {
       router.push("/dashboard");
     }
   }, [user, router]);
-
-  // Skip loading screens as requested by user
 
   // If user is logged in, handle accordingly
   if (user) {

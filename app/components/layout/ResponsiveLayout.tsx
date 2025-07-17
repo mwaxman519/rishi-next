@@ -103,7 +103,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // These hooks are safe to call in all environments but will only have meaningful
   // values after hydration is complete
-  const { user, loading, loggingOut } = useAuth();
+  const { user, loggingOut } = useAuth(); // REMOVED LOADING COMPLETELY
   const pathname = usePathname();
   const router = useRouter();
 
@@ -128,10 +128,8 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // During logout, keep showing the current screen to prevent flashing
   // The logout button will show "Logging Out..." and then redirect will happen
 
-  // Skip loading screens as requested by user - only check if mounted
-  if (!mounted) {
-    return <ServerPlaceholder>{children}</ServerPlaceholder>;
-  }
+  // Force immediate rendering without any loading screens
+  // Skip all loading logic completely
 
   // Once fully mounted and data is loaded, render the appropriate layout
 

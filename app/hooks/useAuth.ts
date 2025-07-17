@@ -28,7 +28,7 @@ interface User {
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // FORCE NO LOADING SCREENS
   const [loggingOut, setLoggingOut] = useState(false);
   const router = useRouter();
 
@@ -52,9 +52,8 @@ export function useAuth() {
     } catch (error) {
       console.error("Error fetching user:", error);
       setUser(null);
-    } finally {
-      setLoading(false);
     }
+    // NEVER SET LOADING TO FALSE - KEEP IT ALWAYS FALSE
   };
 
   const login = async (username: string, password: string) => {
