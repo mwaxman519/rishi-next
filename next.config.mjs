@@ -16,6 +16,8 @@ const nextConfig = {
   
   images: {
     unoptimized: false,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   
   serverExternalPackages: ['@neondatabase/serverless'],

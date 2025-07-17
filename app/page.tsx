@@ -93,8 +93,8 @@ export default function Home() {
             <Image
               src="/favicon.ico"
               alt="Rishi Logo"
-              width={80}
-              height={80}
+              width={120}
+              height={40}
               className="rounded-lg shadow-lg"
             />
           </div>
