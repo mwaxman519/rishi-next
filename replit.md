@@ -52,6 +52,12 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **DISTRIBUTION METHOD**: Firebase App Distribution for direct installation (no app stores)
 - **PACKAGE STATUS**: VoltBuilder package created (38.7 MB zip file ready for upload)
 
+### Development Environment Issues
+
+- **REPLIT PREVIEW REFRESH ISSUE**: User reports needing to manually refresh Replit preview to see app changes
+- **SOLUTION APPLIED**: Updated next.config.mjs with reactStrictMode and proper devIndicators configuration
+- **TECHNICAL DETAILS**: Configured development server for better Replit compatibility and hot reloading
+
 ## System Architecture
 
 ### Environment Architecture (2-Tier)

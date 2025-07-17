@@ -7,6 +7,14 @@ const nextConfig = {
   poweredByHeader: false,
   trailingSlash: false,
   
+  // Fix Replit preview refresh issue
+  reactStrictMode: true,
+  
+  // Development server configuration for Replit
+  devIndicators: {
+    position: 'bottom-right',
+  },
+  
   // Force static asset serving for images
   async headers() {
     return [
