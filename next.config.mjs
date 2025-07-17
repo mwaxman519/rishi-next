@@ -4,38 +4,23 @@ import path from 'path';
 const nextConfig = {
   output: undefined,
   compress: true,
-  generateBuildId: () => 'build',
   poweredByHeader: false,
-
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
-
+  
   typescript: {
     ignoreBuildErrors: true,
   },
-
+  
   images: {
     unoptimized: false,
   },
-
+  
   serverExternalPackages: ['@neondatabase/serverless'],
   experimental: {},
-
-  async headers() {
-    return [
-      {
-        source: '/_next/static/css/(.*)',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8',
-          },
-        ],
-      },
-    ];
-  },
-
+  
   webpack: (config, { isServer, dev }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -46,14 +31,14 @@ const nextConfig = {
       '@/shared': path.resolve(process.cwd(), 'shared'),
       '@shared': path.resolve(process.cwd(), 'shared'),
     };
-
+    
     config.resolve.fallback = {
       fs: false,
       net: false,
       tls: false,
       crypto: false,
     };
-
+    
     // Vercel-specific optimizations - simplified to prevent chunking issues
     if (!isServer && !dev) {
       // Minimal chunking configuration
@@ -70,7 +55,7 @@ const nextConfig = {
         },
       };
     }
-
+    
     return config;
   },
 };

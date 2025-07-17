@@ -1890,7 +1890,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 disabled={loggingOut}
                 onClick={async () => {
                   if (typeof logout === "function") {
-                    logout();
+                    await logout();
                   }
                 }}
                 className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"

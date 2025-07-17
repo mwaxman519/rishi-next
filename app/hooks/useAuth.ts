@@ -80,22 +80,27 @@ export function useAuth() {
     try {
       setLoggingOut(true);
       
-      // Immediately clear user state to prevent any authentication checks
-      setUser(null);
-      
-      // Make the logout API call in the background
-      fetch("/api/auth-service/logout", {
+      // Make the logout API call using the auth service
+      const response = await fetch("/api/auth-service/logout", {
         method: "POST",
-      }).catch(error => {
-        console.error("Background logout API call failed:", error);
       });
       
-      // Immediately redirect to login page
-      window.location.href = "/auth/login";
+      if (response.ok) {
+        // Clear user state only after successful logout
+        setUser(null);
+        
+        // Use replace to prevent user from going back to logged in state
+        router.replace("/auth/login");
+      } else {
+        // If logout fails, still clear user state for security
+        setUser(null);
+        router.replace("/auth/login");
+      }
     } catch (error) {
       console.error("Error logging out:", error);
-      // Force redirect even if something fails
-      window.location.href = "/auth/login";
+      // Even if the API call fails, we still want to clear the user state
+      setUser(null);
+      router.replace("/auth/login");
     } finally {
       setLoggingOut(false);
     }
