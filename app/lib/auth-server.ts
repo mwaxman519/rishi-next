@@ -3,6 +3,9 @@
  */
 
 import bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { getUserById } from "@/api/auth-service/models/user-repository";
 
 /**
  * Hash a password for storage
@@ -34,7 +37,52 @@ export async function getUser() {
 }
 
 export async function getCurrentUser() {
-  return getUser();
+  try {
+    // Get the auth token from cookies (check both cookie names for compatibility)
+    const cookieStore = cookies();
+    const authToken = cookieStore.get("auth_token") || cookieStore.get("auth-token");
+    
+    if (!authToken) {
+      console.log("[Auth] No auth token found in cookies");
+      return null;
+    }
+
+    // Verify the token using the same method as login
+    let payload;
+    try {
+      payload = jwt.verify(authToken.value, process.env.JWT_SECRET!) as { id: string, username: string };
+    } catch (error) {
+      console.log("[Auth] Invalid token:", error);
+      return null;
+    }
+    
+    if (!payload || !payload.id) {
+      console.log("[Auth] Invalid token payload");
+      return null;
+    }
+
+    // Get user from database (id is the user ID)
+    const user = await getUserById(payload.id);
+    
+    if (!user) {
+      console.log("[Auth] User not found for token");
+      return null;
+    }
+
+    console.log("[Auth] User authenticated:", user.username, "role:", user.role);
+
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email || null,
+      fullName: user.fullName || null,
+      role: user.role || "brand_agent",
+      active: Boolean(user.active !== false),
+    };
+  } catch (error) {
+    console.error("[Auth] Authentication error:", error);
+    return null;
+  }
 }
 
 export async function getAuthUser() {
