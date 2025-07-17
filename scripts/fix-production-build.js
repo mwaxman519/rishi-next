@@ -1,63 +1,61 @@
 #!/usr/bin/env node
 
 /**
- * Production Build Fix Script
- * Identifies and fixes issues causing chunk loading failures in production
+ * Fix Production Build Script
+ * Ensures all files are properly configured for Vercel production deployment
  */
 
 import fs from 'fs';
 import path from 'path';
 
-console.log('🔧 Fixing production build issues...\n');
-
-// Check for common build issues
-const checkBuildIssues = () => {
-  const issues = [];
-  
-  // Check if login page exists
-  const loginPagePath = 'app/auth/login/page.tsx';
-  if (!fs.existsSync(loginPagePath)) {
-    issues.push(`Login page missing: ${loginPagePath}`);
-  }
-  
-  // Check for CSS issues
-  const nextConfigPath = 'next.config.mjs';
-  if (fs.existsSync(nextConfigPath)) {
-    const config = fs.readFileSync(nextConfigPath, 'utf8');
-    if (config.includes('cssChunking') && !config.includes('serverComponentsExternalPackages')) {
-      issues.push('Missing serverComponentsExternalPackages configuration');
-    }
-  }
-  
-  // Check for TypeScript errors
-  const tsConfigPath = 'tsconfig.json';
-  if (fs.existsSync(tsConfigPath)) {
-    const tsConfig = JSON.parse(fs.readFileSync(tsConfigPath, 'utf8'));
-    if (tsConfig.compilerOptions?.skipLibCheck !== true) {
-      issues.push('TypeScript configuration may cause build slowdowns');
-    }
-  }
-  
-  return issues;
-};
-
-// Main execution
-const issues = checkBuildIssues();
-
-if (issues.length > 0) {
-  console.log('⚠️  Found issues:');
-  issues.forEach(issue => console.log(`  - ${issue}`));
-  console.log();
-} else {
-  console.log('✅ No obvious build issues found');
+function log(message) {
+  console.log(`[Production Fix] ${message}`);
 }
 
-// Recommendations
-console.log('🔍 Recommendations:');
-console.log('  1. Ensure all pages have proper imports and exports');
-console.log('  2. Check that all CSS files are properly structured');
-console.log('  3. Verify TypeScript compilation succeeds locally');
-console.log('  4. Test build with production environment variables');
-console.log();
+function fixProductionIssues() {
+  log('Starting production build fixes...');
 
-console.log('✅ Build fix script completed');
+  // 1. Replace login page with production-safe version
+  const loginPagePath = path.join(process.cwd(), 'app/auth/login/page.tsx');
+  const productionLoginPath = path.join(process.cwd(), 'app/auth/login/page.production.tsx');
+  
+  if (fs.existsSync(productionLoginPath)) {
+    fs.copyFileSync(productionLoginPath, loginPagePath);
+    log('✓ Replaced login page with production-safe version');
+  }
+
+  // 2. Ensure CSS files are properly formatted
+  const layoutCssPath = path.join(process.cwd(), 'app/globals.css');
+  if (fs.existsSync(layoutCssPath)) {
+    let css = fs.readFileSync(layoutCssPath, 'utf8');
+    
+    // Remove any potentially problematic CSS
+    css = css.replace(/\/\*[\s\S]*?\*\//g, ''); // Remove comments
+    css = css.replace(/\s+/g, ' '); // Normalize whitespace
+    css = css.trim();
+    
+    fs.writeFileSync(layoutCssPath, css);
+    log('✓ Cleaned CSS files');
+  }
+
+  // 3. Create production-safe package.json scripts
+  const packageJsonPath = path.join(process.cwd(), 'package.json');
+  if (fs.existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+    
+    // Ensure build script is production-safe
+    packageJson.scripts.build = 'next build';
+    packageJson.scripts.start = 'next start';
+    
+    // Safe postbuild script
+    packageJson.scripts.postbuild = 'echo "Build completed successfully"';
+    
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    log('✓ Updated package.json scripts');
+  }
+
+  log('Production build fixes completed!');
+}
+
+// Run the fixes
+fixProductionIssues();
