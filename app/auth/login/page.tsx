@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -14,7 +15,14 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  // Direct authentication without useAuth hook
+  const { user, loading, login } = useAuth();
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/dashboard");
+    }
+  }, [user, loading, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,23 +30,11 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful:", data);
-        // Use router.push for better navigation
-        router.push("/dashboard");
-      } else {
-        const data = await response.json().catch(() => ({}));
-        setError(data.error || "Login failed. Please check your credentials.");
-      }
-    } catch (err) {
-      setError("An unexpected error occurred. Please try again.");
+      await login(username, password);
+      // The useAuth hook will update the user state
+      // The useEffect above will handle the redirect
+    } catch (err: any) {
+      setError(err.message || "Login failed. Please check your credentials.");
       console.error("Login error:", err);
     } finally {
       setIsLoading(false);

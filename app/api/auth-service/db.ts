@@ -8,26 +8,33 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "@shared/schema";
 
-// Simplified environment detection
+// CRITICAL ENVIRONMENT DETECTION - REPLIT AUTOSCALE = STAGING, VERCEL = PRODUCTION
 export function getEnvironment(): "development" | "staging" | "production" {
-  // Check if we're in Replit and the URL/ID includes 'staging'
-  const isReplit = process.env.REPL_ID !== undefined;
-  const isReplitStaging =
-    isReplit &&
-    (process.env.REPL_SLUG?.includes("staging") ||
-      process.env.REPL_ID?.includes("staging"));
+  // Check if we're in Vercel production (PRODUCTION environment)
+  const isVercelProduction = 
+    process.env.VERCEL_ENV === "production" ||
+    process.env.VERCEL === "1";
 
-  // Check for explicit environment variables
+  // Check if we're in Replit Autoscale (STAGING environment) 
+  const isReplitAutoscale = 
+    process.env.REPLIT === "1" ||
+    process.env.REPLIT_DEPLOYMENT === "1" ||
+    process.env.REPLIT_DOMAINS;
+
+  // Check for explicit staging environment variables
   const isStaging =
-    isReplitStaging ||
     process.env.DEPLOY_ENV === "staging" ||
-    process.env.STAGING === "true";
+    process.env.STAGING === "true" ||
+    process.env.NEXT_PUBLIC_APP_ENV === "staging" ||
+    isReplitAutoscale;
 
-  // Production check
-  const isProd = process.env.NODE_ENV === "production" && !isStaging;
+  // Development environment check
+  const isDevelopment = 
+    process.env.NODE_ENV === "development" ||
+    (!isVercelProduction && !isStaging);
 
+  if (isVercelProduction) return "production";
   if (isStaging) return "staging";
-  if (isProd) return "production";
   return "development";
 }
 

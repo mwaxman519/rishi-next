@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { db } from "../../../../db";
 import { eq } from "drizzle-orm";
 import * as schema from "../../../../shared/schema";
 import { comparePasswords } from "@/lib/auth-server";
