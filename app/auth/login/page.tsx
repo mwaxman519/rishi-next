@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { SafeLink } from "@/components/ui/safe-link";
+import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-// Removed useAuth dependency to fix loading issues
-import { LabeledInput } from "@/components/ui/labeled-input";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
@@ -71,25 +71,29 @@ export default function LoginPage() {
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
-              <LabeledInput
-                label="Username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                placeholder="Enter your username"
-                className="w-full"
-              />
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your username"
+                  required
+                />
+              </div>
               
-              <LabeledInput
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Enter your password"
-                className="w-full"
-              />
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
             </div>
 
             {error && (
@@ -111,28 +115,28 @@ export default function LoginPage() {
           <div className="mt-6 text-center space-y-2">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
-              <SafeLink
+              <Link
                 href="/auth/register"
                 className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
               >
                 Sign up
-              </SafeLink>
+              </Link>
             </p>
             <p className="text-xs text-gray-500 dark:text-gray-500">
               By signing in, you agree to our{" "}
-              <SafeLink
+              <Link
                 href="/terms"
                 className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
               >
                 Terms of Service
-              </SafeLink>{" "}
+              </Link>{" "}
               and{" "}
-              <SafeLink
+              <Link
                 href="/privacy"
                 className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
               >
                 Privacy Policy
-              </SafeLink>
+              </Link>
             </p>
           </div>
         </div>
