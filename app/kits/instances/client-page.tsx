@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, Search, Filter, Package, MapPin, AlertCircle, ChevronDown, ChevronUp, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +26,9 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import KitInstanceForm from "@/components/KitInstanceForm";
 
 interface KitTemplate {
   id: string;
@@ -102,6 +104,7 @@ const statusLabels: Record<string, string> = {
 
 export default function KitInstancesClient() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [templateFilter, setTemplateFilter] = useState<string>("all");
@@ -109,6 +112,7 @@ export default function KitInstancesClient() {
   const [organizationFilter, setOrganizationFilter] = useState<string>("all");
   const [view, setView] = useState<"grid" | "table">("table");
   const [summaryOpen, setSummaryOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
   // Fetch kit instances with filters
   const { data: kits = [], isLoading, error } = useQuery<KitInstance[]>({
@@ -155,6 +159,34 @@ export default function KitInstancesClient() {
     },
   });
 
+  // Create kit instance mutation
+  const createKitInstanceMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await fetch("/api/kits/instances", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error("Failed to create kit instance");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/kits/instances"] });
+      setIsCreateDialogOpen(false);
+      toast({
+        title: "Success",
+        description: "Kit instance created successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to create kit instance",
+        variant: "destructive",
+      });
+    },
+  });
+
   // All filtering is done server-side, so we use kits directly
   const filteredKits = kits;
 
@@ -163,6 +195,10 @@ export default function KitInstancesClient() {
     acc[kit.status] = (acc[kit.status] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
+
+  const handleCreateKitInstance = async (data: any) => {
+    await createKitInstanceMutation.mutateAsync(data);
+  };
 
   if (error) {
     return (
@@ -194,7 +230,10 @@ export default function KitInstancesClient() {
             Manage physical kits deployed across locations
           </p>
         </div>
-        <Button className="bg-purple-600 hover:bg-purple-700 w-full md:w-auto">
+        <Button 
+          onClick={() => setIsCreateDialogOpen(true)}
+          className="bg-purple-600 hover:bg-purple-700 w-full md:w-auto"
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add Kit Instance
         </Button>
@@ -486,6 +525,20 @@ export default function KitInstancesClient() {
           )}
         </CardContent>
       </Card>
+
+      {/* Create Kit Instance Dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Create New Kit Instance</DialogTitle>
+          </DialogHeader>
+          <KitInstanceForm
+            onSubmit={handleCreateKitInstance}
+            onCancel={() => setIsCreateDialogOpen(false)}
+            isLoading={createKitInstanceMutation.isPending}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

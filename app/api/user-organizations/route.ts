@@ -1,70 +1,35 @@
-/**
- * User Organizations API Routes
- */
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
-import { db } from "@/db";
-import { organizations, userOrganizations } from "@/shared/schema";
-import { eq, inArray } from "drizzle-orm";
+import { NextRequest, NextResponse } from 'next/server';
+import { getCurrentUser } from '@/lib/auth-server';
+import { db } from '@/lib/db';
+import { organizations, userOrganizations } from '@/shared/schema';
+import { eq } from 'drizzle-orm';
 
-/**
- * GET /api/user-organizations
- * Get all organizations accessible by the current user
- */
-export async function GET(req: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    // Get authenticated user
-    const user = await getCurrentUser(req);
+    const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    let organizationsData;
+    const userOrgs = await db
+      .select({
+        id: organizations.id,
+        name: organizations.name,
+        type: organizations.type,
+        status: organizations.status,
+        tier: organizations.tier,
+        created_at: organizations.created_at,
+        updated_at: organizations.updated_at,
+      })
+      .from(userOrganizations)
+      .leftJoin(organizations, eq(userOrganizations.organization_id, organizations.id))
+      .where(eq(userOrganizations.user_id, user.id));
 
-    // Apply role-based filtering
-    if (user.role === "super_admin" || user.role === "internal_admin") {
-      // Super admins and internal admins can see all organizations
-      organizationsData = await db
-        .select({
-          id: organizations.id,
-          name: organizations.name,
-          type: organizations.type,
-          status: organizations.status,
-        })
-        .from(organizations)
-        .where(eq(organizations.status, "active"));
-    } else {
-      // Other users can only see organizations they have access to
-      const userOrgs = await db
-        .select({ organizationId: userOrganizations.organizationId })
-        .from(userOrganizations)
-        .where(eq(userOrganizations.userId, user.id));
-      
-      const orgIds = userOrgs.map(org => org.organizationId);
-      
-      if (orgIds.length > 0) {
-        organizationsData = await db
-          .select({
-            id: organizations.id,
-            name: organizations.name,
-            type: organizations.type,
-            status: organizations.status,
-          })
-          .from(organizations)
-          .where(inArray(organizations.id, orgIds));
-      } else {
-        // No organizations, return empty result
-        organizationsData = [];
-      }
-    }
-
-    return NextResponse.json(organizationsData);
+    return NextResponse.json(userOrgs);
   } catch (error) {
-    console.error("Error fetching user organizations:", error);
+    console.error('Error fetching user organizations:', error);
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "An unknown error occurred",
-      },
+      { error: 'Failed to fetch user organizations' },
       { status: 500 }
     );
   }
