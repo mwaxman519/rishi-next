@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Card,
   CardContent,
@@ -11,425 +11,439 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import {
   Search,
-  Package2,
+  Package,
   Plus,
-  Eye,
-  Edit,
+  Filter,
+  Grid3x3,
+  List,
+  TrendingUp,
   AlertTriangle,
   CheckCircle,
-  MoreVertical,
+  Archive,
   Barcode,
   DollarSign,
-  TrendingUp,
-  Archive,
+  MapPin,
+  Calendar,
+  Star,
+  Eye,
+  Edit,
+  MoreVertical,
+  Copy,
+  Download,
+  Upload,
+  QrCode,
+  History,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+  X,
 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 
-// Authentic inventory items data with UUID format following architectural guidelines
-const inventoryItemsData = [
+// Comprehensive inventory data with real structure
+const inventoryData = [
   {
-    id: "bb0e8400-e29b-41d4-a716-446655440001",
-    name: "Demo Table (Portable)",
-    description: "Lightweight portable table for product demonstrations",
-    category: "Furniture",
-    sku: "DT-001-PRT",
-    barcode: "1234567890123",
-    unitCost: 125.0,
-    currentStock: 15,
-    minimumStock: 5,
-    maximumStock: 25,
-    status: "in_stock",
-    condition: "good",
-    supplier: "Event Equipment Co.",
-    lastRestocked: "2025-06-10T09:30:00Z",
-    totalValue: 1875.0,
-    usageFrequency: "high",
-    maintenanceSchedule: "quarterly",
-    location: "Warehouse A - Section 1",
-    tags: ["Portable", "Demo", "Furniture", "Popular"],
-    assignedToTemplates: [
-      "Product Demo Standard Kit",
-      "Basic Retail Support Kit",
-    ],
-    warranties: {
-      hasWarranty: true,
-      expiryDate: "2026-06-10",
-      warrantyProvider: "Event Equipment Co.",
-    },
-  },
-  {
-    id: "bb0e8400-e29b-41d4-a716-446655440002",
-    name: 'LED Display Panel (55")',
-    description: "High-resolution 4K LED display panel for presentations",
+    id: "inv-001",
+    name: "LED Display Panel 55\" 4K",
+    description: "High-resolution commercial display with HDR support",
     category: "Electronics",
-    sku: "LED-55-4K",
-    barcode: "2345678901234",
-    unitCost: 280.0,
+    subcategory: "Displays",
+    sku: "LED-55-4K-HDR",
+    barcode: "1234567890123",
+    qrCode: "QR-LED-001",
+    
+    // Stock Information
     currentStock: 8,
-    minimumStock: 3,
-    maximumStock: 12,
+    reservedStock: 2,
+    availableStock: 6,
+    minStock: 3,
+    maxStock: 12,
+    reorderPoint: 5,
+    reorderQuantity: 6,
+    
+    // Financial Information
+    unitCost: 280.00,
+    marketValue: 350.00,
+    totalValue: 2240.00,
+    depreciationRate: 0.15,
+    currentBookValue: 1904.00,
+    
+    // Status & Condition
     status: "in_stock",
     condition: "excellent",
+    lastInspection: "2025-01-10",
+    nextMaintenance: "2025-02-10",
+    
+    // Location & Storage
+    warehouse: "Warehouse B",
+    zone: "Electronics",
+    aisle: "E-12",
+    shelf: "3A",
+    bin: "E12-3A-01",
+    
+    // Supplier Information
     supplier: "TechDisplay Solutions",
-    lastRestocked: "2025-06-05T14:20:00Z",
-    totalValue: 2240.0,
-    usageFrequency: "medium",
-    maintenanceSchedule: "monthly",
-    location: "Warehouse B - Electronics Section",
-    tags: ["Electronics", "Display", "High-Value", "4K"],
-    assignedToTemplates: ["Trade Show Premium Setup", "Luxury Event Package"],
-    warranties: {
-      hasWarranty: true,
-      expiryDate: "2027-06-05",
-      warrantyProvider: "TechDisplay Solutions",
-    },
-  },
-  {
-    id: "bb0e8400-e29b-41d4-a716-446655440003",
-    name: "Promotional Brochures",
-    description: "Generic branded brochures for product information",
-    category: "Marketing Materials",
-    sku: "BRCH-GEN-001",
-    barcode: "3456789012345",
-    unitCost: 0.5,
-    currentStock: 2500,
-    minimumStock: 500,
-    maximumStock: 5000,
-    status: "in_stock",
-    condition: "new",
-    supplier: "PrintPro Marketing",
-    lastRestocked: "2025-06-15T11:00:00Z",
-    totalValue: 1250.0,
-    usageFrequency: "very_high",
-    maintenanceSchedule: "none",
-    location: "Warehouse A - Marketing Section",
-    tags: ["Marketing", "Disposable", "Bulk", "Branding"],
-    assignedToTemplates: [
-      "Product Demo Standard Kit",
-      "Street Team Activation Kit",
-    ],
-    warranties: {
-      hasWarranty: false,
-      expiryDate: null,
-      warrantyProvider: null,
-    },
-  },
-  {
-    id: "bb0e8400-e29b-41d4-a716-446655440004",
-    name: "Crystal Product Stands",
-    description: "Premium crystal display stands for luxury products",
-    category: "Display",
-    sku: "CPS-LUX-001",
-    barcode: "4567890123456",
-    unitCost: 85.0,
-    currentStock: 2,
-    minimumStock: 6,
-    maximumStock: 15,
-    status: "low_stock",
-    condition: "excellent",
-    supplier: "Luxury Display Corp",
-    lastRestocked: "2025-05-20T16:30:00Z",
-    totalValue: 170.0,
-    usageFrequency: "low",
-    maintenanceSchedule: "as_needed",
-    location: "Warehouse C - Luxury Section",
-    tags: ["Luxury", "Crystal", "Premium", "Display"],
-    assignedToTemplates: ["Luxury Event Package"],
-    warranties: {
-      hasWarranty: true,
-      expiryDate: "2030-05-20",
-      warrantyProvider: "Luxury Display Corp",
-    },
-  },
-  {
-    id: "bb0e8400-e29b-41d4-a716-446655440005",
-    name: "Portable Canopy Tent",
-    description: "Weather-resistant portable canopy for outdoor events",
-    category: "Outdoor Equipment",
-    sku: "CNP-OUT-001",
-    barcode: "5678901234567",
-    unitCost: 120.0,
-    currentStock: 0,
-    minimumStock: 3,
-    maximumStock: 10,
-    status: "out_of_stock",
-    condition: "fair",
-    supplier: "Outdoor Events Supply",
-    lastRestocked: "2025-05-15T10:00:00Z",
-    totalValue: 0.0,
+    supplierCode: "TDS-2024-LED55",
+    leadTime: 14, // days
+    lastRestocked: "2025-01-10",
+    
+    // Usage Analytics
     usageFrequency: "high",
-    maintenanceSchedule: "after_each_use",
-    location: "Warehouse A - Outdoor Section",
-    tags: ["Outdoor", "Weather-Resistant", "Portable", "Canopy"],
-    assignedToTemplates: ["Street Team Activation Kit"],
-    warranties: {
-      hasWarranty: true,
-      expiryDate: "2026-05-15",
-      warrantyProvider: "Outdoor Events Supply",
+    avgUsageDays: 3.5,
+    totalUsages: 45,
+    lastUsed: "2025-01-15",
+    
+    // Metadata
+    tags: ["4K", "Premium", "Popular", "HDR", "Commercial"],
+    certifications: ["CE", "FCC", "Energy Star"],
+    warranty: {
+      active: true,
+      provider: "TechDisplay Solutions",
+      expiry: "2027-01-10",
+      type: "Extended",
     },
+    
+    // Tracking
+    createdAt: "2024-06-15",
+    updatedAt: "2025-01-15",
+    createdBy: "admin@rishi.com",
+    lastModifiedBy: "mike@rishi.com",
   },
-  {
-    id: "bb0e8400-e29b-41d4-a716-446655440006",
-    name: "Professional Sound System",
-    description: "High-quality wireless sound system with microphones",
-    category: "Audio Equipment",
-    sku: "SND-PRO-001",
-    barcode: "6789012345678",
-    unitCost: 350.0,
-    currentStock: 4,
-    minimumStock: 2,
-    maximumStock: 8,
-    status: "in_stock",
-    condition: "good",
-    supplier: "AudioTech Solutions",
-    lastRestocked: "2025-06-01T13:45:00Z",
-    totalValue: 1400.0,
-    usageFrequency: "medium",
-    maintenanceSchedule: "bi_annually",
-    location: "Warehouse B - Audio Section",
-    tags: ["Audio", "Wireless", "Professional", "Microphones"],
-    assignedToTemplates: ["Trade Show Premium Setup"],
-    warranties: {
-      hasWarranty: true,
-      expiryDate: "2027-06-01",
-      warrantyProvider: "AudioTech Solutions",
-    },
-  },
+  // Add more items...
 ];
 
-interface InventoryItem {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  sku: string;
-  barcode: string;
-  unitCost: number;
-  currentStock: number;
-  minimumStock: number;
-  maximumStock: number;
-  status: string;
-  condition: string;
-  supplier: string;
-  lastRestocked: string;
-  totalValue: number;
-  usageFrequency: string;
-  maintenanceSchedule: string;
-  location: string;
-  tags: string[];
-  assignedToTemplates: string[];
-  warranties: {
-    hasWarranty: boolean;
-    expiryDate: string | null;
-    warrantyProvider: string | null;
-  };
-}
+// Advanced filter component
+const AdvancedFilters = ({ onApply, onReset }) => {
+  const [filters, setFilters] = useState({
+    status: "all",
+    condition: "all",
+    warehouse: "all",
+    category: "all",
+    stockLevel: "all",
+    priceRange: { min: 0, max: 10000 },
+  });
 
-const InventoryItemCard = ({
-  item,
-  onAction,
-}: {
-  item: InventoryItem;
-  onAction: (action: string, itemId: string) => void;
-}) => {
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium">Status</label>
+        <Select
+          value={filters.status}
+          onValueChange={(value) => setFilters({ ...filters, status: value })}
+        >
+          <SelectTrigger className="w-full mt-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="in_stock">In Stock</SelectItem>
+            <SelectItem value="low_stock">Low Stock</SelectItem>
+            <SelectItem value="out_of_stock">Out of Stock</SelectItem>
+            <SelectItem value="reserved">Reserved</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <label className="text-sm font-medium">Condition</label>
+        <Select
+          value={filters.condition}
+          onValueChange={(value) => setFilters({ ...filters, condition: value })}
+        >
+          <SelectTrigger className="w-full mt-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Conditions</SelectItem>
+            <SelectItem value="excellent">Excellent</SelectItem>
+            <SelectItem value="good">Good</SelectItem>
+            <SelectItem value="fair">Fair</SelectItem>
+            <SelectItem value="poor">Poor</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div>
+        <label className="text-sm font-medium">Warehouse</label>
+        <Select
+          value={filters.warehouse}
+          onValueChange={(value) => setFilters({ ...filters, warehouse: value })}
+        >
+          <SelectTrigger className="w-full mt-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Warehouses</SelectItem>
+            <SelectItem value="warehouse-a">Warehouse A</SelectItem>
+            <SelectItem value="warehouse-b">Warehouse B</SelectItem>
+            <SelectItem value="warehouse-c">Warehouse C</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="flex gap-2 pt-4">
+        <Button onClick={() => onApply(filters)} className="flex-1">
+          Apply Filters
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            setFilters({
+              status: "all",
+              condition: "all",
+              warehouse: "all",
+              category: "all",
+              stockLevel: "all",
+              priceRange: { min: 0, max: 10000 },
+            });
+            onReset();
+          }}
+          className="flex-1"
+        >
+          Reset
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// Modern item card component
+const ItemCard = ({ item, viewMode = "grid", onAction }) => {
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "in_stock":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "low_stock":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "out_of_stock":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "discontinued":
-        return "bg-gray-100 text-gray-800 border-gray-200";
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-    }
+    const colors = {
+      in_stock: "bg-green-50 text-green-700 border-green-200",
+      low_stock: "bg-yellow-50 text-yellow-700 border-yellow-200",
+      out_of_stock: "bg-red-50 text-red-700 border-red-200",
+      reserved: "bg-purple-50 text-purple-700 border-purple-200",
+    };
+    return colors[status] || "bg-gray-50 text-gray-700 border-gray-200";
   };
 
   const getConditionColor = (condition: string) => {
-    switch (condition) {
-      case "excellent":
-        return "text-green-600";
-      case "good":
-        return "text-blue-600";
-      case "fair":
-        return "text-yellow-600";
-      case "poor":
-        return "text-red-600";
-      default:
-        return "text-gray-600";
-    }
+    const colors = {
+      excellent: "text-green-600",
+      good: "text-blue-600",
+      fair: "text-yellow-600",
+      poor: "text-red-600",
+    };
+    return colors[condition] || "text-gray-600";
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "in_stock":
-        return <CheckCircle className="h-4 w-4" />;
-      case "low_stock":
-      case "out_of_stock":
-        return <AlertTriangle className="h-4 w-4" />;
-      default:
-        return <Package2 className="h-4 w-4" />;
-    }
-  };
+  const stockPercentage = (item.currentStock / item.maxStock) * 100;
 
-  const getUsageFrequencyColor = (frequency: string) => {
-    switch (frequency) {
-      case "very_high":
-        return "text-red-600";
-      case "high":
-        return "text-orange-600";
-      case "medium":
-        return "text-yellow-600";
-      case "low":
-        return "text-green-600";
-      default:
-        return "text-gray-600";
-    }
-  };
+  if (viewMode === "list") {
+    return (
+      <Card className="hover:shadow-md transition-all duration-200">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-4">
+            {/* Image/Icon */}
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Package className="w-8 h-8 text-purple-600" />
+            </div>
 
-  const formatLastRestocked = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-sm truncate">{item.name}</h3>
+                    <Badge variant="outline" className="text-xs">
+                      {item.sku}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1 line-clamp-1">
+                    {item.description}
+                  </p>
+                  <div className="flex items-center gap-4 mt-2">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3 text-gray-400" />
+                      <span className="text-xs text-gray-600">{item.warehouse}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={`text-xs font-medium ${getConditionColor(item.condition)}`}>
+                        {item.condition}
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-    if (diffDays === 1) return "Yesterday";
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
-    return `${Math.ceil(diffDays / 30)} months ago`;
-  };
+                {/* Stock & Actions */}
+                <div className="flex items-center gap-4">
+                  <div className="text-right">
+                    <Badge className={`${getStatusColor(item.status)} text-xs border mb-1`}>
+                      {item.status.replace("_", " ")}
+                    </Badge>
+                    <div className="text-sm font-semibold">
+                      {item.currentStock}/{item.maxStock}
+                    </div>
+                    <div className="text-xs text-gray-500">${item.unitCost}</div>
+                  </div>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <MoreVertical className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => onAction("view", item)}>
+                        <Eye className="w-4 h-4 mr-2" />
+                        View Details
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onAction("edit", item)}>
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onAction("qr", item)}>
+                        <QrCode className="w-4 h-4 mr-2" />
+                        Show QR Code
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => onAction("history", item)}>
+                        <History className="w-4 h-4 mr-2" />
+                        View History
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => onAction("duplicate", item)}>
+                        <Copy className="w-4 h-4 mr-2" />
+                        Duplicate
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
 
-  const getStockPercentage = () => {
-    return (item.currentStock / item.maximumStock) * 100;
-  };
-
-  return (
-    <Card className="hover:shadow-lg transition-all duration-200">
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-3">
-            <Avatar className="h-12 w-12">
-              <AvatarFallback className="bg-indigo-100 text-indigo-600 font-semibold">
-                {item.category.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <CardTitle className="text-lg">{item.name}</CardTitle>
-              <CardDescription className="mt-1">
-                {item.description}
-              </CardDescription>
-              <div className="flex items-center mt-1 space-x-2">
-                <Barcode className="h-3 w-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">
-                  {item.sku}
-                </span>
+              {/* Progress Bar */}
+              <div className="mt-3">
+                <div className="flex items-center justify-between text-xs mb-1">
+                  <span className="text-gray-500">Stock Level</span>
+                  <span className="text-gray-600 font-medium">
+                    {item.availableStock} available
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                  <div
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      stockPercentage > 50
+                        ? "bg-green-500"
+                        : stockPercentage > 20
+                        ? "bg-yellow-500"
+                        : "bg-red-500"
+                    }`}
+                    style={{ width: `${Math.min(stockPercentage, 100)}%` }}
+                  />
+                </div>
               </div>
             </div>
           </div>
-          <Badge
-            className={`${getStatusColor(item.status)} border flex items-center gap-1`}
-          >
-            {getStatusIcon(item.status)}
-            {item.status.replace("_", " ").toUpperCase()}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Grid View
+  return (
+    <Card className="hover:shadow-lg transition-all duration-200 h-full flex flex-col">
+      <CardContent className="p-4 flex-1 flex flex-col">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-3">
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-purple-50 rounded-lg flex items-center justify-center">
+            <Package className="w-6 h-6 text-purple-600" />
+          </div>
+          <Badge className={`${getStatusColor(item.status)} text-xs border`}>
+            {item.status.replace("_", " ")}
           </Badge>
         </div>
-      </CardHeader>
 
-      <CardContent className="space-y-4">
-        {/* Stock Information */}
-        <div className="bg-blue-50 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center">
-              <Package2 className="h-4 w-4 mr-2 text-blue-600" />
-              <span className="text-sm font-medium text-blue-800">
-                Stock Level
+        {/* Content */}
+        <div className="flex-1 space-y-3">
+          <div>
+            <h3 className="font-semibold text-sm line-clamp-2">{item.name}</h3>
+            <p className="text-xs text-gray-500 mt-1">{item.category}</p>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-500">SKU</span>
+              <span className="font-mono">{item.sku}</span>
+            </div>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-500">Stock</span>
+              <span className="font-semibold">
+                {item.currentStock}/{item.maxStock}
               </span>
             </div>
-            <span className="text-sm font-bold text-blue-800">
-              {item.currentStock}/{item.maximumStock}
-            </span>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-500">Available</span>
+              <span className="font-semibold text-green-600">
+                {item.availableStock}
+              </span>
+            </div>
           </div>
-          <div className="w-full bg-blue-200 rounded-full h-2">
+
+          {/* Stock Progress */}
+          <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className={`h-2 rounded-full transition-all duration-300 ${
-                getStockPercentage() > 50
-                  ? "bg-gradient-to-r from-blue-500 to-blue-600"
-                  : getStockPercentage() > 20
-                    ? "bg-gradient-to-r from-yellow-500 to-yellow-600"
-                    : "bg-gradient-to-r from-red-500 to-red-600"
+                stockPercentage > 50
+                  ? "bg-green-500"
+                  : stockPercentage > 20
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
               }`}
-              style={{ width: `${Math.min(getStockPercentage(), 100)}%` }}
+              style={{ width: `${Math.min(stockPercentage, 100)}%` }}
             />
           </div>
-        </div>
 
-        {/* Financial Information */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="text-center bg-green-50 rounded-lg p-3">
-            <div className="text-lg font-bold text-green-600">
-              ${item.unitCost.toFixed(0)}
+          {/* Financial Info */}
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="bg-gray-50 rounded p-2 text-center">
+              <div className="font-semibold">${item.unitCost}</div>
+              <div className="text-gray-500">Unit Cost</div>
             </div>
-            <div className="text-xs text-green-700">Unit Cost</div>
-          </div>
-          <div className="text-center bg-purple-50 rounded-lg p-3">
-            <div className="text-lg font-bold text-purple-600">
-              ${item.totalValue.toFixed(0)}
+            <div className="bg-purple-50 rounded p-2 text-center">
+              <div className="font-semibold text-purple-700">${item.totalValue}</div>
+              <div className="text-purple-600">Total Value</div>
             </div>
-            <div className="text-xs text-purple-700">Total Value</div>
           </div>
-        </div>
 
-        {/* Condition & Usage */}
-        <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
-          <div>
-            <p className="text-sm font-medium">Condition</p>
-            <p className={`text-sm ${getConditionColor(item.condition)}`}>
-              {item.condition.charAt(0).toUpperCase() + item.condition.slice(1)}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm font-medium">Usage</p>
-            <p
-              className={`text-sm ${getUsageFrequencyColor(item.usageFrequency)}`}
-            >
-              {item.usageFrequency.replace("_", " ").toUpperCase()}
-            </p>
-          </div>
-        </div>
-
-        {/* Location & Supplier */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Location:</span>
-            <span className="font-medium text-right">{item.location}</span>
-          </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Supplier:</span>
-            <span className="font-medium text-right">{item.supplier}</span>
-          </div>
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Last Restocked:</span>
-            <span className="font-medium">
-              {formatLastRestocked(item.lastRestocked)}
+          {/* Location & Condition */}
+          <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-gray-400" />
+              <span className="text-gray-600">{item.warehouse}</span>
+            </div>
+            <span className={`font-medium ${getConditionColor(item.condition)}`}>
+              {item.condition}
             </span>
           </div>
-        </div>
 
-        {/* Tags */}
-        <div>
-          <div className="text-sm font-medium mb-2">Tags</div>
+          {/* Tags */}
           <div className="flex flex-wrap gap-1">
             {item.tags.slice(0, 3).map((tag, index) => (
               <Badge key={index} variant="outline" className="text-xs">
@@ -438,59 +452,31 @@ const InventoryItemCard = ({
             ))}
             {item.tags.length > 3 && (
               <Badge variant="outline" className="text-xs">
-                +{item.tags.length - 3} more
+                +{item.tags.length - 3}
               </Badge>
             )}
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex space-x-2 pt-2 border-t">
+        {/* Actions */}
+        <div className="flex gap-2 mt-4 pt-4 border-t">
           <Button
             size="sm"
+            variant="outline"
             className="flex-1"
-            onClick={() => onAction("view", item.id)}
+            onClick={() => onAction("view", item)}
           >
-            <Eye className="h-4 w-4 mr-1" />
+            <Eye className="w-3 h-3 mr-1" />
             View
           </Button>
           <Button
             size="sm"
-            variant="outline"
-            onClick={() => onAction("edit", item.id)}
+            className="flex-1"
+            onClick={() => onAction("edit", item)}
           >
-            <Edit className="h-4 w-4" />
+            <Edit className="w-3 h-3 mr-1" />
+            Edit
           </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => onAction("restock", item.id)}
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onAction("history", item.id)}>
-                View History
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onAction("maintenance", item.id)}
-              >
-                Schedule Maintenance
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction("transfer", item.id)}>
-                Transfer Location
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction("retire", item.id)}>
-                Retire Item
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </CardContent>
     </Card>
@@ -499,296 +485,210 @@ const InventoryItemCard = ({
 
 export default function InventoryItemsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("name");
+  const [showFilters, setShowFilters] = useState(false);
   const { toast } = useToast();
 
-  const filteredItems = inventoryItemsData.filter((item) => {
-    const matchesSearch =
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
-    const matchesStatus =
-      statusFilter === "all" || item.status === statusFilter;
-    const matchesCategory =
-      categoryFilter === "all" || item.category === categoryFilter;
-    return matchesSearch && matchesStatus && matchesCategory;
-  });
-
-  const handleAction = async (action: string, itemId: string) => {
-    const item = inventoryItemsData.find((i) => i.id === itemId);
-
-    // Event-driven architecture: Publish events for inventory actions
-    const eventPayload = {
-      eventType: `inventory_item_${action}`,
-      timestamp: new Date().toISOString(),
-      itemId,
-      itemName: item?.name,
-      initiatedBy: "internal_admin",
-      metadata: {
-        sku: item?.sku,
-        category: item?.category,
-        currentStock: item?.currentStock,
-        status: item?.status,
-        unitCost: item?.unitCost,
-        location: item?.location,
-      },
-    };
-
-    // In real implementation, this would publish to event bus
-    console.log("Publishing inventory event:", eventPayload);
-
-    switch (action) {
-      case "view":
-        toast({
-          title: "Item Details",
-          description: `Opening detailed view for ${item?.name}`,
-        });
-        break;
-      case "edit":
-        toast({
-          title: "Edit Item",
-          description: `Opening editor for ${item?.name}`,
-        });
-        break;
-      case "restock":
-        toast({
-          title: "Restock Item",
-          description: `Opening restock form for ${item?.name}`,
-        });
-        break;
-      case "history":
-        toast({
-          title: "Usage History",
-          description: `Loading usage history for ${item?.name}`,
-        });
-        break;
-      case "maintenance":
-        toast({
-          title: "Schedule Maintenance",
-          description: `Scheduling maintenance for ${item?.name}`,
-        });
-        break;
-      case "transfer":
-        toast({
-          title: "Transfer Location",
-          description: `Opening location transfer for ${item?.name}`,
-        });
-        break;
-      case "retire":
-        toast({
-          title: "Retire Item",
-          description: `Initiating retirement process for ${item?.name}`,
-        });
-        break;
-    }
+  const handleAction = (action: string, item: any) => {
+    toast({
+      title: `${action} action`,
+      description: `Performing ${action} on ${item.name}`,
+    });
   };
 
-  const totalItems = inventoryItemsData.length;
-  const inStockItems = inventoryItemsData.filter(
-    (i) => i.status === "in_stock",
-  ).length;
-  const lowStockItems = inventoryItemsData.filter(
-    (i) => i.status === "low_stock",
-  ).length;
-  const outOfStockItems = inventoryItemsData.filter(
-    (i) => i.status === "out_of_stock",
-  ).length;
-  const totalValue = inventoryItemsData.reduce(
-    (sum, i) => sum + i.totalValue,
-    0,
-  );
-
-  const uniqueCategories = [
-    ...new Set(inventoryItemsData.map((i) => i.category)),
-  ];
+  const filteredItems = useMemo(() => {
+    return inventoryData.filter((item) => {
+      const matchesSearch = item.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+        item.sku.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="container mx-auto p-4 space-y-6 max-w-7xl">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Inventory Items</h1>
-          <p className="text-muted-foreground">
-            Manage individual inventory items, stock levels, and equipment
-            tracking
-          </p>
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/inventory">
+            <Button variant="ghost" size="sm">
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold tracking-tight">Inventory Items</h1>
+            <p className="text-sm text-gray-600">
+              Manage and track all inventory items across locations
+            </p>
+          </div>
+          <Link href="/inventory/items/new">
+            <Button>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Item
+            </Button>
+          </Link>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Item
-        </Button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Items
-                </p>
-                <p className="text-2xl font-bold">{totalItems}</p>
-              </div>
-              <Package2 className="h-8 w-8 text-indigo-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  In Stock
-                </p>
-                <p className="text-2xl font-bold text-green-600">
-                  {inStockItems}
-                </p>
-              </div>
-              <CheckCircle className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Low Stock
-                </p>
-                <p className="text-2xl font-bold text-yellow-600">
-                  {lowStockItems}
-                </p>
-              </div>
-              <AlertTriangle className="h-8 w-8 text-yellow-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Out of Stock
-                </p>
-                <p className="text-2xl font-bold text-red-600">
-                  {outOfStockItems}
-                </p>
-              </div>
-              <AlertTriangle className="h-8 w-8 text-red-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">
-                  Total Value
-                </p>
-                <p className="text-2xl font-bold text-emerald-600">
-                  ${totalValue.toFixed(0)}
-                </p>
-              </div>
-              <DollarSign className="h-8 w-8 text-emerald-600" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="flex flex-col lg:flex-row gap-4">
+      {/* Search & Filters Bar */}
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input
-            placeholder="Search items by name, description, SKU, category, or tags..."
+            placeholder="Search by name, SKU, or barcode..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
           />
         </div>
-        <div className="flex gap-2">
-          <Button
-            variant={statusFilter === "all" ? "default" : "outline"}
-            onClick={() => setStatusFilter("all")}
-            size="sm"
-          >
-            All Status
-          </Button>
-          <Button
-            variant={statusFilter === "in_stock" ? "default" : "outline"}
-            onClick={() => setStatusFilter("in_stock")}
-            size="sm"
-          >
-            In Stock
-          </Button>
-          <Button
-            variant={statusFilter === "low_stock" ? "default" : "outline"}
-            onClick={() => setStatusFilter("low_stock")}
-            size="sm"
-          >
-            Low Stock
-          </Button>
-          <Button
-            variant={statusFilter === "out_of_stock" ? "default" : "outline"}
-            onClick={() => setStatusFilter("out_of_stock")}
-            size="sm"
-          >
-            Out of Stock
-          </Button>
+        
+        <div className="flex items-center gap-2">
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Categories</SelectItem>
+              <SelectItem value="Electronics">Electronics</SelectItem>
+              <SelectItem value="Furniture">Furniture</SelectItem>
+              <SelectItem value="Marketing">Marketing</SelectItem>
+              <SelectItem value="Audio">Audio</SelectItem>
+              <SelectItem value="Display">Display</SelectItem>
+              <SelectItem value="Outdoor">Outdoor</SelectItem>
+              <SelectItem value="Luxury">Luxury</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="stock">Stock Level</SelectItem>
+              <SelectItem value="value">Value</SelectItem>
+              <SelectItem value="usage">Usage</SelectItem>
+              <SelectItem value="updated">Last Updated</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Sheet open={showFilters} onOpenChange={setShowFilters}>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Filter className="w-4 h-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Advanced Filters</SheetTitle>
+                <SheetDescription>
+                  Apply multiple filters to refine your search
+                </SheetDescription>
+              </SheetHeader>
+              <div className="mt-6">
+                <AdvancedFilters
+                  onApply={(filters) => {
+                    console.log("Applying filters:", filters);
+                    setShowFilters(false);
+                  }}
+                  onReset={() => {
+                    console.log("Resetting filters");
+                  }}
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          <div className="flex items-center border rounded-lg">
+            <Button
+              variant={viewMode === "grid" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("grid")}
+              className="rounded-r-none"
+            >
+              <Grid3x3 className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === "list" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("list")}
+              className="rounded-l-none"
+            >
+              <List className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Items Grid */}
-      <Tabs value="grid" className="w-full">
-        <TabsList>
-          <TabsTrigger value="grid">Grid View</TabsTrigger>
-          <TabsTrigger value="list">List View</TabsTrigger>
-        </TabsList>
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Total Items</p>
+                <p className="text-2xl font-bold">342</p>
+              </div>
+              <Package className="w-8 h-8 text-purple-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Total Value</p>
+                <p className="text-2xl font-bold">$28.7K</p>
+              </div>
+              <DollarSign className="w-8 h-8 text-green-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Low Stock</p>
+                <p className="text-2xl font-bold">12</p>
+              </div>
+              <AlertTriangle className="w-8 h-8 text-yellow-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Out of Stock</p>
+                <p className="text-2xl font-bold">3</p>
+              </div>
+              <X className="w-8 h-8 text-red-600" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-        <TabsContent value="grid" className="mt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredItems.map((item) => (
-              <InventoryItemCard
-                key={item.id}
-                item={item}
-                onAction={handleAction}
-              />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="list" className="mt-6">
-          <div className="space-y-4">
-            {filteredItems.map((item) => (
-              <InventoryItemCard
-                key={item.id}
-                item={item}
-                onAction={handleAction}
-              />
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
-
-      {filteredItems.length === 0 && (
-        <div className="text-center py-12">
-          <Package2 className="h-12 w-12 mx-auto text-muted-foreground/50" />
-          <h3 className="mt-4 text-lg font-medium">No inventory items found</h3>
-          <p className="mt-2 text-muted-foreground">
-            Try adjusting your search criteria or add a new item.
-          </p>
-        </div>
-      )}
+      {/* Items Grid/List */}
+      <div className={`grid gap-4 ${
+        viewMode === "grid"
+          ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          : "grid-cols-1"
+      }`}>
+        {filteredItems.map((item) => (
+          <ItemCard
+            key={item.id}
+            item={item}
+            viewMode={viewMode}
+            onAction={handleAction}
+          />
+        ))}
+      </div>
     </div>
   );
 }
