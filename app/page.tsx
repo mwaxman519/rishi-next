@@ -21,11 +21,11 @@ export default function Home() {
 
   useEffect(() => {
     // Simple redirect for authenticated users
-    if (user && user.role === "super_admin") {
+    if (!loading && user && user.role === "super_admin") {
       console.log("Redirecting super admin to dashboard");
       router.push("/dashboard");
     }
-  }, [user, router]);
+  }, [user, loading, router]);
 
   // Show loading state while authentication is initializing
   if (loading) {
