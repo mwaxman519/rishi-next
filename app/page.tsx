@@ -27,30 +27,14 @@ export default function Home() {
     }
   }, [user, router]);
 
-  // Show loading state while authentication is initializing
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center">
-          <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading Rishi Platform...</p>
-        </div>
-      </div>
-    );
-  }
+  // Skip loading screens as requested by user
 
   // If user is logged in, handle accordingly
   if (user) {
-    // For super admin users, show loading while redirect happens
+    // For super admin users, redirect happens via useEffect - no loading screen needed
     if (user.role === "super_admin") {
-      return (
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading dashboard...</p>
-          </div>
-        </div>
-      );
+      // Let the redirect happen naturally without loading screen
+      return null;
     }
 
     // For other roles, show welcome with dashboard link

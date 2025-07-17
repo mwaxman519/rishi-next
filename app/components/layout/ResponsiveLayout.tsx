@@ -85,36 +85,11 @@ const FullWidthLayout = ({ children }: { children: React.ReactNode }) => (
 );
 
 /**
- * Placeholder content that renders during SSR and initial hydration
+ * Placeholder content that renders during SSR and initial hydration - no loading screens
  */
 const ServerPlaceholder = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
-    {/* Simple header during loading */}
-    <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
-      <div className="flex items-center">
-        <img
-          src="/favicon.ico"
-          alt="Rishi"
-          className="h-10 w-auto object-contain max-w-[120px]"
-        />
-      </div>
-      <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
-    </div>
-    {/* Main content with single loading spinner */}
-    <main className="flex-grow flex items-center justify-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
-    </main>
-    {/* Simple footer during loading */}
-    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg h-16 flex items-center justify-center">
-      <div className="flex gap-8">
-        {[1, 2, 3, 4, 5].map((i) => (
-          <div
-            key={i}
-            className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"
-          ></div>
-        ))}
-      </div>
-    </div>
+  <div className="min-h-screen bg-white dark:bg-gray-900">
+    {children}
   </div>
 );
 
@@ -153,10 +128,8 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // During logout, keep showing the current screen to prevent flashing
   // The logout button will show "Logging Out..." and then redirect will happen
 
-  // During server render, initial client render, or loading auth data, 
-  // show a single unified loading state to prevent multiple animations
-  // But don't show loading during logout process
-  if (!mounted || (loading && !loggingOut)) {
+  // Skip loading screens as requested by user - only check if mounted
+  if (!mounted) {
     return <ServerPlaceholder>{children}</ServerPlaceholder>;
   }
 
