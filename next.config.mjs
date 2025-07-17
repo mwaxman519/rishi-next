@@ -2,7 +2,7 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: undefined,
   compress: false,
   poweredByHeader: false,
   trailingSlash: false,
@@ -45,11 +45,25 @@ const nextConfig = {
       crypto: false,
     };
     
-    // CRITICAL: Completely disable all chunking for production
+    // CRITICAL: Use normal Next.js chunking for Vercel
     if (!isServer && !dev) {
-      config.optimization.splitChunks = false;
-      config.optimization.runtimeChunk = false;
-      config.optimization.minimize = false;
+      // Let Next.js handle chunking normally for Vercel
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
+          },
+        },
+      };
     }
     
     return config;
