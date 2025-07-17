@@ -3,6 +3,7 @@
  */
 import { RBACRepository } from "./repository";
 import { NextRequest } from "next/server";
+import { getCurrentUser } from "@/lib/auth-server";
 import {
   Role,
   UserRole,
@@ -25,12 +26,6 @@ export async function checkPermission(
   permission: string,
 ): Promise<boolean> {
   try {
-    console.log("DEVELOPMENT MODE: Using mock permission check for testing");
-    // In development mode, always return true to allow development to continue
-    return true;
-
-    // Production implementation - check permissions against database
-    /*
     // Get the current user from the session
     const user = await getCurrentUser();
     if (!user) {
@@ -46,7 +41,6 @@ export async function checkPermission(
       permission,
       organizationId
     });
-    */
   } catch (error) {
     console.error("Error checking permission:", error);
     return false;

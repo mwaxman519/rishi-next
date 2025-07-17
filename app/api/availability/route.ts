@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { EventBusService } from "../../../services/event-bus-service";
+import { AvailabilityService } from "../../../services/availability/availabilityService";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "@/lib/db";
 import * as schema from "@shared/schema";
@@ -489,39 +490,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         "➡️ Calling availabilityService.createAvailabilityBlock with request",
       );
 
-      // Mock availability service for demonstration
-      const availabilityService = {
-        createAvailabilityBlock: async (data: any) => {
-          const newAvailability = {
-            id: uuidv4(),
-            ...data,
-            created_at: new Date(),
-            updated_at: new Date(),
-          };
-
-          // Publish availability creation event
-          const eventBus = new EventBusService();
-          await eventBus.publish(
-            "availability.created",
-            {
-              availabilityId: newAvailability.id,
-              userId: data.userId,
-              startTime: data.startTime,
-              endTime: data.endTime,
-            },
-            {
-              correlationId: uuidv4(),
-              source: "availability-api",
-              version: "1.0",
-            },
-          );
-
-          return {
-            success: true,
-            data: newAvailability,
-          };
-        },
-      };
+      // Use real availability service
+      const availabilityService = new AvailabilityService();
 
       // Wrap service call in a timeout to prevent hanging
       const serviceCallPromise =

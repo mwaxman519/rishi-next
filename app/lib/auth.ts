@@ -12,18 +12,6 @@ import { verify } from "jsonwebtoken";
 // Get current user from JWT token in cookies
 export async function getCurrentUser() {
   try {
-    // In development mode, return mock user
-    if ((process.env.NODE_ENV as string) === "development") {
-      return {
-        id: "mock-user-id",
-        username: "admin",
-        email: "admin@rishi.com",
-        fullName: "Super Admin",
-        role: "super_admin",
-        organizationId: "00000000-0000-0000-0000-000000000001",
-      };
-    }
-
     const cookieStore = cookies();
     const token = (await cookieStore).get("auth-token")?.value;
     

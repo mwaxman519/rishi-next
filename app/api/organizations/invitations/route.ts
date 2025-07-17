@@ -225,37 +225,7 @@ export async function POST(request: NextRequest) {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 
-    // For development mode, return success without actual insertion
-    if (process.env.NODE_ENV !== "production") {
-      console.log(
-        `DEVELOPMENT MODE: Would create invitation for ${email} to organization ${organizationId} with role ${role}`,
-      );
-
-      // Return mock invitation data
-      const mockInvitation = {
-        id: "123",
-        email,
-        role,
-        organizationId,
-        token,
-        invitedById: user.id,
-        status: "pending",
-        expiresAt: expiresAt.toISOString(),
-        created_at: new Date().toISOString(),
-      };
-
-      // TODO: In actual implementation, send invitation email to the user
-      console.log(
-        `Would send email to ${email} with token ${token} (this would be a URL in production)`,
-      );
-
-      return NextResponse.json({
-        success: true,
-        invitation: mockInvitation,
-      });
-    }
-
-    // In production, create the invitation
+    // Create the invitation in database
     try {
       // Convert organizationId to integer
       const orgId =

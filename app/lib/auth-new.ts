@@ -76,22 +76,41 @@ export async function isAuthenticated() {
 export async function getUser() {
   return await getCurrentUser();
 }
-export async function getCurrentUser(req?: Request) {
-  console.log("DEVELOPMENT MODE: Using mock user for testing");
-  return mockUser;
-}
 
-// Get user organizations
-export async function getUserOrganizations() {
-  console.log("DEVELOPMENT MODE: Using mock user organizations for testing");
-  return mockUserOrganizations;
+// Get user organizations from database
+export async function getUserOrganizations(userId?: string) {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  
+  const targetUserId = userId || user.id;
+  
+  // Get user organizations from database
+  const userOrgs = await db
+    .select({
+      organizationId: schema.userOrganizations.organizationId,
+      organization: schema.organizations,
+    })
+    .from(schema.userOrganizations)
+    .leftJoin(schema.organizations, eq(schema.userOrganizations.organizationId, schema.organizations.id))
+    .where(eq(schema.userOrganizations.userId, targetUserId));
+    
+  return userOrgs;
 }
 
 // Get JWT payload from token - used by RBAC system
 export async function getJwtPayload(token?: string) {
-  return mockJwtPayload;
+  if (!token) return null;
+  
+  try {
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      throw new Error("JWT_SECRET environment variable is required");
+    }
+    
+    const decoded = verify(token, jwtSecret) as any;
+    return decoded;
+  } catch (error) {
+    console.error("Error verifying JWT token:", error);
+    return null;
+  }
 }
-
-// Export other auth-related functions for development
-export const signIn = async () => ({ ok: true, error: null });
-export const signOut = async () => ({ ok: true, error: null });

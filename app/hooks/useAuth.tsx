@@ -1,22 +1,12 @@
 /**
  * Authentication Hook and Context Provider
  *
- * IMPORTANT PRODUCTION VS. DEVELOPMENT BEHAVIOR:
- *
- * This authentication system behaves differently based on the environment:
- *
- * IN DEVELOPMENT MODE:
- * - By default, a mock user with super_admin privileges is automatically logged in
- * - This makes development easier by not requiring login for most operations
- * - Adding ?unauthenticated=true to any URL will simulate a logged-out state
- * - The login function accepts any credentials and returns a successful login
- * - This allows for testing the login flow without a backend
- *
- * IN PRODUCTION MODE:
- * - No automatic login occurs - users must log in with valid credentials
- * - The system calls real API endpoints via the auth microservice
- * - Sessions are persisted via HTTP cookies set by the backend
- * - Proper security checks are enforced
+ * This authentication system provides:
+ * - Real authentication via the auth microservice
+ * - Session management via HTTP cookies
+ * - Role-based access control (RBAC)
+ * - Organization context switching
+ * - Proper security checks and token validation
  */
 
 "use client";

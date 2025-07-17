@@ -25,17 +25,6 @@ export async function comparePasswords(
   return await bcrypt.compare(plainPassword, hashedPassword);
 }
 
-export async function getUser() {
-  // Development mode mock user
-  return {
-    id: "mock-user-id",
-    email: "admin@rishi.com",
-    firstName: "Admin",
-    lastName: "User",
-    role: "super_admin",
-  };
-}
-
 export async function getCurrentUser() {
   try {
     // Get the auth token from cookies (check both cookie names for compatibility)
@@ -85,16 +74,6 @@ export async function getCurrentUser() {
   }
 }
 
-export async function getAuthUser() {
-  // Development mode mock user for API routes
-  return {
-    id: "mock-user-id",
-    email: "admin@rishi.com",
-    firstName: "Admin",
-    lastName: "User",
-    role: "super_admin",
-    username: "admin",
-    fullName: "Super Admin",
-    organizationId: "00000000-0000-0000-0000-000000000001",
-  };
-}
+// Alias for backward compatibility
+export const getUser = getCurrentUser;
+export const getAuthUser = getCurrentUser;

@@ -29,40 +29,8 @@ export class StatesService {
    */
   async getAllStates(): Promise<State[]> {
     try {
-      // Only use mock data in development environment
-      if (process.env.NODE_ENV === "development") {
-        console.log("DEVELOPMENT MODE: Using mock states data for testing");
-
-        // Mock US states data for development
-        return [
-          {
-            id: "1",
-            name: "California",
-            code: "CA",
-            regionId: "5", // West
-            capital: "Sacramento",
-            isTerritory: false,
-            timezone: "Pacific",
-            active: true,
-          },
-          {
-            id: "2",
-            name: "New York",
-            code: "NY",
-            regionId: "1", // Northeast
-            capital: "Albany",
-            isTerritory: false,
-            timezone: "Eastern",
-            active: true,
-          },
-          {
-            id: "3",
-            name: "Texas",
-            code: "TX",
-            regionId: "4", // Southwest
-            capital: "Austin",
-            isTerritory: false,
-            timezone: "Central",
+      // Get states from database using repository
+      return await this.repository.getAllStates();
             active: true,
           },
           {
