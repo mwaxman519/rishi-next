@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Search, Filter, Package, MapPin, AlertCircle } from "lucide-react";
+import { Plus, Search, Filter, Package, MapPin, AlertCircle, ChevronDown, ChevronUp, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 
 interface KitTemplate {
@@ -35,6 +36,24 @@ interface KitTemplate {
   active: boolean;
   created_at: Date;
   updated_at: Date;
+}
+
+interface Brand {
+  id: string;
+  name: string;
+  description: string | null;
+  organizationId: string;
+  organization: {
+    id: string;
+    name: string;
+  };
+}
+
+interface Organization {
+  id: string;
+  name: string;
+  type: string;
+  status: string;
 }
 
 interface KitInstance {
@@ -48,7 +67,21 @@ interface KitInstance {
   active: boolean;
   created_at: Date;
   updated_at: Date;
-  kit_template?: KitTemplate | null;
+  template?: {
+    id: string;
+    name: string;
+    description: string | null;
+    active: boolean;
+    brand_id: string | null;
+    brand?: {
+      id: string;
+      name: string;
+      description: string | null;
+      organization_id: string;
+    };
+    created_at: string;
+    updated_at: string;
+  } | null;
 }
 
 const statusColors: Record<string, string> = {
@@ -72,11 +105,26 @@ export default function KitInstancesClient() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [templateFilter, setTemplateFilter] = useState<string>("all");
+  const [brandFilter, setBrandFilter] = useState<string>("all");
+  const [organizationFilter, setOrganizationFilter] = useState<string>("all");
   const [view, setView] = useState<"grid" | "table">("table");
+  const [summaryOpen, setSummaryOpen] = useState(false);
 
-  // Fetch kit instances
+  // Fetch kit instances with filters
   const { data: kits = [], isLoading, error } = useQuery<KitInstance[]>({
-    queryKey: ["/api/kits/instances"],
+    queryKey: ["/api/kits/instances", { brandFilter, organizationFilter, statusFilter, templateFilter, search }],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (brandFilter !== "all") params.append("brandId", brandFilter);
+      if (organizationFilter !== "all") params.append("organizationId", organizationFilter);
+      if (statusFilter !== "all") params.append("status", statusFilter);
+      if (templateFilter !== "all") params.append("templateId", templateFilter);
+      if (search) params.append("search", search);
+      
+      const response = await fetch(`/api/kits/instances?${params}`);
+      if (!response.ok) throw new Error("Failed to fetch kit instances");
+      return response.json();
+    },
   });
 
   // Fetch kit templates for filtering
@@ -84,18 +132,31 @@ export default function KitInstancesClient() {
     queryKey: ["/api/kits/templates"],
   });
 
-  // Filter kits based on search and filters
-  const filteredKits = kits.filter((kit) => {
-    const matchesSearch =
-      search === "" ||
-      kit.name.toLowerCase().includes(search.toLowerCase()) ||
-      (kit.description?.toLowerCase().includes(search.toLowerCase()) ?? false);
-
-    const matchesStatus = statusFilter === "all" || kit.status === statusFilter;
-    const matchesTemplate = templateFilter === "all" || kit.template_id === templateFilter;
-
-    return matchesSearch && matchesStatus && matchesTemplate;
+  // Fetch brands for filtering
+  const { data: brands = [] } = useQuery<Brand[]>({
+    queryKey: ["/api/brands", { organizationId: organizationFilter !== "all" ? organizationFilter : undefined }],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (organizationFilter !== "all") params.append("organizationId", organizationFilter);
+      
+      const response = await fetch(`/api/brands?${params}`);
+      if (!response.ok) throw new Error("Failed to fetch brands");
+      return response.json();
+    },
   });
+
+  // Fetch organizations for filtering
+  const { data: organizations = [] } = useQuery<Organization[]>({
+    queryKey: ["/api/user-organizations"],
+    queryFn: async () => {
+      const response = await fetch("/api/user-organizations");
+      if (!response.ok) throw new Error("Failed to fetch organizations");
+      return response.json();
+    },
+  });
+
+  // All filtering is done server-side, so we use kits directly
+  const filteredKits = kits;
 
   // Group kits by status for overview
   const statusCounts = kits.reduce((acc, kit) => {
@@ -124,67 +185,120 @@ export default function KitInstancesClient() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Kit Instances</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Kit Instances</h1>
+          <p className="text-sm text-muted-foreground">
             Manage physical kits deployed across locations
           </p>
         </div>
-        <Button className="bg-purple-600 hover:bg-purple-700">
+        <Button className="bg-purple-600 hover:bg-purple-700 w-full md:w-auto">
           <Plus className="mr-2 h-4 w-4" />
           Add Kit Instance
         </Button>
       </div>
 
-      {/* Status Overview Cards */}
-      <div className="grid gap-4 md:grid-cols-5">
-        {Object.entries(statusLabels).map(([status, label]) => (
-          <Card key={status} className="cursor-pointer hover:shadow-md transition-shadow">
-            <CardHeader className="pb-2">
-              <CardDescription className="text-xs">{label}</CardDescription>
-              <CardTitle className="text-2xl">
-                {statusCounts[status] || 0}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className={`inline-block w-3 h-3 rounded-full ${statusColors[status]}`} />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* Collapsible Status Overview Cards - Hidden on mobile by default */}
+      <Collapsible open={summaryOpen} onOpenChange={setSummaryOpen}>
+        <CollapsibleTrigger asChild>
+          <Button variant="outline" className="w-full justify-between">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Summary Overview
+            </div>
+            {summaryOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-4">
+          <div className="grid gap-4 grid-cols-2 md:grid-cols-5">
+            {Object.entries(statusLabels).map(([status, label]) => (
+              <Card key={status} className="cursor-pointer hover:shadow-md transition-shadow">
+                <CardHeader className="pb-2">
+                  <CardDescription className="text-xs">{label}</CardDescription>
+                  <CardTitle className="text-xl md:text-2xl">
+                    {statusCounts[status] || 0}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className={`inline-block w-3 h-3 rounded-full ${statusColors[status]}`} />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
 
       {/* Filters and Search */}
       <Card>
         <CardHeader>
-          <CardTitle>Search & Filter</CardTitle>
+          <CardTitle className="text-lg">Search & Filter</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex flex-col gap-4 md:flex-row">
-            <div className="flex-1">
-              <Label htmlFor="search" className="sr-only">
-                Search
+          {/* Search Bar */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search by name or description..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          
+          {/* Filter Row 1 - Organization and Brand */}
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+            <div>
+              <Label htmlFor="organization-filter" className="text-sm font-medium">
+                Organization
               </Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  id="search"
-                  placeholder="Search by name or description..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
+              <Select value={organizationFilter} onValueChange={(value) => {
+                setOrganizationFilter(value);
+                setBrandFilter("all"); // Reset brand filter when organization changes
+              }}>
+                <SelectTrigger id="organization-filter">
+                  <SelectValue placeholder="Select organization" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Organizations</SelectItem>
+                  {organizations.map((org) => (
+                    <SelectItem key={org.id} value={org.id}>
+                      {org.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            <div className="w-full md:w-[200px]">
-              <Label htmlFor="status-filter" className="sr-only">
-                Status Filter
+            <div>
+              <Label htmlFor="brand-filter" className="text-sm font-medium">
+                Brand
+              </Label>
+              <Select value={brandFilter} onValueChange={setBrandFilter}>
+                <SelectTrigger id="brand-filter">
+                  <SelectValue placeholder="Select brand" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Brands</SelectItem>
+                  {brands.map((brand) => (
+                    <SelectItem key={brand.id} value={brand.id}>
+                      {brand.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
+          {/* Filter Row 2 - Status and Template */}
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+            <div>
+              <Label htmlFor="status-filter" className="text-sm font-medium">
+                Status
               </Label>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger id="status-filter">
-                  <SelectValue placeholder="Filter by status" />
+                  <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Statuses</SelectItem>
@@ -196,13 +310,13 @@ export default function KitInstancesClient() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="w-full md:w-[200px]">
-              <Label htmlFor="template-filter" className="sr-only">
-                Template Filter
+            <div>
+              <Label htmlFor="template-filter" className="text-sm font-medium">
+                Template
               </Label>
               <Select value={templateFilter} onValueChange={setTemplateFilter}>
                 <SelectTrigger id="template-filter">
-                  <SelectValue placeholder="Filter by template" />
+                  <SelectValue placeholder="Select template" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Templates</SelectItem>
@@ -255,10 +369,11 @@ export default function KitInstancesClient() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
-                    <TableHead>Template</TableHead>
+                    <TableHead className="hidden md:table-cell">Template</TableHead>
+                    <TableHead className="hidden md:table-cell">Brand</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Last Updated</TableHead>
+                    <TableHead className="hidden md:table-cell">Location</TableHead>
+                    <TableHead className="hidden md:table-cell">Last Updated</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -273,11 +388,30 @@ export default function KitInstancesClient() {
                               {kit.description}
                             </div>
                           )}
+                          {/* Mobile-only info */}
+                          <div className="md:hidden mt-2 space-y-1">
+                            <div className="text-xs text-muted-foreground">
+                              Template: {kit.template?.name || "No template"}
+                            </div>
+                            {kit.template?.brand && (
+                              <div className="text-xs text-muted-foreground">
+                                Brand: {kit.template.brand.name}
+                              </div>
+                            )}
+                            <div className="text-xs text-muted-foreground">
+                              Updated: {format(new Date(kit.updated_at), "MMM d, yyyy")}
+                            </div>
+                          </div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        {kit.kit_template?.name || (
+                      <TableCell className="hidden md:table-cell">
+                        {kit.template?.name || (
                           <span className="text-muted-foreground">No template</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {kit.template?.brand?.name || (
+                          <span className="text-muted-foreground">No brand</span>
                         )}
                       </TableCell>
                       <TableCell>
@@ -285,7 +419,7 @@ export default function KitInstancesClient() {
                           {statusLabels[kit.status] || kit.status}
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden md:table-cell">
                         {kit.location_id ? (
                           <div className="flex items-center gap-1">
                             <MapPin className="h-3 w-3" />
@@ -295,7 +429,7 @@ export default function KitInstancesClient() {
                           <span className="text-muted-foreground">Unassigned</span>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden md:table-cell">
                         {format(new Date(kit.updated_at), "MMM d, yyyy")}
                       </TableCell>
                       <TableCell className="text-right">
@@ -316,9 +450,14 @@ export default function KitInstancesClient() {
                     <div className="flex items-start justify-between">
                       <div className="space-y-1">
                         <CardTitle className="text-base">{kit.name}</CardTitle>
-                        {kit.kit_template && (
+                        {kit.template && (
                           <CardDescription className="text-xs">
-                            {kit.kit_template.name}
+                            {kit.template.name}
+                          </CardDescription>
+                        )}
+                        {kit.template?.brand && (
+                          <CardDescription className="text-xs text-blue-600">
+                            {kit.template.brand.name}
                           </CardDescription>
                         )}
                       </div>

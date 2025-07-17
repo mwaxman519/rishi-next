@@ -19,26 +19,28 @@ export async function GET(req: NextRequest) {
     const filters: Record<string, any> = {};
 
     // Extract filter parameters
-    if (searchParams.has("brandRegionId")) {
-      filters.brandRegionId = parseInt(
-        (searchParams.get("brandRegionId") || undefined) as string,
-      );
+    if (searchParams.has("brandId")) {
+      filters.brandId = searchParams.get("brandId") || undefined;
+    }
+
+    if (searchParams.has("organizationId")) {
+      filters.organizationId = searchParams.get("organizationId") || undefined;
     }
 
     if (searchParams.has("templateId")) {
-      filters.templateId = parseInt((searchParams.get("templateId") || undefined) as string);
+      filters.templateId = searchParams.get("templateId") || undefined;
     }
 
     if (searchParams.has("status")) {
-      filters.status = (searchParams.get("status") || undefined);
+      filters.status = searchParams.get("status") || undefined;
     }
 
-    if (searchParams.has("approvalStatus")) {
-      filters.approvalStatus = (searchParams.get("approvalStatus") || undefined);
+    if (searchParams.has("locationId")) {
+      filters.locationId = searchParams.get("locationId") || undefined;
     }
 
     if (searchParams.has("search")) {
-      filters.search = (searchParams.get("search") || undefined);
+      filters.search = searchParams.get("search") || undefined;
     }
 
     // Get all kits with filters

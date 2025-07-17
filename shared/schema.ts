@@ -385,6 +385,7 @@ export const kitTemplates = pgTable("kit_templates", {
   organization_id: uuid("organization_id")
     .notNull()
     .references(() => organizations.id),
+  brand_id: uuid("brand_id").references(() => brands.id),
   active: boolean("active").notNull().default(true),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),

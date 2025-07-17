@@ -265,6 +265,10 @@ export class KitRepository {
         queryFilters.push(eq(kits.template_id, filters.templateId));
       }
 
+      if (filters.brandId) {
+        queryFilters.push(eq(kitTemplates.brand_id, filters.brandId));
+      }
+
       if (filters.status) {
         queryFilters.push(eq(kits.status, filters.status));
       }
@@ -284,9 +288,11 @@ export class KitRepository {
         .select({
           kits: kits,
           kit_templates: kitTemplates,
+          brands: brands,
         })
         .from(kits)
         .leftJoin(kitTemplates, eq(kits.template_id, kitTemplates.id))
+        .leftJoin(brands, eq(kitTemplates.brand_id, brands.id))
         .where(queryFilters.length > 0 ? and(...queryFilters) : undefined)
         .orderBy(desc(kits.created_at));
 
@@ -661,6 +667,7 @@ export class KitRepository {
     // Extract properties from either the row itself (for direct queries) or from the kits property (for joins)
     const kitData = row.kits || row;
     const templateData = row.kit_templates;
+    const brandData = row.brands;
 
     return {
       id: kitData.id,
@@ -675,6 +682,15 @@ export class KitRepository {
             name: templateData.name,
             description: templateData.description,
             active: templateData.active,
+            brand_id: templateData.brand_id,
+            brand: brandData
+              ? {
+                  id: brandData.id,
+                  name: brandData.name,
+                  description: brandData.description,
+                  organization_id: brandData.organizationId,
+                }
+              : undefined,
             created_at: templateData.created_at?.toISOString(),
             updated_at: templateData.updated_at?.toISOString(),
           }
