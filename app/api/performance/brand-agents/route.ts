@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { users, performanceSummary, userOrganizations } from '@/shared/schema';
+import { users, performanceSummary, userOrganizations } from '../../../../shared/schema';
 import { eq, and, desc, sql } from 'drizzle-orm';
 import { verify } from 'jsonwebtoken';
 
@@ -36,7 +36,8 @@ export async function GET(request: NextRequest) {
         fullName: users.fullName,
         email: users.email,
         profileImageUrl: users.profileImage,
-        // Performance metrics
+        role: users.role,
+        // Performance metrics (may be null if no performance data)
         avgManagerReview: performanceSummary.avgManagerReview,
         onTimePercentage: performanceSummary.onTimePercentage,
         locationCompliancePercentage: performanceSummary.locationCompliancePercentage,
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
       .from(users)
       .innerJoin(
         userOrganizations,
-        eq(userOrganizations.userId, users.id)
+        eq(userOrganizations.user_id, users.id)
       )
       .leftJoin(
         performanceSummary,
@@ -65,10 +66,9 @@ export async function GET(request: NextRequest) {
       .where(
         and(
           eq(users.role, 'brand_agent'),
-          eq(userOrganizations.organizationId, organizationId)
+          eq(userOrganizations.organization_id, organizationId)
         )
-      )
-      .orderBy(desc(performanceSummary.overallPerformanceScore));
+      );
 
     return NextResponse.json({
       brandAgents: brandAgentsWithPerformance,
