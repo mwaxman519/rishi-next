@@ -31,18 +31,16 @@ export default function LoginPage() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
-        // Force a full page reload to ensure authentication state is properly updated
-        window.location.href = "/dashboard";
-        // Keep button in loading state during navigation
-        return;
+        // Use router.push for better navigation
+        router.push("/dashboard");
       } else {
         const data = await response.json().catch(() => ({}));
         setError(data.error || "Login failed. Please check your credentials.");
-        setIsLoading(false);
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
       console.error("Login error:", err);
+    } finally {
       setIsLoading(false);
     }
   };

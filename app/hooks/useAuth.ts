@@ -28,7 +28,7 @@ interface User {
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false); // FORCE NO LOADING SCREENS
+  const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
   const router = useRouter();
 
@@ -52,8 +52,9 @@ export function useAuth() {
     } catch (error) {
       console.error("Error fetching user:", error);
       setUser(null);
+    } finally {
+      setLoading(false);
     }
-    // NEVER SET LOADING TO FALSE - KEEP IT ALWAYS FALSE
   };
 
   const login = async (username: string, password: string) => {
@@ -71,44 +72,33 @@ export function useAuth() {
       throw new Error(data.error || "Login failed");
     }
 
-    // After successful login, refetch user data to get complete session info
-    await fetchUser();
+    setUser(data.user);
     return data.user;
   };
 
-  const logout = () => {
-    console.log("Logout clicked - updating button text immediately");
-    
-    // Immediately update button text by finding all logout buttons
-    const logoutButtons = document.querySelectorAll('[data-logout-button]');
-    logoutButtons.forEach(button => {
-      const textElement = button.querySelector('[data-logout-text]');
-      if (textElement) {
-        textElement.textContent = 'Logging out...';
-      }
-      (button as HTMLButtonElement).disabled = true;
-      button.classList.add('opacity-50', 'cursor-not-allowed');
-    });
-    
-    // Also set React state for consistency
-    setLoggingOut(true);
-    
-    // Make the logout API call but don't wait for it
-    fetch("/api/auth-service/logout", {
-      method: "POST",
-    }).catch((error) => {
-      console.error("Error logging out:", error);
-    });
-    
-    // Use setTimeout to ensure the "Logging out..." state is visible
-    setTimeout(() => {
-      console.log("Timeout reached - about to redirect");
-      // Clear user state just before redirect
+  const logout = async () => {
+    try {
+      setLoggingOut(true);
+      
+      // Immediately clear user state to prevent any authentication checks
       setUser(null);
+      
+      // Make the logout API call in the background
+      fetch("/api/auth-service/logout", {
+        method: "POST",
+      }).catch(error => {
+        console.error("Background logout API call failed:", error);
+      });
+      
+      // Immediately redirect to login page
+      window.location.href = "/auth/login";
+    } catch (error) {
+      console.error("Error logging out:", error);
+      // Force redirect even if something fails
+      window.location.href = "/auth/login";
+    } finally {
       setLoggingOut(false);
-      // Use replace to avoid loading screen
-      window.location.replace("/auth/login");
-    }, 1000);
+    }
   };
 
   return {

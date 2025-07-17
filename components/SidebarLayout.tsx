@@ -1468,28 +1468,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 <Button
                   variant="default"
                   size="sm"
-                  disabled={loggingOut}
-                  data-logout-button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log("Logout button clicked, loggingOut state:", loggingOut);
-                    logout();
-                  }}
-                  className={`w-full flex items-center justify-center text-white transition-colors ${
-                    loggingOut 
-                      ? "bg-purple-500 cursor-not-allowed" 
-                      : "bg-purple-600 hover:bg-purple-700"
-                  }`}
+                  disabled={loading}
+                  onClick={logout}
+                  className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   <LogOut
                     size={16}
                     className={sidebarCollapsed ? "" : "mr-2"}
                   />
-                  {!sidebarCollapsed && (
-                    <span data-logout-text>
-                      {loggingOut ? "Logging out..." : "Logout"}
-                    </span>
-                  )}
+                  {!sidebarCollapsed &&
+                    (loading ? "Logging out..." : "Logout")}
                 </Button>
               </div>
             </div>
@@ -1900,24 +1888,15 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 variant="default"
                 size="sm"
                 disabled={loggingOut}
-                data-logout-button
-                onClick={(e) => {
-                  e.preventDefault();
-                  console.log("Mobile logout button clicked, loggingOut state:", loggingOut);
+                onClick={async () => {
                   if (typeof logout === "function") {
                     logout();
                   }
                 }}
-                className={`w-full flex items-center justify-center text-white transition-colors ${
-                  loggingOut 
-                    ? "bg-purple-500 cursor-not-allowed" 
-                    : "bg-purple-600 hover:bg-purple-700"
-                }`}
+                className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
               >
                 <LogOut size={16} className="mr-2" />
-                <span data-logout-text>
-                  {loggingOut ? "Logging out..." : "Logout"}
-                </span>
+                {loggingOut ? "Logging out..." : "Logout"}
               </Button>
             </>
           ) : (

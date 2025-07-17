@@ -1,7 +1,7 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import React, { Suspense } from "react";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useClientOnly } from "@/hooks/useClientOnly";
@@ -85,11 +85,36 @@ const FullWidthLayout = ({ children }: { children: React.ReactNode }) => (
 );
 
 /**
- * Placeholder content that renders during SSR and initial hydration - no loading screens
+ * Placeholder content that renders during SSR and initial hydration
  */
 const ServerPlaceholder = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen bg-white dark:bg-gray-900">
-    {children}
+  <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+    {/* Simple header during loading */}
+    <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
+      <div className="flex items-center">
+        <img
+          src="/favicon.ico"
+          alt="Rishi"
+          className="h-10 w-auto object-contain max-w-[120px]"
+        />
+      </div>
+      <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+    </div>
+    {/* Main content with single loading spinner */}
+    <main className="flex-grow flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
+    </main>
+    {/* Simple footer during loading */}
+    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg h-16 flex items-center justify-center">
+      <div className="flex gap-8">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div
+            key={i}
+            className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"
+          ></div>
+        ))}
+      </div>
+    </div>
   </div>
 );
 
@@ -98,10 +123,13 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  // COMPLETELY BYPASS ALL LOADING LOGIC - FORCE IMMEDIATE RENDER
-  const { user, loggingOut } = useAuth(); // REMOVED LOADING COMPLETELY
+  // Check if we're on the client side
+  const mounted = useClientOnly();
+
+  // These hooks are safe to call in all environments but will only have meaningful
+  // values after hydration is complete
+  const { user, loading, loggingOut } = useAuth();
   const pathname = usePathname();
-  const router = useRouter();
 
   // Check for full-width pages like login/register
   const isFullWidthPage =
@@ -112,27 +140,33 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // Media query hook (only works on client side)
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
+  // Check if the URL has the unauthenticated parameter for testing
+  const hasUnauthenticatedParam =
+    mounted && typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("unauthenticated") ===
+        "true"
+      : false;
+
+  // During logout, don't show any loading state - let it redirect immediately
+  if (loggingOut) {
+    return null;
+  }
+
+  // During server render, initial client render, or loading auth data, 
+  // show a single unified loading state to prevent multiple animations
+  if (!mounted || loading) {
+    return <ServerPlaceholder>{children}</ServerPlaceholder>;
+  }
+
+  // Once fully mounted and data is loaded, render the appropriate layout
+
   // Special case for full-width pages - bypass all sidebar logic
   if (isFullWidthPage) {
     return <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>;
   }
 
-  // During logout, don't change layout - keep showing current authenticated screen
-  if (loggingOut) {
-    // Keep the current layout as-is during logout
-    return (
-      <>
-        {isDesktop ? (
-          <SidebarLayout>{children}</SidebarLayout>
-        ) : (
-          <MobileLayout>{children}</MobileLayout>
-        )}
-      </>
-    );
-  }
-
-  // Force public layout if user is not authenticated - NO LOADING SCREENS
-  if (!user && !loggingOut) {
+  // Force public layout if URL parameter is set or user is not authenticated
+  if (hasUnauthenticatedParam || !user) {
     return <PublicLayout>{children}</PublicLayout>;
   }
 

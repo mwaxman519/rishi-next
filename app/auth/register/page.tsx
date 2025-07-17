@@ -65,17 +65,12 @@ export default function RegisterPage() {
       );
 
       if (result.success) {
-        // Use router.push but don't set isLoading to false - let navigation complete
         router.push("/dashboard");
-        // Keep button in loading state during navigation
-        return;
-      } else {
-        setError("Registration failed. Please check your information and try again.");
-        setIsLoading(false);
       }
     } catch (error) {
       console.error("Registration error:", error);
       setError("Registration failed. Please check your information and try again.");
+    } finally {
       setIsLoading(false);
     }
   };
