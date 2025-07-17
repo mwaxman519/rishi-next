@@ -56,6 +56,10 @@ export default function LoginPage() {
               src="/rishi-logo-new.svg" 
               alt="Rishi Platform" 
               className="w-8 h-8 mr-2"
+              onError={(e) => {
+                console.error('Logo failed to load, trying fallback:', e);
+                e.currentTarget.src = '/favicon.ico';
+              }}
             />
             <CardTitle className="text-2xl font-bold text-purple-700 dark:text-purple-200">
               Rishi Platform
