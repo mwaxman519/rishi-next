@@ -86,35 +86,11 @@ const FullWidthLayout = ({ children }: { children: React.ReactNode }) => (
 
 /**
  * Placeholder content that renders during SSR and initial hydration
+ * This needs to match exactly what the client will render initially
  */
 const ServerPlaceholder = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
-    {/* Simple header during loading */}
-    <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
-      <div className="flex items-center">
-        <img
-          src="/favicon.ico"
-          alt="Rishi"
-          className="h-10 w-auto object-contain max-w-[120px]"
-        />
-      </div>
-      <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
-    </div>
-    {/* Main content with single loading spinner */}
-    <main className="flex-grow flex items-center justify-center">
-      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
-    </main>
-    {/* Simple footer during loading */}
-    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg h-16 flex items-center justify-center">
-      <div className="flex gap-8">
-        {[1, 2, 3, 4, 5].map((i) => (
-          <div
-            key={i}
-            className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"
-          ></div>
-        ))}
-      </div>
-    </div>
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
   </div>
 );
 
@@ -150,18 +126,14 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     return <FullWidthLayout>{children}</FullWidthLayout>;
   }
 
-  // During server render, always show placeholder to prevent hydration mismatch
-  if (!mounted) {
-    return <ServerPlaceholder>{children}</ServerPlaceholder>;
+  // Force public layout if URL parameter is set
+  if (hasUnauthenticatedParam) {
+    return <PublicLayout>{children}</PublicLayout>;
   }
 
-  // Only after mounted, check loading state
-  if (loading) {
-    return <ServerPlaceholder>{children}</ServerPlaceholder>;
-  }
-
-  // Force public layout if URL parameter is set or user is not authenticated
-  if (hasUnauthenticatedParam || !user) {
+  // During server render or loading, or if not authenticated, show public layout
+  // This ensures consistent rendering between server and client
+  if (!mounted || loading || !user) {
     return <PublicLayout>{children}</PublicLayout>;
   }
 
