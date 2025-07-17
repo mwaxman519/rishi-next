@@ -1,14 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getCurrentUser } from '@/lib/auth-server';
-import { users, performanceSummary } from '@/shared/schema';
+import { users, performanceSummary, userOrganizations } from '@/shared/schema';
 import { eq, and, desc, sql } from 'drizzle-orm';
+import { verify } from 'jsonwebtoken';
 
 export async function GET(request: NextRequest) {
   try {
-    const currentUser = await getCurrentUser();
-    if (!currentUser) {
+    // Get auth token from cookies
+    const authToken = request.cookies.get('auth-token')?.value;
+    if (!authToken) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Verify JWT token
+    let currentUser: any;
+    try {
+      currentUser = verify(authToken, process.env.JWT_SECRET || 'default-secret');
+    } catch (error) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -26,7 +35,7 @@ export async function GET(request: NextRequest) {
         id: users.id,
         fullName: users.fullName,
         email: users.email,
-        profileImageUrl: users.profileImageUrl,
+        profileImageUrl: users.profileImage,
         // Performance metrics
         avgManagerReview: performanceSummary.avgManagerReview,
         onTimePercentage: performanceSummary.onTimePercentage,
@@ -40,6 +49,10 @@ export async function GET(request: NextRequest) {
         calculatedAt: performanceSummary.calculatedAt,
       })
       .from(users)
+      .innerJoin(
+        userOrganizations,
+        eq(userOrganizations.userId, users.id)
+      )
       .leftJoin(
         performanceSummary,
         and(
@@ -49,7 +62,12 @@ export async function GET(request: NextRequest) {
           eq(performanceSummary.periodValue, periodValue)
         )
       )
-      .where(eq(users.role, 'brand_agent'))
+      .where(
+        and(
+          eq(users.role, 'brand_agent'),
+          eq(userOrganizations.organizationId, organizationId)
+        )
+      )
       .orderBy(desc(performanceSummary.overallPerformanceScore));
 
     return NextResponse.json({

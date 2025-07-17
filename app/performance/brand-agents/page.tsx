@@ -58,16 +58,23 @@ export default function BrandAgentPerformancePage() {
   );
 
   useEffect(() => {
-    if (user?.organizationId) {
+    if (user) {
       fetchPerformanceData();
     }
-  }, [user?.organizationId, selectedPeriod, selectedPeriodValue]);
+  }, [user, selectedPeriod, selectedPeriodValue]);
 
   const fetchPerformanceData = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `/api/performance/brand-agents?organizationId=${user?.organizationId}&period=${selectedPeriod}&periodValue=${selectedPeriodValue}`
+        `/api/performance/brand-agents?organizationId=f2983bcc-5e0f-4253-8560-6647c958fc0f&period=${selectedPeriod}&periodValue=${selectedPeriodValue}`,
+        {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
 
       if (!response.ok) {
