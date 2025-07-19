@@ -6,10 +6,14 @@ import { and, eq, or, ilike, desc } from 'drizzle-orm';
 
 export async function GET(request: NextRequest) {
   try {
+    console.log("[Kit Instances API] Starting authentication check...");
     const user = await getCurrentUser();
+    console.log("[Kit Instances API] getCurrentUser result:", user ? `User: ${user.username}` : "No user");
     if (!user) {
+      console.log("[Kit Instances API] Authentication failed, returning 401");
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    console.log("[Kit Instances API] Authentication successful for:", user.username);
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId = searchParams.get('organizationId');

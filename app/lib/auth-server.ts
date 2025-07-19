@@ -26,20 +26,23 @@ export async function comparePasswords(
 }
 
 export async function getCurrentUser() {
+  console.log("[Auth Server] getCurrentUser called");
   try {
     // Get the auth token from cookies (check both cookie names for compatibility)
     const cookieStore = cookies();
+    console.log("[Auth Server] Cookie store initialized");
+    
     const authToken = cookieStore.get("auth_token") || cookieStore.get("auth-token");
     
-    console.log("[Auth] Looking for auth token in cookies...");
-    console.log("[Auth] Available cookies:", cookieStore.getAll().map(c => c.name));
+    console.log("[Auth Server] Looking for auth token in cookies...");
+    console.log("[Auth Server] Available cookies:", cookieStore.getAll().map(c => c.name));
     
     if (!authToken) {
-      console.log("[Auth] No auth token found in cookies");
+      console.log("[Auth Server] No auth token found in cookies");
       return null;
     }
     
-    console.log("[Auth] Found auth token:", authToken.value.substring(0, 20) + "...");
+    console.log("[Auth Server] Found auth token:", authToken.value.substring(0, 20) + "...");
 
     // Verify the token using the same method as auth service (JOSE library)
     let payload;
