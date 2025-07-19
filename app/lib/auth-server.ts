@@ -43,6 +43,19 @@ export async function getCurrentUser() {
     console.log("[Auth Server] Auth token found:", !!authToken);
     console.log("[Auth Server] Auth token value length:", authToken?.value?.length || 0);
     
+    // Debug: Try different cookie access methods
+    if (!authToken) {
+      console.log("[Auth Server] Trying alternative cookie access...");
+      try {
+        const { cookies: nextCookies } = await import("next/headers");
+        const cookieStore2 = nextCookies();
+        const authToken2 = cookieStore2.get("auth_token");
+        console.log("[Auth Server] Alternative method found token:", !!authToken2);
+      } catch (e) {
+        console.log("[Auth Server] Alternative method failed:", e);
+      }
+    }
+    
     if (!authToken) {
       console.log("[Auth Server] No auth token found in cookies - checking headers...");
       // Also check headers for authorization

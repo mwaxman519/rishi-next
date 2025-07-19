@@ -594,19 +594,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Link href="/" className="flex items-center justify-center mb-3">
                 <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
-                    src="/rishi-logo-new.svg"
+                    src="/assets/logos/rishi-logo-teal.png"
                     alt="Rishi Logo"
                     width={32}
                     height={32}
-                    className="object-contain w-auto h-auto"
-                    style={{ objectFit: "contain" }}
+                    className="object-contain"
                     priority
-                    onError={(e) => {
-                      // Fall back to favicon if logo fails
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      target.src = "/favicon.ico";
-                    }}
                   />
                 </div>
               </Link>
@@ -623,19 +616,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Link href="/" className="flex items-center overflow-hidden">
                 <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
-                    src="/rishi-logo-new.svg"
+                    src="/assets/logos/rishi-logo-teal.png"
                     alt="Rishi Logo"
                     width={32}
                     height={32}
-                    className="object-contain w-auto h-auto"
-                    style={{ objectFit: "contain" }}
+                    className="object-contain"
                     priority
-                    onError={(e) => {
-                      // Fall back to favicon if logo fails
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      target.src = "/favicon.ico";
-                    }}
                   />
                 </div>
                 <span className="ml-2 text-xl font-bold text-[rgb(var(--primary))]">
