@@ -79,8 +79,12 @@ export function responseWithAuthCookie(
     sameSite: "lax" as const,
   };
   
-  console.log("[Auth Service] Setting cookie:", cookieOptions.name, "secure:", cookieOptions.secure);
+  console.log("[Auth Service] Setting cookie:", cookieOptions.name, "secure:", cookieOptions.secure, "value length:", cookieOptions.value.length);
   response.cookies.set(cookieOptions);
+  
+  // Verify cookie was set
+  const setCookieHeader = response.headers.get('set-cookie');
+  console.log("[Auth Service] Set-Cookie header:", setCookieHeader ? "present" : "missing");
 
   return response;
 }

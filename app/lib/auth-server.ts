@@ -35,18 +35,13 @@ export async function getCurrentUser() {
     const allCookies = cookieStore.getAll();
     console.log("[Auth Server] All cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 10)}...`));
     
-    // Try multiple cookie name variations that auth service might use
-    const authToken = cookieStore.get("auth_token") || 
-                     cookieStore.get("auth-token") ||
-                     cookieStore.get("authToken") ||
-                     cookieStore.get("session") ||
-                     cookieStore.get("token") ||
-                     cookieStore.get("next-auth.session-token") ||
-                     cookieStore.get("next-auth.csrf-token");
+    // Use the EXACT cookie name from AUTH_CONFIG
+    const authToken = cookieStore.get("auth_token");
     
     console.log("[Auth Server] Looking for auth token in cookies...");
     console.log("[Auth Server] Available cookie names:", allCookies.map(c => c.name));
     console.log("[Auth Server] Auth token found:", !!authToken);
+    console.log("[Auth Server] Auth token value length:", authToken?.value?.length || 0);
     
     if (!authToken) {
       console.log("[Auth Server] No auth token found in cookies - checking headers...");
@@ -67,8 +62,12 @@ export async function getCurrentUser() {
     let payload;
     try {
       // Use the same JWT secret as the auth service
-      const jwtSecret = process.env.JWT_SECRET || "wrench519";
-      console.log("[Auth] Using JWT secret for verification:", jwtSecret.substring(0, 10));
+      const jwtSecret = process.env.JWT_SECRET;
+      if (!jwtSecret) {
+        console.error("[Auth Server] JWT_SECRET environment variable not set");
+        return null;
+      }
+      console.log("[Auth Server] Using JWT secret for verification:", jwtSecret.substring(0, 10));
       
       // Use JOSE library for verification to match auth service
       const { jwtVerify } = await import("jose");
