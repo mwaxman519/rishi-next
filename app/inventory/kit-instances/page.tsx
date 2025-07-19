@@ -207,87 +207,105 @@ export default function KitInstancesPage() {
 
       {/* Stats Overview */}
       <div className="p-4 sm:p-6">
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-6">
-          <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white">
-            <CardContent className="p-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+          <Card 
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-blue-500 dark:border-l-blue-400"
+            onClick={() => setSelectedStatus("all")}
+          >
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-purple-100 text-sm font-medium">Total Instances</p>
-                  <div className="text-2xl font-bold">
-                    {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.totalInstances || 0}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Total</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.length}
                   </div>
                 </div>
-                <Package className="h-8 w-8 text-purple-200" />
+                <Package className="h-5 w-5 text-blue-500 dark:text-blue-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white">
-            <CardContent className="p-4">
+          <Card 
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-green-500 dark:border-l-green-400"
+            onClick={() => setSelectedStatus("active")}
+          >
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-100 text-sm font-medium">Active</p>
-                  <div className="text-2xl font-bold">
-                    {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.activeInstances || 0}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Active</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'active').length}
                   </div>
                 </div>
-                <CheckCircle className="h-8 w-8 text-green-200" />
+                <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white">
-            <CardContent className="p-4">
+          <Card 
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-yellow-500 dark:border-l-yellow-400"
+            onClick={() => setSelectedStatus("in_transit")}
+          >
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-100 text-sm font-medium">In Transit</p>
-                  <div className="text-2xl font-bold">
-                    {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.inTransit || 0}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Transit</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'in_transit').length}
                   </div>
                 </div>
-                <Truck className="h-8 w-8 text-blue-200" />
+                <Truck className="h-5 w-5 text-yellow-500 dark:text-yellow-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white">
-            <CardContent className="p-4">
+          <Card 
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-orange-500 dark:border-l-orange-400"
+            onClick={() => setSelectedStatus("preparing")}
+          >
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-yellow-100 text-sm font-medium">Preparing</p>
-                  <div className="text-2xl font-bold">
-                    {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.preparing || 0}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Preparing</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'preparing').length}
                   </div>
                 </div>
-                <Clock className="h-8 w-8 text-yellow-200" />
+                <Clock className="h-5 w-5 text-orange-500 dark:text-orange-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-            <CardContent className="p-4">
+          <Card 
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-red-500 dark:border-l-red-400"
+            onClick={() => setSelectedStatus("maintenance")}
+          >
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-orange-100 text-sm font-medium">Issues</p>
-                  <div className="text-2xl font-bold">
-                    {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.issues || 0}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Issues</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'maintenance').length}
                   </div>
                 </div>
-                <AlertTriangle className="h-8 w-8 text-orange-200" />
+                <AlertTriangle className="h-5 w-5 text-red-500 dark:text-red-400" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-r from-gray-500 to-gray-600 text-white">
-            <CardContent className="p-4">
+          <Card 
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-gray-500 dark:border-l-gray-400"
+            onClick={() => setSelectedTerritory("all")}
+          >
+            <CardContent className="p-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-100 text-sm font-medium">Territories</p>
-                  <div className="text-2xl font-bold">
-                    {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.territories || 0}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Territories</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : [...new Set(filteredInstances.map(k => k.territory).filter(Boolean))].length}
                   </div>
                 </div>
-                <MapPin className="h-8 w-8 text-gray-200" />
+                <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400" />
               </div>
             </CardContent>
           </Card>
@@ -312,10 +330,10 @@ export default function KitInstancesPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Territories</SelectItem>
-                <SelectItem value="CA-01">CA-01</SelectItem>
-                <SelectItem value="CA-02">CA-02</SelectItem>
-                <SelectItem value="TX-01">TX-01</SelectItem>
-                <SelectItem value="NY-01">NY-01</SelectItem>
+                {/* Extract unique territories from filtered instances */}
+                {[...new Set(kitInstances.map((k: any) => k.territory).filter(Boolean))].map((territory) => (
+                  <SelectItem key={territory} value={territory}>{territory}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
@@ -325,10 +343,12 @@ export default function KitInstancesPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="in_transit">In Transit</SelectItem>
-                <SelectItem value="preparing">Preparing</SelectItem>
-                <SelectItem value="maintenance">Maintenance</SelectItem>
+                {/* Extract unique statuses from filtered instances */}
+                {[...new Set(kitInstances.map((k: any) => k.status).filter(Boolean))].map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {status.charAt(0).toUpperCase() + status.slice(1).replace('_', ' ')}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -343,7 +363,7 @@ export default function KitInstancesPage() {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   No kit instances found
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
                   {searchQuery || selectedTerritory !== "all" || selectedStatus !== "all" 
                     ? "No instances match your current filters." 
                     : "Create your first kit instance to get started."}
@@ -360,10 +380,10 @@ export default function KitInstancesPage() {
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-lg text-gray-900 mb-1">
+                      <CardTitle className="text-lg text-gray-900 dark:text-white mb-1">
                         {kit.name || "Unnamed Kit"}
                       </CardTitle>
-                      <CardDescription className="text-sm text-gray-600">
+                      <CardDescription className="text-sm text-gray-600 dark:text-gray-400">
                         {kit.templateName || "No template"} • {kit.brandName || "Unknown brand"}
                       </CardDescription>
                     </div>
