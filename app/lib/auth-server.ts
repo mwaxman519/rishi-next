@@ -31,27 +31,42 @@ export async function getCurrentUser() {
     const cookieStore = cookies();
     const authToken = cookieStore.get("auth_token") || cookieStore.get("auth-token");
     
+    console.log("[Auth] Looking for auth token in cookies...");
+    console.log("[Auth] Available cookies:", cookieStore.getAll().map(c => c.name));
+    
     if (!authToken) {
       console.log("[Auth] No auth token found in cookies");
       return null;
     }
+    
+    console.log("[Auth] Found auth token:", authToken.value.substring(0, 20) + "...");
 
-    // Verify the token using the same method as login
+    // Verify the token using the same method as auth service (JOSE library)
     let payload;
     try {
-      payload = jwt.verify(authToken.value, process.env.JWT_SECRET!) as { id: string, username: string };
+      // Use the same JWT secret as the auth service
+      const jwtSecret = process.env.JWT_SECRET || "wrench519";
+      console.log("[Auth] Using JWT secret for verification:", jwtSecret.substring(0, 10));
+      
+      // Use JOSE library for verification to match auth service
+      const { jwtVerify } = await import("jose");
+      const secretKey = new TextEncoder().encode(jwtSecret);
+      const { payload: josePayload } = await jwtVerify(authToken.value, secretKey);
+      payload = josePayload;
     } catch (error) {
       console.log("[Auth] Invalid token:", error);
       return null;
     }
     
-    if (!payload || !payload.id) {
-      console.log("[Auth] Invalid token payload");
+    // JOSE uses 'sub' field for user ID, not 'id'
+    const userId = payload.sub;
+    if (!userId) {
+      console.log("[Auth] Invalid token payload - no user ID");
       return null;
     }
 
-    // Get user from database (id is the user ID)
-    const user = await getUserById(payload.id);
+    // Get user from database
+    const user = await getUserById(userId);
     
     if (!user) {
       console.log("[Auth] User not found for token");

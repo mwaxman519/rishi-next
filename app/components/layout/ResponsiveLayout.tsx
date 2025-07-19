@@ -151,11 +151,23 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
     setIsHydrated(true);
   }, []);
 
-  // During auth loading or before hydration, show a simple loading state
+  // During auth loading or before hydration, show a consistent loading state
+  // Use the same structure as authenticated layout to prevent hydration mismatch
   if (isLoading || !isHydrated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-purple-600 border-t-transparent"></div>
+      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+        <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900">
+          <div className="flex items-center">
+            <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          </div>
+          <div className="animate-spin rounded-full h-6 w-6 border-2 border-purple-600 border-t-transparent"></div>
+        </div>
+        <div className="flex-1 p-4">
+          <div className="animate-pulse">
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
+            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+          </div>
+        </div>
       </div>
     );
   }

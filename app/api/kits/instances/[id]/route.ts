@@ -15,7 +15,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const id = parseInt(params.id);
+    const resolvedParams = await params;
+    const id = parseInt(resolvedParams.id);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
@@ -27,7 +28,8 @@ export async function GET(
 
     return NextResponse.json(kit);
   } catch (error) {
-    console.error(`Error fetching kit with ID ${params.id}:`, error);
+    const resolvedParams = await params;
+    console.error(`Error fetching kit with ID ${resolvedParams.id}:`, error);
     return NextResponse.json(
       {
         error:
@@ -47,13 +49,15 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
+    const resolvedParams = await params;
+    
     // Get the current user from the session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = parseInt(params.id);
+    const id = parseInt(resolvedParams.id);
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
@@ -66,7 +70,8 @@ export async function PATCH(
 
     return NextResponse.json(kit);
   } catch (error) {
-    console.error(`Error updating kit with ID ${params.id}:`, error);
+    const resolvedParams = await params;
+    console.error(`Error updating kit with ID ${resolvedParams.id}:`, error);
     return NextResponse.json(
       {
         error:
