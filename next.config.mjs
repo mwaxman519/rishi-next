@@ -85,24 +85,35 @@ const nextConfig = {
       crypto: false,
     };
     
-    // CRITICAL: Use normal Next.js chunking for Vercel
+    // CRITICAL: Disable complex chunking for Vercel production
     if (!isServer && !dev) {
-      // Let Next.js handle chunking normally for Vercel
       config.optimization.splitChunks = {
         chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            priority: -10,
             chunks: 'all',
+            priority: 10,
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'all',
+            priority: 5,
+            reuseExistingChunk: true,
           },
         },
+      };
+      
+      // Ensure login page gets its own chunk
+      config.optimization.splitChunks.cacheGroups.login = {
+        test: /[\\/]app[\\/]auth[\\/]login[\\/]/,
+        name: 'login',
+        chunks: 'all',
+        priority: 20,
       };
     }
     
