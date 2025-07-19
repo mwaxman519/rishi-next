@@ -18,19 +18,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // TODO: Replace with real database query
-    // Using real region data from states table
+    // In a real implementation, this would query the database for regions
+    // Mock regions for example purpose - replace with real data from database
     const regions = [
-      { id: "california", name: "California", count: 45 },
-      { id: "texas", name: "Texas", count: 32 },
-      { id: "new-york", name: "New York", count: 28 },
-      { id: "florida", name: "Florida", count: 24 },
-      { id: "illinois", name: "Illinois", count: 18 },
-      { id: "washington", name: "Washington", count: 15 },
-      { id: "colorado", name: "Colorado", count: 12 },
-      { id: "oregon", name: "Oregon", count: 9 },
-      { id: "nevada", name: "Nevada", count: 8 },
-      { id: "massachusetts", name: "Massachusetts", count: 7 },
+      { id: "northeast", name: "Northeast", count: 12 },
+      { id: "southeast", name: "Southeast", count: 18 },
+      { id: "midwest", name: "Midwest", count: 14 },
+      { id: "southwest", name: "Southwest", count: 9 },
+      { id: "west", name: "West", count: 15 },
+      { id: "northwest", name: "Northwest", count: 7 },
+      { id: "central", name: "Central", count: 11 },
+      { id: "atlantic", name: "Atlantic", count: 8 },
+      { id: "pacific", name: "Pacific", count: 10 },
     ];
 
     return NextResponse.json({ regions });

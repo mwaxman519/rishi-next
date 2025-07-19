@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { EventBusService } from "../../../services/event-bus-service";
-// import { AvailabilityService } from "../../../services/availability/availabilityService";
+import { AvailabilityService } from "../../../services/availability/availabilityService";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "@/lib/db";
 import * as schema from "@shared/schema";
@@ -487,29 +487,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     try {
       console.log(
-        "➡️ Creating availability block directly in database",
+        "➡️ Calling availabilityService.createAvailabilityBlock with request",
       );
 
-      // TODO: Implement real availability service when created
-      // For now, create availability block directly in database
-      const newBlock = await db.insert(schema.availabilityBlocks).values({
-        user_id: createRequest.userId,
-        title: createRequest.title,
-        start_date: createRequest.startDate,
-        end_date: createRequest.endDate,
-        status: createRequest.status,
-        is_recurring: createRequest.isRecurring,
-        day_of_week: createRequest.dayOfWeek,
-        recurrence_pattern: createRequest.recurrencePattern,
-        recurrence_end_type: createRequest.recurrenceEndType,
-        recurrence_count: createRequest.recurrenceCount,
-        recurrence_end_date: createRequest.recurrenceEndDate ? new Date(createRequest.recurrenceEndDate) : null,
-      }).returning();
+      // Use real availability service
+      const availabilityService = new AvailabilityService();
 
-      const result = {
-        success: true,
-        data: newBlock[0]
-      };
+      // Wrap service call in a timeout to prevent hanging
+      const serviceCallPromise =
+        availabilityService.createAvailabilityBlock(createRequest);
+
+      // Set timeout for service call (10 seconds)
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error("Service call timed out")), 10000);
+      });
+
+      // Race the service call against the timeout
+      const result = (await Promise.race([
+        serviceCallPromise,
+        timeoutPromise,
+      ])) as any;
 
       if (!result || !result.success) {
         console.error(

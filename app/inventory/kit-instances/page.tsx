@@ -61,19 +61,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 // Status color mapping for consistency with dark mode support
 const getStatusColor = (status: string) => {
@@ -111,37 +100,12 @@ const getPriorityColor = (priority: string) => {
   }
 };
 
-// Kit Instance form schema
-const kitInstanceSchema = z.object({
-  name: z.string().min(1, "Instance name is required"),
-  templateId: z.string().min(1, "Template is required"),
-  territory: z.string().min(1, "Territory is required"),
-  location: z.string().min(1, "Location is required"),
-  notes: z.string().optional(),
-});
-
-type KitInstanceFormData = z.infer<typeof kitInstanceSchema>;
-
 export default function KitInstancesPage() {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTerritory, setSelectedTerritory] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [viewMode, setViewMode] = useState("grid");
-  const [isFormOpen, setIsFormOpen] = useState(false);
-
-  // Form handling
-  const form = useForm<KitInstanceFormData>({
-    resolver: zodResolver(kitInstanceSchema),
-    defaultValues: {
-      name: "",
-      templateId: "",
-      territory: "",
-      location: "",
-      notes: "",
-    },
-  });
 
   // Fetch kit instances data
   const { data: kitInstances = [], isLoading, error } = useQuery({
@@ -152,52 +116,6 @@ export default function KitInstancesPage() {
   const { data: stats = {}, isLoading: statsLoading } = useQuery({
     queryKey: ["/api/kits/instances/stats"],
   });
-
-  // Fetch kit templates for the form
-  const { data: kitTemplates = [] } = useQuery({
-    queryKey: ["/api/kits/templates"],
-  });
-
-  // Fetch regions for territories dropdown
-  const { data: regionsData } = useQuery({
-    queryKey: ["/api/locations/regions"],
-  });
-
-  const territories = regionsData?.regions || [];
-
-  // Create kit instance mutation
-  const createKitInstance = useMutation({
-    mutationFn: async (data: KitInstanceFormData) => {
-      const response = await fetch("/api/kits/instances", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error("Failed to create kit instance");
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Kit instance created successfully",
-      });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/instances"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/instances/stats"] });
-      setIsFormOpen(false);
-      form.reset();
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create kit instance",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const onSubmit = (data: KitInstanceFormData) => {
-    createKitInstance.mutate(data);
-  };
 
   // Filter kit instances based on search and filters
   const filteredInstances = kitInstances.filter((kit: any) => {
@@ -254,131 +172,25 @@ export default function KitInstancesPage() {
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <Sheet open={isFormOpen} onOpenChange={setIsFormOpen}>
+              <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm">
                     <Plus className="h-4 w-4 mr-2" />
                     New Instance
                   </Button>
                 </SheetTrigger>
-                <SheetContent className="w-[400px] sm:w-[540px]">
+                <SheetContent>
                   <SheetHeader>
                     <SheetTitle>Create Kit Instance</SheetTitle>
                     <SheetDescription>
                       Deploy a new kit instance to a territory.
                     </SheetDescription>
                   </SheetHeader>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Instance Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter instance name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="templateId"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Kit Template</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a kit template" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {kitTemplates.map((template: any) => (
-                                  <SelectItem key={template.id} value={template.id}>
-                                    {template.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="territory"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Territory</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select a territory" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {territories.map((territory: any) => (
-                                  <SelectItem key={territory.id} value={territory.id}>
-                                    {territory.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="location"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Location</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter deployment location" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="notes"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Notes (Optional)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Additional notes" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="flex justify-end space-x-2 pt-4">
-                        <Button 
-                          type="button" 
-                          variant="outline" 
-                          onClick={() => setIsFormOpen(false)}
-                        >
-                          Cancel
-                        </Button>
-                        <Button 
-                          type="submit" 
-                          disabled={createKitInstance.isPending}
-                        >
-                          {createKitInstance.isPending ? "Creating..." : "Create Instance"}
-                        </Button>
-                      </div>
-                    </form>
-                  </Form>
+                  <div className="py-4">
+                    <p className="text-sm text-gray-600">
+                      Kit instance creation form would go here.
+                    </p>
+                  </div>
                 </SheetContent>
               </Sheet>
               <Button 
@@ -500,11 +312,10 @@ export default function KitInstancesPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Territories</SelectItem>
-                {territories.map((territory: any) => (
-                  <SelectItem key={territory.id} value={territory.id}>
-                    {territory.name}
-                  </SelectItem>
-                ))}
+                <SelectItem value="CA-01">CA-01</SelectItem>
+                <SelectItem value="CA-02">CA-02</SelectItem>
+                <SelectItem value="TX-01">TX-01</SelectItem>
+                <SelectItem value="NY-01">NY-01</SelectItem>
               </SelectContent>
             </Select>
 
@@ -532,12 +343,12 @@ export default function KitInstancesPage() {
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   No kit instances found
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-gray-600 mb-4">
                   {searchQuery || selectedTerritory !== "all" || selectedStatus !== "all" 
                     ? "No instances match your current filters." 
                     : "Create your first kit instance to get started."}
                 </p>
-                <Button onClick={() => setIsFormOpen(true)}>
+                <Button>
                   <Plus className="h-4 w-4 mr-2" />
                   Create Kit Instance
                 </Button>

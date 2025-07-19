@@ -35,6 +35,9 @@ export async function GET(req: NextRequest) {
     const kitStatus = (searchParams.get("status") || undefined);
     const approvalStatus = (searchParams.get("approvalStatus") || undefined);
 
+    // Get current user information
+    const user = await getCurrentUser();
+
     // Build the query - use kits (alias for kitInstances)
     let query = db.select().from(kits);
 

@@ -393,3 +393,80 @@ export default function KitTemplatesClient() {
     </div>
   );
 }
+          <SelectContent>
+            <SelectItem value="all">All Categories</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Templates Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredTemplates.map((template) => (
+          <Card key={template.id} className="flex flex-col">
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="space-y-1">
+                  <CardTitle className="text-lg">{template.name}</CardTitle>
+                  <CardDescription>{template.description}</CardDescription>
+                </div>
+                <div className="p-2 bg-primary/10 rounded-full text-primary">
+                  <Package className="h-4 w-4" />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="flex-grow space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Items:</span>
+                  <span className="font-medium ml-2">{template.itemCount}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Category:</span>
+                  <span className="font-medium ml-2">{template.category}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Last Used:</span>
+                  <span className="font-medium ml-2">{template.lastUsed}</span>
+                </div>
+                <div>
+                  <Badge
+                    variant={
+                      template.status === "active" ? "default" : "secondary"
+                    }
+                  >
+                    {template.status}
+                  </Badge>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1">
+                  View Details
+                </Button>
+                <Button variant="outline" size="sm" className="flex-1">
+                  Edit
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {filteredTemplates.length === 0 && (
+        <div className="text-center py-12">
+          <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-medium">No templates found</h3>
+          <p className="text-muted-foreground">
+            {searchTerm || statusFilter !== "all" || categoryFilter !== "all"
+              ? "Try adjusting your search or filters"
+              : "Get started by creating your first kit template"}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
