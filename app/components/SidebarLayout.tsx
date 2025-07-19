@@ -594,7 +594,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Link href="/" className="flex items-center justify-center mb-3">
                 <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
-                    src="/assets/logos/rishi-logo-teal.png"
+                    src="/favicon.png"
                     alt="Rishi Logo"
                     width={32}
                     height={32}
@@ -616,7 +616,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Link href="/" className="flex items-center overflow-hidden">
                 <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
-                    src="/assets/logos/rishi-logo-teal.png"
+                    src="/favicon.png"
                     alt="Rishi Logo"
                     width={32}
                     height={32}
