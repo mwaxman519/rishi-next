@@ -213,9 +213,9 @@ export default function KitInstancesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-purple-100 text-sm font-medium">Total Instances</p>
-                  <p className="text-2xl font-bold">
+                  <div className="text-2xl font-bold">
                     {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.totalInstances || 0}
-                  </p>
+                  </div>
                 </div>
                 <Package className="h-8 w-8 text-purple-200" />
               </div>
@@ -227,9 +227,9 @@ export default function KitInstancesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-green-100 text-sm font-medium">Active</p>
-                  <p className="text-2xl font-bold">
+                  <div className="text-2xl font-bold">
                     {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.activeInstances || 0}
-                  </p>
+                  </div>
                 </div>
                 <CheckCircle className="h-8 w-8 text-green-200" />
               </div>
@@ -241,9 +241,9 @@ export default function KitInstancesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-blue-100 text-sm font-medium">In Transit</p>
-                  <p className="text-2xl font-bold">
+                  <div className="text-2xl font-bold">
                     {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.inTransit || 0}
-                  </p>
+                  </div>
                 </div>
                 <Truck className="h-8 w-8 text-blue-200" />
               </div>
@@ -255,9 +255,9 @@ export default function KitInstancesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-yellow-100 text-sm font-medium">Preparing</p>
-                  <p className="text-2xl font-bold">
+                  <div className="text-2xl font-bold">
                     {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.preparing || 0}
-                  </p>
+                  </div>
                 </div>
                 <Clock className="h-8 w-8 text-yellow-200" />
               </div>
@@ -269,9 +269,9 @@ export default function KitInstancesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-orange-100 text-sm font-medium">Issues</p>
-                  <p className="text-2xl font-bold">
+                  <div className="text-2xl font-bold">
                     {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.issues || 0}
-                  </p>
+                  </div>
                 </div>
                 <AlertTriangle className="h-8 w-8 text-orange-200" />
               </div>
@@ -283,9 +283,9 @@ export default function KitInstancesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-100 text-sm font-medium">Territories</p>
-                  <p className="text-2xl font-bold">
+                  <div className="text-2xl font-bold">
                     {statsLoading ? <Skeleton className="h-8 w-16" /> : stats.territories || 0}
-                  </p>
+                  </div>
                 </div>
                 <MapPin className="h-8 w-8 text-gray-200" />
               </div>

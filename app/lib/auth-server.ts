@@ -26,22 +26,38 @@ export async function comparePasswords(
 }
 
 export async function getCurrentUser() {
-  console.log("[Auth Server] getCurrentUser called");
+  console.log("[Auth Server] getCurrentUser function entry");
   try {
-    // Get the auth token from cookies (check both cookie names for compatibility)
+    console.log("[Auth Server] Starting cookie retrieval...");
     const cookieStore = cookies();
-    console.log("[Auth Server] Cookie store initialized");
+    console.log("[Auth Server] Cookie store created successfully");
     
     const allCookies = cookieStore.getAll();
     console.log("[Auth Server] All cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 10)}...`));
     
-    const authToken = cookieStore.get("auth_token") || cookieStore.get("auth-token");
+    // Try multiple cookie name variations that auth service might use
+    const authToken = cookieStore.get("auth_token") || 
+                     cookieStore.get("auth-token") ||
+                     cookieStore.get("authToken") ||
+                     cookieStore.get("session") ||
+                     cookieStore.get("token") ||
+                     cookieStore.get("next-auth.session-token") ||
+                     cookieStore.get("next-auth.csrf-token");
     
     console.log("[Auth Server] Looking for auth token in cookies...");
     console.log("[Auth Server] Available cookie names:", allCookies.map(c => c.name));
+    console.log("[Auth Server] Auth token found:", !!authToken);
     
     if (!authToken) {
-      console.log("[Auth Server] No auth token found in cookies");
+      console.log("[Auth Server] No auth token found in cookies - checking headers...");
+      // Also check headers for authorization
+      const headers = new Headers();
+      try {
+        const authHeader = headers.get('Authorization') || headers.get('authorization');
+        console.log("[Auth Server] Authorization header:", !!authHeader);
+      } catch (e) {
+        console.log("[Auth Server] Cannot access headers:", e);
+      }
       return null;
     }
     
@@ -90,7 +106,9 @@ export async function getCurrentUser() {
       active: Boolean(user.active !== false),
     };
   } catch (error) {
-    console.error("[Auth] Authentication error:", error);
+    console.error("[Auth Server] Critical authentication error:", error);
+    console.error("[Auth Server] Error stack:", (error as Error)?.stack);
+    console.error("[Auth Server] Error type:", typeof error);
     return null;
   }
 }

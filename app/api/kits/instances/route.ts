@@ -7,8 +7,16 @@ import { and, eq, or, ilike, desc } from 'drizzle-orm';
 export async function GET(request: NextRequest) {
   try {
     console.log("[Kit Instances API] Starting authentication check...");
-    const user = await getCurrentUser();
-    console.log("[Kit Instances API] getCurrentUser result:", user ? `User: ${user.username}` : "No user");
+    let user;
+    try {
+      console.log("[Kit Instances API] Calling getCurrentUser...");
+      user = await getCurrentUser();
+      console.log("[Kit Instances API] getCurrentUser completed, result:", user ? `User: ${user.username}` : "No user");
+    } catch (authError) {
+      console.error("[Kit Instances API] getCurrentUser threw error:", authError);
+      return NextResponse.json({ error: "Authentication Error" }, { status: 500 });
+    }
+    
     if (!user) {
       console.log("[Kit Instances API] Authentication failed, returning 401");
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

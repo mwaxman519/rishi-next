@@ -69,15 +69,18 @@ export function responseWithAuthCookie(
   const isSecureEnvironment = process.env.NODE_ENV === "production" || 
                             process.env.REPLIT_DOMAINS?.includes(".replit.dev");
   
-  response.cookies.set({
+  const cookieOptions = {
     name: AUTH_CONFIG.COOKIE_NAME,
     value: token,
     httpOnly: true,
     secure: isSecureEnvironment,
     maxAge: AUTH_CONFIG.COOKIE_MAX_AGE,
     path: "/",
-    sameSite: "lax",
-  });
+    sameSite: "lax" as const,
+  };
+  
+  console.log("[Auth Service] Setting cookie:", cookieOptions.name, "secure:", cookieOptions.secure);
+  response.cookies.set(cookieOptions);
 
   return response;
 }
