@@ -227,7 +227,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
       }
 
       // Redirect to templates list
-      router.push("/kits/templates");
+      router.push("/inventory/templates");
     } catch (err) {
       console.error("Error saving template:", err);
       toast({
@@ -256,7 +256,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
         <AlertTriangle className="h-5 w-5" />
         <p>{error}</p>
         <Button variant="outline" asChild className="ml-auto">
-          <Link href="/kits/templates">
+          <Link href="/inventory/templates">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Templates
           </Link>
         </Button>
@@ -269,7 +269,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" asChild>
-            <Link href="/kits/templates">
+            <Link href="/inventory/templates">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
@@ -630,7 +630,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                 </CardContent>
                 <CardFooter className="flex justify-between border-t pt-5">
                   <Button variant="outline" type="button" asChild>
-                    <Link href="/kits/templates">Cancel</Link>
+                    <Link href="/inventory/templates">Cancel</Link>
                   </Button>
                   <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (

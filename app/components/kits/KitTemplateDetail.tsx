@@ -221,7 +221,7 @@ export default function KitTemplateDetail({
       <div className="rounded-md bg-destructive/15 p-4 text-destructive">
         <p>{error || "Template not found"}</p>
         <Button variant="outline" className="mt-4" asChild>
-          <Link href="/kits/templates">
+          <Link href="/inventory/templates">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Templates
           </Link>
         </Button>
@@ -261,7 +261,7 @@ export default function KitTemplateDetail({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Button variant="outline" size="icon" asChild>
-            <Link href="/kits/templates">
+            <Link href="/inventory/templates">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
@@ -269,7 +269,7 @@ export default function KitTemplateDetail({
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
-            <Link href={`/kits/templates/${templateId}/edit`}>
+            <Link href={`/inventory/templates/${templateId}/edit`}>
               <Edit className="mr-2 h-4 w-4" /> Edit
             </Link>
           </Button>
@@ -284,7 +284,7 @@ export default function KitTemplateDetail({
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href={`/kits/templates/${templateId}/edit`}>
+                <Link href={`/inventory/templates/${templateId}/edit`}>
                   <Edit className="mr-2 h-4 w-4" />
                   Edit Template
                 </Link>

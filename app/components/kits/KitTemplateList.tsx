@@ -214,7 +214,7 @@ export default function KitTemplateList() {
           </p>
         </div>
         <Button asChild>
-          <Link href="/kits/templates/new">
+          <Link href="/inventory/templates/new">
             <Plus className="mr-2 h-4 w-4" /> Create Template
           </Link>
         </Button>
@@ -273,7 +273,7 @@ export default function KitTemplateList() {
           </p>
           {templates.length === 0 ? (
             <Button asChild className="mt-4">
-              <Link href="/kits/templates/new">
+              <Link href="/inventory/templates/new">
                 <Plus className="mr-2 h-4 w-4" /> Create Template
               </Link>
             </Button>
@@ -311,13 +311,13 @@ export default function KitTemplateList() {
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link href={`/kits/templates/${template.id}`}>
+                        <Link href={`/inventory/templates/${template.id}`}>
                           <Eye className="mr-2 h-4 w-4" />
                           View Details
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href={`/kits/templates/${template.id}/edit`}>
+                        <Link href={`/inventory/templates/${template.id}/edit`}>
                           <Edit className="mr-2 h-4 w-4" />
                           Edit Template
                         </Link>

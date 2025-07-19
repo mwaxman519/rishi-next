@@ -82,7 +82,7 @@ export default function AddTemplateDialog({
       onOpenChange(false);
 
       // Refresh kit templates
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/inventory/templates"] });
     } catch (error) {
       console.error("Error creating kit template:", error);
       toast({
