@@ -1,38 +1,15 @@
-// Service Worker for Rishi Platform PWA
+// Service Worker for Rishi Platform PWA - DISABLED FOR DEVELOPMENT
 const CACHE_NAME = 'rishi-platform-v1';
-const urlsToCache = [
-  '/',
-  '/manifest.json',
-  '/icons/icon-192x192.svg',
-  '/icons/icon-512x512.svg',
-  '/favicon.ico',
-  '/auth/login',
-  '/dashboard',
-  '/locations',
-  '/bookings',
-  '/kits'
-];
 
-// Install service worker
+// Install service worker but don't cache anything in development
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-  );
+  console.log('Service Worker installed but caching disabled for development');
 });
 
-// Fetch event
+// Fetch event - bypass service worker in development
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      })
-  );
+  // Always fetch from network in development to avoid caching issues
+  event.respondWith(fetch(event.request));
 });
 
 // Activate service worker

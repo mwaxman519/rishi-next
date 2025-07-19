@@ -32,10 +32,13 @@ export async function getCurrentUser() {
     const cookieStore = cookies();
     console.log("[Auth Server] Cookie store initialized");
     
+    const allCookies = cookieStore.getAll();
+    console.log("[Auth Server] All cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 10)}...`));
+    
     const authToken = cookieStore.get("auth_token") || cookieStore.get("auth-token");
     
     console.log("[Auth Server] Looking for auth token in cookies...");
-    console.log("[Auth Server] Available cookies:", cookieStore.getAll().map(c => c.name));
+    console.log("[Auth Server] Available cookie names:", allCookies.map(c => c.name));
     
     if (!authToken) {
       console.log("[Auth Server] No auth token found in cookies");

@@ -152,22 +152,13 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   }, []);
 
   // During auth loading or before hydration, show a consistent loading state
-  // Use the same structure as authenticated layout to prevent hydration mismatch
+  // Use the same structure as PublicLayout to prevent hydration mismatch
   if (isLoading || !isHydrated) {
     return (
-      <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
-        <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900">
-          <div className="flex items-center">
-            <img src="/favicon.ico" alt="Rishi" className="h-10 w-auto object-contain max-w-[120px]" />
-          </div>
-          <div className="animate-spin rounded-full h-6 w-6 border-2 border-purple-600 border-t-transparent"></div>
-        </div>
-        <div className="flex-1 p-4">
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
-            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
-          </div>
-        </div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <main className="flex-grow flex items-center justify-center">
+          <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+        </main>
       </div>
     );
   }
