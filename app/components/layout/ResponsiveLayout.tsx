@@ -158,7 +158,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
       <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
         <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900">
           <div className="flex items-center">
-            <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <img src="/favicon.ico" alt="Rishi" className="h-10 w-auto object-contain max-w-[120px]" />
           </div>
           <div className="animate-spin rounded-full h-6 w-6 border-2 border-purple-600 border-t-transparent"></div>
         </div>
