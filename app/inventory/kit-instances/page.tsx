@@ -64,24 +64,24 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Status color mapping for consistency
+// Status color mapping for consistency with dark mode support
 const getStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
     case "active":
     case "deployed":
-      return "bg-green-100 text-green-800 border-green-200";
+      return "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 border-green-200 dark:border-green-800";
     case "in_preparation":
     case "preparing":
-      return "bg-blue-100 text-blue-800 border-blue-200";
+      return "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 border-blue-200 dark:border-blue-800";
     case "in_transit":
     case "transit":
-      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      return "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800";
     case "returning":
-      return "bg-purple-100 text-purple-800 border-purple-200";
+      return "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 border-purple-200 dark:border-purple-800";
     case "maintenance":
-      return "bg-orange-100 text-orange-800 border-orange-200";
+      return "bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400 border-orange-200 dark:border-orange-800";
     default:
-      return "bg-gray-100 text-gray-800 border-gray-200";
+      return "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 border-gray-200 dark:border-gray-700";
   }
 };
 
@@ -158,16 +158,16 @@ export default function KitInstancesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header Section */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
         <div className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                 Kit Instances
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                 Manage and track kit deployments across all territories
               </p>
             </div>
@@ -339,8 +339,8 @@ export default function KitInstancesPage() {
           {filteredInstances.length === 0 ? (
             <div className="col-span-full">
               <Card className="p-12 text-center">
-                <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <Package className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   No kit instances found
                 </h3>
                 <p className="text-gray-600 mb-4">
@@ -396,12 +396,12 @@ export default function KitInstancesPage() {
                       <Badge className={`${getStatusColor(kit.status || "unknown")} text-xs`}>
                         {kit.status || "Unknown"}
                       </Badge>
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         {kit.territory || "No territory"}
                       </span>
                     </div>
                     
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center gap-1">
                         <MapPin className="h-3 w-3" />
                         <span>{kit.location || "TBD"}</span>
@@ -414,11 +414,11 @@ export default function KitInstancesPage() {
 
                     <div className="flex items-center justify-between pt-2">
                       <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                           <Package className="h-3 w-3" />
                           <span>{kit.componentCount || 0} items</span>
                         </div>
-                        <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                           <DollarSign className="h-3 w-3" />
                           <span>${kit.totalValue || 0}</span>
                         </div>
