@@ -62,13 +62,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       // Remove old theme class and add new one
       if (theme === "dark") {
         root.classList.add("dark");
+        console.log("[Theme] Applied dark mode class to HTML element");
       } else {
         root.classList.remove("dark");
+        console.log("[Theme] Removed dark mode class from HTML element");
       }
 
       // Save to localStorage (client-side only)
       try {
         localStorage.setItem("theme", theme);
+        console.log("[Theme] Saved theme to localStorage:", theme);
       } catch (error) {
         console.error("Failed to save theme to localStorage:", error);
       }

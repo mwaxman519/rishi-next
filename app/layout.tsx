@@ -35,6 +35,21 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Apply theme immediately to prevent flash
+              (function() {
+                try {
+                  const savedTheme = localStorage.getItem('theme');
+                  if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {
+                  // Fallback to light theme if localStorage is not available
+                  document.documentElement.classList.remove('dark');
+                }
+              })();
+              
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                   navigator.serviceWorker.register('/sw.js')
