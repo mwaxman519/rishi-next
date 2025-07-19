@@ -31,33 +31,6 @@ export class StatesService {
     try {
       // Get states from database using repository
       return await this.repository.getAllStates();
-            active: true,
-          },
-          {
-            id: "4",
-            name: "Florida",
-            code: "FL",
-            regionId: "2", // Southeast
-            capital: "Tallahassee",
-            isTerritory: false,
-            timezone: "Eastern",
-            active: true,
-          },
-          {
-            id: "5",
-            name: "Illinois",
-            code: "IL",
-            regionId: "3", // Midwest
-            capital: "Springfield",
-            isTerritory: false,
-            timezone: "Central",
-            active: true,
-          },
-        ];
-      }
-
-      // In staging/production environments, use the actual repository
-      return this.repository.getAllStates();
     } catch (error) {
       console.error("Error getting states:", error);
       throw new Error("Failed to get states data");
