@@ -51,19 +51,17 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 dark:from-slate-900 dark:to-slate-800 p-4">
       <Card className="w-full max-w-md shadow-2xl border-0 rounded-2xl">
         <CardHeader className="space-y-4 text-center pb-6">
-          <div className="flex items-center justify-center mb-2">
+          <div className="flex flex-col items-center justify-center mb-4">
             <img 
-              src="/assets/logos/rishi-logo-new.svg" 
+              src="/assets/logos/rishi-logo-main.png" 
               alt="Rishi Platform" 
-              className="w-12 h-12 mr-3"
+              className="w-48 h-auto mb-6"
               onError={(e) => {
-                console.log('Brand logo failed, trying favicon');
-                e.currentTarget.src = '/favicon.ico';
+                console.log('Main logo failed, trying icon');
+                e.currentTarget.src = '/assets/logos/rishi-logo-icon.png';
+                e.currentTarget.className = 'w-16 h-16 mb-4';
               }}
             />
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
-              Rishi Platform
-            </CardTitle>
           </div>
           <CardDescription className="text-slate-600 dark:text-slate-400 text-lg">
             Sign in to your account

@@ -106,13 +106,13 @@ export default function Home() {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <img
-              src="/assets/logos/rishi-logo-new.svg"
+              src="/assets/logos/rishi-logo-main.png"
               alt="Rishi Platform"
-              className="w-20 h-16 rounded-lg shadow-lg"
+              className="w-64 h-auto shadow-lg"
               onError={(e) => {
-                console.log('Brand logo failed on homepage, trying favicon');
-                e.currentTarget.src = '/favicon.ico';
-                e.currentTarget.className = 'w-16 h-16 rounded-lg shadow-lg';
+                console.log('Main logo failed on homepage, trying icon');
+                e.currentTarget.src = '/assets/logos/rishi-logo-icon.png';
+                e.currentTarget.className = 'w-20 h-20 shadow-lg';
               }}
             />
           </div>
