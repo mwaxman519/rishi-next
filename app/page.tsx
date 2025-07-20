@@ -105,12 +105,15 @@ export default function Home() {
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
-            <Image
+            <img
               src="/favicon.ico"
-              alt="Rishi Logo"
-              width={120}
-              height={40}
-              className="rounded-lg shadow-lg"
+              alt="Rishi Platform"
+              className="w-16 h-16 rounded-lg shadow-lg"
+              onError={(e) => {
+                console.log('Favicon failed on homepage, trying SVG logo');
+                e.currentTarget.src = '/rishi-logo-new.svg';
+                e.currentTarget.className = 'w-20 h-16 rounded-lg shadow-lg';
+              }}
             />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">

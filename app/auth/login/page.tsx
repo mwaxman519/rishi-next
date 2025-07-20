@@ -48,31 +48,31 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <div className="flex items-center justify-center mb-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 p-4">
+      <Card className="w-full max-w-md shadow-2xl border-0 rounded-2xl">
+        <CardHeader className="space-y-4 text-center pb-6">
+          <div className="flex items-center justify-center mb-2">
             <img 
-              src="/rishi-logo-new.svg" 
+              src="/favicon.ico" 
               alt="Rishi Platform" 
-              className="w-8 h-8 mr-2"
+              className="w-12 h-12 mr-3"
               onError={(e) => {
-                console.error('Logo failed to load, trying fallback:', e);
-                e.currentTarget.src = '/favicon.ico';
+                console.log('Favicon failed, trying SVG logo');
+                e.currentTarget.src = '/rishi-logo-new.svg';
               }}
             />
-            <CardTitle className="text-2xl font-bold text-purple-700 dark:text-purple-200">
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Rishi Platform
             </CardTitle>
           </div>
-          <CardDescription className="text-center">
+          <CardDescription className="text-slate-600 dark:text-slate-400 text-lg">
             Sign in to your account
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="username" className="text-slate-700 dark:text-slate-300 font-medium">Username</Label>
               <Input
                 id="username"
                 type="text"
@@ -81,12 +81,12 @@ export default function LoginPage() {
                 placeholder="Enter your username"
                 required
                 disabled={isLoading}
-                className="focus:ring-purple-500 focus:border-purple-500"
+                className="h-12 border-2 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl transition-all duration-200"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-slate-700 dark:text-slate-300 font-medium">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -95,12 +95,12 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 required
                 disabled={isLoading}
-                className="focus:ring-purple-500 focus:border-purple-500"
+                className="h-12 border-2 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl transition-all duration-200"
               />
             </div>
 
             {error && (
-              <Alert variant="destructive">
+              <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-800 rounded-xl">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
@@ -108,12 +108,32 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+              className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
               disabled={isLoading}
             >
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span>Signing in...</span>
+                </div>
+              ) : (
+                'Sign in'
+              )}
             </Button>
           </form>
+
+          <div className="pt-6 border-t border-slate-200 dark:border-slate-700">
+            <div className="text-center space-y-3">
+              <div className="flex items-center justify-center space-x-4 text-sm text-slate-500">
+                <a href="#" className="hover:text-blue-600 transition-colors">Terms</a>
+                <span>•</span>
+                <a href="#" className="hover:text-blue-600 transition-colors">Privacy</a>
+                <span>•</span>
+                <a href="#" className="hover:text-blue-600 transition-colors">Help</a>
+              </div>
+              <p className="text-xs text-slate-400">© 2025 Rishi Platform. All rights reserved.</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -58,10 +58,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    loader: 'custom',
-    loaderFile: './app/lib/image-loader.js',
   },
   
   serverExternalPackages: ['@neondatabase/serverless'],
