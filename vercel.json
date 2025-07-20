@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build && node scripts/create-middleware-manifest.mjs",
+  "buildCommand": "node scripts/production-asset-fixes.js && npm run build && node scripts/create-middleware-manifest.mjs",
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "devCommand": "npm run dev",
@@ -10,6 +10,19 @@
     }
   },
   "headers": [
+    {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/x-icon"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
     {
       "source": "/_next/static/chunks/(.*)\\.js",
       "headers": [

@@ -58,7 +58,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    loader: 'custom',
+    loaderFile: './app/lib/image-loader.js',
   },
   
   serverExternalPackages: ['@neondatabase/serverless'],
@@ -68,6 +71,17 @@ const nextConfig = {
   },
   
   webpack: (config, { isServer, dev }) => {
+    // Disable CSS chunk optimization that causes syntax errors
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks.cacheGroups,
+          styles: false,
+        },
+      };
+    }
+    
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(process.cwd(), 'app'),

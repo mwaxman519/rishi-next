@@ -1,4 +1,14 @@
-@tailwind base;
+#!/usr/bin/env node
+
+// Production asset fixes for Vercel deployment
+console.log('Applying production asset fixes...');
+
+const fs = require('fs');
+const path = require('path');
+
+// Clean CSS files to prevent syntax errors
+const globalsCssPath = path.join(process.cwd(), 'styles/globals.css');
+const cleanCssContent = `@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -57,4 +67,9 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
-}
+}`;
+
+fs.writeFileSync(globalsCssPath, cleanCssContent, 'utf8');
+console.log('✅ CSS files cleaned for production');
+
+console.log('✅ Production asset fixes applied successfully');
