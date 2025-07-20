@@ -100,23 +100,23 @@ export default function Home() {
 
   // For non-logged in users, show the public landing page
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-teal-50 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <img
-              src="/favicon.ico"
+              src="/assets/logos/rishi-logo-new.svg"
               alt="Rishi Platform"
-              className="w-16 h-16 rounded-lg shadow-lg"
+              className="w-20 h-16 rounded-lg shadow-lg"
               onError={(e) => {
-                console.log('Favicon failed on homepage, trying SVG logo');
-                e.currentTarget.src = '/rishi-logo-new.svg';
-                e.currentTarget.className = 'w-20 h-16 rounded-lg shadow-lg';
+                console.log('Brand logo failed on homepage, trying favicon');
+                e.currentTarget.src = '/favicon.ico';
+                e.currentTarget.className = 'w-16 h-16 rounded-lg shadow-lg';
               }}
             />
           </div>
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent mb-6">
             Rishi Workforce Management
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
@@ -125,12 +125,12 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/auth/login">
-              <Button size="lg" className="flex items-center gap-2">
+              <Button size="lg" className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
                 Login <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
             <Link href="/auth/register">
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700">
                 Register
               </Button>
             </Link>
@@ -140,7 +140,7 @@ export default function Home() {
         {/* Feature Cards */}
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <Calendar className="w-12 h-12 text-blue-600 mb-4" />
+            <Calendar className="w-12 h-12 text-purple-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Booking Management</h3>
             <p className="text-gray-600 dark:text-gray-300">
               8-stage booking lifecycle with calendar views, regional filtering,
@@ -149,7 +149,7 @@ export default function Home() {
           </div>
 
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <Users className="w-12 h-12 text-green-600 mb-4" />
+            <Users className="w-12 h-12 text-teal-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Team Management</h3>
             <p className="text-gray-600 dark:text-gray-300">
               Complete workforce oversight with performance metrics and
@@ -170,7 +170,7 @@ export default function Home() {
         {/* Additional Features */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <Clock className="w-12 h-12 text-orange-600 mb-4" />
+            <Clock className="w-12 h-12 text-teal-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">Time Tracking</h3>
             <p className="text-gray-600 dark:text-gray-300">
               Comprehensive time tracking with clock-in/out, break management,
@@ -179,7 +179,7 @@ export default function Home() {
           </div>
 
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <Building className="w-12 h-12 text-red-600 mb-4" />
+            <Building className="w-12 h-12 text-purple-600 mb-4" />
             <h3 className="text-xl font-semibold mb-2">
               Multi-State Operations
             </h3>

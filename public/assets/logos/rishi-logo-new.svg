@@ -4,8 +4,8 @@
 <text x="45" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Rishi</text>
 <defs>
 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#6366f1"/>
-<stop offset="100%" style="stop-color:#8b5cf6"/>
+<stop offset="0%" style="stop-color:#7c3aed"/>
+<stop offset="100%" style="stop-color:#0d9488"/>
 </linearGradient>
 </defs>
 </svg>

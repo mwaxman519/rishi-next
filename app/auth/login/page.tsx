@@ -48,20 +48,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 dark:from-slate-900 dark:to-slate-800 p-4">
       <Card className="w-full max-w-md shadow-2xl border-0 rounded-2xl">
         <CardHeader className="space-y-4 text-center pb-6">
           <div className="flex items-center justify-center mb-2">
             <img 
-              src="/favicon.ico" 
+              src="/assets/logos/rishi-logo-new.svg" 
               alt="Rishi Platform" 
               className="w-12 h-12 mr-3"
               onError={(e) => {
-                console.log('Favicon failed, trying SVG logo');
-                e.currentTarget.src = '/rishi-logo-new.svg';
+                console.log('Brand logo failed, trying favicon');
+                e.currentTarget.src = '/favicon.ico';
               }}
             />
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-teal-600 bg-clip-text text-transparent">
               Rishi Platform
             </CardTitle>
           </div>
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 placeholder="Enter your username"
                 required
                 disabled={isLoading}
-                className="h-12 border-2 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl transition-all duration-200"
+                className="h-12 border-2 border-slate-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-xl transition-all duration-200"
               />
             </div>
             
@@ -95,7 +95,7 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 required
                 disabled={isLoading}
-                className="h-12 border-2 border-slate-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl transition-all duration-200"
+                className="h-12 border-2 border-slate-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-xl transition-all duration-200"
               />
             </div>
 
@@ -108,7 +108,7 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+              className="w-full h-12 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -125,11 +125,11 @@ export default function LoginPage() {
           <div className="pt-6 border-t border-slate-200 dark:border-slate-700">
             <div className="text-center space-y-3">
               <div className="flex items-center justify-center space-x-4 text-sm text-slate-500">
-                <a href="#" className="hover:text-blue-600 transition-colors">Terms</a>
+                <a href="#" className="hover:text-purple-600 transition-colors">Terms</a>
                 <span>•</span>
-                <a href="#" className="hover:text-blue-600 transition-colors">Privacy</a>
+                <a href="#" className="hover:text-purple-600 transition-colors">Privacy</a>
                 <span>•</span>
-                <a href="#" className="hover:text-blue-600 transition-colors">Help</a>
+                <a href="#" className="hover:text-purple-600 transition-colors">Help</a>
               </div>
               <p className="text-xs text-slate-400">© 2025 Rishi Platform. All rights reserved.</p>
             </div>
