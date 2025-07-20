@@ -22,25 +22,38 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
+      console.log('Submitting login for:', username);
+      
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
+        credentials: 'include', // Ensure cookies are included
       });
 
+      console.log('Login response status:', response.status);
+      
       if (response.ok) {
         const result = await response.json();
+        console.log('Login response data:', result);
+        
         if (result.success) {
-          router.push('/dashboard');
+          console.log('Login successful, redirecting to dashboard...');
+          // Use replace instead of push to prevent back button issues
+          router.replace('/dashboard');
+          return; // Ensure we don't continue processing
         } else {
-          setError(result.message || 'Login failed');
+          setError(result.error || result.message || 'Login failed');
         }
       } else {
-        setError('Login failed. Please check your credentials.');
+        const errorData = await response.json().catch(() => ({}));
+        console.log('Login failed with error:', errorData);
+        setError(errorData.error || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
+      console.error('Login network error:', err);
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);

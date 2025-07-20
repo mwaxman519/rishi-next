@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
     if (!username || !password) {
       return NextResponse.json(
-        { error: "Username and password are required" },
+        { success: false, error: "Username and password are required" },
         { status: 400 }
       );
     }
@@ -25,8 +25,9 @@ export async function POST(req: NextRequest) {
       .where(eq(schema.users.username, username));
 
     if (!user || !user.password) {
+      console.log('Login: User not found or no password for username:', username);
       return NextResponse.json(
-        { error: "Invalid credentials" },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -34,8 +35,9 @@ export async function POST(req: NextRequest) {
     const isValid = await comparePasswords(password, user.password);
     
     if (!isValid) {
+      console.log('Login: Password validation failed for username:', username);
       return NextResponse.json(
-        { error: "Invalid credentials" },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -70,7 +72,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }
