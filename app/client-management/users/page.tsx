@@ -142,7 +142,7 @@ export default function ClientUsersPage() {
         return (
           <Badge
             variant="outline"
-            className="bg-blue-50 text-blue-700 border-blue-200"
+            className="bg-teal-50 text-teal-700 border-teal-200"
           >
             Manager
           </Badge>
@@ -160,7 +160,7 @@ export default function ClientUsersPage() {
         return (
           <Badge
             variant="outline"
-            className="bg-indigo-50 text-indigo-700 border-indigo-200"
+            className="bg-purple-50 text-purple-700 border-purple-200"
           >
             Reporting
           </Badge>

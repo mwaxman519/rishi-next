@@ -198,7 +198,7 @@ const ContactCard = ({
 
   const getRatingColor = (rating: number) => {
     if (rating >= 4.5) return "text-green-600";
-    if (rating >= 4.0) return "text-blue-600";
+    if (rating >= 4.0) return "text-teal-600";
     if (rating >= 3.5) return "text-yellow-600";
     return "text-red-600";
   };
@@ -221,7 +221,7 @@ const ContactCard = ({
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
             <Avatar className="h-12 w-12">
-              <AvatarFallback className="bg-indigo-100 text-indigo-600 font-semibold">
+              <AvatarFallback className="bg-purple-100 text-purple-600 font-semibold">
                 {getInitials(contact.name)}
               </AvatarFallback>
             </Avatar>
@@ -248,7 +248,7 @@ const ContactCard = ({
         {/* Contact Information */}
         <div className="grid grid-cols-1 gap-2">
           <div className="flex items-center text-sm">
-            <Mail className="h-4 w-4 mr-2 text-blue-500" />
+            <Mail className="h-4 w-4 mr-2 text-teal-500" />
             <span className="truncate">{contact.email}</span>
           </div>
           <div className="flex items-center text-sm">
@@ -272,11 +272,11 @@ const ContactCard = ({
             </div>
             <div className="text-xs text-yellow-700">Rating</div>
           </div>
-          <div className="text-center bg-blue-50 rounded-lg p-3">
-            <div className="text-lg font-bold text-blue-600">
+          <div className="text-center bg-teal-50 rounded-lg p-3">
+            <div className="text-lg font-bold text-teal-600">
               {contact.interactions}
             </div>
-            <div className="text-xs text-blue-700">Interactions</div>
+            <div className="text-xs text-teal-700">Interactions</div>
           </div>
         </div>
 

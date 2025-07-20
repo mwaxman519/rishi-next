@@ -176,8 +176,8 @@ export default function DashboardPage() {
         <Card className="hover:shadow-lg transition-shadow">
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-indigo-100 dark:bg-indigo-900 rounded-lg">
-                <BarChart3 className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+              <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                <BarChart3 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
                 <CardTitle className="text-lg">Analytics & Reports</CardTitle>

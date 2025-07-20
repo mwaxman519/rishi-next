@@ -117,7 +117,7 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
                       {currentOrg === org && (
                         <Check
                           size={14}
-                          className="text-blue-600 dark:text-blue-400 flex-shrink-0 ml-2"
+                          className="text-purple-600 dark:text-purple-400 flex-shrink-0 ml-2"
                         />
                       )}
                     </button>
@@ -139,35 +139,35 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
         <div className="flex justify-around items-center py-2">
           <Link
             href="/"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/") ? "text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20" : "text-gray-600 dark:text-gray-400"}`}
           >
             <Home size={20} />
             <span className="text-xs mt-1">Dashboard</span>
           </Link>
           <Link
             href="/admin"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/admin") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/admin") ? "text-teal-600 bg-teal-50 dark:text-teal-400 dark:bg-teal-900/20" : "text-gray-600 dark:text-gray-400"}`}
           >
             <Settings size={20} />
             <span className="text-xs mt-1">Orgs</span>
           </Link>
           <Link
             href="/staff"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/staff") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/staff") ? "text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20" : "text-gray-600 dark:text-gray-400"}`}
           >
             <Users size={20} />
             <span className="text-xs mt-1">Users</span>
           </Link>
           <Link
             href="/locations"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/locations") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/locations") ? "text-teal-600 bg-teal-50 dark:text-teal-400 dark:bg-teal-900/20" : "text-gray-600 dark:text-gray-400"}`}
           >
             <MapPin size={20} />
             <span className="text-xs mt-1">Locations</span>
           </Link>
           <button
             onClick={toggleMenu}
-            className={`flex flex-col items-center p-2 rounded-lg ${menuOpen ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${menuOpen ? "text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20" : "text-gray-600 dark:text-gray-400"}`}
           >
             <Menu size={20} />
             <span className="text-xs mt-1">More</span>

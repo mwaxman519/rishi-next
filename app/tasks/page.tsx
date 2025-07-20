@@ -146,7 +146,7 @@ export default function TasksPage() {
   const getTaskTypeColor = (type: string) => {
     switch (type) {
       case "event_report":
-        return "bg-blue-100 text-blue-800 border-blue-300";
+        return "bg-teal-100 text-teal-800 border-teal-300";
       case "mileage_submission":
         return "bg-green-100 text-green-800 border-green-300";
       case "clock_in_out":
@@ -156,7 +156,7 @@ export default function TasksPage() {
       case "logistics_kit":
         return "bg-yellow-100 text-yellow-800 border-yellow-300";
       case "shadowing":
-        return "bg-indigo-100 text-indigo-800 border-indigo-300";
+        return "bg-purple-100 text-purple-800 border-purple-300";
       case "personnel_update":
         return "bg-pink-100 text-pink-800 border-pink-300";
       case "photo_submission":

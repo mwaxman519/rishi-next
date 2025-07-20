@@ -149,7 +149,7 @@ export default function OKRDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "ahead": return "bg-green-100 text-green-800 border-green-200";
-      case "on_track": return "bg-blue-100 text-blue-800 border-blue-200";
+      case "on_track": return "bg-teal-100 text-teal-800 border-teal-200";
       case "at_risk": return "bg-yellow-100 text-yellow-800 border-yellow-200";
       case "behind": return "bg-red-100 text-red-800 border-red-200";
       default: return "bg-gray-100 text-gray-800 border-gray-200";
@@ -174,7 +174,7 @@ export default function OKRDashboard() {
           <h2 className="text-2xl font-bold text-gray-900">Objectives & Key Results</h2>
           <p className="text-gray-600">Track goals and measure success across cannabis operations</p>
         </div>
-        <Button className="gap-2 bg-gradient-to-r from-blue-500 to-purple-600">
+        <Button className="gap-2 bg-gradient-to-r from-teal-500 to-purple-600">
           <Plus className="w-4 h-4" />
           Create OKR
         </Button>

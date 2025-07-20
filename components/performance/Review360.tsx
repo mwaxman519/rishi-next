@@ -181,7 +181,7 @@ export default function Review360() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active": return "bg-green-100 text-green-800";
-      case "completed": return "bg-blue-100 text-blue-800";
+      case "completed": return "bg-teal-100 text-teal-800";
       case "draft": return "bg-gray-100 text-gray-800";
       default: return "bg-gray-100 text-gray-800";
     }
@@ -189,7 +189,7 @@ export default function Review360() {
 
   const getCompetencyColor = (score: number) => {
     if (score >= 4.5) return "text-green-600";
-    if (score >= 4.0) return "text-blue-600";
+    if (score >= 4.0) return "text-teal-600";
     if (score >= 3.5) return "text-yellow-600";
     return "text-red-600";
   };
@@ -201,9 +201,9 @@ export default function Review360() {
     return (
       <div className="relative w-48 h-48 mx-auto">
         {/* Radar chart visualization would go here */}
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 rounded-full">
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 rounded-full">
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600">{data.overallScore}</div>
+            <div className="text-3xl font-bold text-purple-600">{data.overallScore}</div>
             <div className="text-sm text-gray-600">Overall Score</div>
           </div>
         </div>

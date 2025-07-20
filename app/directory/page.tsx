@@ -186,7 +186,7 @@ const OrganizationCard = ({
 
   const getRatingColor = (rating: number) => {
     if (rating >= 4.5) return "text-green-600";
-    if (rating >= 4.0) return "text-blue-600";
+    if (rating >= 4.0) return "text-teal-600";
     if (rating >= 3.5) return "text-yellow-600";
     return "text-red-600";
   };
@@ -197,7 +197,7 @@ const OrganizationCard = ({
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
             <Avatar className="h-12 w-12">
-              <AvatarFallback className="bg-indigo-100 text-indigo-600 font-semibold">
+              <AvatarFallback className="bg-purple-100 text-purple-600 font-semibold">
                 {org.name
                   .split(" ")
                   .map((n) => n[0])

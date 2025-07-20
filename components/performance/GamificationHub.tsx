@@ -241,8 +241,8 @@ export default function GamificationHub() {
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case "legendary": return "bg-gradient-to-r from-purple-500 to-pink-500 text-white";
-      case "rare": return "bg-gradient-to-r from-blue-500 to-purple-500 text-white";
-      case "uncommon": return "bg-gradient-to-r from-green-500 to-blue-500 text-white";
+      case "rare": return "bg-gradient-to-r from-teal-500 to-purple-500 text-white";
+      case "uncommon": return "bg-gradient-to-r from-green-500 to-teal-500 text-white";
       case "common": return "bg-gradient-to-r from-gray-400 to-gray-600 text-white";
       default: return "bg-gray-100 text-gray-800";
     }
@@ -266,7 +266,7 @@ export default function GamificationHub() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active": return "bg-green-100 text-green-800";
-      case "upcoming": return "bg-blue-100 text-blue-800";
+      case "upcoming": return "bg-teal-100 text-teal-800";
       case "completed": return "bg-gray-100 text-gray-800";
       default: return "bg-gray-100 text-gray-800";
     }

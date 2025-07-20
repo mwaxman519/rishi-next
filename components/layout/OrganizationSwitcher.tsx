@@ -62,9 +62,9 @@ export function OrganizationSwitcher() {
         };
       case "client":
         return {
-          icon: <Briefcase className="h-4 w-4 text-blue-500" />,
-          bgColor: "bg-blue-100",
-          textColor: "text-blue-700",
+          icon: <Briefcase className="h-4 w-4 text-teal-500" />,
+          bgColor: "bg-teal-100",
+          textColor: "text-teal-700",
         };
       case "partner":
         return {
@@ -87,7 +87,7 @@ export function OrganizationSwitcher() {
 
     const tierColors: Record<string, string> = {
       "1": "bg-gray-100 text-gray-800",
-      "2": "bg-blue-100 text-blue-800",
+      "2": "bg-teal-100 text-teal-800",
       "3": "bg-purple-100 text-purple-800",
     };
 

@@ -80,9 +80,9 @@ export default function FieldManagerDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading dashboard...</p>
         </div>
       </div>
@@ -90,10 +90,10 @@ export default function FieldManagerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
       <div className="container mx-auto p-6 space-y-8">
         {/* Stunning Header with Gradient */}
-        <div className="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 rounded-3xl p-8 text-white overflow-hidden">
+        <div className="relative bg-gradient-to-r from-purple-600 via-purple-700 to-teal-600 rounded-3xl p-8 text-white overflow-hidden">
           <div className="absolute inset-0 bg-black/10 backdrop-blur-sm"></div>
           <div className="relative z-10">
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
@@ -101,14 +101,14 @@ export default function FieldManagerDashboard() {
                 <h1 className="text-4xl font-bold mb-2">
                   Field Manager Dashboard
                 </h1>
-                <p className="text-indigo-100 text-lg">
+                <p className="text-purple-100 text-lg">
                   Coordinate teams and optimize operational excellence
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
                 <Button
                   size="lg"
-                  className="bg-white text-indigo-600 hover:bg-indigo-50 shadow-xl"
+                  className="bg-white text-purple-600 hover:bg-purple-50 shadow-xl"
                 >
                   <Plus className="h-5 w-5 mr-2" />
                   Assign Staff
