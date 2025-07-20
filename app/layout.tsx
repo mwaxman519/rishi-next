@@ -59,7 +59,7 @@ export default function RootLayout({
               }
               
               // Prevent hydration issues in development
-              if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+              if (typeof window !== 'undefined' && window.location.hostname.includes('replit')) {
                 window.addEventListener('load', () => {
                   // Force re-render after hydration is complete
                   setTimeout(() => {

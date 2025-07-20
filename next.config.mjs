@@ -68,18 +68,34 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
     optimizePackageImports: [],
+    forceSwcTransforms: true,
   },
   
   webpack: (config, { isServer, dev }) => {
-    // Disable CSS chunk optimization that causes syntax errors
+    // Fix CSS being loaded as JS scripts in production
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
-        ...config.optimization.splitChunks,
+        chunks: 'all',
         cacheGroups: {
-          ...config.optimization.splitChunks.cacheGroups,
-          styles: false,
+          styles: false, // Disable CSS chunking that causes MIME type issues
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
         },
       };
+      
+      // Ensure proper MIME types
+      config.module.rules.push({
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      });
     }
     
     config.resolve.alias = {
