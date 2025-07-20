@@ -69,12 +69,11 @@ const nextConfig = {
   },
   
   webpack: (config, { isServer, dev }) => {
-    // Fix CSS being loaded as JS scripts in production
+    // Optimize for Replit Autoscale deployment
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
-          styles: false, // Disable CSS chunking that causes MIME type issues
           default: {
             minChunks: 2,
             priority: -20,
@@ -87,12 +86,6 @@ const nextConfig = {
           },
         },
       };
-      
-      // Ensure proper MIME types
-      config.module.rules.push({
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      });
     }
     
     config.resolve.alias = {
@@ -112,25 +105,13 @@ const nextConfig = {
       crypto: false,
     };
     
-    // CRITICAL: Use normal Next.js chunking for Vercel
-    if (!isServer && !dev) {
-      // Let Next.js handle chunking normally for Vercel
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            priority: -10,
-            chunks: 'all',
-          },
-        },
-      };
+    // Environment-specific optimizations
+    if (process.env.REPLIT || process.env.REPLIT_DOMAINS) {
+      // Replit Autoscale specific optimizations
+      config.optimization.minimize = true;
+      if (config.optimization.splitChunks && config.optimization.splitChunks.cacheGroups && config.optimization.splitChunks.cacheGroups.vendor) {
+        config.optimization.splitChunks.cacheGroups.vendor.name = 'vendors';
+      }
     }
     
     return config;

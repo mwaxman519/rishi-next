@@ -1,5 +1,5 @@
 
-#!/usr/bin/env node
+// Skip DB migration on failure script
 
 /**
  * Script to handle database migration failures gracefully during deployment
