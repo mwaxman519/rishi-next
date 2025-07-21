@@ -6,10 +6,10 @@ self.addEventListener('install', event => {
   console.log('Service Worker installed but caching disabled for development');
 });
 
-// Fetch event - bypass service worker in development
+// Fetch event - disabled to prevent Chrome network errors
 self.addEventListener('fetch', event => {
-  // Always fetch from network in development to avoid caching issues
-  event.respondWith(fetch(event.request));
+  // Skip service worker completely to avoid network errors
+  return;
 });
 
 // Activate service worker
