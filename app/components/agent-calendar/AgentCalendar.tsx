@@ -14,7 +14,9 @@ import BlockDetailModal from "./BlockDetailModal";
 import ConflictDialog from "./ConflictDialog";
 import { mergeAdjacentBlocks } from "./merged-blocks-processor";
 import { SimpleAlertDialog } from "../ui/simple-alert-dialog";
-// CSS imports removed for Autoscale deployment compatibility
+import "./calendar-fixes.css";
+import "./calendar-buttons.css";
+import "./calendar-compact.css";
 
 // CSS fixes for FullCalendar are now in globals.css and in the local CSS files
 // This ensures proper styling in both light and dark modes

@@ -27,7 +27,7 @@ import { CalendarIcon, Filter, Plus } from "lucide-react";
 import Link from "next/link";
 
 // Import CSS for react-big-calendar
-// CSS import removed for Autoscale deployment compatibility
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const locales = {
   "en-US": enUS,
