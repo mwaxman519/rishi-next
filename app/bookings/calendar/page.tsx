@@ -26,8 +26,7 @@ import {
 import { CalendarIcon, Filter, Plus } from "lucide-react";
 import Link from "next/link";
 
-// Import CSS for react-big-calendar
-import "react-big-calendar/lib/css/react-big-calendar.css";
+// CSS for react-big-calendar imported in layout.tsx to prevent webpack style-loader issues
 
 const locales = {
   "en-US": enUS,

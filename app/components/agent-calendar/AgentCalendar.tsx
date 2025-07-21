@@ -14,12 +14,8 @@ import BlockDetailModal from "./BlockDetailModal";
 import ConflictDialog from "./ConflictDialog";
 import { mergeAdjacentBlocks } from "./merged-blocks-processor";
 import { SimpleAlertDialog } from "../ui/simple-alert-dialog";
-import "./calendar-fixes.css";
-import "./calendar-buttons.css";
-import "./calendar-compact.css";
-
-// CSS fixes for FullCalendar are now in globals.css and in the local CSS files
-// This ensures proper styling in both light and dark modes
+// CSS files for FullCalendar are now imported in the main layout.tsx file
+// This ensures proper styling in both light and dark modes and prevents webpack issues
 
 interface AgentCalendarProps {
   userId: number | string; // Allow both types for compatibility
