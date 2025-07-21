@@ -1,3 +1,12 @@
+#!/bin/bash
+
+echo "🔧 Creating clean kits repository with correct schema field names..."
+
+# Back up the broken file
+cp app/services/kits/repository.ts app/services/kits/repository.ts.broken.backup
+
+# Create a minimal, working repository
+cat > app/services/kits/repository.ts << 'EOF'
 /**
  * Kit Management Repository - SIMPLIFIED for VoltBuilder
  * Using correct schema field names from shared/schema.ts
@@ -102,3 +111,8 @@ export class KitRepository {
     }
   }
 }
+EOF
+
+echo "✅ Created clean kits repository with correct schema field names"
+echo "🧪 Testing TypeScript compilation..."
+npx tsc --noEmit --skipLibCheck app/services/kits/repository.ts 2>&1 | head -5

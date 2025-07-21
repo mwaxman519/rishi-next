@@ -957,9 +957,7 @@ export type InsertUserPermission = z.infer<typeof insertUserPermissionSchema>;
 
 // RBAC exports for auth-service compatibility (removed duplicate exports - using versions defined earlier)
 
-// Kit Template Types
-export type KitTemplate = typeof kitTemplates.$inferSelect;
-
+// Kit Template Types (duplicate removed - using definition from line 584)
 // Kit types will be handled by KitInstance and KitTemplate
 
 // Audit Logs table for tracking system changes
