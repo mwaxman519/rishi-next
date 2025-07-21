@@ -22,6 +22,7 @@ cp -r shared voltbuilder-package/ 2>/dev/null || echo "No shared directory"
 cp -r styles voltbuilder-package/ 2>/dev/null || echo "No styles directory"
 cp -r types voltbuilder-package/ 2>/dev/null || echo "No types directory"
 cp -r services voltbuilder-package/ 2>/dev/null || echo "No services directory"
+cp -r server voltbuilder-package/ 2>/dev/null || echo "No server directory"
 cp -r android voltbuilder-package/ 2>/dev/null || echo "No android directory"
 cp -r ios voltbuilder-package/ 2>/dev/null || echo "No ios directory"
 
