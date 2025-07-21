@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import ResponsiveLayout from "./layout/ResponsiveLayout";
 import IframeCompatibility from "./IframeCompatibility";
 import OfflineStatus from "./OfflineStatus";
+import OfflineDataManager from "./OfflineDataManager";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -23,6 +24,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Offline status for field workers */}
         <OfflineStatus />
+
+        {/* Offline data management for entire app */}
+        <OfflineDataManager />
 
         {/* Toast notifications */}
         <Toaster />

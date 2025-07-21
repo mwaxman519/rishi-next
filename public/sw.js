@@ -3,28 +3,52 @@ const CACHE_NAME = 'rishi-platform-v1';
 const OFFLINE_CACHE = 'rishi-offline-v1';
 const DATA_CACHE = 'rishi-data-v1';
 
-// Critical assets for offline functionality
+// Critical assets for offline functionality - ENTIRE APP
 const STATIC_ASSETS = [
   '/',
   '/dashboard',
   '/bookings',
+  '/bookings/calendar',
+  '/bookings/form',
   '/locations',
+  '/locations/directory',
   '/staff',
+  '/staff/schedule',
+  '/staff/availability',
   '/inventory',
+  '/inventory/kits',
+  '/inventory/kit-instances',
+  '/admin',
+  '/analytics',
+  '/reports',
+  '/training',
+  '/contacts',
   '/auth/login',
   '/manifest.json',
   '/favicon.ico',
   '/rishi-logo-new.svg'
 ];
 
-// API endpoints that need offline caching
+// API endpoints that need offline caching - ENTIRE APP DATA
 const API_ENDPOINTS = [
-  '/api/bookings',
-  '/api/locations',
-  '/api/staff',
-  '/api/inventory/kits',
   '/api/auth-service/session',
-  '/api/user-organization-preferences'
+  '/api/bookings',
+  '/api/bookings/stats',
+  '/api/bookings/calendar',
+  '/api/locations',
+  '/api/locations/cities',
+  '/api/locations/states', 
+  '/api/staff',
+  '/api/staff/availability',
+  '/api/staff/schedule',
+  '/api/inventory/kits',
+  '/api/inventory/kit-instances',
+  '/api/inventory/kit-instances/stats',
+  '/api/organizations',
+  '/api/user-organization-preferences',
+  '/api/contacts',
+  '/api/analytics/dashboard',
+  '/api/reports'
 ];
 
 // Install service worker and cache critical assets
@@ -61,7 +85,7 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Handle API requests with cache-first for offline support
+  // Handle API requests with cache-first for offline support - ALL API ROUTES
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(handleAPIRequest(request));
   }
@@ -81,10 +105,14 @@ async function handleAPIRequest(request) {
   const cache = await caches.open(DATA_CACHE);
 
   try {
-    // Try network first
-    const networkResponse = await fetch(request);
+    // Try network first - preserve authentication headers
+    const networkResponse = await fetch(request, {
+      credentials: 'same-origin',
+      headers: request.headers
+    });
+    
     if (networkResponse.ok) {
-      // Cache successful GET responses
+      // Cache successful GET responses for ALL API endpoints
       if (request.method === 'GET') {
         cache.put(request, networkResponse.clone());
       }
@@ -253,4 +281,13 @@ self.addEventListener('notificationclick', event => {
   }
 });
 
-console.log('Rishi Platform Service Worker: Loaded with offline field worker support');
+// Handle messages from main thread
+self.addEventListener('message', event => {
+  if (event.data.type === 'PRELOAD_COMPLETE') {
+    console.log('Rishi Platform SW: Critical data preload completed');
+  } else if (event.data.type === 'SYNC_WHEN_ONLINE') {
+    syncOfflineRequests();
+  }
+});
+
+console.log('Rishi Platform Service Worker: Loaded with FULL APP offline support');
