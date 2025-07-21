@@ -51,7 +51,7 @@ export class BookingService implements BookingServiceInterface {
       const allBookings = await db
         .select()
         .from(bookings)
-        .orderBy(desc(bookings.created_at));
+        .orderBy(desc(bookings.createdAt));
 
       // Publish success event
       await this.eventBus.publish({

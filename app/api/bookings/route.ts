@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { BookingService } from "@/services/BookingService";
-import { getCurrentUser } from "../auth-service/utils/auth-utils";
+import { checkPermission } from "@/lib/rbac";
+import { getOrganizationHeaderData } from "@/lib/organization-context";
 import { z } from "zod";
 import { BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
 
@@ -64,27 +65,31 @@ export async function GET(request: NextRequest) {
   const correlationId = crypto.randomUUID();
   
   try {
-    // Step 1: Authentication
-    const user = await getCurrentUser(request);
-    if (!user) {
+    // Step 1: Get organization context from request headers
+    const organizationData = await getOrganizationHeaderData(request);
+
+    // Step 2: Check permissions using RBAC system
+    const hasPermission = await checkPermission(request, "read:staff");
+    if (!hasPermission) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Step 2: Authorization Check (basic permission check)
-    // In production, implement proper RBAC checks based on user role
-
     // Step 3: Service Layer (includes Event Publishing)
     const bookingService = BookingService.getInstance();
+    // Use organization data from headers for context
+    const organizationId = organizationData?.organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86";
+    const userId = organizationData?.userId || "default-user";
+    
     const allBookings = await bookingService.getAllBookings(
-      user.id,
-      (user as any).organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+      userId,
+      organizationId,
       correlationId
     );
 
     // Get query parameters for filtering
     const { searchParams } = new URL(request.url);
     const status = (searchParams.get("status") || undefined) || undefined;
-    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
+    const filterOrganizationId = (searchParams.get("organizationId") || undefined) || undefined;
     const startDate = (searchParams.get("startDate") || undefined) || undefined;
     const endDate = (searchParams.get("endDate") || undefined) || undefined;
 
@@ -95,8 +100,8 @@ export async function GET(request: NextRequest) {
     filteredBookings = filteredBookings.filter((b) => b.status === status);
   }
 
-  if (organizationId) {
-    const orgIds = organizationId.split(",");
+  if (filterOrganizationId) {
+    const orgIds = filterOrganizationId.split(",");
     filteredBookings = filteredBookings.filter((b) =>
       orgIds.includes(b.clientOrganizationId),
     );
