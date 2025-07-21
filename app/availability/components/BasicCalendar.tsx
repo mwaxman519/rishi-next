@@ -7,7 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { DateSelectArg, EventClickArg } from "@fullcalendar/core";
 import { format } from "date-fns";
-import "../../components/agent-calendar/calendar-buttons.css";
+// CSS import removed for Autoscale deployment compatibility
 
 // Define availability block interface from API
 interface ApiAvailabilityBlock {
