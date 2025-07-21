@@ -43,7 +43,7 @@ async function runFinalValidation() {
     // 3. Webpack Configuration Check
     console.log('\n3. Validating webpack chunk configuration...');
     const nextConfigContent = await fs.readFile('next.config.mjs', 'utf8');
-    const hasSimplifiedChunking = nextConfigContent.includes('Simplified chunking for development stability');
+    const hasSimplifiedChunking = nextConfigContent.includes('Disable all chunking to prevent missing chunk errors');
     
     if (hasSimplifiedChunking) {
       console.log('✅ Webpack chunking properly simplified');

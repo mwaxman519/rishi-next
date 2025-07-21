@@ -100,19 +100,17 @@ const nextConfig = {
       });
     }
     
-    // Simplified chunking for development stability
-    if (!dev) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-        },
-      };
-    }
+    // Disable all chunking to prevent missing chunk errors
+    config.optimization.splitChunks = {
+      chunks: 'all',
+      cacheGroups: {
+        default: false,
+        vendors: false,
+      },
+    };
+    
+    // Disable runtime chunk that causes dynamic loading issues
+    config.optimization.runtimeChunk = false;
     
     return config;
   },
