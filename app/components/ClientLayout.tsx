@@ -5,6 +5,7 @@ import { EnvironmentIndicator } from "./ui/environment-indicator";
 import { Toaster } from "@/components/ui/toaster";
 import ResponsiveLayout from "./layout/ResponsiveLayout";
 import IframeCompatibility from "./IframeCompatibility";
+import OfflineStatus from "./OfflineStatus";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -19,6 +20,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Environment indicator overlay */}
         <EnvironmentIndicator />
+
+        {/* Offline status for field workers */}
+        <OfflineStatus />
 
         {/* Toast notifications */}
         <Toaster />

@@ -54,6 +54,35 @@ export default function RootLayout({
                 }
               })();
               
+              // Register service worker for offline field worker support
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                      console.log('Rishi SW registered for offline field worker support');
+                      
+                      // Send message to service worker for initial setup
+                      if (registration.active) {
+                        registration.active.postMessage({ type: 'WORKER_READY' });
+                      }
+                      
+                      // Check for updates
+                      registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker?.addEventListener('statechange', () => {
+                          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New service worker installed, prompt for update
+                            if (confirm('New offline features available. Reload to update?')) {
+                              window.location.reload();
+                            }
+                          }
+                        });
+                      });
+                    })
+                    .catch(error => console.log('Rishi SW registration failed:', error));
+                });
+              }
+              
               // Prevent hydration issues in development
               if (typeof window !== 'undefined' && window.location.hostname.includes('replit')) {
                 window.addEventListener('load', () => {
