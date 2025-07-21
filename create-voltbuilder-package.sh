@@ -21,6 +21,7 @@ cp -r app voltbuilder-package/ 2>/dev/null || echo "No app directory"
 cp -r shared voltbuilder-package/ 2>/dev/null || echo "No shared directory"
 cp -r styles voltbuilder-package/ 2>/dev/null || echo "No styles directory"
 cp -r types voltbuilder-package/ 2>/dev/null || echo "No types directory"
+cp -r services voltbuilder-package/ 2>/dev/null || echo "No services directory"
 cp -r android voltbuilder-package/ 2>/dev/null || echo "No android directory"
 cp -r ios voltbuilder-package/ 2>/dev/null || echo "No ios directory"
 
@@ -35,6 +36,7 @@ cp postcss.config.js voltbuilder-package/ 2>/dev/null || echo "No postcss.config
 echo "🔧 Copying additional files..."
 cp .eslintrc.json voltbuilder-package/ 2>/dev/null || echo "No .eslintrc.json"
 cp .env.example voltbuilder-package/ 2>/dev/null || echo "No .env.example"
+cp db.ts voltbuilder-package/ 2>/dev/null || echo "No db.ts (database connection file)"
 
 # Create a simple web directory structure
 echo "📱 Creating web assets structure..."
