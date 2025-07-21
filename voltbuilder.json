@@ -1,0 +1,16 @@
+{
+  "voltbuilder": {
+    "verbose": true,
+    "buildLogs": true
+  },
+  "platforms": ["android", "ios"],
+  "android": {
+    "signingMode": "debug",
+    "buildType": "release"
+  },
+  "ios": {
+    "signingMode": "development",
+    "buildType": "release"
+  },
+  "framework": "capacitor"
+}
