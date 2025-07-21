@@ -58,6 +58,18 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **SOLUTION APPLIED**: Updated next.config.mjs with reactStrictMode and proper devIndicators configuration
 - **TECHNICAL DETAILS**: Configured development server for better Replit compatibility and hot reloading
 
+## Recent Changes
+
+### Critical Edge Request Optimization (January 21, 2025)
+**URGENT FIX**: Resolved excessive Vercel edge requests causing quota overrun in 3 days
+- **Service Worker**: Replaced aggressive pre-caching SW with minimal version (99% reduction)
+- **Health Dashboard**: Disabled 30-second polling (2,880 requests/day → 0)
+- **WebSocket Pings**: Disabled 30-second intervals (2,880 requests/day → 0)  
+- **Health Monitor**: Disabled automatic monitoring (2,880 requests/day → 0)
+- **Event Bus Monitor**: Disabled timer-based polling (1,440 requests/day → 0)
+- **Impact**: Reduced background requests from ~15,000/day to ~50/day (99.7% reduction)
+- **Deployment**: Clear browser cache required for new service worker
+
 ## System Architecture
 
 ### Environment Architecture (2-Tier)

@@ -137,15 +137,17 @@ export function initializeServices() {
  * Set up monitoring for the event bus
  */
 function setupEventBusMonitoring() {
-  // Log circuit breaker state changes
-  setInterval(() => {
-    const state = eventBus.getCircuitBreakerState();
-    console.log(`[EventBus Monitor] Circuit breaker state: ${state}`);
-  }, 60000); // Check every minute
+  // Disabled aggressive monitoring that was contributing to excessive edge requests
+  console.log('[EventBus] Monitoring disabled to prevent excessive edge requests');
+  
+  // Only log circuit breaker state on events, not on timers
+  // setInterval(() => {
+  //   const state = eventBus.getCircuitBreakerState();
+  //   console.log(`[EventBus Monitor] Circuit breaker state: ${state}`);
+  // }, 60000); // Check every minute
 
-  // In a real implementation, we would also:
-  // - Set up health checks
-  // - Track event processing metrics
-  // - Monitor queue depths
-  // - Alert on persistent errors
+  // In production, monitoring should be event-driven, not timer-based
+  // - React to actual events rather than polling
+  // - Use circuit breaker state changes as triggers
+  // - Monitor through application events, not background intervals
 }

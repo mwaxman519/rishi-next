@@ -74,8 +74,8 @@ export class ServiceHealthMonitor {
   private healthCheckTimers: Map<string, NodeJS.Timeout> = new Map();
   private lastAlerts: Map<string, Date> = new Map();
   private defaultOptions: HealthCheckOptions = {
-    interval: 30000, // 30 seconds
-    timeout: 5000, // 5 seconds
+    interval: 300000, // 5 minutes (was 30 seconds - reduced to prevent excessive edge requests)
+    timeout: 10000, // 10 seconds (increased for more reliable checks)
     unhealthyThreshold: 3,
     degradedThreshold: 1,
     healthyThreshold: 2,

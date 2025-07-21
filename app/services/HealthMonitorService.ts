@@ -259,14 +259,21 @@ export class HealthMonitorService {
     }
   }
 
-  startMonitoring(intervalMs: number = 30000): void {
-    if (this.monitoringInterval) {
-      clearInterval(this.monitoringInterval);
-    }
-
-    this.monitoringInterval = setInterval(async () => {
-      await this.getSystemHealth();
-    }, intervalMs);
+  startMonitoring(intervalMs: number = 300000): void {
+    // Disabled automatic monitoring to prevent excessive edge requests in production
+    // Was causing 2,880+ requests per day at 30-second intervals
+    console.log('[HealthMonitor] Automatic monitoring disabled to prevent excessive edge requests');
+    
+    // Only enable monitoring on manual request or during debugging
+    // if (process.env.NODE_ENV === 'development') {
+    //   if (this.monitoringInterval) {
+    //     clearInterval(this.monitoringInterval);
+    //   }
+    //   
+    //   this.monitoringInterval = setInterval(async () => {
+    //     await this.getSystemHealth();
+    //   }, intervalMs);
+    // }
   }
 
   stopMonitoring(): void {

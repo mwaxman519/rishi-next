@@ -295,12 +295,14 @@ export function useEventSocket(
    * Set up ping interval to keep connection alive
    */
   useEffect(() => {
-    // Send a ping every 30 seconds to keep the connection alive
-    const pingInterval = setInterval(ping, 30000);
-
-    return () => {
-      clearInterval(pingInterval);
-    };
+    // Disabled aggressive pings that were causing excessive edge requests (2,880/day)
+    // WebSocket should stay alive through natural activity
+    // If needed, increase to 5+ minutes: setInterval(ping, 300000);
+    
+    // const pingInterval = setInterval(ping, 30000);
+    // return () => {
+    //   clearInterval(pingInterval);
+    // };
   }, [ping]);
 
   /**

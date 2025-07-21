@@ -54,10 +54,10 @@ const useServiceHealth = () => {
   useEffect(() => {
     fetchHealth();
 
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchHealth, 30000);
-
-    return () => clearInterval(interval);
+    // Only refresh on manual request - no automatic polling to prevent excessive edge requests
+    // Previously was polling every 30 seconds causing 2,880 requests per day
+    // const interval = setInterval(fetchHealth, 30000);
+    // return () => clearInterval(interval);
   }, []);
 
   return { health, loading, lastRefresh, refreshHealth: fetchHealth };
