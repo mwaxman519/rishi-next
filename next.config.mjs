@@ -2,9 +2,13 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Static export for Capacitor builds
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
+  
   // Basic configuration
   poweredByHeader: false,
-  trailingSlash: false,
   reactStrictMode: true,
   
   // Development server configuration for Replit
@@ -24,6 +28,18 @@ const nextConfig = {
     unoptimized: true,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  
+  // Export configuration for static build
+  exportPathMap: async function () {
+    return {
+      '/': { page: '/' },
+      '/dashboard': { page: '/dashboard' },
+      '/bookings': { page: '/bookings' },
+      '/staff': { page: '/staff' },
+      '/locations': { page: '/locations' },
+      '/inventory': { page: '/inventory' },
+    }
   },
   
   serverExternalPackages: ['@neondatabase/serverless'],
