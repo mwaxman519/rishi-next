@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 /**
  * API Route for rejecting a kit instance
  */

@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { items } from "@shared/schema";

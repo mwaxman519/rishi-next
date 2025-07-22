@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 // Using direct database connection instead of problematic import
 // import { testDatabaseConnection } from "@/lib/db";
 import { db } from "@/lib/db";

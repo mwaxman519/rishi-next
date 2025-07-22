@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { simpleTimeTrackingService } from "../../../services/timetracking/SimpleTimeTrackingService";
 
 // Use the exported instance

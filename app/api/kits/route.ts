@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { kitInstances, insertKitSchema, USER_ROLES, kits } from "@shared/schema";

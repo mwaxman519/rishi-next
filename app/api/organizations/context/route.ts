@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { getOrganizationContext } from "@/lib/organization-context";
 
 /**

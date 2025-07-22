@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Logout API for Auth Microservice
  *
  * Handles user logout by clearing authentication cookies.

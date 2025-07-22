@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { cookies } from "next/headers";
 import { scrypt, randomBytes } from "crypto";
 import { promisify } from "util";

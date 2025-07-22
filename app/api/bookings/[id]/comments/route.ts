@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 /**
  * Booking Comments API
  * Handles adding and retrieving comments for bookings

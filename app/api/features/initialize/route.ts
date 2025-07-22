@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * API endpoint to initialize the feature system for all organizations
  * This is typically called during application startup or after major changes
  */

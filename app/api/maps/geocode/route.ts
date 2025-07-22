@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Geocoding API Route
  * Provides geocoding features to client-side applications
  */

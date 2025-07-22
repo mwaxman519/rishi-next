@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 /**
  * Individual Shift API Routes
  * RESTful endpoints for single shift operations

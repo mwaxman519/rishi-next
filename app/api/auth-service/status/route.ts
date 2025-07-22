@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Database Status API
  *
  * This route provides a way to check the status of the database connection

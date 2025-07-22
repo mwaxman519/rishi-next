@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Booking Form Data API
  * Provides data needed to populate the booking form
  */

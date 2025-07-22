@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Logout API Endpoint
  * Handles user logout by clearing session cookies
  */

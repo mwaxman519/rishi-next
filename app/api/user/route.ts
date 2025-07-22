@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * User API Endpoint
  * Returns the current authenticated user's information
  */

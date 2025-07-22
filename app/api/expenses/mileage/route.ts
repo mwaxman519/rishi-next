@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Mileage Calculation API Routes - Phase 4 Implementation
  * Handles mileage expense calculation for workforce operations
  */

@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import * as userService from "../../../services/users/userService";

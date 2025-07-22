@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { getCurrentUser } from '@/lib/auth-server';
 import { db } from '@/lib/db';
 import { organizations, userOrganizations } from '@/shared/schema';

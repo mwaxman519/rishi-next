@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { db } from "@/lib/db";
 import { and, eq, ne } from "drizzle-orm";
 import { getCurrentUser } from "@/lib/auth";

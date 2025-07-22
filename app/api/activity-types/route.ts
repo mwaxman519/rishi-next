@@ -1,4 +1,8 @@
 
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { activityTypes } from "@shared/schema";

@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * API endpoint to check if a specific feature is enabled for an organization
  */
 import { NextRequest, NextResponse } from "next/server";

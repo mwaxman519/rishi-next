@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { OrganizationService } from "@/services/OrganizationService";
 import { getCurrentUser } from "../auth-service/utils/auth-utils";
 import { v4 as uuidv4 } from "uuid";

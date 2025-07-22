@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Shifts API Routes
  * RESTful endpoints for shift management operations
  */

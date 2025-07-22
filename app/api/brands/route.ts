@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Brands API Routes
  */
 import { NextRequest, NextResponse } from "next/server";

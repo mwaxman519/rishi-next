@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import fs from "fs/promises";
 import * as nodePath from "path";
 import { getDocsDirectory } from "@/lib/utils";

@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { put } from '@vercel/blob';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';

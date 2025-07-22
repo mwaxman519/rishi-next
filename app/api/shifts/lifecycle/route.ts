@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Shift Lifecycle API Routes
  * Endpoints for managing shift status transitions
  */

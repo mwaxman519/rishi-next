@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "../../../auth-service/db";

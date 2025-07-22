@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 // Production error monitoring endpoint
 export async function POST(request: NextRequest) {
   try {

@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { availabilityService } from "../../../services/availability/availabilityService";
 import { USER_ROLES } from "@shared/rbac/roles";
 import { verifyJwt } from "@/lib/auth-utils";

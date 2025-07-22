@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import path from "path";
 import { promises as fs, existsSync, statSync, readdirSync } from "fs";
 

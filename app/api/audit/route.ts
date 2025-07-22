@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Audit Log API
  *
  * Endpoint for retrieving audit logs with filtering and pagination.

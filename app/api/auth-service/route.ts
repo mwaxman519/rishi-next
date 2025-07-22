@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Main API Route for Auth Microservice
  *
  * This is the entry point for the auth microservice that provides

@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { db } from "../../../lib/db-connection";
 import { states } from "@shared/schema";
 import { eq } from "drizzle-orm";

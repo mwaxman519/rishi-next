@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { getCurrentUser } from "@/lib/auth";
 import { cookies } from "next/headers";
 

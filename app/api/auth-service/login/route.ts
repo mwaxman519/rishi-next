@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Login API for Auth Microservice
  *
  * Handles user authentication.

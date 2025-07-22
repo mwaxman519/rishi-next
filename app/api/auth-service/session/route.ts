@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { successResponse, errorResponse } from "../utils/response";
 import { AUTH_CONFIG } from "../config";
 import { getUserById } from "../models/user-repository";

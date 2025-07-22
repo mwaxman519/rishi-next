@@ -1,4 +1,8 @@
 // Kubernetes Readiness Probe Endpoint
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { NextRequest, NextResponse } from "next/server";
 import { HealthMonitorService } from "../../../../services/health-monitor";
 

@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Login API Endpoint
  * Handles user authentication with secure password verification
  */

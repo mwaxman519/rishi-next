@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { USER_ROLES } from "@shared/schema";
 import { UserRole } from "@/lib/rbac";
 

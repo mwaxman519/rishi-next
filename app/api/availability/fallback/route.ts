@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 /**
  * GET /api/availability/fallback - Get empty availability data
  *

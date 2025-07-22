@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 import { NextRequest, NextResponse } from "next/server";
 import { availabilityService } from "../../../services/availability/availabilityService";
 import { availabilityRepository } from "../../../services/availability/repository";

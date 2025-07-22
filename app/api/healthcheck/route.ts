@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 /**
  * Simple health check endpoint that won't attempt to access the database
  * This is used to confirm the API server is running when the database might be unavailable

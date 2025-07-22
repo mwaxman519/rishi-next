@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Expense Approval API Routes - Event-Driven Microservice
  * Handles expense approval and rejection workflows
  */

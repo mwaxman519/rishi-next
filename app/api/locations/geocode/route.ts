@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 // Google Maps API Key for geocoding
 const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";
 

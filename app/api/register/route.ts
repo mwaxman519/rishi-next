@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Registration API Endpoint
  * Handles user registration with proper validation and error handling
  */

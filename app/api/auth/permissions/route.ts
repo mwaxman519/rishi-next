@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { verifyToken } from "../../auth-service/utils/jwt";
 import { AUTH_CONFIG } from "../../auth-service/config";
 import { getUserById } from "../../auth-service/models/user-repository";

@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { checkPermission } from '@/lib/rbac';
 import { getOrganizationHeaderData } from '@/lib/organization-context';
 import { db } from '@/lib/db';

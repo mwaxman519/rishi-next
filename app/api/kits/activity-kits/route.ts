@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Activity Kit Assignment API Routes
  */
 import { NextRequest, NextResponse } from "next/server";

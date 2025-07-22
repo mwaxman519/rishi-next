@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Organization Preferences API Routes
  *
  * These endpoints handle user-specific preferences for each organization, including:

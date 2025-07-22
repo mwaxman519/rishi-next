@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Session API Endpoint for Auth Microservice
  *
  * This endpoint verifies user sessions and returns current user data.

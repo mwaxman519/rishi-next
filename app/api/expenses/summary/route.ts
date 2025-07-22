@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Expense Summary API Routes - Event-Driven Microservice
  * Provides expense analytics and summary data
  */

@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Brand Agents API Endpoints
  *
  * RESTful API for managing brand agent assignments with comprehensive

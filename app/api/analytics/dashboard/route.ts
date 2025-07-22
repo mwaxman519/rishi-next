@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { authenticateRequest } from "../../../server/auth-utils";
 import { EventBusService } from "../../../services/EventBusService";
 

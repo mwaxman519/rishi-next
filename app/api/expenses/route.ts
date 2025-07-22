@@ -1,4 +1,8 @@
 /**
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
  * Expense Management API Routes - Event-Driven Microservice
  * Handles expense submission, approval workflows, and comprehensive expense tracking
  */

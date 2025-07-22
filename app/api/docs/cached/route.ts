@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
 import { getDocumentByPath, getDocTree } from "@/lib/docs";
 
 // Cache duration in seconds

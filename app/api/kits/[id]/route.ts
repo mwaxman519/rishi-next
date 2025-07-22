@@ -1,5 +1,9 @@
 import { generateStaticParams } from "./generateStaticParams";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
+
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "../../../../lib/db-connection";
