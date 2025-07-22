@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * API Route for rejecting a kit instance
  */

@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * Organization Users API
  *

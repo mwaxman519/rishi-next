@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import * as userService from "../../../services/users/userService";

@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * Booking Comments API
  * Handles adding and retrieving comments for bookings

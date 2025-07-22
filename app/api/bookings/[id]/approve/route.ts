@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { bookings } from "@shared/schema";

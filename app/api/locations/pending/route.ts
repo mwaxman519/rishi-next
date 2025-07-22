@@ -6,6 +6,7 @@ import * as schema from "@shared/schema";
 import { eq } from "drizzle-orm";
 import {
   AppEvent,
+  BaseEvent,
   LocationApprovalPayload,
   LocationRejectionPayload,
 } from "../../../../services/infrastructure/messaging/eventTypes";

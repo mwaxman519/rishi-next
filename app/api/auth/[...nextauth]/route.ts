@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import NextAuth from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 

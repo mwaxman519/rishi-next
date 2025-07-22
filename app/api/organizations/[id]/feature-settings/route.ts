@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "../../../auth-service/db";

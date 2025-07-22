@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextRequest, NextResponse } from "next/server";
 import { availabilityService } from "../../../services/availability/availabilityService";
 import { availabilityRepository } from "../../../services/availability/repository";

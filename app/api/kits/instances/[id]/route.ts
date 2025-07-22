@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * Kit Instance API Routes for specific kit
  */

@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * Individual Booking API
  * Handles single booking operations - get, update, delete

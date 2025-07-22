@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextRequest, NextResponse } from "next/server";
 import { NotificationService } from "../../../../services/notifications/notificationService";
 import { getServerSession } from "next-auth";

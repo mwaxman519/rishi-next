@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextRequest, NextResponse } from "next/server";
 import { db, sql } from "@/lib/db";
 import { eq, and } from "drizzle-orm";

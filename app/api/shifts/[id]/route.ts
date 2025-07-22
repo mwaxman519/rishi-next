@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * Individual Shift API Routes
  * RESTful endpoints for single shift operations

@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { items } from "@shared/schema";

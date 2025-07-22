@@ -1,3 +1,5 @@
+import { generateStaticParams } from "./generateStaticParams";
+
 /**
  * Activity Kit Assignment API Routes for specific assignment
  */
