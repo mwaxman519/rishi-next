@@ -1,101 +1,188 @@
 /**
- * Application Event Types
- * Defines all possible event types that can be published throughout the application
- */
-export enum AppEvent {
-  // System events
-  SYSTEM_NOTIFICATION = "system.notification",
-  SYSTEM_ERROR = "system.error",
-
-  // Location events
-  LOCATION_CREATED = "location.created",
-  LOCATION_UPDATED = "location.updated",
-  LOCATION_DELETED = "location.deleted",
-  LOCATION_APPROVED = "location.approved",
-  LOCATION_REJECTED = "location.rejected",
-
-  // Organization events
-  ORGANIZATION_CREATED = "organization.created",
-  ORGANIZATION_UPDATED = "organization.updated",
-  ORGANIZATION_DELETED = "organization.deleted",
-
-  // User events
-  USER_CREATED = "user.created",
-  USER_UPDATED = "user.updated",
-  USER_DELETED = "user.deleted",
-  USER_ROLE_CHANGED = "user.role_changed",
-
-  // Kit events
-  KIT_CREATED = "kit.created",
-  KIT_UPDATED = "kit.updated",
-  KIT_DELETED = "kit.deleted",
-  KIT_ASSIGNED = "kit.assigned",
-  KIT_UNASSIGNED = "kit.unassigned",
-
-  // Booking/Event events
-  EVENT_CREATED = "event.created",
-  EVENT_UPDATED = "event.updated",
-  EVENT_DELETED = "event.deleted",
-  EVENT_STATUS_CHANGED = "event.status_changed",
-  EVENT_COMPLETED = "event.completed",
-  EVENT_CANCELLED = "event.cancelled",
-
-  // Staff events
-  STAFF_ASSIGNED = "staff.assigned",
-  STAFF_UNASSIGNED = "staff.unassigned",
-}
-
-/**
- * Event Payload Types
- * Defines the shape of payloads for different event types
+ * Event Types for Rishi Platform Event System
+ * Defines all event types used throughout the application
  */
 
-// System notification payload
-export interface SystemNotificationPayload {
-  title: string;
-  message: string;
-  level: "info" | "warning" | "error" | "success";
-  timestamp: string;
+export interface BaseEvent {
+  type: string;
+  userId: string;
+  organizationId: string;
+  timestamp: Date;
+  correlationId: string;
   metadata?: Record<string, any>;
 }
 
-// Location approval payload
-export interface LocationApprovalPayload {
+// Location Events
+export interface LocationEvent extends BaseEvent {
+  type: 'location.created' | 'location.updated' | 'location.deleted' | 'location.approved' | 'location.rejected';
   locationId: string;
-  name: string;
-  approvedById: string;
-  approvedByName?: string;
-  timestamp: string;
-  metadata?: Record<string, any>;
 }
 
-// Location rejection payload
-export interface LocationRejectionPayload {
-  locationId: string;
-  name: string;
-  rejectionReason: string;
-  rejectedById: string;
-  rejectedByName?: string;
-  timestamp: string;
-  metadata?: Record<string, any>;
+export interface LocationCreatedEvent extends LocationEvent {
+  type: 'location.created';
+  location: {
+    id: string;
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    placeId?: string;
+  };
 }
 
-// Generic event payload
-export interface GenericEventPayload {
-  [key: string]: any;
+export interface LocationUpdatedEvent extends LocationEvent {
+  type: 'location.updated';
+  changes: Record<string, any>;
 }
 
-// Union type for all possible payloads
-export type EventPayload =
-  | SystemNotificationPayload
-  | LocationApprovalPayload
-  | LocationRejectionPayload
-  | GenericEventPayload;
-
-// Event message structure
-export interface EventMessage {
-  type: AppEvent;
-  payload: EventPayload;
-  source?: string;
-  timestamp: string;
+// Booking Events
+export interface BookingEvent extends BaseEvent {
+  type: 'booking.created' | 'booking.updated' | 'booking.cancelled' | 'booking.confirmed' | 'booking.completed';
+  bookingId: string;
 }
+
+export interface BookingCreatedEvent extends BookingEvent {
+  type: 'booking.created';
+  booking: {
+    id: string;
+    locationId: string;
+    startTime: Date;
+    endTime: Date;
+    staffCount: number;
+  };
+}
+
+// Staff Events
+export interface StaffEvent extends BaseEvent {
+  type: 'staff.assigned' | 'staff.unassigned' | 'staff.availability_updated' | 'staff.performance_updated';
+  staffId: string;
+}
+
+export interface StaffAssignedEvent extends StaffEvent {
+  type: 'staff.assigned';
+  bookingId: string;
+  role: string;
+}
+
+// User Events
+export interface UserEvent extends BaseEvent {
+  type: 'user.created' | 'user.updated' | 'user.deactivated' | 'user.role_changed';
+  targetUserId: string;
+}
+
+export interface UserCreatedEvent extends UserEvent {
+  type: 'user.created';
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+  };
+}
+
+// Organization Events
+export interface OrganizationEvent extends BaseEvent {
+  type: 'organization.created' | 'organization.updated' | 'organization.member_added' | 'organization.member_removed';
+}
+
+export interface OrganizationMemberAddedEvent extends OrganizationEvent {
+  type: 'organization.member_added';
+  memberId: string;
+  role: string;
+}
+
+// Inventory Events
+export interface InventoryEvent extends BaseEvent {
+  type: 'inventory.kit_created' | 'inventory.kit_updated' | 'inventory.kit_assigned' | 'inventory.kit_returned';
+  kitId: string;
+}
+
+export interface InventoryKitCreatedEvent extends InventoryEvent {
+  type: 'inventory.kit_created';
+  kit: {
+    id: string;
+    templateId: string;
+    name: string;
+    items: Array<{ itemId: string; quantity: number }>;
+  };
+}
+
+// System Events
+export interface SystemEvent extends BaseEvent {
+  type: 'system.health_check' | 'system.error' | 'system.performance_alert';
+}
+
+export interface SystemHealthCheckEvent extends SystemEvent {
+  type: 'system.health_check';
+  status: 'healthy' | 'unhealthy' | 'degraded';
+  checks: Array<{ name: string; status: string; message?: string }>;
+}
+
+// Union type of all events
+export type PlatformEvent = 
+  | LocationCreatedEvent
+  | LocationUpdatedEvent
+  | LocationEvent
+  | BookingCreatedEvent
+  | BookingEvent
+  | StaffAssignedEvent
+  | StaffEvent
+  | UserCreatedEvent
+  | UserEvent
+  | OrganizationMemberAddedEvent
+  | OrganizationEvent
+  | InventoryKitCreatedEvent
+  | InventoryEvent
+  | SystemHealthCheckEvent
+  | SystemEvent;
+
+// Export alias for backward compatibility
+export type AppEvent = PlatformEvent;
+
+// Event type constants
+export const EVENT_TYPES = {
+  LOCATION: {
+    CREATED: 'location.created',
+    UPDATED: 'location.updated',
+    DELETED: 'location.deleted',
+    APPROVED: 'location.approved',
+    REJECTED: 'location.rejected'
+  },
+  BOOKING: {
+    CREATED: 'booking.created',
+    UPDATED: 'booking.updated',
+    CANCELLED: 'booking.cancelled',
+    CONFIRMED: 'booking.confirmed',
+    COMPLETED: 'booking.completed'
+  },
+  STAFF: {
+    ASSIGNED: 'staff.assigned',
+    UNASSIGNED: 'staff.unassigned',
+    AVAILABILITY_UPDATED: 'staff.availability_updated',
+    PERFORMANCE_UPDATED: 'staff.performance_updated'
+  },
+  USER: {
+    CREATED: 'user.created',
+    UPDATED: 'user.updated',
+    DEACTIVATED: 'user.deactivated',
+    ROLE_CHANGED: 'user.role_changed'
+  },
+  ORGANIZATION: {
+    CREATED: 'organization.created',
+    UPDATED: 'organization.updated',
+    MEMBER_ADDED: 'organization.member_added',
+    MEMBER_REMOVED: 'organization.member_removed'
+  },
+  INVENTORY: {
+    KIT_CREATED: 'inventory.kit_created',
+    KIT_UPDATED: 'inventory.kit_updated',
+    KIT_ASSIGNED: 'inventory.kit_assigned',
+    KIT_RETURNED: 'inventory.kit_returned'
+  },
+  SYSTEM: {
+    HEALTH_CHECK: 'system.health_check',
+    ERROR: 'system.error',
+    PERFORMANCE_ALERT: 'system.performance_alert'
+  }
+} as const;
