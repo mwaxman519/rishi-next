@@ -8,73 +8,98 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "@shared/schema";
 
-// CRITICAL ENVIRONMENT DETECTION - BUILD TIME = PRODUCTION, REPLIT AUTOSCALE = STAGING, VERCEL = PRODUCTION
+// CRITICAL ENVIRONMENT DETECTION WITH STRICT SEPARATION
 export function getEnvironment(): "development" | "staging" | "production" {
-  // MOBILE BUILD OVERRIDE: During npm run build, always use production for VoltBuilder
-  if (process.env.NEXT_PHASE === 'phase-production-build' || 
-      process.env.NODE_ENV === 'production') {
+  // HIGHEST PRIORITY: Explicit environment overrides
+  if (process.env.FORCE_ENVIRONMENT === "development") return "development";
+  if (process.env.FORCE_ENVIRONMENT === "staging") return "staging";
+  if (process.env.FORCE_ENVIRONMENT === "production") return "production";
+
+  // DEVELOPMENT: Local development server (NODE_ENV=development AND not in build)
+  if (process.env.NODE_ENV === "development" && 
+      process.env.NEXT_PHASE !== 'phase-production-build') {
+    return "development";
+  }
+
+  // PRODUCTION: Vercel production environment
+  if (process.env.VERCEL_ENV === "production" || process.env.VERCEL === "1") {
     return "production";
   }
 
-  // Check if we're in Vercel production (PRODUCTION environment)
-  const isVercelProduction = 
-    process.env.VERCEL_ENV === "production" ||
-    process.env.VERCEL === "1";
+  // STAGING: Replit Autoscale deployment
+  if (process.env.REPLIT === "1" || 
+      process.env.REPLIT_DEPLOYMENT === "1" || 
+      process.env.REPLIT_DOMAINS ||
+      process.env.DEPLOY_ENV === "staging" ||
+      process.env.NEXT_PUBLIC_APP_ENV === "staging") {
+    return "staging";
+  }
 
-  // Check if we're in Replit Autoscale (STAGING environment) 
-  const isReplitAutoscale = 
-    process.env.REPLIT === "1" ||
-    process.env.REPLIT_DEPLOYMENT === "1" ||
-    process.env.REPLIT_DOMAINS;
+  // BUILD TIME: During VoltBuilder builds, use production (but with explicit env check)
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    // Only use production if we have PRODUCTION_DATABASE_URL or explicit production env
+    if (process.env.PRODUCTION_DATABASE_URL || process.env.FORCE_ENVIRONMENT === "production") {
+      return "production";
+    }
+    // Otherwise use staging for builds to avoid dev/prod cross-contamination
+    return "staging";
+  }
 
-  // Check for explicit staging environment variables
-  const isStaging =
-    process.env.DEPLOY_ENV === "staging" ||
-    process.env.STAGING === "true" ||
-    process.env.NEXT_PUBLIC_APP_ENV === "staging" ||
-    isReplitAutoscale;
+  // PRODUCTION: Any other NODE_ENV=production scenario
+  if (process.env.NODE_ENV === "production") {
+    return "production";
+  }
 
-  // Development environment check (only during dev server)
-  const isDevelopment = 
-    process.env.NODE_ENV === "development" && 
-    process.env.NEXT_PHASE !== 'phase-production-build';
-
-  if (isVercelProduction) return "production";
-  if (isStaging) return "staging"; 
-  if (isDevelopment) return "development";
-  
-  // Default to production for builds
-  return "production";
+  // DEFAULT: Development (safest for unknown scenarios)
+  return "development";
 }
 
-// Get environment-specific database URL
+// Get environment-specific database URL with strict separation
 function getDatabaseUrl(): string {
   const env = getEnvironment();
   console.log(`[Auth Service] Detected environment: ${env}`);
 
-  // Check for environment-specific database URLs first
-  if (env === "staging" && process.env.STAGING_DATABASE_URL) {
-    return process.env.STAGING_DATABASE_URL;
+  // STRICT ENVIRONMENT-SPECIFIC DATABASE SEPARATION
+  if (env === "development") {
+    // Development MUST use development-specific database or default DATABASE_URL
+    const devUrl = process.env.DEV_DATABASE_URL || process.env.DATABASE_URL;
+    if (!devUrl) {
+      console.error("[Auth Service] Development environment requires DATABASE_URL or DEV_DATABASE_URL");
+      throw new Error("Development database URL not configured");
+    }
+    console.log(`[Auth Service] Using development database`);
+    return devUrl;
+  }
+
+  if (env === "staging") {
+    // Staging MUST use staging-specific database
+    if (process.env.STAGING_DATABASE_URL) {
+      console.log(`[Auth Service] Using staging database`);
+      return process.env.STAGING_DATABASE_URL;
+    }
+    // Fallback to DATABASE_URL only if no staging URL is set (current Replit setup)
+    if (process.env.DATABASE_URL) {
+      console.log(`[Auth Service] Using DATABASE_URL for staging (no STAGING_DATABASE_URL set)`);
+      return process.env.DATABASE_URL;
+    }
+    console.error("[Auth Service] Staging environment requires STAGING_DATABASE_URL or DATABASE_URL");
+    throw new Error("Staging database URL not configured");
   }
 
   if (env === "production") {
-    const productionUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
-    if (productionUrl) {
-      console.log(`[Auth Service] Using production database for ${env} environment`);
-      return productionUrl;
+    // Production MUST use production-specific database
+    const prodUrl = process.env.PRODUCTION_DATABASE_URL || process.env.DATABASE_URL;
+    if (!prodUrl) {
+      console.error("[Auth Service] Production environment requires PRODUCTION_DATABASE_URL or DATABASE_URL");
+      throw new Error("Production database URL not configured");
     }
+    console.log(`[Auth Service] Using production database`);
+    return prodUrl;
   }
 
-  // Fall back to the default DATABASE_URL (which should be production-ready)
-  if (!process.env.DATABASE_URL) {
-    console.error(
-      "[Auth Service] DATABASE_URL must be set. Did you forget to provision a database?",
-    );
-    throw new Error("DATABASE_URL is required for database connection");
-  }
-
-  console.log(`[Auth Service] Using DATABASE_URL for ${env} environment`);
-  return process.env.DATABASE_URL;
+  // Should never reach here, but fail safe
+  console.error(`[Auth Service] Unknown environment: ${env}`);
+  throw new Error(`Unknown environment: ${env}`);
 }
 
 // Get the connection URL with proper environment detection
