@@ -2,8 +2,8 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Static export for Capacitor builds
-  output: 'export',
+  // Disable static export for development compatibility
+  // output: 'export',
   trailingSlash: true,
   distDir: 'out',
   
