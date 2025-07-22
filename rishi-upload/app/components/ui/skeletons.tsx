@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useClientOnly } from "../../hooks/useClientOnly";
+import { useClientOnly } from "@/hooks/useClientOnly";
 
 /**
  * A simple empty placeholder that renders the same on both server and client

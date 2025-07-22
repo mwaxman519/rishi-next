@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { useAuthorization } from "../../hooks/useAuthorization";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
 import { USER_ROLES } from "../../../shared/rbac/roles";
 import Link from "next/link";
 import * as userService from "../../services/users/userService";

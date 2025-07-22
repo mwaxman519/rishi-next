@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SafeLink } from "../../components/ui/safe-link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { LabeledInput } from "../../components/ui/labeled-input";
 import { Button } from "../../components/ui/button";
 

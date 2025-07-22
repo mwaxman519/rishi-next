@@ -43,7 +43,7 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { Badge } from "../../components/ui/badge";
-import { useAuthorization } from "../../hooks/useAuthorization";
+import { useAuthorization } from "@/hooks/useAuthorization";
 
 // Mock data for staff
 const mockStaff = [

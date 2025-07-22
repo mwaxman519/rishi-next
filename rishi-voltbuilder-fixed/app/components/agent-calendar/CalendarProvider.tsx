@@ -9,8 +9,8 @@ import React, {
   ReactNode,
 } from "react";
 import { AvailabilityDTO } from "../../models/availability";
-import { useTheme } from "../../hooks/useTheme";
-import { useSidebarState } from "../../hooks/useSidebarState";
+import { useTheme } from "@/hooks/useTheme";
+import { useSidebarState } from "@/hooks/useSidebarState";
 
 // Define the shape of the context
 interface CalendarContextType {

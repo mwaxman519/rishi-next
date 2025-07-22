@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback, memo, useRef } from "react";
 import AgentCalendar from "./AgentCalendar";
-import { useTheme } from "../../hooks/useTheme";
-import { useSidebarState } from "../../hooks/useSidebarState";
+import { useTheme } from "@/hooks/useTheme";
+import { useSidebarState } from "@/hooks/useSidebarState";
 import ErrorBoundary from "../ErrorBoundary";
 
 interface CalendarWrapperProps {

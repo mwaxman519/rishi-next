@@ -50,7 +50,7 @@ import {
   TabsTrigger,
 } from "../../components/ui/tabs";
 import { Badge } from "../../components/ui/badge";
-import { useAuthorization } from "../../hooks/useAuthorization";
+import { useAuthorization } from "@/hooks/useAuthorization";
 
 // Mock data for invoices
 

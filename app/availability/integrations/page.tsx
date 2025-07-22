@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function IntegrationsPage() {
   const { user } = useAuth();

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "../../components/ui/button";
 import { Loader2, AlertCircle } from "lucide-react";
 import { SafeLink } from "../../components/ui/safe-link";

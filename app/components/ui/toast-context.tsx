@@ -3,7 +3,7 @@
 import * as React from "react";
 import { X } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { useClientOnly } from "../../hooks/useClientOnly";
+import { useClientOnly } from "@/hooks/useClientOnly";
 
 // Define toast types
 export type ToastProps = {

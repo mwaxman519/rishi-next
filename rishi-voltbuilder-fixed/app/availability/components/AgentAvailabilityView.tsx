@@ -4,8 +4,8 @@ import { useState, useEffect, Suspense } from "react";
 import { AvailabilityDTO } from "../../models/availability";
 import { format } from "date-fns";
 import { ThemeToggle } from "../../components/ui/theme-toggle";
-import { useTheme } from "../../hooks/useTheme";
-import { useSidebarState } from "../../hooks/useSidebarState";
+import { useTheme } from "@/hooks/useTheme";
+import { useSidebarState } from "@/hooks/useSidebarState";
 import { Sun, Moon } from "lucide-react";
 import { memo } from "react";
 

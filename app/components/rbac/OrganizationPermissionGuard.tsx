@@ -1,5 +1,5 @@
 import React from "react";
-import { useOrganizationPermissions } from "../../hooks/useOrganizationPermissions";
+import { useOrganizationPermissions } from "@/hooks/useOrganizationPermissions";
 import { useOrganization } from "../../contexts/OrganizationProvider";
 import { Loader2 } from "lucide-react";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useOrganization } from "../../contexts/OrganizationProvider";
 import { OrganizationSelector } from "../organization/OrganizationSelector";
 import { ThemeToggle } from "../ui/theme-toggle";
