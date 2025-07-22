@@ -1,7 +1,7 @@
 /**
  * Organization Repository for data access operations
  */
-import { db } from "../../server/db";
+import { db } from "../../../lib/db-connection";
 import { organizations, organizationUsers } from "../../../shared/schema";
 import { eq, and, like, inArray } from "drizzle-orm";
 import {

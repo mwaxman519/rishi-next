@@ -1,7 +1,7 @@
 /**
  * Permissions utility functions for checking user access
  */
-import { db } from "../../server/db";
+import { db } from "../../lib/db-connection";
 import { eq, and, or } from "drizzle-orm";
 import { organizationUsers, organizations, users } from "../../shared/schema";
 import {

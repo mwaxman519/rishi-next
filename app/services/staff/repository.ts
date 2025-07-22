@@ -4,7 +4,7 @@
  * Production implementation for staff repository with database operations
  * interact with the database once the schema is defined for staff-related tables.
  */
-import { db } from "../../server/db";
+import { db } from "../../../lib/db-connection";
 import {
   StaffMember,
   StaffSkill,

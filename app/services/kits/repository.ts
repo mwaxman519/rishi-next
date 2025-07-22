@@ -2,7 +2,7 @@
  * Kit Management Repository - SIMPLIFIED for VoltBuilder
  * Using correct schema field names from shared/schema.ts
  */
-import { db } from "../../../server/db";
+import { db } from "../../lib/db-connection";
 import {
   kitTemplates,
   kits,

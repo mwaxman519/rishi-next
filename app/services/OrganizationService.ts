@@ -1,4 +1,4 @@
-import { db } from "../../server/db";
+import { db } from "../lib/db-connection";
 import { organizations } from "@shared/schema";
 import { EventBusService } from "./EventBusService";
 import { ServiceRegistry } from "./ServiceRegistry";

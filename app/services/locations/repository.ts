@@ -1,7 +1,7 @@
 /**
  * Location Repository for data access operations
  */
-import { db } from "../../server/db";
+import { db } from "../../../lib/db-connection";
 import {
   locations,
   states,

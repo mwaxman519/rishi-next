@@ -2,7 +2,7 @@
  * Server-side organization utility functions
  * Used for fetching organization data from the server
  */
-import { db } from "../../server/db";
+import { db } from "../../lib/db-connection";
 import { organizations, organizationUsers } from "../../shared/schema";
 import { eq, and } from "drizzle-orm";
 import { getUser } from "./auth-server";

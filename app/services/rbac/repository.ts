@@ -1,7 +1,7 @@
 /**
  * RBAC Repository for data access operations
  */
-import { db } from "../../server/db";
+import { db } from "../../../lib/db-connection";
 import { roles, organizationPermissions } from "../../../shared/schema";
 import { eq, and, or, inArray } from "drizzle-orm";
 import {

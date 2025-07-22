@@ -3,7 +3,7 @@
  * Extends the base repository with additional fields for geocoding data
  */
 import { LocationRepository as BaseLocationRepository } from "../locations_core/repository";
-import { db } from "../../server/db";
+import { db } from "../../../lib/db-connection";
 import { locations } from "../../../shared/schema";
 import { eq } from "drizzle-orm";
 import {
