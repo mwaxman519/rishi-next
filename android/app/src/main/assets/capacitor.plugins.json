@@ -1,26 +1,44 @@
 [
   {
     "pkg": "@capacitor/app",
-    "classpath": "com.capacitorjs.plugins.app.AppPlugin"
+    "android": {
+      "src": "main/java/com/capacitorjs/plugins/app/AppPlugin.java",
+      "name": "AppPlugin"
+    }
   },
   {
     "pkg": "@capacitor/keyboard", 
-    "classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
+    "android": {
+      "src": "main/java/com/capacitorjs/plugins/keyboard/KeyboardPlugin.java",
+      "name": "KeyboardPlugin"
+    }
   },
   {
     "pkg": "@capacitor/local-notifications",
-    "classpath": "com.capacitorjs.plugins.localnotifications.LocalNotificationsPlugin"
+    "android": {
+      "src": "main/java/com/capacitorjs/plugins/localnotifications/LocalNotificationsPlugin.java",
+      "name": "LocalNotificationsPlugin"
+    }
   },
   {
     "pkg": "@capacitor/push-notifications",
-    "classpath": "com.capacitorjs.plugins.pushnotifications.PushNotificationsPlugin"
+    "android": {
+      "src": "main/java/com/capacitorjs/plugins/pushnotifications/PushNotificationsPlugin.java", 
+      "name": "PushNotificationsPlugin"
+    }
   },
   {
     "pkg": "@capacitor/splash-screen",
-    "classpath": "com.capacitorjs.plugins.splashscreen.SplashScreenPlugin"
+    "android": {
+      "src": "main/java/com/capacitorjs/plugins/splashscreen/SplashScreenPlugin.java",
+      "name": "SplashScreenPlugin"
+    }
   },
   {
     "pkg": "@capacitor/status-bar",
-    "classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
+    "android": {
+      "src": "main/java/com/capacitorjs/plugins/statusbar/StatusBarPlugin.java",
+      "name": "StatusBarPlugin"
+    }
   }
 ]
