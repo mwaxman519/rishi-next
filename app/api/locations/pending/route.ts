@@ -10,6 +10,7 @@ import * as schema from "@shared/schema";
 import { eq } from "drizzle-orm";
 import {
   AppEvent,
+  AppEventTypes,
   BaseEvent,
   LocationApprovalPayload,
   LocationRejectionPayload,
@@ -180,7 +181,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
       .update(schema.locations)
       .set({
         status: newStatus, // Convert 'approved' to 'active' for consistency
-        reviewedBy: reviewerId,
+        reviewed_by: reviewerId,
         reviewDate: now,
         updatedAt: now,
         notes: body.notes
@@ -195,20 +196,18 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
       if (newStatus === "active") {
         // Location was approved - publish approval event
         const approvalPayload: LocationApprovalPayload = {
-          locationId: updatedLocation.id,
-          name: updatedLocation.name,
-          approvedById: reviewerId,
-          approvedByName: reviewerName,
-          approvedAt: now.toISOString(),
-          submittedById: location.requested_by || undefined,
+          locationId: updatedLocation?.id || '',
+          approvedBy: reviewerId,
+          timestamp: now,
+          notes: body.notes,
         };
 
-        await publishEvent(AppEvent.LOCATION_APPROVED, approvalPayload, {
+        await publishEvent(AppEventTypes.LOCATION_APPROVED, approvalPayload, {
           targetUserId: location.requested_by, // Send notification to the user who requested it
         });
 
         // Also publish a system notification for all users
-        await publishEvent(AppEvent.SYSTEM_NOTIFICATION, {
+        await publishEvent(AppEventTypes.SYSTEM_NOTIFICATION, {
           title: "Location Approved",
           message: `${updatedLocation.name} has been approved and is now active.`,
           level: "success",
@@ -216,16 +215,13 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
       } else {
         // Location was rejected - publish rejection event
         const rejectionPayload: LocationRejectionPayload = {
-          locationId: updatedLocation.id,
-          name: updatedLocation.name,
-          rejectedById: reviewerId,
-          rejectedByName: reviewerName,
-          rejectedAt: now.toISOString(),
-          rejectionReason: body.notes || undefined,
-          submittedById: location.requested_by || undefined,
+          locationId: updatedLocation?.id || '',
+          rejectedBy: reviewerId,
+          timestamp: now,
+          reason: body.notes || 'No reason provided',
         };
 
-        await publishEvent(AppEvent.LOCATION_REJECTED, rejectionPayload, {
+        await publishEvent(AppEventTypes.LOCATION_REJECTED, rejectionPayload, {
           targetUserId: location.requested_by, // Send notification to the user who requested it
         });
       }

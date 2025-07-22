@@ -18,6 +18,14 @@ export interface AppEvent extends BaseEvent {
   payload?: any;
 }
 
+// AppEvent enum for event types
+export enum AppEventTypes {
+  LOCATION_APPROVED = "location.approved",
+  LOCATION_REJECTED = "location.rejected",
+  LOCATION_UPDATED = "location.updated",
+  SYSTEM_NOTIFICATION = "system.notification",
+}
+
 export interface LocationEvent extends BaseEvent {
   type: 'location.created' | 'location.updated' | 'location.deleted' | 'location.approved' | 'location.pending';
   locationId: string;
