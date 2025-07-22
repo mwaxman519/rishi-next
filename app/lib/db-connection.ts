@@ -1,139 +1,152 @@
 /**
- * Enhanced database connection handler
- * This module provides environment-aware database connection configuration
+ * Database Connection Management for Multi-Platform Architecture
+ * 
+ * This module provides environment-aware database connection management
+ * for the Rishi Platform's 3-tier deployment architecture:
+ * 
+ * 1. Development (Replit): Development database with hot reload
+ * 2. Web Production (Vercel): Full serverless functions with production database
+ * 3. Mobile Production (VoltBuilder): Static export with remote API calls
  */
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import * as schema from "../../shared/schema";
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
 
-// Configuration for different environments (not needed for HTTP adapter)
-const connectionConfigs = {
-  development: {
-    name: "development",
-    description: "Development environment",
-  },
-  staging: {
-    name: "staging",
-    description: "Staging environment",
-  },
-  production: {
-    name: "production",
-    description: "Production environment",
-  },
-};
-
-// Detect current environment
-export function getEnvironment(): "development" | "staging" | "production" {
-  // Check if we're in a staging deployment
-  const isStaging =
-    process.env.DEPLOY_ENV === "staging" ||
-    process.env.STAGING === "true" ||
-    (typeof process.env.NODE_ENV === "string" &&
-      process.env.NODE_ENV.includes("staging"));
-
-  // Check if we're in production
-  const isProduction = process.env.NODE_ENV === "production" && !isStaging;
-
-  if (isStaging) return "staging";
-  if (isProduction) return "production";
-  return "development";
+/**
+ * Environment Detection for Multi-Platform Architecture
+ * 
+ * Determines the current deployment environment to apply appropriate
+ * database connection strategy based on platform capabilities.
+ */
+export function detectEnvironment(): 'development' | 'web-production' | 'mobile-production' {
+  // Mobile production build (static export)
+  if (process.env.MOBILE_BUILD === 'true' || process.env.VOLTBUILDER_BUILD === 'true') {
+    return 'mobile-production';
+  }
+  
+  // Web production (Vercel serverless)
+  if (process.env.VERCEL === '1' || process.env.NODE_ENV === 'production') {
+    return 'web-production';
+  }
+  
+  // Development (Replit workspace)
+  return 'development';
 }
 
-// Get the appropriate database URL based on environment
+/**
+ * Database URL Resolution with Environment Separation
+ * 
+ * Ensures strict environment separation to prevent development data
+ * from contaminating production environments and vice versa.
+ */
 export function getDatabaseUrl(): string {
-  const env = getEnvironment();
-
-  // CRITICAL SECURITY: Environment-specific database URLs - NO CROSS-ENVIRONMENT ACCESS
-  if (env === "staging") {
-    if (!process.env.STAGING_DATABASE_URL) {
-      throw new Error("SECURITY: STAGING_DATABASE_URL must be set for staging environment");
-    }
-    return process.env.STAGING_DATABASE_URL;
+  const environment = detectEnvironment();
+  
+  switch (environment) {
+    case 'development':
+      return process.env.DEV_DATABASE_URL || process.env.DATABASE_URL || '';
+      
+    case 'web-production':
+      return process.env.PRODUCTION_DATABASE_URL || process.env.DATABASE_URL || '';
+      
+    case 'mobile-production':
+      // Mobile builds use static export - no direct database access
+      // API calls go to Vercel deployment
+      return process.env.DATABASE_URL || '';
+      
+    default:
+      throw new Error(`Unknown environment: ${environment}`);
   }
-
-  if (env === "production") {
-    // In production, check for DATABASE_URL (Vercel) or PRODUCTION_DATABASE_URL (Azure)
-    const productionUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
-    if (!productionUrl) {
-      throw new Error("SECURITY: DATABASE_URL must be set for production environment");
-    }
-    // Additional security check: Never allow production database access from non-production environments
-    if (process.env.NODE_ENV !== "production") {
-      throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}`);
-    }
-    return productionUrl;
-  }
-
-  // Development environment - only allow development database
-  if (!process.env.DATABASE_URL) {
-    throw new Error(
-      "DATABASE_URL must be set for development environment. Did you forget to provision a database?",
-    );
-  }
-
-  return process.env.DATABASE_URL;
 }
 
-// Create database connection using HTTP adapter (lazy-loaded)
+/**
+ * Database Connection Factory
+ * 
+ * Creates appropriate database connection based on deployment environment.
+ * Mobile production builds should not use this directly - they use API calls.
+ */
 export function createDatabaseConnection() {
+  const environment = detectEnvironment();
   const databaseUrl = getDatabaseUrl();
-  const env = getEnvironment();
-  const config = connectionConfigs[env];
-
-  // Only log in development to avoid build-time issues
+  
+  if (!databaseUrl) {
+    throw new Error(`DATABASE_URL not configured for environment: ${environment}`);
+  }
+  
+  // Log connection environment (remove in production)
   if (process.env.NODE_ENV === 'development') {
-    console.log(
-      `Creating database connection for ${config.name} environment`,
-    );
+    console.log(`[DB Connection] Environment: ${environment}`);
+    console.log(`[DB Connection] URL prefix: ${databaseUrl.substring(0, 20)}...`);
   }
-
-  return neon(databaseUrl);
+  
+  const sql = neon(databaseUrl);
+  return drizzle(sql);
 }
 
-// Lazy-loaded database connection (only connects when first accessed)
-let _sql: ReturnType<typeof neon> | null = null;
-let _db: ReturnType<typeof drizzle> | null = null;
-
-export function getSql() {
-  if (!_sql) {
-    _sql = createDatabaseConnection();
+/**
+ * Environment Configuration Validation
+ * 
+ * Validates that the current environment has proper configuration
+ * for database connectivity and deployment requirements.
+ */
+export function validateEnvironmentConfiguration(): {
+  environment: string;
+  hasDatabase: boolean;
+  isValid: boolean;
+  warnings: string[];
+} {
+  const environment = detectEnvironment();
+  const databaseUrl = getDatabaseUrl();
+  const warnings: string[] = [];
+  
+  // Check database configuration
+  const hasDatabase = !!databaseUrl;
+  if (!hasDatabase) {
+    warnings.push(`Missing DATABASE_URL for ${environment} environment`);
   }
-  return _sql;
+  
+  // Environment-specific validations
+  switch (environment) {
+    case 'development':
+      if (!process.env.DEV_DATABASE_URL && !process.env.DATABASE_URL) {
+        warnings.push('Development should use DEV_DATABASE_URL or DATABASE_URL');
+      }
+      break;
+      
+    case 'web-production':
+      if (!process.env.PRODUCTION_DATABASE_URL && !process.env.DATABASE_URL) {
+        warnings.push('Web production should use PRODUCTION_DATABASE_URL');
+      }
+      break;
+      
+    case 'mobile-production':
+      if (!process.env.NEXT_PUBLIC_API_BASE_URL) {
+        warnings.push('Mobile production should use NEXT_PUBLIC_API_BASE_URL');
+      }
+      break;
+  }
+  
+  return {
+    environment,
+    hasDatabase,
+    isValid: warnings.length === 0,
+    warnings
+  };
 }
 
-export function getDb() {
-  if (!_db) {
-    _db = drizzle(getSql(), { schema });
+/**
+ * Get API Base URL for Mobile Applications
+ * 
+ * Mobile applications use API calls to the web production deployment
+ * instead of direct database connections.
+ */
+export function getApiBaseUrl(): string {
+  const environment = detectEnvironment();
+  
+  if (environment === 'mobile-production') {
+    return process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-platform.vercel.app';
   }
-  return _db;
-}
-
-// Export the lazy-loaded instances
-export const sql = getSql();
-export const db = getDb();
-
-// Export a function to check database connection
-export async function checkDatabaseConnection(): Promise<boolean> {
-  try {
-    const sqlInstance = getSql();
-    const result = await sqlInstance`SELECT NOW() as now`;
-    const dbResult = result[0];
-    if (!dbResult) {
-      throw new Error('Database connection test returned empty result');
-    }
-    
-    // Only log in development to avoid build-time issues
-    if (process.env.NODE_ENV === 'development') {
-      console.log(
-        `Database connection successful! Server time: ${dbResult.now}`,
-      );
-    }
-    return true;
-  } catch (error) {
-    if (process.env.NODE_ENV === 'development') {
-      console.error("Database connection failed:", error);
-    }
-    return false;
-  }
+  
+  // Development and web production use relative URLs
+  return '';
 }

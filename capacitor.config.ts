@@ -5,7 +5,9 @@ const config: CapacitorConfig = {
   appName: 'Rishi Platform',
   webDir: 'out',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    url: 'https://rishi-platform.vercel.app',
+    cleartext: false
   },
   plugins: {
     SplashScreen: {
@@ -39,17 +41,13 @@ const config: CapacitorConfig = {
       keystorePath: undefined,
       keystoreAlias: undefined,
       keystorePassword: undefined,
-      keystoreKeyPassword: undefined,
+      keystoreAliasPassword: undefined,
       releaseType: "APK",
       signingType: "jarsigner"
     }
   },
   ios: {
-    scheme: "Rishi Platform",
-    build: {
-      deviceFamily: "universal",
-      packageType: "app-store"
-    }
+    scheme: "Rishi Platform"
   }
 };
 
