@@ -191,20 +191,4 @@ export const publishEvent = <T extends BaseEvent>(event: T) => distributedEventB
 export const subscribeToEvent = <T extends BaseEvent>(eventType: string, handler: EventHandler<T>) => 
   distributedEventBus.subscribe(eventType, handler);
 export const unsubscribeFromEvent = (subscriptionId: string) => distributedEventBus.unsubscribe(subscriptionId);
-/**
- * Publish an event to the distributed event bus
- * Handles both BaseEvent and AppEvent types
- */
-export async function publishEvent(event: BaseEvent | AppEvent): Promise<void> {
-  try {
-    // Log the event for development
-    console.log('[Event Bus] Publishing event:', event.type, event);
-    
-    // In a production environment, this would publish to the actual event bus
-    // For now, we'll just log it
-    return Promise.resolve();
-  } catch (error) {
-    console.error('[Event Bus] Failed to publish event:', error);
-    throw error;
-  }
-}
+
