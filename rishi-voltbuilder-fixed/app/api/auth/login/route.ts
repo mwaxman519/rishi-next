@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../db";
+import { db } from "@db";
 import { eq } from "drizzle-orm";
-import * as schema from "../../../../shared/schema";
+import * as schema from "@shared/schema";
 import { comparePasswords } from "@/lib/auth-server";
 import { sign } from "jsonwebtoken";
 
