@@ -9,7 +9,7 @@ interface AuthGuardProps {
   requiredRole?: string;
 }
 
-export default function AuthGuard({ 
+export function AuthGuard({ 
   children, 
   requireAuth = true,
   requiredRole 
@@ -64,3 +64,6 @@ export default function AuthGuard({
 
   return <>{children}</>;
 }
+
+// Also export as default for backwards compatibility
+export default AuthGuard;
