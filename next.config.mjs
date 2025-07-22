@@ -2,14 +2,16 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable static export for development compatibility
-  // output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
+  // Standard Next.js server mode for Vercel deployment
+  output: undefined, // Use default server mode, not static export
+  trailingSlash: false, // Disable for Vercel compatibility
+  distDir: '.next', // Use standard .next directory for Vercel
   
   // Basic configuration
   poweredByHeader: false,
   reactStrictMode: true,
+  compress: true, // Enable compression for production
+  generateEtags: true, // Generate ETags for caching
   
   // Development server configuration for Replit
   devIndicators: {
