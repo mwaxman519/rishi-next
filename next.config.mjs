@@ -2,6 +2,10 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Static export for VoltBuilder mobile builds
+  output: 'export',
+  distDir: 'out',
+  
   // Basic configuration
   poweredByHeader: false,
   trailingSlash: false,

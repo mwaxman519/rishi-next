@@ -5,9 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Rishi Platform',
   webDir: 'out',
   server: {
-    androidScheme: 'https',
-    url: 'https://rishi-platform.vercel.app',
-    cleartext: false
+    androidScheme: 'https'
   },
   plugins: {
     SplashScreen: {
