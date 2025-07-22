@@ -5,7 +5,6 @@ const nextConfig = {
   // Static export for Capacitor builds
   output: 'export',
   trailingSlash: true,
-  distDir: 'out',
   
   // Basic configuration
   poweredByHeader: false,
@@ -28,11 +27,6 @@ const nextConfig = {
     unoptimized: true,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-  
-  // Static export configuration for App Router
-  experimental: {
-    appDir: true,
   },
   
   serverExternalPackages: ['@neondatabase/serverless'],
