@@ -8,8 +8,14 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "@shared/schema";
 
-// CRITICAL ENVIRONMENT DETECTION - REPLIT AUTOSCALE = STAGING, VERCEL = PRODUCTION
+// CRITICAL ENVIRONMENT DETECTION - BUILD TIME = PRODUCTION, REPLIT AUTOSCALE = STAGING, VERCEL = PRODUCTION
 export function getEnvironment(): "development" | "staging" | "production" {
+  // MOBILE BUILD OVERRIDE: During npm run build, always use production for VoltBuilder
+  if (process.env.NEXT_PHASE === 'phase-production-build' || 
+      process.env.NODE_ENV === 'production') {
+    return "production";
+  }
+
   // Check if we're in Vercel production (PRODUCTION environment)
   const isVercelProduction = 
     process.env.VERCEL_ENV === "production" ||
@@ -28,14 +34,17 @@ export function getEnvironment(): "development" | "staging" | "production" {
     process.env.NEXT_PUBLIC_APP_ENV === "staging" ||
     isReplitAutoscale;
 
-  // Development environment check
+  // Development environment check (only during dev server)
   const isDevelopment = 
-    process.env.NODE_ENV === "development" ||
-    (!isVercelProduction && !isStaging);
+    process.env.NODE_ENV === "development" && 
+    process.env.NEXT_PHASE !== 'phase-production-build';
 
   if (isVercelProduction) return "production";
-  if (isStaging) return "staging";
-  return "development";
+  if (isStaging) return "staging"; 
+  if (isDevelopment) return "development";
+  
+  // Default to production for builds
+  return "production";
 }
 
 // Get environment-specific database URL
@@ -51,18 +60,20 @@ function getDatabaseUrl(): string {
   if (env === "production") {
     const productionUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
     if (productionUrl) {
+      console.log(`[Auth Service] Using production database for ${env} environment`);
       return productionUrl;
     }
   }
 
-  // Fall back to the default DATABASE_URL
+  // Fall back to the default DATABASE_URL (which should be production-ready)
   if (!process.env.DATABASE_URL) {
     console.error(
       "[Auth Service] DATABASE_URL must be set. Did you forget to provision a database?",
     );
-    // Still return undefined to allow for PG* variables fallback
+    throw new Error("DATABASE_URL is required for database connection");
   }
 
+  console.log(`[Auth Service] Using DATABASE_URL for ${env} environment`);
   return process.env.DATABASE_URL;
 }
 
