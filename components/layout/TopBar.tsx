@@ -1,7 +1,7 @@
 "use client";
 
-import { useAuth } from "@/components/../hooks/useAuth";
-import { useOrganization } from "@/components/../contexts/OrganizationProvider";
+import { useAuth } from "@/hooks/useAuth";
+import { useOrganization } from "@/contexts/OrganizationProvider";
 import { OrganizationSelector } from "@/components/organization/OrganizationSelector";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import Link from "next/link";
