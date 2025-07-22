@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentAuthUser } from "@/lib/auth-server";
-import { db } from "@db";
+import { db } from "../../../../lib/db-connection";
 import { users, userOrganizations } from "@shared/schema";
 import { eq, and } from "drizzle-orm";
 import { hasPermission } from "@/lib/rbac";

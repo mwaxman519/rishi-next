@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@db";
+import { db } from "../../../../lib/db-connection";
 import {
   kitComponentInventory,
   insertKitComponentInventorySchema,

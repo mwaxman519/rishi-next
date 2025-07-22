@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { scrypt, randomBytes } from "crypto";
 import { promisify } from "util";
 import { SignJWT } from "jose";
-import { db } from "@db";
+import { db } from "../../../../lib/db-connection";
 import { users, insertUserSchema } from "@shared/schema";
 import { eq } from "drizzle-orm";
 

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 import { EventBusService } from "../../../services/event-bus-service";
 import { v4 as uuidv4 } from "uuid";
-import { db } from "@db";
+import { db } from "../../../lib/db-connection";
 import { tasks } from "@shared/schema";
 
 // POST /api/tasks - Create a new task

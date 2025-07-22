@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@db";
+import { db } from "../../../lib/db-connection";
 import { users } from "@shared/schema";
 import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@db";
+import { db } from "../../../lib/db-connection";
 import { brandAgentAssignments } from "@shared/schema";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";

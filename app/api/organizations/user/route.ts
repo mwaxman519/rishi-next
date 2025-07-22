@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentAuthUser } from "@/lib/auth-server";
-import { db } from "@db";
+import { db } from "../../../../lib/db-connection";
 
 /**
  * Fetch organizations for the current user

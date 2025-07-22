@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@db";
+import { db } from "../../../../lib/db-connection";
 import { systemSystemEvents } from "@shared/schema";
 
 export async function POST(request: NextRequest) {

@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { testConnection } from "@db";
+import { testConnection } from "../../../lib/db-connection";
 
 /**
  * Auth Service Status API
@@ -28,8 +28,8 @@ export async function GET() {
   // Import environment detection from db.ts
   let environment = "development";
   try {
-    const { getEnvironment } = await import("../db");
-    environment = getEnvironment();
+    const { detectEnvironment } = await import("../../../lib/db-connection");
+    environment = detectEnvironment();
   } catch (err) {
     console.error("[Auth Service] Error importing environment detection:", err);
   }

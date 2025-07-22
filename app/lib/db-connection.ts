@@ -150,3 +150,16 @@ export function getApiBaseUrl(): string {
   // Development and web production use relative URLs
   return '';
 }
+
+// Create and export database connection
+export const db = createDatabaseConnection();
+
+// Export test connection function
+export async function testConnection() {
+  try {
+    const result = await db.execute("SELECT 1 as test");
+    return { success: true, result };
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}

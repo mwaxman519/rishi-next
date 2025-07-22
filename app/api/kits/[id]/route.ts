@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { db } from "@db";
+import { db } from "../../../../lib/db-connection";
 import { kits, kitComponentInventory } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { getOrganizationHeaderData } from "@/lib/organization-context";

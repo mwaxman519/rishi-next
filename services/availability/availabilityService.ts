@@ -1,89 +1,88 @@
 /**
- * Availability Service for Rishi Platform
- * Handles staff availability management and scheduling
+ * Availability Service
+ * Manages user availability and scheduling for field workers
  */
 
 export interface AvailabilityWindow {
-  id: string;
+  start: Date;
+  end: Date;
   userId: string;
-  organizationId: string;
-  startTime: Date;
-  endTime: Date;
-  isAvailable: boolean;
-  notes?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  type: 'available' | 'unavailable' | 'busy';
 }
 
 export interface AvailabilityQuery {
   userId?: string;
+  startDate: Date;
+  endDate: Date;
   organizationId?: string;
-  startDate?: Date;
-  endDate?: Date;
-  isAvailable?: boolean;
+}
+
+export interface AvailabilityResponse {
+  success: boolean;
+  data?: AvailabilityWindow[];
+  error?: string;
 }
 
 export class AvailabilityService {
   /**
-   * Get availability windows for a user
+   * Get availability for a user within a date range
    */
-  async getUserAvailability(userId: string, organizationId: string): Promise<AvailabilityWindow[]> {
-    // For mobile builds, this would make API calls to the web deployment
-    return [];
+  async getUserAvailability(query: AvailabilityQuery): Promise<AvailabilityResponse> {
+    try {
+      // Mock implementation for VoltBuilder compatibility
+      const mockAvailability: AvailabilityWindow[] = [
+        {
+          start: query.startDate,
+          end: query.endDate,
+          userId: query.userId || 'default-user',
+          type: 'available'
+        }
+      ];
+
+      return {
+        success: true,
+        data: mockAvailability
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown availability error'
+      };
+    }
   }
 
   /**
-   * Create a new availability window
+   * Set user availability
    */
-  async createAvailability(availability: Omit<AvailabilityWindow, 'id' | 'createdAt' | 'updatedAt'>): Promise<AvailabilityWindow> {
-    const now = new Date();
-    return {
-      ...availability,
-      id: `avail_${Date.now()}`,
-      createdAt: now,
-      updatedAt: now
-    };
+  async setUserAvailability(userId: string, windows: AvailabilityWindow[]): Promise<AvailabilityResponse> {
+    try {
+      // Mock implementation for VoltBuilder compatibility
+      return {
+        success: true,
+        data: windows
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to set availability'
+      };
+    }
   }
 
   /**
-   * Update an existing availability window
-   */
-  async updateAvailability(id: string, updates: Partial<AvailabilityWindow>): Promise<AvailabilityWindow | null> {
-    // Implementation would update the availability record
-    return null;
-  }
-
-  /**
-   * Delete an availability window
-   */
-  async deleteAvailability(id: string): Promise<boolean> {
-    // Implementation would delete the availability record
-    return true;
-  }
-
-  /**
-   * Query availability windows with filters
-   */
-  async queryAvailability(query: AvailabilityQuery): Promise<AvailabilityWindow[]> {
-    // Implementation would query availability based on filters
-    return [];
-  }
-
-  /**
-   * Check if a user is available during a specific time period
+   * Check if user is available at specific time
    */
   async isUserAvailable(userId: string, startTime: Date, endTime: Date): Promise<boolean> {
-    // Implementation would check user availability
-    return false;
-  }
-
-  /**
-   * Get available staff for a specific time and organization
-   */
-  async getAvailableStaff(organizationId: string, startTime: Date, endTime: Date): Promise<string[]> {
-    // Implementation would return list of available user IDs
-    return [];
+    try {
+      // Mock implementation - always return true for VoltBuilder
+      return true;
+    } catch (error) {
+      console.error('Availability check failed:', error);
+      return false;
+    }
   }
 }
 
+// Export default instance
 export const availabilityService = new AvailabilityService();
+export default availabilityService;
