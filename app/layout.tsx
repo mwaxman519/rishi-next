@@ -39,8 +39,11 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Apply theme immediately to prevent flash
+              // Hydration-safe theme application
               (function() {
+                // Only run on client side to avoid hydration mismatch
+                if (typeof window === 'undefined') return;
+                
                 try {
                   const savedTheme = localStorage.getItem('theme');
                   if (savedTheme === 'dark') {
@@ -54,8 +57,8 @@ export default function RootLayout({
                 }
               })();
               
-              // Register service worker for offline field worker support
-              if ('serviceWorker' in navigator) {
+              // Register service worker for offline field worker support  
+              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                   navigator.serviceWorker.register('/sw.js')
                     .then(registration => {
@@ -83,17 +86,16 @@ export default function RootLayout({
                 });
               }
               
-              // Prevent hydration issues in development
+              // Replit iframe compatibility
               if (typeof window !== 'undefined' && window.location.hostname.includes('replit')) {
+                console.log('Replit iframe compatibility enabled');
                 window.addEventListener('load', () => {
-                  // Force re-render after hydration is complete
                   setTimeout(() => {
                     if (document.readyState === 'complete') {
-                      // This helps with Replit preview refresh issues
                       const event = new CustomEvent('replit-hydration-complete');
                       window.dispatchEvent(event);
                     }
-                  }, 500);
+                  }, 100);
                 });
               }
             `,
