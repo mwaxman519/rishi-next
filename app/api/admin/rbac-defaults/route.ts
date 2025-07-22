@@ -18,6 +18,14 @@ const SYSTEM_RBAC_DEFAULTS = {
 
 export async function GET() {
   try {
+    // BUILD-TIME SAFETY: Return hardcoded defaults during static generation
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      return NextResponse.json({
+        defaults: SYSTEM_RBAC_DEFAULTS,
+        description: "System-wide RBAC defaults that apply to all new organizations",
+      });
+    }
+
     const session = await getServerSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -61,6 +69,14 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   try {
+    // BUILD-TIME SAFETY: Prevent database writes during static generation
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      return NextResponse.json({
+        success: false,
+        message: "Build-time: Database operations not available during static generation",
+      }, { status: 503 });
+    }
+
     const session = await getServerSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -36,18 +36,18 @@ export function getEnvironment(): "development" | "staging" | "production" {
   }
 
   // BUILD TIME: During VoltBuilder builds, use production (but with explicit env check)
-  if (process.env.NEXT_PHASE === 'phase-production-build') {
-    // Only use production if we have PRODUCTION_DATABASE_URL or explicit production env
-    if (process.env.PRODUCTION_DATABASE_URL || process.env.FORCE_ENVIRONMENT === "production") {
+  if (process.env.NEXT_PHASE === 'phase-production-build' || 
+      process.env.NODE_ENV === 'production') {
+    // Check for explicit production database URL first
+    if (process.env.PRODUCTION_DATABASE_URL) {
       return "production";
     }
-    // Otherwise use staging for builds to avoid dev/prod cross-contamination
+    // Check for explicit environment override
+    if (process.env.FORCE_ENVIRONMENT === "production") {
+      return "production";
+    }
+    // Use staging for builds to avoid dev/prod cross-contamination
     return "staging";
-  }
-
-  // PRODUCTION: Any other NODE_ENV=production scenario
-  if (process.env.NODE_ENV === "production") {
-    return "production";
   }
 
   // DEFAULT: Development (safest for unknown scenarios)
@@ -58,6 +58,20 @@ export function getEnvironment(): "development" | "staging" | "production" {
 function getDatabaseUrl(): string {
   const env = getEnvironment();
   console.log(`[Auth Service] Detected environment: ${env}`);
+
+  // BUILD-TIME SPECIAL HANDLING: Use DATABASE_URL if available during builds
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    if (process.env.DATABASE_URL) {
+      console.log(`[Auth Service] Using DATABASE_URL for build-time static generation`);
+      return process.env.DATABASE_URL;
+    }
+    if (process.env.PRODUCTION_DATABASE_URL) {
+      console.log(`[Auth Service] Using PRODUCTION_DATABASE_URL for build-time static generation`);
+      return process.env.PRODUCTION_DATABASE_URL;
+    }
+    console.error("[Auth Service] Build-time requires DATABASE_URL or PRODUCTION_DATABASE_URL");
+    throw new Error("Build-time database URL not configured");
+  }
 
   // STRICT ENVIRONMENT-SPECIFIC DATABASE SEPARATION
   if (env === "development") {
