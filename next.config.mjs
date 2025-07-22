@@ -30,10 +30,7 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   
-  // Static export configuration for App Router
-  experimental: {
-    appDir: true,
-  },
+  // Clean configuration for Next.js 15.4.2
   
   serverExternalPackages: ['@neondatabase/serverless'],
   

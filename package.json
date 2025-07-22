@@ -159,7 +159,7 @@
     "marked": "^15.0.11",
     "memoizee": "^0.4.17",
     "memorystore": "^1.6.7",
-    "next": "^15.3.5",
+    "next": "^15.4.2",
     "next-auth": "^4.24.11",
     "next-mdx-remote": "^5.0.0",
     "next-sitemap": "^4.2.3",
