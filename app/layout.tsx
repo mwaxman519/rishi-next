@@ -8,6 +8,7 @@ import "./components/agent-calendar/calendar-compact.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import ClientLayout from "./components/ClientLayout";
 import DevToolsScript from "./components/DevToolsScript";
+import ThemeScript from "./components/ThemeScript";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -36,73 +37,10 @@ export default function RootLayout({
       <head>
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              // Hydration-safe theme application
-              (function() {
-                // Only run on client side to avoid hydration mismatch
-                if (typeof window === 'undefined') return;
-                
-                try {
-                  const savedTheme = localStorage.getItem('theme');
-                  if (savedTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                } catch (e) {
-                  // Fallback to light theme if localStorage is not available
-                  document.documentElement.classList.remove('dark');
-                }
-              })();
-              
-              // Register service worker for offline field worker support  
-              if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                      console.log('Rishi SW registered for offline field worker support');
-                      
-                      // Send message to service worker for initial setup
-                      if (registration.active) {
-                        registration.active.postMessage({ type: 'WORKER_READY' });
-                      }
-                      
-                      // Check for updates
-                      registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        newWorker?.addEventListener('statechange', () => {
-                          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // New service worker installed, prompt for update
-                            if (confirm('New offline features available. Reload to update?')) {
-                              window.location.reload();
-                            }
-                          }
-                        });
-                      });
-                    })
-                    .catch(error => console.log('Rishi SW registration failed:', error));
-                });
-              }
-              
-              // Replit iframe compatibility
-              if (typeof window !== 'undefined' && window.location.hostname.includes('replit')) {
-                console.log('Replit iframe compatibility enabled');
-                window.addEventListener('load', () => {
-                  setTimeout(() => {
-                    if (document.readyState === 'complete') {
-                      const event = new CustomEvent('replit-hydration-complete');
-                      window.dispatchEvent(event);
-                    }
-                  }, 100);
-                });
-              }
-            `,
-          }}
-        />
+        {/* Theme script moved to client component to prevent hydration mismatch */}
       </head>
       <body className="font-sans bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
+        <ThemeScript />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
