@@ -2,49 +2,14 @@ import path from 'path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: undefined,
-  compress: false,
+  // Basic configuration
   poweredByHeader: false,
   trailingSlash: false,
-  
-  // Fix Replit preview refresh issue
   reactStrictMode: true,
   
   // Development server configuration for Replit
   devIndicators: {
     position: 'bottom-right',
-  },
-  
-  // Force static asset serving for images
-  async headers() {
-    return [
-      {
-        source: '/favicon.ico',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'image/x-icon',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/rishi-logo-new.svg',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'image/svg+xml',
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
   },
   
   eslint: {
@@ -62,14 +27,9 @@ const nextConfig = {
   },
   
   serverExternalPackages: ['@neondatabase/serverless'],
-  experimental: {
-    optimizeCss: false,
-    optimizePackageImports: [],
-    forceSwcTransforms: true,
-  },
   
   webpack: (config, { isServer, dev }) => {
-    // Clean webpack configuration for Replit Autoscale
+    // Simple path aliases only
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(process.cwd(), 'app'),
@@ -86,31 +46,6 @@ const nextConfig = {
       tls: false,
       crypto: false,
     };
-    
-    // Remove any existing CSS rules that might reference style-loader
-    if (config.module && config.module.rules) {
-      config.module.rules = config.module.rules.filter(rule => {
-        if (rule.use && Array.isArray(rule.use)) {
-          return !rule.use.some(loader => 
-            typeof loader === 'string' && loader.includes('style-loader') ||
-            typeof loader === 'object' && loader.loader && loader.loader.includes('style-loader')
-          );
-        }
-        return true;
-      });
-    }
-    
-    // Disable all chunking to prevent missing chunk errors
-    config.optimization.splitChunks = {
-      chunks: 'all',
-      cacheGroups: {
-        default: false,
-        vendors: false,
-      },
-    };
-    
-    // Disable runtime chunk that causes dynamic loading issues
-    config.optimization.runtimeChunk = false;
     
     return config;
   },
