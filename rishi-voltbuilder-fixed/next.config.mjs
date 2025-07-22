@@ -7,6 +7,10 @@ const nextConfig = {
   trailingSlash: false,
   reactStrictMode: true,
   
+  // Static export for VoltBuilder/Capacitor
+  output: 'export',
+  distDir: 'out',
+  
   // Development server configuration for Replit
   devIndicators: {
     position: 'bottom-right',
