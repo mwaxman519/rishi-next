@@ -1,3 +1,4 @@
+
 /**
  * Location Approval API Route Handler
  *

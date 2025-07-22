@@ -24,6 +24,20 @@ export interface LocationEvent extends BaseEvent {
   changes?: Record<string, any>;
 }
 
+export interface LocationApprovalPayload {
+  locationId: string;
+  approvedBy: string;
+  timestamp: Date;
+  notes?: string;
+}
+
+export interface LocationRejectionPayload {
+  locationId: string;
+  rejectedBy: string;
+  timestamp: Date;
+  reason: string;
+}
+
 export interface BookingEvent extends BaseEvent {
   type: 'booking.created' | 'booking.updated' | 'booking.cancelled' | 'booking.completed';
   bookingId: string;
