@@ -1,2 +1,1 @@
-rootProject.name = 'Rishi Platform'
 include ':app'
