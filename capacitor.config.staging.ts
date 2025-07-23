@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     allowNavigation: [
-      'https://rishi-platform-staging.replit.app',
+      'https://rishi-staging.replit.app',
       'https://*.replit.app'
     ]
   },

@@ -142,7 +142,7 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 2. **Staging Environment** - Replit Autoscale Deployment
    - Platform: Replit Autoscale deployment for client testing
    - Database: Staging Neon database (`rishiapp_staging`)
-   - Backend: https://rishi-platform-staging.replit.app
+   - Backend: https://rishi-staging.replit.app
    - Environment Variables: `.env.staging`
    - Build Mode: Next.js production build with staging config
    - Mobile Backend: Points to Replit Autoscale deployment
