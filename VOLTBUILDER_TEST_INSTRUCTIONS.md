@@ -85,3 +85,29 @@ This package addresses the actual root cause identified through debug logging an
 - ✅ All 6 Capacitor plugins properly configured
 
 This package delivers the complete Rishi Platform experience in native mobile format with zero compromises.
+
+## CORRECTED PACKAGE (STATIC EXPORT FIXED)
+
+### Issue Identified from VoltBuilder Logs
+The previous build showed:
+- ✅ Next.js compilation succeeded (2.0 minutes, 235 pages)
+- ✅ Database connections working
+- ✅ Android compatibility verified (AGP 7.4.2, Gradle 7.6.4, SDK 33)  
+- ❌ Capacitor sync failed: "Could not find the web assets directory: ./out"
+
+### Solution Applied
+**File**: `rishi-voltbuilder-STATIC-EXPORT-FIXED-[timestamp].zip`
+- Added `next.config.voltbuilder.mjs` with `output: 'export'` for static generation
+- Added `package.voltbuilder.json` with corrected build script
+- Build script: `cp next.config.voltbuilder.mjs next.config.mjs && next build`
+- Ensures ./out directory is created for successful Capacitor sync
+
+### Expected Build Sequence
+1. VoltBuilder runs `npm run build`
+2. Script copies VoltBuilder-specific configuration  
+3. Next.js generates static export in ./out directory
+4. Capacitor sync finds ./out directory successfully
+5. Android compilation proceeds with compatible versions
+6. APK generation completes successfully
+
+This corrected package addresses the exact failure point from the VoltBuilder logs while maintaining all premium features and Android compatibility fixes.
