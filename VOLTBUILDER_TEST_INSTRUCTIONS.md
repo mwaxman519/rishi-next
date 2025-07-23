@@ -3,10 +3,21 @@
 ## Package Ready for Testing
 **File**: `rishi-voltbuilder-SUPER-MINIMAL-2025-07-23-[timestamp].zip` (optimized size)
 
-### Package Size Optimization
-- **Original**: 144MB (too large)
-- **Optimized**: ~2MB (essential files only)
-- **Strategy**: Minimal redirect approach with essential Android configuration
+### Package Options
+
+#### Option 1: Full-Featured Package (RECOMMENDED)
+- **File**: `rishi-voltbuilder-FULL-FEATURED-[timestamp].zip`
+- **Strategy**: Complete Rishi Platform functionality in native mobile app
+- **Benefits**: 
+  - Full offline functionality
+  - Native mobile features (notifications, camera access)
+  - Complete platform UI/UX optimized for mobile
+  - No redirects - proper mobile app experience
+
+#### Option 2: Minimal Redirect Package  
+- **File**: `rishi-voltbuilder-SUPER-MINIMAL-[timestamp].zip` (62KB)
+- **Strategy**: Minimal shell that redirects to web app
+- **Use Case**: Quick testing or bandwidth-limited deployments
 
 ## Key Fixes Applied
 Based on the debug log analysis showing `Plugin [id: 'com.android.application', version: '8.1.0', apply: false] was not found`, we implemented comprehensive version compatibility fixes:
