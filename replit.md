@@ -16,6 +16,14 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - Only claim deployment readiness after successful Vercel deployment, not just build success
 - Build compilation working ≠ successful Vercel deployment
 
+### Mobile App Philosophy
+
+- **NO COMPROMISES**: User demands premium mobile experience with all features included
+- **SIZE NOT A CONCERN**: User prioritizes functionality over package size optimization
+- **AWESOME APP REQUIRED**: Complete feature parity with web platform in mobile app
+- **FULL-FEATURED APPROACH**: Include all workforce management, booking, scheduling, staff management, inventory, analytics
+- **PREMIUM EXPERIENCE**: Native mobile features, offline functionality, optimized UI/UX
+
 ### ⚠️ CRITICAL SECURITY RULES - MANDATORY COMPLIANCE
 
 **🚨 ABSOLUTE PROHIBITION ON FALLBACK METHODS:**
