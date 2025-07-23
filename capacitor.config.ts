@@ -5,7 +5,12 @@ const config: CapacitorConfig = {
   appName: 'Rishi Platform',
   webDir: 'out',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    cleartext: true,
+    allowNavigation: [
+      'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev',
+      'https://*.spock.replit.dev'
+    ]
   },
   plugins: {
     App: {
