@@ -1,11 +1,32 @@
 import path from 'path';
 
+// Environment detection - Industry Standard Multi-Environment Support
+const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'development'
+const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
+const isVercel = process.env.VERCEL
+const isMobileBuild = process.env.MOBILE_BUILD === 'true'
+
+console.log('[Next Config] Environment detection:', {
+  NODE_ENV: process.env.NODE_ENV,
+  NEXT_PUBLIC_APP_ENV: appEnv,
+  isReplit: !!isReplit,
+  isVercel: !!isVercel, 
+  isMobileBuild
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Standard Next.js server mode for Vercel deployment
-  output: undefined, // Use default server mode, not static export
-  trailingSlash: false, // Disable for Vercel compatibility
-  distDir: '.next', // Use standard .next directory for Vercel
+  // Dynamic output configuration based on build type
+  ...(isMobileBuild ? {
+    output: 'export',
+    distDir: 'out',
+    trailingSlash: true,
+    images: { unoptimized: true }
+  } : {
+    output: undefined, // Server mode for web deployments
+    distDir: '.next',
+    trailingSlash: false
+  }),
   
   // Basic configuration
   poweredByHeader: false,

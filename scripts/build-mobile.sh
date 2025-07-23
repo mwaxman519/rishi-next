@@ -1,213 +1,105 @@
 #!/bin/bash
-# Rishi Platform Mobile Build Script
-# Creates VoltBuilder-ready package with proper environment separation
+
+# Mobile Build Script - Industry Standard Multi-Environment Support
+# Usage: ./scripts/build-mobile.sh [development|staging|production]
 
 set -e
 
-echo "🏗️  Building Rishi Platform for Mobile Deployment"
-echo "================================================"
+ENVIRONMENT=${1:-development}
+TIMESTAMP=$(date +"%Y-%m-%d-%H%M")
 
-# Check if we're in the right directory
-if [ ! -f "package.json" ]; then
-    echo "❌ Error: Run this script from the project root directory"
+echo "🚀 Building Rishi Platform Mobile App"
+echo "📱 Environment: $ENVIRONMENT"
+echo "⏰ Build Time: $TIMESTAMP"
+echo ""
+
+# Validate environment
+if [[ ! "$ENVIRONMENT" =~ ^(development|staging|production)$ ]]; then
+    echo "❌ Error: Invalid environment '$ENVIRONMENT'"
+    echo "✅ Valid options: development, staging, production"
     exit 1
 fi
 
-# Create mobile build directory
-MOBILE_DIR="mobile-build"
-TIMESTAMP=$(date +"%Y-%m-%d-%H%M")
-PACKAGE_NAME="rishi-platform-mobile-${TIMESTAMP}.zip"
+# Set environment-specific variables
+case $ENVIRONMENT in
+    "development")
+        APP_NAME="Rishi Platform Dev"
+        APP_ID="com.rishi.platform.dev"
+        BACKEND_URL="https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev"
+        SPLASH_COLOR="#1a1a1a"
+        ;;
+    "staging")
+        APP_NAME="Rishi Platform Staging"
+        APP_ID="com.rishi.platform.staging"
+        BACKEND_URL="https://rishi-platform-staging.vercel.app"
+        SPLASH_COLOR="#2563eb"
+        ;;
+    "production")
+        APP_NAME="Rishi Platform" 
+        APP_ID="com.rishi.platform"
+        BACKEND_URL="https://rishi-platform.vercel.app"
+        SPLASH_COLOR="#16a34a"
+        ;;
+esac
 
-echo "📱 Creating mobile build directory..."
-rm -rf "${MOBILE_DIR}"
-mkdir -p "${MOBILE_DIR}"
+echo "📋 Build Configuration:"
+echo "   App Name: $APP_NAME"
+echo "   App ID: $APP_ID"
+echo "   Backend: $BACKEND_URL"
+echo ""
 
-# Copy all source files except development-specific ones
-echo "📂 Copying source files..."
-cp -r . "${MOBILE_DIR}/"
+# Copy environment-specific Capacitor config
+echo "⚙️  Configuring Capacitor for $ENVIRONMENT..."
+cp "capacitor.config.$ENVIRONMENT.ts" capacitor.config.ts
 
-# Remove excluded files and directories
-echo "🧹 Cleaning mobile build directory..."
-cd "${MOBILE_DIR}"
-rm -rf .git node_modules .next out mobile-build *.zip .env.local .env.development 2>/dev/null || true
-cd ..
+# Set environment variables for build
+export NODE_ENV=production
+export NEXT_PUBLIC_APP_ENV=$ENVIRONMENT
+export MOBILE_BUILD=true
 
-# Create mobile-specific Next.js configuration
-echo "⚙️  Configuring for mobile deployment..."
-cat > "${MOBILE_DIR}/next.config.mjs" << 'EOF'
-import path from 'path';
+# Load environment-specific variables
+if [ -f ".env.$ENVIRONMENT" ]; then
+    echo "📄 Loading environment variables from .env.$ENVIRONMENT"
+    export $(cat ".env.$ENVIRONMENT" | grep -v '^#' | xargs)
+fi
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Mobile-specific configuration
-  output: 'export',
-  distDir: 'out',
-  trailingSlash: true,
-  images: {
-    unoptimized: true,
-  },
-  
-  // Essential configuration
-  poweredByHeader: false,
-  reactStrictMode: true,
-  
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
-  serverExternalPackages: ['@neondatabase/serverless'],
-  
-  webpack: (config, { isServer, dev }) => {
-    // Path aliases for mobile build
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(process.cwd(), 'app'),
-      '@/lib': path.resolve(process.cwd(), 'lib'),
-      '@/components': path.resolve(process.cwd(), 'components'),
-      '@/components/ui': path.resolve(process.cwd(), 'components/ui'),
-      '@/shared': path.resolve(process.cwd(), 'shared'),
-      '@shared': path.resolve(process.cwd(), 'shared'),
-      '@db': path.resolve(process.cwd(), 'db.ts'),
-    };
-    
-    config.resolve.fallback = {
-      fs: false,
-      net: false,
-      tls: false,
-      crypto: false,
-    };
-    
-    return config;
-  },
-};
+# Build Next.js app for static export
+echo "🔨 Building Next.js application..."
+npm run build
 
-export default nextConfig;
-EOF
+# Sync with Capacitor
+echo "📱 Syncing with Capacitor..."
+npx cap sync
 
-# Create mobile-specific environment file
-echo "🔧 Creating mobile environment configuration..."
-cat > "${MOBILE_DIR}/.env.production" << 'EOF'
-# Mobile Production Environment
-NODE_ENV=production
-NEXT_PUBLIC_APP_ENV=production
+# Create VoltBuilder package
+PACKAGE_NAME="rishi-mobile-$ENVIRONMENT-$TIMESTAMP.zip"
 
-# API Base URL - Points to live Vercel deployment
-NEXT_PUBLIC_API_BASE_URL=https://rishi-platform.vercel.app
+echo "📦 Creating VoltBuilder package: $PACKAGE_NAME"
 
-# Database URL for build-time static generation
-DATABASE_URL=postgresql://neondb_owner:npg_Yj2qOxWd2rJX@ep-jolly-firefly-a5hckdgj.us-east-2.aws.neon.tech/rishiapp_prod?sslmode=require
-
-# Mobile build flag
-MOBILE_BUILD=true
-VOLTBUILDER_BUILD=true
-EOF
-
-# Update Capacitor configuration for production
-echo "📱 Updating Capacitor configuration..."
-cat > "${MOBILE_DIR}/capacitor.config.ts" << 'EOF'
-import { CapacitorConfig } from '@capacitor/cli';
-
-const config: CapacitorConfig = {
-  appId: 'com.rishi.platform',
-  appName: 'Rishi Platform',
-  webDir: 'out',
-  server: {
-    androidScheme: 'https',
-    url: 'https://rishi-platform.vercel.app',
-    cleartext: false
-  },
-  plugins: {
-    SplashScreen: {
-      launchShowDuration: 3000,
-      launchAutoHide: true,
-      backgroundColor: "#0f172a",
-      androidSplashResourceName: "splash",
-      androidScaleType: "CENTER_CROP",
-      showSpinner: false,
-      splashFullScreen: true,
-      splashImmersive: true,
-    },
-    StatusBar: {
-      style: "DARK",
-      backgroundColor: "#0f172a",
-    },
-    Keyboard: {
-      resize: "body",
-      style: "dark",
-      resizeOnFullScreen: true,
-    },
-    PushNotifications: {
-      presentationOptions: ["badge", "sound", "alert"]
-    },
-    App: {
-      skipNativeInitialize: false
-    }
-  },
-  android: {
-    buildOptions: {
-      keystorePath: undefined,
-      keystoreAlias: undefined,
-      keystorePassword: undefined,
-      keystoreAliasPassword: undefined,
-      releaseType: "APK",
-      signingType: "jarsigner"
-    }
-  },
-  ios: {
-    scheme: "Rishi Platform"
-  }
-};
-
-export default config;
-EOF
-
-# Create VoltBuilder configuration
-echo "🔧 Creating VoltBuilder configuration..."
-cat > "${MOBILE_DIR}/voltbuilder.json" << 'EOF'
-{
-  "platform": "android",
-  "build": {
-    "debug": false,
-    "release": true
-  },
-  "app": {
-    "id": "com.rishi.platform",
-    "name": "Rishi Platform",
-    "version": "1.0.0",
-    "description": "Enterprise workforce management platform"
-  },
-  "android": {
-    "minSdkVersion": 22,
-    "targetSdkVersion": 34,
-    "compileSdkVersion": 34
-  },
-  "logging": {
-    "verbose": true
-  }
-}
-EOF
-
-# Ensure Android configuration is complete
-echo "📱 Ensuring Android configuration..."
-mkdir -p "${MOBILE_DIR}/android"
-
-# Create the ZIP package
-echo "📦 Creating VoltBuilder package..."
-cd "${MOBILE_DIR}"
-zip -r "../${PACKAGE_NAME}" . -x "*.git*" "node_modules/*" "*.DS_Store*" ".next/*" "out/*"
-cd ..
-
-# Clean up
-rm -rf "${MOBILE_DIR}"
+zip -r "$PACKAGE_NAME" \
+    android/ \
+    out/ \
+    capacitor.config.ts \
+    voltbuilder.json \
+    -x "android/node_modules/*" \
+    -x "android/.gradle/*" \
+    -x "android/build/*" \
+    -x "android/app/build/*" \
+    >/dev/null 2>&1
 
 echo ""
-echo "✅ Mobile build completed successfully!"
-echo "📦 Package: ${PACKAGE_NAME}"
-echo "📊 Size: $(ls -lh "${PACKAGE_NAME}" | awk '{print $5}')"
+echo "✅ Mobile app build completed successfully!"
+echo "📦 Package: $PACKAGE_NAME"
+echo "📏 Size: $(ls -lh "$PACKAGE_NAME" | awk '{print $5}')"
 echo ""
-echo "🚀 Upload ${PACKAGE_NAME} to VoltBuilder for native mobile compilation"
+echo "🚀 Next Steps:"
+echo "   1. Upload $PACKAGE_NAME to VoltBuilder"
+echo "   2. Test the mobile app with $ENVIRONMENT backend"
+echo "   3. Distribute to field workers"
 echo ""
+echo "📱 Mobile App Features:"
+echo "   • App Name: $APP_NAME"
+echo "   • Backend: $BACKEND_URL"
+echo "   • Environment: $ENVIRONMENT"
+echo "   • Full workforce management functionality"
+echo "   • Native Android performance"
