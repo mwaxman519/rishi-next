@@ -91,7 +91,7 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 ### January 23, 2025 - INDUSTRY-STANDARD MULTI-ENVIRONMENT ARCHITECTURE ESTABLISHED (FINAL)
 
 **COMPLETE ARCHITECTURE REDESIGN**: Implemented proper industry-standard multi-environment configuration following Next.js and Capacitor best practices
-- **THREE-TIER ENVIRONMENT STRATEGY**: Development (Replit), Staging (Vercel), Production (Vercel) with complete isolation
+- **THREE-TIER ENVIRONMENT STRATEGY**: Development (Replit), Staging (Replit Autoscale), Production (Vercel) with complete isolation
 - **ENVIRONMENT-SPECIFIC CONFIGURATIONS**: Separate `.env.development`, `.env.staging`, `.env.production` files with proper database separation
 - **CAPACITOR MULTI-ENVIRONMENT SUPPORT**: Individual `capacitor.config.[env].ts` files with different app IDs and backend URLs
 - **AUTOMATED BUILD SYSTEM**: Created `scripts/build-mobile.sh` with environment validation and automatic configuration switching
@@ -139,13 +139,13 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
    - Mobile Backend: Points to Replit development server
    - Mobile App ID: `com.rishi.platform.dev`
 
-2. **Staging Environment** - Vercel Staging Deployment
-   - Platform: Vercel staging deployment for client testing
+2. **Staging Environment** - Replit Autoscale Deployment
+   - Platform: Replit Autoscale deployment for client testing
    - Database: Staging Neon database (`rishiapp_staging`)
-   - Backend: https://rishi-platform-staging.vercel.app
+   - Backend: https://rishi-platform-staging.replit.app
    - Environment Variables: `.env.staging`
    - Build Mode: Next.js production build with staging config
-   - Mobile Backend: Points to Vercel staging deployment
+   - Mobile Backend: Points to Replit Autoscale deployment
    - Mobile App ID: `com.rishi.platform.staging`
 
 3. **Production Environment** - Vercel Production Deployment
@@ -165,9 +165,9 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - Mobile: Capacitor pointing to Replit development server
 
 **Staging Build:**
-- Next.js: Production server mode for Vercel
+- Next.js: Production server mode for Replit Autoscale
 - Output: Server-side rendering with API routes
-- Mobile: Static export pointing to Vercel staging backend
+- Mobile: Static export pointing to Replit Autoscale backend
 
 **Production Build:**
 - Next.js: Production server mode for Vercel

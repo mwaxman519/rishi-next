@@ -7,8 +7,8 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     allowNavigation: [
-      'https://rishi-platform-staging.vercel.app',
-      'https://*.vercel.app'
+      'https://rishi-platform-staging.replit.app',
+      'https://*.replit.app'
     ]
   },
   plugins: {
@@ -26,7 +26,7 @@ const config: CapacitorConfig = {
       backgroundColor: '#2563eb'
     },
     Keyboard: {
-      resize: 'ionic'
+      resizeOnFullScreen: true
     },
     LocalNotifications: {
       iconColor: '#2563eb'

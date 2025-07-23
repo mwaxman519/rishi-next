@@ -17,12 +17,12 @@ This document establishes the proper industry-standard approach for managing dev
 
 ### 2. Staging Environment  
 **Purpose**: Pre-production testing and client demos
-- **Platform**: Vercel staging deployment
+- **Platform**: Replit Autoscale deployment
 - **Database**: Staging Neon database (`rishiapp_staging`)
-- **Backend**: Vercel staging deployment (https://rishi-platform-staging.vercel.app)
+- **Backend**: Replit Autoscale deployment (https://rishi-platform-staging.replit.app)
 - **Environment Variables**: `.env.staging`
 - **Build Mode**: Next.js production build with staging config
-- **Mobile Backend**: Points to Vercel staging deployment
+- **Mobile Backend**: Points to Replit Autoscale deployment
 
 ### 3. Production Environment
 **Purpose**: Live production system
@@ -49,7 +49,7 @@ DEBUG_MODE=true
 NODE_ENV=production
 NEXT_PUBLIC_APP_ENV=staging
 DATABASE_URL=postgresql://...rishiapp_staging  
-NEXT_PUBLIC_API_URL=https://rishi-platform-staging.vercel.app
+NEXT_PUBLIC_API_URL=https://rishi-platform-staging.replit.app
 DEBUG_MODE=false
 ```
 
@@ -92,7 +92,7 @@ const config: CapacitorConfig = {
   webDir: 'out',
   server: {
     androidScheme: 'https',
-    allowNavigation: ['https://rishi-platform-staging.vercel.app']
+    allowNavigation: ['https://rishi-platform-staging.replit.app']
   }
 };
 export default config;

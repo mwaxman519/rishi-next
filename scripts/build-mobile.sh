@@ -31,7 +31,7 @@ case $ENVIRONMENT in
     "staging")
         APP_NAME="Rishi Platform Staging"
         APP_ID="com.rishi.platform.staging"
-        BACKEND_URL="https://rishi-platform-staging.vercel.app"
+        BACKEND_URL="https://rishi-platform-staging.replit.app"
         SPLASH_COLOR="#2563eb"
         ;;
     "production")
