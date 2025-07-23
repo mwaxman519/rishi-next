@@ -21,26 +21,47 @@ export async function GET(request: NextRequest) {
       whereConditions.push(eq(kitInstances.organization_id, organizationId));
     }
 
-    // Get stats by status
-    const statusStats = await db
-      .select({
-        status: kitInstances.status,
-        count: count(),
-      })
-      .from(kitInstances)
-      .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-      .groupBy(kitInstances.status);
+    // Get stats by status with table existence check
+    let statusStats = [];
+    let territoryStats = [];
+    
+    try {
+      statusStats = await db
+        .select({
+          status: kitInstances.status,
+          count: count(),
+        })
+        .from(kitInstances)
+        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+        .groupBy(kitInstances.status);
 
-    // Get unique territories count
-    const territoryStats = await db
-      .select({
-        territory: locations.city,
-        count: count(),
-      })
-      .from(kitInstances)
-      .leftJoin(locations, eq(kitInstances.location_id, locations.id))
-      .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
-      .groupBy(locations.city);
+      // Get unique territories count
+      territoryStats = await db
+        .select({
+          territory: locations.city,
+          count: count(),
+        })
+        .from(kitInstances)
+        .leftJoin(locations, eq(kitInstances.location_id, locations.id))
+        .where(whereConditions.length > 0 ? and(...whereConditions) : undefined)
+        .groupBy(locations.city);
+    } catch (dbError: any) {
+      console.log("[Kit Instance Stats API] Database table not ready during build time, returning default stats");
+      // During build time or if table doesn't exist, return default stats
+      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
+        const defaultStats = {
+          totalInstances: 0,
+          activeInstances: 0,
+          inTransit: 0,
+          preparing: 0,
+          issues: 0,
+          territories: 0,
+        };
+        console.log("[Kit Instance Stats API] Returning default stats for build time");
+        return NextResponse.json(defaultStats);
+      }
+      throw dbError; // Re-throw if it's a different error
+    }
 
     // Calculate totals
     const stats = {
