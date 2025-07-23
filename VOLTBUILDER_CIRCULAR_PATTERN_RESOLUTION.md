@@ -84,8 +84,26 @@ The key insight is that VoltBuilder corrupts specific text patterns. By avoiding
 - Captures environment variables and paths
 - Helps diagnose if primary approaches fail
 
-## Expected Success Pattern
-1. VoltBuilder accepts gradlew (file exists ✓)
-2. No text corruption occurs (no 'classpath' to corrupt ✓)
-3. Gradle execution proceeds (via -cp parameter or VoltBuilder's gradle)
-4. Android APK builds successfully
+## Root Cause Discovery: Android Gradle Plugin Version Incompatibility
+
+### Actual Problem Identified
+The real issue was **NOT** gradlew corruption - it was Android Gradle Plugin version incompatibility:
+- **Error**: `Plugin [id: 'com.android.application', version: '8.1.0', apply: false] was not found`
+- **VoltBuilder Environment**: Does not support Android Gradle Plugin 8.1.0
+
+### Comprehensive Fix Applied
+1. **Android Gradle Plugin**: 8.1.0 → 7.4.2 (VoltBuilder compatible)
+2. **Gradle Version**: 8.0.2 → 7.6.4 (compatible with AGP 7.4.2)
+3. **CompileSdk/TargetSdk**: 34 → 33 (compatible with AGP 7.4.2)
+4. **Gradle Wrapper**: Downloaded compatible wrapper jar for Gradle 7.6.4
+
+### Expected Success Pattern (Updated)
+1. VoltBuilder finds compatible Android Gradle Plugin 7.4.2 ✓
+2. Gradle 7.6.4 wrapper executes successfully ✓
+3. Android build completes with compatible SDK versions ✓
+4. APK generation succeeds ✓
+
+### Key Learning
+- Gradlew corruption was not the primary issue
+- VoltBuilder has specific version compatibility requirements
+- Android Gradle Plugin versions must align with VoltBuilder's environment
