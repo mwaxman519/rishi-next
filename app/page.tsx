@@ -24,7 +24,13 @@ export default function Home() {
   const isMobile = typeof window !== 'undefined' && 
     (window.location.hostname === 'localhost' || 
      window.location.protocol === 'capacitor:' ||
-     navigator.userAgent.includes('CapacitorWebView'));
+     window.location.protocol === 'file:' ||
+     navigator.userAgent.includes('CapacitorWebView') ||
+     navigator.userAgent.includes('Android') ||
+     // Check if we're in a webview that doesn't have standard browser features
+     !window.chrome || 
+     // Check if we're loading from the app assets directory
+     window.location.pathname.includes('android_asset'));
 
   useEffect(() => {
     // For mobile environments, don't auto-redirect - show mobile interface

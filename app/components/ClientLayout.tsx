@@ -9,6 +9,7 @@ import OfflineStatus from "./OfflineStatus";
 import OfflineDataManager from "./OfflineDataManager";
 import AuthErrorBanner from "./AuthErrorBanner";
 import DevEnvironmentBanner from "./DevEnvironmentBanner";
+import UniversalDebugger from "./UniversalDebugger";
 import { useAuth } from "../hooks/useAuth";
 
 interface ClientLayoutProps {
@@ -43,6 +44,9 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Development environment information banner */}
         <DevEnvironmentBanner />
+        
+        {/* Universal debugger for mobile and development */}
+        <UniversalDebugger />
 
         {/* Offline status for field workers */}
         <OfflineStatus />
