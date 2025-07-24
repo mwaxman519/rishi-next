@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -19,7 +20,10 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  Loader2
+  Loader2,
+  Download,
+  Folder,
+  Archive
 } from 'lucide-react';
 
 interface ScriptExecution {
@@ -29,6 +33,13 @@ interface ScriptExecution {
   output: string;
   startTime?: Date;
   endTime?: Date;
+}
+
+interface DownloadableFile {
+  name: string;
+  size: string;
+  date: string;
+  type: 'zip' | 'config' | 'other';
 }
 
 const DEV_SCRIPTS = {
@@ -148,7 +159,29 @@ const DEV_SCRIPTS = {
 
 export default function DevToolsPage() {
   const [executions, setExecutions] = useState<Record<string, ScriptExecution>>({});
+  const [downloadableFiles, setDownloadableFiles] = useState<DownloadableFile[]>([]);
+  const [loadingFiles, setLoadingFiles] = useState(false);
   const [activeTab, setActiveTab] = useState('database');
+
+  const loadDownloadableFiles = async () => {
+    setLoadingFiles(true);
+    try {
+      const response = await fetch('/api/admin/dev-tools/files', {
+        credentials: 'include'
+      });
+      const result = await response.json();
+      setDownloadableFiles(result.files || []);
+    } catch (error) {
+      console.error("Failed to load downloadable files:", error);
+    } finally {
+      setLoadingFiles(false);
+    }
+  };
+
+  // Load files on component mount
+  React.useEffect(() => {
+    loadDownloadableFiles();
+  }, []);
 
   const executeScript = async (script: any) => {
     const executionId = script.id;
@@ -188,6 +221,13 @@ export default function DevToolsPage() {
           endTime: new Date()
         }
       }));
+
+      // Refresh downloadable files if mobile build completed successfully
+      if (result.success && script.id.includes('mobile')) {
+        setTimeout(() => {
+          loadDownloadableFiles();
+        }, 1000); // Small delay to ensure file is written
+      }
     } catch (error) {
       setExecutions(prev => ({
         ...prev,
@@ -370,7 +410,7 @@ export default function DevToolsPage() {
       </Alert>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="database" className="flex items-center space-x-2">
             <Database className="h-4 w-4" />
             <span>Database</span>
@@ -386,6 +426,10 @@ export default function DevToolsPage() {
           <TabsTrigger value="logs" className="flex items-center space-x-2">
             <FileText className="h-4 w-4" />
             <span>Logs</span>
+          </TabsTrigger>
+          <TabsTrigger value="downloads" className="flex items-center space-x-2">
+            <Download className="h-4 w-4" />
+            <span>Downloads</span>
           </TabsTrigger>
         </TabsList>
 
@@ -411,6 +455,88 @@ export default function DevToolsPage() {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {DEV_SCRIPTS.logs.map(renderScriptCard)}
           </div>
+        </TabsContent>
+
+        <TabsContent value="downloads" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Folder className="h-5 w-5 text-purple-600" />
+                  <CardTitle>Downloadable Files</CardTitle>
+                </div>
+                <Button 
+                  onClick={loadDownloadableFiles}
+                  disabled={loadingFiles}
+                  variant="outline"
+                  size="sm"
+                >
+                  {loadingFiles ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : (
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                  )}
+                  Refresh
+                </Button>
+              </div>
+              <CardDescription>
+                Generated mobile builds, configurations, and other downloadable files
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {loadingFiles ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin text-purple-600" />
+                  <span className="ml-2 text-gray-600">Loading files...</span>
+                </div>
+              ) : downloadableFiles.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Archive className="h-12 w-12 mx-auto mb-3 text-gray-400" />
+                  <p>No downloadable files found</p>
+                  <p className="text-sm">Run a mobile build script to generate files</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {downloadableFiles.map((file, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border">
+                      <div className="flex items-center space-x-3">
+                        <div className="flex-shrink-0">
+                          {file.type === 'zip' ? (
+                            <Archive className="h-5 w-5 text-blue-600" />
+                          ) : file.type === 'config' ? (
+                            <Settings className="h-5 w-5 text-green-600" />
+                          ) : (
+                            <FileText className="h-5 w-5 text-gray-600" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                            {file.name}
+                          </p>
+                          <div className="flex items-center space-x-4 text-xs text-gray-500">
+                            <span>{file.size}</span>
+                            <span>{file.date}</span>
+                            <Badge variant="outline" className="text-xs">
+                              {file.type.toUpperCase()}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => window.open(`/admin/dev-tools/download/${file.name}`, '_blank')}
+                        size="sm"
+                        variant="outline"
+                        className="flex-shrink-0"
+                      >
+                        <Download className="h-4 w-4 mr-1" />
+                        Download
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
