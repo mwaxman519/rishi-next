@@ -63,6 +63,10 @@ if [ -f ".env.$ENVIRONMENT" ]; then
     export $(cat ".env.$ENVIRONMENT" | grep -v '^#' | xargs)
 fi
 
+# Create development manifests first
+echo "🔧 Creating development manifests..."
+node scripts/create-dev-manifests.js
+
 # Build Next.js app for static export
 echo "🔨 Building Next.js application..."
 npm run build
