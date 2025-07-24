@@ -71,6 +71,11 @@ npm run build
 echo "📱 Syncing with Capacitor..."
 npx cap sync
 
+# Clean up old builds for this environment
+echo "🧹 Cleaning up old $ENVIRONMENT builds..."
+find . -maxdepth 1 -name "rishi-mobile-$ENVIRONMENT-*.zip" -type f -delete 2>/dev/null || true
+find . -maxdepth 1 -name "rishi-voltbuilder-*$ENVIRONMENT*.zip" -type f -delete 2>/dev/null || true
+
 # Create VoltBuilder package
 PACKAGE_NAME="rishi-mobile-$ENVIRONMENT-$TIMESTAMP.zip"
 

@@ -445,7 +445,7 @@ export default function DevToolsPage() {
                 </Button>
               </div>
               <CardDescription>
-                Mobile app builds and configuration files ready for download
+                Latest mobile app builds for each environment ready for download
               </CardDescription>
             </CardHeader>
             <CardContent>

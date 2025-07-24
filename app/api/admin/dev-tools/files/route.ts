@@ -16,26 +16,49 @@ export async function GET() {
     // Check for ZIP files in root directory (mobile builds and VoltBuilder packages)
     try {
       const rootFiles = readdirSync(process.cwd());
+      const buildFiles: Record<string, any> = {}; // Track latest builds by environment
+      
       for (const file of rootFiles) {
         if (file.endsWith('.zip') && (file.includes('rishi') || file.includes('mobile'))) {
           const filePath = join(process.cwd(), file);
           const stats = statSync(filePath);
           
-          // Determine file category based on name patterns
+          // Determine file category and environment
           let fileType: 'zip' | 'mobile' | 'voltbuilder' = 'zip';
+          let environment = 'unknown';
+          
           if (file.includes('mobile') || file.includes('voltbuilder')) {
             fileType = file.includes('voltbuilder') ? 'voltbuilder' : 'mobile';
           }
           
-          files.push({
+          if (file.includes('development')) environment = 'development';
+          else if (file.includes('staging')) environment = 'staging';  
+          else if (file.includes('production')) environment = 'production';
+          
+          const fileData = {
             name: file,
             size: formatFileSize(stats.size),
             date: stats.mtime.toISOString().split('T')[0],
+            mtime: stats.mtime.getTime(),
             type: fileType as any,
-            description: getFileDescription(file)
-          });
+            description: getFileDescription(file),
+            environment
+          };
+          
+          // Keep only the latest file for each environment
+          const key = `${fileType}-${environment}`;
+          if (!buildFiles[key] || buildFiles[key].mtime < fileData.mtime) {
+            buildFiles[key] = fileData;
+          }
         }
       }
+      
+      // Add the latest files to the result
+      Object.values(buildFiles).forEach((fileData: any) => {
+        const { mtime, environment, ...file } = fileData;
+        files.push(file);
+      });
+      
     } catch (error) {
       console.log("Error reading root directory:", error);
     }
