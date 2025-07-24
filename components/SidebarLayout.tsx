@@ -611,7 +611,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Link href="/" className="flex items-center justify-center mb-3">
                 <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
-                    src="/favicon.ico"
+                    src="/assets/logos/rishi-logo-new.svg"
                     alt="Rishi Logo"
                     width={32}
                     height={32}
@@ -619,10 +619,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     style={{ objectFit: "contain" }}
                     priority
                     onError={(e) => {
-                      // Fall back to another logo if this one fails
+                      // Fall back to PNG logo if SVG fails
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      target.src = "/favicon.png";
+                      target.src = "/assets/logos/rishi-logo-main.png";
                     }}
                   />
                 </div>
@@ -640,7 +640,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Link href="/" className="flex items-center overflow-hidden">
                 <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
-                    src="/favicon.ico"
+                    src="/assets/logos/rishi-logo-new.svg"
                     alt="Rishi Logo"
                     width={32}
                     height={32}
@@ -648,10 +648,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     style={{ objectFit: "contain" }}
                     priority
                     onError={(e) => {
-                      // Fall back to another logo if this one fails
+                      // Fall back to PNG logo if SVG fails
                       const target = e.target as HTMLImageElement;
                       target.onerror = null;
-                      target.src = "/favicon.png";
+                      target.src = "/assets/logos/rishi-logo-main.png";
                     }}
                   />
                 </div>
@@ -1543,7 +1543,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           <Link href="/" className="flex items-center overflow-hidden">
             <div className="w-8 h-8 relative flex-shrink-0">
               <Image
-                src="/favicon.ico"
+                src="/assets/logos/rishi-logo-new.svg"
                 alt="Rishi Logo"
                 width={32}
                 height={32}
@@ -1551,10 +1551,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 style={{ objectFit: "contain" }}
                 priority
                 onError={(e) => {
-                  // Fall back to another logo if this one fails
+                  // Fall back to PNG logo if SVG fails
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
-                  target.src = "/favicon.png";
+                  target.src = "/assets/logos/rishi-logo-main.png";
                 }}
               />
             </div>
