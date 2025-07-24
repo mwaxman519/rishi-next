@@ -4,6 +4,13 @@ import { join } from "path";
 
 export async function GET() {
   try {
+    // Security check: only allow in development
+    if (process.env.NODE_ENV !== 'development') {
+      return NextResponse.json(
+        { success: false, error: 'Dev tools only available in development environment' },
+        { status: 403 }
+      );
+    }
     const files = [];
     
     // Check for ZIP files in root directory

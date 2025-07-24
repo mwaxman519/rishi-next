@@ -158,6 +158,22 @@ const DEV_SCRIPTS = {
 };
 
 export default function DevToolsPage() {
+  // Only allow access in development environment
+  if (process.env.NODE_ENV !== 'development') {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            Dev Tools Not Available
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            Development tools are only available in development environment.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const [executions, setExecutions] = useState<Record<string, ScriptExecution>>({});
   const [downloadableFiles, setDownloadableFiles] = useState<DownloadableFile[]>([]);
   const [loadingFiles, setLoadingFiles] = useState(false);
