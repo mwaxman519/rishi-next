@@ -82,24 +82,24 @@ const DEV_SCRIPTS = {
     {
       id: 'build-mobile-dev',
       name: 'Mobile Build (Dev)',
-      description: 'Build mobile app for development (optimized)',
-      command: './scripts/mobile-build-optimized.sh development',
+      description: 'Build mobile app for development (isolated - no dev server interference)',
+      command: './scripts/mobile-build-isolated.sh development',
       category: 'build',
       icon: Hammer
     },
     {
       id: 'build-mobile-staging',
       name: 'Mobile Build (Staging)',
-      description: 'Build mobile app for staging (optimized)',
-      command: './scripts/mobile-build-optimized.sh staging',
+      description: 'Build mobile app for staging (isolated - no dev server interference)',
+      command: './scripts/mobile-build-isolated.sh staging',
       category: 'build',
       icon: Hammer
     },
     {
       id: 'build-mobile-prod',
       name: 'Mobile Build (Production)',
-      description: 'Build mobile app for production (optimized)',
-      command: './scripts/mobile-build-optimized.sh production',
+      description: 'Build mobile app for production (isolated - no dev server interference)',
+      command: './scripts/mobile-build-isolated.sh production',
       category: 'build',
       icon: Hammer
     }
