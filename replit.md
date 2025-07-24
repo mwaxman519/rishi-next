@@ -772,6 +772,15 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **HYBRID ARCHITECTURE VALIDATED**: Capacitor app uses static frontend + remote API calls to Replit/Vercel backend
 - **BUILD PROCESS OPTIMIZED**: Mobile build script now creates properly sized packages matching working 74MB structure
 
+### January 24, 2025 - BLANK SCREEN ROOT CAUSE INVESTIGATION - VOLTBUILDER ISSUE IDENTIFIED (CRITICAL)
+- **FUNDAMENTAL DISCOVERY**: Even official VoltBuilder demo shows blank screen on user's device
+- **ROOT CAUSE ELIMINATION**: Problem is NOT React/Next.js/Capacitor - basic HTML apps also fail
+- **SYSTEMATIC INVESTIGATION**: Created ultra-minimal diagnostic app to isolate exact failure point  
+- **SUSPECTS IDENTIFIED**: VoltBuilder build process, Android WebView, device configuration, or APK installation
+- **DIAGNOSTIC APPROACH**: Progressive testing from ultra-minimal HTML to full app complexity
+- **TROUBLESHOOTING GUIDE**: Created comprehensive blank-screen-troubleshooting.md documentation
+- **NEXT PHASE**: Systematic device/build verification using minimal diagnostic packages
+
 ### January 24, 2025 - CRITICAL STORAGE CLEANUP COMPLETED - SPACE OPTIMIZED (FINAL)
 - **STORAGE CRISIS RESOLVED**: Reduced workspace storage from 3GB+ to under 1.5GB through comprehensive cleanup
 - **EXCESSIVE CACHE REMOVAL**: Cleaned .local directory from 781MB to minimal size by removing npm/pnpm caches
