@@ -123,14 +123,14 @@ export default function Home() {
             Comprehensive Rishi Platform for legal states (CO, OR, WA) featuring
             8-stage booking lifecycle and UUID architecture.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/login">
-              <Button size="lg" className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto sm:max-w-none">
+            <Link href="/auth/login" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 px-8 py-3">
                 Login <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
-            <Link href="/auth/register">
-              <Button variant="outline" size="lg" className="border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700">
+            <Link href="/auth/register" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-purple-600 text-purple-600 hover:bg-purple-50 hover:border-purple-700 dark:hover:bg-purple-900 dark:text-purple-400 dark:border-purple-400 px-8 py-3">
                 Register
               </Button>
             </Link>
