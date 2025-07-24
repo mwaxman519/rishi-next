@@ -67,6 +67,10 @@ fi
 echo "🔨 Building Next.js application..."
 npm run build
 
+# Ensure development manifest exists after mobile build (which clears .next directory)
+echo "🔧 Restoring development manifest..."
+./scripts/ensure-dev-manifest.sh
+
 # Sync with Capacitor
 echo "📱 Syncing with Capacitor..."
 npx cap sync
