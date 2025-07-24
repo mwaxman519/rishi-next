@@ -1,7 +1,0 @@
-{
-  "/api/locations/route": "app/api/locations/route.js",
-  "/api/auth-service/session/route": "app/api/auth-service/session/route.js",
-  "/api/bookings/route": "app/api/bookings/route.js",
-  "/page": "app/page.js",
-  "/[...slug]/page": "app/[...slug]/page.js"
-}
