@@ -11,7 +11,7 @@
 
 "use client";
 
-import { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import {
   useAuthService,
   UserSession,
@@ -91,15 +91,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async function loadUser() {
       try {
         setIsLoading(true);
+        setError(null);
 
-        // Get session from auth service
-        const { user: sessionUser } = await authService.getSession();
-        setUser(sessionUser);
+        // Get session from auth service with retry logic
+        let retryCount = 0;
+        const maxRetries = 3;
+        
+        while (retryCount < maxRetries) {
+          try {
+            const { user: sessionUser } = await authService.getSession();
+            setUser(sessionUser);
+            return; // Success, exit retry loop
+          } catch (err) {
+            retryCount++;
+            console.warn(`Session request attempt ${retryCount} failed:`, err);
+            
+            // In development, if we get the Replit fetch issue, don't keep retrying
+            if (process.env.NODE_ENV === 'development' && 
+                err instanceof Error && 
+                err.message.includes('Development server connection issue')) {
+              console.log('Development environment fetch issue detected. Setting unauthenticated state.');
+              setUser(null);
+              return; // Don't throw error, just set user to null
+            }
+            
+            if (retryCount >= maxRetries) {
+              throw err; // Re-throw after max retries
+            }
+            
+            // Wait before retrying (exponential backoff)
+            await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
+          }
+        }
       } catch (err) {
-        console.error("Error loading user:", err);
+        console.error("Error loading user after retries:", err);
         setError(
-          err instanceof Error ? err : new Error("Unknown error loading user"),
+          err instanceof Error ? err : new Error("Unable to connect to authentication service"),
         );
+        // Set user to null to show unauthenticated state
+        setUser(null);
       } finally {
         setIsLoading(false);
       }

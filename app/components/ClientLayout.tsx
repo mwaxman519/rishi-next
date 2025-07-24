@@ -7,9 +7,25 @@ import ResponsiveLayout from "./layout/ResponsiveLayout";
 import IframeCompatibility from "./IframeCompatibility";
 import OfflineStatus from "./OfflineStatus";
 import OfflineDataManager from "./OfflineDataManager";
+import AuthErrorBanner from "./AuthErrorBanner";
+import DevEnvironmentBanner from "./DevEnvironmentBanner";
+import { useAuth } from "../hooks/useAuth";
 
 interface ClientLayoutProps {
   children: React.ReactNode;
+}
+
+function AuthErrorDisplay() {
+  const { error } = useAuth();
+  
+  if (!error) return null;
+  
+  return (
+    <AuthErrorBanner 
+      error={error} 
+      onRetry={() => window.location.reload()} 
+    />
+  );
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
@@ -21,6 +37,12 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Environment indicator overlay */}
         <EnvironmentIndicator />
+
+        {/* Authentication error banner (inside providers to access auth context) */}
+        <AuthErrorDisplay />
+
+        {/* Development environment information banner */}
+        <DevEnvironmentBanner />
 
         {/* Offline status for field workers */}
         <OfflineStatus />
