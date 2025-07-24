@@ -7,8 +7,8 @@
  */
 
 import React from "react";
-import { getEnvironmentIndicator } from "@/components/../config/environment";
-import { useClientOnly } from "@/components/../hooks/useClientOnly";
+import { getEnvironmentIndicator } from "../../app/config/environment";
+import { useClientOnly } from "../../app/hooks/useClientOnly";
 
 export function EnvironmentIndicator() {
   // Use our client-only hook for consistency
@@ -28,7 +28,7 @@ export function EnvironmentIndicator() {
 
   return (
     <div
-      className="fixed top-0 right-0 z-50 px-2 py-1 text-xs font-medium"
+      className="fixed top-16 right-4 z-40 px-2 py-1 text-xs font-medium rounded-md shadow-sm"
       style={{
         backgroundColor: indicator.color,
         color: indicator.textColor,
