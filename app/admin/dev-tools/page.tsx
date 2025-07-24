@@ -158,18 +158,12 @@ const DEV_SCRIPTS = {
 };
 
 export default function DevToolsPage() {
-  // Only allow access in development environment
+  // Only show dev tools in development environment
   if (process.env.NODE_ENV !== 'development') {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Dev Tools Not Available
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Development tools are only available in development environment.
-          </p>
-        </div>
+      <div className="container mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-4">Dev Tools</h1>
+        <p className="text-muted-foreground">Dev tools are only available in development environment.</p>
       </div>
     );
   }

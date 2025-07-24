@@ -24,6 +24,14 @@ const ALLOWED_COMMANDS = [
 ];
 
 export async function POST(req: NextRequest) {
+  // Block dev tools API in production
+  if (process.env.NODE_ENV !== 'development') {
+    return NextResponse.json(
+      { success: false, error: 'Dev tools are only available in development environment' },
+      { status: 403 }
+    );
+  }
+  
   try {
     const { command, scriptId } = await req.json();
 

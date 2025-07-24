@@ -58,6 +58,26 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
+    // Optimize for mobile builds to prevent hangs
+    if (isMobileBuild) {
+      config.optimization = {
+        ...config.optimization,
+        minimize: false, // Disable minification for mobile builds to prevent hangs
+        splitChunks: false // Disable chunk splitting for mobile builds
+      };
+      
+      // Reduce memory usage and prevent hanging
+      config.watchOptions = {
+        ignored: ['**/node_modules', '**/.next'],
+      };
+      
+      // Limit memory usage
+      config.stats = 'errors-warnings';
+      config.performance = {
+        hints: false
+      };
+    }
+    
     // Simple path aliases only
     config.resolve.alias = {
       ...config.resolve.alias,
