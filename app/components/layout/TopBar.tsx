@@ -28,18 +28,22 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
   const pathname = usePathname();
   const mounted = useClientOnly();
   
-  // Use the same environment detection as the development banner
-  const environmentIndicator = mounted ? getEnvironmentIndicator() : null;
-  const isDevelopment = environmentIndicator?.label === 'DEVELOPMENT';
-  
-  // Debug logging for environment detection
-  if (typeof window !== 'undefined' && mounted) {
+  // Client-side environment detection (same logic as development banner)
+  let isDevelopment = false;
+  if (mounted && typeof window !== 'undefined') {
+    // Check if we're in development environment
+    const nodeEnv = process.env.NODE_ENV;
+    const nextPublicAppEnv = process.env.NEXT_PUBLIC_APP_ENV;
+    
+    isDevelopment = nodeEnv === 'development' || nextPublicAppEnv === 'development';
+    
+    // Debug logging for environment detection
     console.log('TopBar Environment Debug:', {
       mounted,
-      environmentIndicator,
       isDevelopment,
-      nodeEnv: process.env.NODE_ENV,
-      nextPublicAppEnv: process.env.NEXT_PUBLIC_APP_ENV
+      nodeEnv,
+      nextPublicAppEnv,
+      hostname: window.location.hostname
     });
   }
 
