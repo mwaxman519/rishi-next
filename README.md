@@ -11,15 +11,19 @@ Cannabis workforce management platform with advanced scheduling, inventory manag
 - **🔐 Secure Authentication** - JWT-based authentication with refresh tokens
 - **📊 Real-Time Analytics** - Dashboard with performance metrics and reporting
 - **🏢 Multi-Organization** - Support for multiple cannabis organizations
+- **⚡ Advanced Dev Tools** - Interactive development tools with mobile build management
+- **🔧 Environment Detection** - Smart client-side environment detection across all layouts
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 15.3.5, React 19, TypeScript
-- **Backend**: Next.js API Routes (161 endpoints)
+- **Frontend**: Next.js 15.4.2, React 19, TypeScript
+- **Backend**: Next.js API Routes (156+ endpoints)
 - **Database**: PostgreSQL with Drizzle ORM (32 tables)
 - **UI**: Tailwind CSS, Shadcn/ui components
 - **Authentication**: JWT with refresh tokens
-- **Deployment**: Vercel (Production), Replit (Development/Staging)
+- **Mobile**: Capacitor for native iOS/Android apps
+- **Deployment**: Vercel (Production), Replit Autoscale (Staging), Replit (Development)
+- **Dev Tools**: Interactive dashboard with mobile build management
 
 ## 📁 Project Structure
 
@@ -132,6 +136,29 @@ vercel --prod
 - `NEXT_PUBLIC_APP_ENV=production`
 
 ## 🔧 Development
+
+### Development Tools Dashboard
+Access the interactive dev tools at `/dev-tools` (development only):
+
+**Build Management:**
+- One-click mobile app builds for all environments
+- Automated build cleanup and file management
+- Download mobile packages and configuration files
+
+**Database Operations:**
+- Push schema changes with `npm run db:push`
+- Open Drizzle Studio for database inspection
+- Generate and apply migrations
+
+**Development Utilities:**
+- Lint code with ESLint validation
+- Type-check TypeScript compilation
+- Clean build cache and dependencies
+
+### Environment Detection
+- **Client-side detection** - Works in browsers with proper fallbacks
+- **Layout-aware** - Dev tools button appears in both authenticated and public layouts
+- **Development-only** - Automatically hidden in staging/production for security
 
 ### Available Scripts
 - `npm run dev` - Start development server

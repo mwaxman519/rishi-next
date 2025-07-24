@@ -4,6 +4,11 @@
 
 This document establishes the proper industry-standard approach for managing development, staging, and production environments for both web and mobile deployments.
 
+### Recent Updates (January 24, 2025)
+- **Client-side Environment Detection**: Implemented browser-compatible environment detection using useClientOnly hook
+- **Dev Tools Integration**: Added universal dev tools button across all layout types (authenticated/unauthenticated)
+- **Layout Architecture Discovery**: Identified and resolved PublicLayout vs TopBar/SidebarLayout structure differences
+
 ## Environment Strategy
 
 ### 1. Development Environment
@@ -42,6 +47,9 @@ NEXT_PUBLIC_APP_ENV=development
 DATABASE_URL=postgresql://...rishiapp_dev
 NEXT_PUBLIC_API_URL=http://localhost:5000
 DEBUG_MODE=true
+# Dev Tools Configuration
+DEV_TOOLS_ENABLED=true
+CLIENT_SIDE_ENV_DETECTION=true
 ```
 
 ### .env.staging
@@ -186,6 +194,23 @@ export default nextConfig;
 4. **Console Logging**: Removed in production builds
 5. **API Keys**: Environment-specific secrets managed through deployment platforms
 
+## Development Tools Integration
+
+### Dev Tools Dashboard
+- **Route**: `/dev-tools` (development only)
+- **Access**: Universal button in both authenticated and unauthenticated layouts
+- **Security**: Automatically hidden in staging/production environments
+
+### Environment Detection Features
+- **Client-side Detection**: Browser-compatible using useClientOnly hook
+- **Layout Awareness**: Works across PublicLayout and TopBar/SidebarLayout structures
+- **Debug Logging**: Comprehensive environment state logging for troubleshooting
+
+### Mobile Build Management
+- **One-click Builds**: Automated mobile app builds for all environments
+- **File Management**: Auto-cleanup of old builds with latest-files-only system
+- **Download System**: Integrated package download after build completion
+
 ## Benefits of This Architecture
 
 1. **Clear Separation**: Each environment is completely isolated
@@ -194,3 +219,5 @@ export default nextConfig;
 4. **Secure**: Proper secret management and environment isolation
 5. **Developer Friendly**: Clear build commands and configuration
 6. **Client Friendly**: Staging environment for testing and demos
+7. **Universal Dev Access**: Dev tools accessible from any application state
+8. **Browser Compatible**: Environment detection works reliably across all browsers

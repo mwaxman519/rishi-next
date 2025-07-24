@@ -118,7 +118,7 @@ interface ResponsiveLayoutProps {
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // These hooks are safe to call in all environments
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const pathname = usePathname();
   
   // State to track if we're hydrated to avoid hydration mismatch
@@ -147,7 +147,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // During auth loading or before hydration, show a consistent loading state
   // Use the same structure as PublicLayout to prevent hydration mismatch
-  if (isLoading || !isHydrated) {
+  if (loading || !isHydrated) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <main className="flex-grow flex items-center justify-center">
