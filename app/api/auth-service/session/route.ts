@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export const dynamic = "force-dynamic";
 
 import { successResponse, errorResponse } from "../utils/response";
 import { AUTH_CONFIG } from "../config";
@@ -17,7 +16,13 @@ export async function GET(request: NextRequest) {
     console.log("[Auth Service] Session request received");
 
     // Get the auth token from cookies (check both cookie names for compatibility)
-    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME) || request.cookies.get("auth-token");
+    const authToken = request.cookies.get("auth-token") || request.cookies.get(AUTH_CONFIG.COOKIE_NAME);
+    
+    console.log("[Auth Service] Checking cookies:", {
+      'auth-token': !!request.cookies.get("auth-token"),
+      'auth_token': !!request.cookies.get(AUTH_CONFIG.COOKIE_NAME),
+      hasAuthToken: !!authToken
+    });
     
     if (!authToken) {
       console.log("[Auth Service] No auth token found in cookies");

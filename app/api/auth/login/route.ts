@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export const dynamic = "force-dynamic";
 
 import { db } from "../../../../lib/db-connection";
 import { eq } from "drizzle-orm";
@@ -64,12 +63,13 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Set cookie
+    // Set cookie with path specified for better compatibility
     response.cookies.set("auth-token", token, {
       httpOnly: true,
       secure: (process.env.NODE_ENV as string) === "production",
       sameSite: "lax",
       maxAge: 24 * 60 * 60, // 24 hours
+      path: "/",
     });
 
     return response;
