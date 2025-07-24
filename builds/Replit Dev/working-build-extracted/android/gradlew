@@ -1,0 +1,25 @@
+#!/bin/sh
+# Debug gradlew for VoltBuilder troubleshooting
+echo "[DEBUG] gradlew called at $(date)" >> /tmp/gradlew.log 2>&1
+echo "[DEBUG] Arguments: $@" >> /tmp/gradlew.log 2>&1
+echo "[DEBUG] Working directory: $(pwd)" >> /tmp/gradlew.log 2>&1
+echo "[DEBUG] Environment:" >> /tmp/gradlew.log 2>&1
+env | grep -E "(JAVA|GRADLE|ANDROID)" >> /tmp/gradlew.log 2>&1
+
+# Try to find gradle installation
+if command -v gradle >/dev/null 2>&1; then
+    echo "[DEBUG] Found gradle at: $(which gradle)" >> /tmp/gradlew.log 2>&1
+    gradle "$@"
+    exit $?
+fi
+
+# Fallback to jar execution
+WRAPPER_JAR="$(dirname "$0")/gradle/wrapper/gradle-wrapper.jar"
+if [ -f "$WRAPPER_JAR" ]; then
+    echo "[DEBUG] Using wrapper jar at: $WRAPPER_JAR" >> /tmp/gradlew.log 2>&1
+    java -cp "$WRAPPER_JAR" org.gradle.wrapper.GradleWrapperMain "$@"
+    exit $?
+fi
+
+echo "[DEBUG] No gradle found, exiting with error" >> /tmp/gradlew.log 2>&1
+exit 1

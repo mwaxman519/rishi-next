@@ -1,0 +1,24 @@
+// Capacitor settings for VoltBuilder compatibility
+include ':capacitor-android'
+project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android')
+
+// Plugin settings
+if (file('../node_modules/@capacitor/app/android/build.gradle').exists()) {
+    include ':capacitor-app'
+    project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')
+}
+
+if (file('../node_modules/@capacitor/keyboard/android/build.gradle').exists()) {
+    include ':capacitor-keyboard'
+    project(':capacitor-keyboard').projectDir = new File('../node_modules/@capacitor/keyboard/android')
+}
+
+if (file('../node_modules/@capacitor/status-bar/android/build.gradle').exists()) {
+    include ':capacitor-status-bar'
+    project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
+}
+
+if (file('../node_modules/@capacitor/splash-screen/android/build.gradle').exists()) {
+    include ':capacitor-splash-screen'
+    project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capacitor/splash-screen/android')
+}
