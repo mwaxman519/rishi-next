@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
@@ -591,7 +592,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           {sidebarCollapsed ? (
             <div className="w-full flex flex-col items-center">
               <Link href="/" className="flex items-center justify-center mb-3">
-                <span className="text-xl font-bold text-[rgb(var(--primary))]">R</span>
+                <div className="w-8 h-8 relative flex-shrink-0">
+                  <Image
+                    src="/assets/logos/rishi-logo-actual.png"
+                    alt="Rishi Logo"
+                    width={32}
+                    height={32}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
               </Link>
               <button
                 onClick={toggleSidebar}
@@ -604,7 +614,17 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           ) : (
             <>
               <Link href="/" className="flex items-center overflow-hidden">
-                <span className="text-xl font-bold text-[rgb(var(--primary))]">
+                <div className="w-8 h-8 relative flex-shrink-0">
+                  <Image
+                    src="/assets/logos/rishi-logo-actual.png"
+                    alt="Rishi Logo"
+                    width={32}
+                    height={32}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <span className="ml-2 text-xl font-bold text-[rgb(var(--primary))]">
                   Rishi
                 </span>
               </Link>
@@ -1490,7 +1510,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         {/* Mobile menu header */}
         <div className="flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]">
           <Link href="/" className="flex items-center overflow-hidden">
-            <span className="text-xl font-bold text-[rgb(var(--primary))]">
+            <div className="w-8 h-8 relative flex-shrink-0">
+              <Image
+                src="/assets/logos/rishi-logo-actual.png"
+                alt="Rishi Logo"
+                width={32}
+                height={32}
+                className="object-contain w-auto h-auto"
+                style={{ objectFit: "contain" }}
+                priority
+              />
+            </div>
+            <span className="ml-2 text-xl font-bold text-[rgb(var(--primary))]">
               Rishi
             </span>
           </Link>
