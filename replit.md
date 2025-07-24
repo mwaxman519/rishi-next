@@ -747,6 +747,10 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **BUILDS DIRECTORY ORGANIZATION**: Created organized builds/ directory structure with subfolders for Replit Dev, Replit Autoscale Staging, and Vercel Production environments
 - **BUILD ARTIFACT MANAGEMENT**: Established clear naming conventions and moved successful VoltBuilder package to appropriate Replit Dev folder
 - **DEPLOYMENT ENVIRONMENT SEPARATION**: Each build folder designed to contain 1 current build file for its specific deployment target
+- **BUILD TOOLS INTEGRATION**: Updated scripts/build-mobile.sh to output builds to correct organized folders based on environment parameter
+- **DEV TOOLS INTEGRATION**: Updated dev tools UI to show correct output paths (→ builds/[Environment]/) and scan organized build directories
+- **BUILD NAMING CONVENTION**: Standardized naming pattern: rishi-[environment]-[YYYY-MM-DD-HHMM].zip for all build outputs
+- **FILE API ORGANIZATION**: Updated admin dev tools file detection to scan organized build directories instead of root directory
 
 ### January 24, 2025 - DEV TOOLS ACCESS CONTROL IMPLEMENTED - FEATURE COMPLETE (FINAL)
 - **DEV TOOLS ENVIRONMENT RESTRICTION**: Implemented environment-based access control - dev tools dashboard only shows in development environment

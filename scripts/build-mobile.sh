@@ -75,17 +75,33 @@ echo "🔧 Restoring development manifest..."
 echo "📱 Syncing with Capacitor..."
 npx cap sync
 
-# Clean up old builds for this environment
-echo "🧹 Cleaning up old $ENVIRONMENT builds..."
-find . -maxdepth 1 -name "rishi-mobile-$ENVIRONMENT-*.zip" -type f -delete 2>/dev/null || true
-find . -maxdepth 1 -name "rishi-voltbuilder-*$ENVIRONMENT*.zip" -type f -delete 2>/dev/null || true
+# Set output directory based on environment
+case $ENVIRONMENT in
+    "development")
+        OUTPUT_DIR="builds/Replit Dev"
+        ;;
+    "staging")
+        OUTPUT_DIR="builds/Replit Autoscale Staging"
+        ;;
+    "production")
+        OUTPUT_DIR="builds/Vercel Production"
+        ;;
+esac
 
-# Create VoltBuilder package
-PACKAGE_NAME="rishi-mobile-$ENVIRONMENT-$TIMESTAMP.zip"
+# Ensure output directory exists
+mkdir -p "$OUTPUT_DIR"
 
-echo "📦 Creating VoltBuilder package: $PACKAGE_NAME"
+# Clean up old builds for this environment (keep only 1 current build)
+echo "🧹 Cleaning up old $ENVIRONMENT builds in $OUTPUT_DIR..."
+find "$OUTPUT_DIR" -name "rishi-*.zip" -type f -delete 2>/dev/null || true
 
-zip -r "$PACKAGE_NAME" \
+# Create VoltBuilder package with proper naming
+PACKAGE_NAME="rishi-$ENVIRONMENT-$TIMESTAMP.zip"
+PACKAGE_PATH="$OUTPUT_DIR/$PACKAGE_NAME"
+
+echo "📦 Creating VoltBuilder package: $PACKAGE_PATH"
+
+zip -r "$PACKAGE_PATH" \
     android/ \
     out/ \
     capacitor.config.ts \
@@ -98,13 +114,15 @@ zip -r "$PACKAGE_NAME" \
 
 echo ""
 echo "✅ Mobile app build completed successfully!"
-echo "📦 Package: $PACKAGE_NAME"
-echo "📏 Size: $(ls -lh "$PACKAGE_NAME" | awk '{print $5}')"
+echo "📦 Package: $PACKAGE_PATH"
+echo "📏 Size: $(ls -lh "$PACKAGE_PATH" | awk '{print $5}')"
+echo "📁 Location: $OUTPUT_DIR/"
 echo ""
 echo "🚀 Next Steps:"
-echo "   1. Upload $PACKAGE_NAME to VoltBuilder"
-echo "   2. Test the mobile app with $ENVIRONMENT backend"
-echo "   3. Distribute to field workers"
+echo "   1. Navigate to $OUTPUT_DIR/"
+echo "   2. Upload $PACKAGE_NAME to VoltBuilder"
+echo "   3. Test the mobile app with $ENVIRONMENT backend"
+echo "   4. Distribute to field workers"
 echo ""
 echo "📱 Mobile App Features:"
 echo "   • App Name: $APP_NAME"

@@ -81,7 +81,7 @@ const DEV_SCRIPTS = {
     {
       id: 'build-mobile-dev',
       name: 'Mobile Build (Dev)',
-      description: 'Build mobile app for development (proven working script from yesterday)',
+      description: 'Build mobile app for development → builds/Replit Dev/',
       command: './scripts/build-mobile.sh development',
       category: 'build',
       icon: Hammer
@@ -89,7 +89,7 @@ const DEV_SCRIPTS = {
     {
       id: 'build-mobile-staging',
       name: 'Mobile Build (Staging)',
-      description: 'Build mobile app for staging (proven working script from yesterday)',
+      description: 'Build mobile app for staging → builds/Replit Autoscale Staging/',
       command: './scripts/build-mobile.sh staging',
       category: 'build',
       icon: Hammer
@@ -97,7 +97,7 @@ const DEV_SCRIPTS = {
     {
       id: 'build-mobile-prod',
       name: 'Mobile Build (Production)',
-      description: 'Build mobile app for production (proven working script from yesterday)',
+      description: 'Build mobile app for production → builds/Vercel Production/',
       command: './scripts/build-mobile.sh production',
       category: 'build',
       icon: Hammer

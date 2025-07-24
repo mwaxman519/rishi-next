@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readdirSync, statSync } from "fs";
+import { readdirSync, statSync, existsSync } from "fs";
 import { join } from "path";
 
 export async function GET() {
@@ -13,43 +13,55 @@ export async function GET() {
     }
     const files = [];
     
-    // Check for ZIP files in root directory (mobile builds and VoltBuilder packages)
+    // Check for ZIP files in organized build directories
     try {
-      const rootFiles = readdirSync(process.cwd());
+      const buildDirs = [
+        { path: 'builds/Replit Dev', env: 'development' },
+        { path: 'builds/Replit Autoscale Staging', env: 'staging' },
+        { path: 'builds/Vercel Production', env: 'production' }
+      ];
+      
       const buildFiles: Record<string, any> = {}; // Track latest builds by environment
       
-      for (const file of rootFiles) {
-        if (file.endsWith('.zip') && (file.includes('rishi') || file.includes('mobile'))) {
-          const filePath = join(process.cwd(), file);
-          const stats = statSync(filePath);
-          
-          // Determine file category and environment
-          let fileType: 'zip' | 'mobile' | 'voltbuilder' = 'zip';
-          let environment = 'unknown';
-          
-          if (file.includes('mobile') || file.includes('voltbuilder')) {
-            fileType = file.includes('voltbuilder') ? 'voltbuilder' : 'mobile';
+      for (const buildDir of buildDirs) {
+        try {
+          const buildDirPath = join(process.cwd(), buildDir.path);
+          if (existsSync(buildDirPath)) {
+            const dirFiles = readdirSync(buildDirPath);
+            for (const file of dirFiles) {
+              if (file.endsWith('.zip') && file.includes('rishi')) {
+                const filePath = join(buildDirPath, file);
+                const stats = statSync(filePath);
+                
+                // Determine file category and environment  
+                let fileType: 'zip' | 'mobile' | 'voltbuilder' = 'mobile';
+                const environment = buildDir.env;
+                
+                if (file.includes('voltbuilder')) {
+                  fileType = 'voltbuilder';
+                }
+                
+                const fileData = {
+                  name: file,
+                  size: formatFileSize(stats.size),
+                  path: buildDir.path,
+                  date: stats.mtime.toISOString().split('T')[0],
+                  mtime: stats.mtime.getTime(),
+                  type: fileType as any,
+                  description: getFileDescription(file),
+                  environment
+                };
+                
+                // Keep only the latest file for each environment
+                const key = `${fileType}-${environment}`;
+                if (!buildFiles[key] || buildFiles[key].mtime < fileData.mtime) {
+                  buildFiles[key] = fileData;
+                }
+              }
+            }
           }
-          
-          if (file.includes('development')) environment = 'development';
-          else if (file.includes('staging')) environment = 'staging';  
-          else if (file.includes('production')) environment = 'production';
-          
-          const fileData = {
-            name: file,
-            size: formatFileSize(stats.size),
-            date: stats.mtime.toISOString().split('T')[0],
-            mtime: stats.mtime.getTime(),
-            type: fileType as any,
-            description: getFileDescription(file),
-            environment
-          };
-          
-          // Keep only the latest file for each environment
-          const key = `${fileType}-${environment}`;
-          if (!buildFiles[key] || buildFiles[key].mtime < fileData.mtime) {
-            buildFiles[key] = fileData;
-          }
+        } catch (error) {
+          console.log(`Error reading build directory ${buildDir.path}:`, error);
         }
       }
       
