@@ -12,9 +12,9 @@ const ALLOWED_COMMANDS = [
   'npm run db:studio',
   'npm run db:generate',
   'npm run build',
-  './scripts/build-mobile.sh development',
-  './scripts/build-mobile.sh staging',
-  './scripts/build-mobile.sh production',
+  './scripts/mobile-build-optimized.sh development',
+  './scripts/mobile-build-optimized.sh staging',
+  './scripts/mobile-build-optimized.sh production',
   'npm run lint',
   'npx tsc --noEmit',
   'npm test',
@@ -45,9 +45,12 @@ export async function POST(req: NextRequest) {
     console.log(`[Dev Tools] Executing script: ${scriptId} - ${command}`);
 
     try {
-      // Set execution timeout to 2 minutes for faster feedback
+      // Set execution timeout - longer for mobile builds, shorter for other commands
+      const isMobileBuild = command.includes('mobile-build');
+      const timeout = isMobileBuild ? 600000 : 120000; // 10 minutes for mobile builds, 2 minutes for others
+      
       const { stdout, stderr } = await execAsync(command, {
-        timeout: 120000, // 2 minutes
+        timeout,
         cwd: process.cwd(),
         env: {
           ...process.env,
