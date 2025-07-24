@@ -39,7 +39,8 @@ interface DownloadableFile {
   name: string;
   size: string;
   date: string;
-  type: 'zip' | 'config' | 'other';
+  type: 'zip' | 'config' | 'mobile' | 'voltbuilder' | 'other';
+  description?: string;
 }
 
 const DEV_SCRIPTS = {
@@ -307,12 +308,16 @@ export default function DevToolsPage() {
 
   const getFileIcon = (type: string) => {
     switch (type) {
+      case 'mobile':
+        return <Archive className="h-4 w-4 text-purple-600" />;
+      case 'voltbuilder':
+        return <Archive className="h-4 w-4 text-green-600" />;
       case 'zip':
-        return <Archive className="h-4 w-4" />;
+        return <Archive className="h-4 w-4 text-blue-600" />;
       case 'config':
-        return <Settings className="h-4 w-4" />;
+        return <Settings className="h-4 w-4 text-gray-600" />;
       default:
-        return <Folder className="h-4 w-4" />;
+        return <Folder className="h-4 w-4 text-gray-400" />;
     }
   };
 
@@ -467,7 +472,9 @@ export default function DevToolsPage() {
                         {getFileIcon(file.type)}
                         <div>
                           <p className="font-medium text-sm">{file.name}</p>
-                          <p className="text-xs text-gray-500">{file.size} • {file.date}</p>
+                          <p className="text-xs text-gray-500">
+                            {file.description || 'Build package'} • {file.size} • {file.date}
+                          </p>
                         </div>
                       </div>
                       <Button

@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Security: only allow specific file types and patterns
-    if (!filename.match(/^(rishi.*\.zip|capacitor\.config\.ts)$/)) {
+    if (!filename.match(/^(rishi.*\.zip|.*mobile.*\.zip|.*voltbuilder.*\.zip|capacitor\.config\.ts)$/)) {
       return NextResponse.json(
         { success: false, error: 'Invalid file type' },
         { status: 400 }
