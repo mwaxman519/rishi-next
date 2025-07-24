@@ -24,6 +24,11 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
   const { user } = useAuth();
   const { currentOrganization } = useOrganization();
   const pathname = usePathname();
+  
+  // Check if we're in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development' || 
+                       process.env.NEXT_PUBLIC_APP_ENV === 'development' ||
+                       typeof window !== 'undefined' && window.location.hostname.includes('replit.dev');
 
   // Define a safe handler to handle empty props
   const handleMenuClick = () => {
@@ -86,7 +91,7 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
       {/* Right section: User actions */}
       <div className="flex items-center gap-2">
         {/* Mobile dev tools button - development only */}
-        {process.env.NODE_ENV === 'development' && (
+        {isDevelopment && (
           <Link
             href="/dev-tools"
             className="md:hidden flex items-center justify-center h-9 w-9 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-purple-600 dark:text-purple-400"
@@ -101,14 +106,21 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
         </div>
 
         {/* Dev Tools Link - development only */}
-        {process.env.NODE_ENV === 'development' && (
+        {isDevelopment && (
           <Link
             href="/dev-tools"
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-purple-600 dark:text-purple-400"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 border border-purple-300 dark:border-purple-600"
           >
             <Settings className="h-4 w-4" />
             Dev Tools
           </Link>
+        )}
+        
+        {/* Debug info for development detection */}
+        {typeof window !== 'undefined' && window.location.hostname.includes('replit.dev') && (
+          <div className="hidden md:block text-xs text-red-500 px-2">
+            Dev Mode: {isDevelopment ? 'Yes' : 'No'}
+          </div>
         )}
 
         {/* Documentation Link - always visible on desktop */}
