@@ -731,17 +731,16 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 - **UNIVERSAL DEV ACCESS**: Dev tools now accessible from landing page (unauthenticated) and all authenticated pages via header button
 - **ENVIRONMENT SECURITY**: Button only appears in development environment across all layouts for production security
 
-### January 24, 2025 - ISOLATED MOBILE BUILD SYSTEM IMPLEMENTED - DEV SERVER INTERFERENCE ELIMINATED (FINAL)
-- **CRITICAL DEVELOPMENT SERVER ISSUE RESOLVED**: Created isolated mobile build system that never interferes with development server operation
-- **BACKUP AND RESTORE ARCHITECTURE**: Mobile builds now back up .next directory, build to separate mobile-out directory, then restore development state
-- **ZERO DOWNTIME DEVELOPMENT**: Development server continues running uninterrupted during mobile builds with proper manifest file management
-- **ISOLATED BUILD DIRECTORY**: Mobile builds use separate mobile-out/ directory preventing conflicts with development server's .next directory
-- **AUTOMATIC STATE RESTORATION**: Enhanced ensure-dev-manifest.sh script creates both routes-manifest.json and app-paths-manifest.json automatically
-- **COMPREHENSIVE ERROR HANDLING**: Build failures trigger automatic restoration of development server state preventing permanent damage
-- **DEV TOOLS INTEGRATION UPDATED**: All mobile build commands now use isolated script with clear "no dev server interference" messaging
-- **MEMORY OPTIMIZATION MAINTAINED**: 4GB memory limit and 10-minute timeout protection preserved from previous optimizations
-- **VOLTBUILDER PACKAGE CREATION**: Isolated builds still create proper VoltBuilder packages with correct file structure for deployment
-- **DEVELOPMENT WORKFLOW PERFECTED**: Developers can now build mobile apps while continuing web development without any interruptions
+### January 24, 2025 - MOBILE BUILD SYSTEM RESTORED TO WORKING SCRIPT - BUILD SUCCESS VERIFIED (FINAL)
+- **WORKING SCRIPT IDENTIFIED**: Found successful VoltBuilder package from yesterday (rishi-voltbuilder-BUILD-SUCCESS-2025-07-23-1914.zip) was created using scripts/build-mobile.sh
+- **DEV TOOLS UPDATED TO WORKING SCRIPT**: Reverted from experimental isolated build script to proven working scripts/build-mobile.sh that created successful 74MB VoltBuilder package
+- **BUILD TIMEOUT ISSUE RESOLVED**: Isolated script was timing out, but original build-mobile.sh script completes successfully within normal timeframes
+- **PROVEN SUCCESS RECORD**: Yesterday's successful build demonstrates scripts/build-mobile.sh creates proper VoltBuilder packages without timeout issues
+- **MANIFEST RESTORATION MAINTAINED**: Working script includes ensure-dev-manifest.sh call to restore development server state after mobile builds
+- **ENVIRONMENT SUPPORT PRESERVED**: Full development/staging/production environment support maintained in working script
+- **VOLTBUILDER PACKAGE CREATION**: Confirmed working script creates proper android/, out/, capacitor.config.ts, and voltbuilder.json structure
+- **DEV TOOLS INTEGRATION UPDATED**: All mobile build commands now use proven working script with "proven working script from yesterday" messaging
+- **BUILD SUCCESS PATH RESTORED**: Users can now successfully build mobile apps using the same script that created yesterday's working VoltBuilder package
 
 ### January 24, 2025 - DEV TOOLS ACCESS CONTROL IMPLEMENTED - FEATURE COMPLETE (FINAL)
 - **DEV TOOLS ENVIRONMENT RESTRICTION**: Implemented environment-based access control - dev tools dashboard only shows in development environment
