@@ -78,11 +78,7 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
         <div className="flex items-center">
-          <img
-            src="/favicon.ico"
-            alt="Rishi"
-            className="h-10 w-auto object-contain max-w-[120px]"
-          />
+          <span className="text-xl font-bold text-blue-600">Rishi</span>
         </div>
         <div className="flex items-center gap-2">
           {/* Current Organization Dropdown */}

@@ -86,11 +86,7 @@ const ServerPlaceholder = ({ children }: { children: React.ReactNode }) => (
     {/* Simple header during loading */}
     <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
       <div className="flex items-center">
-        <img
-          src="/favicon.ico"
-          alt="Rishi"
-          className="h-10 w-auto object-contain max-w-[120px]"
-        />
+        <span className="text-xl font-bold text-blue-600">Rishi</span>
       </div>
       <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
     </div>

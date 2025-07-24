@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ThemeToggle } from "./ui/theme-toggle";
 import { Button } from "./ui/button";
 
@@ -17,16 +16,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
       <header className="border-b border-[rgb(var(--border))] bg-[rgb(var(--card))]">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center">
-            <div className="w-10 h-10 relative flex-shrink-0 mr-2">
-              <Image
-                src="/favicon.ico"
-                alt="Rishi Logo"
-                width={40}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-            <span className="text-xl font-semibold hidden sm:inline-block">
+            <span className="text-xl font-semibold">
               Rishi Platform
             </span>
           </Link>
