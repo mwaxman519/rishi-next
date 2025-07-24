@@ -5,12 +5,35 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "./ui/theme-toggle";
 import { Button } from "./ui/button";
+import { Terminal } from "lucide-react";
+import { useClientOnly } from "../hooks/useClientOnly";
 
 interface PublicLayoutProps {
   children: React.ReactNode;
 }
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
+  const mounted = useClientOnly();
+  
+  // Client-side environment detection for dev tools button
+  let isDevelopment = false;
+  if (mounted && typeof window !== 'undefined') {
+    // Check if we're in development environment (same logic as development banner)
+    const nodeEnv = process.env.NODE_ENV;
+    const nextPublicAppEnv = process.env.NEXT_PUBLIC_APP_ENV;
+    
+    isDevelopment = nodeEnv === 'development' || nextPublicAppEnv === 'development';
+    
+    // Debug logging for environment detection
+    console.log('PublicLayout Environment Debug:', {
+      mounted,
+      isDevelopment,
+      nodeEnv,
+      nextPublicAppEnv,
+      hostname: window.location.hostname
+    });
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-[rgb(var(--background))]">
       {/* Public Header - Simplified for unauthenticated users */}
@@ -31,6 +54,20 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             </span>
           </Link>
           <div className="flex items-center space-x-4">
+            {/* Dev Tools button - development only, visible without authentication */}
+            {isDevelopment && (
+              <Link href="/dev-tools">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-purple-300 text-purple-600 hover:bg-purple-50 dark:border-purple-600 dark:text-purple-400 dark:hover:bg-purple-900/20"
+                >
+                  <Terminal size={16} className="mr-2" />
+                  <span className="hidden md:inline">Dev Tools</span>
+                  <span className="md:hidden">Dev</span>
+                </Button>
+              </Link>
+            )}
             <a href="/docs" className="mr-2">
               <Button variant="outline" size="sm">
                 Documentation
