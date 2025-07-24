@@ -4,6 +4,7 @@ import React from "react";
 import { useAuth } from "./hooks/useAuth";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
+import MobileDebugger from "./components/MobileDebugger";
 import { 
   Calendar, 
   Users, 
@@ -156,6 +157,9 @@ export default function MobilePage() {
           <p>Development Build</p>
         </div>
       </div>
+      
+      {/* Mobile Debugger - Always available in development */}
+      <MobileDebugger />
     </div>
   );
 }
