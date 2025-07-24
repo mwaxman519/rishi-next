@@ -31,6 +31,17 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
   // Use the same environment detection as the development banner
   const environmentIndicator = mounted ? getEnvironmentIndicator() : null;
   const isDevelopment = environmentIndicator?.label === 'DEVELOPMENT';
+  
+  // Debug logging for environment detection
+  if (typeof window !== 'undefined' && mounted) {
+    console.log('TopBar Environment Debug:', {
+      mounted,
+      environmentIndicator,
+      isDevelopment,
+      nodeEnv: process.env.NODE_ENV,
+      nextPublicAppEnv: process.env.NEXT_PUBLIC_APP_ENV
+    });
+  }
 
   // Define a safe handler to handle empty props
   const handleMenuClick = () => {
@@ -92,11 +103,11 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
 
       {/* Right section: User actions */}
       <div className="flex items-center gap-2">
-        {/* Mobile dev tools button - development only */}
+        {/* Mobile dev tools button - development only, visible without authentication */}
         {isDevelopment && (
           <Link
             href="/dev-tools"
-            className="md:hidden flex items-center justify-center h-9 w-9 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-purple-600 dark:text-purple-400"
+            className="md:hidden flex items-center justify-center h-9 w-9 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900 border border-purple-300 dark:border-purple-600"
           >
             <Settings className="h-4 w-4" />
           </Link>
@@ -107,7 +118,7 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
           <ThemeToggle />
         </div>
 
-        {/* Dev Tools Link - development only */}
+        {/* Dev Tools Link - development only, visible without authentication */}
         {isDevelopment && (
           <Link
             href="/dev-tools"
