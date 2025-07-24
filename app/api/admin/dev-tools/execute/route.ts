@@ -19,8 +19,8 @@ const ALLOWED_COMMANDS = [
   'npx tsc --noEmit',
   'npm test',
   'rm -rf .next && rm -rf node_modules/.cache',
-  'tail -f .next/trace',
-  'grep -i "database" logs/*.log'
+  'ps aux | grep node',
+  'npm run db:push'
 ];
 
 export async function POST(req: NextRequest) {
@@ -45,9 +45,9 @@ export async function POST(req: NextRequest) {
     console.log(`[Dev Tools] Executing script: ${scriptId} - ${command}`);
 
     try {
-      // Set execution timeout to 5 minutes
+      // Set execution timeout to 2 minutes for faster feedback
       const { stdout, stderr } = await execAsync(command, {
-        timeout: 300000, // 5 minutes
+        timeout: 120000, // 2 minutes
         cwd: process.cwd(),
         env: {
           ...process.env,

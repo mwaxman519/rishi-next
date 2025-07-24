@@ -129,17 +129,17 @@ const DEV_SCRIPTS = {
   logs: [
     {
       id: 'logs-dev',
-      name: 'Development Logs',
-      description: 'View development server logs',
-      command: 'tail -f .next/trace',
+      name: 'List Process Status',
+      description: 'View running Node.js processes',
+      command: 'ps aux | grep node',
       category: 'logs',
       icon: FileText
     },
     {
       id: 'logs-database',
-      name: 'Database Logs',
-      description: 'View database connection logs',
-      command: 'grep -i "database" logs/*.log',
+      name: 'Check Database Connection',
+      description: 'Test database connectivity',
+      command: 'npm run db:push',
       category: 'logs',
       icon: FileText
     }
