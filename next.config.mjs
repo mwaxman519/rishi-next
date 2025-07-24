@@ -21,11 +21,7 @@ const nextConfig = {
     output: 'export',
     distDir: 'out',
     trailingSlash: true,
-    images: { unoptimized: true },
-    // Mobile build optimizations
-    experimental: {
-      optimizeCss: false, // Disable CSS optimization for mobile builds
-    }
+    images: { unoptimized: true }
   } : {
     output: undefined, // Server mode for web deployments
     distDir: '.next',
@@ -80,11 +76,6 @@ const nextConfig = {
       tls: false,
       crypto: false,
     };
-    
-    // Mobile build - minimal webpack config
-    if (isMobileBuild) {
-      console.log('[Mobile Build] Using standard webpack config for static export');
-    }
     
     return config;
   },

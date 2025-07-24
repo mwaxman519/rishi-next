@@ -1,0 +1,263 @@
+import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
+import { z } from "zod";
+import { db } from "@/lib/db";
+import { kitInstances, insertKitSchema, USER_ROLES, kits } from "@shared/schema";
+import { and, eq } from "drizzle-orm";
+import { getOrganizationHeaderData } from "@/lib/organization-context";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
+
+// GET /api/kits
+export async function GET(req: NextRequest) {
+  try {
+    // Check authentication
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Get organization context from request headers
+    const organizationData = await getOrganizationHeaderData(req);
+
+    // Check if user has permission to view kits
+    const hasPermission = await checkPermission(req, "read:staff");
+    if (!hasPermission) {
+      return NextResponse.json(
+        { error: "You do not have permission to view kits" },
+        { status: 403 },
+      );
+    }
+
+    // Get query parameters
+    const url = new URL(req.url);
+    const searchParams = url.searchParams;
+    const brandRegionId = (searchParams.get("brandRegionId") || undefined);
+    const kitStatus = (searchParams.get("status") || undefined);
+    const approvalStatus = (searchParams.get("approvalStatus") || undefined);
+
+    // Build the query - use kits (alias for kitInstances)
+    let query = db.select().from(kits);
+
+    // Apply filters if provided
+    if (kitStatus) {
+      query = query.where(eq(kits.status, kitStatus));
+    }
+
+    // For client users, only show available kits
+    if (
+      user &&
+      (user.role === USER_ROLES.CLIENT_USER ||
+        user.role === USER_ROLES.CLIENT_MANAGER)
+    ) {
+      query = query.where(eq(kits.status, "available"));
+    }
+
+    // Execute the query with build-time error handling
+    let allKits = [];
+    try {
+      allKits = await query;
+    } catch (dbError: any) {
+      console.log("[Kits API] Database table not ready during build time, returning empty array");
+      // During build time or if table doesn't exist, return empty array
+      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
+        return NextResponse.json([]);
+      }
+      throw dbError; // Re-throw if it's a different error
+    }
+
+    return NextResponse.json(allKits);
+  } catch (error) {
+    console.error("Error fetching kits:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch kits" },
+      { status: 500 },
+    );
+  }
+}
+
+// POST /api/kits
+export async function POST(req: NextRequest) {
+  try {
+    // Get organization context from request headers
+    const organizationData = await getOrganizationHeaderData(req);
+
+    // Check if user has permission to create kits
+    const hasPermission = await checkPermission(req, "create:staff");
+    if (!hasPermission) {
+      return NextResponse.json(
+        { error: "You do not have permission to create kits" },
+        { status: 403 },
+      );
+    }
+
+    // Get current user information
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 },
+      );
+    }
+
+    // Parse and validate request body
+    const body = await req.json();
+    const validatedData = insertKitSchema.parse(body);
+
+    // Determine the approval status based on user role
+    // Internal Rishi staff can auto-approve, clients need approval
+    const isRishiStaff = [
+      USER_ROLES.SUPER_ADMIN,
+      USER_ROLES.INTERNAL_ADMIN,
+      USER_ROLES.INTERNAL_FIELD_MANAGER,
+    ].includes(user.role);
+
+    const approvalStatus = isRishiStaff ? "approved" : "pending";
+    const approvalData = {
+      ...validatedData,
+      approvalStatus,
+      requestedById: parseInt(user.id),
+    };
+
+    // If Rishi staff is creating the kit, they are also the approver
+    if (isRishiStaff) {
+      approvalData.approvedById = parseInt(user.id);
+      approvalData.approvalDate = new Date();
+    }
+
+    // Insert the new kit with build-time error handling
+    let newKit;
+    try {
+      [newKit] = await db.insert(kits).values(approvalData).returning();
+    } catch (dbError: any) {
+      console.log("[Kits API] Database table not ready during build time");
+      // During build time or if table doesn't exist, return mock response
+      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
+        return NextResponse.json(
+          { error: "Database not available during build time" },
+          { status: 503 }
+        );
+      }
+      throw dbError; // Re-throw if it's a different error
+    }
+
+    return NextResponse.json(newKit, { status: 201 });
+  } catch (error) {
+    console.error("Error creating kit:", error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation error", details: error.errors },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json(
+      { error: "Failed to create kit" },
+      { status: 500 },
+    );
+  }
+}
+
+// PATCH /api/kits/:id/approve
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    // Get organization context from request headers
+    const organizationData = await getOrganizationHeaderData(req);
+
+    // Check if user has permission to approve kits
+    const hasPermission = await checkPermission(req, "update:staff");
+    if (!hasPermission) {
+      return NextResponse.json(
+        { error: "You do not have permission to approve kits" },
+        { status: 403 },
+      );
+    }
+
+    // Get current user information
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 },
+      );
+    }
+
+    // Check if the user is Rishi staff
+    const isRishiStaff = [
+      USER_ROLES.SUPER_ADMIN,
+      USER_ROLES.INTERNAL_ADMIN,
+      USER_ROLES.INTERNAL_FIELD_MANAGER,
+    ].includes(user.role);
+
+    if (!isRishiStaff) {
+      return NextResponse.json(
+        { error: "Only Rishi staff can approve kits" },
+        { status: 403 },
+      );
+    }
+
+    // Parse request path to get kit ID
+    const id = Number(params.id);
+    if (isNaN(id)) {
+      return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
+    }
+
+    // Parse and validate request body
+    const body = await req.json();
+    const updateSchema = z.object({
+      approvalStatus: z.enum(["approved", "rejected"]),
+      approvalNotes: z.string().optional(),
+    });
+
+    const { approvalStatus, approvalNotes } = updateSchema.parse(body);
+
+    // Update the kit's approval status with build-time error handling
+    let updatedKit;
+    try {
+      [updatedKit] = await db
+        .update(kits)
+        .set({
+          approvalStatus,
+          approvalNotes: approvalNotes || null,
+          approvedById: parseInt(user.id),
+          approvalDate: new Date(),
+          updated_at: new Date(),
+        })
+        .where(eq(kits.id, id))
+        .returning();
+    } catch (dbError: any) {
+      console.log("[Kits API] Database table not ready during build time");
+      // During build time or if table doesn't exist, return mock response
+      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
+        return NextResponse.json(
+          { error: "Database not available during build time" },
+          { status: 503 }
+        );
+      }
+      throw dbError; // Re-throw if it's a different error
+    }
+
+    if (!updatedKit) {
+      return NextResponse.json({ error: "Kit not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(updatedKit);
+  } catch (error) {
+    console.error("Error approving kit:", error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation error", details: error.errors },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json(
+      { error: "Failed to approve kit" },
+      { status: 500 },
+    );
+  }
+}
