@@ -4,15 +4,8 @@ const config: CapacitorConfig = {
   appId: 'com.rishi.platform.dev',
   appName: 'Rishi Platform Dev',
   webDir: 'out',
-  server: {
-    // Points to Replit development server
-    url: 'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev',
-    cleartext: true,
-    allowNavigation: [
-      'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev',
-      'https://*.spock.replit.dev'
-    ]
-  },
+  // Remove server configuration to use local static files
+  // The app will load from the local 'out' directory instead of remote server
   plugins: {
     App: {
       launchAutoHide: false

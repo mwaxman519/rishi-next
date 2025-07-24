@@ -1,0 +1,33 @@
+{
+	"appId": "com.rishi.platform.dev",
+	"appName": "Rishi Platform Dev",
+	"webDir": "out",
+	"plugins": {
+		"App": {
+			"launchAutoHide": false
+		},
+		"SplashScreen": {
+			"launchShowDuration": 1000,
+			"backgroundColor": "#1a1a1a",
+			"showSpinner": true,
+			"spinnerColor": "#ffffff"
+		},
+		"StatusBar": {
+			"style": "dark",
+			"backgroundColor": "#1a1a1a"
+		},
+		"Keyboard": {
+			"resizeOnFullScreen": true
+		},
+		"LocalNotifications": {
+			"iconColor": "#1a1a1a"
+		},
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		}
+	}
+}

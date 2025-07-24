@@ -19,9 +19,20 @@ export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const [redirecting, setRedirecting] = useState(false);
+  
+  // Check if running in mobile/Capacitor environment
+  const isMobile = typeof window !== 'undefined' && 
+    (window.location.hostname === 'localhost' || 
+     window.location.protocol === 'capacitor:' ||
+     navigator.userAgent.includes('CapacitorWebView'));
 
   useEffect(() => {
-    // Simple redirect for authenticated users
+    // For mobile environments, don't auto-redirect - show mobile interface
+    if (isMobile) {
+      return;
+    }
+    
+    // Simple redirect for authenticated users in web environment
     if (!loading && user && user.role === "super_admin") {
       console.log("Redirecting super admin to dashboard");
       setRedirecting(true);
@@ -30,7 +41,7 @@ export default function Home() {
         router.replace("/dashboard");
       }, 100);
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, isMobile]);
 
   // Show loading state while authentication is initializing
   if (loading) {
@@ -41,6 +52,24 @@ export default function Home() {
           <p className="text-muted-foreground">Loading Rishi Platform...</p>
         </div>
       </div>
+    );
+  }
+
+  // If running in mobile environment, show mobile-optimized interface
+  if (isMobile) {
+    // Import and render mobile page component dynamically
+    const MobilePage = React.lazy(() => import('./mobile-page'));
+    return (
+      <React.Suspense fallback={
+        <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white">
+          <div className="text-center">
+            <div className="animate-spin h-10 w-10 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p>Loading Mobile App...</p>
+          </div>
+        </div>
+      }>
+        <MobilePage />
+      </React.Suspense>
     );
   }
 
