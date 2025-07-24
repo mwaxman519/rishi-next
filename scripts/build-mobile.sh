@@ -57,15 +57,46 @@ export NODE_ENV=production
 export NEXT_PUBLIC_APP_ENV=$ENVIRONMENT
 export MOBILE_BUILD=true
 
+# Clear any existing build cache before mobile build
+echo "🧹 Clearing build cache for clean mobile build..."
+rm -rf .next 2>/dev/null || true
+rm -rf node_modules/.cache 2>/dev/null || true
+
+# Create mobile-optimized app structure
+echo "📱 Creating mobile-optimized app structure..."
+if [ -d "app" ]; then
+    mv app app-original-backup
+fi
+cp -r app-mobile-clean-final app 2>/dev/null || echo "Using existing mobile app structure"
+
 # Load environment-specific variables
 if [ -f ".env.$ENVIRONMENT" ]; then
     echo "📄 Loading environment variables from .env.$ENVIRONMENT"
     export $(cat ".env.$ENVIRONMENT" | grep -v '^#' | xargs)
 fi
 
-# Build Next.js app for static export
+# Build Next.js app for static export with timeout
 echo "🔨 Building Next.js application..."
-npm run build
+echo "⏰ Build timeout set to 5 minutes..."
+
+# Run build with timeout and better error handling
+if timeout 300s npm run build; then
+    echo "✅ Next.js build completed successfully"
+else
+    echo "❌ Next.js build failed or timed out"
+    echo "🔍 Build diagnostics:"
+    echo "   - Check if build is hanging during optimization"
+    echo "   - Verify environment variables are correct"
+    echo "   - Ensure no circular dependencies exist"
+    exit 1
+fi
+
+# Restore original app structure
+echo "🔄 Restoring original app structure..."
+if [ -d "app-original-backup" ]; then
+    rm -rf app
+    mv app-original-backup app
+fi
 
 # Ensure development manifest exists after mobile build (which clears .next directory)
 echo "🔧 Restoring development manifest..."
