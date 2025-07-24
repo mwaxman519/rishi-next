@@ -47,6 +47,7 @@ import {
   DollarSign,
   TrendingUp,
   Archive,
+  Smartphone,
 } from "lucide-react";
 
 // Create and export the navigation arrays so they can be imported by other modules
@@ -322,6 +323,12 @@ superAdminNavigation.push(
         label: "System Status",
         href: "/admin/system-settings",
         icon: <AlertCircle className="h-5 w-5" />,
+      },
+      {
+        type: NAV_ITEM_TYPES.LINK,
+        label: "Mobile Deployment",
+        href: "/admin/mobile-deployment",
+        icon: <Smartphone className="h-5 w-5" />,
       },
     ],
   },
