@@ -7,6 +7,8 @@ import { ThemeToggle } from "../ui/theme-toggle";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BellIcon, InfoIcon, Menu, Building, Settings } from "lucide-react";
+import { getEnvironmentIndicator } from "../../config/environment";
+import { useClientOnly } from "@/hooks/useClientOnly";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,11 +26,11 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
   const { user } = useAuth();
   const { currentOrganization } = useOrganization();
   const pathname = usePathname();
+  const mounted = useClientOnly();
   
-  // Check if we're in development mode
-  const isDevelopment = process.env.NODE_ENV === 'development' || 
-                       process.env.NEXT_PUBLIC_APP_ENV === 'development' ||
-                       typeof window !== 'undefined' && window.location.hostname.includes('replit.dev');
+  // Use the same environment detection as the development banner
+  const environmentIndicator = mounted ? getEnvironmentIndicator() : null;
+  const isDevelopment = environmentIndicator?.label === 'DEVELOPMENT';
 
   // Define a safe handler to handle empty props
   const handleMenuClick = () => {
@@ -116,12 +118,7 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
           </Link>
         )}
         
-        {/* Debug info for development detection */}
-        {typeof window !== 'undefined' && window.location.hostname.includes('replit.dev') && (
-          <div className="hidden md:block text-xs text-red-500 px-2">
-            Dev Mode: {isDevelopment ? 'Yes' : 'No'}
-          </div>
-        )}
+
 
         {/* Documentation Link - always visible on desktop */}
         <a
