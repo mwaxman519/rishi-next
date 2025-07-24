@@ -6,7 +6,7 @@ import { OrganizationSelector } from "../organization/OrganizationSelector";
 import { ThemeToggle } from "../ui/theme-toggle";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BellIcon, InfoIcon, Menu, Building } from "lucide-react";
+import { BellIcon, InfoIcon, Menu, Building, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -85,10 +85,31 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
 
       {/* Right section: User actions */}
       <div className="flex items-center gap-2">
+        {/* Mobile dev tools button - development only */}
+        {process.env.NODE_ENV === 'development' && (
+          <Link
+            href="/dev-tools"
+            className="md:hidden flex items-center justify-center h-9 w-9 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-purple-600 dark:text-purple-400"
+          >
+            <Settings className="h-4 w-4" />
+          </Link>
+        )}
+
         {/* Mobile theme toggle */}
         <div className="lg:hidden">
           <ThemeToggle />
         </div>
+
+        {/* Dev Tools Link - development only */}
+        {process.env.NODE_ENV === 'development' && (
+          <Link
+            href="/dev-tools"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-purple-600 dark:text-purple-400"
+          >
+            <Settings className="h-4 w-4" />
+            Dev Tools
+          </Link>
+        )}
 
         {/* Documentation Link - always visible on desktop */}
         <a
