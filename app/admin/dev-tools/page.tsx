@@ -293,6 +293,55 @@ export default function DevToolsPage() {
                   {execution.output}
                 </pre>
               </ScrollArea>
+              
+              {script.id.includes('mobile') && execution.status === 'success' && (
+                <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <CheckCircle className="h-4 w-4 text-blue-600" />
+                    <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                      Mobile Build Complete
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-700 dark:text-blue-300 mb-2">
+                    Generated files available for download:
+                  </p>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-center justify-between p-2 bg-white dark:bg-gray-700 rounded border">
+                      <span>📱 VoltBuilder Package (.zip)</span>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="h-6 px-2 text-xs"
+                        onClick={() => {
+                          // Extract ZIP filename from output
+                          const zipMatch = execution.output?.match(/rishi-mobile-\w+-\d{4}-\d{2}-\d{2}-\d{4}\.zip/);
+                          if (zipMatch) {
+                            window.open(`/admin/dev-tools/download/${zipMatch[0]}`, '_blank');
+                          }
+                        }}
+                      >
+                        Download
+                      </Button>
+                    </div>
+                    <div className="flex items-center justify-between p-2 bg-white dark:bg-gray-700 rounded border">
+                      <span>⚙️ Capacitor Config</span>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="h-6 px-2 text-xs"
+                        onClick={() => window.open('/admin/dev-tools/download/capacitor.config.ts', '_blank')}
+                      >
+                        Download
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-2 border-t border-blue-200 dark:border-blue-700">
+                    <p className="text-xs text-blue-600 dark:text-blue-400">
+                      💡 The ZIP file contains everything needed for VoltBuilder compilation
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </CardContent>
