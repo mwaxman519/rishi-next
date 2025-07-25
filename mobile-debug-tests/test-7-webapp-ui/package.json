@@ -1,0 +1,9 @@
+{
+    "name": "rishi-platform-working",
+    "version": "1.0.0",
+    "description": "Rishi Platform Mobile App - Navigation Fixed",
+    "dependencies": {
+        "@capacitor/core": "7.4.2",
+        "@capacitor/android": "7.4.2"
+    }
+}

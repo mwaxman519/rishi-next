@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rishi Platform Mobile</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* CSS Variables matching your web app's Shadcn theme */
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 240 10% 3.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 240 10% 3.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 240 10% 3.9%;
+            --primary: 240 5.9% 10%;
+            --primary-foreground: 0 0% 98%;
+            --secondary: 240 4.8% 95.9%;
+            --secondary-foreground: 240 5.9% 10%;
+            --muted: 240 4.8% 95.9%;
+            --muted-foreground: 240 3.8% 46.1%;
+            --accent: 240 4.8% 95.9%;
+            --accent-foreground: 240 5.9% 10%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 0 0% 98%;
+            --border: 240 5.9% 90%;
+            --input: 240 5.9% 90%;
+            --ring: 240 10% 3.9%;
+            --radius: 0.5rem;
+        }
+
+        .dark {
+            --background: 240 10% 3.9%;
+            --foreground: 0 0% 98%;
+            --card: 240 10% 3.9%;
+            --card-foreground: 0 0% 98%;
+            --popover: 240 10% 3.9%;
+            --popover-foreground: 0 0% 98%;
+            --primary: 0 0% 98%;
+            --primary-foreground: 240 5.9% 10%;
+            --secondary: 240 3.7% 15.9%;
+            --secondary-foreground: 0 0% 98%;
+            --muted: 240 3.7% 15.9%;
+            --muted-foreground: 240 5% 64.9%;
+            --accent: 240 3.7% 15.9%;
+            --accent-foreground: 0 0% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 0 0% 98%;
+            --border: 240 3.7% 15.9%;
+            --input: 240 3.7% 15.9%;
+            --ring: 240 4.9% 83.9%;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: hsl(var(--background)); 
+            color: hsl(var(--foreground)); 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.5;
+        }
+
+        /* Shadcn UI Component Styles */
+        .card {
+            border-radius: calc(var(--radius) - 2px);
+            border: 1px solid hsl(var(--border));
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .card-header {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            line-height: 1;
+            letter-spacing: -0.025em;
+        }
+
+        .card-description {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .card-content {
+            padding: 24px;
+            padding-top: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            border-radius: calc(var(--radius) - 2px);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            height: 40px;
+            padding: 0 16px;
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .btn:hover {
+            background: hsl(var(--primary) / 0.9);
+        }
+
+        .btn-outline {
+            border: 1px solid hsl(var(--input));
+            background: hsl(var(--background));
+            color: hsl(var(--accent-foreground));
+        }
+
+        .btn-outline:hover {
+            background: hsl(var(--accent));
+            color: hsl(var(--accent-foreground));
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+
+        .badge-success {
+            background: hsl(142 76% 36%);
+            color: hsl(355.7 100% 97.3%);
+        }
+
+        .badge-warning {
+            background: hsl(32 95% 44%);
+            color: hsl(0 0% 98%);
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        @media (min-width: 640px) {
+            .sm\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .sm\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+
+        @media (min-width: 768px) {
+            .md\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 8px; }
+        .gap-3 { gap: 12px; }
+        .gap-4 { gap: 16px; }
+        .gap-6 { gap: 24px; }
+        
+        .p-2 { padding: 8px; }
+        .p-4 { padding: 16px; }
+        .p-6 { padding: 24px; }
+        .p-8 { padding: 32px; }
+        .pb-4 { padding-bottom: 16px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mb-8 { margin-bottom: 32px; }
+
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+
+        .text-muted-foreground { color: hsl(var(--muted-foreground)); }
+
+        .bg-blue-100 { background-color: rgb(219 234 254); }
+        .bg-green-100 { background-color: rgb(220 252 231); }
+        .bg-purple-100 { background-color: rgb(243 232 255); }
+        .bg-orange-100 { background-color: rgb(254 235 200); }
+
+        .text-blue-600 { color: rgb(37 99 235); }
+        .text-green-600 { color: rgb(22 163 74); }
+        .text-purple-600 { color: rgb(147 51 234); }
+        .text-orange-600 { color: rgb(234 88 12); }
+
+        .rounded-lg { border-radius: calc(var(--radius)); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .transition-shadow { transition: box-shadow 0.2s; }
+
+        .hover\\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+
+        .w-full { width: 100%; }
+        .h-6 { height: 24px; }
+        .w-6 { width: 24px; }
+
+        /* Navigation */
+        .nav-container {
+            background: hsl(var(--card));
+            border-bottom: 1px solid hsl(var(--border));
+            padding: 16px;
+        }
+
+        .nav-button {
+            padding: 8px 16px;
+            border-radius: calc(var(--radius) - 2px);
+            background: transparent;
+            border: none;
+            color: hsl(var(--muted-foreground));
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background: hsl(var(--accent));
+            color: hsl(var(--accent-foreground));
+        }
+
+        .nav-button.active {
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .debug { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: black; 
+            color: lime; 
+            padding: 10px; 
+            font-family: monospace; 
+            font-size: 11px; 
+            max-height: 150px; 
+            overflow-y: auto; 
+            z-index: 1000; 
+            border-top: 2px solid lime; 
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="debug" class="debug"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const e = React.createElement;
+
+        function debugLog(message) {
+            const timestamp = new Date().toTimeString().slice(0, 8);
+            const debugDiv = document.getElementById('debug');
+            if (debugDiv) {
+                debugDiv.innerHTML += timestamp + ' - ' + message + '<br>';
+                debugDiv.scrollTop = debugDiv.scrollHeight;
+            }
+            console.log(message);
+        }
+
+        // Icon components (simplified Lucide React equivalents)
+        function Calendar({ className = "h-6 w-6" }) {
+            return e('svg', {
+                className,
+                fill: "none",
+                stroke: "currentColor",
+                viewBox: "0 0 24 24"
+            }, 
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" })
+            );
+        }
+
+        function Users({ className = "h-6 w-6" }) {
+            return e('svg', {
+                className,
+                fill: "none",
+                stroke: "currentColor",
+                viewBox: "0 0 24 24"
+            }, 
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a4 4 0 11-8 0 4 4 0 018 0z" })
+            );
+        }
+
+        function MapPin({ className = "h-6 w-6" }) {
+            return e('svg', {
+                className,
+                fill: "none",
+                stroke: "currentColor",
+                viewBox: "0 0 24 24"
+            }, 
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" }),
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M15 11a3 3 0 11-6 0 3 3 0 016 0z" })
+            );
+        }
+
+        function Package({ className = "h-6 w-6" }) {
+            return e('svg', {
+                className,
+                fill: "none",
+                stroke: "currentColor",
+                viewBox: "0 0 24 24"
+            }, 
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" })
+            );
+        }
+
+        function BarChart3({ className = "h-6 w-6" }) {
+            return e('svg', {
+                className,
+                fill: "none",
+                stroke: "currentColor",
+                viewBox: "0 0 24 24"
+            }, 
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M12 20V10M18 20V4M6 20v-6" })
+            );
+        }
+
+        function TrendingUp({ className = "h-6 w-6" }) {
+            return e('svg', {
+                className,
+                fill: "none", 
+                stroke: "currentColor",
+                viewBox: "0 0 24 24"
+            }, 
+                e('path', { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: 2, d: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" })
+            );
+        }
+
+        // Card Components (matching your Shadcn UI)
+        function Card({ className = "", children, onClick, ...props }) {
+            const cardClasses = `card ${className} ${onClick ? 'hover:shadow-lg transition-shadow cursor-pointer' : ''}`;
+            return e('div', { className: cardClasses, onClick, ...props }, children);
+        }
+
+        function CardHeader({ className = "", children, ...props }) {
+            return e('div', { className: `card-header ${className}`, ...props }, children);
+        }
+
+        function CardTitle({ className = "", children, ...props }) {
+            return e('h3', { className: `card-title ${className}`, ...props }, children);
+        }
+
+        function CardDescription({ className = "", children, ...props }) {
+            return e('p', { className: `card-description ${className}`, ...props }, children);
+        }
+
+        function CardContent({ className = "", children, ...props }) {
+            return e('div', { className: `card-content ${className}`, ...props }, children);
+        }
+
+        function Button({ className = "", variant = "default", children, ...props }) {
+            const btnClasses = `btn ${variant === 'outline' ? 'btn-outline' : ''} ${className}`;
+            return e('button', { className: btnClasses, ...props }, children);
+        }
+
+        function Badge({ className = "", variant = "default", children, ...props }) {
+            const badgeClasses = `badge ${variant === 'success' ? 'badge-success' : variant === 'warning' ? 'badge-warning' : ''} ${className}`;
+            return e('span', { className: badgeClasses, ...props }, children);
+        }
+
+        // Dashboard Component (matching your web app's structure)
+        function Dashboard({ setCurrentPage }) {
+            useEffect(() => {
+                debugLog('Dashboard component mounted with Shadcn UI');
+            }, []);
+
+            return e('div', { className: 'container p-8' },
+                // Header section
+                e('div', { className: 'mb-8' },
+                    e('h1', { className: 'text-3xl font-bold mb-2' }, 'Dashboard'),
+                    e('p', { className: 'text-muted-foreground' }, 'Welcome back! Here\'s your workforce overview.')
+                ),
+
+                // Stats cards grid
+                e('div', { className: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8' },
+                    // Today's Bookings
+                    e(Card, null,
+                        e(CardHeader, { className: 'pb-4' },
+                            e('div', { className: 'flex items-center gap-3' },
+                                e('div', { className: 'p-2 bg-blue-100 rounded-lg' },
+                                    e(Calendar, { className: 'h-6 w-6 text-blue-600' })
+                                ),
+                                e('div', null,
+                                    e(CardTitle, { className: 'text-lg' }, 'Today\'s Bookings'),
+                                    e(CardDescription, null, '5 events scheduled')
+                                )
+                            )
+                        ),
+                        e(CardContent, null,
+                            e('p', { className: 'text-sm text-muted-foreground mb-4' }, 
+                                'Active bookings and scheduled events for today.'
+                            ),
+                            e(Button, { 
+                                variant: 'outline', 
+                                className: 'w-full',
+                                onClick: () => setCurrentPage('bookings')
+                            }, 'View All Bookings')
+                        )
+                    ),
+
+                    // Active Staff
+                    e(Card, null,
+                        e(CardHeader, { className: 'pb-4' },
+                            e('div', { className: 'flex items-center gap-3' },
+                                e('div', { className: 'p-2 bg-green-100 rounded-lg' },
+                                    e(Users, { className: 'h-6 w-6 text-green-600' })
+                                ),
+                                e('div', null,
+                                    e(CardTitle, { className: 'text-lg' }, 'Active Staff'),
+                                    e(CardDescription, null, '12 members on duty')
+                                )
+                            )
+                        ),
+                        e(CardContent, null,
+                            e('p', { className: 'text-sm text-muted-foreground mb-4' }, 
+                                'Staff members currently active and available.'
+                            ),
+                            e(Button, { 
+                                variant: 'outline', 
+                                className: 'w-full',
+                                onClick: () => setCurrentPage('staff')
+                            }, 'Manage Staff')
+                        )
+                    ),
+
+                    // Locations
+                    e(Card, null,
+                        e(CardHeader, { className: 'pb-4' },
+                            e('div', { className: 'flex items-center gap-3' },
+                                e('div', { className: 'p-2 bg-purple-100 rounded-lg' },
+                                    e(MapPin, { className: 'h-6 w-6 text-purple-600' })
+                                ),
+                                e('div', null,
+                                    e(CardTitle, { className: 'text-lg' }, 'Locations'),
+                                    e(CardDescription, null, '8 active locations')
+                                )
+                            )
+                        ),
+                        e(CardContent, null,
+                            e('p', { className: 'text-sm text-muted-foreground mb-4' }, 
+                                'Service locations being monitored.'
+                            ),
+                            e(Button, { 
+                                variant: 'outline', 
+                                className: 'w-full',
+                                onClick: () => setCurrentPage('locations')
+                            }, 'View Locations')
+                        )
+                    ),
+
+                    // Inventory
+                    e(Card, null,
+                        e(CardHeader, { className: 'pb-4' },
+                            e('div', { className: 'flex items-center gap-3' },
+                                e('div', { className: 'p-2 bg-orange-100 rounded-lg' },
+                                    e(Package, { className: 'h-6 w-6 text-orange-600' })
+                                ),
+                                e('div', null,
+                                    e(CardTitle, { className: 'text-lg' }, 'Inventory'),
+                                    e(CardDescription, null, '156 items in stock')
+                                )
+                            )
+                        ),
+                        e(CardContent, null,
+                            e('p', { className: 'text-sm text-muted-foreground mb-4' }, 
+                                'Equipment and materials tracking.'
+                            ),
+                            e(Button, { 
+                                variant: 'outline', 
+                                className: 'w-full',
+                                onClick: () => setCurrentPage('inventory')
+                            }, 'Manage Inventory')
+                        )
+                    ),
+
+                    // Analytics
+                    e(Card, null,
+                        e(CardHeader, { className: 'pb-4' },
+                            e('div', { className: 'flex items-center gap-3' },
+                                e('div', { className: 'p-2 bg-purple-100 rounded-lg' },
+                                    e(BarChart3, { className: 'h-6 w-6 text-purple-600' })
+                                ),
+                                e('div', null,
+                                    e(CardTitle, { className: 'text-lg' }, 'Analytics & Reports'),
+                                    e(CardDescription, null, 'View insights and metrics')
+                                )
+                            )
+                        ),
+                        e(CardContent, null,
+                            e('p', { className: 'text-sm text-muted-foreground mb-4' }, 
+                                'Access detailed analytics and business insights.'
+                            ),
+                            e(Button, { 
+                                variant: 'outline', 
+                                className: 'w-full'
+                            }, 'View Analytics')
+                        )
+                    )
+                )
+            );
+        }
+
+        // Simplified other pages for now
+        function Bookings({ setCurrentPage }) {
+            return e('div', { className: 'container p-8' },
+                e('h1', { className: 'text-3xl font-bold mb-6' }, 'Bookings Management'),
+                e(Card, null,
+                    e(CardContent, { className: 'p-6' },
+                        e('p', { className: 'text-muted-foreground' }, 'Bookings management functionality with your web app styling.')
+                    )
+                )
+            );
+        }
+
+        function Staff({ setCurrentPage }) {
+            return e('div', { className: 'container p-8' },
+                e('h1', { className: 'text-3xl font-bold mb-6' }, 'Staff Management'),
+                e(Card, null,
+                    e(CardContent, { className: 'p-6' },
+                        e('p', { className: 'text-muted-foreground' }, 'Staff management functionality with your web app styling.')
+                    )
+                )
+            );
+        }
+
+        function Locations({ setCurrentPage }) {
+            return e('div', { className: 'container p-8' },
+                e('h1', { className: 'text-3xl font-bold mb-6' }, 'Location Management'),
+                e(Card, null,
+                    e(CardContent, { className: 'p-6' },
+                        e('p', { className: 'text-muted-foreground' }, 'Location management functionality with your web app styling.')
+                    )
+                )
+            );
+        }
+
+        function Inventory({ setCurrentPage }) {
+            return e('div', { className: 'container p-8' },
+                e('h1', { className: 'text-3xl font-bold mb-6' }, 'Inventory Management'),
+                e(Card, null,
+                    e(CardContent, { className: 'p-6' },
+                        e('p', { className: 'text-muted-foreground' }, 'Inventory management functionality with your web app styling.')
+                    )
+                )
+            );
+        }
+
+        // Main App Component
+        function App() {
+            const [currentPage, setCurrentPage] = useState('dashboard');
+
+            useEffect(() => {
+                debugLog('Rishi Platform Mobile loaded with web app UI components');
+                debugLog('Current page: ' + currentPage);
+            }, [currentPage]);
+
+            const pages = {
+                dashboard: Dashboard,
+                bookings: Bookings,
+                staff: Staff,
+                locations: Locations,
+                inventory: Inventory
+            };
+
+            const CurrentPageComponent = pages[currentPage];
+
+            return e('div', { className: 'min-h-screen bg-background' },
+                // Navigation
+                e('div', { className: 'nav-container' },
+                    e('div', { className: 'flex justify-between items-center mb-4' },
+                        e('h2', { className: 'font-semibold' }, 'Rishi Platform'),
+                        e(Badge, { variant: 'success' }, currentPage)
+                    ),
+                    e('div', { className: 'flex gap-2 flex-wrap' },
+                        e('button', {
+                            className: `nav-button ${currentPage === 'dashboard' ? 'active' : ''}`,
+                            onClick: () => setCurrentPage('dashboard')
+                        }, 'Dashboard'),
+                        e('button', {
+                            className: `nav-button ${currentPage === 'bookings' ? 'active' : ''}`,
+                            onClick: () => setCurrentPage('bookings')
+                        }, 'Bookings'),
+                        e('button', {
+                            className: `nav-button ${currentPage === 'staff' ? 'active' : ''}`,
+                            onClick: () => setCurrentPage('staff')
+                        }, 'Staff'),
+                        e('button', {
+                            className: `nav-button ${currentPage === 'locations' ? 'active' : ''}`,
+                            onClick: () => setCurrentPage('locations')
+                        }, 'Locations'),
+                        e('button', {
+                            className: `nav-button ${currentPage === 'inventory' ? 'active' : ''}`,
+                            onClick: () => setCurrentPage('inventory')
+                        }, 'Inventory')
+                    )
+                ),
+
+                // Main content
+                e(CurrentPageComponent, { setCurrentPage })
+            );
+        }
+
+        // Initialize the app
+        debugLog('Initializing Rishi Platform Mobile with web app UI...');
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(e(App));
+        debugLog('✅ Rishi Platform Mobile loaded successfully with Shadcn UI components!');
+
+    </script>
+</body>
+</html>
