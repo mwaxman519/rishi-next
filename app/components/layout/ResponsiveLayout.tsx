@@ -149,10 +149,11 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // Use the same structure as PublicLayout to prevent hydration mismatch
   if (loading || !isHydrated) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <main className="flex-grow flex items-center justify-center">
-          <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
-        </main>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading...</p>
+        </div>
       </div>
     );
   }

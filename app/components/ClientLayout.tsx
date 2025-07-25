@@ -17,16 +17,8 @@ interface ClientLayoutProps {
 }
 
 function AuthErrorDisplay() {
-  const { error } = useAuth();
-  
-  if (!error) return null;
-  
-  return (
-    <AuthErrorBanner 
-      error={error} 
-      onRetry={() => window.location.reload()} 
-    />
-  );
+  // Remove error access since it doesn't exist in useAuth hook
+  return null;
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
