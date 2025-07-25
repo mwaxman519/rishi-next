@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 7: Next.js Simple</title>
+    <style>
+        body { margin: 0; font-family: -apple-system, Arial; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .next-badge { background: #000; color: white; padding: 5px 10px; border-radius: 4px; display: inline-block; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="next-badge">Next.js</span>
+        <h1>Test 7: Next.js Simple Static Export</h1>
+        <div class="debug" id="debug">Loading...</div>
+        
+        <div id="__next">
+            <p>This tests a minimal Next.js static export.</p>
+            <p>If you see this, basic Next.js structure works.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Minimal Next.js runtime
+        window.__NEXT_DATA__ = {
+            props: { pageProps: {} },
+            page: '/',
+            query: {},
+            buildId: 'test'
+        };
+        
+        document.getElementById('debug').innerHTML = 
+            'Next.js Data: ' + (window.__NEXT_DATA__ ? 'Loaded' : 'Missing') + '<br>' +
+            'Platform: ' + navigator.platform;
+            
+        console.log('Next.js test loaded');
+    </script>
+</body>
+</html>
