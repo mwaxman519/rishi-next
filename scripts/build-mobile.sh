@@ -71,6 +71,10 @@ node scripts/create-dev-manifests.js
 echo "🔨 Building Next.js application..."
 npm run build
 
+# Inject Capacitor bridge into static HTML
+echo "🔋 Injecting Capacitor JavaScript bridge..."
+node scripts/inject-capacitor-bridge.js
+
 # Ensure development manifest exists after mobile build (which clears .next directory)
 echo "🔧 Restoring development manifest..."
 ./scripts/ensure-dev-manifest.sh
