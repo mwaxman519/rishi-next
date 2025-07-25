@@ -63,6 +63,15 @@ if [ -f ".env.$ENVIRONMENT" ]; then
     export $(cat ".env.$ENVIRONMENT" | grep -v '^#' | xargs)
 fi
 
+# CRITICAL: Provide dev database URL for VoltBuilder static generation
+# This prevents "DATABASE_URL not configured" errors during build
+if [ ! -z "$DATABASE_URL" ]; then
+    echo "🔗 Dev database connection available for VoltBuilder build-time static generation"
+    export BUILD_DATABASE_URL=$DATABASE_URL
+else
+    echo "⚠️  Warning: No DATABASE_URL found - some API routes may fail during static generation"
+fi
+
 # Create development manifests first
 echo "🔧 Creating development manifests..."
 node scripts/create-dev-manifests.js
