@@ -4,7 +4,7 @@
   "description": "Rishi Platform Mobile App",
   "main": "index.js",
   "dependencies": {
-    "@capacitor/core": "^6.0.0",
-    "@capacitor/android": "^6.0.0"
+    "@capacitor/core": "7.4.2",
+    "@capacitor/android": "7.4.2"
   }
 }
