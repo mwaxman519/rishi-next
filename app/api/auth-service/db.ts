@@ -59,15 +59,15 @@ function getDatabaseUrl(): string {
   const env = getEnvironment();
   console.log(`[Auth Service] Detected environment: ${env}`);
 
-  // BUILD-TIME SPECIAL HANDLING: Use dev database or dummy URL for static generation
+  // BUILD-TIME: Use actual database connection during static generation
   if (process.env.NEXT_PHASE === 'phase-production-build') {
-    if (process.env.BUILD_DATABASE_URL || process.env.DATABASE_URL) {
-      const buildDbUrl = process.env.BUILD_DATABASE_URL || process.env.DATABASE_URL;
-      console.log(`[Auth Service] Build-time static generation - using dev database connection`);
-      return buildDbUrl;
+    const buildDbUrl = process.env.BUILD_DATABASE_URL || process.env.DATABASE_URL;
+    if (!buildDbUrl) {
+      console.error("[Auth Service] Build-time requires actual DATABASE_URL - no fallbacks allowed");
+      throw new Error("Build-time database URL must be configured");
     }
-    console.log(`[Auth Service] Build-time static generation - using dummy database URL`);
-    return "postgresql://dummy:dummy@localhost:5432/dummy_build";
+    console.log(`[Auth Service] Build-time static generation - using actual database connection`);
+    return buildDbUrl;
   }
 
   // STRICT ENVIRONMENT-SPECIFIC DATABASE SEPARATION

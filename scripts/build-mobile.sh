@@ -63,14 +63,17 @@ if [ -f ".env.$ENVIRONMENT" ]; then
     export $(cat ".env.$ENVIRONMENT" | grep -v '^#' | xargs)
 fi
 
-# CRITICAL: Provide dev database URL for VoltBuilder static generation
-# This prevents "DATABASE_URL not configured" errors during build
-if [ ! -z "$DATABASE_URL" ]; then
-    echo "🔗 Dev database connection available for VoltBuilder build-time static generation"
-    export BUILD_DATABASE_URL=$DATABASE_URL
-else
-    echo "⚠️  Warning: No DATABASE_URL found - some API routes may fail during static generation"
+# CRITICAL: Ensure dev database URL is available for VoltBuilder static generation
+# NO FALLBACKS - Database connection is required during build
+if [ -z "$DATABASE_URL" ]; then
+    echo "❌ ERROR: DATABASE_URL is required for VoltBuilder build"
+    echo "   VoltBuilder needs actual database access during static generation"
+    echo "   NO FALLBACKS ALLOWED - Build will fail without database connection"
+    exit 1
 fi
+
+echo "🔗 Dev database connection confirmed for VoltBuilder build-time static generation"
+export BUILD_DATABASE_URL=$DATABASE_URL
 
 # Create development manifests first
 echo "🔧 Creating development manifests..."

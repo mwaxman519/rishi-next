@@ -1,32 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { db } from "../../auth-service/db";
+import { eq, isNull } from "drizzle-orm";
+import { organizationSettings } from "@shared/schema";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
-// Removed database imports for VoltBuilder static generation compatibility
-// import { getServerSession } from "next-auth";
-// import { db } from "../../auth-service/db";
-// import { eq, isNull } from "drizzle-orm";
-// import { organizationSettings } from "@shared/schema";
-
-// System-wide RBAC defaults that apply to all organizations
-const SYSTEM_RBAC_DEFAULTS = {
-  brand_agents_view_org_events: false,
-  brand_agents_manage_availability: true,
-  field_coordinators_approve_assignments: true,
-  client_users_create_events: true,
-  enable_event_notifications: true,
-  auto_assign_brand_agents: false,
-  require_approval_for_schedule_changes: false,
-  enable_overtime_notifications: true,
-};
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    // BUILD-TIME SAFETY: Always return hardcoded defaults during build or when no database
+    const session = await getServerSession();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Get current system defaults from database
+    const systemSettings = await db
+      .select({
+        settingKey: organizationSettings.setting_key,
+        settingValue: organizationSettings.setting_value,
+      })
+      .from(organizationSettings)
+      .where(
+        isNull(organizationSettings.organization_id), // Use null for system defaults
+      );
+
+    // Convert to object format
+    const currentDefaults: Record<string, boolean> = {};
+    systemSettings.forEach((setting) => {
+      if (setting.settingKey && setting.settingValue !== null) {
+        currentDefaults[setting.settingKey] = setting.settingValue === "true";
+      }
+    });
+
     return NextResponse.json({
-      defaults: SYSTEM_RBAC_DEFAULTS,
-      description: "System-wide RBAC defaults that apply to all new organizations",
+      defaults: currentDefaults,
+      description: "System-wide RBAC defaults from database",
     });
 
     // Database query code commented out for VoltBuilder static generation

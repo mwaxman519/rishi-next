@@ -12,14 +12,7 @@ import { randomUUID } from "crypto";
 // POST /api/assignments/bulk - Create bulk assignments
 export async function POST(request: NextRequest) {
   try {
-    // BUILD-TIME SAFETY: Return success response during static generation
-    if (process.env.NEXT_PHASE === 'phase-production-build') {
-      return NextResponse.json({ 
-        success: true, 
-        assignments: [], 
-        message: "Build-time: Bulk assignment creation not available during static generation" 
-      });
-    }
+
 
     const session = await getServerSession(authOptions);
     if (!session?.user) {
