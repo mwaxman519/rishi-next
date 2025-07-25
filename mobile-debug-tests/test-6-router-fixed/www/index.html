@@ -73,21 +73,10 @@
     
     <script type="text/babel">
         try {
-            debugLog('Attempting to destructure React Router components...');
+            debugLog('RISHI PLATFORM - STATE-BASED NAVIGATION (NO REACT ROUTER)');
+            debugLog('Avoiding React Router mobile compatibility issues');
             
-            // Check what's actually available
-            const ReactRouter = window.ReactRouterDOM;
-            debugLog('ReactRouter object: ' + (ReactRouter ? 'exists' : 'missing'));
-            
-            if (ReactRouter) {
-                debugLog('BrowserRouter: ' + (ReactRouter.BrowserRouter ? 'exists' : 'missing'));
-                debugLog('Routes: ' + (ReactRouter.Routes ? 'exists' : 'missing'));
-                debugLog('Route: ' + (ReactRouter.Route ? 'exists' : 'missing'));
-                debugLog('Link: ' + (ReactRouter.Link ? 'exists' : 'missing'));
-                debugLog('useLocation: ' + (ReactRouter.useLocation ? 'exists' : 'missing'));
-            }
-            
-            // Use state-based navigation as fallback if Router components fail
+            // Direct state-based navigation - no React Router dependency
             const { useState, useEffect } = React;
             const e = React.createElement;
             
