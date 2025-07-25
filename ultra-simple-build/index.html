@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rishi Platform</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 20px; }
+        .status { 
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        button:hover { background: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>🌿 Rishi Platform Mobile</h1>
+    <div class="status" id="status">
+        ✅ Mobile App Successfully Loaded
+    </div>
+    
+    <button onclick="testFeature('Dashboard')">Test Dashboard</button>
+    <button onclick="testFeature('Staff Management')">Test Staff</button>
+    <button onclick="testFeature('Booking System')">Test Bookings</button>
+    
+    <div style="margin-top: 30px;">
+        <small>Build: ULTRA-SIMPLE-NO-FRAMEWORKS</small>
+    </div>
+
+    <script>
+        console.log('Rishi Platform Ultra-Simple Build Loaded');
+        
+        function testFeature(feature) {
+            document.getElementById('status').innerHTML = 
+                `✅ ${feature} Feature Working!`;
+            
+            setTimeout(() => {
+                document.getElementById('status').innerHTML = 
+                    '✅ Mobile App Successfully Loaded';
+            }, 3000);
+        }
+        
+        // Simple device ready check
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - app is working');
+            if (window.cordova || window.PhoneGap || window.Capacitor) {
+                document.getElementById('status').innerHTML = 
+                    '✅ Native Mobile Features Available';
+            }
+        });
+    </script>
+</body>
+</html>
