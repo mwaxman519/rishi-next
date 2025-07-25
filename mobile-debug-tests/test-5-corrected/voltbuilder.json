@@ -1,0 +1,6 @@
+{
+    "title": "Rishi Platform - Versions Fixed",
+    "package": "com.rishi.corrected",
+    "version": "1.0.0",
+    "description": "React Router working with compatible Capacitor versions"
+}

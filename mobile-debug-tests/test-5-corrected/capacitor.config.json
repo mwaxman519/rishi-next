@@ -1,0 +1,8 @@
+{
+    "appId": "com.rishi.corrected",
+    "appName": "Rishi Platform Fixed",
+    "webDir": "www",
+    "server": {
+        "androidScheme": "https"
+    }
+}
