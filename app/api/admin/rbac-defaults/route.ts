@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getServerSession } from "next-auth";
-import { db } from "../../auth-service/db";
-import { eq, isNull } from "drizzle-orm";
-import { organizationSettings } from "@shared/schema";
+// Removed database imports for VoltBuilder static generation compatibility
+// import { getServerSession } from "next-auth";
+// import { db } from "../../auth-service/db";
+// import { eq, isNull } from "drizzle-orm";
+// import { organizationSettings } from "@shared/schema";
 
 // System-wide RBAC defaults that apply to all organizations
 const SYSTEM_RBAC_DEFAULTS = {

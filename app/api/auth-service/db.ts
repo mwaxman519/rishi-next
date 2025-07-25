@@ -59,18 +59,10 @@ function getDatabaseUrl(): string {
   const env = getEnvironment();
   console.log(`[Auth Service] Detected environment: ${env}`);
 
-  // BUILD-TIME SPECIAL HANDLING: Use DATABASE_URL if available during builds
+  // BUILD-TIME SPECIAL HANDLING: Return dummy URL for static generation
   if (process.env.NEXT_PHASE === 'phase-production-build') {
-    if (process.env.DATABASE_URL) {
-      console.log(`[Auth Service] Using DATABASE_URL for build-time static generation`);
-      return process.env.DATABASE_URL;
-    }
-    if (process.env.PRODUCTION_DATABASE_URL) {
-      console.log(`[Auth Service] Using PRODUCTION_DATABASE_URL for build-time static generation`);
-      return process.env.PRODUCTION_DATABASE_URL;
-    }
-    console.error("[Auth Service] Build-time requires DATABASE_URL or PRODUCTION_DATABASE_URL");
-    throw new Error("Build-time database URL not configured");
+    console.log(`[Auth Service] Build-time static generation - using dummy database URL`);
+    return "postgresql://dummy:dummy@localhost:5432/dummy_build";
   }
 
   // STRICT ENVIRONMENT-SPECIFIC DATABASE SEPARATION
@@ -116,12 +108,33 @@ function getDatabaseUrl(): string {
   throw new Error(`Unknown environment: ${env}`);
 }
 
-// Get the connection URL with proper environment detection
-const connectionString = getDatabaseUrl();
+// Lazy database connection to avoid build-time initialization
+let _sql: ReturnType<typeof neon> | null = null;
+let _db: ReturnType<typeof drizzle> | null = null;
 
-// Create database connection using HTTP adapter
-export const sql = neon(connectionString);
-export const db = drizzle(sql, { schema });
+function getDbConnection() {
+  if (!_sql || !_db) {
+    const connectionString = getDatabaseUrl();
+    _sql = neon(connectionString);
+    _db = drizzle(_sql, { schema });
+  }
+  return { sql: _sql, db: _db };
+}
+
+// Export lazy-loaded connections
+export const sql = new Proxy({} as ReturnType<typeof neon>, {
+  get(target, prop) {
+    const { sql } = getDbConnection();
+    return sql[prop as keyof typeof sql];
+  }
+});
+
+export const db = new Proxy({} as ReturnType<typeof drizzle>, {
+  get(target, prop) {
+    const { db } = getDbConnection();
+    return db[prop as keyof typeof db];
+  }
+});
 
 /**
  * Test the database connection with retry logic
