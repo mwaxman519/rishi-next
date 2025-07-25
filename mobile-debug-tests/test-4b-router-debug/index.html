@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 4B: Router Debug</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <style>
+        body { margin: 0; font-family: Arial; background: #f0f0f0; }
+        .debug { position: fixed; bottom: 0; left: 0; right: 0; background: black; color: lime; 
+                 padding: 10px; font-family: monospace; font-size: 12px; max-height: 200px; 
+                 overflow-y: auto; }
+        .content { padding: 20px; text-align: center; }
+        .error { color: red; font-weight: bold; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="debug" class="debug">Debug Console:</div>
+    
+    <script>
+        // Debug logging
+        window.debugLog = function(msg) {
+            const debug = document.getElementById('debug');
+            const time = new Date().toTimeString().split(' ')[0];
+            debug.innerHTML += '<br>' + time + ' - ' + msg;
+            console.log('DEBUG:', msg);
+        };
+        
+        // Error handling
+        window.onerror = function(msg, url, line, col, error) {
+            debugLog('ERROR: ' + msg + ' at line ' + line);
+            return true;
+        };
+        
+        debugLog('Page loaded');
+        debugLog('React: ' + (window.React ? 'Loaded' : 'Missing'));
+        debugLog('ReactDOM: ' + (window.ReactDOM ? 'Loaded' : 'Missing'));
+    </script>
+    
+    <script type="text/javascript">
+        debugLog('Starting React app...');
+        
+        try {
+            const e = React.createElement;
+            
+            // Simple routing without react-router
+            function App() {
+                const [page, setPage] = React.useState('home');
+                
+                React.useEffect(() => {
+                    debugLog('App mounted, current page: ' + page);
+                }, [page]);
+                
+                const HomePage = () => e('div', {className: 'content'}, 
+                    e('h1', null, 'Home Page'),
+                    e('p', null, 'Simple routing test'),
+                    e('button', {onClick: () => setPage('about')}, 'Go to About')
+                );
+                
+                const AboutPage = () => e('div', {className: 'content'},
+                    e('h1', null, 'About Page'),
+                    e('p', null, 'Navigation works!'),
+                    e('button', {onClick: () => setPage('home')}, 'Go to Home')
+                );
+                
+                return e('div', null,
+                    e('div', {style: {background: '#333', color: 'white', padding: '10px'}},
+                        e('span', null, 'Current: ' + page)
+                    ),
+                    page === 'home' ? HomePage() : AboutPage()
+                );
+            }
+            
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(e(App));
+            debugLog('React app rendered successfully');
+            
+        } catch(err) {
+            debugLog('FATAL ERROR: ' + err.message);
+            document.getElementById('root').innerHTML = 
+                '<div class="error">Failed to load: ' + err.message + '</div>';
+        }
+    </script>
+</body>
+</html>
