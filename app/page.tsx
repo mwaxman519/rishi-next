@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const { user, loading, error } = useAuth();
+  const { user, isLoading: loading } = useAuth();
   const router = useRouter();
   const [redirecting, setRedirecting] = useState(false);
   
@@ -28,7 +28,7 @@ export default function Home() {
      navigator.userAgent.includes('CapacitorWebView') ||
      navigator.userAgent.includes('Android') ||
      // Check if we're in a webview that doesn't have standard browser features
-     !window.chrome || 
+     !(window as any).chrome || 
      // Check if we're loading from the app assets directory
      window.location.pathname.includes('android_asset'));
 
@@ -50,8 +50,7 @@ export default function Home() {
   }, [user, loading, router, isMobile]);
 
   // Show loading state while authentication is initializing
-  // In development, don't show loading indefinitely if there's a fetch error
-  if (loading && !(process.env.NODE_ENV === 'development' && error)) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
@@ -114,7 +113,7 @@ export default function Home() {
       <div className="container mx-auto py-12 px-4">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-6">
-            Welcome back, {user.name}!
+            Welcome back, {user.fullName || user.username}!
           </h1>
           <p className="text-xl mb-8">
             You're logged into the Rishi Workforce Management platform.
