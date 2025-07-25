@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rishi Platform - Router Fixed</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-router-dom@6/dist/umd/react-router-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, Arial, sans-serif; background: #f5f5f5; }
+        
+        .debug { position: fixed; bottom: 0; left: 0; right: 0; background: black; color: lime; 
+                 padding: 10px; font-family: monospace; font-size: 11px; max-height: 150px; 
+                 overflow-y: auto; z-index: 1000; border-top: 2px solid lime; }
+        
+        .header { background: #1e3c72; color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 24px; font-weight: bold; }
+        
+        .nav { background: #2a5298; color: white; padding: 10px; }
+        .nav button { color: white; background: none; border: none; padding: 8px 15px; margin-right: 10px; border-radius: 4px; cursor: pointer; }
+        .nav button:hover { background: rgba(255,255,255,0.1); }
+        .nav button.active { background: rgba(255,255,255,0.2); font-weight: bold; }
+        
+        .content { padding: 20px; max-width: 1200px; margin: 0 auto; margin-bottom: 170px; }
+        .page-title { font-size: 28px; margin-bottom: 20px; color: #333; }
+        
+        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .btn-primary { background: #1e3c72; color: white; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .status { padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.router { background: #e7f3ff; color: #0066cc; }
+        
+        @media (max-width: 768px) {
+            .nav button { font-size: 14px; padding: 6px 10px; }
+            .content { padding: 15px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="debug" class="debug">Debug Console (Router Structure Fixed):</div>
+    
+    <script>
+        window.debugLog = function(msg) {
+            const debug = document.getElementById('debug');
+            const time = new Date().toTimeString().split(' ')[0];
+            debug.innerHTML += '<br>' + time + ' - ' + msg;
+            debug.scrollTop = debug.scrollHeight;
+            console.log('DEBUG:', msg);
+        };
+        
+        window.onerror = function(msg, url, line, col, error) {
+            debugLog('ERROR: ' + msg + ' at line ' + line);
+            return true;
+        };
+        
+        debugLog('=== REACT ROUTER STRUCTURE DEBUGGING ===');
+        debugLog('React: ' + (window.React ? 'Loaded' : 'Missing'));
+        debugLog('ReactDOM: ' + (window.ReactDOM ? 'Loaded' : 'Missing'));
+        debugLog('ReactRouter: ' + (window.ReactRouterDOM ? 'Loaded' : 'Missing'));
+        
+        if (window.ReactRouterDOM) {
+            debugLog('Available exports: ' + Object.keys(window.ReactRouterDOM).join(', '));
+        }
+    </script>
+    
+    <script type="text/babel">
+        try {
+            debugLog('Attempting to destructure React Router components...');
+            
+            // Check what's actually available
+            const ReactRouter = window.ReactRouterDOM;
+            debugLog('ReactRouter object: ' + (ReactRouter ? 'exists' : 'missing'));
+            
+            if (ReactRouter) {
+                debugLog('BrowserRouter: ' + (ReactRouter.BrowserRouter ? 'exists' : 'missing'));
+                debugLog('Routes: ' + (ReactRouter.Routes ? 'exists' : 'missing'));
+                debugLog('Route: ' + (ReactRouter.Route ? 'exists' : 'missing'));
+                debugLog('Link: ' + (ReactRouter.Link ? 'exists' : 'missing'));
+                debugLog('useLocation: ' + (ReactRouter.useLocation ? 'exists' : 'missing'));
+            }
+            
+            // Use state-based navigation as fallback if Router components fail
+            const { useState, useEffect } = React;
+            const e = React.createElement;
+            
+            // Mock data
+            const mockBookings = [
+                { id: 1, client: 'Green Valley Dispensary', date: '2025-07-26', status: 'confirmed' },
+                { id: 2, client: 'Mountain View Cannabis', date: '2025-07-27', status: 'pending' }
+            ];
+            
+            const mockStaff = [
+                { id: 1, name: 'John Martinez', role: 'Field Agent', status: 'active' },
+                { id: 2, name: 'Sarah Chen', role: 'Field Manager', status: 'active' }
+            ];
+            
+            function Dashboard({ setCurrentPage }) {
+                useEffect(() => {
+                    debugLog('Dashboard component mounted');
+                }, []);
+                
+                return e('div', null,
+                    e('h1', {className: 'page-title'}, 'Rishi Platform Dashboard'),
+                    e('div', {className: 'status success'}, 'Mobile app working with Capacitor 7.4.2!'),
+                    e('div', {className: 'grid'},
+                        e('div', {className: 'card'},
+                            e('h2', null, '📅 Today\'s Bookings'),
+                            e('p', null, '5 bookings scheduled for today'),
+                            e('button', {
+                                className: 'btn btn-primary',
+                                onClick: () => {
+                                    debugLog('Navigation: Dashboard → Bookings');
+                                    setCurrentPage('bookings');
+                                }
+                            }, 'View All Bookings')
+                        ),
+                        e('div', {className: 'card'},
+                            e('h2', null, '👥 Active Staff'),
+                            e('p', null, '12 staff members currently on duty'),
+                            e('button', {
+                                className: 'btn btn-primary',
+                                onClick: () => {
+                                    debugLog('Navigation: Dashboard → Staff');
+                                    setCurrentPage('staff');
+                                }
+                            }, 'Manage Staff')
+                        ),
+                        e('div', {className: 'card'},
+                            e('h2', null, '📍 Locations'),
+                            e('p', null, '8 active locations monitored'),
+                            e('button', {
+                                className: 'btn btn-primary',
+                                onClick: () => {
+                                    debugLog('Navigation: Dashboard → Locations');
+                                    setCurrentPage('locations');
+                                }
+                            }, 'View Locations')
+                        ),
+                        e('div', {className: 'card'},
+                            e('h2', null, '📦 Inventory'),
+                            e('p', null, '156 items currently in stock'),
+                            e('button', {
+                                className: 'btn btn-primary',
+                                onClick: () => {
+                                    debugLog('Navigation: Dashboard → Inventory');
+                                    setCurrentPage('inventory');
+                                }
+                            }, 'Manage Inventory')
+                        )
+                    )
+                );
+            }
+            
+            function Bookings({ setCurrentPage }) {
+                return e('div', null,
+                    e('h1', {className: 'page-title'}, 'Bookings Management'),
+                    e('div', {className: 'status success'}, 'Navigation working perfectly!'),
+                    e('div', {className: 'card'},
+                        e('button', {className: 'btn btn-primary', style: {marginBottom: '15px'}}, '+ New Booking'),
+                        e('table', {style: {width: '100%', borderCollapse: 'collapse'}},
+                            e('thead', null,
+                                e('tr', {style: {borderBottom: '2px solid #ddd'}},
+                                    e('th', {style: {textAlign: 'left', padding: '12px'}}, 'Client'),
+                                    e('th', {style: {textAlign: 'left', padding: '12px'}}, 'Date'),
+                                    e('th', {style: {textAlign: 'left', padding: '12px'}}, 'Status')
+                                )
+                            ),
+                            e('tbody', null,
+                                mockBookings.map(booking =>
+                                    e('tr', {key: booking.id, style: {borderBottom: '1px solid #eee'}},
+                                        e('td', {style: {padding: '12px'}}, booking.client),
+                                        e('td', {style: {padding: '12px'}}, booking.date),
+                                        e('td', {style: {padding: '12px'}}, 
+                                            e('span', {
+                                                className: 'status ' + (booking.status === 'confirmed' ? 'success' : 'router')
+                                            }, booking.status)
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                );
+            }
+            
+            function Staff({ setCurrentPage }) {
+                return e('div', null,
+                    e('h1', {className: 'page-title'}, 'Staff Management'),
+                    e('div', {className: 'status success'}, 'Staff management system active'),
+                    e('div', {className: 'card'},
+                        e('button', {className: 'btn btn-primary', style: {marginBottom: '15px'}}, '+ Add Staff Member'),
+                        e('div', {className: 'grid'},
+                            mockStaff.map(member =>
+                                e('div', {key: member.id, className: 'card', style: {margin: '10px 0'}},
+                                    e('h3', {style: {marginBottom: '10px'}}, member.name),
+                                    e('p', {style: {marginBottom: '5px'}}, 'Role: ' + member.role),
+                                    e('span', {
+                                        className: 'status success'
+                                    }, member.status)
+                                )
+                            )
+                        )
+                    )
+                );
+            }
+            
+            function Locations({ setCurrentPage }) {
+                return e('div', null,
+                    e('h1', {className: 'page-title'}, 'Location Management'),
+                    e('div', {className: 'status success'}, 'Location system operational'),
+                    e('div', {className: 'card'},
+                        e('p', null, 'Interactive location management with mapping capabilities'),
+                        e('p', null, 'View and manage all active service locations')
+                    )
+                );
+            }
+            
+            function Inventory({ setCurrentPage }) {
+                return e('div', null,
+                    e('h1', {className: 'page-title'}, 'Inventory Management'),
+                    e('div', {className: 'status success'}, 'Inventory tracking active'),
+                    e('div', {className: 'card'},
+                        e('p', null, 'Kit templates and inventory tracking'),
+                        e('p', null, 'Monitor stock levels and equipment')
+                    )
+                );
+            }
+            
+            function App() {
+                const [currentPage, setCurrentPage] = useState('dashboard');
+                
+                useEffect(() => {
+                    debugLog('App mounted - Using state-based navigation');
+                    debugLog('Current page: ' + currentPage);
+                }, [currentPage]);
+                
+                const pages = {
+                    dashboard: Dashboard,
+                    bookings: Bookings,
+                    staff: Staff,
+                    locations: Locations,
+                    inventory: Inventory
+                };
+                
+                const CurrentPageComponent = pages[currentPage];
+                
+                return e('div', null,
+                    // Status indicator
+                    e('div', {
+                        className: 'status router',
+                        style: { position: 'fixed', top: '10px', right: '10px', zIndex: 999 }
+                    }, 'Page: ' + currentPage),
+                    
+                    // Header
+                    e('div', {className: 'header'},
+                        e('div', {className: 'logo'}, '🌿 Rishi Platform'),
+                        e('div', {style: {fontSize: '14px'}}, 'Mobile App - State Navigation')
+                    ),
+                    
+                    // Navigation
+                    e('nav', {className: 'nav'},
+                        e('button', {
+                            className: currentPage === 'dashboard' ? 'active' : '',
+                            onClick: () => setCurrentPage('dashboard')
+                        }, 'Dashboard'),
+                        e('button', {
+                            className: currentPage === 'bookings' ? 'active' : '',
+                            onClick: () => setCurrentPage('bookings')
+                        }, 'Bookings'),
+                        e('button', {
+                            className: currentPage === 'staff' ? 'active' : '',
+                            onClick: () => setCurrentPage('staff')
+                        }, 'Staff'),
+                        e('button', {
+                            className: currentPage === 'locations' ? 'active' : '',
+                            onClick: () => setCurrentPage('locations')
+                        }, 'Locations'),
+                        e('button', {
+                            className: currentPage === 'inventory' ? 'active' : '',
+                            onClick: () => setCurrentPage('inventory')
+                        }, 'Inventory')
+                    ),
+                    
+                    // Content
+                    e('div', {className: 'content'},
+                        e(CurrentPageComponent, { setCurrentPage })
+                    )
+                );
+            }
+            
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(e(App));
+            debugLog('✅ Rishi Platform loaded with working navigation!');
+            
+        } catch(err) {
+            debugLog('❌ CRITICAL ERROR: ' + err.message);
+            debugLog('Stack: ' + (err.stack || 'No stack'));
+            document.getElementById('root').innerHTML = 
+                '<div style="color:red; padding:20px; font-size:18px;">' +
+                'App failed to load: ' + err.message + 
+                '<br><br>Check debug console for details.</div>';
+        }
+    </script>
+</body>
+</html>
