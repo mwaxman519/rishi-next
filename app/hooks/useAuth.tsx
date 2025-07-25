@@ -109,9 +109,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             // In development, if we get the Replit fetch issue, don't keep retrying
             if (process.env.NODE_ENV === 'development' && 
                 err instanceof Error && 
-                err.message.includes('Development server connection issue')) {
+                (err.message.includes('Failed to fetch') || err.message.includes('Development server connection issue'))) {
               console.log('Development environment fetch issue detected. Setting unauthenticated state.');
               setUser(null);
+              setError(null); // Clear error to prevent blocking UI
               return; // Don't throw error, just set user to null
             }
             

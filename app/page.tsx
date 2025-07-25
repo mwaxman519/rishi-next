@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const { user, loading } = useAuth();
+  const { user, loading, error } = useAuth();
   const router = useRouter();
   const [redirecting, setRedirecting] = useState(false);
   
@@ -50,12 +50,18 @@ export default function Home() {
   }, [user, loading, router, isMobile]);
 
   // Show loading state while authentication is initializing
-  if (loading) {
+  // In development, don't show loading indefinitely if there's a fetch error
+  if (loading && !(process.env.NODE_ENV === 'development' && error)) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading Rishi Platform...</p>
+          {process.env.NODE_ENV === 'development' && (
+            <p className="text-xs text-muted-foreground mt-2">
+              Development environment - if this takes too long, refresh the page
+            </p>
+          )}
         </div>
       </div>
     );
