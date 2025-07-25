@@ -99,20 +99,17 @@
             status.innerHTML = `✅ ${feature} Feature Accessed`;
             console.log(`Feature accessed: ${feature}`);
             
-            // Simulate feature loading
             setTimeout(() => {
                 status.innerHTML = '✅ Mobile App Working';
             }, 2000);
         }
         
-        // Test Capacitor integration
         document.addEventListener('deviceready', function() {
             console.log('Capacitor deviceready event fired');
             const status = document.getElementById('status');
             status.innerHTML = '✅ Capacitor Ready';
         });
         
-        // Fallback if Capacitor doesn't load
         setTimeout(() => {
             if (window.Capacitor) {
                 console.log('Capacitor detected:', window.Capacitor.getPlatform());
@@ -121,8 +118,5 @@
             }
         }, 1000);
     </script>
-    
-    <!-- Capacitor Core -->
-    <script src="https://unpkg.com/@capacitor/core@latest/dist/capacitor.js"></script>
 </body>
 </html>

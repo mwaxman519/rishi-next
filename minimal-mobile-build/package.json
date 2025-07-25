@@ -1,0 +1,10 @@
+{
+  "name": "rishi-platform-mobile",
+  "version": "1.0.0",
+  "description": "Rishi Platform Mobile App",
+  "main": "index.js",
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0"
+  }
+}
