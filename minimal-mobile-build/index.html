@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rishi Platform Mobile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .logo { font-size: 24px; font-weight: bold; }
+        .main {
+            flex: 1;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .welcome {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 350px;
+            margin-bottom: 30px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 350px;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .feature-card:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .icon { font-size: 24px; margin-bottom: 10px; }
+        .status { margin-top: 20px; color: #4CAF50; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🌿 Rishi Platform</div>
+    </div>
+    
+    <div class="main">
+        <div class="welcome">
+            <h1>Welcome to Rishi Platform</h1>
+            <p>Your comprehensive workforce management solution</p>
+            <div class="status" id="status">✅ Mobile App Working</div>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature-card" onclick="showFeature('Dashboard')">
+                <div class="icon">📊</div>
+                <div>Dashboard</div>
+            </div>
+            <div class="feature-card" onclick="showFeature('Bookings')">
+                <div class="icon">📅</div>
+                <div>Bookings</div>
+            </div>
+            <div class="feature-card" onclick="showFeature('Staff')">
+                <div class="icon">👥</div>
+                <div>Staff</div>
+            </div>
+            <div class="feature-card" onclick="showFeature('Locations')">
+                <div class="icon">📍</div>
+                <div>Locations</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Rishi Platform Mobile App Loaded');
+        
+        function showFeature(feature) {
+            const status = document.getElementById('status');
+            status.innerHTML = `✅ ${feature} Feature Accessed`;
+            console.log(`Feature accessed: ${feature}`);
+            
+            // Simulate feature loading
+            setTimeout(() => {
+                status.innerHTML = '✅ Mobile App Working';
+            }, 2000);
+        }
+        
+        // Test Capacitor integration
+        document.addEventListener('deviceready', function() {
+            console.log('Capacitor deviceready event fired');
+            const status = document.getElementById('status');
+            status.innerHTML = '✅ Capacitor Ready';
+        });
+        
+        // Fallback if Capacitor doesn't load
+        setTimeout(() => {
+            if (window.Capacitor) {
+                console.log('Capacitor detected:', window.Capacitor.getPlatform());
+            } else {
+                console.log('Running in browser mode');
+            }
+        }, 1000);
+    </script>
+    
+    <!-- Capacitor Core -->
+    <script src="https://unpkg.com/@capacitor/core@latest/dist/capacitor.js"></script>
+</body>
+</html>
