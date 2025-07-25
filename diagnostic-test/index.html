@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Diagnostic Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .test-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 300px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <h1>🔍 Mobile Diagnostic Test</h1>
+        <p>Testing VoltBuilder compilation and device compatibility</p>
+        <button onclick="testBasic()">Test Basic Functions</button>
+        <button onclick="testCapacitor()">Test Capacitor</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        console.log("Mobile diagnostic test loaded successfully");
+        
+        function testBasic() {
+            const result = document.getElementById('result');
+            result.innerHTML = '✅ Basic JavaScript Working!<br>Device: ' + navigator.userAgent.substring(0, 50) + '...';
+            console.log("Basic test passed");
+        }
+        
+        function testCapacitor() {
+            const result = document.getElementById('result');
+            if (window.Capacitor) {
+                result.innerHTML = '✅ Capacitor Detected!<br>Platform: ' + window.Capacitor.getPlatform();
+                console.log("Capacitor test passed");
+            } else {
+                result.innerHTML = '❌ Capacitor Not Available<br>Running in browser mode';
+                console.log("Capacitor not detected");
+            }
+        }
+        
+        // Auto-run basic test
+        setTimeout(testBasic, 1000);
+    </script>
+</body>
+</html>
