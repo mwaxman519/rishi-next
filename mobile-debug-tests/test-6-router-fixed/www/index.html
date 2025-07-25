@@ -16,25 +16,41 @@
                  padding: 10px; font-family: monospace; font-size: 11px; max-height: 150px; 
                  overflow-y: auto; z-index: 1000; border-top: 2px solid lime; }
         
-        .header { background: #1e3c72; color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-size: 24px; font-weight: bold; }
+        .header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .logo { font-size: 24px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .logo-icon { font-size: 28px; }
         
-        .nav { background: #2a5298; color: white; padding: 10px; }
-        .nav button { color: white; background: none; border: none; padding: 8px 15px; margin-right: 10px; border-radius: 4px; cursor: pointer; }
-        .nav button:hover { background: rgba(255,255,255,0.1); }
-        .nav button.active { background: rgba(255,255,255,0.2); font-weight: bold; }
+        .nav { background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%); color: white; padding: 12px; display: flex; flex-wrap: wrap; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav button { color: white; background: rgba(255,255,255,0.1); border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease; }
+        .nav button:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+        .nav button.active { background: rgba(255,255,255,0.25); font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         
         .content { padding: 20px; max-width: 1200px; margin: 0 auto; margin-bottom: 170px; }
-        .page-title { font-size: 28px; margin-bottom: 20px; color: #333; }
+        .page-title { font-size: 28px; margin-bottom: 20px; color: #1e3c72; font-weight: 600; }
         
-        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        .btn-primary { background: #1e3c72; color: white; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .card h2 { color: #1e3c72; margin-bottom: 12px; font-size: 20px; font-weight: 600; }
+        .card h3 { color: #2a5298; margin-bottom: 8px; font-size: 18px; font-weight: 500; }
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 500; transition: all 0.2s ease; }
+        .btn-primary { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30, 60, 114, 0.3); }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .status { padding: 5px 10px; border-radius: 4px; font-size: 12px; }
-        .status.success { background: #d4edda; color: #155724; }
-        .status.router { background: #e7f3ff; color: #0066cc; }
+        .status { padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+        .status.success { background: #d1f2eb; color: #0d7f56; border: 1px solid #a3d9d0; }
+        .status.router { background: #e1f5fe; color: #0277bd; border: 1px solid #b3e5fc; }
+        .status.pending { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        
+        .dashboard-stats { display: flex; justify-content: space-between; margin-bottom: 20px; gap: 15px; }
+        .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; flex: 1; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .stat-number { font-size: 32px; font-weight: 700; color: #1e3c72; }
+        .stat-label { font-size: 14px; color: #666; margin-top: 5px; }
+        
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .data-table th { background: #f8f9fa; padding: 12px; text-align: left; font-weight: 600; color: #1e3c72; border-bottom: 2px solid #dee2e6; }
+        .data-table td { padding: 12px; border-bottom: 1px solid #dee2e6; }
+        .data-table tr:hover { background: #f8f9fa; }
         
         @media (max-width: 768px) {
             .nav button { font-size: 14px; padding: 6px 10px; }
@@ -97,8 +113,24 @@
                 }, []);
                 
                 return e('div', null,
-                    e('h1', {className: 'page-title'}, 'Rishi Platform Dashboard'),
+                    e('h1', {className: 'page-title'}, 'Workforce Management Dashboard'),
                     e('div', {className: 'status success'}, 'Mobile app working with Capacitor 7.4.2!'),
+                    
+                    e('div', {className: 'dashboard-stats'},
+                        e('div', {className: 'stat-card'},
+                            e('div', {className: 'stat-number'}, '5'),
+                            e('div', {className: 'stat-label'}, 'Today\'s Bookings')
+                        ),
+                        e('div', {className: 'stat-card'},
+                            e('div', {className: 'stat-number'}, '12'),
+                            e('div', {className: 'stat-label'}, 'Active Staff')
+                        ),
+                        e('div', {className: 'stat-card'},
+                            e('div', {className: 'stat-number'}, '8'),
+                            e('div', {className: 'stat-label'}, 'Locations')
+                        )
+                    ),
+                    
                     e('div', {className: 'grid'},
                         e('div', {className: 'card'},
                             e('h2', null, '📅 Today\'s Bookings'),
@@ -153,25 +185,30 @@
                     e('h1', {className: 'page-title'}, 'Bookings Management'),
                     e('div', {className: 'status success'}, 'Navigation working perfectly!'),
                     e('div', {className: 'card'},
-                        e('button', {className: 'btn btn-primary', style: {marginBottom: '15px'}}, '+ New Booking'),
-                        e('table', {style: {width: '100%', borderCollapse: 'collapse'}},
+                        e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}},
+                            e('h2', {style: {margin: 0}}, 'Active Bookings'),
+                            e('button', {className: 'btn btn-primary'}, '+ New Booking')
+                        ),
+                        e('table', {className: 'data-table'},
                             e('thead', null,
-                                e('tr', {style: {borderBottom: '2px solid #ddd'}},
-                                    e('th', {style: {textAlign: 'left', padding: '12px'}}, 'Client'),
-                                    e('th', {style: {textAlign: 'left', padding: '12px'}}, 'Date'),
-                                    e('th', {style: {textAlign: 'left', padding: '12px'}}, 'Status')
+                                e('tr', null,
+                                    e('th', null, 'Client'),
+                                    e('th', null, 'Date'),
+                                    e('th', null, 'Status'),
+                                    e('th', null, 'Staff')
                                 )
                             ),
                             e('tbody', null,
                                 mockBookings.map(booking =>
-                                    e('tr', {key: booking.id, style: {borderBottom: '1px solid #eee'}},
-                                        e('td', {style: {padding: '12px'}}, booking.client),
-                                        e('td', {style: {padding: '12px'}}, booking.date),
-                                        e('td', {style: {padding: '12px'}}, 
+                                    e('tr', {key: booking.id},
+                                        e('td', null, e('strong', null, booking.client)),
+                                        e('td', null, booking.date),
+                                        e('td', null, 
                                             e('span', {
-                                                className: 'status ' + (booking.status === 'confirmed' ? 'success' : 'router')
+                                                className: 'status ' + (booking.status === 'confirmed' ? 'success' : 'pending')
                                             }, booking.status)
-                                        )
+                                        ),
+                                        e('td', null, booking.staff + ' assigned')
                                     )
                                 )
                             )
@@ -185,15 +222,23 @@
                     e('h1', {className: 'page-title'}, 'Staff Management'),
                     e('div', {className: 'status success'}, 'Staff management system active'),
                     e('div', {className: 'card'},
-                        e('button', {className: 'btn btn-primary', style: {marginBottom: '15px'}}, '+ Add Staff Member'),
+                        e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}},
+                            e('h2', {style: {margin: 0}}, 'Team Roster'),
+                            e('button', {className: 'btn btn-primary'}, '+ Add Staff Member')
+                        ),
                         e('div', {className: 'grid'},
                             mockStaff.map(member =>
                                 e('div', {key: member.id, className: 'card', style: {margin: '10px 0'}},
-                                    e('h3', {style: {marginBottom: '10px'}}, member.name),
-                                    e('p', {style: {marginBottom: '5px'}}, 'Role: ' + member.role),
-                                    e('span', {
-                                        className: 'status success'
-                                    }, member.status)
+                                    e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start'}},
+                                        e('div', null,
+                                            e('h3', null, member.name),
+                                            e('p', {style: {color: '#666', marginBottom: '5px'}}, member.role),
+                                            e('p', {style: {color: '#666', fontSize: '14px'}}, '📍 ' + member.location)
+                                        ),
+                                        e('span', {
+                                            className: 'status ' + (member.status === 'active' ? 'success' : 'pending')
+                                        }, member.status)
+                                    )
                                 )
                             )
                         )
@@ -202,23 +247,66 @@
             }
             
             function Locations({ setCurrentPage }) {
+                const mockLocations = [
+                    { id: 1, name: 'Downtown Dispensary', address: '123 Main St', status: 'active', staff: 3 },
+                    { id: 2, name: 'Westside Cannabis Co', address: '456 West Ave', status: 'active', staff: 2 },
+                    { id: 3, name: 'North Valley Shop', address: '789 North Blvd', status: 'maintenance', staff: 1 }
+                ];
+                
                 return e('div', null,
                     e('h1', {className: 'page-title'}, 'Location Management'),
                     e('div', {className: 'status success'}, 'Location system operational'),
                     e('div', {className: 'card'},
-                        e('p', null, 'Interactive location management with mapping capabilities'),
-                        e('p', null, 'View and manage all active service locations')
+                        e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}},
+                            e('h2', {style: {margin: 0}}, 'Service Locations'),
+                            e('button', {className: 'btn btn-primary'}, '+ Add Location')
+                        ),
+                        e('div', {className: 'grid'},
+                            mockLocations.map(location =>
+                                e('div', {key: location.id, className: 'card'},
+                                    e('h3', null, location.name),
+                                    e('p', {style: {color: '#666', marginBottom: '10px'}}, '📍 ' + location.address),
+                                    e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}},
+                                        e('span', {style: {fontSize: '14px', color: '#666'}}, location.staff + ' staff assigned'),
+                                        e('span', {
+                                            className: 'status ' + (location.status === 'active' ? 'success' : 'pending')
+                                        }, location.status)
+                                    )
+                                )
+                            )
+                        )
                     )
                 );
             }
             
             function Inventory({ setCurrentPage }) {
+                const mockInventory = [
+                    { id: 1, name: 'Field Agent Kit', items: 25, status: 'in-stock' },
+                    { id: 2, name: 'Manager Toolkit', items: 8, status: 'low-stock' },
+                    { id: 3, name: 'Event Setup Kit', items: 15, status: 'in-stock' }
+                ];
+                
                 return e('div', null,
                     e('h1', {className: 'page-title'}, 'Inventory Management'),
                     e('div', {className: 'status success'}, 'Inventory tracking active'),
                     e('div', {className: 'card'},
-                        e('p', null, 'Kit templates and inventory tracking'),
-                        e('p', null, 'Monitor stock levels and equipment')
+                        e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}},
+                            e('h2', {style: {margin: 0}}, 'Kit Templates'),
+                            e('button', {className: 'btn btn-primary'}, '+ Create Kit')
+                        ),
+                        e('div', {className: 'grid'},
+                            mockInventory.map(kit =>
+                                e('div', {key: kit.id, className: 'card'},
+                                    e('h3', null, kit.name),
+                                    e('div', {style: {display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '15px'}},
+                                        e('span', {style: {fontSize: '16px', fontWeight: '600'}}, kit.items + ' items'),
+                                        e('span', {
+                                            className: 'status ' + (kit.status === 'in-stock' ? 'success' : 'pending')
+                                        }, kit.status)
+                                    )
+                                )
+                            )
+                        )
                     )
                 );
             }
@@ -250,8 +338,11 @@
                     
                     // Header
                     e('div', {className: 'header'},
-                        e('div', {className: 'logo'}, '🌿 Rishi Platform'),
-                        e('div', {style: {fontSize: '14px'}}, 'Mobile App - State Navigation')
+                        e('div', {className: 'logo'}, 
+                            e('span', {className: 'logo-icon'}, '🌿'),
+                            'Rishi Platform'
+                        ),
+                        e('div', {style: {fontSize: '14px', opacity: 0.9}}, 'Mobile Workforce Management')
                     ),
                     
                     // Navigation
