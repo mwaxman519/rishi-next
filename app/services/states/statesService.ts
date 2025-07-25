@@ -29,8 +29,17 @@ export class StatesService {
    */
   async getAllStates(): Promise<State[]> {
     try {
-      // Get states from database using repository
-      return await this.repository.getAllStates();
+      // In development, return mock data for testing
+      if (process.env.NODE_ENV === "development") {
+        return [
+          {
+            id: "1",
+            name: "Colorado",
+            code: "CO",
+            regionId: "4", // West
+            capital: "Denver",
+            isTerritory: false,
+            timezone: "Mountain",
             active: true,
           },
           {
@@ -57,7 +66,7 @@ export class StatesService {
       }
 
       // In staging/production environments, use the actual repository
-      return this.repository.getAllStates();
+      return await this.repository.getAllStates();
     } catch (error) {
       console.error("Error getting states:", error);
       throw new Error("Failed to get states data");
