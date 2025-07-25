@@ -23,7 +23,8 @@ const SYSTEM_RBAC_DEFAULTS = {
 export async function GET() {
   try {
     // BUILD-TIME SAFETY: Return hardcoded defaults during static generation
-    if (process.env.NEXT_PHASE === 'phase-production-build') {
+    if (process.env.NEXT_PHASE === 'phase-production-build' || 
+        process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
       return NextResponse.json({
         defaults: SYSTEM_RBAC_DEFAULTS,
         description: "System-wide RBAC defaults that apply to all new organizations",

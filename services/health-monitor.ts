@@ -27,5 +27,9 @@ export class HealthMonitor {
   }
 }
 
+// Export both HealthMonitor and HealthMonitorService for compatibility
+export class HealthMonitorService extends HealthMonitor {}
+
 export const healthMonitor = new HealthMonitor();
+export const healthMonitorService = new HealthMonitorService();
 export default healthMonitor;

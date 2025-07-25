@@ -49,5 +49,11 @@ export class DistributedEventBus {
   }
 }
 
+// Standalone publishEvent function for compatibility
+export async function publishEvent(eventType: string, data: any): Promise<void> {
+  const eventBus = new DistributedEventBus();
+  await eventBus.emit(eventType, data);
+}
+
 export const distributedEventBus = new DistributedEventBus();
 export default distributedEventBus;

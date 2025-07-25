@@ -6,6 +6,22 @@ export interface BaseEvent {
   data: any;
 }
 
+export interface AppEvent extends BaseEvent {
+  // Additional app-specific event properties
+}
+
+export interface LocationApprovalPayload {
+  locationId: string;
+  approvedBy: string;
+  approvalReason?: string;
+}
+
+export interface LocationRejectionPayload {
+  locationId: string;
+  rejectedBy: string;
+  rejectionReason: string;
+}
+
 export interface LocationEvent extends BaseEvent {
   type: 'location.created' | 'location.updated' | 'location.deleted';
   locationId: string;
@@ -34,3 +50,6 @@ export const EventTypes = {
   STAFF_UNASSIGNED: 'staff.unassigned',
   STAFF_UPDATED: 'staff.updated'
 } as const;
+
+// Export as AppEventTypes for compatibility
+export const AppEventTypes = EventTypes;

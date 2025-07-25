@@ -8,8 +8,9 @@ import { HealthMonitorService } from "../../../../services/health-monitor";
 
 export async function GET(request: NextRequest) {
   try {
-    const healthMonitor = HealthMonitorService.getInstance();
-    const isReady = await healthMonitor.isReady();
+    const healthMonitor = new HealthMonitorService();
+    const result = await healthMonitor.isReady();
+    const isReady = result.ready;
 
     if (isReady) {
       return NextResponse.json({ status: "ready" }, { status: 200 });
