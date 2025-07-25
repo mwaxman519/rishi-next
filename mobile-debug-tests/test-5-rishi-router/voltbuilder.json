@@ -1,0 +1,6 @@
+{
+    "title": "Test 5: Rishi + Router",
+    "package": "com.rishi.test5router",
+    "version": "1.0.0",
+    "description": "Full Rishi Platform with React Router navigation"
+}
