@@ -52,10 +52,11 @@ echo ""
 echo "⚙️  Configuring Capacitor for $ENVIRONMENT..."
 cp "capacitor.config.$ENVIRONMENT.ts" capacitor.config.ts
 
-# Set environment variables for build
+# Set environment variables for build - FORCE DEVELOPMENT FOR VOLTBUILDER
 export NODE_ENV=production
-export NEXT_PUBLIC_APP_ENV=$ENVIRONMENT
+export NEXT_PUBLIC_APP_ENV=development
 export MOBILE_BUILD=true
+export VOLTBUILDER_BUILD=true
 
 # Load environment-specific variables
 if [ -f ".env.$ENVIRONMENT" ]; then

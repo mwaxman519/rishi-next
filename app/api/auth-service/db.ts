@@ -35,9 +35,15 @@ export function getEnvironment(): "development" | "staging" | "production" {
     return "staging";
   }
 
-  // BUILD TIME: During VoltBuilder builds, use production (but with explicit env check)
-  if (process.env.NEXT_PHASE === 'phase-production-build' || 
-      process.env.NODE_ENV === 'production') {
+  // BUILD TIME: During VoltBuilder builds, force development environment
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    // VoltBuilder mobile builds should always use development environment
+    console.log('[Auth Service] VoltBuilder build detected - forcing development environment');
+    return "development";
+  }
+  
+  // RUNTIME: Use explicit environment detection
+  if (process.env.NODE_ENV === 'production') {
     // Check for explicit production database URL first
     if (process.env.PRODUCTION_DATABASE_URL) {
       return "production";
@@ -59,14 +65,16 @@ function getDatabaseUrl(): string {
   const env = getEnvironment();
   console.log(`[Auth Service] Detected environment: ${env}`);
 
-  // BUILD-TIME: Use actual database connection during static generation
+  // BUILD-TIME: Use actual development database connection during static generation
   if (process.env.NEXT_PHASE === 'phase-production-build') {
     const buildDbUrl = process.env.BUILD_DATABASE_URL || process.env.DATABASE_URL;
     if (!buildDbUrl) {
-      console.error("[Auth Service] Build-time requires actual DATABASE_URL - no fallbacks allowed");
-      throw new Error("Build-time database URL must be configured");
+      console.error("[Auth Service] VoltBuilder build requires actual DATABASE_URL - no fallbacks allowed");
+      console.error("[Auth Service] Environment detected:", env);
+      throw new Error("VoltBuilder build database URL must be configured");
     }
-    console.log(`[Auth Service] Build-time static generation - using actual database connection`);
+    console.log(`[Auth Service] VoltBuilder build using development database connection`);
+    console.log(`[Auth Service] Environment: ${env}, Database configured: true`);
     return buildDbUrl;
   }
 
