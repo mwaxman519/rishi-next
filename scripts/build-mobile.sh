@@ -76,6 +76,10 @@ fi
 echo "🔗 Dev database connection confirmed for VoltBuilder build-time static generation"
 export BUILD_DATABASE_URL=$DATABASE_URL
 
+# Create VoltBuilder-safe API routes (no database imports)
+echo "🛡️ Creating VoltBuilder-safe API routes..."
+node scripts/create-voltbuilder-safe-routes.js
+
 # Create development manifests first
 echo "🔧 Creating development manifests..."
 node scripts/create-dev-manifests.js
@@ -83,6 +87,10 @@ node scripts/create-dev-manifests.js
 # Build Next.js app for static export
 echo "🔨 Building Next.js application..."
 npm run build
+
+# Restore original API routes after build
+echo "🔄 Restoring original API routes..."
+node scripts/restore-original-routes.js
 
 # Inject Capacitor bridge into static HTML
 echo "🔋 Injecting Capacitor JavaScript bridge..."
