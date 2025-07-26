@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { exec } from "child_process";
 import { promisify } from "util";
 
-export const dynamic = "force-dynamic";
+// Dev tools should not be accessed in production builds
 
 const execAsync = promisify(exec);
 

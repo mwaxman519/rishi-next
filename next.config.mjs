@@ -5,8 +5,8 @@ const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'development'
 const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
 const isVercel = process.env.VERCEL
 const isMobileBuild = process.env.MOBILE_BUILD === 'true'
-// CRITICAL: Only VoltBuilder when explicitly set - no auto-detection
-const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true'
+// CRITICAL: Only VoltBuilder when explicitly set AND mobile build - no auto-detection
+const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true' && isMobileBuild
 
 console.log('[Next Config] Environment detection:', {
   NODE_ENV: process.env.NODE_ENV,

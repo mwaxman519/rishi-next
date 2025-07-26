@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFileSync } from "fs";
 import { join } from "path";
 
-// Required export const dynamic for static export compatibility
-export const dynamic = "force-dynamic";
+// Dev tools should not be accessed in production builds
+// Remove force-dynamic for static export compatibility
 
 export async function GET(request: NextRequest) {
   try {
