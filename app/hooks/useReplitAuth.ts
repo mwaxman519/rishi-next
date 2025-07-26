@@ -110,44 +110,33 @@ export function useReplitAuth(): ReplitAuthState {
   }, []);
 
   useEffect(() => {
-    // Initial authentication check
+    // Only check authentication once on mount
     checkAuthentication();
 
-    // Listen for cookie changes (login/logout events)
-    const handleStorageChange = () => {
-      console.log('Replit Auth: Cookie change detected, rechecking authentication');
-      checkAuthentication();
+    // Handle logout only
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'auth-logout') {
+        console.log('Replit Auth: Logout detected, clearing user');
+        setUser(null);
+        return;
+      }
     };
 
     // Listen for login success events
     const handleLoginSuccess = () => {
       console.log('Replit Auth: Login success event received');
-      setTimeout(checkAuthentication, 200); // Small delay to ensure cookie is set
+      setTimeout(checkAuthentication, 200); // Small delay to ensure storage is set
     };
 
-    // Listen for localStorage changes (for login/logout events)
-    const pollForStorageChanges = () => {
-      const currentHasAuth = !!localStorage.getItem('rishi-auth-user');
-      const wasAuthenticated = !!user;
-      
-      if (currentHasAuth !== wasAuthenticated) {
-        console.log('Replit Auth: Authentication state changed, rechecking');
-        checkAuthentication();
-      }
-    };
-
+    // Only listen for specific events - no continuous checking
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('auth-login-success', handleLoginSuccess);
-    
-    // Poll for localStorage changes every 1 second
-    const pollInterval = setInterval(pollForStorageChanges, 1000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('auth-login-success', handleLoginSuccess);
-      clearInterval(pollInterval);
     };
-  }, [checkAuthentication]);
+  }, []); // Empty dependency array to run only once
 
   return {
     user,

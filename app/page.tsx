@@ -39,15 +39,13 @@ export default function Home() {
     }
     
     // Simple redirect for authenticated users in web environment
-    if (!loading && user && user.role === "super_admin") {
+    if (!loading && user && user.role === "super_admin" && !redirecting) {
       console.log("Redirecting super admin to dashboard");
       setRedirecting(true);
-      // Use a small delay to ensure hydration is complete before redirecting
-      setTimeout(() => {
-        router.replace("/dashboard");
-      }, 100);
+      // Use immediate redirect without delay
+      router.replace("/dashboard");
     }
-  }, [user, loading, router, isMobile]);
+  }, [user, loading, router, isMobile, redirecting]);
 
   // Show loading state while authentication is initializing
   if (loading) {

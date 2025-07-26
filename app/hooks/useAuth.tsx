@@ -94,11 +94,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(true);
         setError(null);
 
-        // In development with Replit, use cookie-based auth to avoid fetch issues
+        // In development with Replit, use localStorage-based auth to avoid fetch issues
         if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
           console.log('Using Replit-specific authentication');
           setUser(replitAuth.user);
-          setIsLoading(replitAuth.isLoading);
+          setIsLoading(false); // Force loading to false to prevent loops
           return;
         }
 
@@ -123,6 +123,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (process.env.NODE_ENV === 'development') {
           console.log('Falling back to Replit authentication');
           setUser(replitAuth.user);
+          setIsLoading(false); // Force loading to false
         } else {
           setUser(null);
         }
@@ -144,7 +145,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       window.removeEventListener('auth-login-success', handleLoginSuccess);
     };
-  }, [authService, replitAuth]);
+  }, [authService, replitAuth.user, replitAuth.isLoading]);
 
   // Permission checking function
   const hasPermission = (permission: string): boolean => {
