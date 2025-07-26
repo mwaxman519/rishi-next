@@ -1,17 +1,14 @@
-/**
- * Authentication Hook and Context Provider
- *
- * This authentication system provides:
- * - Real authentication via the auth microservice
- * - Session management via HTTP cookies
- * - Role-based access control (RBAC)
- * - Organization context switching
- * - Proper security checks and token validation
- */
-
 "use client";
 
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+
+// Import auth service types
 import {
   useAuthService,
   UserSession,
@@ -93,114 +90,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(true);
         setError(null);
 
-        // Get session from auth service with retry logic
-        let retryCount = 0;
-        const maxRetries = 3;
+        console.log('Checking authentication via session endpoint...');
         
-        // For Replit preview environment, prioritize cookie detection over fetch
-        if (typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
-          const hasAuthCookie = document.cookie.includes('auth-token=');
-          console.log('Replit preview environment detected. Auth cookie present:', hasAuthCookie);
-          
-          if (hasAuthCookie) {
-            console.log('Replit preview with auth cookie - setting authenticated user');
-            setUser({
-              id: '261143cd-fa2b-4660-8b54-364c87b63882',
-              username: 'mike',
-              email: 'mike@rishiplatform.com',
-              fullName: 'Mike User',
-              role: 'super_admin',
-              active: true,
-              organizations: [{
-                orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-                orgName: 'Rishi Internal',
-                orgType: 'internal',
-                role: 'super_admin',
-                
-              }],
-              currentOrganization: {
-                orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-                orgName: 'Rishi Internal', 
-                orgType: 'internal',
-                role: 'super_admin',
-                
-              }
-            });
-            setError(null);
-            return; // Cookie auth successful, exit immediately
-          } else {
-            console.log('No auth cookie in Replit preview - user not authenticated');
-            setUser(null);
-            setError(null);
-            return; // No cookie, exit immediately
-          }
+        // Try session endpoint to check authentication
+        const { user: sessionUser } = await authService.getSession();
+        console.log('Session user received:', sessionUser);
+        
+        if (sessionUser && sessionUser.id) {
+          console.log('User authenticated via session:', sessionUser.username);
+          setUser(sessionUser);
+        } else {
+          console.log('No valid session found - user not authenticated');
+          setUser(null);
         }
-
-        while (retryCount < maxRetries) {
-          try {
-            
-            const { user: sessionUser } = await authService.getSession();
-            setUser(sessionUser);
-            return; // Success, exit retry loop
-          } catch (err) {
-            retryCount++;
-            console.warn(`Session request attempt ${retryCount} failed:`, err);
-            
-            // In development, handle Replit fetch issues specially
-            if (process.env.NODE_ENV === 'development' && 
-                err instanceof Error && 
-                (err.message.includes('Failed to fetch') || err.message.includes('Development server fetch blocked'))) {
-              console.log('Development environment fetch issue detected. Using direct session check.');
-              
-              // Check for auth cookie and create proper user session
-              const hasAuthCookie = document.cookie.includes('auth-token=');
-              if (hasAuthCookie) {
-                console.log('Auth cookie detected, setting authenticated user for development');
-                // Set proper authenticated user matching the login response
-                setUser({
-                  id: '261143cd-fa2b-4660-8b54-364c87b63882',
-                  username: 'mike',
-                  email: 'mike@rishiplatform.com',
-                  fullName: 'Mike User',
-                  role: 'super_admin',
-                  active: true,
-                  organizations: [{
-                    orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-                    orgName: 'Rishi Internal',
-                    orgType: 'internal',
-                    role: 'super_admin'
-                  }],
-                  currentOrganization: {
-                    orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-                    orgName: 'Rishi Internal', 
-                    orgType: 'internal',
-                    role: 'super_admin'
-                  }
-                });
-                setError(null);
-                return;
-              } else {
-                console.log('No auth cookie, setting unauthenticated state.');
-                setUser(null);
-                setError(null);
-                return;
-              }
-            }
-            
-            if (retryCount >= maxRetries) {
-              throw err; // Re-throw after max retries
-            }
-            
-            // Wait before retrying (exponential backoff)
-            await new Promise(resolve => setTimeout(resolve, Math.pow(2, retryCount) * 1000));
-          }
-        }
-      } catch (err) {
-        console.error("Error loading user after retries:", err);
-        setError(
-          err instanceof Error ? err : new Error("Unable to connect to authentication service"),
-        );
-        // Set user to null to show unauthenticated state
+        
+      } catch (sessionError) {
+        console.log('Session endpoint failed:', sessionError);
         setUser(null);
       } finally {
         setIsLoading(false);
@@ -211,131 +116,62 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     
     // Listen for login success events to refresh auth state
     const handleLoginSuccess = () => {
-      console.log('Auth login success event received, immediately setting authenticated user...');
-      // Immediately set authenticated user to bypass Replit cookie detection issues
-      setUser({
-        id: '261143cd-fa2b-4660-8b54-364c87b63882',
-        username: 'mike',
-        email: 'mike@rishiplatform.com',
-        fullName: 'Mike User',
-        role: 'super_admin',
-        active: true,
-        organizations: [{
-          orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-          orgName: 'Rishi Internal',
-          orgType: 'internal',
-          role: 'super_admin',
-          
-        }],
-        currentOrganization: {
-          orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-          orgName: 'Rishi Internal', 
-          orgType: 'internal',
-          role: 'super_admin',
-          
-        }
-      });
-      setError(null);
-      setIsLoading(false);
+      console.log('Login success event received, reloading user...');
+      loadUser();
     };
-    
+
     window.addEventListener('auth-login-success', handleLoginSuccess);
     
     return () => {
       window.removeEventListener('auth-login-success', handleLoginSuccess);
     };
-  }, []);
+  }, [authService]);
 
-  // Check if user has a specific permission
+  // Permission checking function
   const hasPermission = (permission: string): boolean => {
     if (!user) return false;
+    
+    // Super admin has all permissions
+    if (user.role === 'super_admin') return true;
+    
+    // Basic permission checks based on role
+    const rolePermissions: Record<string, string[]> = {
+      'internal_admin': ['read:*', 'create:*', 'update:*'],
+      'internal_field_manager': ['read:staff', 'update:staff', 'read:locations'],
+      'brand_agent': ['read:own', 'update:own'],
+      'client_manager': ['read:organization', 'update:organization'],
+      'client_user': ['read:organization']
+    };
 
-    // Super admins have all permissions
-    if (
-      user.role === "super_admin" ||
-      (user.roles && user.roles.includes("SUPER_ADMIN"))
-    ) {
-      return true;
-    }
-
-    // Development mode: grant all permissions
-    if (process.env.NODE_ENV === "development") {
-      return true;
-    }
-
-    // In a real implementation, would check against stored permissions
-    // Real user logout implementation
-    return false;
+    const userPermissions = rolePermissions[user.role] || [];
+    return userPermissions.some(p => p === permission || p.endsWith(':*'));
   };
 
-  // Helper properties to identify user types
-  const isRishiManagement =
-    user?.role === "internal_admin" || user?.role === "super_admin";
-  const isFieldManager = user?.role === "internal_field_manager";
-  const isBrandAgent = user?.role === "brand_agent";
-  const isClientUser = user?.role === "client_user";
-  const isSuperAdmin = user?.role === "super_admin";
+  // Role checking helper functions
+  const isRishiManagement = user?.role === 'super_admin' || user?.role === 'internal_admin';
+  const isFieldManager = user?.role === 'internal_field_manager';
+  const isBrandAgent = user?.role === 'brand_agent';
+  const isClientUser = user?.role === 'client_user' || user?.role === 'client_manager';
+  const isSuperAdmin = user?.role === 'super_admin';
 
-  // Logout function implementation
-  const logout = async (): Promise<void> => {
+  // Login function
+  const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      setIsLoading(true);
-
-      // Call logout from auth service
-      await authService.logout();
-
-      // Clear user state
-      setUser(null);
-    } catch (err) {
-      console.error("Error during logout:", err);
-      setError(
-        err instanceof Error ? err : new Error("Unknown error during logout"),
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Login function implementation
-  const login = async (
-    username: string,
-    password: string,
-  ): Promise<boolean> => {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      // Call login from auth service
-      const userData = await authService.login({ username, password });
-
-      // Immediately update user state to prevent role timing issues
-      setUser(userData);
-      
-      // Force a session refresh to ensure state is synchronized
-      setTimeout(async () => {
-        try {
-          const { user: refreshedUser } = await authService.getSession();
-          if (refreshedUser) {
-            setUser(refreshedUser);
-          }
-        } catch (refreshError) {
-          console.error("Session refresh error:", refreshError);
-        }
-      }, 100);
-
-      return true;
-    } catch (err) {
-      console.error("Login error:", err);
-      setError(
-        err instanceof Error ? err : new Error("Unknown error during login"),
-      );
+      const result = await authService.login({ username, password });
+      if (result.success && result.user) {
+        setUser(result.user);
+        setError(null);
+        return true;
+      }
       return false;
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+      console.error('Login error:', err);
+      setError(err instanceof Error ? err : new Error('Login failed'));
+      return false;
     }
   };
 
-  // Register function implementation
+  // Register function
   const register = async (
     username: string,
     password: string,
@@ -344,101 +180,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     registrationPasscode?: string,
   ): Promise<RegisterResult> => {
     try {
-      setIsLoading(true);
-      setError(null);
-
-      // Password validation
-      if (password !== confirmPassword) {
-        return { success: false, error: "Passwords do not match" };
-      }
-
-      try {
-        // Call register from auth service with enhanced error handling
-        // Include registration passcode only if provided
-        const registerData = {
-          username,
-          password,
-          confirmPassword,
-          role,
-        };
-
-        // Only add the passcode if it's provided
-        if (registrationPasscode) {
-          (registerData as any).registrationPasscode = registrationPasscode;
-        }
-
-        const userData = await authService.register(registerData);
-
-        // Update user state
-        setUser(userData);
-
+      const result = await authService.register({
+        username,
+        password,
+        confirmPassword,
+        role,
+        registrationPasscode,
+      });
+      
+      if (result.success && result.user) {
+        setUser(result.user);
+        setError(null);
         return { success: true };
-      } catch (serviceError: any) {
-        console.error("Auth service registration error:", serviceError);
-
-        // Create user-friendly error messages based on the error type
-        let errorMessage = serviceError.message || "Registration failed";
-
-        // Handle network errors
-        if (
-          serviceError.name === "TypeError" &&
-          serviceError.message.includes("Failed to fetch")
-        ) {
-          errorMessage =
-            "Cannot connect to the registration service. Please check your internet connection.";
-        }
-        // Handle database errors
-        else if (
-          errorMessage.includes("database") ||
-          errorMessage.includes("Database") ||
-          errorMessage.includes("connection") ||
-          errorMessage.includes("not been initialized")
-        ) {
-          errorMessage =
-            "The registration system is currently experiencing database issues. Please try again later.";
-        }
-        // Handle Bad Gateway errors
-        else if (
-          errorMessage.includes("502") ||
-          errorMessage.includes("Bad Gateway")
-        ) {
-          errorMessage =
-            "The registration service is temporarily unavailable. Our team has been notified.";
-        }
-        // Handle JSON parsing errors
-        else if (
-          errorMessage.includes("JSON") ||
-          errorMessage.includes("Unexpected end")
-        ) {
-          errorMessage =
-            "The registration service returned an invalid response. Please try again later.";
-        }
-        // Handle timeout errors
-        else if (
-          errorMessage.includes("timeout") ||
-          errorMessage.includes("timed out")
-        ) {
-          errorMessage =
-            "The registration request timed out. Please try again later.";
-        }
-
-        setError(new Error(errorMessage));
-        return { success: false, error: errorMessage };
       }
+      
+      return { success: false, error: result.error || 'Registration failed' };
     } catch (err) {
-      console.error("Registration error:", err);
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "An unexpected error occurred during registration";
-      setError(err instanceof Error ? err : new Error(errorMessage));
+      console.error('Registration error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+      setError(new Error(errorMessage));
+      return { success: false, error: errorMessage };
+    }
+  };
 
-      return {
-        success: false,
-        error: errorMessage,
-      };
-    } finally {
-      setIsLoading(false);
+  // Logout function
+  const logout = async (): Promise<void> => {
+    try {
+      await authService.logout();
+      setUser(null);
+      setError(null);
+    } catch (err) {
+      console.error('Logout error:', err);
+      // Still clear user state even if logout request fails
+      setUser(null);
+      setError(null);
     }
   };
 
@@ -452,9 +227,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isBrandAgent,
     isClientUser,
     isSuperAdmin,
-    logout,
     login,
     register,
+    logout,
   };
 
   return (
@@ -462,9 +237,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Hook for using the auth context
+// Hook to use the Auth context
 export function useAuth() {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 }
-
-export type { UserSession };
