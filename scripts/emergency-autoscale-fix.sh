@@ -1,3 +1,8 @@
+#!/bin/bash
+echo "🚨 Emergency Autoscale Fix - Syntax Error Resolution"
+
+# Fix the malformed docs page immediately
+cat > app/docs/[...slug]/page.tsx << 'EOF'
 import { notFound, redirect } from "next/navigation";
 import { getDocumentByPath, getDocTree, getAllDocs } from "@/lib/docs-production";
 
@@ -22,3 +27,7 @@ export async function generateStaticParams() {
   console.log("[DOCS generateStaticParams] Skipping all docs generation for autoscale deployment");
   return [];
 }
+EOF
+
+echo "✅ Emergency fix applied - docs page syntax error resolved"
+echo "🚀 Ready for autoscale deployment"
