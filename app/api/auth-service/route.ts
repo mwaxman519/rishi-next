@@ -11,7 +11,7 @@ export const revalidate = false;
 import { NextRequest } from "next/server";
 import { successResponse } from "./utils/response";
 import { AUTH_CONFIG } from "./config";
-import { testConnection } from "./db";
+import { testConnection } from "../../../db";
 
 /**
  * Handle GET /api/auth-service

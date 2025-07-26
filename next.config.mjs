@@ -5,12 +5,8 @@ const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'development'
 const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
 const isVercel = process.env.VERCEL
 const isMobileBuild = process.env.MOBILE_BUILD === 'true'
-// VoltBuilder detection - forces static export even without MOBILE_BUILD flag
-const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true' ||
-                          (process.env.NODE_ENV === 'production' && 
-                           !isReplit && 
-                           !isVercel && 
-                           appEnv === 'development')
+// VoltBuilder detection - only when explicitly set
+const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true'
 
 console.log('[Next Config] Environment detection:', {
   NODE_ENV: process.env.NODE_ENV,
@@ -25,12 +21,13 @@ console.log('[Next Config] Environment detection:', {
 const nextConfig = {
   // Dynamic output configuration based on build type
   ...((isMobileBuild || isVoltBuilderBuild) ? {
-    output: 'export',
+    output: 'export', // Only for mobile builds
     distDir: 'out',
     trailingSlash: true,
     images: { unoptimized: true }
   } : {
-    output: undefined, // Server mode for web deployments
+    // Server mode for web deployments (no static export for Autoscale)
+    output: undefined,
     distDir: '.next',
     trailingSlash: false
   }),

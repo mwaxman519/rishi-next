@@ -29,7 +29,8 @@
     "setup-hooks": "cp scripts/pre-commit-hook.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit",
     "build:vercel": "next build",
     "export:vercel": "next export",
-    "deploy:vercel": "next build && next export"
+    "deploy:vercel": "next build && next export",
+    "build:autoscale": "next build"
   },
   "resolutions": {
     "@babel/traverse": "^7.23.2",

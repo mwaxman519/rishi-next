@@ -13,6 +13,9 @@ export async function testConnection(): Promise<boolean> {
   }
 }
 
+// Export missing testConnection for app/api/auth-service/route.ts
+
+
 export async function getDatabaseStatus() {
   const isConnected = await testConnection();
   return {
@@ -20,3 +23,6 @@ export async function getDatabaseStatus() {
     timestamp: new Date().toISOString(),
   };
 }
+
+// Export for auth service
+export { testConnection };
