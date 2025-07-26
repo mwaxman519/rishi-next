@@ -31,6 +31,12 @@ cat > "$BUILD_DIR/package.json" << 'EOF'
     "next": "15.4.2",
     "react": "19.0.0",
     "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
   }
 }
 EOF
@@ -109,6 +115,35 @@ export default function App() {
       `}</style>
     </div>
   );
+}
+EOF
+
+# Create TypeScript config
+cat > "$BUILD_DIR/tsconfig.json" << 'EOF'
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
 EOF
 
