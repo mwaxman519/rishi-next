@@ -56,6 +56,28 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
+    // Autoscale deployment optimizations
+    if (!dev && process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
+      // Reduce compilation time for autoscale
+      config.optimization = {
+        ...config.optimization,
+        minimize: false, // Skip minification for faster builds
+        splitChunks: {
+          chunks: 'all',
+          maxSize: 244000, // Smaller chunks
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            framework: {
+              chunks: 'all',
+              name: 'framework',
+              priority: 40,
+              enforce: true,
+            },
+          },
+        },
+      };
+    }
     return config;
   }
 };

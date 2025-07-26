@@ -167,6 +167,9 @@ export default async function DocPage({ params }: DocPageProps) {
 
 // Generate static paths for all documents - only for documents that actually exist
 export async function generateStaticParams() {
+  // Skip all static generation for fast autoscale deployment
+  return [];
+} {
   // Check if we should skip docs generation entirely
   if (shouldSkipDocsGeneration()) {
     console.log("[DOCS generateStaticParams] Skipping all docs generation in production");
