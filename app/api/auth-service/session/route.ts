@@ -1,40 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
 
-// VoltBuilder Build-Safe Route: auth-service/session
-// This route is replaced during VoltBuilder builds to prevent database import failures
-// Original route functionality will work in the deployed mobile app
+export const dynamic = "force-dynamic";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export async function GET(request: NextRequest) {
+  try {
+    console.log('[AUTH-SERVICE] Session request received');
+    
+    // Get current user session
+    const user = await getCurrentUser();
+    
+    if (!user) {
+      console.log('[AUTH-SERVICE] No valid session found');
+      return NextResponse.json({ user: null }, { status: 200 });
+    }
 
-export async function GET(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "auth-service/session",
-    timestamp: new Date().toISOString()
-  });
-}
-
-export async function POST(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app", 
-    route: "auth-service/session",
-    timestamp: new Date().toISOString()
-  });
-}
-
-export async function PUT(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "auth-service/session", 
-    timestamp: new Date().toISOString()
-  });
-}
-
-export async function DELETE(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "auth-service/session",
-    timestamp: new Date().toISOString()
-  });
+    console.log('[AUTH-SERVICE] Valid session found for user:', user.username);
+    
+    // Return user session data
+    return NextResponse.json({
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        fullName: user.fullName,
+        role: user.role,
+        isActive: user.isActive,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+      }
+    });
+  } catch (error) {
+    console.error('[AUTH-SERVICE] Session error:', error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
