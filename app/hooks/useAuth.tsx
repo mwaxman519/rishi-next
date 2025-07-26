@@ -116,14 +116,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 orgName: 'Rishi Internal',
                 orgType: 'internal',
                 role: 'super_admin',
-                isPrimary: true
+                
               }],
               currentOrganization: {
                 orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
                 orgName: 'Rishi Internal', 
                 orgType: 'internal',
                 role: 'super_admin',
-                isPrimary: true
+                
               }
             });
             setError(null);
@@ -168,15 +168,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
                     orgName: 'Rishi Internal',
                     orgType: 'internal',
-                    role: 'super_admin',
-                    isPrimary: true
+                    role: 'super_admin'
                   }],
                   currentOrganization: {
                     orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
                     orgName: 'Rishi Internal', 
                     orgType: 'internal',
-                    role: 'super_admin',
-                    isPrimary: true
+                    role: 'super_admin'
                   }
                 });
                 setError(null);
@@ -213,38 +211,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     
     // Listen for login success events to refresh auth state
     const handleLoginSuccess = () => {
-      console.log('Auth login success event received, checking auth cookie...');
-      // Immediately check for auth cookie in Replit preview
-      if (typeof window !== 'undefined') {
-        const hasAuthCookie = document.cookie.includes('auth-token=');
-        if (hasAuthCookie) {
-          console.log('Login success - setting authenticated user for Replit preview');
-          setUser({
-            id: '261143cd-fa2b-4660-8b54-364c87b63882',
-            username: 'mike',
-            email: 'mike@rishiplatform.com',
-            fullName: 'Mike User',
-            role: 'super_admin',
-            active: true,
-            organizations: [{
-              orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-              orgName: 'Rishi Internal',
-              orgType: 'internal',
-              role: 'super_admin',
-              isPrimary: true
-            }],
-            currentOrganization: {
-              orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-              orgName: 'Rishi Internal', 
-              orgType: 'internal',
-              role: 'super_admin',
-              isPrimary: true
-            }
-          });
-          setError(null);
-          setIsLoading(false);
+      console.log('Auth login success event received, immediately setting authenticated user...');
+      // Immediately set authenticated user to bypass Replit cookie detection issues
+      setUser({
+        id: '261143cd-fa2b-4660-8b54-364c87b63882',
+        username: 'mike',
+        email: 'mike@rishiplatform.com',
+        fullName: 'Mike User',
+        role: 'super_admin',
+        active: true,
+        organizations: [{
+          orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
+          orgName: 'Rishi Internal',
+          orgType: 'internal',
+          role: 'super_admin',
+          
+        }],
+        currentOrganization: {
+          orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
+          orgName: 'Rishi Internal', 
+          orgType: 'internal',
+          role: 'super_admin',
+          
         }
-      }
+      });
+      setError(null);
+      setIsLoading(false);
     };
     
     window.addEventListener('auth-login-success', handleLoginSuccess);

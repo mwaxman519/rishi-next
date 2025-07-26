@@ -40,16 +40,15 @@ export default function LoginPage() {
         console.log('Login response data:', result);
         
         if (result.success) {
-          console.log('Login successful, redirecting to dashboard...');
+          console.log('Login successful, forcing page refresh to bypass cookie detection issues...');
           
-          // Trigger auth state refresh and redirect
-          console.log('Login successful, triggering auth refresh...');
-          window.dispatchEvent(new CustomEvent('auth-login-success'));
-          
+          // For Replit preview environment, force a hard refresh after successful login
+          // This bypasses the cookie detection issues and ensures proper authentication state
           setTimeout(() => {
-            console.log('Redirecting to dashboard...');
+            console.log('Refreshing page to complete authentication...');
             window.location.href = '/dashboard';
-          }, 200);
+            window.location.reload();
+          }, 500);
           
           return; // Ensure we don't continue processing
         } else {
