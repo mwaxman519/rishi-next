@@ -97,8 +97,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // In development with Replit, use localStorage-based auth to avoid fetch issues
         if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
           console.log('Using Replit-specific authentication');
+          
+          // Wait for Replit auth to complete loading
+          if (replitAuth.isLoading) {
+            setIsLoading(true);
+            return;
+          }
+          
           setUser(replitAuth.user);
-          setIsLoading(false); // Force loading to false to prevent loops
+          setIsLoading(false);
+          console.log('Authentication state set:', { 
+            user: replitAuth.user?.username, 
+            role: replitAuth.user?.role, 
+            isSuperAdmin: replitAuth.user?.role === 'super_admin',
+            authIsLoading: false 
+          });
           return;
         }
 
@@ -122,10 +135,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Fallback to Replit auth in development
         if (process.env.NODE_ENV === 'development') {
           console.log('Falling back to Replit authentication');
+          
+          // Wait for Replit auth to complete loading
+          if (replitAuth.isLoading) {
+            setIsLoading(true);
+            return;
+          }
+          
           setUser(replitAuth.user);
-          setIsLoading(false); // Force loading to false
+          setIsLoading(false);
+          console.log('Fallback authentication state set:', { 
+            user: replitAuth.user?.username, 
+            role: replitAuth.user?.role, 
+            isSuperAdmin: replitAuth.user?.role === 'super_admin',
+            authIsLoading: false 
+          });
         } else {
           setUser(null);
+          setIsLoading(false);
         }
       } finally {
         setIsLoading(false);
@@ -145,7 +172,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       window.removeEventListener('auth-login-success', handleLoginSuccess);
     };
-  }, [authService, replitAuth.user, replitAuth.isLoading]);
+  }, [authService]); // Remove replitAuth dependencies to prevent loops
 
   // Permission checking function
   const hasPermission = (permission: string): boolean => {

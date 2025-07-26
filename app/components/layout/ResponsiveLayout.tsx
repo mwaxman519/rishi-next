@@ -118,7 +118,7 @@ interface ResponsiveLayoutProps {
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // These hooks are safe to call in all environments
-  const { user, isLoading: loading } = useAuth();
+  const { user, loading } = useAuth();
   const pathname = usePathname();
   
   // State to track if we're hydrated to avoid hydration mismatch
@@ -164,8 +164,21 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   }
 
   // Force public layout if URL parameter is set or user is not authenticated
-  if (hasUnauthenticatedParam || !user) {
+  // But allow dashboard and authenticated pages to render if user exists
+  if (hasUnauthenticatedParam || (!user && !pathname?.startsWith('/dashboard'))) {
     return <PublicLayout>{children}</PublicLayout>;
+  }
+  
+  // If user is null but we're on dashboard, let it render (authentication loading)
+  if (!user && pathname?.startsWith('/dashboard')) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Authenticating...</p>
+        </div>
+      </div>
+    );
   }
 
   // For authenticated users, use responsive layouts based on screen size

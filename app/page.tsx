@@ -84,26 +84,9 @@ export default function Home() {
 
   // If user is logged in, handle accordingly
   if (user) {
-    // For super admin users, show loading while redirect happens
+    // For super admin users, don't render anything - let redirect happen silently
     if (user.role === "super_admin") {
-      return (
-        <div className="flex items-center justify-center h-screen">
-          <div className="text-center">
-            <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-muted-foreground">
-              {redirecting ? "Redirecting to dashboard..." : "Loading dashboard..."}
-            </p>
-            {/* Add a fallback button in case redirect fails */}
-            <div className="mt-4">
-              <Link href="/dashboard">
-                <Button variant="outline" size="sm">
-                  Go to Dashboard Manually
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      );
+      return null; // Don't render anything, let the redirect effect handle it
     }
 
     // For other roles, show welcome with dashboard link
