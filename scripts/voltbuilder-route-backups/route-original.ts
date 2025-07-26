@@ -1,8 +1,4 @@
 import { NextResponse, NextRequest } from "next/server";
-
-export const dynamic = "force-static";
-export const revalidate = false;
-
 import { getServerSession } from "next-auth";
 import { EventBusService } from "../../../services/event-bus-service";
 import { authOptions } from "@/lib/auth-options";
@@ -12,9 +8,6 @@ import { z } from "zod";
 
 /**
  * GET /api/users - Get all users
- *
- * This endpoint functions as part of the API Gateway pattern,
- * delegating the business logic to the User Service.
  */
 export async function GET(): Promise<NextResponse> {
   const result = await userService.getAllUsers();
@@ -31,84 +24,40 @@ export async function GET(): Promise<NextResponse> {
 
 /**
  * POST /api/users - Create a new user
- *
- * This endpoint functions as part of the API Gateway pattern,
- * delegating the business logic to the User Service.
  */
 export async function POST(request: Request): Promise<NextResponse> {
   try {
-    console.log("POST /api/users - Started processing request");
-
     const body = await request.json();
-    console.log("Request body:", body);
+    const validatedData = insertUserSchema.parse(body);
 
-    try {
-      // Validate the request body against our schema
-      console.log("Validating request data with Zod schema");
-      const validatedData = insertUserSchema.parse(body);
-      console.log("Validation successful:", validatedData);
+    const createUserRequest = {
+      username: validatedData.username,
+      password: validatedData.password,
+      fullName: validatedData.fullName || null,
+      email: validatedData.email || null,
+      role: validatedData.role || "brand_agent",
+    };
 
-      // Map the validated data to our service model
-      const createUserRequest = {
-        username: validatedData.username,
-        password: validatedData.password,
-        fullName: validatedData.fullName || null,
-        email: validatedData.email || null,
-        phone: validatedData.phone || null,
-        role: validatedData.role,
-        profileImage: validatedData.profileImage || null,
-      };
-      console.log("Mapped to service model:", {
-        ...createUserRequest,
-        password: "[REDACTED]",
-      });
+    const result = await userService.createUser(createUserRequest);
 
-      // Call the service to create the user
-      console.log("Calling userService.createUser");
-      const result = await userService.createUser(createUserRequest);
-      console.log("Service result:", {
-        success: result.success,
-        error: result.error,
-        data: result.data ? "User data returned" : null,
-      });
-
-      if (!result.success) {
-        const status = (result.error === "Username already exists" || result.error === "Email already exists") ? 409 : 500;
-        console.log(
-          `Returning error response with status ${status}:`,
-          result.error,
-        );
-        return NextResponse.json({ error: result.error }, { status });
-      }
-
-      console.log("User created successfully, returning 201 Created");
-      return NextResponse.json(result.data, { status: 201 });
-    } catch (validationError) {
-      if (validationError instanceof z.ZodError) {
-        console.error("Zod validation error:", validationError.format());
-        return NextResponse.json(
-          { error: "Validation error", details: validationError.format() },
-          { status: 400 },
-        );
-      }
-      throw validationError; // Re-throw if it's not a ZodError
+    if (!result.success) {
+      return NextResponse.json(
+        { error: result.error || "Failed to create user" },
+        { status: 500 },
+      );
     }
+
+    return NextResponse.json(result.data, { status: 201 });
   } catch (error) {
-    console.error("Failed to create user:", error);
-
-    // Provide more detailed error message for debugging
-    const errorMessage =
-      error instanceof Error
-        ? `${error.name}: ${error.message}${error.stack ? "\n" + error.stack : ""}`
-        : "Unknown error";
-
-    console.error("Detailed error:", errorMessage);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Invalid request data", details: error.errors },
+        { status: 400 },
+      );
+    }
 
     return NextResponse.json(
-      {
-        error: "Failed to create user",
-        message: error instanceof Error ? error.message : "Unknown error",
-      },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }

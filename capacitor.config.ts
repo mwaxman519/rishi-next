@@ -1,16 +1,14 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.rishi.platform.dev',
-  appName: 'Rishi Platform Dev',
+  appId: 'com.rishi.platform.staging',
+  appName: 'Rishi Platform Staging',
   webDir: 'out',
   server: {
-    // Points to Replit development server
-    url: 'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev',
-    cleartext: true,
+    androidScheme: 'https',
     allowNavigation: [
-      'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev',
-      'https://*.spock.replit.dev'
+      'https://rishi-staging.replit.app',
+      'https://*.replit.app'
     ]
   },
   plugins: {
@@ -18,20 +16,20 @@ const config: CapacitorConfig = {
       launchAutoHide: false
     },
     SplashScreen: {
-      launchShowDuration: 1000,
-      backgroundColor: '#1a1a1a',
+      launchShowDuration: 1500,
+      backgroundColor: '#2563eb',
       showSpinner: true,
       spinnerColor: '#ffffff'
     },
     StatusBar: {
       style: 'dark',
-      backgroundColor: '#1a1a1a'
+      backgroundColor: '#2563eb'
     },
     Keyboard: {
       resizeOnFullScreen: true
     },
     LocalNotifications: {
-      iconColor: '#1a1a1a'
+      iconColor: '#2563eb'
     },
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert']
