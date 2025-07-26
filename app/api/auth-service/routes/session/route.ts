@@ -1,24 +1,59 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
 
-// VoltBuilder Build-Safe Route: auth-service/routes/session
-// This route is replaced during VoltBuilder builds to prevent database import failures
-// Original route functionality will work in the deployed mobile app
+export const dynamic = "force-dynamic";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    
+    if (!user) {
+      return NextResponse.json({ 
+        authenticated: false,
+        message: "No active session" 
+      }, { status: 401 });
+    }
 
-export async function GET(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "auth-service/routes/session",
-    timestamp: new Date().toISOString()
-  });
+    return NextResponse.json({
+      authenticated: true,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        fullName: user.fullName,
+        role: user.role,
+        active: user.active
+      }
+    });
+  } catch (error) {
+    console.error("Session check error:", error);
+    return NextResponse.json({ 
+      authenticated: false,
+      error: "Session validation failed" 
+    }, { status: 500 });
+  }
 }
 
-export async function POST(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app", 
-    route: "auth-service/routes/session",
-    timestamp: new Date().toISOString()
-  });
+export async function DELETE(request: NextRequest) {
+  try {
+    // Clear session/logout
+    const response = NextResponse.json({ 
+      success: true, 
+      message: "Session ended" 
+    });
+    
+    response.cookies.set('auth-token', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 0
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Session deletion error:", error);
+    return NextResponse.json({ 
+      error: "Failed to end session" 
+    }, { status: 500 });
+  }
 }
