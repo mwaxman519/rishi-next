@@ -42,29 +42,9 @@ export default function LoginPage() {
         if (result.success) {
           console.log('Login successful, redirecting to dashboard...');
           
-          // For Replit staging environments, use multiple redirect strategies
-          try {
-            // Strategy 1: Next.js router (preferred)
-            router.replace('/dashboard');
-            
-            // Strategy 2: Fallback with window.location for staging environments
-            setTimeout(() => {
-              console.log('Fallback redirect to dashboard using window.location...');
-              window.location.href = '/dashboard';
-            }, 500);
-            
-            // Strategy 3: Force page reload if in iframe context
-            setTimeout(() => {
-              if (window !== window.parent) {
-                console.log('Detected iframe context, forcing page reload...');
-                window.location.replace('/dashboard');
-              }
-            }, 1000);
-            
-          } catch (error) {
-            console.error('Router redirect failed, using window.location:', error);
-            window.location.href = '/dashboard';
-          }
+          // Force a hard redirect to dashboard
+          console.log('Redirecting to dashboard...');
+          window.location.href = '/dashboard';
           
           return; // Ensure we don't continue processing
         } else {
