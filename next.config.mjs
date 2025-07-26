@@ -65,24 +65,50 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // Optimize for mobile builds to prevent hangs
+    // Optimize for mobile builds to prevent hangs and reduce memory usage
     if (isMobileBuild || isVoltBuilderBuild) {
       config.optimization = {
         ...config.optimization,
         minimize: false, // Disable minification for mobile builds to prevent hangs
-        splitChunks: false // Disable chunk splitting for mobile builds
+        splitChunks: {
+          chunks: 'all',
+          minSize: 20000,
+          maxSize: 244000,
+          cacheGroups: {
+            default: {
+              minChunks: 1,
+              priority: -20,
+              reuseExistingChunk: true
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all'
+            }
+          }
+        }
       };
       
-      // Reduce memory usage and prevent hanging
+      // Aggressive memory optimization for VoltBuilder
       config.watchOptions = {
         ignored: ['**/node_modules', '**/.next'],
       };
       
-      // Limit memory usage
-      config.stats = 'errors-warnings';
+      // Limit memory usage and reduce compilation overhead
+      config.stats = 'errors-only';
       config.performance = {
-        hints: false
+        hints: false,
+        maxAssetSize: 1000000,
+        maxEntrypointSize: 1000000
       };
+      
+      // Memory-conscious module resolution
+      config.resolve.symlinks = false;
+      config.resolve.cacheWithContext = false;
+      
+      // Reduce concurrent processing
+      config.parallelism = 1;
     }
     
     // Simple path aliases only

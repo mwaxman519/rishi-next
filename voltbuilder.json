@@ -7,10 +7,10 @@
     "NODE_ENV": "production",
     "NEXT_PUBLIC_APP_ENV": "development",
     "VOLTBUILDER_BUILD": "true",
-    "NODE_OPTIONS": "--max-old-space-size=4096"
+    "NODE_OPTIONS": "--max-old-space-size=8192 --optimize-for-size"
   },
   "build": {
-    "command": "NODE_OPTIONS='--max-old-space-size=4096' npm run build",
+    "command": "NODE_OPTIONS='--max-old-space-size=8192 --optimize-for-size' npm run build",
     "copyFiles": [
       ".env.production",
       "capacitor.config.ts",

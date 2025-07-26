@@ -6,7 +6,7 @@ echo ""
 # Set VoltBuilder environment variables
 export NODE_ENV=production
 export VOLTBUILDER_BUILD=true
-export NODE_OPTIONS='--max-old-space-size=4096'
+export NODE_OPTIONS='--max-old-space-size=8192 --optimize-for-size'
 export DATABASE_URL="sqlite::memory:"
 
 echo "Environment Variables:"
