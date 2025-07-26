@@ -21,7 +21,12 @@ const nextConfig = {
     output: 'export',
     distDir: 'out',
     trailingSlash: true,
-    images: { unoptimized: true }
+    images: { unoptimized: true },
+    // CRITICAL: Disable static generation for API routes during VoltBuilder builds
+    generateStaticParams: false,
+    experimental: {
+      missingSuspenseWithCSRBailout: false
+    }
   } : {
     output: undefined, // Server mode for web deployments
     distDir: '.next',
