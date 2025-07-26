@@ -15,6 +15,7 @@ import {
   LoginCredentials,
   RegisterData,
 } from "./useAuthService";
+import { useReplitAuth } from "./useReplitAuth";
 
 // Define registration result interface
 interface RegisterResult {
@@ -76,6 +77,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Use our auth service client
   const authService = useAuthService();
+  
+  // Use Replit-specific auth for development
+  const replitAuth = useReplitAuth();
 
   // Load the user on initial mount
   useEffect(() => {
@@ -90,9 +94,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(true);
         setError(null);
 
+        // In development with Replit, use cookie-based auth to avoid fetch issues
+        if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
+          console.log('Using Replit-specific authentication');
+          setUser(replitAuth.user);
+          setIsLoading(replitAuth.isLoading);
+          return;
+        }
+
         console.log('Checking authentication via session endpoint...');
         
-        // Try session endpoint to check authentication
+        // Try session endpoint to check authentication for production
         const { user: sessionUser } = await authService.getSession();
         console.log('Session user received:', sessionUser);
         
@@ -106,7 +118,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
       } catch (sessionError) {
         console.log('Session endpoint failed:', sessionError);
-        setUser(null);
+        
+        // Fallback to Replit auth in development
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Falling back to Replit authentication');
+          setUser(replitAuth.user);
+        } else {
+          setUser(null);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -125,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       window.removeEventListener('auth-login-success', handleLoginSuccess);
     };
-  }, [authService]);
+  }, [authService, replitAuth]);
 
   // Permission checking function
   const hasPermission = (permission: string): boolean => {
