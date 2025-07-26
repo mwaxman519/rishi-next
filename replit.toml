@@ -8,6 +8,7 @@ hidden = ["node_modules", ".config", ".next"]
 [env]
 PORT = "5000"
 NODE_ENV = "production"
+NEXT_PUBLIC_APP_ENV = "staging"
 HOSTNAME = "0.0.0.0"
 NEXT_PUBLIC_PORT = "5000"
 NEXT_PUBLIC_HOSTNAME = "0.0.0.0"
