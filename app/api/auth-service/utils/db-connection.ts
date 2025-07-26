@@ -228,7 +228,38 @@ class DatabaseConnectionManager {
 }
 
 // Create singleton instance
-export const dbManager = new DatabaseConnectionManager();
+// Lazy-loaded singleton to prevent memory leaks during static builds
+let _dbManager: DatabaseConnectionManager | null = null;
+
+export function getDbManager(): DatabaseConnectionManager {
+  // Skip initialization during VoltBuilder builds
+  if (process.env.VOLTBUILDER_BUILD === 'true') {
+    return {
+      getConnection: () => ({ 
+        select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
+        insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
+        update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
+        delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
+      }),
+      isHealthy: () => false,
+      testConnection: () => Promise.resolve(false)
+    } as any;
+  }
+  
+  // Lazy initialize only when needed
+  if (!_dbManager) {
+    _dbManager = new DatabaseConnectionManager();
+  }
+  
+  return _dbManager;
+}
+
+// For backward compatibility
+export const dbManager = new Proxy({} as DatabaseConnectionManager, {
+  get(target, prop) {
+    return getDbManager()[prop as keyof DatabaseConnectionManager];
+  }
+});
 export const db = dbManager.getDatabase();
 
 // Export test function

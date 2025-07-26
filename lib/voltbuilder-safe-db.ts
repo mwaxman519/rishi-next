@@ -1,85 +1,72 @@
-// VoltBuilder Safe Database Module
-// Prevents database connections during VoltBuilder static generation
-// while maintaining full runtime functionality
+/**
+ * VoltBuilder-safe database module that prevents memory leaks during static builds
+ * This module provides lazy initialization to avoid creating connections during build time
+ */
 
-const isVoltBuilderBuild = process.env.NODE_ENV === 'production' && 
-                          !process.env.REPLIT_DOMAINS && 
-                          !process.env.VERCEL &&
-                          process.env.NEXT_PUBLIC_APP_ENV === 'development';
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "@shared/schema";
 
-if (isVoltBuilderBuild) {
-  console.log('[VoltBuilder Safe DB] Build-time stubs active - preventing database imports');
-  
-  // Build-safe database stubs for VoltBuilder
-  export const pool = {
-    connect: () => Promise.resolve({
-      query: () => Promise.resolve({ rows: [] }),
-      release: () => {}
-    }),
-    query: () => Promise.resolve({ rows: [] }),
-    end: () => Promise.resolve()
-  };
-  
-  export const db = {
-    select: () => ({
-      from: () => ({
-        where: () => [],
-        limit: () => [],
-        orderBy: () => []
-      })
-    }),
-    insert: () => ({
-      values: () => ({
-        returning: () => [],
-        onConflictDoUpdate: () => ({ returning: () => [] })
-      })
-    }),
-    update: () => ({
-      set: () => ({
-        where: () => ({ returning: () => [] })
-      })
-    }),
-    delete: () => ({
-      where: () => ({ returning: () => [] })
-    })
-  };
-  
-  export const sql = () => Promise.resolve({ rows: [] });
-  
-} else {
-  // Normal runtime database connections
-  try {
-    const { Pool, neonConfig } = require('@neondatabase/serverless');
-    const { drizzle } = require('drizzle-orm/neon-serverless');
-    const ws = require('ws');
-    const schema = require('../shared/schema');
+// Check if we're in VoltBuilder build environment
+const isVoltBuilderBuild = () => {
+  return process.env.VOLTBUILDER_BUILD === 'true' || 
+         (process.env.NODE_ENV === 'production' && 
+          !process.env.REPLIT_DOMAINS && 
+          !process.env.VERCEL &&
+          process.env.NEXT_PUBLIC_APP_ENV === 'development');
+};
 
-    neonConfig.webSocketConstructor = ws;
+// Lazy-loaded database instance
+let _db: any = null;
+let _sql: any = null;
 
-    if (!process.env.DATABASE_URL) {
-      throw new Error("DATABASE_URL must be set. Did you forget to provision a database?");
+/**
+ * Get database instance with lazy initialization
+ * Prevents memory leaks by not creating connections during build
+ */
+export function getDb() {
+  // Return stub during VoltBuilder builds
+  if (isVoltBuilderBuild()) {
+    return {
+      select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
+      insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
+      update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
+      delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
+    };
+  }
+
+  // Lazy initialize only when needed at runtime
+  if (!_db) {
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) {
+      throw new Error('DATABASE_URL must be set');
     }
 
-    export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    export const db = drizzle({ client: pool, schema });
-    export const sql = pool;
+    _sql = neon(databaseUrl, {
+      fullResults: true,
+      arrayMode: false,
+    });
     
-  } catch (error) {
-    console.log('[VoltBuilder Safe DB] Fallback to stubs due to import error during build');
-    
-    // Fallback stubs if imports fail during build
-    export const pool = {
-      connect: () => Promise.resolve({
-        query: () => Promise.resolve({ rows: [] }),
-        release: () => {}
-      })
-    };
-    
-    export const db = {
-      select: () => ({ from: () => ({ where: () => [] }) }),
-      insert: () => ({ values: () => ({ returning: () => [] }) })
-    };
-    
-    export const sql = () => Promise.resolve({ rows: [] });
+    _db = drizzle(_sql, { schema });
   }
+
+  return _db;
 }
+
+/**
+ * Get SQL instance for raw queries
+ */
+export function getSql() {
+  if (isVoltBuilderBuild()) {
+    return () => Promise.resolve({ rows: [] });
+  }
+
+  if (!_sql) {
+    getDb(); // This will initialize _sql
+  }
+  
+  return _sql;
+}
+
+// Export schema for type safety
+export { schema };
