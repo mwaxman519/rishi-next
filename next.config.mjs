@@ -1,12 +1,12 @@
 import path from 'path';
 
-// Environment detection - AUTOSCALE DEPLOYMENT OPTIMIZED
+// Environment detection - STANDARD APP BUILD (NO MOBILE CONTAMINATION)
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'development'
 const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
 const isVercel = process.env.VERCEL
-const isMobileBuild = process.env.MOBILE_BUILD === 'true'
-// CRITICAL: Only VoltBuilder when explicitly set AND mobile build - no auto-detection
-const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true' && isMobileBuild
+// CRITICAL: Mobile builds must be explicitly isolated - never contaminate standard builds
+const isMobileBuild = process.env.MOBILE_BUILD === 'true' && process.env.ISOLATE_MOBILE === 'true'
+const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true' && process.env.ISOLATE_MOBILE === 'true'
 
 console.log('[Next Config] Environment detection:', {
   NODE_ENV: process.env.NODE_ENV,
@@ -19,19 +19,12 @@ console.log('[Next Config] Environment detection:', {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // CRITICAL FOR AUTOSCALE: Never use static export for server deployments
-  // Only use static export for explicit mobile builds
-  ...((isMobileBuild || isVoltBuilderBuild) ? {
-    output: 'export',
-    distDir: 'out',
-    trailingSlash: true,
-    images: { unoptimized: true }
-  } : {
-    // Server mode for ALL non-mobile deployments (Autoscale + Vercel)
-    distDir: '.next',
-    trailingSlash: false
-    // No output: 'export' for server deployments
-  }),
+  // CRITICAL: Standard app NEVER uses static export - always server mode
+  // Mobile builds are completely isolated and use separate build process
+  // This prevents VoltBuilder from contaminating standard app functionality
+  distDir: '.next',
+  trailingSlash: false,
+  // Server mode for ALL standard deployments (Development, Autoscale, Vercel)
   
   // Basic configuration
   poweredByHeader: false,

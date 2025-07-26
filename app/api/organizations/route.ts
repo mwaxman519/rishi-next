@@ -1,40 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac"; 
+import { db } from "@/lib/db";
+import { organizations } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
-// VoltBuilder Build-Safe Route: organizations
-// This route is replaced during VoltBuilder builds to prevent database import failures
-// Original route functionality will work in the deployed mobile app
+export const dynamic = "force-dynamic";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-export async function GET(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "organizations",
-    timestamp: new Date().toISOString()
-  });
+    if (!(await checkPermission(request, "read:organizations"))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const orgData = await db.select().from(organizations);
+    return NextResponse.json(orgData);
+  } catch (error) {
+    console.error("Organizations GET error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
 
-export async function POST(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app", 
-    route: "organizations",
-    timestamp: new Date().toISOString()
-  });
-}
+export async function POST(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-export async function PUT(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "organizations", 
-    timestamp: new Date().toISOString()
-  });
-}
+    if (!(await checkPermission(request, "create:organizations"))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
-export async function DELETE(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "organizations",
-    timestamp: new Date().toISOString()
-  });
+    const body = await request.json();
+    const [newOrg] = await db.insert(organizations).values({
+      ...body,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }).returning();
+
+    return NextResponse.json(newOrg, { status: 201 });
+  } catch (error) {
+    console.error("Organizations POST error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
