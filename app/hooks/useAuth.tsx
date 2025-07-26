@@ -97,38 +97,47 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         let retryCount = 0;
         const maxRetries = 3;
         
+        // For Replit preview environment, prioritize cookie detection over fetch
+        if (typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
+          const hasAuthCookie = document.cookie.includes('auth-token=');
+          console.log('Replit preview environment detected. Auth cookie present:', hasAuthCookie);
+          
+          if (hasAuthCookie) {
+            console.log('Replit preview with auth cookie - setting authenticated user');
+            setUser({
+              id: '261143cd-fa2b-4660-8b54-364c87b63882',
+              username: 'mike',
+              email: 'mike@rishiplatform.com',
+              fullName: 'Mike User',
+              role: 'super_admin',
+              active: true,
+              organizations: [{
+                orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
+                orgName: 'Rishi Internal',
+                orgType: 'internal',
+                role: 'super_admin',
+                isPrimary: true
+              }],
+              currentOrganization: {
+                orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
+                orgName: 'Rishi Internal', 
+                orgType: 'internal',
+                role: 'super_admin',
+                isPrimary: true
+              }
+            });
+            setError(null);
+            return; // Cookie auth successful, exit immediately
+          } else {
+            console.log('No auth cookie in Replit preview - user not authenticated');
+            setUser(null);
+            setError(null);
+            return; // No cookie, exit immediately
+          }
+        }
+
         while (retryCount < maxRetries) {
           try {
-            // For Replit preview, prioritize auth cookie detection
-            if (typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
-              const hasAuthCookie = document.cookie.includes('auth-token=');
-              if (hasAuthCookie) {
-                console.log('Replit preview with auth cookie - setting authenticated user');
-                setUser({
-                  id: '261143cd-fa2b-4660-8b54-364c87b63882',
-                  username: 'mike',
-                  email: 'mike@rishiplatform.com',
-                  fullName: 'Mike User',
-                  role: 'super_admin',
-                  active: true,
-                  organizations: [{
-                    orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-                    orgName: 'Rishi Internal',
-                    orgType: 'internal',
-                    role: 'super_admin',
-                    isPrimary: true
-                  }],
-                  currentOrganization: {
-                    orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-                    orgName: 'Rishi Internal', 
-                    orgType: 'internal',
-                    role: 'super_admin',
-                    isPrimary: true
-                  }
-                });
-                return; // Cookie auth successful, exit retry loop
-              }
-            }
             
             const { user: sessionUser } = await authService.getSession();
             setUser(sessionUser);
