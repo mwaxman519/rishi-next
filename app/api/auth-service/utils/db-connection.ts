@@ -37,7 +37,7 @@ class DatabaseConnectionManager {
   private initializeConnection() {
     try {
       // Skip database initialization during VoltBuilder builds
-      if (process.env.VOLTBUIILDER_BUILD === 'true') {
+      if (process.env.VOLTBUILDER_BUILD === 'true') {
         console.log("[DB Manager] VoltBuilder build detected - skipping database initialization");
         this.sql = () => Promise.resolve({ rows: [] });
         this.db = { select: () => ({ from: () => ({ where: () => [] }) }) };
@@ -213,7 +213,7 @@ class DatabaseConnectionManager {
 
   async testConnection(): Promise<boolean> {
     // Skip connection test during VoltBuilder builds
-    if (process.env.NODE_ENV === 'production' && process.env.VOLTBUIILDER_BUILD === 'true') {
+    if (process.env.NODE_ENV === 'production' && process.env.VOLTBUILDER_BUILD === 'true') {
       console.log('[DB Manager] Skipping connection test for VoltBuilder build');
       return true;
     }

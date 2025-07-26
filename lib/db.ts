@@ -11,15 +11,16 @@ import * as schema from "../shared/schema";
 let _sql: ReturnType<typeof neon> | null = null;
 let _db: ReturnType<typeof drizzle> | null = null;
 
-function getDatabaseUrl() {
-  const isVoltBuilder = process.env.VOLTBUIILDER_BUILD === 'true';
+export function getDatabaseUrl() {
+  const isVoltBuilder = process.env.VOLTBUILDER_BUILD === 'true';
   if (process.env.NODE_ENV === 'production' && isVoltBuilder) {
-    console.warn('[DB] Using in-memory database for VoltBuilder build.');
-    return 'sqlite::memory:';
+    return 'sqlite::memory:'; // Fallback so builds don't crash
   }
+
   if (!process.env.DATABASE_URL) {
-    throw new Error('No DATABASE_URL configured for dev.');
+    throw new Error('No database configured.');
   }
+
   return process.env.DATABASE_URL;
 }
 
@@ -43,7 +44,7 @@ export const db = new Proxy({} as ReturnType<typeof drizzle>, {
 // Export a function to test the connection
 export async function testConnection() {
   // Skip connection test during VoltBuilder builds
-  if (process.env.NODE_ENV === 'production' && process.env.VOLTBUIILDER_BUILD === 'true') {
+  if (process.env.NODE_ENV === 'production' && process.env.VOLTBUILDER_BUILD === 'true') {
     console.log('[DB] Skipping connection test for VoltBuilder build');
     return true;
   }

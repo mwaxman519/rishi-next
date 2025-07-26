@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
   // Test database connection only if not in VoltBuilder build
   let dbStatus = true;
-  if (process.env.VOLTBUIILDER_BUILD !== 'true') {
+  if (process.env.VOLTBUILDER_BUILD !== 'true') {
     dbStatus = await testConnection();
   } else {
     console.log("[Auth Service] Skipping database test for VoltBuilder build");
