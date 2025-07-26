@@ -5,19 +5,25 @@ const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'development'
 const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
 const isVercel = process.env.VERCEL
 const isMobileBuild = process.env.MOBILE_BUILD === 'true'
+// VoltBuilder detection - forces static export even without MOBILE_BUILD flag
+const isVoltBuilderBuild = process.env.NODE_ENV === 'production' && 
+                          !isReplit && 
+                          !isVercel && 
+                          appEnv === 'development'
 
 console.log('[Next Config] Environment detection:', {
   NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_APP_ENV: appEnv,
   isReplit: !!isReplit,
   isVercel: !!isVercel, 
-  isMobileBuild
+  isMobileBuild,
+  isVoltBuilderBuild
 })
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Dynamic output configuration based on build type
-  ...(isMobileBuild ? {
+  ...((isMobileBuild || isVoltBuilderBuild) ? {
     output: 'export',
     distDir: 'out',
     trailingSlash: true,
@@ -64,7 +70,7 @@ const nextConfig = {
   
   webpack: (config, { isServer, dev }) => {
     // Optimize for mobile builds to prevent hangs
-    if (isMobileBuild) {
+    if (isMobileBuild || isVoltBuilderBuild) {
       config.optimization = {
         ...config.optimization,
         minimize: false, // Disable minification for mobile builds to prevent hangs
