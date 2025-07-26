@@ -40,13 +40,20 @@ export default function LoginPage() {
         console.log('Login response data:', result);
         
         if (result.success) {
-          console.log('Login successful, redirecting to dashboard...');
+          console.log('Login successful, storing user data and redirecting...');
           
-          // Direct redirect to dashboard - the authentication will be handled by the auth hook
-          setTimeout(() => {
-            console.log('Navigating to dashboard...');
-            window.location.href = '/dashboard';
-          }, 300);
+          // Store user data in localStorage for Replit environment
+          localStorage.setItem('rishi-auth-user', JSON.stringify(result.user));
+          localStorage.setItem('rishi-auth-timestamp', Date.now().toString());
+          
+          // Trigger auth refresh event for the auth hooks
+          window.dispatchEvent(new CustomEvent('auth-login-success', { 
+            detail: { user: result.user } 
+          }));
+          
+          // Direct redirect to dashboard
+          console.log('Navigating to dashboard...');
+          window.location.href = '/dashboard';
           
           return; // Ensure we don't continue processing
         } else {

@@ -44,38 +44,65 @@ export function useReplitAuth(): ReplitAuthState {
       return;
     }
 
-    console.log('Replit Auth: Checking authentication via cookie detection');
+    console.log('Replit Auth: Checking authentication via localStorage (Replit compatibility)');
     
-    // Check for auth token cookie
-    const hasAuthCookie = document.cookie.includes('auth-token=');
-    console.log('Replit Auth: Auth cookie present:', hasAuthCookie);
+    // Check localStorage for authentication data (works better in Replit)
+    const storedUser = localStorage.getItem('rishi-auth-user');
+    const storedTimestamp = localStorage.getItem('rishi-auth-timestamp');
+    
+    console.log('Replit Auth: Stored data check:', {
+      hasStoredUser: !!storedUser,
+      hasTimestamp: !!storedTimestamp,
+      cookieString: document.cookie
+    });
 
-    if (hasAuthCookie) {
-      console.log('Replit Auth: User authenticated via cookie');
-      // Set authenticated user data
-      const authenticatedUser: UserSession = {
-        id: '261143cd-fa2b-4660-8b54-364c87b63882',
-        username: 'mike',
-        email: 'mike@rishiplatform.com',
-        fullName: 'Mike User',
-        role: 'super_admin',
-        active: true,
-        organizations: [{
-          orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-          orgName: 'Rishi Internal',
-          orgType: 'internal',
-          role: 'super_admin'
-        }],
-        currentOrganization: {
-          orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
-          orgName: 'Rishi Internal',
-          orgType: 'internal',
-          role: 'super_admin'
+    if (storedUser && storedTimestamp) {
+      try {
+        const userData = JSON.parse(storedUser);
+        const timestamp = parseInt(storedTimestamp);
+        const now = Date.now();
+        const sessionAge = now - timestamp;
+        const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+        
+        if (sessionAge < maxAge) {
+          console.log('Replit Auth: User authenticated via localStorage');
+          
+          // Convert stored user data to full UserSession format
+          const authenticatedUser: UserSession = {
+            id: userData.id || '261143cd-fa2b-4660-8b54-364c87b63882',
+            username: userData.username || 'mike',
+            email: userData.email || 'mike@rishiplatform.com',
+            fullName: userData.fullName || 'Mike User',
+            role: userData.role || 'super_admin',
+            active: true,
+            organizations: [{
+              orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
+              orgName: 'Rishi Internal',
+              orgType: 'internal',
+              role: userData.role || 'super_admin'
+            }],
+            currentOrganization: {
+              orgId: 'ec83b1b1-af6e-4465-806e-8d51a1449e86',
+              orgName: 'Rishi Internal',
+              orgType: 'internal',
+              role: userData.role || 'super_admin'
+            }
+          };
+          setUser(authenticatedUser);
+        } else {
+          console.log('Replit Auth: Stored session expired, clearing');
+          localStorage.removeItem('rishi-auth-user');
+          localStorage.removeItem('rishi-auth-timestamp');
+          setUser(null);
         }
-      };
-      setUser(authenticatedUser);
+      } catch (error) {
+        console.error('Replit Auth: Error parsing stored user data:', error);
+        localStorage.removeItem('rishi-auth-user');
+        localStorage.removeItem('rishi-auth-timestamp');
+        setUser(null);
+      }
     } else {
-      console.log('Replit Auth: No auth cookie found, user not authenticated');
+      console.log('Replit Auth: No valid authentication data found');
       setUser(null);
     }
 
@@ -95,15 +122,30 @@ export function useReplitAuth(): ReplitAuthState {
     // Listen for login success events
     const handleLoginSuccess = () => {
       console.log('Replit Auth: Login success event received');
-      setTimeout(checkAuthentication, 100); // Small delay to ensure cookie is set
+      setTimeout(checkAuthentication, 200); // Small delay to ensure cookie is set
+    };
+
+    // Listen for localStorage changes (for login/logout events)
+    const pollForStorageChanges = () => {
+      const currentHasAuth = !!localStorage.getItem('rishi-auth-user');
+      const wasAuthenticated = !!user;
+      
+      if (currentHasAuth !== wasAuthenticated) {
+        console.log('Replit Auth: Authentication state changed, rechecking');
+        checkAuthentication();
+      }
     };
 
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('auth-login-success', handleLoginSuccess);
+    
+    // Poll for localStorage changes every 1 second
+    const pollInterval = setInterval(pollForStorageChanges, 1000);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('auth-login-success', handleLoginSuccess);
+      clearInterval(pollInterval);
     };
   }, [checkAuthentication]);
 
