@@ -1,30 +1,45 @@
 {
-  "version": "1.0",
-  "appId": "com.rishi.next",
-  "name": "Rishi NEXT",
-  "platforms": ["android","ios"],
-  "env": {
-    "NODE_ENV": "production",
-    "NEXT_PUBLIC_APP_ENV": "development",
-    "VOLTBUILDER_BUILD": "true",
-    "NODE_OPTIONS": "--max-old-space-size=8192 --optimize-for-size"
+  "id": "com.rishi.platform.staging",
+  "displayName": "Rishi Platform Staging",
+  "version": "1.0.0",
+  "buildNumber": "1",
+  "description": "Rishi Platform mobile app - staging environment",
+  "author": "Rishi Platform Team",
+  "website": "https://rishi-staging.replit.app",
+  "repository": "",
+  "keywords": ["capacitor", "mobile", "hybrid"],
+  "preferences": {
+    "webSecurity": false,
+    "allowInlineMediaPlayback": true,
+    "mediaPlaybackRequiresUserAction": false,
+    "allowsInlineMediaPlayback": true,
+    "keyboardDisplayRequiresUserAction": false
   },
-  "build": {
-    "command": "NODE_OPTIONS='--max-old-space-size=8192 --optimize-for-size' npm run build",
-    "copyFiles": [
-      ".env.production",
-      "capacitor.config.ts",
-      "next.config.mjs",
-      "package.json",
-      "tsconfig.json",
-      "public/**/*",
-      "android/**/*",
-      "ios/**/*",
-      ".next/**/*"
+  "android": {
+    "minSdkVersion": 21,
+    "targetSdkVersion": 34,
+    "compileSdkVersion": 34,
+    "buildToolsVersion": "34.0.0",
+    "permissions": [
+      "INTERNET",
+      "ACCESS_NETWORK_STATE",
+      "ACCESS_WIFI_STATE",
+      "WRITE_EXTERNAL_STORAGE",
+      "READ_EXTERNAL_STORAGE",
+      "CAMERA",
+      "ACCESS_FINE_LOCATION",
+      "ACCESS_COARSE_LOCATION"
     ]
   },
-  "artifacts": {
-    "android": "android/app/build/outputs/apk/debug/app-debug.apk",
-    "ios": "ios/App/App.xcarchive"
+  "ios": {
+    "minVersion": "13.0",
+    "targetSdkVersion": "17.0"
+  },
+  "scripts": {
+    "build": "NODE_OPTIONS='--max-old-space-size=8192 --optimize-for-size' next build"
+  },
+  "voltbuilder": {
+    "memory": "8GB",
+    "buildTimeout": "30m"
   }
 }

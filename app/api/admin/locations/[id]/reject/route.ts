@@ -1,7 +1,11 @@
-import { generateStaticParams } from "./generateStaticParams";
-
 export const dynamic = "force-static";
 export const revalidate = false;
+
+// Required for static export with dynamic routes
+export async function generateStaticParams() {
+  // Skip static generation for dynamic API routes
+  return [];
+}
 
 
 
