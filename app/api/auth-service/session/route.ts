@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
         email: user.email,
         fullName: user.fullName,
         role: user.role,
-        active: user.active
+        active: user.isActive
       }
     });
   } catch (error) {
@@ -61,20 +61,4 @@ export async function DELETE(request: NextRequest) {
       error: "Failed to end session" 
     }, { status: 500 });
   }
-}
-
-export async function PUT(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "auth-service/session", 
-    timestamp: new Date().toISOString()
-  });
-}
-
-export async function DELETE(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "auth-service/session",
-    timestamp: new Date().toISOString()
-  });
 }
