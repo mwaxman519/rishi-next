@@ -118,7 +118,7 @@ interface ResponsiveLayoutProps {
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // These hooks are safe to call in all environments
-  const { user, loading } = useAuth();
+  const { user, isLoading: loading } = useAuth();
   const pathname = usePathname();
   
   // State to track if we're hydrated to avoid hydration mismatch
