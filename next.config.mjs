@@ -1,11 +1,11 @@
 import path from 'path';
 
-// Environment detection - Industry Standard Multi-Environment Support
+// Environment detection - AUTOSCALE DEPLOYMENT OPTIMIZED
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV || 'development'
 const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
 const isVercel = process.env.VERCEL
 const isMobileBuild = process.env.MOBILE_BUILD === 'true'
-// VoltBuilder detection - only when explicitly set
+// CRITICAL: Only VoltBuilder when explicitly set - no auto-detection
 const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true'
 
 console.log('[Next Config] Environment detection:', {
@@ -19,29 +19,25 @@ console.log('[Next Config] Environment detection:', {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Dynamic output configuration based on build type
+  // CRITICAL FOR AUTOSCALE: Never use static export for server deployments
+  // Only use static export for explicit mobile builds
   ...((isMobileBuild || isVoltBuilderBuild) ? {
-    output: 'export', // Only for mobile builds
+    output: 'export',
     distDir: 'out',
     trailingSlash: true,
     images: { unoptimized: true }
   } : {
-    // Server mode for web deployments (no static export for Autoscale)
-    output: undefined,
+    // Server mode for ALL non-mobile deployments (Autoscale + Vercel)
     distDir: '.next',
     trailingSlash: false
+    // No output: 'export' for server deployments
   }),
   
   // Basic configuration
   poweredByHeader: false,
   reactStrictMode: true,
-  compress: true, // Enable compression for production
-  generateEtags: true, // Generate ETags for caching
-  
-  // Development server configuration for Replit
-  devIndicators: {
-    position: 'bottom-right',
-  },
+  compress: true,
+  generateEtags: true,
   
   eslint: {
     ignoreDuringBuilds: true,
@@ -57,78 +53,11 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   
-  // Clean configuration for Next.js 15.4.2
-  
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // Optimize for mobile builds to prevent hangs and reduce memory usage
-    if (isMobileBuild || isVoltBuilderBuild) {
-      config.optimization = {
-        ...config.optimization,
-        minimize: false, // Disable minification for mobile builds to prevent hangs
-        splitChunks: {
-          chunks: 'all',
-          minSize: 20000,
-          maxSize: 244000,
-          cacheGroups: {
-            default: {
-              minChunks: 1,
-              priority: -20,
-              reuseExistingChunk: true
-            },
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              priority: -10,
-              chunks: 'all'
-            }
-          }
-        }
-      };
-      
-      // Aggressive memory optimization for VoltBuilder
-      config.watchOptions = {
-        ignored: ['**/node_modules', '**/.next'],
-      };
-      
-      // Limit memory usage and reduce compilation overhead
-      config.stats = 'errors-only';
-      config.performance = {
-        hints: false,
-        maxAssetSize: 1000000,
-        maxEntrypointSize: 1000000
-      };
-      
-      // Memory-conscious module resolution
-      config.resolve.symlinks = false;
-      config.resolve.cacheWithContext = false;
-      
-      // Reduce concurrent processing
-      config.parallelism = 1;
-    }
-    
-    // Simple path aliases only
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(process.cwd(), 'app'),
-      '@/lib': path.resolve(process.cwd(), 'lib'),
-      '@/components': path.resolve(process.cwd(), 'components'),
-      '@/components/ui': path.resolve(process.cwd(), 'components/ui'),
-      '@/shared': path.resolve(process.cwd(), 'shared'),
-      '@shared': path.resolve(process.cwd(), 'shared'),
-      '@db': path.resolve(process.cwd(), 'db.ts'),
-    };
-    
-    config.resolve.fallback = {
-      fs: false,
-      net: false,
-      tls: false,
-      crypto: false,
-    };
-    
     return config;
-  },
+  }
 };
 
 export default nextConfig;

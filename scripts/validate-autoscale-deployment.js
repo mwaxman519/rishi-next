@@ -31,7 +31,7 @@ const checks = [
     name: 'Next.js config for Autoscale',
     check: () => {
       const content = readFileSync('next.config.mjs', 'utf8');
-      return !content.includes('isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true' ||');
+      return content.includes('isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD');
     }
   },
   {

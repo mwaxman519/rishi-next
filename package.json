@@ -30,7 +30,8 @@
     "build:vercel": "next build",
     "export:vercel": "next export",
     "deploy:vercel": "next build && next export",
-    "build:autoscale": "next build"
+    "build:autoscale": "NODE_ENV=production NEXT_PUBLIC_APP_ENV=staging next build",
+    "build:mobile": "MOBILE_BUILD=true next build"
   },
   "resolutions": {
     "@babel/traverse": "^7.23.2",

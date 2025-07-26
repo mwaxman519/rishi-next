@@ -24,5 +24,4 @@ export async function getDatabaseStatus() {
   };
 }
 
-// Export for auth service
-export { testConnection };
+
