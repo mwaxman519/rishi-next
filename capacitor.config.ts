@@ -6,27 +6,33 @@ const config: CapacitorConfig = {
   webDir: 'out',
   server: {
     androidScheme: 'https',
-    iosScheme: 'https',
-    url: 'https://rishi-staging.replit.app'
-  },
-  android: {
-    buildOptions: {
-      keystorePath: undefined,
-      keystoreAlias: undefined,
-      releaseType: 'APK'
-    }
-  },
-  ios: {
-    scheme: 'Rishi Platform Staging'
+    allowNavigation: [
+      'https://rishi-staging.replit.app',
+      'https://*.replit.app'
+    ]
   },
   plugins: {
+    App: {
+      launchAutoHide: false
+    },
     SplashScreen: {
-      launchShowDuration: 2000,
-      backgroundColor: '#1a365d',
-      showSpinner: false
+      launchShowDuration: 1500,
+      backgroundColor: '#2563eb',
+      showSpinner: true,
+      spinnerColor: '#ffffff'
     },
     StatusBar: {
-      style: 'dark'
+      style: 'dark',
+      backgroundColor: '#2563eb'
+    },
+    Keyboard: {
+      resizeOnFullScreen: true
+    },
+    LocalNotifications: {
+      iconColor: '#2563eb'
+    },
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert']
     }
   }
 };

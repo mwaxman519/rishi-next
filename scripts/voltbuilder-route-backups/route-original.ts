@@ -1,64 +1,74 @@
-import { NextResponse, NextRequest } from "next/server";
-import { getServerSession } from "next-auth";
-import { EventBusService } from "../../../services/event-bus-service";
-import { authOptions } from "@/lib/auth-options";
-import * as userService from "../../services/users/userService";
-import { insertUserSchema } from "@shared/schema";
-import { z } from "zod";
+import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
+import { db } from "@/lib/db";
+import { users } from "@shared/schema";
+import bcrypt from "bcryptjs";
 
-/**
- * GET /api/users - Get all users
- */
-export async function GET(): Promise<NextResponse> {
-  const result = await userService.getAllUsers();
+export const dynamic = "force-dynamic";
 
-  if (!result.success) {
-    return NextResponse.json(
-      { error: result.error || "Failed to fetch users" },
-      { status: 500 },
-    );
+export async function GET(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (!(await checkPermission(request, "read:users"))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const userData = await db.select({
+      id: users.id,
+      username: users.username,
+      email: users.email,
+      fullName: users.fullName,
+      role: users.role,
+      active: users.active,
+      createdAt: users.createdAt,
+      updatedAt: users.updatedAt
+    }).from(users);
+
+    return NextResponse.json(userData);
+  } catch (error) {
+    console.error("Users GET error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  return NextResponse.json(result.data);
 }
 
-/**
- * POST /api/users - Create a new user
- */
-export async function POST(request: Request): Promise<NextResponse> {
+export async function POST(request: NextRequest) {
   try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (!(await checkPermission(request, "create:users"))) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const body = await request.json();
-    const validatedData = insertUserSchema.parse(body);
+    const hashedPassword = await bcrypt.hash(body.password, 10);
 
-    const createUserRequest = {
-      username: validatedData.username,
-      password: validatedData.password,
-      fullName: validatedData.fullName || null,
-      email: validatedData.email || null,
-      role: validatedData.role || "brand_agent",
-    };
+    const [newUser] = await db.insert(users).values({
+      ...body,
+      password: hashedPassword,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }).returning({
+      id: users.id,
+      username: users.username,
+      email: users.email,
+      fullName: users.fullName,
+      role: users.role,
+      active: users.active,
+      createdAt: users.createdAt,
+      updatedAt: users.updatedAt
+    });
 
-    const result = await userService.createUser(createUserRequest);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: result.error || "Failed to create user" },
-        { status: 500 },
-      );
-    }
-
-    return NextResponse.json(result.data, { status: 201 });
+    return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { error: "Invalid request data", details: error.errors },
-        { status: 400 },
-      );
-    }
-
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 },
-    );
+    console.error("Users POST error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -1,0 +1,41 @@
+{
+  "name": "Rishi Platform - Workforce Management",
+  "short_name": "Rishi Platform",
+  "description": "Premium workforce management platform for field operations",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1a1a1a",
+  "background_color": "#ffffff",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Schedule",
+      "short_name": "Schedule",
+      "description": "View and manage work schedule",
+      "url": "/schedule",
+      "icons": [{"src": "/favicon.ico", "sizes": "32x32"}]
+    },
+    {
+      "name": "Bookings",
+      "short_name": "Bookings",
+      "description": "Manage client bookings",
+      "url": "/bookings",
+      "icons": [{"src": "/favicon.ico", "sizes": "32x32"}]
+    },
+    {
+      "name": "Staff",
+      "short_name": "Staff",
+      "description": "Staff management",
+      "url": "/staff",
+      "icons": [{"src": "/favicon.ico", "sizes": "32x32"}]
+    }
+  ]
+}
