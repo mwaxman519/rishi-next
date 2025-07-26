@@ -1,12 +1,30 @@
 {
-  "appId": "com.rishi.platform",
-  "appName": "Rishi Platform",
-  "framework": "capacitor",
-  "verbose": true,
-  "prebuild": "npm run build",
+  "version": "1.0",
+  "appId": "com.rishi.next",
+  "name": "Rishi NEXT",
+  "platforms": ["android","ios"],
+  "env": {
+    "NODE_ENV": "production",
+    "NEXT_PUBLIC_APP_ENV": "development",
+    "VOLTBUILDER_BUILD": "true",
+    "NODE_OPTIONS": "--max-old-space-size=4096"
+  },
   "build": {
-    "scripts": {
-      "build": "cp next.config.voltbuilder.mjs next.config.mjs && cp package.voltbuilder.json package.json && npm install && next build"
-    }
+    "command": "NODE_OPTIONS='--max-old-space-size=4096' npm run build",
+    "copyFiles": [
+      ".env.production",
+      "capacitor.config.ts",
+      "next.config.mjs",
+      "package.json",
+      "tsconfig.json",
+      "public/**/*",
+      "android/**/*",
+      "ios/**/*",
+      ".next/**/*"
+    ]
+  },
+  "artifacts": {
+    "android": "android/app/build/outputs/apk/debug/app-debug.apk",
+    "ios": "ios/App/App.xcarchive"
   }
 }
