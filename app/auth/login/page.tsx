@@ -42,9 +42,14 @@ export default function LoginPage() {
         if (result.success) {
           console.log('Login successful, redirecting to dashboard...');
           
-          // Force a hard redirect to dashboard
-          console.log('Redirecting to dashboard...');
-          window.location.href = '/dashboard';
+          // Trigger auth state refresh and redirect
+          console.log('Login successful, triggering auth refresh...');
+          window.dispatchEvent(new CustomEvent('auth-login-success'));
+          
+          setTimeout(() => {
+            console.log('Redirecting to dashboard...');
+            window.location.href = '/dashboard';
+          }, 200);
           
           return; // Ensure we don't continue processing
         } else {
