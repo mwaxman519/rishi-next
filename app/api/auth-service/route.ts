@@ -20,8 +20,13 @@ import { testConnection } from "./db";
 export async function GET(request: NextRequest) {
   console.log("[Auth Service] Service information request");
 
-  // Test database connection
-  const dbStatus = await testConnection();
+  // Test database connection only if not in VoltBuilder build
+  let dbStatus = true;
+  if (process.env.VOLTBUIILDER_BUILD !== 'true') {
+    dbStatus = await testConnection();
+  } else {
+    console.log("[Auth Service] Skipping database test for VoltBuilder build");
+  }
 
   return successResponse({
     service: AUTH_CONFIG.SERVICE_NAME,

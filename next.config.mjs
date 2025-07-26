@@ -6,10 +6,11 @@ const isReplit = process.env.REPLIT || process.env.REPLIT_DOMAINS
 const isVercel = process.env.VERCEL
 const isMobileBuild = process.env.MOBILE_BUILD === 'true'
 // VoltBuilder detection - forces static export even without MOBILE_BUILD flag
-const isVoltBuilderBuild = process.env.NODE_ENV === 'production' && 
-                          !isReplit && 
-                          !isVercel && 
-                          appEnv === 'development'
+const isVoltBuilderBuild = process.env.VOLTBUIILDER_BUILD === 'true' ||
+                          (process.env.NODE_ENV === 'production' && 
+                           !isReplit && 
+                           !isVercel && 
+                           appEnv === 'development')
 
 console.log('[Next Config] Environment detection:', {
   NODE_ENV: process.env.NODE_ENV,
