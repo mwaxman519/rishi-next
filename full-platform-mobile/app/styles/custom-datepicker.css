@@ -1,0 +1,179 @@
+/**
+ * Custom react-datepicker styles for Rishi Workforce Management Platform
+ * 
+ * These styles override the default react-datepicker styles to provide:
+ * 1. Integration with our application's design system and theme
+ * 2. Support for both light and dark mode via CSS variables
+ * 3. Consistent sizing and spacing across the calendar components
+ * 4. Enhanced interactive elements with modern hover/focus states
+ * 5. Proper alignment between header, day names, and calendar grid
+ * 
+ * Note: The !important flags are necessary to override the inline styles 
+ * that react-datepicker applies to its elements.
+ */
+/* ----------------------------------------
+ * Calendar Container Styling
+ * - Sets overall dimensions and appearance
+ * - Integrates with app's design tokens
+ * ---------------------------------------- */
+.react-datepicker {
+  font-family: inherit !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 0.5rem !important;
+  background-color: hsl(var(--background)) !important;
+  color: hsl(var(--foreground)) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  width: 100% !important;
+  max-width: 280px !important;
+}
+
+.react-datepicker__month-container {
+  float: none !important;
+  width: 100% !important;
+}
+
+.react-datepicker__header {
+  background-color: hsl(var(--background)) !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  padding-top: 0.75rem !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.react-datepicker__month {
+  margin: 0 !important;
+  padding: 0.5rem !important;
+  width: 100% !important;
+}
+
+.react-datepicker__day-names {
+  display: flex !important;
+  justify-content: space-around !important;
+  margin-bottom: 0.5rem !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.react-datepicker__day-name {
+  color: hsl(var(--muted-foreground)) !important;
+  margin: 0 !important;
+  padding: 0.3rem !important;
+  width: 36px !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+  font-size: 0.8rem !important;
+}
+
+.react-datepicker__week {
+  display: flex !important;
+  justify-content: space-around !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+/* ----------------------------------------
+ * Calendar Day Styling
+ * - Sets dimensions and interactive states
+ * - Provides consistent day cell appearance
+ * - Adds micro-interactions for better UX
+ * ---------------------------------------- */
+.react-datepicker__day {
+  margin: 0 !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  border-radius: 0.25rem !important;
+  color: hsl(var(--foreground)) !important;
+  transition: all 0.15s ease-in-out !important;
+  position: relative !important;
+  z-index: 1 !important;
+  cursor: pointer !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: hsl(var(--accent)) !important;
+  color: hsl(var(--accent-foreground)) !important;
+  transform: scale(1.05) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  z-index: 2 !important;
+}
+
+.react-datepicker__day--selected {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  font-weight: 600 !important;
+}
+
+.react-datepicker__day--today {
+  font-weight: 500 !important;
+  border: 1px solid hsl(var(--accent)) !important;
+}
+
+.react-datepicker__day--outside-month {
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 0.5 !important;
+}
+
+/* Fix triangle design */
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+/* ----------------------------------------
+ * Dark Mode Support
+ * - Uses .dark class selector to apply theme
+ * - Enhances contrast for better readability
+ * - Maintains consistent interactive states
+ * - Follows application's dark mode design
+ * ---------------------------------------- */
+.dark .react-datepicker {
+  background-color: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+.dark .react-datepicker__header {
+  background-color: hsl(var(--background)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+.dark .react-datepicker__day {
+  color: white !important; /* Ensure day numbers are white and clear */
+}
+
+.dark .react-datepicker__day-name {
+  color: rgba(255, 255, 255, 0.8) !important; /* Brighter day names */
+}
+
+.dark .react-datepicker__day--outside-month {
+  color: rgba(
+    255,
+    255,
+    255,
+    0.45
+  ) !important; /* More visible but still dimmed */
+}
+
+.dark .react-datepicker__current-month {
+  color: white !important; /* Make month/year header clear */
+}
+
+/* Improve contrast for selected state in dark mode */
+.dark .react-datepicker__day--selected {
+  background-color: hsl(var(--primary)) !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+/* Improve hover state visibility in dark mode */
+.dark .react-datepicker__day:hover {
+  background-color: hsl(var(--primary)) !important;
+  opacity: 0.8 !important;
+  color: white !important;
+}
