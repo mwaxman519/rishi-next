@@ -18,6 +18,16 @@ const config: CapacitorConfig = {
   },
   ios: {
     scheme: 'Rishi Platform Staging'
+  },
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 2000,
+      backgroundColor: '#1a365d',
+      showSpinner: false
+    },
+    StatusBar: {
+      style: 'dark'
+    }
   }
 };
 
