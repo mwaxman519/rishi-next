@@ -1,172 +1,219 @@
-# 📱 Mobile App Deployment Guide - VoltBuilder to Production
+# Rishi Platform Mobile App Deployment Guide
 
-## 🎯 Current Status
-✅ **BUILD FAILURES FIXED**: Database imports (@db) and service dependencies resolved  
-✅ **Critical Files Added**: db.ts, services/, and availability services included  
-✅ **Fresh Package Ready**: `rishi-platform-2025-07-21.zip` with all build dependencies  
-✅ **Import Resolution Fixed**: All @db and service imports now properly resolve  
-✅ **Ready for Upload**: Package validated with complete build requirements  
+## Overview
 
----
+This guide covers the complete mobile deployment strategy for the Rishi Platform using Capacitor wrapper and VoltBuilder cloud compilation service.
 
-## 🚀 Phase 1: VoltBuilder Upload & Build
+## Architecture
 
-### Step 1: VoltBuilder Setup (5 minutes)
-1. **Go to VoltBuilder**: https://voltbuilder.com/
-2. **Sign Up**: 15-day free trial (no credit card required)
-3. **Choose Plan**: Starter ($15/month) for unlimited builds
+### Deployment Environments
 
-### Step 2: Upload Your Project
-1. **Download the package**: `rishi-platform-2025-07-21.zip` (from your Replit)
-2. **Login to VoltBuilder dashboard**
-3. **Click "New Project"**
-4. **Upload ZIP file**: Drag & drop the zip file
-5. **Project Name**: "Rishi Platform"
+1. **Development** - Local Replit workspace (web only)
+   - Database: Replit development database
+   - Purpose: Local development and testing
 
-### Step 3: Configure Build Settings
-**Android Build:**
-- ✅ Platform: Android
-- ✅ Build Type: Release APK
-- ✅ Signing: Let VoltBuilder handle (or upload your keystore)
-- ✅ Target SDK: 34 (latest)
+2. **Staging Mobile** - VoltBuilder + Replit Autoscale backend
+   - Database: Neon staging database
+   - Backend: https://rishi-staging.replit.app
+   - App ID: com.rishiplatform.staging
 
-**iOS Build (requires Apple Developer account):**
-- ✅ Platform: iOS  
-- ✅ Build Type: AdHoc/Enterprise
-- ✅ Certificate: Upload or let VoltBuilder generate
-- ✅ Provisioning Profile: Upload development profile
+3. **Production Mobile** - VoltBuilder + Vercel backend
+   - Database: Neon production database
+   - Backend: https://rishi-platform.vercel.app
+   - App ID: com.rishiplatform.app
 
-### Step 4: Build Process
-1. **Click "Build"** (takes 5-10 minutes)
-2. **Monitor build logs** for any errors
-3. **Download APK/IPA** when complete
+### Environment Separation
 
----
+- **CRITICAL**: Development database is never used for mobile builds
+- Each environment has its own Neon PostgreSQL database
+- Complete isolation between environments
 
-## 📦 Phase 2: Firebase App Distribution Setup
+## Prerequisites
 
-### Step 1: Firebase Console Setup
-1. **Go to Firebase Console**: https://console.firebase.google.com/
-2. **Create Project**: "Rishi Platform Mobile"
-3. **Enable App Distribution**: Left sidebar > Release & Monitor > App Distribution
+### Required Environment Variables
 
-### Step 2: Upload Built Apps
-**Android APK:**
-1. **Drag APK** into Firebase App Distribution
-2. **Add Release Notes**: "Initial Rishi Platform mobile release"  
-3. **Add Testers**: Enter email addresses
-4. **Distribute**: Testers receive email with download link
+#### For Staging Mobile Builds:
+```bash
+export STAGING_DATABASE_URL="postgresql://neondb_owner:password@ep-staging.neon.tech/rishiapp_staging?sslmode=require"
+export NEXTAUTH_SECRET="staging-auth-secret-key"
+```
 
-**iOS IPA:**
-1. **Upload IPA** to Firebase App Distribution  
-2. **Add Release Notes**: "iOS beta release"
-3. **Add Testers**: Must be registered devices for AdHoc
-4. **Distribute**: Testers install via TestFlight-style process
+#### For Production Mobile Builds:
+```bash
+export PRODUCTION_DATABASE_URL="postgresql://neondb_owner:password@ep-production.neon.tech/rishiapp_prod?sslmode=require"
+export NEXTAUTH_SECRET="production-auth-secret-key"
+```
 
----
+### VoltBuilder Account
+- Sign up at https://voltbuilder.com/
+- Cost: $15/month subscription
+- Supports both Android and iOS compilation
 
-## 📱 Phase 3: User Installation Instructions
+## Building Mobile Apps
 
-### Android Users:
-1. **Enable Unknown Sources**: Settings > Security > Unknown Sources
-2. **Click Download Link**: From Firebase email
-3. **Install APK**: Follow prompts
-4. **Launch App**: "Rishi Platform" appears in app drawer
+### 1. Staging Mobile Build
 
-### iOS Users:
-1. **Open Email**: From Firebase App Distribution
-2. **Install Profile**: Trust the distribution profile
-3. **Install App**: Follow installation prompts  
-4. **Trust Developer**: Settings > General > VPN & Device Management
+```bash
+# Set staging environment variables
+export STAGING_DATABASE_URL="your-staging-database-url"
+export NEXTAUTH_SECRET="your-staging-secret"
 
----
+# Run staging build script
+chmod +x scripts/build-mobile-staging.sh
+./scripts/build-mobile-staging.sh
+```
 
-## 🔧 App Configuration
+This creates: `rishi-mobile-staging-YYYY-MM-DD-HHMM.zip`
 
-### Production API Endpoint
-Your app will connect to:
-- **Production**: Your deployed Vercel app
-- **Fallback**: Replit Autoscale deployment
-- **Offline Mode**: Full offline functionality enabled
+### 2. Production Mobile Build
 
-### Push Notifications (Optional)
-- **Firebase Cloud Messaging**: Already configured in `capacitor.config.ts`
-- **Setup**: Add FCM server key to your backend
-- **Testing**: Send test notifications via Firebase console
+```bash
+# Set production environment variables
+export PRODUCTION_DATABASE_URL="your-production-database-url"
+export NEXTAUTH_SECRET="your-production-secret"
 
----
+# Run production build script
+chmod +x scripts/build-mobile-production.sh
+./scripts/build-mobile-production.sh
+```
 
-## 📊 Monitoring & Updates
+This creates: `rishi-mobile-production-YYYY-MM-DD-HHMM.zip`
 
-### Analytics Tracking
-- **User Sessions**: Track app usage patterns
-- **Error Reporting**: Monitor crashes and issues
-- **Performance**: Monitor app startup and response times
+## VoltBuilder Deployment
 
-### Update Process
-1. **Code Changes**: Make updates in Replit
-2. **Build**: `npm run build` + create new VoltBuilder package
-3. **Upload**: New ZIP to VoltBuilder
-4. **Build**: Generate new APK/IPA
-5. **Distribute**: Upload to Firebase for automatic updates
+### 1. Upload Package
+1. Go to https://voltbuilder.com/
+2. Upload the generated zip file
+3. Select target platforms (Android/iOS)
 
----
+### 2. Configuration
+- **Android Package Name**: 
+  - Staging: `com.rishiplatform.staging`
+  - Production: `com.rishiplatform.app`
+- **iOS Bundle ID**: Same as Android package name
+- **App Name**:
+  - Staging: "Rishi Platform (Staging)"
+  - Production: "Rishi Platform"
 
-## 💰 Cost Breakdown
+### 3. Compilation
+- VoltBuilder compiles to native APK (Android) and IPA (iOS)
+- Download compiled app files
+- Test on devices
 
-### Required Services:
-- **VoltBuilder**: $15/month (unlimited builds)
-- **Firebase App Distribution**: FREE (up to 10,000 testers)
-- **Apple Developer** (iOS only): $99/year
+## App Distribution
 
-### Total Monthly Cost:
-- **Android Only**: $15/month
-- **Android + iOS**: $15/month + $99/year ($23.25/month average)
+### Development/Testing
+- **Firebase App Distribution**: Direct installation for team testing
+- **TestFlight** (iOS): Internal testing distribution
+- **Internal Distribution**: Direct APK installation for Android
 
----
+### Production Release
+- **Google Play Store**: Android production release
+- **Apple App Store**: iOS production release
+- Requires developer accounts ($25/year Google, $99/year Apple)
 
-## 🎯 Next Steps
+## App Features
 
-### Immediate (Today):
-1. [ ] Sign up for VoltBuilder (15-day free trial)
-2. [ ] Upload `rishi-platform-2025-07-21.zip`
-3. [ ] Build Android APK first (no certificates needed)
-4. [ ] Test APK installation on Android device
+### Native Capabilities
+- **Offline Support**: Full app functionality without internet
+- **Push Notifications**: Real-time alerts and updates
+- **Device Integration**: Camera, GPS, contacts access
+- **Local Storage**: Cached data for offline use
+- **Background Sync**: Data synchronization when online
 
-### This Week:
-1. [ ] Set up Firebase App Distribution
-2. [ ] Distribute to 5-10 test users
-3. [ ] Collect feedback and fix critical issues
-4. [ ] Build iOS version (need Apple Developer account)
+### Security Features
+- **Secure Storage**: Encrypted local data storage
+- **Certificate Pinning**: API communication security
+- **Biometric Authentication**: Fingerprint/face recognition
+- **App Transport Security**: Enforced HTTPS connections
 
-### Long Term:
-1. [ ] Scale to full user base via Firebase
-2. [ ] Set up automated build pipeline
-3. [ ] Monitor app performance and usage
-4. [ ] Regular updates and feature releases
+## Backend Integration
 
----
+### API Communication
+- **Staging**: Mobile app → https://rishi-staging.replit.app/api/*
+- **Production**: Mobile app → https://rishi-platform.vercel.app/api/*
 
-## 🚨 Troubleshooting
+### Database Access
+- Mobile apps connect to respective Neon databases
+- No direct database connections (API-only)
+- Proper environment isolation maintained
 
-### ✅ FIXED: Build Issues
-- **Missing UI components**: ✅ RESOLVED - All components/ui files now included
-- **Module resolution errors**: ✅ RESOLVED - Complete directory structure included  
-- **Build configuration**: ✅ RESOLVED - Added proper voltbuilder.json config
+## Troubleshooting
 
-### Common Build Issues:
-- **Missing permissions**: Check Android manifest
-- **Icon issues**: Ensure proper icon sizes in assets  
-- **Certificate errors**: Use VoltBuilder auto-generation first
+### Common Issues
 
-### Distribution Issues:
-- **"Unknown Sources" disabled**: Users need to enable in Android settings
-- **iOS trust issues**: Users must manually trust the developer profile
-- **Firebase email delays**: Check spam folders
+#### Build Failures
+- Verify environment variables are set
+- Check database connectivity
+- Ensure all dependencies are installed
 
-### If Build Still Fails:
-1. Check VoltBuilder build logs for specific errors
-2. Verify all required directories are in the zip package
-3. Contact VoltBuilder support with build ID for assistance
+#### VoltBuilder Errors
+- Validate Capacitor configuration
+- Check Android/iOS resource files
+- Verify package names and bundle IDs
 
-**Your apps are ready to deploy! The VoltBuilder package includes everything needed for production mobile apps.**
+#### App Crashes
+- Check API endpoint connectivity
+- Verify authentication configuration
+- Test offline functionality
+
+### Debug Steps
+1. Verify environment variable configuration
+2. Test API endpoints manually
+3. Check mobile build logs
+4. Validate Capacitor setup
+5. Test on multiple devices
+
+## Cost Structure
+
+### VoltBuilder
+- **Monthly Subscription**: $15/month
+- **Unlimited Builds**: No build limits
+- **Platform Support**: Android + iOS
+
+### App Store Fees
+- **Google Play**: $25 one-time registration
+- **Apple Developer**: $99/year subscription
+
+### Infrastructure
+- **Neon Database**: Included in existing plan
+- **Vercel/Replit**: Existing hosting costs
+- **Firebase**: Free tier sufficient for distribution
+
+## Security Considerations
+
+### Environment Isolation
+- Development database never exposed to mobile builds
+- Staging and production completely separated
+- API keys and secrets environment-specific
+
+### Mobile Security
+- All API communication over HTTPS
+- Local data encrypted
+- Secure authentication token storage
+- Certificate pinning for API calls
+
+## Maintenance
+
+### Regular Updates
+- Update mobile packages monthly
+- Sync with web platform features
+- Security patch deployment
+- Performance optimizations
+
+### Monitoring
+- App crash reporting
+- Performance metrics
+- User analytics
+- API usage monitoring
+
+## Next Steps
+
+1. Set up staging and production Neon databases
+2. Configure environment variables
+3. Run staging mobile build
+4. Test staging app on devices
+5. Deploy production mobile build
+6. Submit to app stores
+
+For questions or issues, refer to the main Rishi Platform documentation or contact the development team.
