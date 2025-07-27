@@ -19,18 +19,20 @@ echo "✅ Staging database URL validated"
 
 # Clean previous builds
 echo "🧹 Cleaning previous mobile builds..."
-rm -rf mobile-staging-build/
+rm -rf mobile-builds/staging/
 rm -rf out/
 rm -rf .next/
-rm -f rishi-mobile-staging-*.zip
+rm -f mobile-builds/staging/*.zip
 
 # Create staging build directory
-mkdir -p mobile-staging-build
+BUILD_DIR="mobile-builds/staging"
+mkdir -p "$BUILD_DIR"
+echo "📦 Using build directory: $BUILD_DIR"
 
 echo "📱 Configuring mobile environment for STAGING..."
 
 # Create staging environment file
-cat > mobile-staging-build/.env.production << EOF
+cat > "$BUILD_DIR/.env.production" << EOF
 # Rishi Platform Mobile - Staging Environment
 NODE_ENV=production
 NEXT_PUBLIC_APP_ENV=staging
@@ -61,24 +63,24 @@ EOF
 echo "📦 Copying application files..."
 
 # Copy core application files
-cp -r app/ mobile-staging-build/
-cp -r components/ mobile-staging-build/
-cp -r lib/ mobile-staging-build/
-cp -r shared/ mobile-staging-build/
-cp -r styles/ mobile-staging-build/
-cp -r services/ mobile-staging-build/
-cp -r contexts/ mobile-staging-build/
-cp -r hooks/ mobile-staging-build/
-cp -r public/ mobile-staging-build/
+cp -r app/ "$BUILD_DIR/"
+cp -r components/ "$BUILD_DIR/"
+cp -r lib/ "$BUILD_DIR/"
+cp -r shared/ "$BUILD_DIR/"
+cp -r styles/ "$BUILD_DIR/"
+cp -r services/ "$BUILD_DIR/"
+cp -r contexts/ "$BUILD_DIR/"
+cp -r hooks/ "$BUILD_DIR/"
+cp -r public/ "$BUILD_DIR/"
 
 # Copy configuration files
-cp package.json mobile-staging-build/
-cp tsconfig.json mobile-staging-build/
-cp tailwind.config.js mobile-staging-build/
-cp drizzle.config.ts mobile-staging-build/
+cp package.json "$BUILD_DIR/"
+cp tsconfig.json "$BUILD_DIR/"
+cp tailwind.config.js "$BUILD_DIR/"
+cp drizzle.config.ts "$BUILD_DIR/"
 
 # Create mobile-specific Next.js configuration
-cat > mobile-staging-build/next.config.mjs << 'EOF'
+cat > "$BUILD_DIR/next.config.mjs" << 'EOF'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Static export for Capacitor compatibility
@@ -121,7 +123,7 @@ export default nextConfig;
 EOF
 
 # Create Capacitor configuration for staging
-cat > mobile-staging-build/capacitor.config.ts << 'EOF'
+cat > "$BUILD_DIR/capacitor.config.ts" << 'EOF'
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -172,11 +174,11 @@ EOF
 
 # Create Android directory structure
 echo "🤖 Setting up Android configuration..."
-mkdir -p mobile-staging-build/android/app/src/main/assets/public
-mkdir -p mobile-staging-build/android/app/src/main/res/values
+mkdir -p "$BUILD_DIR/android/app/src/main/assets/public"
+mkdir -p "$BUILD_DIR/android/app/src/main/res/values"
 
 # Android app configuration
-cat > mobile-staging-build/android/app/src/main/res/values/strings.xml << 'EOF'
+cat > "$BUILD_DIR/android/app/src/main/res/values/strings.xml" << 'EOF'
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">Rishi Platform (Staging)</string>
@@ -188,9 +190,9 @@ EOF
 
 # iOS configuration
 echo "🍎 Setting up iOS configuration..."
-mkdir -p mobile-staging-build/ios/App/App
+mkdir -p "$BUILD_DIR/ios/App/App"
 
-cat > mobile-staging-build/ios/App/App/Info.plist << 'EOF'
+cat > "$BUILD_DIR/ios/App/App/Info.plist" << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -210,7 +212,7 @@ cat > mobile-staging-build/ios/App/App/Info.plist << 'EOF'
 EOF
 
 echo "🔧 Building Next.js static export..."
-cd mobile-staging-build
+cd "$BUILD_DIR"
 
 # Install dependencies and build
 npm install --silent
@@ -239,10 +241,9 @@ cd ..
 # Create VoltBuilder package
 echo "📦 Creating VoltBuilder package..."
 TIMESTAMP=$(date +"%Y-%m-%d-%H%M")
-PACKAGE_NAME="rishi-mobile-staging-${TIMESTAMP}.zip"
+PACKAGE_NAME="mobile-builds/staging/rishi-mobile-staging-${TIMESTAMP}.zip"
 
-cd mobile-staging-build
-zip -r "../${PACKAGE_NAME}" \
+zip -r "${PACKAGE_NAME}" \
   android/ \
   ios/ \
   out/ \
@@ -254,7 +255,7 @@ zip -r "../${PACKAGE_NAME}" \
   -x ".next/*" \
   -x "*.log" >/dev/null 2>&1
 
-cd ..
+cd ../..
 
 echo ""
 echo "🎉 MOBILE STAGING BUILD COMPLETED SUCCESSFULLY!"

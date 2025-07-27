@@ -6,7 +6,7 @@
 set -e
 
 echo "🚀 Building Rishi Platform Mobile App for PRODUCTION Environment"
-echo "==============================================================="
+echo "================================================================="
 
 # Environment validation
 if [ -z "$PRODUCTION_DATABASE_URL" ]; then
@@ -19,18 +19,20 @@ echo "✅ Production database URL validated"
 
 # Clean previous builds
 echo "🧹 Cleaning previous mobile builds..."
-rm -rf mobile-production-build/
+rm -rf mobile-builds/production/
 rm -rf out/
 rm -rf .next/
-rm -f rishi-mobile-production-*.zip
+rm -f mobile-builds/production/*.zip
 
 # Create production build directory
-mkdir -p mobile-production-build
+BUILD_DIR="mobile-builds/production"
+mkdir -p "$BUILD_DIR"
+echo "📦 Using build directory: $BUILD_DIR"
 
 echo "📱 Configuring mobile environment for PRODUCTION..."
 
 # Create production environment file
-cat > mobile-production-build/.env.production << EOF
+cat > "$BUILD_DIR/.env.production" << EOF
 # Rishi Platform Mobile - Production Environment
 NODE_ENV=production
 NEXT_PUBLIC_APP_ENV=production
@@ -56,44 +58,35 @@ NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-production-mobile-secret-key}
 NEXT_PUBLIC_ENABLE_OFFLINE=true
 NEXT_PUBLIC_ENABLE_PUSH_NOTIFICATIONS=true
 NEXT_PUBLIC_ENABLE_NATIVE_FEATURES=true
-
-# Production Optimizations
-NEXT_PUBLIC_ANALYTICS_ENABLED=true
-NEXT_PUBLIC_ERROR_REPORTING_ENABLED=true
-NEXT_PUBLIC_PERFORMANCE_MONITORING=true
 EOF
 
 echo "📦 Copying application files..."
 
 # Copy core application files
-cp -r app/ mobile-production-build/
-cp -r components/ mobile-production-build/
-cp -r lib/ mobile-production-build/
-cp -r shared/ mobile-production-build/
-cp -r styles/ mobile-production-build/
-cp -r services/ mobile-production-build/
-cp -r contexts/ mobile-production-build/
-cp -r hooks/ mobile-production-build/
-cp -r public/ mobile-production-build/
+cp -r app/ "$BUILD_DIR/"
+cp -r components/ "$BUILD_DIR/"
+cp -r lib/ "$BUILD_DIR/"
+cp -r shared/ "$BUILD_DIR/"
+cp -r styles/ "$BUILD_DIR/"
+cp -r services/ "$BUILD_DIR/"
+cp -r contexts/ "$BUILD_DIR/"
+cp -r hooks/ "$BUILD_DIR/"
+cp -r public/ "$BUILD_DIR/"
 
 # Copy configuration files
-cp package.json mobile-production-build/
-cp tsconfig.json mobile-production-build/
-cp tailwind.config.js mobile-production-build/
-cp drizzle.config.ts mobile-production-build/
+cp package.json "$BUILD_DIR/"
+cp tsconfig.json "$BUILD_DIR/"
+cp tailwind.config.js "$BUILD_DIR/"
+cp drizzle.config.ts "$BUILD_DIR/"
 
-# Create mobile-specific Next.js configuration for production
-cat > mobile-production-build/next.config.mjs << 'EOF'
+# Create mobile-specific Next.js configuration
+cat > "$BUILD_DIR/next.config.mjs" << 'EOF'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Static export for Capacitor compatibility
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
-  
-  // Production optimizations
-  compress: true,
-  generateEtags: true,
   
   // Disable features incompatible with static export
   images: {
@@ -107,17 +100,12 @@ const nextConfig = {
     VOLTBUILDER_BUILD: 'true',
   },
   
-  // Production settings
+  // Optimize for mobile
   poweredByHeader: false,
   reactStrictMode: true,
+  compress: true,
   
-  // Bundle optimization for mobile
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons']
-  },
-  
-  // Webpack configuration for mobile production
+  // Webpack configuration for mobile
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -125,18 +113,6 @@ const nextConfig = {
         net: false,
         tls: false,
         crypto: false,
-      };
-      
-      // Production optimizations
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-        },
       };
     }
     return config;
@@ -147,7 +123,7 @@ export default nextConfig;
 EOF
 
 # Create Capacitor configuration for production
-cat > mobile-production-build/capacitor.config.ts << 'EOF'
+cat > "$BUILD_DIR/capacitor.config.ts" << 'EOF'
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -160,42 +136,34 @@ const config: CapacitorConfig = {
   },
   plugins: {
     App: {
-      launchShowDuration: 2000
+      launchShowDuration: 3000
     },
     SplashScreen: {
-      launchShowDuration: 2000,
+      launchShowDuration: 3000,
       backgroundColor: "#7c3aed",
-      showSpinner: false,
-      androidSpinnerStyle: "large",
-      iosSpinnerStyle: "small"
+      showSpinner: false
     },
     StatusBar: {
       style: 'dark',
-      backgroundColor: "#7c3aed"
+      backgroundColor: '#7c3aed'
     },
     Keyboard: {
       resize: 'body',
       resizeOnFullScreen: true
     },
-    PushNotifications: {
-      presentationOptions: ["badge", "sound", "alert"]
-    },
     LocalNotifications: {
       smallIcon: "ic_stat_icon_config_sample",
-      iconColor: "#7c3aed",
-      sound: "beep.wav"
+      iconColor: "#7c3aed"
     }
   },
   android: {
     allowMixedContent: false,
     captureInput: true,
-    webContentsDebuggingEnabled: false,
-    loggingBehavior: 'none'
+    webContentsDebuggingEnabled: false
   },
   ios: {
     contentInset: 'automatic',
-    scrollEnabled: true,
-    allowsLinkPreview: false
+    scrollEnabled: true
   }
 };
 
@@ -204,11 +172,11 @@ EOF
 
 # Create Android directory structure
 echo "🤖 Setting up Android configuration..."
-mkdir -p mobile-production-build/android/app/src/main/assets/public
-mkdir -p mobile-production-build/android/app/src/main/res/values
+mkdir -p "$BUILD_DIR/android/app/src/main/assets/public"
+mkdir -p "$BUILD_DIR/android/app/src/main/res/values"
 
-# Android app configuration for production
-cat > mobile-production-build/android/app/src/main/res/values/strings.xml << 'EOF'
+# Android app configuration
+cat > "$BUILD_DIR/android/app/src/main/res/values/strings.xml" << 'EOF'
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">Rishi Platform</string>
@@ -218,11 +186,11 @@ cat > mobile-production-build/android/app/src/main/res/values/strings.xml << 'EO
 </resources>
 EOF
 
-# iOS configuration for production
+# iOS configuration
 echo "🍎 Setting up iOS configuration..."
-mkdir -p mobile-production-build/ios/App/App
+mkdir -p "$BUILD_DIR/ios/App/App"
 
-cat > mobile-production-build/ios/App/App/Info.plist << 'EOF'
+cat > "$BUILD_DIR/ios/App/App/Info.plist" << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -237,24 +205,12 @@ cat > mobile-production-build/ios/App/App/Info.plist << 'EOF'
     <string>1.0.0</string>
     <key>CFBundleShortVersionString</key>
     <string>1.0.0</string>
-    <key>LSRequiresIPhoneOS</key>
-    <true/>
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-        <string>armv7</string>
-    </array>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-        <string>UIInterfaceOrientationPortrait</string>
-        <string>UIInterfaceOrientationLandscapeLeft</string>
-        <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
 </dict>
 </plist>
 EOF
 
 echo "🔧 Building Next.js static export..."
-cd mobile-production-build
+cd "$BUILD_DIR"
 
 # Install dependencies and build
 npm install --silent
@@ -283,10 +239,9 @@ cd ..
 # Create VoltBuilder package
 echo "📦 Creating VoltBuilder package..."
 TIMESTAMP=$(date +"%Y-%m-%d-%H%M")
-PACKAGE_NAME="rishi-mobile-production-${TIMESTAMP}.zip"
+PACKAGE_NAME="mobile-builds/production/rishi-mobile-production-${TIMESTAMP}.zip"
 
-cd mobile-production-build
-zip -r "../${PACKAGE_NAME}" \
+zip -r "${PACKAGE_NAME}" \
   android/ \
   ios/ \
   out/ \
@@ -298,11 +253,11 @@ zip -r "../${PACKAGE_NAME}" \
   -x ".next/*" \
   -x "*.log" >/dev/null 2>&1
 
-cd ..
+cd ../..
 
 echo ""
 echo "🎉 MOBILE PRODUCTION BUILD COMPLETED SUCCESSFULLY!"
-echo "==============================================="
+echo "=================================================="
 echo "Package: ${PACKAGE_NAME}"
 echo "Size: $(ls -lh "${PACKAGE_NAME}" | awk '{print $5}')"
 echo ""
@@ -315,10 +270,9 @@ echo ""
 echo "🚀 Ready for VoltBuilder Upload:"
 echo "   1. Upload ${PACKAGE_NAME} to https://voltbuilder.com/"
 echo "   2. Select Android/iOS compilation"
-echo "   3. Download native app files"
+echo "   3. Download native app files for app store submission"
 echo ""
 echo "✅ Environment Separation Maintained:"
-echo "   • Uses production database (not development)"
-echo "   • Points to production API endpoints"
-echo "   • Isolated from development environment"
-echo "   • Production optimizations enabled"
+echo "   • Uses production database (not development/staging)"
+echo "   • Points to production Vercel endpoints"
+echo "   • Ready for app store release"
