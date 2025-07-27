@@ -32,18 +32,19 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   
-  // Staging deployment size optimization
+  // ULTRA-FAST staging deployment optimization
   ...(process.env.NEXT_PUBLIC_APP_ENV === 'staging' && {
     experimental: {
-      optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react', '@hookform/resolvers'],
+      // Disable expensive optimizations for speed
+      optimizePackageImports: [],
       turbotrace: {
         logLevel: 'error',
       },
+      swcMinify: false, // Disable minification for speed
+      forceSwcTransforms: true,
     },
-    outputFileTracing: false, // Disable for smaller builds
-    swcMinify: true,
-    // Disable source maps for staging
-    productionBrowserSourceMaps: false,
+    outputFileTracing: false, // Disable for speed
+    productionBrowserSourceMaps: false, // Disable for speed
   }),
   
   eslint: {
@@ -63,54 +64,38 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // ULTRA-FAST staging builds - optimized for deployment speed and size
+    // ULTRA-FAST staging builds - optimized for SPEED ONLY
     if (!dev && process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
-      // Speed and size optimized configuration for faster deployments
+      // SPEED-FIRST configuration - sacrifice optimization for build speed
       config.optimization = {
         ...config.optimization,
-        minimize: true, // Enable minification for smaller bundles
+        minimize: false, // DISABLE minification for speed
         splitChunks: {
           chunks: 'all',
-          maxSize: 500000, // Medium chunks for faster deployment (500KB)
-          minSize: 20000, // Minimum chunk size
+          maxSize: 3000000, // LARGE chunks = fewer files = faster build (3MB)
+          minSize: 200000, // Large minimum size
           cacheGroups: {
-            default: {
-              chunks: 'all',
-              minChunks: 2,
-              priority: 10,
-              reuseExistingChunk: true,
-              maxSize: 500000,
-            },
-            vendor: {
+            default: false, // Disable default groups for speed
+            vendors: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
               chunks: 'all',
               priority: 20,
-              maxSize: 500000,
-            },
-            framework: {
-              test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
-              name: 'framework',
-              chunks: 'all',
-              priority: 30,
-              maxSize: 500000,
+              maxSize: 3000000,
             },
           },
         },
       };
       
-      // Ultra-fast build settings
-      config.parallelism = 6; // Maximum threads for speed
-      // Remove cache configuration - let Next.js handle it
+      // MAXIMUM parallelism for speed
+      config.parallelism = 8;
       
-      // Aggressive deployment size optimization for staging
-      if (isServer) {
-        config.devtool = false; // Remove source maps for smaller bundles
-      }
+      // Disable ALL source maps for speed
+      config.devtool = false;
       
-      // Tree shaking optimization - set correctly
-      config.optimization.usedExports = true;
-      config.optimization.sideEffects = false;
+      // DISABLE tree shaking for speed (slower builds)
+      config.optimization.usedExports = false;
+      config.optimization.sideEffects = true;
     }
     
     // Resolve path issues
