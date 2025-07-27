@@ -32,6 +32,20 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   
+  // Staging deployment size optimization
+  ...(process.env.NEXT_PUBLIC_APP_ENV === 'staging' && {
+    experimental: {
+      optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react', '@hookform/resolvers'],
+      turbotrace: {
+        logLevel: 'error',
+      },
+    },
+    outputFileTracing: false, // Disable for smaller builds
+    swcMinify: true,
+    // Disable source maps for staging
+    productionBrowserSourceMaps: false,
+  }),
+  
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -49,37 +63,57 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // FAST staging builds - optimized for speed over memory
+    // ULTRA-FAST staging builds - optimized for deployment speed and size
     if (!dev && process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
-      // Speed-optimized configuration for faster deployments
+      // Speed and size optimized configuration for faster deployments
       config.optimization = {
         ...config.optimization,
         minimize: true, // Enable minification for smaller bundles
         splitChunks: {
           chunks: 'all',
-          maxSize: 1000000, // Larger chunks for faster builds (1MB)
+          maxSize: 500000, // Medium chunks for faster deployment (500KB)
+          minSize: 20000, // Minimum chunk size
           cacheGroups: {
             default: {
               chunks: 'all',
               minChunks: 2,
               priority: 10,
               reuseExistingChunk: true,
+              maxSize: 500000,
             },
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
               chunks: 'all',
               priority: 20,
+              maxSize: 500000,
+            },
+            framework: {
+              test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
+              name: 'framework',
+              chunks: 'all',
+              priority: 30,
+              maxSize: 500000,
             },
           },
         },
       };
       
-      // Fast build settings - prioritize speed
-      config.parallelism = 4; // Multi-threaded for speed
+      // Ultra-fast build settings
+      config.parallelism = 6; // Maximum threads for speed
       config.cache = {
         type: 'memory', // Fast memory cache
+        maxMemoryGenerations: 1, // Limit cache memory
       };
+      
+      // Aggressive deployment size optimization for staging
+      if (isServer) {
+        config.devtool = false; // Remove source maps for smaller bundles
+      }
+      
+      // Tree shaking optimization
+      config.usedExports = true;
+      config.sideEffects = false;
     }
     
     // Resolve path issues
