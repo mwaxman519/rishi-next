@@ -46,7 +46,9 @@ class DatabaseConnectionManager {
       }
 
       // Skip initialization during static generation or if running in a build context
-      if (typeof window !== 'undefined' || process.env.NEXT_PHASE === 'phase-production-build') {
+      // BUT allow staging environment to connect during build for Replit Autoscale
+      if (typeof window !== 'undefined' || 
+          (process.env.NEXT_PHASE === 'phase-production-build' && process.env.NEXT_PUBLIC_APP_ENV !== 'staging')) {
         console.log("[DB Manager] Build or client context detected - deferring database initialization");
         this.sql = null;
         this.db = null;
@@ -301,26 +303,32 @@ export function getDbManager(): DatabaseConnectionManager {
     } as any;
   }
   
-  // Special handling for Next.js build phase but allow staging to proceed
-  if (process.env.NEXT_PHASE === 'phase-production-build' && process.env.NEXT_PUBLIC_APP_ENV !== 'staging') {
-    console.log('[DB Manager] Next.js build phase detected (non-staging) - returning stub manager');
-    return {
-      getDatabase: () => ({
-        select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
-        insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
-        update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
-        delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
-      }),
-      getConnection: () => ({ 
-        select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
-        insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
-        update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
-        delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
-      }),
+  // Enhanced build phase detection - ALLOW staging to use real database
+  if (process.env.NEXT_PHASE === 'phase-production-build') {
+    // For staging environment, allow real database connection during build
+    if (process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
+      console.log('[DB Manager] Staging build detected - using real database connection');
+      // Continue to create real connection for staging
+    } else {
+      console.log('[DB Manager] Next.js build phase detected (non-staging) - returning stub manager');
+      return {
+        getDatabase: () => ({
+          select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
+          insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
+          update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
+          delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
+        }),
+        getConnection: () => ({ 
+          select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
+          insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
+          update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
+          delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
+        }),
       isHealthy: () => false,
       testConnection: () => Promise.resolve(false),
       executeQuery: () => Promise.resolve(null)
     } as any;
+    }
   }
   
   // Lazy initialize only when needed

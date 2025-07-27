@@ -49,32 +49,37 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // Memory optimization for staging builds
+    // FAST staging builds - optimized for speed over memory
     if (!dev && process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
-      // Ultra memory optimization to prevent heap overflow
+      // Speed-optimized configuration for faster deployments
       config.optimization = {
         ...config.optimization,
-        minimize: false, // Skip minification for memory savings
+        minimize: true, // Enable minification for smaller bundles
         splitChunks: {
           chunks: 'all',
-          maxSize: 200000, // Very small chunks to reduce memory
+          maxSize: 1000000, // Larger chunks for faster builds (1MB)
           cacheGroups: {
-            default: false,
-            vendors: false,
-            framework: {
+            default: {
               chunks: 'all',
-              name: 'framework',
-              priority: 40,
-              enforce: true,
-              maxSize: 200000,
+              minChunks: 2,
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
+              priority: 20,
             },
           },
         },
       };
       
-      // Memory optimization settings
-      config.parallelism = 1; // Single-threaded to save memory
-      config.cache = false; // Disable caching to save memory
+      // Fast build settings - prioritize speed
+      config.parallelism = 4; // Multi-threaded for speed
+      config.cache = {
+        type: 'memory', // Fast memory cache
+      };
     }
     
     // Resolve path issues
