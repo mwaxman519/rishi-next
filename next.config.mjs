@@ -8,6 +8,11 @@ const isVercel = process.env.VERCEL
 const isMobileBuild = process.env.MOBILE_BUILD === 'true' && process.env.ISOLATE_MOBILE === 'true'
 const isVoltBuilderBuild = process.env.VOLTBUILDER_BUILD === 'true' && process.env.ISOLATE_MOBILE === 'true'
 
+// Set NODE_OPTIONS for memory optimization during staging deployment
+if (appEnv === 'staging' && !process.env.NODE_OPTIONS) {
+  process.env.NODE_OPTIONS = '--max-old-space-size=2048 --max-semi-space-size=128'
+}
+
 console.log('[Next Config] Environment detection:', {
   NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_APP_ENV: appEnv,
@@ -32,19 +37,29 @@ const nextConfig = {
   compress: true,
   generateEtags: true,
   
-  // ULTRA-FAST staging deployment optimization
+  // Memory-optimized staging deployment for heap size reduction
   ...(process.env.NEXT_PUBLIC_APP_ENV === 'staging' && {
     experimental: {
-      // Disable expensive optimizations for speed
+      // Disable memory-intensive optimizations
       optimizePackageImports: [],
       turbotrace: {
         logLevel: 'error',
+        logDetail: false,
+        processCwd: process.cwd(),
+        // Reduce memory usage by limiting trace complexity
+        contextDirectory: process.cwd(),
+        memoryLimit: 512, // Limit memory usage (MB)
       },
-      swcMinify: false, // Disable minification for speed
-      forceSwcTransforms: true,
+      swcMinify: false, // Disable minification to reduce heap usage
+      forceSwcTransforms: false, // Reduce transform complexity
+      // Disable memory-intensive features for staging
+      optimizeCss: false,
+      optimizeServerReact: false,
     },
-    outputFileTracing: false, // Disable for speed
-    productionBrowserSourceMaps: false, // Disable for speed
+    outputFileTracing: false, // Disable file tracing to reduce memory
+    productionBrowserSourceMaps: false, // Disable source maps to save memory
+    // Reduce build parallelism to conserve memory
+    parallelism: 1,
   }),
   
   eslint: {
@@ -64,38 +79,60 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // ULTRA-FAST staging builds - optimized for SPEED ONLY
+    // Memory-optimized staging builds - reduced heap usage
     if (!dev && process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
-      // SPEED-FIRST configuration - sacrifice optimization for build speed
+      // MEMORY-FIRST configuration - minimize heap usage during build
       config.optimization = {
         ...config.optimization,
-        minimize: false, // DISABLE minification for speed
+        minimize: false, // Disable minification to reduce memory usage
         splitChunks: {
           chunks: 'all',
-          maxSize: 3000000, // LARGE chunks = fewer files = faster build (3MB)
-          minSize: 200000, // Large minimum size
+          // Smaller chunks to reduce memory pressure
+          maxSize: 1000000, // 1MB chunks instead of 3MB
+          minSize: 100000, // Smaller minimum size
+          maxAsyncRequests: 6, // Reduce concurrent loading
+          maxInitialRequests: 4, // Reduce initial bundle complexity
           cacheGroups: {
-            default: false, // Disable default groups for speed
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+              maxSize: 1000000,
+            },
             vendors: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
               chunks: 'all',
-              priority: 20,
-              maxSize: 3000000,
+              priority: -10,
+              maxSize: 1000000,
+              reuseExistingChunk: true,
             },
           },
         },
+        // Reduce memory usage during optimization
+        moduleIds: 'deterministic',
+        chunkIds: 'deterministic',
       };
       
-      // MAXIMUM parallelism for speed
-      config.parallelism = 8;
+      // Reduced parallelism to conserve memory
+      config.parallelism = 2;
       
-      // Disable ALL source maps for speed
+      // Disable source maps to save memory
       config.devtool = false;
       
-      // DISABLE tree shaking for speed (slower builds)
+      // Simplified tree shaking to reduce memory usage
       config.optimization.usedExports = false;
       config.optimization.sideEffects = true;
+      
+      // Memory-conscious cache configuration
+      config.cache = {
+        type: 'memory',
+        maxGenerations: 1, // Reduce cache generations
+      };
+      
+      // Reduce resolve complexity
+      config.resolve.symlinks = false;
+      config.resolve.cacheWithContext = false;
     }
     
     // Resolve path issues

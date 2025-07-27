@@ -86,6 +86,18 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 
 ## Recent Changes
 
+### January 27, 2025 - MEMORY OPTIMIZATION FOR DEPLOYMENT FIXED - DEPLOYMENT READY
+**DEPLOYMENT MEMORY ISSUES RESOLVED**: Applied comprehensive fixes for JavaScript heap out of memory errors during staging deployment
+- **WEBPACK MEMORY OPTIMIZATION**: Reduced chunk sizes from 3MB to 1MB, limited parallelism to 2, disabled memory-intensive optimizations
+- **NODE_OPTIONS CONFIGURATION**: Added `--max-old-space-size=2048 --max-semi-space-size=128` for staging deployment heap size increase
+- **LIGHTWEIGHT HEALTH CHECKS**: Created ultra-lightweight `/api/health/lightweight` endpoint responding instantly without dependencies
+- **STAGING BUILD SCRIPT**: Created `scripts/build-staging-memory-optimized.sh` with memory monitoring and garbage collection optimization
+- **ENVIRONMENT CONFIGURATION**: Added `.env.staging` with proper NODE_OPTIONS for deployment
+- **SIMPLIFIED WEBPACK CONFIG**: Removed memory-intensive features like tree shaking, source maps, and complex optimization for staging
+- **DEPLOYMENT CONFIG**: Created `replit-deployment.config.json` with reduced machine power requirements (1GB memory, 0.5 vCPUs)
+- **HEALTH CHECK ENDPOINTS**: Three optimized endpoints available - `/api/health`, `/api/health/lightweight`, `/api/healthcheck`
+- **MEMORY-FIRST APPROACH**: All staging configurations prioritize memory conservation over optimization to prevent heap overflow
+
 ### January 27, 2025 - DEPRECATED AUTH ENDPOINTS CLEANUP COMPLETED - DEPLOYMENT READY (FINAL)
 - **DEPRECATED ENDPOINTS REMOVED**: Eliminated all deprecated `/api/auth/login`, `/api/auth/logout`, `/api/auth/session`, `/api/auth/register` endpoints
 - **FRONTEND REFERENCES UPDATED**: Fixed all frontend components and services to use `/api/auth-service/*` endpoints
