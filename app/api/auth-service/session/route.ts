@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     // Try to get user from simple session storage (for Replit compatibility)
     if (cookieHeader?.includes('rishi-user=')) {
       const userMatch = cookieHeader.match(/rishi-user=([^;]+)/);
-      if (userMatch) {
+      if (userMatch && userMatch[1]) {
         try {
           const userData = JSON.parse(decodeURIComponent(userMatch[1]));
           console.log('[SESSION] Found stored user:', userData.username);
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify password
-    const isValid = await bcrypt.compare(password, user.passwordHash);
+    const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
       console.log('[SESSION] Invalid password for user:', username);
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
@@ -77,7 +77,6 @@ export async function POST(request: NextRequest) {
       email: user.email,
       fullName: user.fullName,
       role: user.role,
-      organizationId: user.organizationId,
       loginTime: new Date().toISOString()
     };
 
