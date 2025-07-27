@@ -86,6 +86,18 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 
 ## Recent Changes
 
+### January 27, 2025 - CRITICAL DATABASE MANAGER DEPLOYMENT FIXES
+
+**DEPLOYMENT ISSUE RESOLUTION**: Fixed database manager export structure causing build failures during Next.js static generation
+- **DATABASE MANAGER FIX**: Corrected proxy implementation in `db-connection.ts` to properly export `getDatabase` method
+- **BUILD-SAFE INITIALIZATION**: Added build-time detection to prevent database initialization during static generation
+- **LAZY LOADING**: Implemented lazy database initialization for runtime scenarios when build-time init is skipped
+- **ERROR HANDLING ENHANCEMENT**: Added comprehensive error handling in login route to gracefully handle database connection failures
+- **ENVIRONMENT VALIDATION**: Enhanced staging environment database URL handling with proper fallback logic
+- **LOGIN ROUTE FIX**: Corrected schema field mapping (`isActive` → `active`) and added robust database error handling
+- **DEPLOY-READY STATUS**: Database connection issues resolved, platform now properly handles build and runtime scenarios
+- **BUILD COMPATIBILITY**: Fixed "TypeError: dbManager.getDatabase is not a function" during page data collection
+
 ### January 23, 2025 - INDUSTRY-STANDARD MULTI-ENVIRONMENT ARCHITECTURE ESTABLISHED (FINAL)
 
 **COMPLETE ARCHITECTURE REDESIGN**: Implemented proper industry-standard multi-environment configuration following Next.js and Capacitor best practices

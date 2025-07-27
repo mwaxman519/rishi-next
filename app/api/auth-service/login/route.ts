@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { db } from "@/lib/db";
+import { getDatabaseConnection } from "../utils/db-connection";
 import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
@@ -22,11 +22,34 @@ export async function POST(request: NextRequest) {
 
     console.log('[AUTH-LOGIN] Attempting login for user:', username);
 
-    // Find user in database
-    const [user] = await db
-      .select()
-      .from(users)
-      .where(eq(users.username, username));
+    // Get database connection with error handling
+    let db;
+    try {
+      db = getDatabaseConnection();
+      console.log('[AUTH-LOGIN] Database connection established');
+    } catch (dbError) {
+      console.error('[AUTH-LOGIN] Database connection failed:', dbError);
+      return NextResponse.json(
+        { error: "Database connection unavailable. Please try again later." },
+        { status: 503 }
+      );
+    }
+
+    // Find user in database with error handling
+    let user;
+    try {
+      const results = await db
+        .select()
+        .from(users)
+        .where(eq(users.username, username));
+      user = results[0];
+    } catch (queryError) {
+      console.error('[AUTH-LOGIN] Database query failed:', queryError);
+      return NextResponse.json(
+        { error: "Authentication service temporarily unavailable" },
+        { status: 503 }
+      );
+    }
 
     if (!user) {
       console.log('[AUTH-LOGIN] User not found:', username);
@@ -73,7 +96,7 @@ export async function POST(request: NextRequest) {
         email: user.email,
         fullName: user.fullName,
         role: user.role,
-        isActive: user.isActive
+        isActive: user.active
       }
     });
 

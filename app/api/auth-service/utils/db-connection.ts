@@ -31,6 +31,7 @@ class DatabaseConnectionManager {
       circuitBreakerOpen: false,
     };
     
+    // Delayed initialization to prevent build-time issues
     this.initializeConnection();
   }
 
@@ -43,10 +44,18 @@ class DatabaseConnectionManager {
         this.db = { select: () => ({ from: () => ({ where: () => [] }) }) };
         return;
       }
+
+      // Skip initialization during static generation or if running in a build context
+      if (typeof window !== 'undefined' || process.env.NEXT_PHASE === 'phase-production-build') {
+        console.log("[DB Manager] Build or client context detected - deferring database initialization");
+        this.sql = null;
+        this.db = null;
+        return;
+      }
       
       console.log("[DB Manager] Initializing database connection...");
       
-      // Environment detection
+      // Environment detection with enhanced validation
       const environment = this.getEnvironment();
       console.log("[DB Manager] Environment detection:", {
         NODE_ENV: process.env.NODE_ENV,
@@ -55,6 +64,7 @@ class DatabaseConnectionManager {
         DEPLOY_ENV: process.env.DEPLOY_ENV,
         STAGING: process.env.STAGING,
         REPLIT_DOMAINS: process.env.REPLIT_DOMAINS,
+        NEXT_PHASE: process.env.NEXT_PHASE,
         detectedEnvironment: environment
       });
       
@@ -80,7 +90,16 @@ class DatabaseConnectionManager {
     } catch (error) {
       console.error("[DB Manager] Failed to initialize database connection:", error);
       this.handleConnectionFailure();
-      // Re-throw to prevent undefined database usage
+      
+      // Don't re-throw during build phases to prevent build failures
+      if (process.env.NEXT_PHASE === 'phase-production-build') {
+        console.log("[DB Manager] Build phase detected - not throwing error to prevent build failure");
+        this.sql = null;
+        this.db = null;
+        return;
+      }
+      
+      // Re-throw for runtime errors
       throw error;
     }
   }
@@ -208,6 +227,21 @@ class DatabaseConnectionManager {
   }
 
   getDatabase() {
+    // Lazy initialization if db is null (build scenarios)
+    if (!this.db && !process.env.VOLTBUILDER_BUILD && typeof window === 'undefined') {
+      console.log("[DB Manager] Lazy initializing database connection...");
+      try {
+        this.initializeConnection();
+      } catch (error) {
+        console.error("[DB Manager] Lazy initialization failed:", error);
+        throw new Error("Database connection failed during lazy initialization");
+      }
+    }
+    
+    if (!this.db) {
+      throw new Error("Database not initialized - connection may have failed");
+    }
+    
     return this.db;
   }
 
@@ -254,13 +288,63 @@ export function getDbManager(): DatabaseConnectionManager {
   return _dbManager;
 }
 
-// For backward compatibility
+// For backward compatibility - Fixed proxy implementation
 export const dbManager = new Proxy({} as DatabaseConnectionManager, {
   get(target, prop) {
-    return getDbManager()[prop as keyof DatabaseConnectionManager];
+    const manager = getDbManager();
+    if (prop in manager) {
+      const value = manager[prop as keyof DatabaseConnectionManager];
+      return typeof value === 'function' ? value.bind(manager) : value;
+    }
+    return undefined;
   }
 });
-export const db = dbManager.getDatabase();
+
+// Safe database getter with error handling
+export function getDatabaseConnection() {
+  try {
+    const manager = getDbManager();
+    
+    // Validate manager exists
+    if (!manager) {
+      throw new Error('Database manager failed to initialize');
+    }
+    
+    const database = manager.getDatabase();
+    
+    if (!database) {
+      console.error('[DB] Database connection is null or undefined');
+      throw new Error('Database connection failed to initialize');
+    }
+    
+    return database;
+  } catch (error) {
+    console.error('[DB] Failed to get database connection:', error);
+    
+    // Provide specific error messages for common issues
+    if (error instanceof Error) {
+      if (error.message.includes('DATABASE_URL')) {
+        throw new Error('Database URL not configured. Please check environment variables.');
+      }
+      if (error.message.includes('failed to initialize')) {
+        throw new Error('Database connection failed. Please check database availability.');
+      }
+    }
+    
+    throw error;
+  }
+}
+
+// Export db with safe initialization
+export const db = (() => {
+  try {
+    return getDatabaseConnection();
+  } catch (error) {
+    console.error('[DB] Database initialization failed during module load:', error);
+    // Return a stub for build-time safety
+    return null as any;
+  }
+})();
 
 // Export test function
 export const testConnection = () => dbManager.testConnection();
