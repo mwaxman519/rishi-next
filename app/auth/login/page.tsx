@@ -24,7 +24,7 @@ export default function LoginPage() {
     try {
       console.log('Submitting login for:', username);
       
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth-service/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

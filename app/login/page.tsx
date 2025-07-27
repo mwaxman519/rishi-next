@@ -21,12 +21,33 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    const success = await login(username, password);
-    if (success) {
+    console.log('Submitting login for:', username);
+    
+    try {
+      const response = await fetch("/api/auth-service/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      console.log('Login response status:', response.status);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log('Login failed with error:', errorData);
+        setError(errorData.error || "Login failed");
+        return;
+      }
+
+      const data = await response.json();
+      console.log('Login successful, data:', data);
+      
+      // Redirect to dashboard on success
       router.push("/");
       router.refresh();
-    } else {
-      setError("Login failed. Please check your credentials.");
+    } catch (err) {
+      console.error('Login error:', err);
+      setError("Login failed. Please try again.");
     }
   };
 
