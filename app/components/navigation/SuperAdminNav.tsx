@@ -305,7 +305,7 @@ export const SUPER_ADMIN_SECONDARY_NAV: NavItem[] = [
       { label: "Help", path: "/help", type: NAV_ITEM_TYPES.SECONDARY },
       {
         label: "Logout",
-        path: "/api/auth-service/logout",
+        path: "/api/auth/logout",
         type: NAV_ITEM_TYPES.SECONDARY,
       },
     ],

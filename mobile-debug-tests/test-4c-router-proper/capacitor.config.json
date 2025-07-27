@@ -1,8 +1,0 @@
-{
-    "appId": "com.rishi.test4c",
-    "appName": "Test 4C Router",
-    "webDir": "www",
-    "server": {
-        "androidScheme": "https"
-    }
-}

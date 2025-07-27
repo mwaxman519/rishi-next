@@ -56,18 +56,8 @@ export async function GET(req: NextRequest) {
       query = query.where(eq(kits.status, "available"));
     }
 
-    // Execute the query with build-time error handling
-    let allKits = [];
-    try {
-      allKits = await query;
-    } catch (dbError: any) {
-      console.log("[Kits API] Database table not ready during build time, returning empty array");
-      // During build time or if table doesn't exist, return empty array
-      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
-        return NextResponse.json([]);
-      }
-      throw dbError; // Re-throw if it's a different error
-    }
+    // Execute the query
+    const allKits = await query;
 
     return NextResponse.json(allKits);
   } catch (error) {
@@ -128,21 +118,8 @@ export async function POST(req: NextRequest) {
       approvalData.approvalDate = new Date();
     }
 
-    // Insert the new kit with build-time error handling
-    let newKit;
-    try {
-      [newKit] = await db.insert(kits).values(approvalData).returning();
-    } catch (dbError: any) {
-      console.log("[Kits API] Database table not ready during build time");
-      // During build time or if table doesn't exist, return mock response
-      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
-        return NextResponse.json(
-          { error: "Database not available during build time" },
-          { status: 503 }
-        );
-      }
-      throw dbError; // Re-throw if it's a different error
-    }
+    // Insert the new kit
+    const [newKit] = await db.insert(kits).values(approvalData).returning();
 
     return NextResponse.json(newKit, { status: 201 });
   } catch (error) {
@@ -216,31 +193,18 @@ export async function PATCH(
 
     const { approvalStatus, approvalNotes } = updateSchema.parse(body);
 
-    // Update the kit's approval status with build-time error handling
-    let updatedKit;
-    try {
-      [updatedKit] = await db
-        .update(kits)
-        .set({
-          approvalStatus,
-          approvalNotes: approvalNotes || null,
-          approvedById: parseInt(user.id),
-          approvalDate: new Date(),
-          updated_at: new Date(),
-        })
-        .where(eq(kits.id, id))
-        .returning();
-    } catch (dbError: any) {
-      console.log("[Kits API] Database table not ready during build time");
-      // During build time or if table doesn't exist, return mock response
-      if (dbError.code === '42P01' || dbError.message?.includes('does not exist')) {
-        return NextResponse.json(
-          { error: "Database not available during build time" },
-          { status: 503 }
-        );
-      }
-      throw dbError; // Re-throw if it's a different error
-    }
+    // Update the kit's approval status
+    const [updatedKit] = await db
+      .update(kits)
+      .set({
+        approvalStatus,
+        approvalNotes: approvalNotes || null,
+        approvedById: parseInt(user.id),
+        approvalDate: new Date(),
+        updated_at: new Date(),
+      })
+      .where(eq(kits.id, id))
+      .returning();
 
     if (!updatedKit) {
       return NextResponse.json({ error: "Kit not found" }, { status: 404 });

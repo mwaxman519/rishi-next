@@ -1,9 +1,0 @@
-{
-    "name": "test5-corrected",
-    "version": "1.0.0",
-    "description": "Rishi Platform with corrected Capacitor versions",
-    "dependencies": {
-        "@capacitor/core": "6.1.2",
-        "@capacitor/android": "6.1.2"
-    }
-}

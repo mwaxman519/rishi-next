@@ -42,8 +42,6 @@ export default function RootLayout({
       <body className="font-sans bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
         <ThemeScript />
         <ClientLayout>{children}</ClientLayout>
-        {/* Always show debugger in development builds */}
-        <div id="mobile-debugger-fallback"></div>
       </body>
     </html>
   );

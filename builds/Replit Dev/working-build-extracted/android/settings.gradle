@@ -1,4 +1,0 @@
-include ':app'
-
-// Apply Capacitor settings
-apply from: 'capacitor.settings.gradle'

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<widget id="com.rishi.minimal" version="1.0.0">
-    <name>Minimal Test</name>
-    <description>Ultra minimal test</description>
-    <content src="index.html" />
-    <access origin="*" />
-</widget>

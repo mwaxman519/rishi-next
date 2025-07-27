@@ -1,135 +1,229 @@
-import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { getDatabaseConnection } from "../utils/db-connection";
-import { users } from "@shared/schema";
-import { eq } from "drizzle-orm";
+/**
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+export const revalidate = false;
 
+ * Login API for Auth Microservice
+ *
+ * Handles user authentication.
+ */
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { createToken } from "../utils/jwt";
+import { comparePasswords } from "../utils/password";
+import {
+  errorResponse,
+  responseWithAuthCookie,
+  successResponse,
+} from "../utils/response";
+import {
+  getUserByUsername,
+  getUserOrganizations,
+} from "../models/user-repository";
+import { AUTH_CONFIG } from "../config";
+
+// Login request schema
+const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+/**
+ * Handle POST /api/auth-service/login
+ * Authenticate a user
+ */
 export async function POST(request: NextRequest) {
   try {
-    console.log('[AUTH-LOGIN] Login request received');
-    
-    const { username, password } = await request.json();
-    
-    if (!username || !password) {
-      return NextResponse.json(
-        { error: "Username and password are required" },
-        { status: 400 }
-      );
+    console.log("[Auth Service] Login attempt");
+
+    // Development mode bypass
+    if (AUTH_CONFIG.DEV_MODE) {
+      const urlParams = new URL(request.url).searchParams;
+      if (urlParams.get("dev_mode") === "true") {
+        console.log(
+          "[Auth Service] DEVELOPMENT MODE: Simulating successful login",
+        );
+
+        // Create a token for the mock user
+        const token = await createToken("00000000-0000-0000-0000-000000000001");
+
+        return responseWithAuthCookie(
+          {
+            user: {
+              id: "00000000-0000-0000-0000-000000000001",
+              username: "admin",
+              email: "admin@example.com",
+              fullName: "Admin User",
+              role: "super_admin",
+              roles: ["SUPER_ADMIN"],
+              organizations: [
+                {
+                  orgId: "00000000-0000-0000-0000-000000000001",
+                  orgName: "Rishi Internal",
+                  orgType: "internal",
+                  role: "super_admin",
+                  isDefault: true,
+                },
+              ],
+              currentOrganization: {
+                orgId: "00000000-0000-0000-0000-000000000001",
+                orgName: "Rishi Internal",
+                orgType: "internal",
+                role: "super_admin",
+                isDefault: true,
+              },
+            },
+          },
+          token,
+        );
+      }
     }
 
-    console.log('[AUTH-LOGIN] Attempting login for user:', username);
-
-    // Get database connection with error handling
-    let db;
+    // Parse request body with error handling
+    let body;
     try {
-      db = getDatabaseConnection();
-      console.log('[AUTH-LOGIN] Database connection established');
-    } catch (dbError) {
-      console.error('[AUTH-LOGIN] Database connection failed:', dbError);
-      return NextResponse.json(
-        { error: "Database connection unavailable. Please try again later." },
-        { status: 503 }
+      body = await request.json();
+    } catch (parseError) {
+      console.error("[Auth Service] JSON parse error:", parseError);
+      return errorResponse("Invalid request format", 400, "VALIDATION_ERROR");
+    }
+
+    // Validate login data
+    const result = loginSchema.safeParse(body);
+    if (!result.success) {
+      return errorResponse(
+        "Invalid login data",
+        400,
+        "VALIDATION_ERROR",
+        result.error.issues,
       );
     }
 
-    // Find user in database with error handling
-    let user;
-    try {
-      const results = await db
-        .select()
-        .from(users)
-        .where(eq(users.username, username));
-      user = results[0];
-    } catch (queryError) {
-      console.error('[AUTH-LOGIN] Database query failed:', queryError);
-      return NextResponse.json(
-        { error: "Authentication service temporarily unavailable" },
-        { status: 503 }
-      );
-    }
+    // Get validated data
+    const { username, password } = result.data;
+
+    // Find user in database
+    console.log(`[Auth Service] Looking up user: ${username}`);
+    const user = await getUserByUsername(username);
 
     if (!user) {
-      console.log('[AUTH-LOGIN] User not found:', username);
-      return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
-      );
+      console.log(`[Auth Service] User not found: ${username}`);
+      return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
     }
 
-    console.log('[AUTH-LOGIN] User found, checking password');
+    console.log(`[Auth Service] User found: ${username}, role: ${user.role}`);
+    console.log(`[Auth Service] User has password: ${!!user.password}`);
+    console.log(`[Auth Service] User active: ${user.active}`);
+    console.log(`[Auth Service] User fullName: ${user.fullName || 'No fullName'}`);
+    console.log(`[Auth Service] User email: ${user.email}`);
+    console.log(`[Auth Service] Raw user object keys: ${Object.keys(user).join(', ')}`);
+    console.log(`[Auth Service] Raw user object: ${JSON.stringify(user, null, 2)}`);
+    console.log(`[Auth Service] Password hash starts with: ${user.password ? user.password.substring(0, 10) : 'NO PASSWORD'}`);
+    console.log(`[Auth Service] Input password: ${password}`);
+    console.log(`[Auth Service] Hash length: ${user.password ? user.password.length : 0}`);
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    
-    if (!isValidPassword) {
-      console.log('[AUTH-LOGIN] Invalid password for user:', username);
-      return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
+    // Verify password using bcrypt
+    let validPassword = false;
+
+    try {
+      // Cast user to expected type with password
+      const userWithPassword = user as { password: string };
+      
+      // Use bcrypt to compare password
+      validPassword = await comparePasswords(password, userWithPassword.password);
+      
+      console.log(`[Auth Service] Password check for ${username}: ${validPassword ? 'VALID' : 'INVALID'}`);
+    } catch (passwordError) {
+      console.error(
+        `[Auth Service] Password verification error for ${username}:`,
+        passwordError,
       );
+      return errorResponse("Authentication error", 401, "AUTH_ERROR");
     }
 
-    console.log('[AUTH-LOGIN] Password valid, creating JWT');
+    if (!validPassword) {
+      return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
+    }
 
-    // Create JWT token
-    const token = jwt.sign(
-      { 
-        id: user.id, 
-        username: user.username,
-        role: user.role 
-      },
-      process.env.JWT_SECRET || 'fallback-dev-secret',
-      { expiresIn: '7d' }
-    );
+    // Check if user is active
+    if (!user.active) {
+      return errorResponse("Account is disabled", 403, "ACCOUNT_DISABLED");
+    }
 
-    console.log('[AUTH-LOGIN] Login successful for user:', username);
+    // Get user organizations
+    let userOrgs = await getUserOrganizations(user.id);
 
-    // Create response with user data
-    const response = NextResponse.json({
-      success: true,
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        fullName: user.fullName,
-        role: user.role,
-        isActive: user.active
+    // If no organizations found, create fallback for stability (especially for test accounts)
+    if (!userOrgs || userOrgs.length === 0) {
+      console.log(
+        `[Auth Service] No organizations found for user ${username}, creating fallback organization data`,
+      );
+
+      // Create a default organization based on the user's role
+      if (user.role === "super_admin" || user.role === "admin") {
+        userOrgs = [
+          {
+            orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+            orgName: "Rishi Internal",
+            orgType: "internal",
+            role: user.role,
+            isPrimary: true,
+          },
+        ];
+      } else {
+        userOrgs = [
+          {
+            orgId: "00000000-0000-0000-0000-000000000002",
+            orgName: "Default Organization",
+            orgType: "client",
+            role: user.role || "brand_agent",
+            isPrimary: true,
+          },
+        ];
       }
-    });
+    }
 
-    // Set auth cookie for JWT
-    response.cookies.set('auth-token', token, {
-      httpOnly: true,
-      secure: false, // Allow in development
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
-    });
+    // Create token
+    const token = await createToken(user.id);
 
-    // Also set a simple user cookie for Replit compatibility
-    response.cookies.set('rishi-user', encodeURIComponent(JSON.stringify({
+    // Find default organization (primary organization)
+    const defaultOrg = userOrgs.find((org: any) => org.isPrimary) || userOrgs[0];
+
+    // Return user data with token cookie
+    // Use a type-safe way to remove password from user object
+    const userWithoutPassword = {
       id: user.id,
       username: user.username,
-      email: user.email,
-      fullName: user.fullName,
-      role: user.role,
-      isActive: user.active
-    })), {
-      httpOnly: false, // Allow client access for Replit compatibility
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 // 7 days
-    });
+      email: user.email || null,
+      fullName: user.fullName || null,
+      role: user.role || "brand_agent",
+      active: Boolean(user.active !== false),
+    };
 
-    return response;
+    console.log(`[Auth Service] Login successful for ${username}:`);
+    console.log(`  User role: ${user.role}`);
+    console.log(`  Organizations: ${JSON.stringify(userOrgs)}`);
+    console.log(`  Default org: ${JSON.stringify(defaultOrg)}`);
 
+    return responseWithAuthCookie(
+      {
+        user: {
+          ...userWithoutPassword,
+          fullName: user.fullName || username,
+          organizations: userOrgs,
+          currentOrganization: defaultOrg,
+        },
+      },
+      token,
+    );
   } catch (error) {
-    console.error('[AUTH-LOGIN] Login error:', error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+    console.error("[Auth Service] Login error:", error);
+
+    return errorResponse(
+      "Authentication failed",
+      500,
+      "SERVER_ERROR",
+      process.env.NODE_ENV === "development" ? String(error) : undefined,
     );
   }
 }

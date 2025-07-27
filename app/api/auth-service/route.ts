@@ -1,6 +1,7 @@
 /**
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+export const revalidate = false;
 
  * Main API Route for Auth Microservice
  *
@@ -10,7 +11,7 @@ export const dynamic = "force-dynamic";
 import { NextRequest } from "next/server";
 import { successResponse } from "./utils/response";
 import { AUTH_CONFIG } from "./config";
-import { testConnection } from "../../../db";
+import { testConnection } from "./db";
 
 /**
  * Handle GET /api/auth-service
@@ -19,13 +20,8 @@ import { testConnection } from "../../../db";
 export async function GET(request: NextRequest) {
   console.log("[Auth Service] Service information request");
 
-  // Test database connection only if not in VoltBuilder build
-  let dbStatus = true;
-  if (process.env.VOLTBUILDER_BUILD !== 'true') {
-    dbStatus = await testConnection();
-  } else {
-    console.log("[Auth Service] Skipping database test for VoltBuilder build");
-  }
+  // Test database connection
+  const dbStatus = await testConnection();
 
   return successResponse({
     service: AUTH_CONFIG.SERVICE_NAME,

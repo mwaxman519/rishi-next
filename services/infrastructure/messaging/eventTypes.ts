@@ -1,55 +1,82 @@
-// Event Types for VoltBuilder compatibility
+/**
+ * Event Types for Infrastructure Messaging
+ * Defines event interfaces for the distributed event system
+ */
+
 export interface BaseEvent {
-  id: string;
   type: string;
   timestamp: Date;
-  data: any;
+  correlationId: string;
+  userId?: string;
+  organizationId?: string;
+  metadata?: Record<string, any>;
 }
 
 export interface AppEvent extends BaseEvent {
-  // Additional app-specific event properties
+  source: string;
+  version: string;
+  payload?: any;
+}
+
+// AppEvent enum for event types
+export enum AppEventTypes {
+  LOCATION_APPROVED = "location.approved",
+  LOCATION_REJECTED = "location.rejected",
+  LOCATION_UPDATED = "location.updated",
+  SYSTEM_NOTIFICATION = "system.notification",
+}
+
+export interface LocationEvent extends BaseEvent {
+  type: 'location.created' | 'location.updated' | 'location.deleted' | 'location.approved' | 'location.pending';
+  locationId: string;
+  changes?: Record<string, any>;
 }
 
 export interface LocationApprovalPayload {
   locationId: string;
   approvedBy: string;
-  approvalReason?: string;
+  timestamp: Date;
+  notes?: string;
 }
 
 export interface LocationRejectionPayload {
   locationId: string;
   rejectedBy: string;
-  rejectionReason: string;
-}
-
-export interface LocationEvent extends BaseEvent {
-  type: 'location.created' | 'location.updated' | 'location.deleted';
-  locationId: string;
+  timestamp: Date;
+  reason: string;
 }
 
 export interface BookingEvent extends BaseEvent {
-  type: 'booking.created' | 'booking.updated' | 'booking.cancelled';
+  type: 'booking.created' | 'booking.updated' | 'booking.cancelled' | 'booking.completed';
   bookingId: string;
+  status?: string;
 }
 
-export interface StaffEvent extends BaseEvent {
-  type: 'staff.assigned' | 'staff.unassigned' | 'staff.updated';
-  staffId: string;
+export interface UserEvent extends BaseEvent {
+  type: 'user.login' | 'user.logout' | 'user.created' | 'user.updated';
+  userId: string;
+  role?: string;
 }
 
-export type EventType = LocationEvent | BookingEvent | StaffEvent;
+export interface SystemEvent extends BaseEvent {
+  type: 'system.health' | 'system.error' | 'system.performance';
+  severity: 'info' | 'warning' | 'error' | 'critical';
+  details?: any;
+}
 
-export const EventTypes = {
-  LOCATION_CREATED: 'location.created',
-  LOCATION_UPDATED: 'location.updated', 
-  LOCATION_DELETED: 'location.deleted',
-  BOOKING_CREATED: 'booking.created',
-  BOOKING_UPDATED: 'booking.updated',
-  BOOKING_CANCELLED: 'booking.cancelled',
-  STAFF_ASSIGNED: 'staff.assigned',
-  STAFF_UNASSIGNED: 'staff.unassigned',
-  STAFF_UPDATED: 'staff.updated'
-} as const;
+// Export all event types
+export type EventType = AppEvent | LocationEvent | BookingEvent | UserEvent | SystemEvent;
 
-// Export as AppEventTypes for compatibility
-export const AppEventTypes = EventTypes;
+// Event handler interface
+export interface EventHandler<T extends BaseEvent = BaseEvent> {
+  handle(event: T): Promise<void>;
+  canHandle(eventType: string): boolean;
+}
+
+// Event bus subscription interface
+export interface EventSubscription {
+  id: string;
+  eventType: string;
+  handler: EventHandler;
+  isActive: boolean;
+}

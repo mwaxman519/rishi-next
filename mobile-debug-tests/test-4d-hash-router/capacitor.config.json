@@ -1,8 +1,0 @@
-{
-    "appId": "com.rishi.test4d",
-    "appName": "Test 4D Hash Router",
-    "webDir": "www",
-    "server": {
-        "androidScheme": "https"
-    }
-}

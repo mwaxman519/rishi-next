@@ -1,116 +1,82 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { users } from "@/shared/schema";
-import { eq } from "drizzle-orm";
-import * as bcrypt from "bcryptjs";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+export const revalidate = false;
 
-// Get current session
+import { successResponse, errorResponse } from "../utils/response";
+import { AUTH_CONFIG } from "../config";
+import { getUserById } from "../models/user-repository";
+import * as jwt from "jsonwebtoken";
+
+/**
+ * GET /api/auth-service/session
+ * Get current session information
+ */
 export async function GET(request: NextRequest) {
   try {
-    console.log('[SESSION] GET - Session check requested');
-    
-    // For development - check stored session first
-    const authorization = request.headers.get('authorization');
-    const cookieHeader = request.headers.get('cookie');
-    
-    console.log('[SESSION] Headers:', {
-      hasAuth: !!authorization,
-      hasCookie: !!cookieHeader,
-      origin: request.headers.get('origin')
-    });
+    console.log("[Auth Service] Session request received");
 
-    // Try to get user from simple session storage (for Replit compatibility)
-    if (cookieHeader?.includes('rishi-user=')) {
-      const userMatch = cookieHeader.match(/rishi-user=([^;]+)/);
-      if (userMatch && userMatch[1]) {
-        try {
-          const userData = JSON.parse(decodeURIComponent(userMatch[1]));
-          console.log('[SESSION] Found stored user:', userData.username);
-          return NextResponse.json({ success: true, user: userData });
-        } catch (e) {
-          console.log('[SESSION] Invalid stored user data');
-        }
-      }
+    // Get the auth token from cookies (check both cookie names for compatibility)
+    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME) || request.cookies.get("auth-token");
+    
+    if (!authToken) {
+      console.log("[Auth Service] No auth token found in cookies");
+      return successResponse({ user: null }, 200);
     }
 
-    console.log('[SESSION] No valid session found');
-    return NextResponse.json({ success: false, user: null });
+    // Verify the token using the same method as login
+    let payload;
+    try {
+      payload = jwt.verify(authToken.value, process.env.JWT_SECRET!) as { id: string, username: string };
+    } catch (error) {
+      console.log("[Auth Service] Invalid token:", error);
+      return successResponse({ user: null }, 200);
+    }
     
-  } catch (error) {
-    console.error('[SESSION] Error:', error);
-    return NextResponse.json({ error: 'Session check failed' }, { status: 500 });
-  }
-}
-
-// Create new session (login)
-export async function POST(request: NextRequest) {
-  try {
-    console.log('[SESSION] POST - Login attempt');
-    const body = await request.json();
-    const { username, password } = body;
-
-    if (!username || !password) {
-      return NextResponse.json({ error: 'Username and password required' }, { status: 400 });
+    if (!payload || !payload.id) {
+      console.log("[Auth Service] Invalid token payload");
+      return successResponse({ user: null }, 200);
     }
 
-    // Find user in database
-    const [user] = await db.select().from(users).where(eq(users.username, username));
+    // Get user from database (id is the user ID)
+    const user = await getUserById(payload.id);
     
     if (!user) {
-      console.log('[SESSION] User not found:', username);
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      console.log("[Auth Service] User not found for token");
+      return successResponse({ user: null }, 200);
     }
 
-    // Verify password
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      console.log('[SESSION] Invalid password for user:', username);
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
-    // Create session data
-    const sessionData = {
+    // Create session user object (similar to login endpoint)
+    const sessionUser = {
       id: user.id,
       username: user.username,
-      email: user.email,
-      fullName: user.fullName,
-      role: user.role,
-      loginTime: new Date().toISOString()
+      email: user.email || null,
+      fullName: user.fullName || null,
+      role: user.role || "brand_agent",
+      active: Boolean(user.active !== false),
+      organizations: [
+        {
+          orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+          orgName: "Rishi Internal",
+          orgType: "internal",
+          role: user.role,
+          isPrimary: true,
+        },
+      ],
+      currentOrganization: {
+        orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+        orgName: "Rishi Internal",
+        orgType: "internal",
+        role: user.role,
+        isPrimary: true,
+      },
     };
 
-    console.log('[SESSION] Login successful for user:', username);
+    console.log("[Auth Service] Session found for user:", user.username, "role:", user.role);
 
-    // Return response with session cookie
-    const response = NextResponse.json(sessionData);
-    response.cookies.set('rishi-user', encodeURIComponent(JSON.stringify(sessionData)), {
-      httpOnly: false, // Allow client access for Replit compatibility
-      secure: false, // Allow HTTP for development
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 // 24 hours
-    });
-
-    return response;
-    
+    return successResponse({ user: sessionUser }, 200);
   } catch (error) {
-    console.error('[SESSION] Login error:', error);
-    return NextResponse.json({ error: 'Login failed' }, { status: 500 });
-  }
-}
-
-// Delete session (logout)
-export async function DELETE(request: NextRequest) {
-  try {
-    console.log('[SESSION] DELETE - Logout requested');
-    
-    const response = NextResponse.json({ message: 'Logged out successfully' });
-    response.cookies.delete('rishi-user');
-    
-    return response;
-    
-  } catch (error) {
-    console.error('[SESSION] Logout error:', error);
-    return NextResponse.json({ error: 'Logout failed' }, { status: 500 });
+    console.error("[Auth Service] Session check error:", error);
+    return successResponse({ user: null }, 200);
   }
 }

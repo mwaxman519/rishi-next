@@ -1,8 +1,0 @@
-{
-    "appId": "com.rishi.platform",
-    "appName": "Rishi Platform",
-    "webDir": "www",
-    "server": {
-        "androidScheme": "https"
-    }
-}

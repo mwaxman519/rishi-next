@@ -1,8 +1,0 @@
-{
-    "appId": "com.rishi.test5router",
-    "appName": "Test 5: Rishi Router",
-    "webDir": "www",
-    "server": {
-        "androidScheme": "https"
-    }
-}

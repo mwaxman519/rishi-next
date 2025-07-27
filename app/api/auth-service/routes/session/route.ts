@@ -1,59 +1,105 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+/**
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+export const revalidate = false;
 
+ * Session API Endpoint for Auth Microservice
+ *
+ * This endpoint verifies user sessions and returns current user data.
+ */
+import { NextRequest } from "next/server";
+import { verifyToken, extractTokenFromHeader } from "../../utils/jwt";
+import { errorResponse, successResponse } from "../../utils/response";
+import {
+  getUserById,
+  getUserOrganizations,
+} from "../../models/user-repository";
+import { AUTH_CONFIG } from "../../config";
+
+/**
+ * Handle GET /api/auth-service/routes/session
+ * Returns information about the current authenticated user session
+ */
 export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-    
-    if (!user) {
-      return NextResponse.json({ 
-        authenticated: false,
-        message: "No active session" 
-      }, { status: 401 });
+    console.log("[Auth Service] Session verification request");
+
+    // Check for token in authorization header
+    const authHeader = request.headers.get("authorization");
+    const token = extractTokenFromHeader(authHeader);
+
+    // Also check for token in cookies as a fallback
+    const cookieToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME)?.value;
+
+    // Use either token source
+    const accessToken = token || cookieToken;
+
+    // Development mode option to bypass token for testing
+    const urlParams = new URL(request.url).searchParams;
+    const devModeParam = urlParams.get("dev_mode");
+
+    // Handle development mode bypass if explicitly enabled
+    if (AUTH_CONFIG.DEV_MODE && devModeParam === "true") {
+      console.log("[Auth Service] DEVELOPMENT MODE: Using mock user session");
+
+      return successResponse({
+        user: {
+          id: "00000000-0000-0000-0000-000000000001",
+          email: "admin@example.com",
+          name: "Admin User",
+          role: "super_admin",
+          organizationId: "00000000-0000-0000-0000-000000000001",
+          roles: ["SUPER_ADMIN"],
+        },
+      });
     }
 
-    return NextResponse.json({
-      authenticated: true,
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        fullName: user.fullName,
-        role: user.role,
-        active: user.active
+    // No token available
+    if (!accessToken) {
+      console.log("[Auth Service] No session token found");
+      return successResponse({ user: null });
+    }
+
+    try {
+      // Verify the token
+      const payload = await verifyToken(accessToken);
+
+      // Get the complete user data
+      if (!payload.sub) {
+        return errorResponse("Invalid token: missing user ID", 401);
       }
-    });
-  } catch (error) {
-    console.error("Session check error:", error);
-    return NextResponse.json({ 
-      authenticated: false,
-      error: "Session validation failed" 
-    }, { status: 500 });
-  }
-}
+      const user = await getUserById(payload.sub);
 
-export async function DELETE(request: NextRequest) {
-  try {
-    // Clear session/logout
-    const response = NextResponse.json({ 
-      success: true, 
-      message: "Session ended" 
-    });
-    
-    response.cookies.set('auth-token', '', {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      maxAge: 0
-    });
+      if (!user) {
+        console.log(
+          `[Auth Service] User not found for token payload: ${payload.sub}`,
+        );
+        return successResponse({ user: null });
+      }
 
-    return response;
+      // Remove sensitive data
+      const { password, ...userWithoutPassword } = user;
+
+      // Get user organizations
+      const userOrgs = await getUserOrganizations(user.id);
+
+      // Find default organization
+      const defaultOrg = userOrgs.find((org: any) => org.isDefault) || userOrgs[0];
+
+      // Return session information
+      return successResponse({
+        user: {
+          ...userWithoutPassword,
+          organizations: userOrgs,
+          currentOrganization: defaultOrg,
+        },
+      });
+    } catch (tokenError) {
+      console.error("[Auth Service] Token validation error:", tokenError);
+      return successResponse({ user: null });
+    }
   } catch (error) {
-    console.error("Session deletion error:", error);
-    return NextResponse.json({ 
-      error: "Failed to end session" 
-    }, { status: 500 });
+    console.error("[Auth Service] Session verification error:", error);
+    return errorResponse("Session error", 500, "SESSION_ERROR");
   }
 }
