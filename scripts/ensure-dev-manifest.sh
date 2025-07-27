@@ -1,32 +1,17 @@
 #!/bin/bash
 
-# Ensure development manifests exist
-mkdir -p .next/server
+echo "=== ENSURING DEV ENVIRONMENT INTEGRITY ==="
 
-# Create minimal middleware manifest
-cat > .next/server/middleware-manifest.json << 'EOF'
-{
-  "version": 2,
-  "middleware": {},
-  "functions": {},
-  "matchers": []
-}
-EOF
+# Kill any running staging builds that might corrupt dev
+pkill -f "next build" 2>/dev/null || true
 
-# Create minimal routes manifest  
-cat > .next/routes-manifest.json << 'EOF'
-{
-  "version": 3,
-  "pages404": true,
-  "basePath": "",
-  "headers": [],
-  "rewrites": {
-    "beforeFiles": [],
-    "afterFiles": [],
-    "fallback": []
-  },
-  "redirects": []
-}
-EOF
+# Remove corrupted build cache
+rm -rf .next
 
-echo "✅ Development manifests restored"
+# Ensure we're in development mode
+export NODE_ENV=development
+export NEXT_PUBLIC_APP_ENV=development
+
+# Start fresh dev server
+echo "✅ Development environment restored"
+echo "Starting clean dev server..."

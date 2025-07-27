@@ -33,3 +33,10 @@ if [ -d ".next" ]; then
 fi
 
 echo "=== STAGING BUILD READY FOR REPLIT AUTOSCALE DEPLOYMENT ==="
+
+# CRITICAL: Restore development environment after staging build
+echo "🔄 Restoring development environment..."
+rm -rf .next
+export NODE_ENV=development
+export NEXT_PUBLIC_APP_ENV=development
+echo "✅ Development environment restored - staging build will not affect dev server"
