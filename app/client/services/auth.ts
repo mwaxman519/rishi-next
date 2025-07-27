@@ -126,7 +126,7 @@ export class AuthServiceClient {
    */
   async logout(): Promise<void> {
     try {
-      const response = await fetch("/api/auth/logout", {
+      const response = await fetch("/api/auth-service/logout", {
         method: "POST",
         credentials: "include",
       });

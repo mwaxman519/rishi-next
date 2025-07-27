@@ -149,8 +149,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
 
-        // In production, would fetch from /api/auth/session
-        const response = await fetch("/api/auth/session");
+        // In production, would fetch from /api/auth-service/session
+        const response = await fetch("/api/auth-service/session");
         if (!response.ok) {
           throw new Error("Failed to load user session");
         }

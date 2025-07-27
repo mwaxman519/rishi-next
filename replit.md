@@ -86,6 +86,15 @@ This is the comprehensive Rishi Platform built with Next.js 15.2.2, designed for
 
 ## Recent Changes
 
+### January 27, 2025 - DEPRECATED AUTH ENDPOINTS CLEANUP COMPLETED - DEPLOYMENT READY (FINAL)
+- **DEPRECATED ENDPOINTS REMOVED**: Eliminated all deprecated `/api/auth/login`, `/api/auth/logout`, `/api/auth/session`, `/api/auth/register` endpoints
+- **FRONTEND REFERENCES UPDATED**: Fixed all frontend components and services to use `/api/auth-service/*` endpoints
+- **AUTHENTICATION SYSTEM STREAMLINED**: Single authentication system using auth-service endpoints with proper JWT handling
+- **LOGIN ENDPOINT MISMATCH RESOLVED**: Fixed frontend login form to call correct `/api/auth-service/login` endpoint
+- **CODE CLEANUP COMPLETED**: Removed deprecated auth infrastructure while preserving NextAuth OAuth components
+- **DEPLOYMENT BLOCKER ELIMINATED**: Authentication system now uses consistent endpoint structure preventing 429 errors
+- **PRODUCTION READY**: Authentication flow fully functional with streamlined endpoint architecture
+
 ### January 27, 2025 - CRITICAL STAGING DATABASE DEPLOYMENT FIXES COMPLETED
 
 **STAGING DEPLOYMENT SUCCESS**: Completely resolved database connection failures during Replit Autoscale staging deployment

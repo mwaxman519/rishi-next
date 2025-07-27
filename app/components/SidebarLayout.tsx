@@ -1859,7 +1859,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     } else {
                       // Fallback for production if hook function is not available
                       // Direct fetch to logout endpoint
-                      const response = await fetch("/api/auth/logout", {
+                      const response = await fetch("/api/auth-service/logout", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                       });

@@ -125,7 +125,7 @@ const TopBar: React.FC<TopBarProps> = ({ items }) => {
                 </Link>
               </li>
               <li className="dropdown-item">
-                <Link href="/api/auth/logout" onClick={closeDropdowns}>
+                <Link href="/api/auth-service/logout" onClick={closeDropdowns}>
                   Logout
                 </Link>
               </li>

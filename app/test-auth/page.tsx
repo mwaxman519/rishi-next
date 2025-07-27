@@ -23,7 +23,7 @@ export default function TestAuthPage() {
     { endpoint: "/api/auth/user", description: "User Authentication" },
     { endpoint: "/api/locations", description: "Locations API" },
     { endpoint: "/api/kits", description: "Kits API" },
-    { endpoint: "/api/auth/session", description: "Session API" },
+    { endpoint: "/api/auth-service/session", description: "Session API" },
   ];
 
   const runTests = async () => {
