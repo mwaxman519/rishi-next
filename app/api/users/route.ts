@@ -9,15 +9,7 @@ export async function GET(request: NextRequest) {
   try {
     console.log('[USERS] GET - Fetching users');
     
-    const userList = await db.select({
-      id: users.id,
-      username: users.username,
-      email: users.email,
-      fullName: users.fullName,
-      role: users.role,
-      organizationId: users.organizationId,
-      createdAt: users.createdAt
-    }).from(users);
+    const userList = await db.select().from(users);
     
     console.log(`[USERS] Found ${userList.length} users`);
     return NextResponse.json(userList);
@@ -33,27 +25,23 @@ export async function POST(request: NextRequest) {
     console.log('[USERS] POST - Creating user');
     
     const body = await request.json();
-    const { username, email, fullName, role, organizationId, passwordHash } = body;
+    const { email, fullName, role, password } = body;
 
-    if (!username || !passwordHash) {
-      return NextResponse.json({ error: 'Username and password required' }, { status: 400 });
+    if (!email || !password) {
+      return NextResponse.json({ error: 'Email and password required' }, { status: 400 });
     }
 
     const [newUser] = await db.insert(users).values({
-      username,
+      username: email, // Use email as username for now
       email,
-      fullName: fullName || username,
+      fullName: fullName || email,
       role: role || 'client_user',
-      organizationId,
-      passwordHash
-    }).returning({
-      id: users.id,
-      username: users.username,
-      email: users.email,
-      fullName: users.fullName,
-      role: users.role,
-      organizationId: users.organizationId
-    });
+      password
+    }).returning();
+
+    if (!newUser) {
+      return NextResponse.json({ error: 'Failed to create user' }, { status: 500 });
+    }
 
     console.log('[USERS] Created user:', newUser.username);
     return NextResponse.json(newUser);
