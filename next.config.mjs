@@ -101,19 +101,16 @@ const nextConfig = {
       
       // Ultra-fast build settings
       config.parallelism = 6; // Maximum threads for speed
-      config.cache = {
-        type: 'memory', // Fast memory cache
-        maxMemoryGenerations: 1, // Limit cache memory
-      };
+      // Remove cache configuration - let Next.js handle it
       
       // Aggressive deployment size optimization for staging
       if (isServer) {
         config.devtool = false; // Remove source maps for smaller bundles
       }
       
-      // Tree shaking optimization
-      config.usedExports = true;
-      config.sideEffects = false;
+      // Tree shaking optimization - set correctly
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = false;
     }
     
     // Resolve path issues
