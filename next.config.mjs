@@ -84,13 +84,6 @@ const nextConfig = {
     };
     
     return config;
-  },
-  
-  // Environment-specific build settings
-  env: {
-    NODE_OPTIONS: process.env.NEXT_PUBLIC_APP_ENV === 'staging' 
-      ? '--max-old-space-size=4096 --optimize-for-size'
-      : undefined
   }
 };
 

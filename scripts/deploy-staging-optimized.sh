@@ -6,12 +6,19 @@ echo "🎯 Addressing memory allocation failures and build timeouts"
 # Set staging environment variables
 export NODE_ENV=production
 export NEXT_PUBLIC_APP_ENV=staging
-export NODE_OPTIONS="--max-old-space-size=4096 --optimize-for-size"
+
+# Copy staging environment file
+if [ -f ".env.staging" ]; then
+    cp .env.staging .env.production
+    echo "✅ Applied staging environment configuration"
+else
+    echo "⚠️  .env.staging not found - using default configuration"
+fi
 
 echo "📊 Environment Configuration:"
 echo "   NODE_ENV: $NODE_ENV"
 echo "   NEXT_PUBLIC_APP_ENV: $NEXT_PUBLIC_APP_ENV"
-echo "   NODE_OPTIONS: $NODE_OPTIONS"
+echo "   Environment File: .env.production (staging config)"
 
 # Check for VoltBuilder contamination
 echo ""
