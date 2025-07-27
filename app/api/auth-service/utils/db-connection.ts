@@ -53,8 +53,8 @@ class DatabaseConnectionManager {
         return;
       }
 
-      // Additional check for build-time scenarios
-      if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
+      // Additional check for build-time scenarios, but allow staging to proceed
+      if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL && process.env.NEXT_PUBLIC_APP_ENV !== 'staging') {
         console.log("[DB Manager] Production build without DATABASE_URL - creating stub connection");
         this.sql = () => Promise.resolve({ rows: [] });
         this.db = { 
@@ -279,9 +279,9 @@ class DatabaseConnectionManager {
 let _dbManager: DatabaseConnectionManager | null = null;
 
 export function getDbManager(): DatabaseConnectionManager {
-  // Skip initialization during VoltBuilder builds or Next.js build phase
-  if (process.env.VOLTBUILDER_BUILD === 'true' || process.env.NEXT_PHASE === 'phase-production-build') {
-    console.log('[DB Manager] Build phase detected - returning stub manager');
+  // Only skip initialization for VoltBuilder builds, not for staging deployments
+  if (process.env.VOLTBUILDER_BUILD === 'true') {
+    console.log('[DB Manager] VoltBuilder build detected - returning stub manager');
     return {
       getDatabase: () => ({
         select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
@@ -301,9 +301,9 @@ export function getDbManager(): DatabaseConnectionManager {
     } as any;
   }
   
-  // Additional detection for build scenarios where NEXT_PHASE might not be set
-  if (process.env.NODE_ENV === 'production' && !process.env.REPLIT_DEPLOYMENT && !process.env.VERCEL_ENV) {
-    console.log('[DB Manager] Production build without deployment context - returning stub manager');
+  // Special handling for Next.js build phase but allow staging to proceed
+  if (process.env.NEXT_PHASE === 'phase-production-build' && process.env.NEXT_PUBLIC_APP_ENV !== 'staging') {
+    console.log('[DB Manager] Next.js build phase detected (non-staging) - returning stub manager');
     return {
       getDatabase: () => ({
         select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
