@@ -146,6 +146,7 @@
     "esbuild": "^0.25.5",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "form-data": "^4.0.4",
     "framer-motion": "^12.23.0",
     "glob": "^10.4.5",
     "gray-matter": "^4.0.3",
