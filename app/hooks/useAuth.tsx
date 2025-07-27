@@ -94,25 +94,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(true);
         setError(null);
 
-        // In development with Replit, use localStorage-based auth to avoid fetch issues
+        // In development with Replit, use session-based auth first
         if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined' && window.location.hostname.includes('replit.dev')) {
-          console.log('Using Replit-specific authentication');
+          console.log('Development environment detected, checking session first...');
           
-          // Wait for Replit auth to complete loading
-          if (replitAuth.isLoading) {
-            setIsLoading(true);
-            return;
+          try {
+            const sessionResponse = await fetch('/api/auth-service/session');
+            const sessionData = await sessionResponse.json();
+            
+            if (sessionData && sessionData.id) {
+              console.log('Found valid session:', sessionData.username);
+              setUser(sessionData);
+              setIsLoading(false);
+              return;
+            }
+          } catch (sessionError) {
+            console.log('Session check failed, using Replit auth fallback');
           }
           
-          setUser(replitAuth.user);
-          setIsLoading(false);
-          console.log('Authentication state set:', { 
-            user: replitAuth.user?.username, 
-            role: replitAuth.user?.role, 
-            isSuperAdmin: replitAuth.user?.role === 'super_admin',
-            authIsLoading: false 
-          });
-          return;
+          // Fallback to Replit auth if session check fails
+          if (!replitAuth.isLoading && replitAuth.user) {
+            setUser(replitAuth.user);
+            setIsLoading(false);
+            console.log('Using Replit fallback authentication');
+            return;
+          }
         }
 
         console.log('Checking authentication via session endpoint...');
@@ -142,7 +148,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             return;
           }
           
-          setUser(replitAuth.user);
+          if (replitAuth.user) {
+            setUser(replitAuth.user);
+          }
           setIsLoading(false);
           console.log('Fallback authentication state set:', { 
             user: replitAuth.user?.username, 
@@ -159,20 +167,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
+    // Only load user once on mount, no continuous polling
     loadUser();
-    
-    // Listen for login success events to refresh auth state
-    const handleLoginSuccess = () => {
-      console.log('Login success event received, reloading user...');
-      loadUser();
-    };
-
-    window.addEventListener('auth-login-success', handleLoginSuccess);
-    
-    return () => {
-      window.removeEventListener('auth-login-success', handleLoginSuccess);
-    };
-  }, [authService]); // Remove replitAuth dependencies to prevent loops
+  }, []); // Remove all dependencies to prevent endless loops
 
   // Permission checking function
   const hasPermission = (permission: string): boolean => {
@@ -204,12 +201,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Login function
   const login = async (username: string, password: string): Promise<boolean> => {
     try {
-      const result = await authService.login({ username, password });
+      console.log('[AUTH] Attempting login via auth service...');
+      
+      // Direct API call to match the working login endpoint
+      const response = await fetch('/api/auth-service/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      
+      if (!response.ok) {
+        console.error('[AUTH] Login failed with status:', response.status);
+        return false;
+      }
+      
+      const result = await response.json();
+      console.log('[AUTH] Login response:', result);
+      
       if (result.success && result.user) {
+        console.log('[AUTH] Login successful, setting user:', result.user.username);
         setUser(result.user);
         setError(null);
+        
+        // Trigger auth success event for other components
+        window.dispatchEvent(new CustomEvent('auth-login-success'));
         return true;
       }
+      
       return false;
     } catch (err) {
       console.error('Login error:', err);
