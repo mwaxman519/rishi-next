@@ -415,14 +415,52 @@ export function useAuthService(): AuthServiceClient {
    */
   async function getSession(): Promise<SessionInfo> {
     try {
-      // Always use real authentication - no fallback mode
       console.log("Getting session from auth service...");
-      const result = await authRequest<SessionInfo>("session");
-      console.log("Session result:", result);
-      return result;
+      const response = await fetch("/api/auth-service/session", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!response.ok) {
+        console.log("Session request failed with status:", response.status);
+        return { user: null };
+      }
+
+      const result = await response.json();
+      console.log("Session user received:", result?.user || null);
+      
+      // Handle different response formats
+      if (result === null) {
+        console.log("No valid session found - user not authenticated");
+        return { user: null };
+      }
+      
+      if (result.success === false || !result.user) {
+        console.log("No valid session found - user not authenticated");
+        return { user: null };
+      }
+      
+      if (result.user) {
+        return { user: result.user };
+      }
+      
+      // If result is the user object directly
+      if (result.id && result.username) {
+        return { user: result };
+      }
+      
+      return { user: null };
     } catch (err) {
+      console.error("Auth service session error:", err);
+      console.error("Error type:", typeof err);
+      console.error("Error instanceof TypeError:", err instanceof TypeError);
+      console.error("Error instanceof DOMException:", err instanceof DOMException);
+      console.error("Error message:", err?.message || "Unknown error");
       console.error("Get session error:", err);
-      // Return the error structure that matches SessionInfo
       return { user: null };
     }
   }

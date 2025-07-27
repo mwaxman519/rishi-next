@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         try {
           const userData = JSON.parse(decodeURIComponent(userMatch[1]));
           console.log('[SESSION] Found stored user:', userData.username);
-          return NextResponse.json(userData);
+          return NextResponse.json({ success: true, user: userData });
         } catch (e) {
           console.log('[SESSION] Invalid stored user data');
         }
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     }
 
     console.log('[SESSION] No valid session found');
-    return NextResponse.json(null);
+    return NextResponse.json({ success: false, user: null });
     
   } catch (error) {
     console.error('[SESSION] Error:', error);

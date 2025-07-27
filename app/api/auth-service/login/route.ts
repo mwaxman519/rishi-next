@@ -100,11 +100,26 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // Set auth cookie
+    // Set auth cookie for JWT
     response.cookies.set('auth-token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: false, // Allow in development
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 // 7 days
+    });
+
+    // Also set a simple user cookie for Replit compatibility
+    response.cookies.set('rishi-user', encodeURIComponent(JSON.stringify({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+      isActive: user.active
+    })), {
+      httpOnly: false, // Allow client access for Replit compatibility
+      secure: false,
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 // 7 days
     });
 
