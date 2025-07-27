@@ -1,0 +1,379 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { useAuthorization } from '../hooks/useAuthorization';
+import { useSidebarState } from '../hooks/useSidebarState';
+import { Permission } from '../lib/rbac';
+import { ThemeToggle } from './ui/ThemeToggle';
+import { ChevronLeft, ChevronRight, Menu, X, LogOut, User, Home, FileText, LayoutDashboard, Users, Calendar, Package, Settings } from 'lucide-react';
+import { Button } from './ui/button';
+
+interface SidebarLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function SidebarLayout({ children }: SidebarLayoutProps) {
+  const pathname = usePathname();
+  const { user, isLoading, logout } = useAuth();
+  const { checkPermission, getRole } = useAuthorization();
+  const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } = useSidebarState();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Special case for documentation pages
+  const isDocsPage = pathname?.startsWith('/docs');
+  
+  // Dispatch a custom event for the calendar component when sidebar state changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Dispatch a custom event that our calendar component can listen for
+      const event = new CustomEvent('sidebarStateChange', { 
+        detail: { collapsed: sidebarCollapsed } 
+      });
+      window.dispatchEvent(event);
+    }
+  }, [sidebarCollapsed]);
+
+  const userRole = getRole();
+
+  // Public links available to all users
+  const publicLinks = [
+    { href: '/', label: 'Home', icon: <Home size={20} /> },
+    { href: '/docs', label: 'Documentation', icon: <FileText size={20} /> },
+  ];
+  
+  // Links that require specific permissions
+  const protectedLinks = [
+    { 
+      href: '/availability', 
+      label: 'My Availability', 
+      permission: null, // Temporarily removed permission for development
+      icon: <Calendar size={20} />
+    },
+    { 
+      href: '/availability/team', 
+      label: 'Team Schedule', 
+      permission: 'view:users' as Permission,
+      icon: <Users size={20} />
+    },
+    { 
+      href: '/items', 
+      label: 'Items', 
+      permission: null,
+      icon: <Package size={20} />
+    },
+    { 
+      href: '/users', 
+      label: 'Users', 
+      permission: 'view:users' as Permission,
+      icon: <User size={20} />
+    },
+    { 
+      href: '/admin', 
+      label: 'Admin', 
+      permission: 'view:admin' as Permission,
+      icon: <Settings size={20} />
+    },
+  ];
+
+  // Combine public links with permitted protected links
+  const links = [
+    ...publicLinks,
+    ...protectedLinks.filter(link => {
+      // If no permission is required or user has permission
+      if (!link.permission) return true;
+      if (!user) return false;
+      return userRole && checkPermission(link.permission);
+    }),
+  ];
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Special handling for docs pages - keep the main sidebar but allow custom content
+  /* We'll retain the sidebar for docs pages too */
+
+  return (
+    <div className="flex h-screen overflow-hidden bg-[rgb(var(--background))]">
+      {/* Desktop Sidebar - hidden on mobile */}
+      <aside className={`hidden lg:flex sidebar h-screen flex-col transition-all duration-300 ${sidebarCollapsed ? 'w-20 sidebar-collapsed' : 'w-64 sidebar-expanded'}`}>
+        {/* Sidebar header */}
+        <div className="flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]">
+          <Link href="/" className="flex items-center overflow-hidden">
+            <div className="w-8 h-8 relative flex-shrink-0">
+              <Image
+                src="/assets/logos/rishi-logo-teal.png"
+                alt="Rishi Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
+            <span className={`ml-2 text-xl font-bold text-[rgb(var(--primary))] transition-opacity duration-300 ${sidebarCollapsed ? 'opacity-0' : 'opacity-100'}`}>
+              Rishi
+            </span>
+          </Link>
+          <button
+            onClick={toggleSidebar}
+            className="p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+            aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {sidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+          </button>
+        </div>
+
+        {/* Navigation links */}
+        <nav className="flex-grow px-2 py-4 overflow-y-auto">
+          <ul className="space-y-1">
+            {links.map((link) => {
+              const isActive = pathname === link.href || 
+                              (link.href !== '/' && pathname?.startsWith(link.href));
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`sidebar-item ${isActive ? 'sidebar-item-active' : 'sidebar-item-inactive'}`}
+                  >
+                    <span className="flex-shrink-0">{link.icon}</span>
+                    <span className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>{link.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Footer with theme toggle and user info */}
+        <div className="mt-auto border-t border-[rgb(var(--sidebar-border))] pt-4 pb-2 px-2">
+          {/* Theme toggle */}
+          <div className="flex justify-between items-center mb-4 px-2">
+            <span className={`text-sm text-[rgb(var(--muted-foreground))] transition-opacity duration-300 ${sidebarCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>Dark Mode</span>
+            <ThemeToggle />
+          </div>
+          
+          {/* User profile section */}
+          {user ? (
+            <div className="px-2">
+              <Link href="/profile" className="block">
+                <div className="flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-[rgb(var(--primary))] flex items-center justify-center text-white flex-shrink-0 border-2 border-[rgb(var(--primary-light))]">
+                    <User size={18} />
+                  </div>
+                  <div className={`ml-3 overflow-hidden transition-opacity duration-300 ${sidebarCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>
+                    <p className="text-sm font-medium truncate">
+                      {user.username}
+                    </p>
+                    <div className="flex items-center">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))]">
+                        Brand Agent
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              
+              {/* Logout button */}
+              <div className="mt-2">
+                <Button
+                  variant="default"
+                  size="sm"
+                  disabled={isLoading}
+                  onClick={logout}
+                  className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
+                >
+                  <LogOut size={16} className={sidebarCollapsed ? '' : 'mr-2'} />
+                  {!sidebarCollapsed && (isLoading ? 'Logging out...' : 'Logout')}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="px-2">
+              {/* Mock user profile for when not logged in - users will see this initially */}
+              <Link href="/auth/login" className="block">
+                <div className="flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 flex-shrink-0">
+                    <User size={18} />
+                  </div>
+                  <div className={`ml-3 overflow-hidden transition-opacity duration-300 ${sidebarCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>
+                    <p className="text-sm font-medium truncate">
+                      Guest User
+                    </p>
+                    <p className="text-xs text-[rgb(var(--muted-foreground))] truncate">
+                      Login to access your account
+                    </p>
+                  </div>
+                </div>
+              </Link>
+              
+              {/* Login button only - removed Register button */}
+              <div className="mt-2">
+                <Link href="/auth/login">
+                  <Button 
+                    variant="default" 
+                    size="sm" 
+                    className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
+                  >
+                    <User size={16} className={sidebarCollapsed ? '' : 'mr-2'} />
+                    {!sidebarCollapsed && 'Login'}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </aside>
+
+      {/* Mobile Menu Button - Only shown on mobile */}
+      <div className="fixed top-0 left-0 z-50 p-4 lg:hidden flex items-center">
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="p-2 rounded-md bg-[rgb(var(--primary))] text-white shadow-md"
+          aria-label="Open menu"
+        >
+          <Menu size={24} />
+        </button>
+        
+        {/* Conditionally show the docs tree button on docs pages */}
+        {isDocsPage && (
+          <div className="docs-tree-button ml-2">
+            {/* This will be populated by the DocsSidebar component */}
+          </div>
+        )}
+      </div>
+
+      {/* Mobile Menu Overlay - Only shown when mobile menu is open */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        ></div>
+      )}
+
+      {/* Mobile Menu Panel */}
+      <div className={`
+        fixed inset-y-0 left-0 z-50 w-64 bg-[rgb(var(--sidebar-background))] shadow-lg transition-transform duration-300 transform lg:hidden
+        ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        {/* Mobile menu header */}
+        <div className="flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]">
+          <Link href="/" className="flex items-center overflow-hidden">
+            <div className="w-8 h-8 relative flex-shrink-0">
+              <Image
+                src="/assets/logos/rishi-logo-teal.png"
+                alt="Rishi Logo"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </div>
+            <span className="ml-2 text-xl font-bold text-[rgb(var(--primary))]">
+              Rishi
+            </span>
+          </Link>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Mobile Navigation links */}
+        <nav className="px-2 py-4 overflow-y-auto max-h-[calc(100vh-148px)]">
+          <ul className="space-y-1">
+            {links.map((link) => {
+              const isActive = pathname === link.href || 
+                             (link.href !== '/' && pathname?.startsWith(link.href));
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`flex items-center px-4 py-3 rounded-md transition-colors ${
+                      isActive 
+                        ? 'bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium' 
+                        : 'text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]'
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="flex-shrink-0">{link.icon}</span>
+                    <span className="ml-3">{link.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Mobile menu footer */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-[rgb(var(--sidebar-border))] pt-4 pb-6 px-4">
+          {/* Theme toggle */}
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-sm text-[rgb(var(--muted-foreground))]">Dark Mode</span>
+            <ThemeToggle />
+          </div>
+          
+          {/* User actions */}
+          {user ? (
+            <Button
+              variant="default"
+              size="sm"
+              disabled={isLoading}
+              onClick={logout}
+              className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
+            >
+              <LogOut size={16} className="mr-2" />
+              {isLoading ? 'Logging out...' : 'Logout'}
+            </Button>
+          ) : (
+            <Link href="/auth/login">
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                Login
+              </Button>
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom mobile navigation bar - Only shown on mobile */}
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-[rgb(var(--sidebar-background))] border-t border-[rgb(var(--sidebar-border))] lg:hidden">
+        <div className="flex items-center justify-around py-2">
+          {links.slice(0, 5).map((link) => {
+            const isActive = pathname === link.href || 
+                          (link.href !== '/' && pathname?.startsWith(link.href));
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`flex flex-col items-center p-2 ${
+                  isActive ? 'text-[rgb(var(--primary))]' : 'text-[rgb(var(--sidebar-foreground))]'
+                }`}
+              >
+                {link.icon}
+                <span className="text-xs mt-1">{link.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col overflow-hidden pt-14 pb-16 lg:pt-0 lg:pb-0">
+        {/* Main content area */}
+        <main className="flex-1 overflow-auto p-4">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}

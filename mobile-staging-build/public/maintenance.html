@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cannabis Booking Platform - Maintenance</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #2d5016 0%, #4a7c27 100%);
+        color: white;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        text-align: center;
+        max-width: 600px;
+        padding: 2rem;
+      }
+      .icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+      p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+      .status {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 2rem;
+      }
+      .retry-button {
+        background: #6b8e23;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: background 0.2s;
+      }
+      .retry-button:hover {
+        background: #7ba428;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="icon">🌿</div>
+      <h1>Cannabis Booking Platform</h1>
+      <p>
+        We're currently performing scheduled maintenance to improve your
+        experience. Our cannabis operational workflows will be back online
+        shortly.
+      </p>
+
+      <div class="status">
+        <strong>What's happening:</strong><br />
+        • System updates and optimizations<br />
+        • Enhanced cannabis booking management features<br />
+        • Improved performance and reliability
+      </div>
+
+      <button class="retry-button" onclick="window.location.reload()">
+        Check Status Again
+      </button>
+
+      <p style="font-size: 0.9rem; margin-top: 2rem; opacity: 0.7">
+        For urgent operational needs, please contact your cannabis operations
+        manager.
+      </p>
+    </div>
+
+    <script>
+      // Auto-refresh every 30 seconds during maintenance
+      setTimeout(() => {
+        window.location.reload();
+      }, 30000);
+    </script>
+  </body>
+</html>
