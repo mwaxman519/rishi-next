@@ -1,40 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { organizations } from "@/shared/schema";
+import { eq } from "drizzle-orm";
 
-// VoltBuilder Build-Safe Route: organizations
-// This route is replaced during VoltBuilder builds to prevent database import failures
-// Original route functionality will work in the deployed mobile app
+export const dynamic = "force-dynamic";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
-export async function GET(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "organizations",
-    timestamp: new Date().toISOString()
-  });
+export async function GET(request: NextRequest) {
+  try {
+    console.log('[ORGANIZATIONS] GET - Fetching organizations');
+    
+    const orgList = await db.select().from(organizations);
+    console.log(`[ORGANIZATIONS] Found ${orgList.length} organizations`);
+    
+    return NextResponse.json(orgList);
+    
+  } catch (error) {
+    console.error('[ORGANIZATIONS] Error:', error);
+    return NextResponse.json({ error: 'Failed to fetch organizations' }, { status: 500 });
+  }
 }
 
-export async function POST(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app", 
-    route: "organizations",
-    timestamp: new Date().toISOString()
-  });
-}
+export async function POST(request: NextRequest) {
+  try {
+    console.log('[ORGANIZATIONS] POST - Creating organization');
+    
+    const body = await request.json();
+    const { name, tier, status } = body;
 
-export async function PUT(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "organizations", 
-    timestamp: new Date().toISOString()
-  });
-}
+    if (!name) {
+      return NextResponse.json({ error: 'Organization name required' }, { status: 400 });
+    }
 
-export async function DELETE(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "organizations",
-    timestamp: new Date().toISOString()
-  });
+    const [newOrg] = await db.insert(organizations).values({
+      name,
+      tier: tier || 'tier_1',
+      status: status || 'active'
+    }).returning();
+
+    console.log('[ORGANIZATIONS] Created organization:', newOrg.name);
+    return NextResponse.json(newOrg);
+    
+  } catch (error) {
+    console.error('[ORGANIZATIONS] Create error:', error);
+    return NextResponse.json({ error: 'Failed to create organization' }, { status: 500 });
+  }
 }

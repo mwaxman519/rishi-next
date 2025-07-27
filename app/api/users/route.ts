@@ -1,40 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { users } from "@/shared/schema";
+import { eq } from "drizzle-orm";
 
-// VoltBuilder Build-Safe Route: users
-// This route is replaced during VoltBuilder builds to prevent database import failures
-// Original route functionality will work in the deployed mobile app
+export const dynamic = "force-dynamic";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
-export async function GET(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "users",
-    timestamp: new Date().toISOString()
-  });
+export async function GET(request: NextRequest) {
+  try {
+    console.log('[USERS] GET - Fetching users');
+    
+    const userList = await db.select({
+      id: users.id,
+      username: users.username,
+      email: users.email,
+      fullName: users.fullName,
+      role: users.role,
+      organizationId: users.organizationId,
+      createdAt: users.createdAt
+    }).from(users);
+    
+    console.log(`[USERS] Found ${userList.length} users`);
+    return NextResponse.json(userList);
+    
+  } catch (error) {
+    console.error('[USERS] Error:', error);
+    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+  }
 }
 
-export async function POST(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app", 
-    route: "users",
-    timestamp: new Date().toISOString()
-  });
-}
+export async function POST(request: NextRequest) {
+  try {
+    console.log('[USERS] POST - Creating user');
+    
+    const body = await request.json();
+    const { username, email, fullName, role, organizationId, passwordHash } = body;
 
-export async function PUT(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "users", 
-    timestamp: new Date().toISOString()
-  });
-}
+    if (!username || !passwordHash) {
+      return NextResponse.json({ error: 'Username and password required' }, { status: 400 });
+    }
 
-export async function DELETE(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "users",
-    timestamp: new Date().toISOString()
-  });
+    const [newUser] = await db.insert(users).values({
+      username,
+      email,
+      fullName: fullName || username,
+      role: role || 'client_user',
+      organizationId,
+      passwordHash
+    }).returning({
+      id: users.id,
+      username: users.username,
+      email: users.email,
+      fullName: users.fullName,
+      role: users.role,
+      organizationId: users.organizationId
+    });
+
+    console.log('[USERS] Created user:', newUser.username);
+    return NextResponse.json(newUser);
+    
+  } catch (error) {
+    console.error('[USERS] Create error:', error);
+    return NextResponse.json({ error: 'Failed to create user' }, { status: 500 });
+  }
 }

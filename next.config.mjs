@@ -49,15 +49,15 @@ const nextConfig = {
   serverExternalPackages: ['@neondatabase/serverless'],
   
   webpack: (config, { isServer, dev }) => {
-    // Autoscale deployment optimizations
+    // Memory optimization for staging builds
     if (!dev && process.env.NEXT_PUBLIC_APP_ENV === 'staging') {
-      // Reduce compilation time for autoscale
+      // Ultra memory optimization to prevent heap overflow
       config.optimization = {
         ...config.optimization,
-        minimize: false, // Skip minification for faster builds
+        minimize: false, // Skip minification for memory savings
         splitChunks: {
           chunks: 'all',
-          maxSize: 244000, // Smaller chunks
+          maxSize: 200000, // Very small chunks to reduce memory
           cacheGroups: {
             default: false,
             vendors: false,
@@ -66,12 +66,31 @@ const nextConfig = {
               name: 'framework',
               priority: 40,
               enforce: true,
+              maxSize: 200000,
             },
           },
         },
       };
+      
+      // Memory optimization settings
+      config.parallelism = 1; // Single-threaded to save memory
+      config.cache = false; // Disable caching to save memory
     }
+    
+    // Resolve path issues
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(process.cwd()),
+    };
+    
     return config;
+  },
+  
+  // Environment-specific build settings
+  env: {
+    NODE_OPTIONS: process.env.NEXT_PUBLIC_APP_ENV === 'staging' 
+      ? '--max-old-space-size=4096 --optimize-for-size'
+      : undefined
   }
 };
 

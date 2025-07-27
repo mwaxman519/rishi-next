@@ -1,40 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { bookings } from "@/shared/schema";
+import { eq } from "drizzle-orm";
 
-// VoltBuilder Build-Safe Route: bookings
-// This route is replaced during VoltBuilder builds to prevent database import failures
-// Original route functionality will work in the deployed mobile app
+export const dynamic = "force-dynamic";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
-export async function GET(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "bookings",
-    timestamp: new Date().toISOString()
-  });
+export async function GET(request: NextRequest) {
+  try {
+    console.log('[BOOKINGS] GET - Fetching bookings');
+    
+    const bookingList = await db.select().from(bookings);
+    console.log(`[BOOKINGS] Found ${bookingList.length} bookings`);
+    
+    return NextResponse.json(bookingList);
+    
+  } catch (error) {
+    console.error('[BOOKINGS] Error:', error);
+    return NextResponse.json({ error: 'Failed to fetch bookings' }, { status: 500 });
+  }
 }
 
-export async function POST(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app", 
-    route: "bookings",
-    timestamp: new Date().toISOString()
-  });
-}
+export async function POST(request: NextRequest) {
+  try {
+    console.log('[BOOKINGS] POST - Creating booking');
+    
+    const body = await request.json();
+    const { title, startDate, endDate, locationId, clientOrganizationId, status } = body;
 
-export async function PUT(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "bookings", 
-    timestamp: new Date().toISOString()
-  });
-}
+    if (!title || !startDate || !endDate) {
+      return NextResponse.json({ error: 'Title, start date, and end date required' }, { status: 400 });
+    }
 
-export async function DELETE(request?: NextRequest) {
-  return NextResponse.json({
-    message: "VoltBuilder build-time route - functionality available in deployed app",
-    route: "bookings",
-    timestamp: new Date().toISOString()
-  });
+    const [newBooking] = await db.insert(bookings).values({
+      title,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      locationId,
+      clientOrganizationId,
+      status: status || 'pending'
+    }).returning();
+
+    console.log('[BOOKINGS] Created booking:', newBooking.title);
+    return NextResponse.json(newBooking);
+    
+  } catch (error) {
+    console.error('[BOOKINGS] Create error:', error);
+    return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
+  }
 }
