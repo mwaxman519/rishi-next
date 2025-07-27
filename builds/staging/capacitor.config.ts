@@ -33,11 +33,14 @@ const config: CapacitorConfig = {
   android: {
     allowMixedContent: false,
     captureInput: true,
-    webContentsDebuggingEnabled: false
+    webContentsDebuggingEnabled: false,
+    webViewPresentationMode: 'fullscreen'
   },
   ios: {
-    contentInset: 'automatic',
-    scrollEnabled: true
+    contentInset: 'never',
+    scrollEnabled: true,
+    allowsLinkPreview: false,
+    handleApplicationNotifications: false
   }
 };
 
