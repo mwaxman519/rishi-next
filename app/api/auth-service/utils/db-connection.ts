@@ -266,9 +266,15 @@ class DatabaseConnectionManager {
 let _dbManager: DatabaseConnectionManager | null = null;
 
 export function getDbManager(): DatabaseConnectionManager {
-  // Skip initialization during VoltBuilder builds
-  if (process.env.VOLTBUILDER_BUILD === 'true') {
+  // Skip initialization during VoltBuilder builds or Next.js build phase
+  if (process.env.VOLTBUILDER_BUILD === 'true' || process.env.NEXT_PHASE === 'phase-production-build') {
     return {
+      getDatabase: () => ({
+        select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
+        insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
+        update: () => ({ set: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) }) }),
+        delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
+      }),
       getConnection: () => ({ 
         select: () => ({ from: () => ({ where: () => Promise.resolve([]) }) }),
         insert: () => ({ values: () => ({ returning: () => Promise.resolve([]) }) }),
@@ -276,13 +282,30 @@ export function getDbManager(): DatabaseConnectionManager {
         delete: () => ({ where: () => ({ returning: () => Promise.resolve([]) }) })
       }),
       isHealthy: () => false,
-      testConnection: () => Promise.resolve(false)
+      testConnection: () => Promise.resolve(false),
+      executeQuery: () => Promise.resolve(null)
     } as any;
   }
   
   // Lazy initialize only when needed
   if (!_dbManager) {
-    _dbManager = new DatabaseConnectionManager();
+    try {
+      _dbManager = new DatabaseConnectionManager();
+    } catch (error) {
+      console.error('[DB Manager] Failed to create DatabaseConnectionManager:', error);
+      // Return stub manager for build safety
+      return {
+        getDatabase: () => {
+          throw new Error('Database manager initialization failed');
+        },
+        getConnection: () => {
+          throw new Error('Database manager initialization failed');
+        },
+        isHealthy: () => false,
+        testConnection: () => Promise.resolve(false),
+        executeQuery: () => Promise.resolve(null)
+      } as any;
+    }
   }
   
   return _dbManager;
