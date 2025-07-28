@@ -11,6 +11,11 @@ buildscript {
         androidxCoreVersion = '1.12.0'
         androidxFragmentVersion = '1.6.2'
     }
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.1'
         classpath 'com.google.gms:google-services:4.4.0'
