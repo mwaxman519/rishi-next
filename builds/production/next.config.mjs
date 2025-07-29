@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // PRODUCTION MOBILE: Static export for VoltBuilder with Vercel backend
-  output: 'export',
+  // PRODUCTION MOBILE: Server mode for VoltBuilder (not static export)
+  // output: 'export', // Disabled - causing generateStaticParams issues
   trailingSlash: true,
   images: {
     unoptimized: true,
