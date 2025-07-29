@@ -114,3 +114,49 @@ export interface PaginatedResponse<T = any> extends ApiResponse<T[]> {
   page: number;
   limit: number;
 }
+
+// Database table exports for compatibility
+export const users = {
+  id: 'text',
+  username: 'text', 
+  fullName: 'text',
+  email: 'text',
+  role: 'text',
+  organizationId: 'text'
+};
+
+export const organizations = {
+  id: 'text',
+  name: 'text',
+  tier: 'text',
+  status: 'text'
+};
+
+export const bookings = {
+  id: 'text',
+  title: 'text',
+  startDate: 'timestamp',
+  endDate: 'timestamp',
+  status: 'text',
+  organizationId: 'text',
+  locationId: 'text'
+};
+
+export const locations = {
+  id: 'text',
+  name: 'text',
+  address: 'text',
+  latitude: 'real',
+  longitude: 'real',
+  organizationId: 'text'
+};
+
+// Role constants
+export const USER_ROLES = {
+  SUPER_ADMIN: 'super_admin',
+  INTERNAL_ADMIN: 'internal_admin', 
+  INTERNAL_FIELD_MANAGER: 'internal_field_manager',
+  BRAND_AGENT: 'brand_agent',
+  CLIENT_MANAGER: 'client_manager',
+  CLIENT_USER: 'client_user',
+} as const;

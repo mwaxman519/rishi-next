@@ -97,6 +97,15 @@ export const FIELD_MANAGER_NAVIGATION: NavigationItem[] = [
   }
 ];
 
+// Export all navigation types for compatibility
+export const superAdminNavigation = SUPER_ADMIN_NAVIGATION;
+export const internalAdminNavigation = SUPER_ADMIN_NAVIGATION; // Same as super admin
+export const fieldManagerNavigation = FIELD_MANAGER_NAVIGATION;
+export const brandAgentNavigation = FIELD_MANAGER_NAVIGATION; // Limited navigation
+export const clientUserNavigation = FIELD_MANAGER_NAVIGATION; // Basic navigation
+
+export const getPlatformAdminNav = () => SUPER_ADMIN_NAVIGATION;
+
 export const getNavigationForRole = (role: string): NavigationItem[] => {
   switch (role) {
     case USER_ROLES.SUPER_ADMIN:

@@ -37,29 +37,40 @@ export const USER_ROLES = {
   CLIENT_USER: 'client_user',
 } as const;
 
+export const NAV_ITEM_TYPES = {
+  SECTION: 'section',
+  LINK: 'link',
+  SUBMENU: 'submenu',
+  DIVIDER: 'divider',
+} as const;
+
 export const MOBILE_NAVIGATION_ITEMS = [
   {
     id: 'dashboard',
     label: 'Dashboard',
     href: NAVIGATION_ROUTES.DASHBOARD,
-    icon: 'LayoutDashboard'
+    icon: 'LayoutDashboard',
+    type: NAV_ITEM_TYPES.LINK
   },
   {
     id: 'bookings',
     label: 'Bookings',
     href: NAVIGATION_ROUTES.BOOKINGS,
-    icon: 'Calendar'
+    icon: 'Calendar',
+    type: NAV_ITEM_TYPES.LINK
   },
   {
     id: 'locations',
     label: 'Locations',
     href: NAVIGATION_ROUTES.LOCATIONS,
-    icon: 'MapPin'
+    icon: 'MapPin',
+    type: NAV_ITEM_TYPES.LINK
   },
   {
     id: 'staff',
     label: 'Staff',
     href: NAVIGATION_ROUTES.STAFF,
-    icon: 'Users'
+    icon: 'Users',
+    type: NAV_ITEM_TYPES.LINK
   }
 ] as const;
