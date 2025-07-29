@@ -1,5 +1,12 @@
 "use client";
 
+// Generate static params for dynamic routes
+export async function generateStaticParams() {
+  // Return empty array for mobile build - will generate on demand
+  return [];
+}
+
+
 import React, { useState, useMemo } from "react";
 import { AppLayout } from "../components/app-layout";
 import {

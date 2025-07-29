@@ -1,5 +1,12 @@
 "use client";
 
+// Generate static params for dynamic routes
+export async function generateStaticParams() {
+  // Return empty array for mobile build - will generate on demand
+  return [];
+}
+
+
 import React, { useState, useRef, useCallback } from "react";
 import { ChevronLeft, Search, MapPin, Loader2 } from "lucide-react";
 import Link from "next/link";

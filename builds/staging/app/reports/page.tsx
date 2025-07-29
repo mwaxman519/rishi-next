@@ -1,5 +1,12 @@
 "use client";
 
+// Generate static params for dynamic routes
+export async function generateStaticParams() {
+  // Return empty array for mobile build - will generate on demand
+  return [];
+}
+
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { FileText, ArrowRight } from "lucide-react";

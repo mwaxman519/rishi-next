@@ -1,10 +1,17 @@
+"use client";
+
+// Generate static params for dynamic routes
+export async function generateStaticParams() {
+  // Return empty array for mobile build - will generate on demand
+  return [];
+}
+
 /**
  * Expense Management Interface - Phase 4 Implementation
  * Comprehensive expense tracking with role-based access control
  * Dark mode compatible and architecturally aligned with time tracking system
  */
 
-"use client";
 
 import React, { useState, useEffect } from "react";
 import {

@@ -1,3 +1,11 @@
+"use client";
+
+// Generate static params for dynamic routes
+export async function generateStaticParams() {
+  // Return empty array for mobile build - will generate on demand
+  return [];
+}
+
 /**
  * BA Roster Management Page
  *
@@ -8,7 +16,6 @@
  * @version 1.0.0
  */
 
-"use client";
 
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";

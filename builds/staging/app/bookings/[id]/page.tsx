@@ -1,3 +1,9 @@
+// Generate static params for dynamic routes
+export async function generateStaticParams() {
+  // Return empty array for mobile build - will generate on demand
+  return [];
+}
+
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { db } from "@/db";
