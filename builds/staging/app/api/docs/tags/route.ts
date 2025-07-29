@@ -5,7 +5,7 @@ export const revalidate = false;
 
 import fs from "fs/promises";
 import path from "path";
-import { extractFirstParagraph, getDocsDirectory } from "@/lib/utils";
+import { extractFirstParagraph, getDocsDirectory } from "@/lib/server-utils";
 
 // Type definitions
 interface DocInfo {

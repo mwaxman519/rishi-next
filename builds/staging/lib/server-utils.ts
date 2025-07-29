@@ -1,8 +1,22 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import path from "path"
+import fs from "fs"
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+export function getDocsDirectory(): string {
+  // Return the docs directory path - fallback to public/Docs
+  const docsPath = path.join(process.cwd(), 'public', 'Docs');
+  
+  // Check if directory exists, create minimal structure if not
+  if (!fs.existsSync(docsPath)) {
+    try {
+      fs.mkdirSync(docsPath, { recursive: true });
+      // Create a minimal README.md file
+      fs.writeFileSync(path.join(docsPath, 'README.md'), '# Documentation\n\nWelcome to the documentation system.\n');
+    } catch (error) {
+      console.error('Failed to create docs directory:', error);
+    }
+  }
+  
+  return docsPath;
 }
 
 export function extractFirstParagraph(content: string): string {

@@ -5,7 +5,7 @@ export const revalidate = false;
 
 import fs from "fs/promises";
 import * as nodePath from "path";
-import { getDocsDirectory } from "@/lib/utils";
+import { getDocsDirectory } from "@/lib/server-utils";
 
 // Type definition for document tree
 type DocTree = { [key: string]: DocTree | null };

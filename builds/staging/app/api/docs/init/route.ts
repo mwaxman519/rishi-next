@@ -6,7 +6,7 @@ export const revalidate = false;
 import fs from "fs/promises";
 import path from "path";
 import { existsSync, mkdirSync, statSync, readdirSync, copyFileSync } from "fs";
-import { getDocsDirectory } from "@/lib/utils";
+import { getDocsDirectory } from "@/lib/server-utils";
 
 /**
  * Copy directory recursively
