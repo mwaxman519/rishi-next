@@ -1,0 +1,44 @@
+// Top-level build file for Android project
+buildscript {
+    ext {
+        compileSdkVersion = 34
+        targetSdkVersion = 33
+        minSdkVersion = 26
+        
+        androidxActivityVersion = '1.8.0'
+        androidxAppCompatVersion = '1.6.1'
+        androidxCoordinatorLayoutVersion = '1.2.0'
+        androidxCoreVersion = '1.10.1'
+        androidxFragmentVersion = '1.6.0'
+        coreSplashScreenVersion = '1.0.1'
+        androidxWebkitVersion = '1.7.0'
+        junitVersion = '4.13.2'
+        androidxJunitVersion = '1.1.5'
+        androidxEspressoCoreVersion = '3.5.1'
+        cordovaAndroidVersion = '10.1.1'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.1'
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}
+
+apply from: "variables.gradle"
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir{
+            dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
