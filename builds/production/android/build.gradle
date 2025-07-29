@@ -1,7 +1,7 @@
 // Top-level build file for Android project
 buildscript {
     ext {
-        compileSdkVersion = 34
+        compileSdkVersion = 33
         targetSdkVersion = 33
         minSdkVersion = 26
         
