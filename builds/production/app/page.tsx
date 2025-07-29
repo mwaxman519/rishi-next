@@ -2,22 +2,31 @@
 
 import { useEffect } from 'react';
 
-export default function MobileLanding() {
+export default function MobileApp() {
   useEffect(() => {
-    // Redirect to main app through Vercel serverless
-    window.location.href = 'https://rishi-platform.vercel.app';
+    // For mobile app, redirect to live Vercel backend
+    if (typeof window !== 'undefined') {
+      window.location.href = 'https://rishi-platform.vercel.app';
+    }
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-purple-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-purple-800 mb-4">
-          Rishi Platform
-        </h1>
-        <p className="text-gray-600 mb-4">
-          Connecting to secure backend...
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 to-teal-50">
+      <div className="text-center p-8">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-purple-800 mb-2">
+            Rishi Platform
+          </h1>
+          <p className="text-gray-600">
+            Connecting to secure backend...
+          </p>
+        </div>
+        
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-800 mx-auto mb-4"></div>
+        
+        <p className="text-sm text-gray-500">
+          Mobile app loading
         </p>
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-800 mx-auto"></div>
       </div>
     </div>
   );
