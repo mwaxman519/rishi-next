@@ -2,7 +2,7 @@
 
 ext {
     cdvMinSdkVersion = 26
-    cdvCompileSdkVersion = 33
+    cdvCompileSdkVersion = 34
     cdvTargetSdkVersion = 33
     cdvVersionCode = 1
     cdvVersionName = "1.0"
