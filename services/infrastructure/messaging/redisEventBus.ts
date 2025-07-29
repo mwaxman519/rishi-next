@@ -12,6 +12,7 @@ export interface RedisEventBusConfig {
   host?: string;
   port?: number;
   password?: string;
+  database?: number;
   maxRetries?: number;
   retryDelayMs?: number;
   eventTtlSeconds?: number;
@@ -34,6 +35,7 @@ export class RedisEventBus {
       host: config.host || 'localhost',
       port: config.port || 6379,
       password: config.password || process.env.REDIS_PASSWORD || '',
+      database: config.database || parseInt(process.env.REDIS_DB || '0'),
       maxRetries: config.maxRetries || 3,
       retryDelayMs: config.retryDelayMs || 1000,
       eventTtlSeconds: config.eventTtlSeconds || 3600, // 1 hour
@@ -45,8 +47,14 @@ export class RedisEventBus {
   }
 
   private initializeClients(): void {
+    // Determine environment-specific database
+    const environment = process.env.NODE_ENV || 'development';
+    const envDatabase = environment === 'production' ? 2 : environment === 'staging' ? 1 : 0;
+    const selectedDatabase = this.config.database !== 0 ? this.config.database : envDatabase;
+
     const clientConfig = {
       url: this.config.url,
+      database: selectedDatabase,
       socket: {
         host: this.config.host,
         port: this.config.port,
@@ -76,7 +84,8 @@ export class RedisEventBus {
   private setupEventHandlers(): void {
     // Connection event handlers
     this.client.on('connect', () => {
-      console.log('✅ Redis EventBus: Main client connected');
+      const dbInfo = clientConfig.database !== 0 ? ` (DB ${clientConfig.database})` : '';
+      console.log(`✅ Redis EventBus: Main client connected${dbInfo}`);
       this.isConnected = true;
       this.reconnectAttempts = 0;
     });

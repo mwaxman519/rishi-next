@@ -16,6 +16,7 @@ export interface HybridEventBusConfig {
     host?: string;
     port?: number;
     password?: string;
+    database?: number;
     maxRetries?: number;
   };
 }
@@ -288,6 +289,7 @@ export const hybridEventBus = new HybridEventBus({
     ...(process.env.REDIS_HOST ? { host: process.env.REDIS_HOST } : {}),
     ...(process.env.REDIS_PORT ? { port: parseInt(process.env.REDIS_PORT) } : {}),
     ...(process.env.REDIS_PASSWORD ? { password: process.env.REDIS_PASSWORD } : {}),
+    ...(process.env.REDIS_DB ? { database: parseInt(process.env.REDIS_DB) } : {}),
     maxRetries: 3
   }
 });
