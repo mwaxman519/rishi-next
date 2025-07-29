@@ -1,9 +1,9 @@
 // Top-level build file for Android project
 buildscript {
     ext {
-        compileSdkVersion = 32
-        targetSdkVersion = 32
-        minSdkVersion = 26
+        compileSdkVersion = 35
+        targetSdkVersion = 35
+        minSdkVersion = 23
         
         androidxActivityVersion = '1.8.0'
         androidxAppCompatVersion = '1.6.1'
@@ -22,8 +22,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath 'com.google.gms:google-services:4.3.14'
+        classpath 'com.android.tools.build:gradle:8.2.1'
+        classpath 'com.google.gms:google-services:4.4.0'
     }
 }
 
