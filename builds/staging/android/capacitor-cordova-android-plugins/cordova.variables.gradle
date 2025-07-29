@@ -2,8 +2,8 @@
 
 ext {
     cdvMinSdkVersion = 26
-    cdvCompileSdkVersion = 34
-    cdvTargetSdkVersion = 34
+    cdvCompileSdkVersion = 33
+    cdvTargetSdkVersion = 33
     cdvVersionCode = 1
     cdvVersionName = "1.0"
     cdvApplicationId = "com.rishiplatform.staging"
