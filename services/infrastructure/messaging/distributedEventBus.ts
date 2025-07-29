@@ -3,7 +3,7 @@
  * Handles event publishing and subscription across the application
  */
 
-import { PlatformEvent, BaseEvent } from './eventTypes';
+import { BaseEvent } from './eventTypes';
 
 export interface EventHandler<T extends BaseEvent = BaseEvent> {
   (event: T): Promise<void> | void;
@@ -50,8 +50,10 @@ export class DistributedEventBus {
     for (const [eventType, subscriptions] of this.subscriptions.entries()) {
       const index = subscriptions.findIndex(sub => sub.id === subscriptionId);
       if (index >= 0) {
-        subscriptions[index].active = false;
-        subscriptions.splice(index, 1);
+        if (subscriptions[index]) {
+          subscriptions[index].active = false;
+          subscriptions.splice(index, 1);
+        }
         
         // Clean up empty event type arrays
         if (subscriptions.length === 0) {
@@ -98,8 +100,8 @@ export class DistributedEventBus {
   private emitErrorEvent(originalEvent: BaseEvent, error: any): void {
     const errorEvent: BaseEvent = {
       type: 'system.error',
-      userId: originalEvent.userId,
-      organizationId: originalEvent.organizationId,
+      userId: originalEvent.userId || 'system',
+      organizationId: originalEvent.organizationId || 'system',
       timestamp: new Date(),
       correlationId: `error_${originalEvent.correlationId}`,
       metadata: {
