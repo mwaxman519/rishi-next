@@ -1,12 +1,5 @@
 "use client";
 
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Return empty array for mobile build - will generate on demand
-  return [];
-}
-
-
 import { useState } from "react";
 import { FileText, Download, Calendar, TrendingUp, Users, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";

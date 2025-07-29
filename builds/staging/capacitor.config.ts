@@ -1,46 +1,74 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.rishiplatform.staging',
-  appName: 'Rishi Platform (Staging)',
-  webDir: 'out',
+  appName: 'Rishi Platform',
+  webDir: '.next', // Point to Next.js build output
+  
+  // CRITICAL: Live server connection - NO static export
   server: {
-    url: 'https://rishi-staging.replit.app',
-    cleartext: false
+    url: 'https://rishi-staging.replit.app', // Live backend with full functionality
+    cleartext: false,
+    androidScheme: 'https',
+    allowNavigation: [
+      'https://rishi-staging.replit.app',
+      'https://accounts.google.com', // OAuth
+      'https://maps.googleapis.com', // Google Maps
+    ],
   },
+  
   plugins: {
-    App: {
-      launchShowDuration: 3000
-    },
     SplashScreen: {
       launchShowDuration: 3000,
-      backgroundColor: "#7c3aed",
-      showSpinner: false
+      launchAutoHide: true,
+      backgroundColor: "#7c3aed", // Rishi purple brand
+      androidSplashResourceName: "splash",
+      androidScaleType: "CENTER_CROP",
+      showSpinner: true,
+      spinnerStyle: "small",
+      spinnerColor: "#ffffff",
+      splashFullScreen: true,
+      splashImmersive: true,
     },
     StatusBar: {
-      style: 'dark',
-      backgroundColor: '#7c3aed'
+      style: "DARK",
+      backgroundColor: "#7c3aed", // Rishi purple
     },
     Keyboard: {
-      resize: 'body',
-      resizeOnFullScreen: true
+      resize: "body",
+      style: "dark",
+      resizeOnFullScreen: true,
+    },
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"]
+    },
+    App: {
+      skipNativeInitialize: false
     },
     LocalNotifications: {
       smallIcon: "ic_stat_icon_config_sample",
-      iconColor: "#7c3aed"
+      iconColor: "#7c3aed",
     }
   },
+  
   android: {
+    buildOptions: {
+      keystorePath: undefined,
+      keystoreAlias: undefined, 
+      keystorePassword: undefined,
+      keystoreAliasPassword: undefined,
+      releaseType: "APK",
+      signingType: "jarsigner"
+    },
     allowMixedContent: false,
     captureInput: true,
     webContentsDebuggingEnabled: false,
-    webViewPresentationMode: 'fullscreen'
   },
+  
   ios: {
-    contentInset: 'never',
-    scrollEnabled: true,
+    scheme: "Rishi Platform",
     allowsLinkPreview: false,
-    handleApplicationNotifications: false
+    handleApplicationNotifications: true,
   }
 };
 

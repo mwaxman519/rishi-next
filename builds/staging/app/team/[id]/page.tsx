@@ -1,9 +1,3 @@
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Return empty array for mobile build - will generate on demand
-  return [];
-}
-
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {

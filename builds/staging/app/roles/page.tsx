@@ -1,12 +1,5 @@
 "use client";
 
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Return empty array for mobile build - will generate on demand
-  return [];
-}
-
-
 import React, { useState } from "react";
 import { RoleManager } from "../components/rbac/RoleManager";
 import { PermissionsMatrix } from "../components/rbac/PermissionsMatrix";

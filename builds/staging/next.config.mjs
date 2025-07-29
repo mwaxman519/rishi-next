@@ -1,68 +1,56 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // HYBRID APPROACH: Static export with remote API backend
-  output: 'export',
-  trailingSlash: true,
-  distDir: 'out',
-  
-  // Disable features incompatible with static export
-  reactStrictMode: false,
+  // CRITICAL: FULL SERVER MODE - Required for Neon database, event bus, and API routes
+  reactStrictMode: false, // Disabled for mobile compatibility
   poweredByHeader: false,
-  compress: false,
+  compress: true,
   
-  // Build optimizations for VoltBuilder
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
-  // Image optimization (disabled for static export)
+  // Mobile-specific optimizations while preserving ALL server functionality
   images: {
-    unoptimized: true,
+    unoptimized: false, // Keep image optimization for mobile
   },
   
-  // Environment configuration for mobile hybrid approach
+  // Environment configuration for mobile
   env: {
     IS_MOBILE_BUILD: 'true',
     CAPACITOR_BUILD: 'true',
     VOLTBUILDER_BUILD: 'true',
-    NEXT_PUBLIC_APP_ENV: 'production',
-    NEXT_PUBLIC_API_BASE_URL: 'https://rishi-platform.vercel.app',
+    NEXT_PUBLIC_APP_ENV: 'staging',
   },
   
-  // Webpack configuration for VoltBuilder compatibility
+  // External packages for serverless
+  serverExternalPackages: ['@neondatabase/serverless', 'bcryptjs'],
+  
+  // Mobile-specific headers for Capacitor
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN', // Allow Capacitor WebView
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'capacitor://localhost', // Allow Capacitor
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self' capacitor://localhost https://rishi-staging.replit.app; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';",
+          },
+        ],
+      },
+    ];
+  },
+  
+  // Webpack configuration for mobile optimization
   webpack: (config, { isServer, dev }) => {
-    if (!isServer && !dev) {
-      // Disable problematic chunking for VoltBuilder
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          default: false,
-          vendors: false,
-        },
-      };
-      config.optimization.runtimeChunk = false;
-      
-      // Add fallbacks for Node.js modules
-      config.resolve.fallback = {
-        fs: false,
-        net: false,
-        tls: false,
-        crypto: false,
-        path: false,
-        os: false,
-        util: false,
-        stream: false,
-      };
+    if (!dev) {
+      // Optimize for mobile while preserving server functionality
+      config.optimization.minimize = true;
     }
     return config;
-  },
-  
-  // Remove problematic experimental features
-  experimental: {
-    // Keep minimal for VoltBuilder compatibility
   },
 };
 

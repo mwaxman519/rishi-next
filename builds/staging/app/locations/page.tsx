@@ -1,12 +1,5 @@
 "use client";
 
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Return empty array for mobile build - will generate on demand
-  return [];
-}
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {

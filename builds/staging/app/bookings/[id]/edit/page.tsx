@@ -1,12 +1,5 @@
 "use client";
 
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Return empty array for mobile build - will generate on demand
-  return [];
-}
-
-
 import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { BookingForm } from "../../../../components/bookings/BookingForm";

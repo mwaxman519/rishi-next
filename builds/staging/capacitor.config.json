@@ -1,9 +1,0 @@
-{
-  "appId": "com.rishiplatform.staging",
-  "appName": "Rishi Platform (Staging)",
-  "webDir": "out",
-  "server": {
-    "url": "https://rishi-staging.replit.app",
-    "cleartext": false
-  }
-}

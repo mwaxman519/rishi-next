@@ -1,12 +1,5 @@
 "use client";
 
-// Generate static params for dynamic routes
-export async function generateStaticParams() {
-  // Return empty array for mobile build - will generate on demand
-  return [];
-}
-
-
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "../../shared/schema";
 import SidebarLayout from "../components/SidebarLayout";

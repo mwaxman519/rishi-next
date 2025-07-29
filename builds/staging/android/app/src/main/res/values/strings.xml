@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Rishi Platform (Staging)</string>
-    <string name="title_activity_main">Rishi Platform (Staging)</string>
-    <string name="package_name">com.rishiplatform.staging</string>
-    <string name="custom_url_scheme">com.rishiplatform.staging</string>
+    <string name="app_name">Rishi Platform</string>
+    <string name="title_activity_main">Rishi Platform</string>
+    <string name="package_name">com.rishi.platform</string>
+    <string name="custom_url_scheme">com.rishi.platform</string>
 </resources>
