@@ -21,9 +21,9 @@ export interface RedisEventBusConfig {
 }
 
 export class RedisEventBus {
-  private client: RedisClientType;
-  private pubClient: RedisClientType;
-  private subClient: RedisClientType;
+  private client!: RedisClientType;
+  private pubClient!: RedisClientType;
+  private subClient!: RedisClientType;
   private subscriptions: Map<string, EventSubscription[]> = new Map();
   private config: Required<RedisEventBusConfig>;
   private isConnected: boolean = false;
@@ -47,23 +47,28 @@ export class RedisEventBus {
   }
 
   private initializeClients(): void {
-    // Determine environment-specific database
+    // Determine environment-specific database and provider
     const environment = process.env.NODE_ENV || 'development';
-    const envDatabase = environment === 'production' ? 2 : environment === 'staging' ? 1 : 0;
-    const selectedDatabase = this.config.database !== 0 ? this.config.database : envDatabase;
-
+    const isProduction = environment === 'production';
+    
+    // All environments use database 0, isolation via key prefixes
+    const selectedDatabase = this.config.database !== undefined ? this.config.database : 0;
+    
+    // Check for Upstash-specific configuration in production
+    const redisUrl = process.env.KV_URL || process.env.REDIS_URL || this.config.url;
+    
     const clientConfig = {
-      url: this.config.url,
+      url: redisUrl,
       database: selectedDatabase,
       socket: {
         host: this.config.host,
         port: this.config.port,
         reconnectStrategy: (retries: number) => {
-          if (retries >= this.config.maxRetries) {
+          if (retries >= this.config.maxRetries!) {
             console.error(`Redis connection failed after ${retries} attempts`);
             return false;
           }
-          return Math.min(retries * this.config.retryDelayMs, 5000);
+          return Math.min(retries * this.config.retryDelayMs!, 5000);
         }
       },
       ...(this.config.password ? { password: this.config.password } : {})
@@ -84,8 +89,11 @@ export class RedisEventBus {
   private setupEventHandlers(): void {
     // Connection event handlers
     this.client.on('connect', () => {
-      const dbInfo = clientConfig.database !== 0 ? ` (DB ${clientConfig.database})` : '';
-      console.log(`✅ Redis EventBus: Main client connected${dbInfo}`);
+      const environment = process.env.NODE_ENV || 'development';
+      const provider = environment === 'production' ? 'Upstash' : 'Replit Redis Cloud';
+      const database = this.config.database || 0;
+      const dbInfo = database !== 0 ? ` (DB ${database})` : '';
+      console.log(`✅ Redis EventBus: Connected to ${provider}${dbInfo}`);
       this.isConnected = true;
       this.reconnectAttempts = 0;
     });

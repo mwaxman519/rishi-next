@@ -285,7 +285,8 @@ export const hybridEventBus = new HybridEventBus({
   enableRedis: process.env.ENABLE_REDIS_EVENTS === 'true',
   fallbackToLocal: true,
   redisConfig: {
-    ...(process.env.REDIS_URL ? { url: process.env.REDIS_URL } : {}),
+    // Support both Upstash (KV_URL) and Replit Redis Cloud (REDIS_URL)
+    url: process.env.KV_URL || process.env.REDIS_URL,
     ...(process.env.REDIS_HOST ? { host: process.env.REDIS_HOST } : {}),
     ...(process.env.REDIS_PORT ? { port: parseInt(process.env.REDIS_PORT) } : {}),
     ...(process.env.REDIS_PASSWORD ? { password: process.env.REDIS_PASSWORD } : {}),

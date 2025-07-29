@@ -1,71 +1,58 @@
 # Redis Environment Strategy for Rishi Platform
 
-## Environment Separation Architecture
+## Dual Redis Architecture (Optimized)
 
-### Recommended Production Setup
+### **🏗️ Multi-Provider Redis Setup:**
 
-**🏗️ Separate Redis Instances per Environment:**
+1. **Development + Staging Redis** (Replit Redis Cloud)
+   - Instance: `redis-19771.c282.east-us-mz.azure.redns.redis-cloud.com:19771`
+   - Development: Database 0
+   - Staging: Database 1  
+   - Purpose: Development testing, VoltBuilder mobile builds, Replit Autoscale deployment
+   - Benefits: Integrated with Replit ecosystem, cost-effective for dev/staging
 
-1. **Development Redis**
-   - Instance: `redis-dev-xxxxx.redis-cloud.com`
-   - Database: 0 (default)
-   - Purpose: Local development, testing, experimentation
-   - Data: Non-sensitive, can be reset frequently
+2. **Production Redis** (Upstash)
+   - Instance: `picked-ewe-57398.upstash.io:6379` (TLS encrypted)
+   - Database: 0 (dedicated)
+   - Purpose: Live production traffic, Vercel serverless integration
+   - Benefits: Serverless-optimized, global edge locations, Vercel-native integration
 
-2. **Staging Redis** 
-   - Instance: `redis-staging-xxxxx.redis-cloud.com`
-   - Database: 0 (dedicated instance)
-   - Purpose: Pre-production testing, VoltBuilder mobile builds
-   - Data: Production-like but safe to reset
+### **🚀 Deployment-Optimized Architecture:**
 
-3. **Production Redis**
-   - Instance: `redis-prod-xxxxx.redis-cloud.com`
-   - Database: 0 (dedicated instance) 
-   - Purpose: Live production traffic, critical event coordination
-   - Data: Production events, persistent across deployments
+**Replit Redis Cloud** - Perfect for development and staging:
+- Integrated with Replit development environment
+- Cost-effective for testing and mobile builds
+- Direct connection for Replit Autoscale deployments
 
-### Alternative: Single Redis with Database Separation
+**Upstash Redis** - Optimized for production:
+- Serverless-native with connection pooling
+- Global edge network for low latency
+- Built-in Vercel integration and monitoring
+- TLS encryption and advanced security
 
-If cost is a concern, you can use **one Redis instance with separate databases**:
+## **📋 Environment Configuration**
 
-```bash
-# Development
-REDIS_URL=redis://user:pass@redis-cloud.com:19771/0
-
-# Staging  
-REDIS_URL=redis://user:pass@redis-cloud.com:19771/1
-
-# Production
-REDIS_URL=redis://user:pass@redis-cloud.com:19771/2
-```
-
-### Current Configuration Analysis
-
-**Your Current Redis:** `redis-19771.c282.east-us-mz.azure.redns.redis-cloud.com:19771`
-
-This appears to be a single Redis Cloud instance. For proper environment separation:
-
-## Recommended Environment Variables
-
-### Development (.env.development)
+### **Development** (.env.development)
 ```bash
 ENABLE_REDIS_EVENTS=true
-REDIS_URL=redis://default:password@redis-19771.c282.east-us-mz.azure.redns.redis-cloud.com:19771/0
+REDIS_URL=redis://default:pxtCp9pmVrmRmXGj4Y5qSPOmgjuaOAaE@redis-19771.c282.east-us-mz.azure.redns.redis-cloud.com:19771
 REDIS_DB=0
 ```
 
-### Staging (.env.staging)
+### **Staging** (.env.staging) 
 ```bash
-ENABLE_REDIS_EVENTS=true
-REDIS_URL=redis://default:password@redis-19771.c282.east-us-mz.azure.redns.redis-cloud.com:19771/1
-REDIS_DB=1
+ENABLE_REDIS_EVENTS=true  
+REDIS_URL=redis://default:pxtCp9pmVrmRmXGj4Y5qSPOmgjuaOAaE@redis-19771.c282.east-us-mz.azure.redns.redis-cloud.com:19771
+REDIS_DB=0
 ```
 
-### Production (.env.production)
+### **Production** (.env.production)
 ```bash
 ENABLE_REDIS_EVENTS=true
-REDIS_URL=redis://default:password@redis-production-instance.redis-cloud.com:19771/0
-REDIS_DB=0
+REDIS_URL=rediss://default:AeA2AAIjcDE0OWE1ZTcyZDE2MWE0ZmZlODk2NmJjZTVhNGY0NzkyYXAxMA@picked-ewe-57398.upstash.io:6379
+KV_URL=rediss://default:AeA2AAIjcDE0OWE1ZTcyZDE2MWE0ZmZlODk2NmJjZTVhNGY0NzkyYXAxMA@picked-ewe-57398.upstash.io:6379
+KV_REST_API_URL=https://picked-ewe-57398.upstash.io
+KV_REST_API_TOKEN=AeA2AAIjcDE0OWE1ZTcyZDE2MWE0ZmZlODk2NmJjZTVhNGY0NzkyYXAxMA
 ```
 
 ## Event Coordination Benefits by Environment
