@@ -11,8 +11,8 @@ import fetch from 'node-fetch';
 
 const VOLTBUILDER_CONFIG = {
   apiKey: '2f45c6b6-393f-4315-9f91-16945fc5977f:6SBjAvKYYLx1+EESEQz31ewrgPARPDxF',
-  baseUrl: 'https://voltbuilder.com',
-  uploadEndpoint: 'https://voltbuilder.com/upload',
+  baseUrl: 'https://volt.build',
+  uploadEndpoint: 'https://volt.build/upload',
   authHeader: () => `Basic ${Buffer.from(VOLTBUILDER_CONFIG.apiKey).toString('base64')}`
 };
 
