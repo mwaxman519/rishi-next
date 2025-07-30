@@ -1,6 +1,6 @@
-import * as React from &quot;react&quot;
-import * as DropdownMenuPrimitive from &quot;@radix-ui/react-dropdown-menu&quot;
-import { Check, ChevronRight, Circle } from &quot;lucide-react&quot;
+import * as React from "react"
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { Check, ChevronRight, Circle } from "lucide-react"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -23,12 +23,12 @@ const DropdownMenuSubTrigger = React.forwardRef<
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={`flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent ${
-      inset && &quot;pl-8&quot;
+      inset && "pl-8"
     } ${className || ''}`}
     {...props}
   >
     {children}
-    <ChevronRight className=&quot;ml-auto h-4 w-4&quot; />
+    <ChevronRight className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubTrigger>
 ))
 DropdownMenuSubTrigger.displayName =
@@ -71,7 +71,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={`relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${
-      inset && &quot;pl-8&quot;
+      inset && "pl-8"
     } ${className || ''}`}
     {...props}
   />
@@ -88,9 +88,9 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     checked={checked}
     {...props}
   >
-    <span className=&quot;absolute left-2 flex h-3.5 w-3.5 items-center justify-center&quot;>
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Check className=&quot;h-4 w-4&quot; />
+        <Check className="h-4 w-4" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -108,9 +108,9 @@ const DropdownMenuRadioItem = React.forwardRef<
     className={`relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 ${className || ''}`}
     {...props}
   >
-    <span className=&quot;absolute left-2 flex h-3.5 w-3.5 items-center justify-center&quot;>
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Circle className=&quot;h-2 w-2 fill-current&quot; />
+        <Circle className="h-2 w-2 fill-current" />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -127,7 +127,7 @@ const DropdownMenuLabel = React.forwardRef<
   <DropdownMenuPrimitive.Label
     ref={ref}
     className={`px-2 py-1.5 text-sm font-semibold ${
-      inset && &quot;pl-8&quot;
+      inset && "pl-8"
     } ${className || ''}`}
     {...props}
   />
@@ -157,7 +157,7 @@ const DropdownMenuShortcut = ({
     />
   )
 }
-DropdownMenuShortcut.displayName = &quot;DropdownMenuShortcut&quot;
+DropdownMenuShortcut.displayName = "DropdownMenuShortcut"
 
 export {
   DropdownMenu,

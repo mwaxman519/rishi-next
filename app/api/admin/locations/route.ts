@@ -1,13 +1,13 @@
 
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { NextResponse } from &quot;next/server&quot;;
-import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import * as schema from &quot;@shared/schema&quot;;
-import { randomUUID } from &quot;crypto&quot;;
+import { NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth-server";
+import { db } from "@/lib/db";
+import * as schema from "@shared/schema";
+import { randomUUID } from "crypto";
 
 // This is the admin location creation endpoint
 // In a production environment, this would include more robust validation,
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: &quot;Unauthorized. You must be logged in.&quot; },
+        { error: "Unauthorized. You must be logged in." },
         { status: 401 },
       );
     }
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     // Check if user has admin role for location creation
     if (user.role !== 'super_admin' && user.role !== 'internal_admin') {
       return NextResponse.json(
-        { error: &quot;Forbidden. Admin role required.&quot; },
+        { error: "Forbidden. Admin role required." },
         { status: 403 },
       );
     }
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     // Basic validation
     if (!data.name || !data.address) {
       return NextResponse.json(
-        { error: &quot;Name and address are required fields&quot; },
+        { error: "Name and address are required fields" },
         { status: 400 },
       );
     }
@@ -51,11 +51,11 @@ export async function POST(req: Request) {
     const locationData = {
       id: randomUUID(), // Generate a UUID for the new location
       name: data.name,
-      type: data.type || &quot;retail&quot;,
+      type: data.type || "retail",
       address1: data.address,
-      city: data.city || "&quot;,
-      zipcode: data.zipcode || &quot;&quot;,
-      status: &quot;approved&quot;, // Using the simplified status system: approved, pending, rejected, inactive
+      city: data.city || "",
+      zipcode: data.zipcode || "",
+      status: "approved", // Using the simplified status system: approved, pending, rejected, inactive
       requestedBy: user.id, // Use authenticated user ID
       reviewDate: now,
       geoLat: data.geo_lat ? data.geo_lat.toString() : null,
@@ -76,35 +76,35 @@ export async function POST(req: Request) {
     const location = insertResult[0];
     if (!location) {
       return NextResponse.json(
-        { error: &quot;Failed to create location&quot; },
+        { error: "Failed to create location" },
         { status: 500 }
       );
     }
 
-    console.log(&quot;Location created successfully:&quot;, location);
+    console.log("Location created successfully:", location);
 
     // Publish event to event bus for notifications only if location was created
     if (location) {
       try {
-        // Import and use eventBus if it&apos;s available
+        // Import and use eventBus if it's available
         const { eventBus } = await import(
-          &quot;../../../services/infrastructure/messaging/eventBus&quot;
+          "../../../services/infrastructure/messaging/eventBus"
         );
 
         eventBus.publish({
-          type: &quot;location:created&quot;,
+          type: "location:created",
           payload: {
             locationId: location.id,
             locationName: location.name,
-            userId: &quot;261143cd-fa2b-4660-8b54-364c87b63882&quot;, // Use a valid user ID (mike)
+            userId: "261143cd-fa2b-4660-8b54-364c87b63882", // Use a valid user ID (mike)
             timestamp: now.toISOString(),
           },
         });
 
-        console.log(&quot;Published location:created event&quot;);
+        console.log("Published location:created event");
       } catch (eventError) {
-        // If eventBus isn&apos;t available, just log the error but proceed
-        console.warn(&quot;Could not publish event:&quot;, eventError);
+        // If eventBus isn't available, just log the error but proceed
+        console.warn("Could not publish event:", eventError);
       }
     }
 
@@ -113,14 +113,14 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         ...location,
-        message: &quot;Location created successfully by admin&quot;,
+        message: "Location created successfully by admin",
       },
       { status: 201 },
     );
   } catch (error) {
-    console.error(&quot;Error creating location:&quot;, error);
+    console.error("Error creating location:", error);
     return NextResponse.json(
-      { error: &quot;Failed to create location&quot; },
+      { error: "Failed to create location" },
       { status: 500 },
     );
   }
@@ -134,7 +134,7 @@ export async function GET(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: &quot;Unauthorized. You must be logged in.&quot; },
+        { error: "Unauthorized. You must be logged in." },
         { status: 401 },
       );
     }
@@ -150,7 +150,7 @@ export async function GET(req: Request) {
       id: location.id,
       name: location.name,
       address:
-        location.address1 + (location.address2 ? &quot;, &quot; + location.address2 : &quot;&quot;),
+        location.address1 + (location.address2 ? ", " + location.address2 : ""),
       city: location.city,
       state: location.state_id, // We need to properly join with states table for the state name
       zipCode: location.zipcode,
@@ -168,17 +168,17 @@ export async function GET(req: Request) {
     }));
 
     console.log(
-      &quot;Returning transformed location data for map component:&quot;,
+      "Returning transformed location data for map component:",
       locations_data.length,
-      &quot;locations with coordinates:&quot;,
+      "locations with coordinates:",
       locations_data.filter((loc) => loc.latitude && loc.longitude).length,
     );
 
     return NextResponse.json(locations_data);
   } catch (error) {
-    console.error(&quot;Error fetching locations:&quot;, error);
+    console.error("Error fetching locations:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch locations" },
+      { error: "Failed to fetch locations" },
       { status: 500 },
     );
   }

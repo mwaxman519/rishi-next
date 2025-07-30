@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useState, useRef } from &quot;react&quot;;
-import { Search, Loader2, MapPin } from &quot;lucide-react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { useGoogleMaps } from &quot;@/contexts/GoogleMapsContext&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useEffect, useState, useRef } from "react";
+import { Search, Loader2, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useGoogleMaps } from "@/contexts/GoogleMapsContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface PlacesAutocompleteProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
@@ -16,9 +16,9 @@ interface PlacesAutocompleteProps {
 
 export default function PlacesAutocompleteSimple({
   onPlaceSelect,
-  placeholder = &quot;Search for an address&quot;,
-  defaultValue = "&quot;,
-  className = &quot;&quot;,
+  placeholder = "Search for an address",
+  defaultValue = "",
+  className = "",
   disabled = false,
 }: PlacesAutocompleteProps) {
   const { isLoaded, loadError, google } = useGoogleMaps();
@@ -46,14 +46,14 @@ export default function PlacesAutocompleteSimple({
         new google.maps.places.AutocompleteService();
 
       // Create a hidden element for the Places Service
-      const dummyElement = document.createElement(&quot;div&quot;);
+      const dummyElement = document.createElement("div");
       placesServiceRef.current = new google.maps.places.PlacesService(
         dummyElement,
       );
 
-      console.log(&quot;Google Places services initialized&quot;);
+      console.log("Google Places services initialized");
     } catch (error) {
-      console.error(&quot;Error initializing Google Places services:&quot;, error);
+      console.error("Error initializing Google Places services:", error);
     }
   }, [google, isLoaded]);
 
@@ -81,7 +81,7 @@ export default function PlacesAutocompleteSimple({
       autocompleteServiceRef.current.getPlacePredictions(
         {
           input: text,
-          componentRestrictions: { country: &quot;us&quot; },
+          componentRestrictions: { country: "us" },
         },
         (results, status) => {
           setIsSearching(false);
@@ -101,7 +101,7 @@ export default function PlacesAutocompleteSimple({
         },
       );
     } catch (error) {
-      console.error(&quot;Error getting place predictions:&quot;, error);
+      console.error("Error getting place predictions:", error);
       setIsSearching(false);
       setPredictions([]);
     }
@@ -110,7 +110,7 @@ export default function PlacesAutocompleteSimple({
   // Handle selecting a place
   function handleSelectPlace(placeId: string, displayName: string) {
     if (!placesServiceRef.current) {
-      console.error(&quot;Places service not initialized&quot;);
+      console.error("Places service not initialized");
       return;
     }
 
@@ -132,11 +132,11 @@ export default function PlacesAutocompleteSimple({
       {
         placeId: placeId,
         fields: [
-          &quot;address_components&quot;,
-          &quot;formatted_address&quot;,
-          &quot;geometry&quot;,
-          &quot;name&quot;,
-          &quot;place_id&quot;,
+          "address_components",
+          "formatted_address",
+          "geometry",
+          "name",
+          "place_id",
         ],
       },
       (place, status) => {
@@ -145,7 +145,7 @@ export default function PlacesAutocompleteSimple({
           status === google.maps.places.PlacesServiceStatus.OK &&
           place
         ) {
-          console.log(&quot;Got place details:&quot;, place);
+          console.log("Got place details:", place);
 
           // Ensure we update the field with the formatted address
           if (place.formatted_address) {
@@ -153,26 +153,26 @@ export default function PlacesAutocompleteSimple({
             if (inputRef.current) {
               inputRef.current.value = place.formatted_address;
               // Dispatch an input event to make sure React state gets updated
-              const event = new Event(&quot;input&quot;, { bubbles: true });
+              const event = new Event("input", { bubbles: true });
               inputRef.current.dispatchEvent(event);
             }
           }
 
           // Make sure location data is available
           if (!place.geometry || !place.geometry.location) {
-            console.error(&quot;Missing geometry in place details&quot;);
+            console.error("Missing geometry in place details");
             toast({
-              title: &quot;Error&quot;,
-              description: &quot;Location coordinates not available&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Error",
+              description: "Location coordinates not available",
+              variant: "destructive",
             });
             return;
           }
 
           // Add extra debugging to see the shape of the geometry object
-          console.log(&quot;Full place details:&quot;, place);
-          console.log(&quot;Place geometry structure:&quot;, place.geometry);
-          console.log(&quot;Location object type:&quot;, typeof place.geometry.location);
+          console.log("Full place details:", place);
+          console.log("Place geometry structure:", place.geometry);
+          console.log("Location object type:", typeof place.geometry.location);
 
           // Instead of trying to modify the object, we'll work with the original
           // and let the parent component handle the extraction logic
@@ -180,9 +180,9 @@ export default function PlacesAutocompleteSimple({
         } else {
           console.error(`Error getting place details: ${status}`);
           toast({
-            title: &quot;Error&quot;,
-            description: &quot;Could not get location details&quot;,
-            variant: &quot;destructive&quot;,
+            title: "Error",
+            description: "Could not get location details",
+            variant: "destructive",
           });
         }
       },
@@ -197,17 +197,17 @@ export default function PlacesAutocompleteSimple({
       }
     }
 
-    document.addEventListener(&quot;mousedown&quot;, handleOutsideClick);
-    return () => document.removeEventListener(&quot;mousedown&quot;, handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
   if (loadError) {
     return (
       <div className={`${className} relative`}>
         <Input
-          placeholder=&quot;Google Maps API failed to load&quot;
+          placeholder="Google Maps API failed to load"
           disabled={true}
-          className=&quot;bg-red-50&quot;
+          className="bg-red-50"
         />
       </div>
     );
@@ -215,25 +215,25 @@ export default function PlacesAutocompleteSimple({
 
   return (
     <div className={`${className} relative`}>
-      <div className=&quot;relative&quot;>
-        <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           ref={inputRef}
-          type=&quot;text&quot;
+          type="text"
           placeholder={placeholder}
           value={value}
           onChange={(e) => handleInputChange(e.target.value)}
           disabled={!isLoaded || disabled}
-          className=&quot;pl-9&quot;
+          className="pl-9"
         />
         {isSearching && (
-          <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+          <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
         )}
       </div>
 
       {isOpen && predictions.length > 0 && (
-        <div className=&quot;absolute z-10 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg&quot;>
-          <ul className=&quot;py-1&quot;>
+        <div className="absolute z-10 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg">
+          <ul className="py-1">
             {predictions.map((prediction) => {
               const mainText = prediction.structured_formatting.main_text;
               const secondaryText =
@@ -246,12 +246,12 @@ export default function PlacesAutocompleteSimple({
                   onClick={() =>
                     handleSelectPlace(prediction.place_id, fullAddress)
                   }
-                  className=&quot;flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer&quot;
+                  className="flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer"
                 >
-                  <MapPin className=&quot;h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground&quot; />
-                  <div className=&quot;flex-1&quot;>
-                    <div className=&quot;text-sm font-medium&quot;>{mainText}</div>
-                    <div className=&quot;text-xs text-muted-foreground">
+                  <MapPin className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground" />
+                  <div className="flex-1">
+                    <div className="text-sm font-medium">{mainText}</div>
+                    <div className="text-xs text-muted-foreground">
                       {secondaryText}
                     </div>
                   </div>

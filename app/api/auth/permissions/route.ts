@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { verifyToken } from &quot;../../auth-service/utils/jwt&quot;;
-import { AUTH_CONFIG } from &quot;../../auth-service/config&quot;;
-import { getUserById } from &quot;../../auth-service/models/user-repository&quot;;
+import { verifyToken } from "../../auth-service/utils/jwt";
+import { AUTH_CONFIG } from "../../auth-service/config";
+import { getUserById } from "../../auth-service/models/user-repository";
 
 /**
  * GET /api/auth/permissions
@@ -13,15 +13,15 @@ import { getUserById } from &quot;../../auth-service/models/user-repository&quot
  */
 export async function GET(request: NextRequest) {
   try {
-    console.log(&quot;[Auth Permissions] Permission check request received&quot;);
+    console.log("[Auth Permissions] Permission check request received");
 
     // Get the auth token from cookies
     const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME);
     
     if (!authToken) {
-      console.log(&quot;[Auth Permissions] No auth token found&quot;);
+      console.log("[Auth Permissions] No auth token found");
       return NextResponse.json(
-        { error: &quot;Authentication required&quot; },
+        { error: "Authentication required" },
         { status: 401 }
       );
     }
@@ -30,9 +30,9 @@ export async function GET(request: NextRequest) {
     const payload = await verifyToken(authToken.value);
     
     if (!payload || !payload.sub) {
-      console.log(&quot;[Auth Permissions] Invalid token&quot;);
+      console.log("[Auth Permissions] Invalid token");
       return NextResponse.json(
-        { error: &quot;Invalid authentication token&quot; },
+        { error: "Invalid authentication token" },
         { status: 401 }
       );
     }
@@ -41,9 +41,9 @@ export async function GET(request: NextRequest) {
     const user = await getUserById(payload.sub as string);
     
     if (!user) {
-      console.log(&quot;[Auth Permissions] User not found&quot;);
+      console.log("[Auth Permissions] User not found");
       return NextResponse.json(
-        { error: &quot;User not found&quot; },
+        { error: "User not found" },
         { status: 401 }
       );
     }
@@ -69,28 +69,28 @@ export async function GET(request: NextRequest) {
         'admin:all'
       ];
 
-      console.log(&quot;[Auth Permissions] Returning super_admin permissions&quot;);
+      console.log("[Auth Permissions] Returning super_admin permissions");
       return NextResponse.json({
         permissions: superAdminPermissions,
         role: user.role,
-        organizationId: organizationId || &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;
+        organizationId: organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86"
       });
     }
 
     // For other roles, return role-specific permissions
     const rolePermissions = getRolePermissions(user.role || 'brand_agent');
     
-    console.log(&quot;[Auth Permissions] Returning permissions for role:&quot;, user.role);
+    console.log("[Auth Permissions] Returning permissions for role:", user.role);
     return NextResponse.json({
       permissions: rolePermissions,
       role: user.role,
-      organizationId: organizationId || &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;
+      organizationId: organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86"
     });
 
   } catch (error) {
-    console.error(&quot;[Auth Permissions] Error:&quot;, error);
+    console.error("[Auth Permissions] Error:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

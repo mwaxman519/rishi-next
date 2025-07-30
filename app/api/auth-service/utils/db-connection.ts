@@ -3,9 +3,9 @@
  * Implements circuit breaker pattern and connection pooling
  */
 
-import { neon } from &quot;@neondatabase/serverless&quot;;
-import { drizzle } from &quot;drizzle-orm/neon-http&quot;;
-import * as schema from &quot;@shared/schema&quot;;
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "@shared/schema";
 
 interface ConnectionState {
   isHealthy: boolean;
@@ -36,11 +36,11 @@ class DatabaseConnectionManager {
 
   private initializeConnection() {
     try {
-      console.log(&quot;[DB Manager] Initializing database connection...&quot;);
+      console.log("[DB Manager] Initializing database connection...");
       
       // Environment detection
       const environment = this.getEnvironment();
-      console.log(&quot;[DB Manager] Environment detection:&quot;, {
+      console.log("[DB Manager] Environment detection:", {
         NODE_ENV: process.env.NODE_ENV,
         VERCEL_ENV: process.env.VERCEL_ENV,
         VERCEL: process.env.VERCEL,
@@ -64,52 +64,52 @@ class DatabaseConnectionManager {
       
       // Validate database connection is properly created
       if (!this.db) {
-        throw new Error(&quot;Database connection failed to initialize&quot;);
+        throw new Error("Database connection failed to initialize");
       }
       
-      console.log(&quot;[DB Manager] Database connection initialized successfully&quot;);
+      console.log("[DB Manager] Database connection initialized successfully");
       this.handleConnectionSuccess();
     } catch (error) {
-      console.error(&quot;[DB Manager] Failed to initialize database connection:&quot;, error);
+      console.error("[DB Manager] Failed to initialize database connection:", error);
       this.handleConnectionFailure();
       // Re-throw to prevent undefined database usage
       throw error;
     }
   }
 
-  private getEnvironment(): &quot;development&quot; | &quot;staging&quot; | &quot;production&quot; {
+  private getEnvironment(): "development" | "staging" | "production" {
     // CRITICAL ENVIRONMENT DETECTION FIX
     // VERCEL = PRODUCTION, REPLIT AUTOSCALE = STAGING, REPLIT DEVELOPMENT = DEVELOPMENT
     
-    // Check if we&apos;re in Vercel production (PRODUCTION environment)
+    // Check if we're in Vercel production (PRODUCTION environment)
     const isVercelProduction = 
-      process.env.VERCEL_ENV === &quot;production&quot; ||
-      process.env.VERCEL === &quot;1&quot;;
+      process.env.VERCEL_ENV === "production" ||
+      process.env.VERCEL === "1";
 
-    // Check if we&apos;re in Replit Autoscale deployment (STAGING environment)
-    // Only consider it staging if it&apos;s actually a deployment, not development
+    // Check if we're in Replit Autoscale deployment (STAGING environment)
+    // Only consider it staging if it's actually a deployment, not development
     const isReplitAutoscale = 
-      (process.env.REPLIT === &quot;1&quot; || process.env.REPLIT_DEPLOYMENT === &quot;1&quot;) &&
-      process.env.NODE_ENV === &quot;production&quot;;
+      (process.env.REPLIT === "1" || process.env.REPLIT_DEPLOYMENT === "1") &&
+      process.env.NODE_ENV === "production";
 
-    // Check if we&apos;re explicitly in staging
+    // Check if we're explicitly in staging
     const isStaging =
-      process.env.DEPLOY_ENV === &quot;staging&quot; ||
-      process.env.STAGING === &quot;true&quot; ||
-      process.env.NEXT_PUBLIC_APP_ENV === &quot;staging&quot; ||
+      process.env.DEPLOY_ENV === "staging" ||
+      process.env.STAGING === "true" ||
+      process.env.NEXT_PUBLIC_APP_ENV === "staging" ||
       isReplitAutoscale;
 
     // Development environment check (includes Replit development mode)
     const isDevelopment = 
-      process.env.NODE_ENV === &quot;development&quot; ||
+      process.env.NODE_ENV === "development" ||
       (!isVercelProduction && !isStaging);
 
-    if (isVercelProduction) return &quot;production&quot;;
-    if (isStaging) return &quot;staging&quot;;
-    return &quot;development&quot;;
+    if (isVercelProduction) return "production";
+    if (isStaging) return "staging";
+    return "development";
   }
 
-  private getDatabaseUrl(environment: &quot;development&quot; | &quot;staging&quot; | &quot;production&quot;): string {
+  private getDatabaseUrl(environment: "development" | "staging" | "production"): string {
     // CRITICAL SECURITY: Environment-specific database URLs - NO HARDCODED PRODUCTION
     const databaseUrls = {
       development: process.env.DATABASE_URL || process.env.DEV_DATABASE_URL,
@@ -124,7 +124,7 @@ class DatabaseConnectionManager {
     }
 
     // Additional security check: Never allow production database access from non-production environments
-    if (environment === &quot;production&quot; && process.env.NODE_ENV !== &quot;production&quot;) {
+    if (environment === "production" && process.env.NODE_ENV !== "production") {
       throw new Error(`SECURITY: Production database access attempted from non-production environment. NODE_ENV: ${process.env.NODE_ENV}`);
     }
 
@@ -138,7 +138,7 @@ class DatabaseConnectionManager {
 
     if (this.state.consecutiveFailures >= this.circuitBreakerThreshold) {
       this.state.circuitBreakerOpen = true;
-      console.log(&quot;[DB Manager] Circuit breaker opened due to consecutive failures&quot;);
+      console.log("[DB Manager] Circuit breaker opened due to consecutive failures");
     }
   }
 
@@ -146,7 +146,7 @@ class DatabaseConnectionManager {
     this.state.consecutiveFailures = 0;
     this.state.isHealthy = true;
     this.state.circuitBreakerOpen = false;
-    console.log(&quot;[DB Manager] Connection restored successfully&quot;);
+    console.log("[DB Manager] Connection restored successfully");
   }
 
   private isCircuitBreakerClosed(): boolean {
@@ -154,7 +154,7 @@ class DatabaseConnectionManager {
     
     const timeSinceLastFailure = Date.now() - this.state.lastFailureTime;
     if (timeSinceLastFailure > this.circuitBreakerTimeout) {
-      console.log(&quot;[DB Manager] Circuit breaker timeout reached, attempting to close&quot;);
+      console.log("[DB Manager] Circuit breaker timeout reached, attempting to close");
       this.state.circuitBreakerOpen = false;
       return true;
     }
@@ -206,7 +206,7 @@ class DatabaseConnectionManager {
   async testConnection(): Promise<boolean> {
     const result = await this.executeQuery(
       () => this.sql`SELECT NOW() as current_time`,
-      &quot;connection test&quot;
+      "connection test"
     );
     
     return result !== null;

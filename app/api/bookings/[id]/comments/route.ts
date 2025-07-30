@@ -1,6 +1,6 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
@@ -8,16 +8,16 @@ export const revalidate = false;
  * Booking Comments API
  * Handles adding and retrieving comments for bookings
  */
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
 import {
   bookings,
   bookingComments,
   insertBookingCommentSchema,
-} from &quot;@/shared/schema&quot;;
-import { getAuthSession } from &quot;@/lib/session&quot;;
-import { eq, desc, and } from &quot;drizzle-orm&quot;;
-import { z } from &quot;zod&quot;;
+} from "@/shared/schema";
+import { getAuthSession } from "@/lib/session";
+import { eq, desc, and } from "drizzle-orm";
+import { z } from "zod";
 
 interface RouteParams {
   params: Promise<{
@@ -33,7 +33,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
   try {
     const user = await getAuthSession();
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -45,20 +45,20 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
       .where(eq(bookings.id, id));
 
     if (!booking) {
-      return NextResponse.json({ error: &quot;Booking not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
     // Check permissions
     const isAdmin = [
-      &quot;super_admin&quot;,
-      &quot;internal_admin&quot;,
-      &quot;internal_field_manager&quot;,
+      "super_admin",
+      "internal_admin",
+      "internal_field_manager",
     ].includes(user.role);
     const isInClientOrg =
       booking.clientOrganizationId === (user as any).organizationId;
 
     if (!isAdmin && !isInClientOrg) {
-      return NextResponse.json({ error: &quot;Forbidden&quot; }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Query to get comments with proper condition handling
@@ -77,9 +77,9 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(comments);
   } catch (error) {
-    console.error(&quot;Error fetching booking comments:&quot;, error);
+    console.error("Error fetching booking comments:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch comments&quot; },
+      { error: "Failed to fetch comments" },
       { status: 500 },
     );
   }
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   try {
     const user = await getAuthSession();
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -106,27 +106,27 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
       .where(eq(bookings.id, id));
 
     if (!booking) {
-      return NextResponse.json({ error: &quot;Booking not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
     // Check permissions
     const isAdmin = [
-      &quot;super_admin&quot;,
-      &quot;internal_admin&quot;,
-      &quot;internal_field_manager&quot;,
+      "super_admin",
+      "internal_admin",
+      "internal_field_manager",
     ].includes(user.role);
     const isInClientOrg =
       booking.clientOrganizationId === (user as any).organizationId;
 
     if (!isAdmin && !isInClientOrg) {
-      return NextResponse.json({ error: &quot;Forbidden&quot; }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Non-admins can&apos;t create internal comments
+    // Non-admins can't create internal comments
     if (!isAdmin && data.isInternal) {
       return NextResponse.json(
         {
-          error: &quot;Only administrators can create internal comments&quot;,
+          error: "Only administrators can create internal comments",
         },
         { status: 403 },
       );
@@ -148,13 +148,13 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(newComment, { status: 201 });
   } catch (error) {
-    console.error(&quot;Error creating booking comment:&quot;, error);
+    console.error("Error creating booking comment:", error);
 
     // Handle validation errors
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         {
-          error: &quot;Validation failed&quot;,
+          error: "Validation failed",
           details: error.format(),
         },
         { status: 400 },
@@ -162,7 +162,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
     }
 
     return NextResponse.json(
-      { error: &quot;Failed to create comment&quot; },
+      { error: "Failed to create comment" },
       { status: 500 },
     );
   }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 import { db } from '@/lib/db';
@@ -9,7 +9,7 @@ import { eq, and, sql, count } from 'drizzle-orm';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log(&quot;[Kit Instance Stats API] Starting stats request&quot;);
+    console.log("[Kit Instance Stats API] Starting stats request");
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId = searchParams.get('organizationId');
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
       territories: territoryStats.filter(t => t.territory).length,
     };
 
-    console.log(&quot;[Kit Instance Stats API] Stats calculated:&quot;, stats);
+    console.log("[Kit Instance Stats API] Stats calculated:", stats);
     return NextResponse.json(stats);
   } catch (error) {
     console.error('Error fetching kit instance stats:', error);

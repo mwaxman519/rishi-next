@@ -3,8 +3,8 @@
  *
  * Functions for securely handling passwords.
  */
-import * as bcrypt from &quot;bcryptjs&quot;;
-import { AUTH_CONFIG } from &quot;../config&quot;;
+import * as bcrypt from "bcryptjs";
+import { AUTH_CONFIG } from "../config";
 
 /**
  * Hash a password
@@ -32,7 +32,7 @@ export function validatePasswordStrength(
   minLength: number = AUTH_CONFIG.MIN_PASSWORD_LENGTH,
 ): { valid: boolean; message?: string } {
   if (!password) {
-    return { valid: false, message: &quot;Password is required&quot; };
+    return { valid: false, message: "Password is required" };
   }
 
   if (password.length < minLength) {

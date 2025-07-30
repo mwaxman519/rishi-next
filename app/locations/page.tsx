@@ -1,14 +1,14 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect, useRef } from &quot;react&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import React, { useState, useEffect, useRef } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   MapPin,
   Map,
@@ -25,23 +25,23 @@ import {
   ChevronRight,
   Pencil,
   Loader2,
-} from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
-import { PendingLocationsList } from &quot;@/components/locations/PendingLocationsList&quot;;
-import { LocationMap } from &quot;@/components/maps/LocationMap&quot;;
-import { ClusteredLocationMap } from &quot;@/components/maps/ClusteredLocationMap&quot;;
-import { GoogleMapsProvider } from &quot;@/components/maps/GoogleMapsContext&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { useLocations, LocationFilters } from &quot;@/hooks/useLocations&quot;;
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PendingLocationsList } from "@/components/locations/PendingLocationsList";
+import { LocationMap } from "@/components/maps/LocationMap";
+import { ClusteredLocationMap } from "@/components/maps/ClusteredLocationMap";
+import { GoogleMapsProvider } from "@/components/maps/GoogleMapsContext";
+import { useRouter } from "next/navigation";
+import { useLocations, LocationFilters } from "@/hooks/useLocations";
 
 export default function LocationsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState(&quot;map&quot;);
-  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [activeTab, setActiveTab] = useState("map");
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<LocationFilters>({});
   const [resetFilter, setResetFilter] = useState(false);
 
@@ -55,9 +55,9 @@ export default function LocationsPage() {
       latitude: Number(loc.geoLat) || 0,
       longitude: Number(loc.geoLng) || 0,
       name: loc.name,
-      address: loc.address1 + (loc.address2 ? `, ${loc.address2}` : &quot;&quot;),
+      address: loc.address1 + (loc.address2 ? `, ${loc.address2}` : ""),
       city: loc.city,
-      state: loc.state || loc.stateCode || &quot;&quot;,
+      state: loc.state || loc.stateCode || "",
       type: loc.type,
       status: loc.status,
     }))
@@ -86,7 +86,7 @@ export default function LocationsPage() {
 
   // Clear all filters
   const clearAllFilters = () => {
-    setSearchQuery(&quot;&quot;);
+    setSearchQuery("");
     setFilters({});
     setResetFilter(true);
     // Reset the resetFilter state after a short delay to allow components to react
@@ -110,110 +110,110 @@ export default function LocationsPage() {
   // Function to get state code (simplified)
   function getStateCode(stateName: string): string {
     const stateCodes: Record<string, string> = {
-      Alabama: &quot;AL&quot;,
-      Alaska: &quot;AK&quot;,
-      Arizona: &quot;AZ&quot;,
-      Arkansas: &quot;AR&quot;,
-      California: &quot;CA&quot;,
-      Colorado: &quot;CO&quot;,
-      Connecticut: &quot;CT&quot;,
-      Delaware: &quot;DE&quot;,
-      Florida: &quot;FL&quot;,
-      Georgia: &quot;GA&quot;,
-      Hawaii: &quot;HI&quot;,
-      Idaho: &quot;ID&quot;,
-      Illinois: &quot;IL&quot;,
-      Indiana: &quot;IN&quot;,
-      Iowa: &quot;IA&quot;,
-      Kansas: &quot;KS&quot;,
-      Kentucky: &quot;KY&quot;,
-      Louisiana: &quot;LA&quot;,
-      Maine: &quot;ME&quot;,
-      Maryland: &quot;MD&quot;,
-      Massachusetts: &quot;MA&quot;,
-      Michigan: &quot;MI&quot;,
-      Minnesota: &quot;MN&quot;,
-      Mississippi: &quot;MS&quot;,
-      Missouri: &quot;MO&quot;,
-      Montana: &quot;MT&quot;,
-      Nebraska: &quot;NE&quot;,
-      Nevada: &quot;NV&quot;,
-      &quot;New Hampshire&quot;: &quot;NH&quot;,
-      &quot;New Jersey&quot;: &quot;NJ&quot;,
-      &quot;New Mexico&quot;: &quot;NM&quot;,
-      &quot;New York&quot;: &quot;NY&quot;,
-      &quot;North Carolina&quot;: &quot;NC&quot;,
-      &quot;North Dakota&quot;: &quot;ND&quot;,
-      Ohio: &quot;OH&quot;,
-      Oklahoma: &quot;OK&quot;,
-      Oregon: &quot;OR&quot;,
-      Pennsylvania: &quot;PA&quot;,
-      &quot;Rhode Island&quot;: &quot;RI&quot;,
-      &quot;South Carolina&quot;: &quot;SC&quot;,
-      &quot;South Dakota&quot;: &quot;SD&quot;,
-      Tennessee: &quot;TN&quot;,
-      Texas: &quot;TX&quot;,
-      Utah: &quot;UT&quot;,
-      Vermont: &quot;VT&quot;,
-      Virginia: &quot;VA&quot;,
-      Washington: &quot;WA&quot;,
-      &quot;West Virginia&quot;: &quot;WV&quot;,
-      Wisconsin: &quot;WI&quot;,
-      Wyoming: &quot;WY&quot;,
+      Alabama: "AL",
+      Alaska: "AK",
+      Arizona: "AZ",
+      Arkansas: "AR",
+      California: "CA",
+      Colorado: "CO",
+      Connecticut: "CT",
+      Delaware: "DE",
+      Florida: "FL",
+      Georgia: "GA",
+      Hawaii: "HI",
+      Idaho: "ID",
+      Illinois: "IL",
+      Indiana: "IN",
+      Iowa: "IA",
+      Kansas: "KS",
+      Kentucky: "KY",
+      Louisiana: "LA",
+      Maine: "ME",
+      Maryland: "MD",
+      Massachusetts: "MA",
+      Michigan: "MI",
+      Minnesota: "MN",
+      Mississippi: "MS",
+      Missouri: "MO",
+      Montana: "MT",
+      Nebraska: "NE",
+      Nevada: "NV",
+      "New Hampshire": "NH",
+      "New Jersey": "NJ",
+      "New Mexico": "NM",
+      "New York": "NY",
+      "North Carolina": "NC",
+      "North Dakota": "ND",
+      Ohio: "OH",
+      Oklahoma: "OK",
+      Oregon: "OR",
+      Pennsylvania: "PA",
+      "Rhode Island": "RI",
+      "South Carolina": "SC",
+      "South Dakota": "SD",
+      Tennessee: "TN",
+      Texas: "TX",
+      Utah: "UT",
+      Vermont: "VT",
+      Virginia: "VA",
+      Washington: "WA",
+      "West Virginia": "WV",
+      Wisconsin: "WI",
+      Wyoming: "WY",
     };
-    return stateCodes[stateName] || &quot;XX&quot;;
+    return stateCodes[stateName] || "XX";
   }
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-8&quot;>
-      <div className=&quot;flex justify-between items-center&quot;>
-        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Locations</h1>
-        <div className=&quot;space-x-3&quot;>
+    <div className="container mx-auto py-6 space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold tracking-tight">Locations</h1>
+        <div className="space-x-3">
           <Link
-            href=&quot;/locations/states/new&quot;
-            className=&quot;inline-flex items-center justify-center rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary shadow-sm hover:bg-primary/20&quot;
+            href="/locations/states/new"
+            className="inline-flex items-center justify-center rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary shadow-sm hover:bg-primary/20"
           >
-            <Plus className=&quot;mr-2 h-4 w-4&quot; />
+            <Plus className="mr-2 h-4 w-4" />
             Add State
           </Link>
           <Link
-            href=&quot;/locations/add&quot;
-            className=&quot;inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90&quot;
+            href="/locations/add"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
           >
-            <Plus className=&quot;mr-2 h-4 w-4&quot; />
+            <Plus className="mr-2 h-4 w-4" />
             Add Venue
           </Link>
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className=&quot;w-full&quot;>
-        <TabsList className=&quot;mb-4&quot;>
-          <TabsTrigger value=&quot;map&quot;>Map View</TabsTrigger>
-          <TabsTrigger value=&quot;states&quot;>States</TabsTrigger>
-          <TabsTrigger value=&quot;regions&quot;>Regions</TabsTrigger>
-          <TabsTrigger value=&quot;venues&quot;>Venues</TabsTrigger>
-          <TabsTrigger value=&quot;pending&quot;>Pending Approval</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="map">Map View</TabsTrigger>
+          <TabsTrigger value="states">States</TabsTrigger>
+          <TabsTrigger value="regions">Regions</TabsTrigger>
+          <TabsTrigger value="venues">Venues</TabsTrigger>
+          <TabsTrigger value="pending">Pending Approval</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;map&quot; className=&quot;space-y-6&quot;>
-          <div className=&quot;flex items-center justify-between&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="map" className="space-y-6">
+          <div className="flex items-center justify-between">
+            <p className="text-muted-foreground">
               Interactive map of all service areas and venues.
             </p>
 
-            <div className=&quot;flex items-center gap-2&quot;>
-              <div className=&quot;relative&quot;>
-                <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  type=&quot;text&quot;
-                  placeholder=&quot;Search locations...&quot;
-                  className=&quot;w-[200px] pl-9&quot;
+                  type="text"
+                  placeholder="Search locations..."
+                  className="w-[200px] pl-9"
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
                 />
               </div>
               {(searchQuery || Object.keys(filters).length > 0) && (
-                <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={clearAllFilters}>
+                <Button variant="outline" size="sm" onClick={clearAllFilters}>
                   Clear Filters
                 </Button>
               )}
@@ -221,20 +221,20 @@ export default function LocationsPage() {
           </div>
 
           <Card>
-            <CardHeader className=&quot;pb-2&quot;>
+            <CardHeader className="pb-2">
               <CardTitle>Location Map</CardTitle>
               <CardDescription>
                 Interactive map with clustering and filtering capabilities
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;p-6 pt-0&quot;>
-              <div className=&quot;relative border rounded-md&quot;>
+            <CardContent className="p-6 pt-0">
+              <div className="relative border rounded-md">
                 <GoogleMapsProvider>
                   {isLoading ? (
-                    <div className=&quot;h-[600px] flex items-center justify-center&quot;>
-                      <div className=&quot;flex flex-col items-center&quot;>
-                        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary mb-2&quot; />
-                        <p className=&quot;text-sm text-muted-foreground&quot;>
+                    <div className="h-[600px] flex items-center justify-center">
+                      <div className="flex flex-col items-center">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
+                        <p className="text-sm text-muted-foreground">
                           Loading locations...
                         </p>
                       </div>
@@ -256,26 +256,26 @@ export default function LocationsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;states&quot; className=&quot;space-y-6&quot;>
-          <div className=&quot;flex justify-between items-center&quot;>
+        <TabsContent value="states" className="space-y-6">
+          <div className="flex justify-between items-center">
             <div>
-              <h2 className=&quot;text-2xl font-semibold&quot;>States</h2>
-              <p className=&quot;text-muted-foreground&quot;>
+              <h2 className="text-2xl font-semibold">States</h2>
+              <p className="text-muted-foreground">
                 Manage states and their service areas
               </p>
             </div>
 
-            <Button variant=&quot;outline&quot; asChild>
-              <Link href=&quot;/locations/states/new&quot;>
-                <Plus className=&quot;mr-2 h-4 w-4&quot; />
+            <Button variant="outline" asChild>
+              <Link href="/locations/states/new">
+                <Plus className="mr-2 h-4 w-4" />
                 Add State
               </Link>
             </Button>
           </div>
 
           <Card>
-            <CardHeader className=&quot;px-6 py-4&quot;>
-              <div className=&quot;flex justify-between items-center&quot;>
+            <CardHeader className="px-6 py-4">
+              <div className="flex justify-between items-center">
                 <div>
                   <CardTitle>States List</CardTitle>
                   <CardDescription>
@@ -283,62 +283,62 @@ export default function LocationsPage() {
                   </CardDescription>
                 </div>
 
-                <div className=&quot;flex items-center gap-2&quot;>
-                  <div className=&quot;relative&quot;>
-                    <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      type=&quot;text&quot;
-                      placeholder=&quot;Search states...&quot;
-                      className=&quot;w-[150px] sm:w-[250px] pl-9 h-9&quot;
+                      type="text"
+                      placeholder="Search states..."
+                      className="w-[150px] sm:w-[250px] pl-9 h-9"
                     />
                   </div>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className=&quot;px-6 py-0&quot;>
+            <CardContent className="px-6 py-0">
               {isLoading ? (
-                <div className=&quot;space-y-2 py-4&quot;>
+                <div className="space-y-2 py-4">
                   {[1, 2, 3].map((i) => (
-                    <Skeleton key={i} className=&quot;h-12 w-full&quot; />
+                    <Skeleton key={i} className="h-12 w-full" />
                   ))}
                 </div>
               ) : statesList.length === 0 ? (
-                <div className=&quot;py-12 text-center&quot;>
-                  <Building className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
-                  <h3 className=&quot;mt-4 text-lg font-medium&quot;>No States Found</h3>
-                  <p className=&quot;mt-2 text-sm text-muted-foreground max-w-md mx-auto&quot;>
+                <div className="py-12 text-center">
+                  <Building className="h-12 w-12 mx-auto text-muted-foreground/50" />
+                  <h3 className="mt-4 text-lg font-medium">No States Found</h3>
+                  <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto">
                     There are no states currently in the system. Add a state to
                     get started.
                   </p>
-                  <Button className=&quot;mt-4&quot; variant=&quot;outline&quot; asChild>
-                    <Link href=&quot;/locations/states/new&quot;>
-                      <Plus className=&quot;mr-2 h-4 w-4&quot; />
+                  <Button className="mt-4" variant="outline" asChild>
+                    <Link href="/locations/states/new">
+                      <Plus className="mr-2 h-4 w-4" />
                       Add First State
                     </Link>
                   </Button>
                 </div>
               ) : (
-                <table className=&quot;w-full&quot;>
+                <table className="w-full">
                   <thead>
-                    <tr className=&quot;border-b&quot;>
-                      <th className=&quot;text-left py-3 px-2&quot;>
-                        <div className=&quot;flex items-center&quot;>
-                          <span className=&quot;text-sm font-medium&quot;>State</span>
-                          <ArrowUpDown className=&quot;ml-1 h-3 w-3&quot; />
+                    <tr className="border-b">
+                      <th className="text-left py-3 px-2">
+                        <div className="flex items-center">
+                          <span className="text-sm font-medium">State</span>
+                          <ArrowUpDown className="ml-1 h-3 w-3" />
                         </div>
                       </th>
-                      <th className=&quot;text-left py-3 px-2&quot;>
-                        <div className=&quot;flex items-center&quot;>
-                          <span className=&quot;text-sm font-medium&quot;>Code</span>
+                      <th className="text-left py-3 px-2">
+                        <div className="flex items-center">
+                          <span className="text-sm font-medium">Code</span>
                         </div>
                       </th>
-                      <th className=&quot;text-center py-3 px-2&quot;>
-                        <div className=&quot;flex items-center justify-center&quot;>
-                          <span className=&quot;text-sm font-medium&quot;>Venues</span>
+                      <th className="text-center py-3 px-2">
+                        <div className="flex items-center justify-center">
+                          <span className="text-sm font-medium">Venues</span>
                         </div>
                       </th>
-                      <th className=&quot;text-right py-3 px-2&quot;>
-                        <span className=&quot;text-sm font-medium&quot;>Actions</span>
+                      <th className="text-right py-3 px-2">
+                        <span className="text-sm font-medium">Actions</span>
                       </th>
                     </tr>
                   </thead>
@@ -346,19 +346,19 @@ export default function LocationsPage() {
                     {statesList.map((state) => (
                       <tr
                         key={state.name}
-                        className=&quot;border-b hover:bg-muted/50&quot;
+                        className="border-b hover:bg-muted/50"
                       >
-                        <td className=&quot;py-3 px-2 font-medium&quot;>{state.name}</td>
-                        <td className=&quot;py-3 px-2&quot;>{state.code}</td>
-                        <td className=&quot;py-3 px-2 text-center&quot;>
+                        <td className="py-3 px-2 font-medium">{state.name}</td>
+                        <td className="py-3 px-2">{state.code}</td>
+                        <td className="py-3 px-2 text-center">
                           <Badge>{state.count}</Badge>
                         </td>
-                        <td className=&quot;py-3 px-2 text-right&quot;>
-                          <Button variant=&quot;ghost&quot; size=&quot;sm&quot; asChild>
+                        <td className="py-3 px-2 text-right">
+                          <Button variant="ghost" size="sm" asChild>
                             <Link
                               href={`/locations/states/${state.name.toLowerCase()}`}
                             >
-                              <Eye className=&quot;mr-1 h-3.5 w-3.5&quot; />
+                              <Eye className="mr-1 h-3.5 w-3.5" />
                               View
                             </Link>
                           </Button>
@@ -372,26 +372,26 @@ export default function LocationsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;regions&quot; className=&quot;space-y-6&quot;>
-          <div className=&quot;flex justify-between items-center&quot;>
+        <TabsContent value="regions" className="space-y-6">
+          <div className="flex justify-between items-center">
             <div>
-              <h2 className=&quot;text-2xl font-semibold&quot;>Regions</h2>
-              <p className=&quot;text-muted-foreground&quot;>Manage geographic regions</p>
+              <h2 className="text-2xl font-semibold">Regions</h2>
+              <p className="text-muted-foreground">Manage geographic regions</p>
             </div>
 
-            <Button variant=&quot;outline&quot; asChild>
-              <Link href=&quot;/locations/regions/new&quot;>
-                <Plus className=&quot;mr-2 h-4 w-4&quot; />
+            <Button variant="outline" asChild>
+              <Link href="/locations/regions/new">
+                <Plus className="mr-2 h-4 w-4" />
                 Add Region
               </Link>
             </Button>
           </div>
 
-          <Card className=&quot;relative min-h-[250px]&quot;>
-            <div className=&quot;absolute inset-0 flex flex-col items-center justify-center&quot;>
-              <Globe className=&quot;h-16 w-16 text-muted-foreground/30&quot; />
-              <h3 className=&quot;mt-4 text-lg font-medium&quot;>Regions Coming Soon</h3>
-              <p className=&quot;mt-2 text-center text-muted-foreground max-w-md&quot;>
+          <Card className="relative min-h-[250px]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <Globe className="h-16 w-16 text-muted-foreground/30" />
+              <h3 className="mt-4 text-lg font-medium">Regions Coming Soon</h3>
+              <p className="mt-2 text-center text-muted-foreground max-w-md">
                 The regions feature is currently in development. Check back soon
                 to manage regional groupings of locations.
               </p>
@@ -399,24 +399,24 @@ export default function LocationsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;venues&quot; className=&quot;space-y-6&quot;>
-          <div className=&quot;flex justify-between items-center&quot;>
+        <TabsContent value="venues" className="space-y-6">
+          <div className="flex justify-between items-center">
             <div>
-              <h2 className=&quot;text-2xl font-semibold&quot;>Venues</h2>
-              <p className=&quot;text-muted-foreground&quot;>Manage venue locations</p>
+              <h2 className="text-2xl font-semibold">Venues</h2>
+              <p className="text-muted-foreground">Manage venue locations</p>
             </div>
 
             <Button asChild>
-              <Link href=&quot;/locations/add&quot;>
-                <Plus className=&quot;mr-2 h-4 w-4&quot; />
+              <Link href="/locations/add">
+                <Plus className="mr-2 h-4 w-4" />
                 Add Venue
               </Link>
             </Button>
           </div>
 
           <Card>
-            <CardHeader className=&quot;px-6 py-4&quot;>
-              <div className=&quot;flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4&quot;>
+            <CardHeader className="px-6 py-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                   <CardTitle>Venues List</CardTitle>
                   <CardDescription>
@@ -424,97 +424,97 @@ export default function LocationsPage() {
                   </CardDescription>
                 </div>
 
-                <div className=&quot;flex items-center gap-2 w-full sm:w-auto&quot;>
-                  <div className=&quot;relative flex-1 sm:flex-none&quot;>
-                    <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <div className="relative flex-1 sm:flex-none">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      type=&quot;text&quot;
-                      placeholder=&quot;Search venues...&quot;
-                      className=&quot;w-full sm:w-[250px] pl-9 h-9&quot;
+                      type="text"
+                      placeholder="Search venues..."
+                      className="w-full sm:w-[250px] pl-9 h-9"
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                     />
                   </div>
                   <Button
-                    size=&quot;sm&quot;
-                    variant=&quot;outline&quot;
-                    onClick={() => setActiveTab(&quot;map&quot;)}
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setActiveTab("map")}
                   >
-                    <Filter className=&quot;h-3.5 w-3.5 mr-1&quot; />
+                    <Filter className="h-3.5 w-3.5 mr-1" />
                     Filter
                   </Button>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className=&quot;px-6 py-0&quot;>
-              <div className=&quot;overflow-auto&quot;>
+            <CardContent className="px-6 py-0">
+              <div className="overflow-auto">
                 {isLoading ? (
-                  <div className=&quot;space-y-2 py-4&quot;>
+                  <div className="space-y-2 py-4">
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <Skeleton key={i} className=&quot;h-12 w-full&quot; />
+                      <Skeleton key={i} className="h-12 w-full" />
                     ))}
                   </div>
                 ) : locations.length === 0 ? (
-                  <div className=&quot;py-12 text-center&quot;>
-                    <Building className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
-                    <h3 className=&quot;mt-4 text-lg font-medium&quot;>
+                  <div className="py-12 text-center">
+                    <Building className="h-12 w-12 mx-auto text-muted-foreground/50" />
+                    <h3 className="mt-4 text-lg font-medium">
                       No Venues Found
                     </h3>
-                    <p className=&quot;mt-2 text-sm text-muted-foreground max-w-md mx-auto&quot;>
+                    <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto">
                       {Object.keys(filters).length > 0
-                        ? &quot;No venues match your search criteria. Try adjusting your filters.&quot;
-                        : &quot;There are no venues currently in the system. Add a venue to get started.&quot;}
+                        ? "No venues match your search criteria. Try adjusting your filters."
+                        : "There are no venues currently in the system. Add a venue to get started."}
                     </p>
                     {Object.keys(filters).length > 0 ? (
                       <Button
-                        className=&quot;mt-4&quot;
-                        variant=&quot;outline&quot;
+                        className="mt-4"
+                        variant="outline"
                         onClick={clearAllFilters}
                       >
                         Clear Filters
                       </Button>
                     ) : (
-                      <Button className=&quot;mt-4&quot; asChild>
-                        <Link href=&quot;/locations/add&quot;>
-                          <Plus className=&quot;mr-2 h-4 w-4&quot; />
+                      <Button className="mt-4" asChild>
+                        <Link href="/locations/add">
+                          <Plus className="mr-2 h-4 w-4" />
                           Add First Venue
                         </Link>
                       </Button>
                     )}
                   </div>
                 ) : (
-                  <table className=&quot;w-full&quot;>
+                  <table className="w-full">
                     <thead>
-                      <tr className=&quot;border-b&quot;>
-                        <th className=&quot;text-left py-3 px-2&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <span className=&quot;text-sm font-medium&quot;>Name</span>
-                            <ArrowUpDown className=&quot;ml-1 h-3 w-3&quot; />
+                      <tr className="border-b">
+                        <th className="text-left py-3 px-2">
+                          <div className="flex items-center">
+                            <span className="text-sm font-medium">Name</span>
+                            <ArrowUpDown className="ml-1 h-3 w-3" />
                           </div>
                         </th>
-                        <th className=&quot;text-left py-3 px-2&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <span className=&quot;text-sm font-medium&quot;>Address</span>
+                        <th className="text-left py-3 px-2">
+                          <div className="flex items-center">
+                            <span className="text-sm font-medium">Address</span>
                           </div>
                         </th>
-                        <th className=&quot;text-left py-3 px-2&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <span className=&quot;text-sm font-medium&quot;>City</span>
-                            <ArrowUpDown className=&quot;ml-1 h-3 w-3&quot; />
+                        <th className="text-left py-3 px-2">
+                          <div className="flex items-center">
+                            <span className="text-sm font-medium">City</span>
+                            <ArrowUpDown className="ml-1 h-3 w-3" />
                           </div>
                         </th>
-                        <th className=&quot;text-left py-3 px-2&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <span className=&quot;text-sm font-medium&quot;>State</span>
+                        <th className="text-left py-3 px-2">
+                          <div className="flex items-center">
+                            <span className="text-sm font-medium">State</span>
                           </div>
                         </th>
-                        <th className=&quot;text-left py-3 px-2&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <span className=&quot;text-sm font-medium&quot;>Status</span>
+                        <th className="text-left py-3 px-2">
+                          <div className="flex items-center">
+                            <span className="text-sm font-medium">Status</span>
                           </div>
                         </th>
-                        <th className=&quot;text-right py-3 px-2&quot;>
-                          <span className=&quot;text-sm font-medium&quot;>Actions</span>
+                        <th className="text-right py-3 px-2">
+                          <span className="text-sm font-medium">Actions</span>
                         </th>
                       </tr>
                     </thead>
@@ -522,48 +522,48 @@ export default function LocationsPage() {
                       {locations.map((location) => (
                         <tr
                           key={location.id}
-                          className=&quot;border-b hover:bg-muted/50&quot;
+                          className="border-b hover:bg-muted/50"
                         >
-                          <td className=&quot;py-3 px-2 font-medium&quot;>
+                          <td className="py-3 px-2 font-medium">
                             {location.name}
                           </td>
-                          <td className=&quot;py-3 px-2&quot;>
-                            {location.address1 || &quot;-&quot;}
+                          <td className="py-3 px-2">
+                            {location.address1 || "-"}
                           </td>
-                          <td className=&quot;py-3 px-2&quot;>{location.city || &quot;-&quot;}</td>
-                          <td className=&quot;py-3 px-2&quot;>
-                            {location.state || location.stateCode || &quot;-&quot;}
+                          <td className="py-3 px-2">{location.city || "-"}</td>
+                          <td className="py-3 px-2">
+                            {location.state || location.stateCode || "-"}
                           </td>
-                          <td className=&quot;py-3 px-2&quot;>
+                          <td className="py-3 px-2">
                             <Badge
                               variant={
-                                location.status === &quot;active&quot;
-                                  ? &quot;default&quot;
-                                  : location.status === &quot;pending&quot;
-                                    ? &quot;secondary&quot;
-                                    : location.status === &quot;rejected&quot;
-                                      ? &quot;destructive&quot;
-                                      : &quot;outline&quot;
+                                location.status === "active"
+                                  ? "default"
+                                  : location.status === "pending"
+                                    ? "secondary"
+                                    : location.status === "rejected"
+                                      ? "destructive"
+                                      : "outline"
                               }
                             >
-                              {location.status || &quot;unknown&quot;}
+                              {location.status || "unknown"}
                             </Badge>
                           </td>
-                          <td className=&quot;py-3 px-2 text-right&quot;>
-                            <Button variant=&quot;ghost&quot; size=&quot;sm&quot; asChild>
+                          <td className="py-3 px-2 text-right">
+                            <Button variant="ghost" size="sm" asChild>
                               <Link href={`/locations/${location.id}`}>
-                                <Eye className=&quot;mr-1 h-3.5 w-3.5&quot; />
+                                <Eye className="mr-1 h-3.5 w-3.5" />
                                 View
                               </Link>
                             </Button>
                             <Button
-                              variant=&quot;ghost&quot;
-                              size=&quot;sm&quot;
-                              className=&quot;text-muted-foreground&quot;
+                              variant="ghost"
+                              size="sm"
+                              className="text-muted-foreground"
                               asChild
                             >
                               <Link href={`/locations/${location.id}/edit`}>
-                                <Pencil className=&quot;mr-1 h-3.5 w-3.5&quot; />
+                                <Pencil className="mr-1 h-3.5 w-3.5" />
                                 Edit
                               </Link>
                             </Button>
@@ -576,10 +576,10 @@ export default function LocationsPage() {
               </div>
 
               {locations.length > 0 && (
-                <div className=&quot;py-4 flex justify-between items-center&quot;>
-                  <div className=&quot;text-sm text-muted-foreground&quot;>
-                    Showing {locations.length}{&quot; &quot;}
-                    {locations.length === 1 ? &quot;venue&quot; : &quot;venues&quot;}
+                <div className="py-4 flex justify-between items-center">
+                  <div className="text-sm text-muted-foreground">
+                    Showing {locations.length}{" "}
+                    {locations.length === 1 ? "venue" : "venues"}
                   </div>
                   {/* Pagination would go here */}
                 </div>
@@ -588,11 +588,11 @@ export default function LocationsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;pending&quot; className=&quot;space-y-6&quot;>
-          <div className=&quot;flex justify-between items-center&quot;>
+        <TabsContent value="pending" className="space-y-6">
+          <div className="flex justify-between items-center">
             <div>
-              <h2 className=&quot;text-2xl font-semibold&quot;>Pending Approval</h2>
-              <p className=&quot;text-muted-foreground">
+              <h2 className="text-2xl font-semibold">Pending Approval</h2>
+              <p className="text-muted-foreground">
                 Review and approve location submissions
               </p>
             </div>

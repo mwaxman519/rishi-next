@@ -3,12 +3,12 @@
  *
  * This component displays a visual indicator of the current environment
  * (development, staging) in the UI to help users identify which environment
- * they&apos;re currently using. Not shown in production.
+ * they're currently using. Not shown in production.
  */
 
-import React from &quot;react&quot;;
-import { getEnvironmentIndicator } from &quot;../../config/environment&quot;;
-import { useClientOnly } from &quot;@/hooks/useClientOnly&quot;;
+import React from "react";
+import { getEnvironmentIndicator } from "../../config/environment";
+import { useClientOnly } from "@/hooks/useClientOnly";
 
 export function EnvironmentIndicator() {
   // Use our client-only hook for consistency
@@ -28,7 +28,7 @@ export function EnvironmentIndicator() {
 
   return (
     <div
-      className=&quot;fixed top-0 right-0 z-50 px-2 py-1 text-xs font-medium&quot;
+      className="fixed top-0 right-0 z-50 px-2 py-1 text-xs font-medium"
       style={{
         backgroundColor: indicator.color,
         color: indicator.textColor,
@@ -60,7 +60,7 @@ export function EnvironmentBanner() {
 
   return (
     <div
-      className=&quot;w-full text-center py-1 text-sm font-medium&quot;
+      className="w-full text-center py-1 text-sm font-medium"
       style={{
         backgroundColor: indicator.color,
         color: indicator.textColor,

@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useContext, useCallback } from &quot;react&quot;;
-import { GoogleMap, InfoWindow } from &quot;@react-google-maps/api&quot;;
-import { Loader2, MapPin } from &quot;lucide-react&quot;;
-import { useTheme } from &quot;next-themes&quot;;
-import { GoogleMapsContext } from &quot;./GoogleMapsContext&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+import React, { useContext, useCallback } from "react";
+import { GoogleMap, InfoWindow } from "@react-google-maps/api";
+import { Loader2, MapPin } from "lucide-react";
+import { useTheme } from "next-themes";
+import { GoogleMapsContext } from "./GoogleMapsContext";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface LocationMapProps {
   locations: Array<{
@@ -28,9 +28,9 @@ interface LocationMapProps {
 
 // Default map styles
 const mapContainerStyle = {
-  width: &quot;100%&quot;,
-  height: &quot;100%&quot;,
-  borderRadius: &quot;0.375rem&quot;,
+  width: "100%",
+  height: "100%",
+  borderRadius: "0.375rem",
 };
 
 // Default center (US)
@@ -41,8 +41,8 @@ const defaultCenter = {
 
 export function LocationMap({
   locations = [],
-  height = &quot;500px&quot;,
-  className = "&quot;,
+  height = "500px",
+  className = "",
   onMapLoad,
   selectedLocation,
   isInfoOpen = false,
@@ -55,7 +55,7 @@ export function LocationMap({
   // Custom container style with dynamic height
   const containerStyle = {
     ...mapContainerStyle,
-    height: typeof height === &quot;number&quot; ? `${height}px` : height,
+    height: typeof height === "number" ? `${height}px` : height,
   };
 
   // Handle map load
@@ -74,7 +74,7 @@ export function LocationMap({
         });
 
         // Add click event to marker
-        marker.addListener(&quot;click&quot;, () => {
+        marker.addListener("click", () => {
           if (onMarkerClick) onMarkerClick(location);
         });
       });
@@ -106,11 +106,11 @@ export function LocationMap({
     >
       {/* Display error message if Google Maps failed to load */}
       {loadError && (
-        <div className=&quot;absolute inset-0 flex flex-col items-center justify-center bg-background/80 z-20 p-4 text-center&quot;>
-          <div className=&quot;text-destructive mb-2&quot;>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 z-20 p-4 text-center">
+          <div className="text-destructive mb-2">
             Failed to load Google Maps
           </div>
-          <p className=&quot;text-sm text-muted-foreground&quot;>
+          <p className="text-sm text-muted-foreground">
             Please refresh the page and try again
           </p>
         </div>
@@ -141,31 +141,31 @@ export function LocationMap({
               }}
               onCloseClick={onInfoClose}
             >
-              <div className=&quot;max-w-[300px] rounded-md bg-white p-4&quot;>
-                <h3 className=&quot;text-lg font-medium text-gray-900&quot;>
+              <div className="max-w-[300px] rounded-md bg-white p-4">
+                <h3 className="text-lg font-medium text-gray-900">
                   {selectedLocation.name}
                 </h3>
                 {selectedLocation.address && (
-                  <p className=&quot;text-sm text-gray-600 mt-1&quot;>
+                  <p className="text-sm text-gray-600 mt-1">
                     {selectedLocation.address}
                   </p>
                 )}
                 {selectedLocation.city && selectedLocation.state && (
-                  <p className=&quot;text-sm text-gray-600&quot;>
+                  <p className="text-sm text-gray-600">
                     {selectedLocation.city}, {selectedLocation.state}
                   </p>
                 )}
-                <div className=&quot;mt-3 flex space-x-2&quot;>
+                <div className="mt-3 flex space-x-2">
                   <Button
-                    size=&quot;sm&quot;
-                    variant=&quot;default&quot;
+                    size="sm"
+                    variant="default"
                     onClick={() =>
                       window.open(`/locations/${selectedLocation.id}`)
                     }
                   >
                     View Details
                   </Button>
-                  <Button size=&quot;sm&quot; variant=&quot;outline&quot; onClick={onInfoClose}>
+                  <Button size="sm" variant="outline" onClick={onInfoClose}>
                     Close
                   </Button>
                 </div>
@@ -174,20 +174,20 @@ export function LocationMap({
           )}
         </GoogleMap>
       ) : (
-        <div className=&quot;absolute inset-0 flex flex-col items-center justify-center bg-background/80 z-20&quot;>
-          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary mb-2&quot; />
-          <p className=&quot;text-sm text-muted-foreground&quot;>Loading map...</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 z-20">
+          <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
+          <p className="text-sm text-muted-foreground">Loading map...</p>
         </div>
       )}
 
       {/* Location count badge */}
-      <div className=&quot;absolute top-4 right-4 z-10&quot;>
+      <div className="absolute top-4 right-4 z-10">
         <Badge
-          variant=&quot;outline&quot;
-          className=&quot;bg-background/80 backdrop-blur-sm shadow-sm&quot;
+          variant="outline"
+          className="bg-background/80 backdrop-blur-sm shadow-sm"
         >
-          <MapPin className=&quot;w-3 h-3 mr-1&quot; />
-          {locations.length} {locations.length === 1 ? &quot;Location&quot; : &quot;Locations"}
+          <MapPin className="w-3 h-3 mr-1" />
+          {locations.length} {locations.length === 1 ? "Location" : "Locations"}
         </Badge>
       </div>
     </div>

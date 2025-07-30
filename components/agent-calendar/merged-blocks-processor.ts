@@ -46,14 +46,14 @@ export function mergeAdjacentBlocks(blocks: Block[]): MergedBlock[] {
     return blocks as MergedBlock[];
   }
 
-  console.log(&quot;Processing&quot;, blocks.length, &quot;blocks to merge adjacent ones&quot;);
+  console.log("Processing", blocks.length, "blocks to merge adjacent ones");
 
   // Group blocks by day and status
   const blocksByDayAndStatus: Record<string, Block[]> = {};
 
   blocks.forEach((block) => {
     const day = new Date(block.start).toDateString();
-    const status = block.status || &quot;available&quot;;
+    const status = block.status || "available";
     const key = `${day}|${status}`;
 
     if (!blocksByDayAndStatus[key]) {
@@ -77,12 +77,12 @@ export function mergeAdjacentBlocks(blocks: Block[]): MergedBlock[] {
       return;
     }
 
-    const [day, status] = key.split(&quot;|&quot;);
+    const [day, status] = key.split("|");
     console.log(`Found ${blocksInGroup.length} '${status}' blocks on ${day}`);
 
     // If this is an 'unavailable' group with multiple blocks on the same day (the case in the screenshot),
     // merge them into a single visual block regardless of time gaps
-    if (status === &quot;unavailable&quot; && blocksInGroup.length > 1) {
+    if (status === "unavailable" && blocksInGroup.length > 1) {
       console.log(
         `🔄 Merging ${blocksInGroup.length} unavailable blocks into one visual block for ${day}`,
       );
@@ -140,16 +140,16 @@ export function mergeAdjacentBlocks(blocks: Block[]): MergedBlock[] {
 
       // Format times for display
       const formattedStartTime = earliestStart.toLocaleTimeString([], {
-        hour: &quot;numeric&quot;,
-        minute: &quot;2-digit&quot;,
+        hour: "numeric",
+        minute: "2-digit",
       });
       const formattedEndTime = latestEnd.toLocaleTimeString([], {
-        hour: &quot;numeric&quot;,
-        minute: &quot;2-digit&quot;,
+        hour: "numeric",
+        minute: "2-digit",
       });
 
       // Create a force ID with timestamp to prevent caching issues
-      const forceId = `merged-${mergedIds.join(&quot;-&quot;)}-${Date.now()}`;
+      const forceId = `merged-${mergedIds.join("-")}-${Date.now()}`;
 
       // Force title with time for better visual display
       const forceTitleWithTime = `Unavailable: ${formattedStartTime} - ${formattedEndTime}`;
@@ -181,7 +181,7 @@ export function mergeAdjacentBlocks(blocks: Block[]): MergedBlock[] {
       };
 
       console.log(
-        `Merged ${blocksInGroup.length} 'unavailable' blocks into one: IDs ${mergedIds.join(&quot;, &quot;)}`,
+        `Merged ${blocksInGroup.length} 'unavailable' blocks into one: IDs ${mergedIds.join(", ")}`,
       );
       result.push(mergedBlock);
       return;

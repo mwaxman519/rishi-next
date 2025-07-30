@@ -1,13 +1,13 @@
-import { notFound } from &quot;next/navigation&quot;;
-import { redirect } from &quot;next/navigation&quot;;
-import { getDocTree, getDocumentByPath, getAllDocs } from &quot;../../lib/docs&quot;;
-import { shouldSkipDocsGeneration, getAllDocsProduction } from &quot;../../lib/docs-production&quot;;
-import { DOC_PATH_REDIRECTS } from &quot;../../lib/doc-redirects&quot;;
+import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
+import { getDocTree, getDocumentByPath, getAllDocs } from "../../lib/docs";
+import { shouldSkipDocsGeneration, getAllDocsProduction } from "../../lib/docs-production";
+import { DOC_PATH_REDIRECTS } from "../../lib/doc-redirects";
 
 // Import components using named imports
-import { DocContent } from &quot;../../components/docs/DocContent&quot;;
-import { DocsSidebar } from &quot;../../components/docs/DocsSidebar&quot;;
-import { DocsMobileButton } from &quot;../../components/docs/DocsMobileButton&quot;;
+import { DocContent } from "../../components/docs/DocContent";
+import { DocsSidebar } from "../../components/docs/DocsSidebar";
+import { DocsMobileButton } from "../../components/docs/DocsMobileButton";
 
 interface DocPageProps {
   params: Promise<{
@@ -26,8 +26,8 @@ export async function generateMetadata({
 }) {
   return {
     other: {
-      &quot;Cache-Control&quot;:
-        &quot;public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800&quot;,
+      "Cache-Control":
+        "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
     },
   };
 }
@@ -36,7 +36,7 @@ export default async function DocPage({ params }: DocPageProps) {
   const { slug } = await params;
 
   // Join the slug array into a path
-  const docPath = slug.join(&quot;/&quot;);
+  const docPath = slug.join("/");
 
   // Log path for debugging
   console.log(`[DOCS PAGE] Loading document page for path: ${docPath}`);
@@ -46,17 +46,17 @@ export default async function DocPage({ params }: DocPageProps) {
 
   // Special handling for specific paths with known issues
   if (
-    docPath === &quot;business/user-requirements&quot; ||
-    docPath === &quot;business/user-requirements.md&quot;
+    docPath === "business/user-requirements" ||
+    docPath === "business/user-requirements.md"
   ) {
     console.log(`[DOCS PAGE] Special case redirect for ${docPath}`);
     // Return redirect instead of using it directly
-    return redirect(&quot;/docs/business/requirements/user-requirements&quot;);
+    return redirect("/docs/business/requirements/user-requirements");
   }
 
   try {
     // Check if we should redirect this path based on our central redirects
-    const normalizedPath = docPath.replace(/\.(md|mdx)$/i, "&quot;);
+    const normalizedPath = docPath.replace(/\.(md|mdx)$/i, "");
     if (DOC_PATH_REDIRECTS[normalizedPath]) {
       const redirectTarget = DOC_PATH_REDIRECTS[normalizedPath];
       console.log(
@@ -71,7 +71,7 @@ export default async function DocPage({ params }: DocPageProps) {
 
     if (!docTree || Object.keys(docTree).length === 0) {
       throw new Error(
-        &quot;Documentation tree is empty or invalid - no documentation files were found&quot;,
+        "Documentation tree is empty or invalid - no documentation files were found",
       );
     }
 
@@ -103,7 +103,7 @@ export default async function DocPage({ params }: DocPageProps) {
         // Ignore readme lookup errors
       }
 
-      // If it&apos;s a directory path without README, try to find any document in that directory
+      // If it's a directory path without README, try to find any document in that directory
       try {
         const allDocs = await getAllDocs();
         const directoryDocs = allDocs.filter(d => d.path.startsWith(docPath + '/'));
@@ -137,12 +137,12 @@ export default async function DocPage({ params }: DocPageProps) {
     // Cache-Control headers will be added via generateMetadata
 
     return (
-      <div className=&quot;flex&quot;>
+      <div className="flex">
         {/* Left sidebar - doc tree, only visible on desktop */}
         <DocsSidebar docTree={docTree} />
 
         {/* Main content - now with enhanced caching */}
-        <div className=&quot;flex-1 min-w-0&quot;>
+        <div className="flex-1 min-w-0">
           {/* Include the cached version */}
           <DocContent
             content={doc.content}
@@ -169,7 +169,7 @@ export default async function DocPage({ params }: DocPageProps) {
 export async function generateStaticParams() {
   // Check if we should skip docs generation entirely
   if (shouldSkipDocsGeneration()) {
-    console.log(&quot;[DOCS generateStaticParams] Skipping all docs generation in production&quot;);
+    console.log("[DOCS generateStaticParams] Skipping all docs generation in production");
     return [];
   }
 
@@ -178,7 +178,7 @@ export async function generateStaticParams() {
     const allDocs = await getAllDocsProduction();
     
     if (allDocs.length === 0) {
-      console.log(&quot;[DOCS generateStaticParams] No documents found, returning minimal paths&quot;);
+      console.log("[DOCS generateStaticParams] No documents found, returning minimal paths");
       return [];
     }
 
@@ -186,7 +186,7 @@ export async function generateStaticParams() {
 
     // Generate paths only for documents that actually exist and are valid
     for (const doc of allDocs) {
-      // Skip documents that don&apos;t have valid paths
+      // Skip documents that don't have valid paths
       if (!doc.path || doc.path.trim() === '' || doc.path.includes('..')) continue;
       
       // Convert path to slug array (remove any .md extension)
@@ -214,9 +214,9 @@ export async function generateStaticParams() {
 
     return paths;
   } catch (error) {
-    // During build time, log error but don&apos;t fail the build
+    // During build time, log error but don't fail the build
     console.error(
-      &quot;[DOCS generateStaticParams] Error generating paths during build:",
+      "[DOCS generateStaticParams] Error generating paths during build:",
       error,
     );
 

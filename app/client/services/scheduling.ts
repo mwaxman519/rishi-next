@@ -1,7 +1,7 @@
 /**
  * Client-side adapter for the Scheduling service API
  */
-import { apiRequest, queryClient } from &quot;@/lib/queryClient&quot;;
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
   Schedule,
   ScheduleShift,
@@ -22,7 +22,7 @@ import {
   ScheduleFilters,
   ShiftFilters,
   AssignmentFilters,
-} from &quot;@/services/scheduling/models&quot;;
+} from "@/services/scheduling/models";
 
 /**
  * Get all schedules with optional filtering
@@ -34,24 +34,24 @@ export async function getAllSchedules(
   const params = new URLSearchParams();
 
   if (filters.organizationId)
-    params.append(&quot;organizationId&quot;, filters.organizationId);
-  if (filters.bookingId) params.append(&quot;bookingId&quot;, filters.bookingId);
-  if (filters.startDate) params.append(&quot;startDate&quot;, filters.startDate);
-  if (filters.endDate) params.append(&quot;endDate&quot;, filters.endDate);
-  if (filters.createdById) params.append(&quot;createdById&quot;, filters.createdById);
-  if (filters.q) params.append(&quot;q&quot;, filters.q);
+    params.append("organizationId", filters.organizationId);
+  if (filters.bookingId) params.append("bookingId", filters.bookingId);
+  if (filters.startDate) params.append("startDate", filters.startDate);
+  if (filters.endDate) params.append("endDate", filters.endDate);
+  if (filters.createdById) params.append("createdById", filters.createdById);
+  if (filters.q) params.append("q", filters.q);
 
   // Handle status filter which can be single value or array
   if (filters.status) {
     if (Array.isArray(filters.status)) {
-      filters.status.forEach((status) => params.append(&quot;status&quot;, status));
+      filters.status.forEach((status) => params.append("status", status));
     } else {
-      params.append(&quot;status&quot;, filters.status);
+      params.append("status", filters.status);
     }
   }
 
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/schedules?${params.toString()}`,
   );
   return response.json();
@@ -61,7 +61,7 @@ export async function getAllSchedules(
  * Get schedule by ID
  */
 export async function getScheduleById(id: string): Promise<Schedule> {
-  const response = await apiRequest(&quot;GET&quot;, `/api/schedules/${id}`);
+  const response = await apiRequest("GET", `/api/schedules/${id}`);
   return response.json();
 }
 
@@ -71,12 +71,12 @@ export async function getScheduleById(id: string): Promise<Schedule> {
 export async function createSchedule(
   data: CreateScheduleParams,
 ): Promise<Schedule> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/schedules&quot;, data);
+  const response = await apiRequest("POST", "/api/schedules", data);
 
   // Invalidate schedules cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/bookings&quot;, data.bookingId, &quot;schedules&quot;],
+    queryKey: ["/api/bookings", data.bookingId, "schedules"],
   });
 
   return response.json();
@@ -89,16 +89,16 @@ export async function updateSchedule(
   id: string,
   data: UpdateScheduleParams,
 ): Promise<Schedule> {
-  const response = await apiRequest(&quot;PATCH&quot;, `/api/schedules/${id}`, data);
+  const response = await apiRequest("PATCH", `/api/schedules/${id}`, data);
 
   // Invalidate specific schedule cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
 
   // If changing booking, invalidate booking-related caches
   if (data.bookingId) {
     queryClient.invalidateQueries({
-      queryKey: [&quot;/api/bookings&quot;, data.bookingId, &quot;schedules&quot;],
+      queryKey: ["/api/bookings", data.bookingId, "schedules"],
     });
   }
 
@@ -112,13 +112,13 @@ export async function deleteSchedule(
   id: string,
   bookingId: string,
 ): Promise<void> {
-  await apiRequest(&quot;DELETE&quot;, `/api/schedules/${id}`);
+  await apiRequest("DELETE", `/api/schedules/${id}`);
 
   // Invalidate schedules cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules", id] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/bookings&quot;, bookingId, &quot;schedules&quot;],
+    queryKey: ["/api/bookings", bookingId, "schedules"],
   });
 }
 
@@ -129,13 +129,13 @@ export async function publishSchedule(
   id: string,
   notifyStaff: boolean = false,
 ): Promise<Schedule> {
-  const response = await apiRequest(&quot;POST&quot;, `/api/schedules/${id}/publish`, {
+  const response = await apiRequest("POST", `/api/schedules/${id}/publish`, {
     notifyStaff,
   });
 
   // Invalidate specific schedule cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
 
   return response.json();
 }
@@ -144,11 +144,11 @@ export async function publishSchedule(
  * Finalize a schedule
  */
 export async function finalizeSchedule(id: string): Promise<Schedule> {
-  const response = await apiRequest(&quot;POST&quot;, `/api/schedules/${id}/finalize`);
+  const response = await apiRequest("POST", `/api/schedules/${id}/finalize`);
 
   // Invalidate specific schedule cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedules&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedules"] });
 
   return response.json();
 }
@@ -162,17 +162,17 @@ export async function getShifts(
   // Convert filters to query params
   const params = new URLSearchParams();
 
-  if (filters.scheduleId) params.append(&quot;scheduleId&quot;, filters.scheduleId);
-  if (filters.date) params.append(&quot;date&quot;, filters.date);
+  if (filters.scheduleId) params.append("scheduleId", filters.scheduleId);
+  if (filters.date) params.append("date", filters.date);
   if (filters.startDateRange)
-    params.append(&quot;startDateRange&quot;, filters.startDateRange);
-  if (filters.endDateRange) params.append(&quot;endDateRange&quot;, filters.endDateRange);
-  if (filters.locationId) params.append(&quot;locationId&quot;, filters.locationId);
+    params.append("startDateRange", filters.startDateRange);
+  if (filters.endDateRange) params.append("endDateRange", filters.endDateRange);
+  if (filters.locationId) params.append("locationId", filters.locationId);
   if (filters.requiredSkillId)
-    params.append(&quot;requiredSkillId&quot;, filters.requiredSkillId);
-  if (filters.q) params.append(&quot;q&quot;, filters.q);
+    params.append("requiredSkillId", filters.requiredSkillId);
+  if (filters.q) params.append("q", filters.q);
 
-  const response = await apiRequest(&quot;GET&quot;, `/api/shifts?${params.toString()}`);
+  const response = await apiRequest("GET", `/api/shifts?${params.toString()}`);
   return response.json();
 }
 
@@ -180,7 +180,7 @@ export async function getShifts(
  * Get shift by ID
  */
 export async function getShiftById(id: string): Promise<ScheduleShift> {
-  const response = await apiRequest(&quot;GET&quot;, `/api/shifts/${id}`);
+  const response = await apiRequest("GET", `/api/shifts/${id}`);
   return response.json();
 }
 
@@ -191,7 +191,7 @@ export async function getShiftsForSchedule(
   scheduleId: string,
 ): Promise<ScheduleShift[]> {
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/schedules/${scheduleId}/shifts`,
   );
   return response.json();
@@ -203,12 +203,12 @@ export async function getShiftsForSchedule(
 export async function createShift(
   data: CreateShiftParams,
 ): Promise<ScheduleShift> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/shifts&quot;, data);
+  const response = await apiRequest("POST", "/api/shifts", data);
 
   // Invalidate shifts cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shifts&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shifts"] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/schedules&quot;, data.scheduleId, &quot;shifts&quot;],
+    queryKey: ["/api/schedules", data.scheduleId, "shifts"],
   });
 
   return response.json();
@@ -222,13 +222,13 @@ export async function updateShift(
   scheduleId: string,
   data: UpdateShiftParams,
 ): Promise<ScheduleShift> {
-  const response = await apiRequest(&quot;PATCH&quot;, `/api/shifts/${id}`, data);
+  const response = await apiRequest("PATCH", `/api/shifts/${id}`, data);
 
   // Invalidate specific shift cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shifts&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shifts&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shifts", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shifts"] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/schedules&quot;, scheduleId, &quot;shifts&quot;],
+    queryKey: ["/api/schedules", scheduleId, "shifts"],
   });
 
   return response.json();
@@ -241,13 +241,13 @@ export async function deleteShift(
   id: string,
   scheduleId: string,
 ): Promise<void> {
-  await apiRequest(&quot;DELETE&quot;, `/api/shifts/${id}`);
+  await apiRequest("DELETE", `/api/shifts/${id}`);
 
   // Invalidate shifts cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shifts&quot;] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shifts&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shifts"] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shifts", id] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/schedules&quot;, scheduleId, &quot;shifts&quot;],
+    queryKey: ["/api/schedules", scheduleId, "shifts"],
   });
 }
 
@@ -260,17 +260,17 @@ export async function getAssignments(
   // Convert filters to query params
   const params = new URLSearchParams();
 
-  if (filters.scheduleId) params.append(&quot;scheduleId&quot;, filters.scheduleId);
-  if (filters.shiftId) params.append(&quot;shiftId&quot;, filters.shiftId);
-  if (filters.staffId) params.append(&quot;staffId&quot;, filters.staffId);
-  if (filters.status) params.append(&quot;status&quot;, filters.status);
-  if (filters.date) params.append(&quot;date&quot;, filters.date);
+  if (filters.scheduleId) params.append("scheduleId", filters.scheduleId);
+  if (filters.shiftId) params.append("shiftId", filters.shiftId);
+  if (filters.staffId) params.append("staffId", filters.staffId);
+  if (filters.status) params.append("status", filters.status);
+  if (filters.date) params.append("date", filters.date);
   if (filters.startDateRange)
-    params.append(&quot;startDateRange&quot;, filters.startDateRange);
-  if (filters.endDateRange) params.append(&quot;endDateRange&quot;, filters.endDateRange);
+    params.append("startDateRange", filters.startDateRange);
+  if (filters.endDateRange) params.append("endDateRange", filters.endDateRange);
 
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/shift-assignments?${params.toString()}`,
   );
   return response.json();
@@ -280,7 +280,7 @@ export async function getAssignments(
  * Get assignment by ID
  */
 export async function getAssignmentById(id: string): Promise<ShiftAssignment> {
-  const response = await apiRequest(&quot;GET&quot;, `/api/shift-assignments/${id}`);
+  const response = await apiRequest("GET", `/api/shift-assignments/${id}`);
   return response.json();
 }
 
@@ -291,7 +291,7 @@ export async function getAssignmentsForShift(
   shiftId: string,
 ): Promise<ShiftAssignment[]> {
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/shifts/${shiftId}/assignments`,
   );
   return response.json();
@@ -303,7 +303,7 @@ export async function getAssignmentsForShift(
 export async function getAssignmentsForStaff(
   staffId: string,
 ): Promise<ShiftAssignment[]> {
-  const response = await apiRequest(&quot;GET&quot;, `/api/staff/${staffId}/assignments`);
+  const response = await apiRequest("GET", `/api/staff/${staffId}/assignments`);
   return response.json();
 }
 
@@ -313,15 +313,15 @@ export async function getAssignmentsForStaff(
 export async function createAssignment(
   data: CreateShiftAssignmentParams,
 ): Promise<ShiftAssignment> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/shift-assignments&quot;, data);
+  const response = await apiRequest("POST", "/api/shift-assignments", data);
 
   // Invalidate assignments cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/shifts&quot;, data.shiftId, &quot;assignments&quot;],
+    queryKey: ["/api/shifts", data.shiftId, "assignments"],
   });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/staff&quot;, data.staffId, &quot;assignments&quot;],
+    queryKey: ["/api/staff", data.staffId, "assignments"],
   });
 
   return response.json();
@@ -337,19 +337,19 @@ export async function updateAssignment(
   data: UpdateShiftAssignmentParams,
 ): Promise<ShiftAssignment> {
   const response = await apiRequest(
-    &quot;PATCH&quot;,
+    "PATCH",
     `/api/shift-assignments/${id}`,
     data,
   );
 
   // Invalidate specific assignment cache and related lists
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/shifts&quot;, shiftId, &quot;assignments&quot;],
+    queryKey: ["/api/shifts", shiftId, "assignments"],
   });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/staff&quot;, staffId, &quot;assignments&quot;],
+    queryKey: ["/api/staff", staffId, "assignments"],
   });
 
   return response.json();
@@ -363,16 +363,16 @@ export async function deleteAssignment(
   shiftId: string,
   staffId: string,
 ): Promise<void> {
-  await apiRequest(&quot;DELETE&quot;, `/api/shift-assignments/${id}`);
+  await apiRequest("DELETE", `/api/shift-assignments/${id}`);
 
   // Invalidate assignments cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments", id] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/shifts&quot;, shiftId, &quot;assignments&quot;],
+    queryKey: ["/api/shifts", shiftId, "assignments"],
   });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/staff&quot;, staffId, &quot;assignments&quot;],
+    queryKey: ["/api/staff", staffId, "assignments"],
   });
 }
 
@@ -381,13 +381,13 @@ export async function deleteAssignment(
  */
 export async function confirmAssignment(id: string): Promise<ShiftAssignment> {
   const response = await apiRequest(
-    &quot;POST&quot;,
+    "POST",
     `/api/shift-assignments/${id}/confirm`,
   );
 
   // Invalidate assignment-related caches
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
 
   return response.json();
 }
@@ -400,14 +400,14 @@ export async function declineAssignment(
   reason: string,
 ): Promise<ShiftAssignment> {
   const response = await apiRequest(
-    &quot;POST&quot;,
+    "POST",
     `/api/shift-assignments/${id}/decline`,
     { reason },
   );
 
   // Invalidate assignment-related caches
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
 
   return response.json();
 }
@@ -419,13 +419,13 @@ export async function checkInForAssignment(
   id: string,
 ): Promise<ShiftAssignment> {
   const response = await apiRequest(
-    &quot;POST&quot;,
+    "POST",
     `/api/shift-assignments/${id}/check-in`,
   );
 
   // Invalidate assignment-related caches
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
 
   return response.json();
 }
@@ -437,13 +437,13 @@ export async function checkOutFromAssignment(
   id: string,
 ): Promise<ShiftAssignment> {
   const response = await apiRequest(
-    &quot;POST&quot;,
+    "POST",
     `/api/shift-assignments/${id}/check-out`,
   );
 
   // Invalidate assignment-related caches
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-assignments&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-assignments"] });
 
   return response.json();
 }
@@ -455,7 +455,7 @@ export async function getScheduleTemplates(
   organizationId: string,
 ): Promise<ScheduleTemplate[]> {
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/schedule-templates?organizationId=${organizationId}`,
   );
   return response.json();
@@ -467,7 +467,7 @@ export async function getScheduleTemplates(
 export async function getScheduleTemplateById(
   id: string,
 ): Promise<ScheduleTemplate> {
-  const response = await apiRequest(&quot;GET&quot;, `/api/schedule-templates/${id}`);
+  const response = await apiRequest("GET", `/api/schedule-templates/${id}`);
   return response.json();
 }
 
@@ -477,10 +477,10 @@ export async function getScheduleTemplateById(
 export async function createScheduleTemplate(
   data: CreateScheduleTemplateParams,
 ): Promise<ScheduleTemplate> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/schedule-templates&quot;, data);
+  const response = await apiRequest("POST", "/api/schedule-templates", data);
 
   // Invalidate templates cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedule-templates&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedule-templates"] });
 
   return response.json();
 }
@@ -493,14 +493,14 @@ export async function updateScheduleTemplate(
   data: UpdateScheduleTemplateParams,
 ): Promise<ScheduleTemplate> {
   const response = await apiRequest(
-    &quot;PATCH&quot;,
+    "PATCH",
     `/api/schedule-templates/${id}`,
     data,
   );
 
   // Invalidate specific template cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedule-templates&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedule-templates&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedule-templates", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedule-templates"] });
 
   return response.json();
 }
@@ -512,13 +512,13 @@ export async function deleteScheduleTemplate(
   id: string,
   organizationId: string,
 ): Promise<void> {
-  await apiRequest(&quot;DELETE&quot;, `/api/schedule-templates/${id}`);
+  await apiRequest("DELETE", `/api/schedule-templates/${id}`);
 
   // Invalidate templates cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedule-templates&quot;] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/schedule-templates&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedule-templates"] });
+  queryClient.invalidateQueries({ queryKey: ["/api/schedule-templates", id] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/organizations&quot;, organizationId, &quot;schedule-templates&quot;],
+    queryKey: ["/api/organizations", organizationId, "schedule-templates"],
   });
 }
 
@@ -529,7 +529,7 @@ export async function getShiftTemplates(
   templateId: string,
 ): Promise<ShiftTemplate[]> {
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/schedule-templates/${templateId}/shift-templates`,
   );
   return response.json();
@@ -541,11 +541,11 @@ export async function getShiftTemplates(
 export async function createShiftTemplate(
   data: CreateShiftTemplateParams,
 ): Promise<ShiftTemplate> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/shift-templates&quot;, data);
+  const response = await apiRequest("POST", "/api/shift-templates", data);
 
   // Invalidate shift templates cache
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/schedule-templates&quot;, data.templateId, &quot;shift-templates&quot;],
+    queryKey: ["/api/schedule-templates", data.templateId, "shift-templates"],
   });
 
   return response.json();
@@ -560,15 +560,15 @@ export async function updateShiftTemplate(
   data: UpdateShiftTemplateParams,
 ): Promise<ShiftTemplate> {
   const response = await apiRequest(
-    &quot;PATCH&quot;,
+    "PATCH",
     `/api/shift-templates/${id}`,
     data,
   );
 
   // Invalidate specific shift template cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-templates&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-templates", id] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/schedule-templates&quot;, templateId, &quot;shift-templates&quot;],
+    queryKey: ["/api/schedule-templates", templateId, "shift-templates"],
   });
 
   return response.json();
@@ -581,11 +581,11 @@ export async function deleteShiftTemplate(
   id: string,
   templateId: string,
 ): Promise<void> {
-  await apiRequest(&quot;DELETE&quot;, `/api/shift-templates/${id}`);
+  await apiRequest("DELETE", `/api/shift-templates/${id}`);
 
   // Invalidate shift templates cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/shift-templates&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/shift-templates", id] });
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/schedule-templates&quot;, templateId, &quot;shift-templates&quot;],
+    queryKey: ["/api/schedule-templates", templateId, "shift-templates"],
   });
 }

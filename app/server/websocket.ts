@@ -1,7 +1,7 @@
-&quot;use server&quot;;
+"use server";
 
-import { Server as HTTPServer } from &quot;http&quot;;
-import { WebSocketServer, WebSocket } from &quot;ws&quot;;
+import { Server as HTTPServer } from "http";
+import { WebSocketServer, WebSocket } from "ws";
 
 // Connected clients storage
 const clients = new Map<string, WebSocket>();
@@ -23,12 +23,12 @@ const messages: ChatMessage[] = [];
  * @param httpServer The HTTP server instance
  */
 export function initializeWebSocketServer(httpServer: HTTPServer) {
-  console.log(&quot;Initializing WebSocket server...&quot;);
+  console.log("Initializing WebSocket server...");
 
   // Create a WebSocket server instance on a different path than Vite's HMR
-  const wss = new WebSocketServer({ server: httpServer, path: &quot;/ws&quot; });
+  const wss = new WebSocketServer({ server: httpServer, path: "/ws" });
 
-  wss.on(&quot;connection&quot;, (ws, req) => {
+  wss.on("connection", (ws, req) => {
     // Generate a unique client ID
     const clientId = Math.random().toString(36).substring(2, 15);
 
@@ -42,21 +42,21 @@ export function initializeWebSocketServer(httpServer: HTTPServer) {
     if (recentMessages.length > 0) {
       ws.send(
         JSON.stringify({
-          type: &quot;chat_history&quot;,
+          type: "chat_history",
           messages: recentMessages,
         }),
       );
     }
 
     // Handle incoming messages
-    ws.on(&quot;message&quot;, (rawData) => {
+    ws.on("message", (rawData) => {
       try {
         const data = JSON.parse(rawData.toString());
 
-        if (data.type === &quot;chat_message&quot;) {
+        if (data.type === "chat_message") {
           const message: ChatMessage = {
             id: Math.random().toString(36).substring(2, 15),
-            sender: data.sender || &quot;Anonymous&quot;,
+            sender: data.sender || "Anonymous",
             content: data.content,
             timestamp: Date.now(),
             organizationId: data.organizationId,
@@ -73,7 +73,7 @@ export function initializeWebSocketServer(httpServer: HTTPServer) {
 
           // Broadcast to all connected clients
           const messageStr = JSON.stringify({
-            type: &quot;chat_message&quot;,
+            type: "chat_message",
             message,
           });
 
@@ -84,18 +84,18 @@ export function initializeWebSocketServer(httpServer: HTTPServer) {
           });
         }
       } catch (error) {
-        console.error(&quot;Error processing WebSocket message:&quot;, error);
+        console.error("Error processing WebSocket message:", error);
       }
     });
 
     // Handle client disconnect
-    ws.on(&quot;close&quot;, () => {
+    ws.on("close", () => {
       console.log(`WebSocket connection closed. Client ID: ${clientId}`);
       clients.delete(clientId);
     });
 
     // Handle errors
-    ws.on(&quot;error&quot;, (error) => {
+    ws.on("error", (error) => {
       console.error(`WebSocket error for client ${clientId}:`, error);
       clients.delete(clientId);
     });
@@ -103,18 +103,18 @@ export function initializeWebSocketServer(httpServer: HTTPServer) {
     // Send a welcome message
     ws.send(
       JSON.stringify({
-        type: &quot;system_message&quot;,
+        type: "system_message",
         message: {
-          id: &quot;welcome&quot;,
-          sender: &quot;System&quot;,
-          content: &quot;Welcome to the Rishi chat system!&quot;,
+          id: "welcome",
+          sender: "System",
+          content: "Welcome to the Rishi chat system!",
           timestamp: Date.now(),
         },
       }),
     );
   });
 
-  console.log(&quot;WebSocket server initialized successfully&quot;);
+  console.log("WebSocket server initialized successfully");
 
   return wss;
 }

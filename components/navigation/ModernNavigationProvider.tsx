@@ -1,11 +1,11 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useEffect, useState, createContext, useContext } from &quot;react&quot;;
-import { usePathname } from &quot;next/navigation&quot;;
-import { initializeNavigation } from &quot;@/navigation/NavigationItems&quot;;
-import { NavItem } from &quot;@shared/navigation-constants&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
-import { useMediaQuery } from &quot;@/hooks/useMediaQuery&quot;;
+import React, { useEffect, useState, createContext, useContext } from "react";
+import { usePathname } from "next/navigation";
+import { initializeNavigation } from "@/navigation/NavigationItems";
+import { NavItem } from "@shared/navigation-constants";
+import { useAuth } from "@/hooks/useAuth";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   SUPER_ADMIN_NAVIGATION,
   INTERNAL_ADMIN_NAVIGATION,
@@ -13,7 +13,7 @@ import {
   BRAND_AGENT_NAVIGATION,
   CLIENT_USER_NAVIGATION,
   getNavigationForRole,
-} from &quot;@shared/navigation-structure&quot;;
+} from "@shared/navigation-structure";
 
 interface NavigationContextValue {
   navItems: NavItem[];
@@ -42,16 +42,16 @@ export function ModernNavigationProvider({
   const [isInitialized, setIsInitialized] = useState(false);
   const { user } = useAuth();
   const pathname = usePathname();
-  const isMobile = !useMediaQuery(&quot;(min-width: 1024px)&quot;);
+  const isMobile = !useMediaQuery("(min-width: 1024px)");
   const [mounted, setMounted] = useState(false);
 
   // Update navigation items based on user role
   const updateNavigationForRole = () => {
-    const userRole = user?.role || "&quot;;
+    const userRole = user?.role || "";
     try {
       // Initialize the core navigation structure if not done already
       if (!isInitialized) {
-        console.log(&quot;Initializing navigation structure...&quot;);
+        console.log("Initializing navigation structure...");
         initializeNavigation();
         setIsInitialized(true);
       }
@@ -64,7 +64,7 @@ export function ModernNavigationProvider({
 
       console.log(`Navigation set for role: ${userRole}`);
     } catch (error) {
-      console.error(&quot;Error setting up navigation:", error);
+      console.error("Error setting up navigation:", error);
     }
   };
 

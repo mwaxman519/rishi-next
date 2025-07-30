@@ -1,11 +1,11 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { z } from &quot;zod&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from &quot;@/components/ui/dialog&quot;;
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -22,28 +22,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import { useCreateKit, useKitTemplates } from &quot;@/hooks/useKits&quot;;
-import { insertKitSchema } from &quot;@shared/schema&quot;;
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { useCreateKit, useKitTemplates } from "@/hooks/useKits";
+import { insertKitSchema } from "@shared/schema";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 
 // Extend the kit schema with validation
 const createKitSchema = insertKitSchema.extend({
   serialNumber: z
     .string()
-    .min(3, &quot;Serial number must be at least 3 characters&quot;),
-  templateId: z.number().min(1, &quot;Template must be selected&quot;),
-  brandRegionId: z.number().min(1, &quot;Brand/Region must be selected&quot;),
-  status: z.string().min(1, &quot;Status must be selected&quot;),
+    .min(3, "Serial number must be at least 3 characters"),
+  templateId: z.number().min(1, "Template must be selected"),
+  brandRegionId: z.number().min(1, "Brand/Region must be selected"),
+  status: z.string().min(1, "Status must be selected"),
 });
 
 // TypeScript type for our form values
@@ -61,20 +61,20 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
 
   // Log when dialog state changes
   useEffect(() => {
-    console.log(&quot;AddKitDialog open state:&quot;, open);
+    console.log("AddKitDialog open state:", open);
   }, [open]);
 
   // Create form
   const form = useForm<FormValues>({
     resolver: zodResolver(createKitSchema),
     defaultValues: {
-      serialNumber: "&quot;,
+      serialNumber: "",
       templateId: 0,
       brandRegionId: 1,
-      status: &quot;Ready&quot;,
+      status: "Ready",
       components: {},
-      notes: &quot;&quot;,
-      assignedDate: new Date().toISOString().split(&quot;T&quot;)[0],
+      notes: "",
+      assignedDate: new Date().toISOString().split("T")[0],
     },
   });
 
@@ -84,8 +84,8 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
       await createMutation.mutateAsync(data);
 
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Kit created successfully&quot;,
+        title: "Success",
+        description: "Kit created successfully",
       });
 
       // Reset form
@@ -94,11 +94,11 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
       // Close dialog
       onOpenChange(false);
     } catch (error) {
-      console.error(&quot;Error creating kit:&quot;, error);
+      console.error("Error creating kit:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to create kit. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to create kit. Please try again.",
+        variant: "destructive",
       });
     }
   };
@@ -108,15 +108,15 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
     if (
       templates &&
       templates.length > 0 &&
-      form.getValues(&quot;templateId&quot;) === 0
+      form.getValues("templateId") === 0
     ) {
-      form.setValue(&quot;templateId&quot;, templates[0].id);
+      form.setValue("templateId", templates[0].id);
     }
   }, [templates, form]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className=&quot;sm:max-w-[500px]&quot;>
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Create New Kit</DialogTitle>
           <DialogDescription>
@@ -125,15 +125,15 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-4&quot;>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name=&quot;serialNumber&quot;
+              name="serialNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Serial Number</FormLabel>
                   <FormControl>
-                    <Input placeholder=&quot;Enter kit serial number&quot; {...field} />
+                    <Input placeholder="Enter kit serial number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -142,7 +142,7 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
 
             <FormField
               control={form.control}
-              name=&quot;templateId&quot;
+              name="templateId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Template</FormLabel>
@@ -153,12 +153,12 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select a template&quot; />
+                        <SelectValue placeholder="Select a template" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {templatesLoading ? (
-                        <SelectItem value=&quot;loading&quot; disabled>
+                        <SelectItem value="loading" disabled>
                           Loading templates...
                         </SelectItem>
                       ) : templates && templates.length > 0 ? (
@@ -171,7 +171,7 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
                           </SelectItem>
                         ))
                       ) : (
-                        <SelectItem value=&quot;none&quot; disabled>
+                        <SelectItem value="none" disabled>
                           No templates available
                         </SelectItem>
                       )}
@@ -187,14 +187,14 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
 
             <FormField
               control={form.control}
-              name=&quot;brandRegionId&quot;
+              name="brandRegionId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Brand/Region</FormLabel>
                   <FormControl>
                     <Input
-                      type=&quot;number&quot;
-                      min=&quot;1&quot;
+                      type="number"
+                      min="1"
                       {...field}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
@@ -209,21 +209,21 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
 
             <FormField
               control={form.control}
-              name=&quot;status&quot;
+              name="status"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select status&quot; />
+                        <SelectValue placeholder="Select status" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value=&quot;Ready&quot;>Ready</SelectItem>
-                      <SelectItem value=&quot;Deployed&quot;>Deployed</SelectItem>
-                      <SelectItem value=&quot;In Transit&quot;>In Transit</SelectItem>
-                      <SelectItem value=&quot;Maintenance&quot;>Maintenance</SelectItem>
+                      <SelectItem value="Ready">Ready</SelectItem>
+                      <SelectItem value="Deployed">Deployed</SelectItem>
+                      <SelectItem value="In Transit">In Transit</SelectItem>
+                      <SelectItem value="Maintenance">Maintenance</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -233,16 +233,16 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
 
             <FormField
               control={form.control}
-              name=&quot;notes&quot;
+              name="notes"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Notes</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder=&quot;Enter notes for this kit&quot;
-                      className=&quot;resize-none min-h-[80px]&quot;
+                      placeholder="Enter notes for this kit"
+                      className="resize-none min-h-[80px]"
                       {...field}
-                      value={field.value || &quot;&quot;}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -252,20 +252,20 @@ export function AddKitDialog({ open, onOpenChange }: AddKitDialogProps) {
 
             <DialogFooter>
               <Button
-                type=&quot;button&quot;
-                variant=&quot;outline&quot;
+                type="button"
+                variant="outline"
                 onClick={() => onOpenChange(false)}
               >
                 Cancel
               </Button>
-              <Button type=&quot;submit&quot; disabled={createMutation.isPending}>
+              <Button type="submit" disabled={createMutation.isPending}>
                 {createMutation.isPending ? (
                   <>
-                    <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating...
                   </>
                 ) : (
-                  &quot;Create Kit"
+                  "Create Kit"
                 )}
               </Button>
             </DialogFooter>

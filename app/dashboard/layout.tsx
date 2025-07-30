@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useAuth } from &quot;../hooks/useAuth&quot;;
-import { useEffect } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
+import { useAuth } from "../hooks/useAuth";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DashboardLayout({
   children,
@@ -14,16 +14,16 @@ export default function DashboardLayout({
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push(&quot;/auth/login&quot;);
+      router.push("/auth/login");
     }
   }, [user, loading, router]);
 
   if (loading) {
     return (
-      <div className=&quot;min-h-screen flex items-center justify-center&quot;>
-        <div className=&quot;text-center&quot;>
-          <h2 className=&quot;text-2xl font-semibold mb-4&quot;>Loading...</h2>
-          <div className=&quot;w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto&quot;></div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold mb-4">Loading...</h2>
+          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
         </div>
       </div>
     );
@@ -34,17 +34,17 @@ export default function DashboardLayout({
       {user ? (
         children
       ) : (
-        <div className=&quot;min-h-screen flex items-center justify-center&quot;>
-          <div className=&quot;text-center&quot;>
-            <h2 className=&quot;text-2xl font-semibold mb-4&quot;>
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-semibold mb-4">
               Authentication Required
             </h2>
-            <p className=&quot;text-gray-600 mb-4&quot;>
+            <p className="text-gray-600 mb-4">
               Please log in to access this page.
             </p>
             <button
-              onClick={() => router.push(&quot;/auth/login&quot;)}
-              className=&quot;px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors&quot;
+              onClick={() => router.push("/auth/login")}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
             >
               Go to Login
             </button>

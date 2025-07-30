@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useMemo } from &quot;react&quot;;
-import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
-import { apiRequest } from &quot;../lib/queryClient&quot;;
+import { useState, useEffect, useMemo } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "../lib/queryClient";
 
 // Export LocationFilters interface so it can be imported elsewhere
 export interface LocationFilters {
@@ -65,17 +65,17 @@ export function useLocations(filters: LocationFilters = {}) {
 
   // Add filters to query params
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== "&quot;) {
+    if (value !== undefined && value !== "") {
       queryParams.append(key, value.toString());
     }
   });
 
   // Fetch locations
   const { data, isLoading, error } = useQuery<{ data: Location[] }>({
-    queryKey: [&quot;/api/locations&quot;, filters],
+    queryKey: ["/api/locations", filters],
     queryFn: async () => {
       const response = await apiRequest(
-        &quot;GET&quot;,
+        "GET",
         `/api/locations?${queryParams.toString()}`,
       );
       return response.json();
@@ -127,10 +127,10 @@ export function useLocations(filters: LocationFilters = {}) {
 // Hook for fetching a single location
 export function useLocation(id: string | null) {
   return useQuery<Location>({
-    queryKey: [&quot;/api/locations&quot;, id],
+    queryKey: ["/api/locations", id],
     queryFn: async () => {
-      if (!id) throw new Error(&quot;Location ID is required&quot;);
-      const response = await apiRequest(&quot;GET&quot;, `/api/locations/${id}`);
+      if (!id) throw new Error("Location ID is required");
+      const response = await apiRequest("GET", `/api/locations/${id}`);
       return response.json();
     },
     enabled: !!id,
@@ -143,11 +143,11 @@ export function useCreateLocation() {
 
   return useMutation({
     mutationFn: async (data: Partial<Location>) => {
-      const response = await apiRequest(&quot;POST&quot;, &quot;/api/locations&quot;, data);
+      const response = await apiRequest("POST", "/api/locations", data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
   });
 }
@@ -158,12 +158,12 @@ export function useUpdateLocation(id: string) {
 
   return useMutation({
     mutationFn: async (data: Partial<Location>) => {
-      const response = await apiRequest(&quot;PATCH&quot;, `/api/locations/${id}`, data);
+      const response = await apiRequest("PATCH", `/api/locations/${id}`, data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;, id] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations", id] });
     },
   });
 }
@@ -174,18 +174,18 @@ export function useDeleteLocation(id: string) {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await apiRequest(&quot;DELETE&quot;, `/api/locations/${id}`);
+      const response = await apiRequest("DELETE", `/api/locations/${id}`);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
   });
 }
 
 // Hook for approving or rejecting a location
 export interface ApprovalData {
-  status: &quot;approved&quot; | &quot;rejected&quot;;
+  status: "approved" | "rejected";
   notes?: string;
 }
 
@@ -200,16 +200,16 @@ export function useApproveLocation(id: string) {
         id,
       };
       const response = await apiRequest(
-        &quot;PUT&quot;,
+        "PUT",
         `/api/locations/pending`,
         approvalData,
       );
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;, id] });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations/pending&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations", id] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations/pending"] });
     },
   });
 }
@@ -217,9 +217,9 @@ export function useApproveLocation(id: string) {
 // Hook for fetching pending locations
 export function usePendingLocations() {
   return useQuery<{ pendingLocations: Location[] }>({
-    queryKey: [&quot;/api/locations/pending&quot;],
+    queryKey: ["/api/locations/pending"],
     queryFn: async () => {
-      const response = await apiRequest(&quot;GET&quot;, &quot;/api/locations/pending&quot;);
+      const response = await apiRequest("GET", "/api/locations/pending");
       return response.json();
     },
   });
@@ -254,19 +254,19 @@ export function useGeocode() {
     setError(null);
 
     try {
-      const response = await apiRequest(&quot;POST&quot;, &quot;/api/locations/geocode&quot;, {
+      const response = await apiRequest("POST", "/api/locations/geocode", {
         address,
       });
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || &quot;Failed to geocode address&quot;);
+        throw new Error(data.error || "Failed to geocode address");
       }
 
       return data.result;
     } catch (err) {
       setError(
-        err instanceof Error ? err : new Error(&quot;Unknown error occurred&quot;),
+        err instanceof Error ? err : new Error("Unknown error occurred"),
       );
       return null;
     } finally {
@@ -278,18 +278,18 @@ export function useGeocode() {
 }
 
 // Hook for searching locations
-export function useLocationSearch(query: string = &quot;&quot;, limit: number = 10) {
+export function useLocationSearch(query: string = "", limit: number = 10) {
   const queryParams = new URLSearchParams({
     q: query,
     limit: limit.toString(),
   });
 
   return useQuery<Location[]>({
-    queryKey: [&quot;/api/locations/search&quot;, query, limit],
+    queryKey: ["/api/locations/search", query, limit],
     queryFn: async () => {
       if (!query || query.length < 2) return [];
       const response = await apiRequest(
-        &quot;GET",
+        "GET",
         `/api/locations/search?${queryParams.toString()}`,
       );
       return response.json();

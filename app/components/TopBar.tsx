@@ -1,8 +1,8 @@
-import React, { useState } from &quot;react&quot;;
-import { Link } from &quot;wouter&quot;;
-import { NavItem } from &quot;@shared/navigation-constants&quot;;
-import * as Icons from &quot;lucide-react&quot;;
-import { useOrganizationContext } from &quot;@/contexts/OrganizationProvider&quot;;
+import React, { useState } from "react";
+import { Link } from "wouter";
+import { NavItem } from "@shared/navigation-constants";
+import * as Icons from "lucide-react";
+import { useOrganizationContext } from "@/contexts/OrganizationProvider";
 
 interface TopBarProps {
   items: NavItem[];
@@ -23,9 +23,9 @@ const TopBar: React.FC<TopBarProps> = ({ items }) => {
 
   const renderDropdownItems = (children: NavItem[]) => {
     return (
-      <ul className=&quot;dropdown-menu&quot;>
+      <ul className="dropdown-menu">
         {children.map((item) => (
-          <li key={item.path} className=&quot;dropdown-item&quot;>
+          <li key={item.path} className="dropdown-item">
             <Link href={item.path} onClick={closeDropdowns}>
               {item.label}
             </Link>
@@ -36,23 +36,23 @@ const TopBar: React.FC<TopBarProps> = ({ items }) => {
   };
 
   return (
-    <div className=&quot;top-bar&quot;>
-      <div className=&quot;organization-selector&quot;>
+    <div className="top-bar">
+      <div className="organization-selector">
         {currentOrganization && (
-          <div className=&quot;current-organization&quot;>
-            <span className=&quot;org-name&quot;>{currentOrganization.name}</span>
+          <div className="current-organization">
+            <span className="org-name">{currentOrganization.name}</span>
             <button
-              className=&quot;org-switcher&quot;
-              onClick={() => toggleDropdown(&quot;organizations&quot;)}
+              className="org-switcher"
+              onClick={() => toggleDropdown("organizations")}
             >
               <Icons.ChevronDown size={16} />
             </button>
-            {openDropdown === &quot;organizations&quot; && (
-              <ul className=&quot;dropdown-menu org-menu&quot;>
+            {openDropdown === "organizations" && (
+              <ul className="dropdown-menu org-menu">
                 {userOrganizations.map((org: { id: string; name: string }) => (
                   <li
                     key={org.id}
-                    className={`dropdown-item ${org.id === currentOrganization.id ? &quot;active&quot; : "&quot;}`}
+                    className={`dropdown-item ${org.id === currentOrganization.id ? "active" : ""}`}
                     onClick={() => {
                       switchOrganization(org.id);
                       closeDropdowns();
@@ -67,65 +67,65 @@ const TopBar: React.FC<TopBarProps> = ({ items }) => {
         )}
       </div>
 
-      <div className=&quot;top-actions&quot;>
+      <div className="top-actions">
         {items.map((item) => (
-          <div key={item.path} className=&quot;action-item&quot;>
+          <div key={item.path} className="action-item">
             {item.children ? (
-              <div className=&quot;dropdown&quot;>
+              <div className="dropdown">
                 <button
-                  className=&quot;dropdown-toggle&quot;
+                  className="dropdown-toggle"
                   onClick={() => toggleDropdown(item.path)}
                 >
                   {item.icon && (Icons as any)[item.icon] && (
-                    <span className=&quot;action-icon&quot;>
+                    <span className="action-icon">
                       {React.createElement((Icons as any)[item.icon], {
                         size: 20,
                       })}
                     </span>
                   )}
-                  <span className=&quot;action-label&quot;>{item.label}</span>
+                  <span className="action-label">{item.label}</span>
                 </button>
                 {openDropdown === item.path &&
                   renderDropdownItems(item.children)}
               </div>
             ) : (
-              <Link href={item.path} className=&quot;action-link&quot;>
+              <Link href={item.path} className="action-link">
                 {item.icon && (Icons as any)[item.icon] && (
-                  <span className=&quot;action-icon&quot;>
+                  <span className="action-icon">
                     {React.createElement((Icons as any)[item.icon], {
                       size: 20,
                     })}
                   </span>
                 )}
-                <span className=&quot;action-label&quot;>{item.label}</span>
+                <span className="action-label">{item.label}</span>
               </Link>
             )}
           </div>
         ))}
 
-        <div className=&quot;user-profile&quot;>
+        <div className="user-profile">
           <button
-            className=&quot;user-button&quot;
-            onClick={() => toggleDropdown(&quot;user&quot;)}
+            className="user-button"
+            onClick={() => toggleDropdown("user")}
           >
-            <div className=&quot;avatar&quot;>
+            <div className="avatar">
               <Icons.User size={20} />
             </div>
           </button>
-          {openDropdown === &quot;user&quot; && (
-            <ul className=&quot;dropdown-menu user-menu&quot;>
-              <li className=&quot;dropdown-item&quot;>
-                <Link href=&quot;/profile&quot; onClick={closeDropdowns}>
+          {openDropdown === "user" && (
+            <ul className="dropdown-menu user-menu">
+              <li className="dropdown-item">
+                <Link href="/profile" onClick={closeDropdowns}>
                   Profile
                 </Link>
               </li>
-              <li className=&quot;dropdown-item&quot;>
-                <Link href=&quot;/settings&quot; onClick={closeDropdowns}>
+              <li className="dropdown-item">
+                <Link href="/settings" onClick={closeDropdowns}>
                   Settings
                 </Link>
               </li>
-              <li className=&quot;dropdown-item&quot;>
-                <Link href=&quot;/api/auth/logout" onClick={closeDropdowns}>
+              <li className="dropdown-item">
+                <Link href="/api/auth/logout" onClick={closeDropdowns}>
                   Logout
                 </Link>
               </li>

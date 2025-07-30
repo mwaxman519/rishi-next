@@ -5,7 +5,7 @@
  * related to US states and territories.
  */
 
-import { z } from &quot;zod&quot;;
+import { z } from "zod";
 
 /**
  * State/Territory entity model

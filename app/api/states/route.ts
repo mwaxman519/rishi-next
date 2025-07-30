@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { db } from &quot;../../../lib/db-connection&quot;;
-import { states } from &quot;@shared/schema&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { db } from "../../../lib/db-connection";
+import { states } from "@shared/schema";
+import { eq } from "drizzle-orm";
+import { getCurrentUser } from "@/lib/auth";
 
 // Get all states
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get all active states, ordered by name
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   } catch (error) {
     console.error(`Error fetching states:`, error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch states&quot; },
+      { error: "Failed to fetch states" },
       { status: 500 },
     );
   }

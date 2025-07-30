@@ -1,25 +1,25 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import fs from &quot;fs&quot;;
-import path from &quot;path&quot;;
-import * as marked from &quot;marked&quot;;
+import fs from "fs";
+import path from "path";
+import * as marked from "marked";
 
 // Find Docs directory in various potential locations
 function findDocsDirectory(): string | null {
   const baseDir = process.cwd();
   const possiblePaths = [
-    path.join(baseDir, &quot;Docs&quot;),
-    path.join(baseDir, &quot;docs&quot;),
-    path.join(baseDir, &quot;public&quot;, &quot;Docs&quot;),
-    path.join(baseDir, &quot;public&quot;, &quot;docs&quot;),
-    path.join(baseDir, &quot;.next&quot;, &quot;standalone&quot;, &quot;Docs&quot;),
-    path.join(baseDir, &quot;.next&quot;, &quot;server&quot;, &quot;Docs&quot;),
-    &quot;/home/runner/Docs&quot;,
-    &quot;/home/runner/workspace/Docs&quot;,
-    &quot;/Docs&quot;,
+    path.join(baseDir, "Docs"),
+    path.join(baseDir, "docs"),
+    path.join(baseDir, "public", "Docs"),
+    path.join(baseDir, "public", "docs"),
+    path.join(baseDir, ".next", "standalone", "Docs"),
+    path.join(baseDir, ".next", "server", "Docs"),
+    "/home/runner/Docs",
+    "/home/runner/workspace/Docs",
+    "/Docs",
   ];
 
   for (const dirPath of possiblePaths) {
@@ -29,7 +29,7 @@ function findDocsDirectory(): string | null {
         fs.readdirSync(dirPath);
         return dirPath;
       } catch (e) {
-        // Directory exists but we can&apos;t read from it
+        // Directory exists but we can't read from it
         console.error(`Directory exists but cannot be read: ${dirPath}`);
       }
     }
@@ -40,28 +40,28 @@ function findDocsDirectory(): string | null {
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const requestedPath = (searchParams.get(&quot;path&quot;) || undefined) || "&quot;;
+  const requestedPath = (searchParams.get("path") || undefined) || "";
 
   const docsDir = findDocsDirectory();
 
   if (!docsDir) {
     return NextResponse.json(
       {
-        error: &quot;Documentation directory not found&quot;,
+        error: "Documentation directory not found",
       },
       { status: 404 },
     );
   }
 
   // Normalize and secure the path to prevent directory traversal attacks
-  const normalizedPath = requestedPath.replace(/\.\./g, &quot;&quot;).replace(/^\/+/, &quot;&quot;);
+  const normalizedPath = requestedPath.replace(/\.\./g, "").replace(/^\/+/, "");
   const fullPath = path.join(docsDir, normalizedPath);
 
   // Safety check - make sure the path is within the docs directory
   if (!fullPath.startsWith(docsDir)) {
     return NextResponse.json(
       {
-        error: &quot;Invalid path requested&quot;,
+        error: "Invalid path requested",
       },
       { status: 400 },
     );
@@ -74,52 +74,52 @@ export async function GET(request: NextRequest) {
       // Return directory listing
       const items = fs
         .readdirSync(fullPath)
-        .filter((item) => !item.startsWith(&quot;.&quot;)) // Filter out hidden files
+        .filter((item) => !item.startsWith(".")) // Filter out hidden files
         .map((item) => {
           const itemPath = path.join(fullPath, item);
           const isDir = fs.statSync(itemPath).isDirectory();
 
           return {
             name: item,
-            type: isDir ? &quot;directory&quot; : &quot;file&quot;,
-            path: path.join(normalizedPath, item).replace(/\\/g, &quot;/&quot;), // Ensure forward slashes
+            type: isDir ? "directory" : "file",
+            path: path.join(normalizedPath, item).replace(/\\/g, "/"), // Ensure forward slashes
           };
         })
         .sort((a, b) => {
           // Sort directories first, then files
-          if (a.type === &quot;directory&quot; && b.type === &quot;file&quot;) return -1;
-          if (a.type === &quot;file&quot; && b.type === &quot;directory&quot;) return 1;
+          if (a.type === "directory" && b.type === "file") return -1;
+          if (a.type === "file" && b.type === "directory") return 1;
           return a.name.localeCompare(b.name);
         });
 
       return NextResponse.json({
-        type: &quot;directory&quot;,
+        type: "directory",
         path: normalizedPath,
         items,
       });
     } else {
       // Return file content
-      let fileContent = fs.readFileSync(fullPath, &quot;utf-8&quot;);
+      let fileContent = fs.readFileSync(fullPath, "utf-8");
 
       // For markdown files, convert to HTML
-      if (fullPath.endsWith(&quot;.md&quot;) || fullPath.endsWith(&quot;.mdx&quot;)) {
+      if (fullPath.endsWith(".md") || fullPath.endsWith(".mdx")) {
         try {
           fileContent = marked.parse(fileContent);
         } catch (error) {
           // Fallback to raw content if parsing fails
-          console.error(&quot;Error parsing markdown:&quot;, error);
+          console.error("Error parsing markdown:", error);
         }
       }
 
       return NextResponse.json({
-        type: &quot;file&quot;,
+        type: "file",
         path: normalizedPath,
         content: fileContent,
       });
     }
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : &quot;Unknown error";
+      error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
       {
         error: `Error accessing documentation: ${errorMessage}`,

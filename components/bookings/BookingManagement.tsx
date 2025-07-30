@@ -1,33 +1,33 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from &quot;@/components/ui/dialog&quot;;
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Loader2, RefreshCw, Calendar, UserCog } from &quot;lucide-react&quot;;
-import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
-import { apiRequest } from &quot;@/lib/queryClient&quot;;
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Loader2, RefreshCw, Calendar, UserCog } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 interface BookingManagementProps {
   bookingId: string;
@@ -40,8 +40,8 @@ export default function BookingManagement({
 }: BookingManagementProps) {
   const [isAssignManagerDialogOpen, setIsAssignManagerDialogOpen] =
     useState(false);
-  const [selectedActivityId, setSelectedActivityId] = useState<string>("&quot;);
-  const [selectedManagerId, setSelectedManagerId] = useState<string>(&quot;&quot;);
+  const [selectedActivityId, setSelectedActivityId] = useState<string>("");
+  const [selectedManagerId, setSelectedManagerId] = useState<string>("");
   
   const queryClient = useQueryClient();
 
@@ -53,7 +53,7 @@ export default function BookingManagement({
     error,
     refetch,
   } = useQuery({
-    queryKey: [&quot;/api/bookings&quot;, bookingId, &quot;activities&quot;],
+    queryKey: ["/api/bookings", bookingId, "activities"],
     retry: false,
   });
 
@@ -61,19 +61,19 @@ export default function BookingManagement({
   const assignManagerMutation = useMutation({
     mutationFn: async ({ activityId, managerId }: { activityId: string; managerId: string }) => {
       await apiRequest(`/api/bookings/${bookingId}/activities/${activityId}/assign-manager`, {
-        method: &quot;POST&quot;,
+        method: "POST",
         body: { managerId },
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/bookings&quot;, bookingId, &quot;activities&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/bookings", bookingId, "activities"] });
     },
   });
 
   // Handle manager assignment
   const handleAssignManager = (activityId: string) => {
     setSelectedActivityId(activityId);
-    setSelectedManagerId(&quot;&quot;);
+    setSelectedManagerId("");
     setIsAssignManagerDialogOpen(true);
   };
 
@@ -99,24 +99,24 @@ export default function BookingManagement({
   };
 
   return (
-    <Card className=&quot;w-full&quot;>
-      <CardHeader className=&quot;flex flex-row items-center justify-between pb-2&quot;>
+    <Card className="w-full">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle className=&quot;text-xl font-bold&quot;>Booking Activity Management</CardTitle>
+          <CardTitle className="text-xl font-bold">Booking Activity Management</CardTitle>
           <CardDescription>
             Manage the activities for this booking
           </CardDescription>
         </div>
         <Button
-          variant=&quot;outline&quot;
-          size=&quot;sm&quot;
+          variant="outline"
+          size="sm"
           onClick={() => refetch()}
           disabled={isLoading}
         >
           {isLoading ? (
-            <Loader2 className=&quot;h-4 w-4 mr-1 animate-spin&quot; />
+            <Loader2 className="h-4 w-4 mr-1 animate-spin" />
           ) : (
-            <RefreshCw className=&quot;h-4 w-4 mr-1&quot; />
+            <RefreshCw className="h-4 w-4 mr-1" />
           )}
           Refresh
         </Button>
@@ -124,55 +124,55 @@ export default function BookingManagement({
 
       <CardContent>
         {isLoading ? (
-          <div className=&quot;space-y-3&quot;>
-            <Skeleton className=&quot;h-10 w-full&quot; />
-            <Skeleton className=&quot;h-64 w-full&quot; />
+          <div className="space-y-3">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-64 w-full" />
           </div>
         ) : isError ? (
-          <div className=&quot;p-6 text-center&quot;>
-            <p className=&quot;text-red-500 mb-2&quot;>
-              Error loading activities:{&quot; &quot;}
-              {error instanceof Error ? error.message : &quot;Unknown error&quot;}
+          <div className="p-6 text-center">
+            <p className="text-red-500 mb-2">
+              Error loading activities:{" "}
+              {error instanceof Error ? error.message : "Unknown error"}
             </p>
-            <Button variant=&quot;outline&quot; onClick={() => refetch()}>
+            <Button variant="outline" onClick={() => refetch()}>
               Try Again
             </Button>
           </div>
         ) : !activities || activities.length === 0 ? (
-          <div className=&quot;p-6 text-center border rounded-md bg-muted/30&quot;>
-            <Calendar className=&quot;h-12 w-12 mx-auto text-muted-foreground mb-2&quot; />
-            <h3 className=&quot;text-lg font-medium&quot;>No Activities Found</h3>
-            <p className=&quot;text-muted-foreground mt-1 mb-4&quot;>
+          <div className="p-6 text-center border rounded-md bg-muted/30">
+            <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
+            <h3 className="text-lg font-medium">No Activities Found</h3>
+            <p className="text-muted-foreground mt-1 mb-4">
               There are no activities for this booking yet.
             </p>
             <Button>Add Activity</Button>
           </div>
         ) : (
-          <div className=&quot;space-y-4&quot;>
+          <div className="space-y-4">
             {activities.map((activity: any) => (
-              <Card key={activity.id} className=&quot;border-l-4 border-l-blue-500&quot;>
-                <CardContent className=&quot;pt-4&quot;>
-                  <div className=&quot;flex justify-between items-start&quot;>
-                    <div className=&quot;space-y-1&quot;>
-                      <h4 className=&quot;font-medium&quot;>{activity.name || &quot;Activity&quot;}</h4>
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
-                        {activity.description || &quot;No description&quot;}
+              <Card key={activity.id} className="border-l-4 border-l-blue-500">
+                <CardContent className="pt-4">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <h4 className="font-medium">{activity.name || "Activity"}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {activity.description || "No description"}
                       </p>
-                      <div className=&quot;flex gap-4 text-sm text-muted-foreground&quot;>
-                        <span>Status: {activity.status || &quot;Pending&quot;}</span>
+                      <div className="flex gap-4 text-sm text-muted-foreground">
+                        <span>Status: {activity.status || "Pending"}</span>
                         {activity.assignedManagerId && (
-                          <span>Manager: {activity.assignedManagerName || &quot;Assigned&quot;}</span>
+                          <span>Manager: {activity.assignedManagerName || "Assigned"}</span>
                         )}
                       </div>
                     </div>
-                    <div className=&quot;flex gap-2&quot;>
+                    <div className="flex gap-2">
                       <Button
-                        variant=&quot;outline&quot;
-                        size=&quot;sm&quot;
+                        variant="outline"
+                        size="sm"
                         onClick={() => handleAssignManager(activity.id)}
                       >
-                        <UserCog className=&quot;h-4 w-4 mr-1&quot; />
-                        {activity.assignedManagerId ? &quot;Reassign&quot; : &quot;Assign&quot;} Manager
+                        <UserCog className="h-4 w-4 mr-1" />
+                        {activity.assignedManagerId ? "Reassign" : "Assign"} Manager
                       </Button>
                     </div>
                   </div>
@@ -193,21 +193,21 @@ export default function BookingManagement({
             <DialogTitle>Assign Field Manager</DialogTitle>
           </DialogHeader>
 
-          <div className=&quot;py-4 space-y-4&quot;>
+          <div className="py-4 space-y-4">
             <div>
-              <p className=&quot;text-sm text-muted-foreground mb-2&quot;>
+              <p className="text-sm text-muted-foreground mb-2">
                 Assigning a field manager for activity:
               </p>
-              <p className=&quot;font-medium&quot;>
-                {getSelectedActivity()?.name || &quot;Selected Activity&quot;}
+              <p className="font-medium">
+                {getSelectedActivity()?.name || "Selected Activity"}
               </p>
             </div>
 
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;manager-select&quot;>Select Manager</Label>
+            <div className="space-y-2">
+              <Label htmlFor="manager-select">Select Manager</Label>
               <Select value={selectedManagerId} onValueChange={setSelectedManagerId}>
                 <SelectTrigger>
-                  <SelectValue placeholder=&quot;Choose a field manager&quot; />
+                  <SelectValue placeholder="Choose a field manager" />
                 </SelectTrigger>
                 <SelectContent>
                   {managers.map((manager) => (
@@ -222,7 +222,7 @@ export default function BookingManagement({
 
           <DialogFooter>
             <Button
-              variant=&quot;outline&quot;
+              variant="outline"
               onClick={() => setIsAssignManagerDialogOpen(false)}
             >
               Cancel
@@ -235,7 +235,7 @@ export default function BookingManagement({
               }
             >
               {assignManagerMutation.isPending ? (
-                <Loader2 className=&quot;h-4 w-4 mr-1 animate-spin" />
+                <Loader2 className="h-4 w-4 mr-1 animate-spin" />
               ) : null}
               Assign Manager
             </Button>

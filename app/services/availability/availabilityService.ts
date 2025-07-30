@@ -1,5 +1,5 @@
-import { insertAvailabilityBlockSchema } from &quot;../../../shared/schema&quot;;
-import { availabilityRepository } from &quot;./repository&quot;;
+import { insertAvailabilityBlockSchema } from "../../../shared/schema";
+import { availabilityRepository } from "./repository";
 import {
   AvailabilityResponse,
   AvailabilitiesResponse,
@@ -9,9 +9,9 @@ import {
   AvailabilityQueryOptions,
   ConflictCheckResponse,
   ServiceResponse,
-} from &quot;./models&quot;;
-import { distributedEventBus } from &quot;../infrastructure/distributedEventBus&quot;;
-// Remove event imports since they&apos;re causing issues
+} from "./models";
+import { distributedEventBus } from "../infrastructure/distributedEventBus";
+// Remove event imports since they're causing issues
 // We'll just type the events directly where needed
 
 /**
@@ -31,13 +31,13 @@ class AvailabilityService {
         data: blocks,
       };
     } catch (error) {
-      console.error(&quot;Error in getAvailabilityBlocks:&quot;, error);
+      console.error("Error in getAvailabilityBlocks:", error);
       return {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to retrieve availability blocks&quot;,
+            : "Failed to retrieve availability blocks",
       };
     }
   }
@@ -52,7 +52,7 @@ class AvailabilityService {
       if (!block) {
         return {
           success: false,
-          error: &quot;Availability block not found&quot;,
+          error: "Availability block not found",
         };
       }
 
@@ -67,7 +67,7 @@ class AvailabilityService {
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to retrieve availability block&quot;,
+            : "Failed to retrieve availability block",
       };
     }
   }
@@ -80,7 +80,7 @@ class AvailabilityService {
   ): Promise<AvailabilityResponse> {
     try {
       console.log(
-        &quot;Creating availability block with data:&quot;,
+        "Creating availability block with data:",
         JSON.stringify(data, null, 2),
       );
 
@@ -106,7 +106,7 @@ class AvailabilityService {
         const firstDate = new Date(startDate);
 
         // Get pattern and validate
-        const pattern = data.recurrencePattern || &quot;weekly&quot;;
+        const pattern = data.recurrencePattern || "weekly";
 
         // Initialize tracking variables
         let occurrencesToCreate = 1; // Default to 1 if not specified
@@ -117,7 +117,7 @@ class AvailabilityService {
 
         // RECURRENCE END DETERMINATION - Calculate number of occurrences based on end type
         if (
-          data.recurrenceEndType === &quot;count&quot; &&
+          data.recurrenceEndType === "count" &&
           data.recurrenceCount &&
           data.recurrenceCount > 0
         ) {
@@ -127,7 +127,7 @@ class AvailabilityService {
             `Creating ${occurrencesToCreate} occurrences based on count`,
           );
         } else if (
-          data.recurrenceEndType === &quot;date&quot; &&
+          data.recurrenceEndType === "date" &&
           data.recurrenceEndDate
         ) {
           // Date-based recurrence: create until end date
@@ -139,11 +139,11 @@ class AvailabilityService {
               (1000 * 60 * 60 * 24),
           );
 
-          if (pattern === &quot;daily&quot;) {
+          if (pattern === "daily") {
             occurrencesToCreate = daysBetween + 1;
-          } else if (pattern === &quot;weekly&quot;) {
+          } else if (pattern === "weekly") {
             occurrencesToCreate = Math.ceil(daysBetween / 7) + 1;
-          } else if (pattern === &quot;biweekly&quot;) {
+          } else if (pattern === "biweekly") {
             occurrencesToCreate = Math.ceil(daysBetween / 14) + 1;
           } else {
             occurrencesToCreate = Math.ceil(daysBetween / 7) + 1; // Default fallback
@@ -152,19 +152,19 @@ class AvailabilityService {
           console.log(
             `Creating occurrences until date: ${endDateLimit.toISOString()} (estimated: ${occurrencesToCreate} occurrences)`,
           );
-        } else if (data.recurrenceEndType === &quot;never&quot;) {
-          // If &quot;never&quot; is specified, limit based on pattern
-          if (pattern === &quot;daily&quot;) {
+        } else if (data.recurrenceEndType === "never") {
+          // If "never" is specified, limit based on pattern
+          if (pattern === "daily") {
             occurrencesToCreate = 30; // About a month of daily occurrences
-          } else if (pattern === &quot;weekly&quot;) {
+          } else if (pattern === "weekly") {
             occurrencesToCreate = 52; // About a year of weekly occurrences
-          } else if (pattern === &quot;biweekly&quot;) {
+          } else if (pattern === "biweekly") {
             occurrencesToCreate = 26; // About a year of biweekly occurrences
           } else {
             occurrencesToCreate = 52; // Default
           }
           console.log(
-            `Creating ${occurrencesToCreate} occurrences for &quot;never&quot; end type (safety limit)`,
+            `Creating ${occurrencesToCreate} occurrences for "never" end type (safety limit)`,
           );
         }
 
@@ -188,13 +188,13 @@ class AvailabilityService {
             const currentDate = new Date(firstDate);
 
             // CRITICAL: Generate correct date offset based on pattern
-            if (pattern === &quot;weekly&quot;) {
+            if (pattern === "weekly") {
               // For weekly, add 7 days for each iteration
               currentDate.setDate(currentDate.getDate() + i * 7);
-            } else if (pattern === &quot;daily&quot;) {
+            } else if (pattern === "daily") {
               // For daily, add 1 day for each iteration
               currentDate.setDate(currentDate.getDate() + i);
-            } else if (pattern === &quot;biweekly&quot;) {
+            } else if (pattern === "biweekly") {
               // For biweekly, add 14 days for each iteration
               currentDate.setDate(currentDate.getDate() + i * 14);
             }
@@ -205,7 +205,7 @@ class AvailabilityService {
             );
 
             // Create ISO date string for comparison - use only date part for uniqueness check
-            const dateKey = currentDate.toISOString().split(&quot;T&quot;)[0];
+            const dateKey = currentDate.toISOString().split("T")[0];
 
             // CRITICAL: Skip if we already created a block for this date
             if (createdDates.has(dateKey)) {
@@ -231,16 +231,16 @@ class AvailabilityService {
             // Set up the block data for this occurrence
             const currentBlockData = {
               user_id: data.userId,
-              title: data.title || &quot;Available&quot;,
+              title: data.title || "Available",
               start_date: currentDate,
               end_date: currentEndDate,
-              status: data.status || &quot;available&quot;,
+              status: data.status || "available",
               is_recurring: true,
               recurring: true,
               day_of_week: currentDate.getDay(), // Use actual day of week for this occurrence
               recurrence_pattern: pattern,
               recurrence_group: recurrenceGroupId,
-              recurrence_end_type: data.recurrenceEndType || &quot;never&quot;,
+              recurrence_end_type: data.recurrenceEndType || "never",
               recurrence_count: data.recurrenceCount || null,
               recurrence_end_date: data.recurrenceEndDate
                 ? new Date(data.recurrenceEndDate)
@@ -277,7 +277,7 @@ class AvailabilityService {
             );
             if (firstBlock) {
               // Publish event for the first block
-              await distributedEventBus.publish(&quot;availability.created&quot;, {
+              await distributedEventBus.publish("availability.created", {
                 id: firstBlock.id,
                 userId: firstBlock.userId,
                 startDate: new Date(firstBlock.startDate),
@@ -290,24 +290,24 @@ class AvailabilityService {
               };
             }
           } catch (error) {
-            console.error(&quot;Error fetching first created block:&quot;, error);
+            console.error("Error fetching first created block:", error);
           }
         }
 
         // If we made it here but have blocks, return success with the count
         if (createdBlockIds.length > 0) {
           console.log(
-            `Created ${createdBlockIds.length} blocks but couldn&apos;t fetch the first one. Returning partial success.`,
+            `Created ${createdBlockIds.length} blocks but couldn't fetch the first one. Returning partial success.`,
           );
           return {
             success: true,
             data: {
               id: createdBlockIds[0],
               userId: data.userId,
-              title: data.title || &quot;Available&quot;,
+              title: data.title || "Available",
               startDate: data.startDate,
               endDate: data.endDate,
-              status: data.status || &quot;available&quot;,
+              status: data.status || "available",
               isRecurring: true,
               recurrencePattern: pattern,
               recurrenceEndType: data.recurrenceEndType,
@@ -319,20 +319,20 @@ class AvailabilityService {
           };
         }
 
-        // If we couldn&apos;t create any blocks, return an error
-        console.error(&quot;Failed to create any recurring blocks&quot;);
+        // If we couldn't create any blocks, return an error
+        console.error("Failed to create any recurring blocks");
         return {
           success: false,
-          error: &quot;Failed to create recurring blocks&quot;,
+          error: "Failed to create recurring blocks",
         };
       } else {
         // Handle non-recurring events normally
         blockData = {
           user_id: data.userId,
-          title: data.title || &quot;Available&quot;,
+          title: data.title || "Available",
           start_date: data.startDate,
           end_date: data.endDate,
-          status: data.status || &quot;available&quot;,
+          status: data.status || "available",
           is_recurring: false,
           recurring: false,
           day_of_week: null,
@@ -365,13 +365,13 @@ class AvailabilityService {
       // Handle conflicts based on block types
       if (
         conflicts.length > 0 &&
-        conflicts.some((c) => c.conflictType !== &quot;adjacent&quot;)
+        conflicts.some((c) => c.conflictType !== "adjacent")
       ) {
         // We have real conflicts (not just adjacent blocks)
 
         // First, check if we need to handle a merge or override case
         const blocksThatNeedAction = conflicts.filter(
-          (c) => c.conflictType !== &quot;adjacent&quot;,
+          (c) => c.conflictType !== "adjacent",
         );
 
         if (blocksThatNeedAction.length > 0) {
@@ -419,19 +419,19 @@ class AvailabilityService {
             } else {
               // Different type - override by updating the existing block
               await availabilityRepository.update(existingBlock.id, {
-                title: data.title || &quot;Available&quot;,
-                status: data.status || &quot;available&quot;,
+                title: data.title || "Available",
+                status: data.status || "available",
                 is_recurring: data.isRecurring || false,
                 recurring: data.isRecurring || false, // Sync both fields
                 day_of_week: data.dayOfWeek,
                 recurrence_pattern: data.recurrencePattern,
                 // Keep the same time bounds for the override
                 start_date:
-                  typeof existingBlock.startDate === &quot;string&quot;
+                  typeof existingBlock.startDate === "string"
                     ? new Date(existingBlock.startDate)
                     : existingBlock.startDate,
                 end_date:
-                  typeof existingBlock.endDate === &quot;string&quot;
+                  typeof existingBlock.endDate === "string"
                     ? new Date(existingBlock.endDate)
                     : existingBlock.endDate,
               });
@@ -455,7 +455,7 @@ class AvailabilityService {
       );
 
       // Publish event
-      await distributedEventBus.publish(&quot;availability.created&quot;, {
+      await distributedEventBus.publish("availability.created", {
         id: newBlock.id,
         userId: newBlock.userId,
         startDate: new Date(newBlock.startDate),
@@ -467,13 +467,13 @@ class AvailabilityService {
         data: newBlock,
       };
     } catch (error) {
-      console.error(&quot;Error in createAvailabilityBlock:&quot;, error);
+      console.error("Error in createAvailabilityBlock:", error);
       return {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to create availability block&quot;,
+            : "Failed to create availability block",
       };
     }
   }
@@ -492,7 +492,7 @@ class AvailabilityService {
       if (!existingBlock) {
         return {
           success: false,
-          error: &quot;Availability block not found&quot;,
+          error: "Availability block not found",
         };
       }
 
@@ -538,11 +538,11 @@ class AvailabilityService {
         // Handle conflicts based on block types
         if (
           conflicts.length > 0 &&
-          conflicts.some((c) => c.conflictType !== &quot;adjacent&quot;)
+          conflicts.some((c) => c.conflictType !== "adjacent")
         ) {
           // We have real conflicts (not just adjacent blocks)
           const blocksThatNeedAction = conflicts.filter(
-            (c) => c.conflictType !== &quot;adjacent&quot;,
+            (c) => c.conflictType !== "adjacent",
           );
 
           if (blocksThatNeedAction.length > 0) {
@@ -568,7 +568,7 @@ class AvailabilityService {
                 updateData.start_date = mergedStart;
                 updateData.end_date = mergedEnd;
 
-                // Then, delete the conflicting block since it&apos;s now merged
+                // Then, delete the conflicting block since it's now merged
                 await availabilityRepository.delete(conflictBlock.id);
               } else {
                 // Different type - current block overrides the conflicting block within its timeframe
@@ -591,18 +591,18 @@ class AvailabilityService {
                   });
 
                   // Create a new block after the new block
-                  // Make sure we&apos;re creating with the right types expected by Drizzle
+                  // Make sure we're creating with the right types expected by Drizzle
                   await availabilityRepository.create({
                     user_id: conflictBlock.userId,
-                    title: conflictBlock.title || "&quot;,
+                    title: conflictBlock.title || "",
                     start_date: newEnd,
                     end_date: conflictEnd,
-                    status: conflictBlock.status || &quot;available&quot;,
+                    status: conflictBlock.status || "available",
                     is_recurring: !!conflictBlock.isRecurring,
                     recurring: !!conflictBlock.isRecurring, // Sync with is_recurring
                     recurrence_pattern: conflictBlock.recurrencePattern,
                     day_of_week:
-                      typeof conflictBlock.dayOfWeek === &quot;number&quot;
+                      typeof conflictBlock.dayOfWeek === "number"
                         ? conflictBlock.dayOfWeek
                         : undefined,
                   });
@@ -641,12 +641,12 @@ class AvailabilityService {
       if (!updatedBlock) {
         return {
           success: false,
-          error: &quot;Failed to update availability block&quot;,
+          error: "Failed to update availability block",
         };
       }
 
       // Publish event
-      await distributedEventBus.publish(&quot;availability.updated&quot;, {
+      await distributedEventBus.publish("availability.updated", {
         id: updatedBlock.id,
         userId: updatedBlock.userId,
         changes: updateData,
@@ -663,7 +663,7 @@ class AvailabilityService {
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to update availability block&quot;,
+            : "Failed to update availability block",
       };
     }
   }
@@ -688,7 +688,7 @@ class AvailabilityService {
         console.log(`⚠️ Block ID ${id} not found for deletion`);
         return {
           success: false,
-          error: &quot;Availability block not found&quot;,
+          error: "Availability block not found",
         };
       }
 
@@ -721,7 +721,7 @@ class AvailabilityService {
           );
           return {
             success: false,
-            error: &quot;Failed to delete recurring series&quot;,
+            error: "Failed to delete recurring series",
           };
         }
 
@@ -730,7 +730,7 @@ class AvailabilityService {
         );
 
         // Publish event for the series deletion
-        await distributedEventBus.publish(&quot;availability.deleted&quot;, {
+        await distributedEventBus.publish("availability.deleted", {
           id,
           userId: existingBlock.userId,
         });
@@ -758,7 +758,7 @@ class AvailabilityService {
           );
           return {
             success: false,
-            error: &quot;Failed to delete availability block&quot;,
+            error: "Failed to delete availability block",
           };
         }
 
@@ -767,7 +767,7 @@ class AvailabilityService {
         );
 
         // Publish event
-        await distributedEventBus.publish(&quot;availability.deleted&quot;, {
+        await distributedEventBus.publish("availability.deleted", {
           id,
           userId: existingBlock.userId,
         });
@@ -793,14 +793,14 @@ class AvailabilityService {
           console.error(`❌ Failed to delete non-recurring block ID ${id}`);
           return {
             success: false,
-            error: &quot;Failed to delete availability block&quot;,
+            error: "Failed to delete availability block",
           };
         }
 
         console.log(`✅ Successfully deleted non-recurring block ID ${id}`);
 
         // Publish event
-        await distributedEventBus.publish(&quot;availability.deleted&quot;, {
+        await distributedEventBus.publish("availability.deleted", {
           id,
           userId: existingBlock.userId,
         });
@@ -820,7 +820,7 @@ class AvailabilityService {
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to delete availability block&quot;,
+            : "Failed to delete availability block",
       };
     }
   }
@@ -837,9 +837,9 @@ class AvailabilityService {
     try {
       // Convert string dates to Date objects if needed
       const startDateObj =
-        typeof startDate === &quot;string&quot; ? new Date(startDate) : startDate;
+        typeof startDate === "string" ? new Date(startDate) : startDate;
       const endDateObj =
-        typeof endDate === &quot;string&quot; ? new Date(endDate) : endDate;
+        typeof endDate === "string" ? new Date(endDate) : endDate;
 
       const conflicts = await availabilityRepository.findConflicts(
         userId,
@@ -850,7 +850,7 @@ class AvailabilityService {
 
       // Filter out adjacent blocks if needed
       const significantConflicts = conflicts.filter(
-        (c) => c.conflictType !== &quot;adjacent&quot;,
+        (c) => c.conflictType !== "adjacent",
       );
 
       return {
@@ -861,13 +861,13 @@ class AvailabilityService {
         },
       };
     } catch (error) {
-      console.error(&quot;Error in checkForConflicts:&quot;, error);
+      console.error("Error in checkForConflicts:", error);
       return {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to check for conflicts",
+            : "Failed to check for conflicts",
       };
     }
   }

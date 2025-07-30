@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from &quot;react&quot;;
-import { GoogleMap, InfoWindow } from &quot;@react-google-maps/api&quot;;
-import { useGoogleMaps } from &quot;./GoogleMapsContext&quot;;
+import { useState, useEffect, useRef, useCallback } from "react";
+import { GoogleMap, InfoWindow } from "@react-google-maps/api";
+import { useGoogleMaps } from "./GoogleMapsContext";
 
 export interface MapLocation {
   id: string;
@@ -29,7 +29,7 @@ export function MultiLocationMap({
   onMarkerClick,
   height = 500,
   zoom = 10,
-  apiKey = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;, // Default API key
+  apiKey = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg", // Default API key
 }: MultiLocationMapProps) {
   // Get Google Maps context first
   const { isLoaded, loadError, mapId } = useGoogleMaps();
@@ -57,7 +57,7 @@ export function MultiLocationMap({
 
   // Define map container style
   const containerStyle = {
-    width: &quot;100%&quot;,
+    width: "100%",
     height: `${height}px`,
   };
 
@@ -69,20 +69,20 @@ export function MultiLocationMap({
         (loc) => loc.id === selectedLocationId,
       );
       console.log(
-        &quot;Finding center for selected location:&quot;,
+        "Finding center for selected location:",
         selectedLocationId,
         selectedLocation,
       );
 
       if (
         selectedLocation &&
-        typeof selectedLocation.latitude === &quot;number&quot; &&
-        typeof selectedLocation.longitude === &quot;number&quot; &&
+        typeof selectedLocation.latitude === "number" &&
+        typeof selectedLocation.longitude === "number" &&
         !isNaN(selectedLocation.latitude) &&
         !isNaN(selectedLocation.longitude)
       ) {
         console.log(
-          &quot;Using selected location for center:&quot;,
+          "Using selected location for center:",
           selectedLocation.latitude,
           selectedLocation.longitude,
         );
@@ -93,17 +93,17 @@ export function MultiLocationMap({
       }
     }
 
-    // If no selected location or it&apos;s invalid, check all locations
+    // If no selected location or it's invalid, check all locations
     if (locations.length === 0) {
-      console.log(&quot;No locations, using default center&quot;);
+      console.log("No locations, using default center");
       return { lat: 39.8282, lng: -98.5795 }; // Center of US
     }
 
     // Filter to valid locations only
     const validLocations = locations.filter(
       (loc) =>
-        typeof loc.latitude === &quot;number&quot; &&
-        typeof loc.longitude === &quot;number&quot; &&
+        typeof loc.latitude === "number" &&
+        typeof loc.longitude === "number" &&
         !isNaN(loc.latitude) &&
         !isNaN(loc.longitude) &&
         loc.latitude >= -90 &&
@@ -112,18 +112,18 @@ export function MultiLocationMap({
         loc.longitude <= 180,
     );
 
-    console.log(&quot;Valid locations count:&quot;, validLocations.length);
+    console.log("Valid locations count:", validLocations.length);
 
     // If no valid locations, use fallback
     if (validLocations.length === 0) {
-      console.log(&quot;No valid locations, using default center&quot;);
+      console.log("No valid locations, using default center");
       return { lat: 39.8282, lng: -98.5795 }; // Center of US
     }
 
     // If only one valid location, center on it
     if (validLocations.length === 1) {
       console.log(
-        &quot;Single valid location, using it for center:&quot;,
+        "Single valid location, using it for center:",
         validLocations[0].latitude,
         validLocations[0].longitude,
       );
@@ -148,15 +148,15 @@ export function MultiLocationMap({
       lng: sum.lng / validLocations.length,
     };
 
-    console.log(&quot;Using average center of all locations:&quot;, center);
+    console.log("Using average center of all locations:", center);
     return center;
   }, [locations, selectedLocationId]);
 
   // Validate coordinates
   const isValidCoordinate = (lat?: number, lng?: number): boolean => {
     return (
-      typeof lat === &quot;number&quot; &&
-      typeof lng === &quot;number&quot; &&
+      typeof lat === "number" &&
+      typeof lng === "number" &&
       !isNaN(lat) &&
       !isNaN(lng) &&
       lat >= -90 &&
@@ -168,24 +168,24 @@ export function MultiLocationMap({
 
   // Handle map load - using void to match expected type signature
   const onLoad = (mapInstance: google.maps.Map): void => {
-    console.log(&quot;🗺️ Map loaded&quot;);
+    console.log("🗺️ Map loaded");
     mapRef.current = mapInstance;
     setMap(mapInstance);
 
     // Setup idle listener
     idleListenerRef.current = google.maps.event.addListener(
       mapInstance,
-      &quot;idle&quot;,
+      "idle",
       () => {
-        console.log(&quot;Map is idle and ready&quot;);
+        console.log("Map is idle and ready");
         setMapIdle(true);
 
-        // If there&apos;s a selected location, try to center on it now
+        // If there's a selected location, try to center on it now
         if (selectedLocationId && initialRenderRef.current) {
           const loc = locationMapRef.current[selectedLocationId];
           if (loc && isValidCoordinate(loc.latitude, loc.longitude)) {
             console.log(
-              &quot;Initial render with selection, centering on:&quot;,
+              "Initial render with selection, centering on:",
               loc.name,
             );
             setTimeout(() => {
@@ -226,7 +226,7 @@ export function MultiLocationMap({
       // Add a small padding
       const listener = google.maps.event.addListenerOnce(
         mapRef.current,
-        &quot;bounds_changed&quot;,
+        "bounds_changed",
         () => {
           mapRef.current?.setZoom(Math.min(15, mapRef.current.getZoom() || 15));
         },
@@ -240,14 +240,14 @@ export function MultiLocationMap({
 
   // Update map when selected location changes - this is CRITICAL code
   useEffect(() => {
-    // Skip if we don&apos;t have a map yet
+    // Skip if we don't have a map yet
     if (!map) {
-      console.log(&quot;Map not yet loaded, will handle selection after map loads&quot;);
+      console.log("Map not yet loaded, will handle selection after map loads");
       return;
     }
 
-    console.log(&quot;SELECTION CHANGED TO:&quot;, selectedLocationId);
-    console.log(&quot;Map instance exists:&quot;, !!map);
+    console.log("SELECTION CHANGED TO:", selectedLocationId);
+    console.log("Map instance exists:", !!map);
 
     // Reset the info window
     setActiveInfoWindow(null);
@@ -259,7 +259,7 @@ export function MultiLocationMap({
         locationMapRef.current[selectedLocationId] ||
         locations.find((loc) => loc.id === selectedLocationId);
 
-      console.log(&quot;Found selected location:&quot;, selectedLocation);
+      console.log("Found selected location:", selectedLocation);
 
       if (
         selectedLocation &&
@@ -274,7 +274,7 @@ export function MultiLocationMap({
           );
 
           console.log(
-            &quot;⭐ Centering map on coordinates:&quot;,
+            "⭐ Centering map on coordinates:",
             selectedLocation.latitude,
             selectedLocation.longitude,
           );
@@ -292,51 +292,51 @@ export function MultiLocationMap({
                 // Finally, show the info window with a small delay
                 setTimeout(() => {
                   setActiveInfoWindow(selectedLocationId);
-                  console.log(&quot;Info window should now be visible&quot;);
+                  console.log("Info window should now be visible");
                 }, 300);
               } catch (err) {
-                console.error(&quot;Error centering map:&quot;, err);
+                console.error("Error centering map:", err);
               }
             }
           }, 100);
         }
       } else {
-        console.log(&quot;Selected location has invalid coordinates&quot;);
+        console.log("Selected location has invalid coordinates");
       }
     } else if (locations.length > 1) {
       // No location selected, fit to bounds
-      console.log(&quot;No location selected, fitting to bounds&quot;);
+      console.log("No location selected, fitting to bounds");
       fitMapToBounds();
     }
   }, [selectedLocationId, locations, map, fitMapToBounds]);
 
   // Get marker color based on location state or type
   const getMarkerColor = (location: MapLocation): string => {
-    if (!location.state && !location.locationType) return &quot;#3b82f6&quot;; // Default blue
+    if (!location.state && !location.locationType) return "#3b82f6"; // Default blue
 
     // If you want to color by state
     const stateColors: { [key: string]: string } = {
-      CA: &quot;#ef4444&quot;, // Red
-      NY: &quot;#3b82f6&quot;, // Blue
-      TX: &quot;#22c55e&quot;, // Green
-      FL: &quot;#f59e0b&quot;, // Amber
-      IL: &quot;#8b5cf6&quot;, // Purple
-      PA: &quot;#ec4899&quot;, // Pink
-      OH: &quot;#06b6d4&quot;, // Cyan
-      GA: &quot;#f97316&quot;, // Orange
-      NC: &quot;#8b5cf6&quot;, // Purple
-      MI: &quot;#06b6d4&quot;, // Cyan
+      CA: "#ef4444", // Red
+      NY: "#3b82f6", // Blue
+      TX: "#22c55e", // Green
+      FL: "#f59e0b", // Amber
+      IL: "#8b5cf6", // Purple
+      PA: "#ec4899", // Pink
+      OH: "#06b6d4", // Cyan
+      GA: "#f97316", // Orange
+      NC: "#8b5cf6", // Purple
+      MI: "#06b6d4", // Cyan
     };
 
     // If you want to color by location type
     const typeColors: { [key: string]: string } = {
-      business: &quot;#3b82f6&quot;, // Blue
-      venue: &quot;#8b5cf6&quot;, // Purple
-      office: &quot;#22c55e&quot;, // Green
-      warehouse: &quot;#f59e0b&quot;, // Amber
-      retail: &quot;#ec4899&quot;, // Pink
-      restaurant: &quot;#06b6d4&quot;, // Cyan
-      landmark: &quot;#f97316&quot;, // Orange
+      business: "#3b82f6", // Blue
+      venue: "#8b5cf6", // Purple
+      office: "#22c55e", // Green
+      warehouse: "#f59e0b", // Amber
+      retail: "#ec4899", // Pink
+      restaurant: "#06b6d4", // Cyan
+      landmark: "#f97316", // Orange
     };
 
     // Prioritize coloring by state if available
@@ -348,11 +348,11 @@ export function MultiLocationMap({
     if (location.locationType) {
       const normalizedType = location.locationType
         .toLowerCase()
-        .replace(&quot;_&quot;, "&quot;);
-      return typeColors[normalizedType] || &quot;#3b82f6&quot;; // Default blue if type not found
+        .replace("_", "");
+      return typeColors[normalizedType] || "#3b82f6"; // Default blue if type not found
     }
 
-    return &quot;#3b82f6&quot;; // Default blue
+    return "#3b82f6"; // Default blue
   };
 
   // Handle marker click
@@ -372,7 +372,7 @@ export function MultiLocationMap({
   // Handle error state
   if (loadError) {
     return (
-      <div className=&quot;p-4 text-red-500&quot;>
+      <div className="p-4 text-red-500">
         Error loading Google Maps: {loadError.message}
       </div>
     );
@@ -381,7 +381,7 @@ export function MultiLocationMap({
   // Handle loading state
   if (!isLoaded) {
     return (
-      <div className=&quot;flex items-center justify-center h-full&quot;>
+      <div className="flex items-center justify-center h-full">
         Loading Google Maps...
       </div>
     );
@@ -400,11 +400,11 @@ export function MultiLocationMap({
     // Make sure AdvancedMarkerElement is available
     const markerClass = window.google.maps.marker?.AdvancedMarkerElement;
     if (!markerClass) {
-      console.error(&quot;AdvancedMarkerElement is not available&quot;);
+      console.error("AdvancedMarkerElement is not available");
       return;
     }
 
-    console.log(&quot;Creating markers for&quot;, locations.length, &quot;locations&quot;);
+    console.log("Creating markers for", locations.length, "locations");
 
     // Clear any existing markers
     Object.values(markersRef.current).forEach((marker) => {
@@ -423,24 +423,24 @@ export function MultiLocationMap({
       const markerColor = getMarkerColor(location);
 
       // Create pin element
-      const pinElement = document.createElement(&quot;div&quot;);
-      pinElement.className = &quot;location-marker&quot;;
-      pinElement.style.width = &quot;24px&quot;;
-      pinElement.style.height = &quot;24px&quot;;
-      pinElement.style.borderRadius = &quot;50%&quot;;
+      const pinElement = document.createElement("div");
+      pinElement.className = "location-marker";
+      pinElement.style.width = "24px";
+      pinElement.style.height = "24px";
+      pinElement.style.borderRadius = "50%";
       pinElement.style.backgroundColor = markerColor;
-      pinElement.style.border = &quot;2px solid white&quot;;
-      pinElement.style.boxShadow = &quot;0 2px 6px rgba(0,0,0,0.3)&quot;;
-      pinElement.style.cursor = &quot;pointer&quot;;
+      pinElement.style.border = "2px solid white";
+      pinElement.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+      pinElement.style.cursor = "pointer";
       pinElement.title = location.name;
 
       // Add bounce animation for selected marker
       if (selectedLocationId === location.id) {
         pinElement.animate(
           [
-            { transform: &quot;translateY(0)&quot; },
-            { transform: &quot;translateY(-8px)&quot; },
-            { transform: &quot;translateY(0)&quot; },
+            { transform: "translateY(0)" },
+            { transform: "translateY(-8px)" },
+            { transform: "translateY(0)" },
           ],
           {
             duration: 1000,
@@ -461,7 +461,7 @@ export function MultiLocationMap({
       });
 
       // Add click listener
-      advancedMarker.addListener(&quot;click&quot;, () => {
+      advancedMarker.addListener("click", () => {
         handleMarkerClick(location.id);
       });
 
@@ -490,7 +490,7 @@ export function MultiLocationMap({
       zoom={zoom}
       onLoad={onLoad}
       onIdle={() => {
-        console.log(&quot;Map idle event triggered&quot;);
+        console.log("Map idle event triggered");
         setMapIdle(true);
       }}
       options={{
@@ -500,9 +500,9 @@ export function MultiLocationMap({
         mapId: mapId,
         styles: [
           {
-            featureType: &quot;poi&quot;,
-            elementType: &quot;labels&quot;,
-            stylers: [{ visibility: &quot;off&quot; }], // Hide points of interest labels
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }], // Hide points of interest labels
           },
         ],
       }}
@@ -519,9 +519,9 @@ export function MultiLocationMap({
                 }}
                 onCloseClick={handleInfoWindowClose}
               >
-                <div className=&quot;p-1 max-w-[250px]&quot;>
-                  <h3 className=&quot;font-medium text-sm&quot;>{location.name}</h3>
-                  <p className=&quot;text-xs text-gray-600">{location.address}</p>
+                <div className="p-1 max-w-[250px]">
+                  <h3 className="font-medium text-sm">{location.name}</h3>
+                  <p className="text-xs text-gray-600">{location.address}</p>
                 </div>
               </InfoWindow>
             )}

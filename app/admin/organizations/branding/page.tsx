@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useState, Suspense } from &quot;react&quot;;
-import { useSearchParams, useRouter } from &quot;next/navigation&quot;;
-import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { z } from &quot;zod&quot;;
-import { ArrowLeft, Info, Loader2, PaintBucket, Save } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { ArrowLeft, Info, Loader2, PaintBucket, Save } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,8 +15,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -25,13 +25,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
-import { toast } from &quot;@/hooks/use-toast&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { apiRequest } from &quot;@/lib/queryClient&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
-import type { Organization } from &quot;@shared/schema&quot;;
+} from "@/components/ui/form";
+import { toast } from "@/hooks/use-toast";
+import { Separator } from "@/components/ui/separator";
+import { apiRequest } from "@/lib/queryClient";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import type { Organization } from "@shared/schema";
 
 const brandingFormSchema = z.object({
   organization_id: z.string().uuid(),
@@ -39,17 +39,17 @@ const brandingFormSchema = z.object({
   primary_color: z
     .string()
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-      message: &quot;Must be a valid hex color code&quot;,
+      message: "Must be a valid hex color code",
     }),
   secondary_color: z
     .string()
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-      message: &quot;Must be a valid hex color code&quot;,
+      message: "Must be a valid hex color code",
     }),
   accent_color: z
     .string()
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-      message: &quot;Must be a valid hex color code&quot;,
+      message: "Must be a valid hex color code",
     }),
   font_family: z.string().optional(),
   custom_css: z.string().nullable().optional(),
@@ -64,8 +64,8 @@ export default function OrganizationBrandingPageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       }
     >
@@ -83,14 +83,14 @@ function OrganizationBrandingPage() {
 
   // Extract organization ID from URL
   useEffect(() => {
-    const id = searchParams.get(&quot;organizationId&quot;);
+    const id = searchParams.get("organizationId");
     if (!id) {
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Organization ID is required&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Organization ID is required",
+        variant: "destructive",
       });
-      router.push(&quot;/admin/organizations&quot;);
+      router.push("/admin/organizations");
       return;
     }
     setOrganizationId(id);
@@ -123,14 +123,14 @@ function OrganizationBrandingPage() {
   const form = useForm<BrandingFormValues>({
     resolver: zodResolver(brandingFormSchema),
     defaultValues: {
-      organization_id: organizationId || "&quot;,
-      logo_url: &quot;&quot;,
-      primary_color: &quot;#00A8A8&quot;,
-      secondary_color: &quot;#675EA9&quot;,
-      accent_color: &quot;#2DD4BF&quot;,
-      font_family: &quot;Inter, sans-serif&quot;,
-      custom_css: &quot;&quot;,
-      favicon_url: &quot;&quot;,
+      organization_id: organizationId || "",
+      logo_url: "",
+      primary_color: "#00A8A8",
+      secondary_color: "#675EA9",
+      accent_color: "#2DD4BF",
+      font_family: "Inter, sans-serif",
+      custom_css: "",
+      favicon_url: "",
       email_template: {},
     },
   });
@@ -140,13 +140,13 @@ function OrganizationBrandingPage() {
     if (brandingData?.branding && organizationId) {
       form.reset({
         organization_id: organizationId,
-        logo_url: brandingData.branding.logo_url || &quot;&quot;,
-        primary_color: brandingData.branding.primary_color || &quot;#00A8A8&quot;,
-        secondary_color: brandingData.branding.secondary_color || &quot;#675EA9&quot;,
-        accent_color: brandingData.branding.accent_color || &quot;#2DD4BF&quot;,
-        font_family: brandingData.branding.font_family || &quot;Inter, sans-serif&quot;,
-        custom_css: brandingData.branding.custom_css || &quot;&quot;,
-        favicon_url: brandingData.branding.favicon_url || &quot;&quot;,
+        logo_url: brandingData.branding.logo_url || "",
+        primary_color: brandingData.branding.primary_color || "#00A8A8",
+        secondary_color: brandingData.branding.secondary_color || "#675EA9",
+        accent_color: brandingData.branding.accent_color || "#2DD4BF",
+        font_family: brandingData.branding.font_family || "Inter, sans-serif",
+        custom_css: brandingData.branding.custom_css || "",
+        favicon_url: brandingData.branding.favicon_url || "",
         email_template: brandingData.branding.email_template || {},
       });
     }
@@ -155,16 +155,16 @@ function OrganizationBrandingPage() {
   const saveBrandingMutation = useMutation({
     mutationFn: async (data: BrandingFormValues) => {
       const response = await apiRequest(
-        &quot;POST&quot;,
-        &quot;/api/organizations/branding&quot;,
+        "POST",
+        "/api/organizations/branding",
         data,
       );
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: &quot;Branding saved&quot;,
-        description: &quot;Organization branding has been updated successfully.&quot;,
+        title: "Branding saved",
+        description: "Organization branding has been updated successfully.",
       });
       queryClient.invalidateQueries({
         queryKey: [
@@ -174,11 +174,11 @@ function OrganizationBrandingPage() {
     },
     onError: (error: Error) => {
       toast({
-        title: &quot;Error saving branding&quot;,
+        title: "Error saving branding",
         description:
           error.message ||
-          &quot;There was an error saving the organization branding.&quot;,
-        variant: &quot;destructive&quot;,
+          "There was an error saving the organization branding.",
+        variant: "destructive",
       });
     },
   });
@@ -189,8 +189,8 @@ function OrganizationBrandingPage() {
 
   if (isOrgLoading || isBrandingLoading || !organizationId) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -199,43 +199,43 @@ function OrganizationBrandingPage() {
   const canCustomize = brandingData?.can_customize;
 
   return (
-    <div className=&quot;container mx-auto py-6&quot;>
-      <div className=&quot;flex items-center mb-6&quot;>
+    <div className="container mx-auto py-6">
+      <div className="flex items-center mb-6">
         <Button
-          variant=&quot;ghost&quot;
-          onClick={() => router.push(&quot;/admin/organizations&quot;)}
-          className=&quot;mr-4&quot;
+          variant="ghost"
+          onClick={() => router.push("/admin/organizations")}
+          className="mr-4"
         >
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Organizations
         </Button>
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">
             Organization Branding
           </h1>
-          <p className=&quot;text-muted-foreground&quot;>
-            {organization?.name || &quot;Organization&quot;} - Customize branding
+          <p className="text-muted-foreground">
+            {organization?.name || "Organization"} - Customize branding
           </p>
         </div>
       </div>
 
-      <Separator className=&quot;my-6&quot; />
+      <Separator className="my-6" />
 
       {!canCustomize && (
-        <Alert className=&quot;mb-6&quot;>
-          <Info className=&quot;h-4 w-4&quot; />
+        <Alert className="mb-6">
+          <Info className="h-4 w-4" />
           <AlertTitle>Tier Limitation</AlertTitle>
           <AlertDescription>
             Branding customization is only available for Tier 3 organizations or
             with special permissions.
-            {organization?.tier !== &quot;tier_3&quot; &&
-              &quot; Consider upgrading to Tier 3 to access this feature.&quot;}
+            {organization?.tier !== "tier_3" &&
+              " Consider upgrading to Tier 3 to access this feature."}
           </AlertDescription>
         </Alert>
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-8&quot;>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Visual Branding</CardTitle>
@@ -244,18 +244,18 @@ function OrganizationBrandingPage() {
                 platform.
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-6&quot;>
+            <CardContent className="space-y-6">
               <FormField
                 control={form.control}
-                name=&quot;logo_url&quot;
+                name="logo_url"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Logo URL</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;https://example.com/logo.png&quot;
+                        placeholder="https://example.com/logo.png"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                         disabled={!canCustomize}
                       />
                     </FormControl>
@@ -267,26 +267,26 @@ function OrganizationBrandingPage() {
                 )}
               />
 
-              <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-6&quot;>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <FormField
                   control={form.control}
-                  name=&quot;primary_color&quot;
+                  name="primary_color"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Primary Color</FormLabel>
-                      <div className=&quot;flex gap-2&quot;>
+                      <div className="flex gap-2">
                         <FormControl>
                           <Input
-                            type=&quot;text&quot;
+                            type="text"
                             {...field}
                             disabled={!canCustomize}
                           />
                         </FormControl>
                         <Input
-                          type=&quot;color&quot;
-                          value={field.value || &quot;#00A8A8&quot;}
+                          type="color"
+                          value={field.value || "#00A8A8"}
                           onChange={(e) => field.onChange(e.target.value)}
-                          className=&quot;w-12 p-1 h-10&quot;
+                          className="w-12 p-1 h-10"
                           disabled={!canCustomize}
                         />
                       </div>
@@ -297,23 +297,23 @@ function OrganizationBrandingPage() {
 
                 <FormField
                   control={form.control}
-                  name=&quot;secondary_color&quot;
+                  name="secondary_color"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Secondary Color</FormLabel>
-                      <div className=&quot;flex gap-2&quot;>
+                      <div className="flex gap-2">
                         <FormControl>
                           <Input
-                            type=&quot;text&quot;
+                            type="text"
                             {...field}
                             disabled={!canCustomize}
                           />
                         </FormControl>
                         <Input
-                          type=&quot;color&quot;
-                          value={field.value || &quot;#675EA9&quot;}
+                          type="color"
+                          value={field.value || "#675EA9"}
                           onChange={(e) => field.onChange(e.target.value)}
-                          className=&quot;w-12 p-1 h-10&quot;
+                          className="w-12 p-1 h-10"
                           disabled={!canCustomize}
                         />
                       </div>
@@ -324,23 +324,23 @@ function OrganizationBrandingPage() {
 
                 <FormField
                   control={form.control}
-                  name=&quot;accent_color&quot;
+                  name="accent_color"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Accent Color</FormLabel>
-                      <div className=&quot;flex gap-2&quot;>
+                      <div className="flex gap-2">
                         <FormControl>
                           <Input
-                            type=&quot;text&quot;
+                            type="text"
                             {...field}
                             disabled={!canCustomize}
                           />
                         </FormControl>
                         <Input
-                          type=&quot;color&quot;
-                          value={field.value || &quot;#2DD4BF&quot;}
+                          type="color"
+                          value={field.value || "#2DD4BF"}
                           onChange={(e) => field.onChange(e.target.value)}
-                          className=&quot;w-12 p-1 h-10&quot;
+                          className="w-12 p-1 h-10"
                           disabled={!canCustomize}
                         />
                       </div>
@@ -352,15 +352,15 @@ function OrganizationBrandingPage() {
 
               <FormField
                 control={form.control}
-                name=&quot;font_family&quot;
+                name="font_family"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Font Family</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;Inter, sans-serif&quot;
+                        placeholder="Inter, sans-serif"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                         disabled={!canCustomize}
                       />
                     </FormControl>
@@ -374,15 +374,15 @@ function OrganizationBrandingPage() {
 
               <FormField
                 control={form.control}
-                name=&quot;favicon_url&quot;
+                name="favicon_url"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Favicon URL</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;https://example.com/favicon.ico&quot;
+                        placeholder="https://example.com/favicon.ico"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                         disabled={!canCustomize}
                       />
                     </FormControl>
@@ -403,19 +403,19 @@ function OrganizationBrandingPage() {
                 Configure advanced branding options for the organization.
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-6&quot;>
+            <CardContent className="space-y-6">
               <FormField
                 control={form.control}
-                name=&quot;custom_css&quot;
+                name="custom_css"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Custom CSS</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder=&quot;.custom-class { color: #333; }&quot;
+                        placeholder=".custom-class { color: #333; }"
                         {...field}
-                        value={field.value || &quot;&quot;}
-                        className=&quot;font-mono h-32&quot;
+                        value={field.value || ""}
+                        className="font-mono h-32"
                         disabled={!canCustomize}
                       />
                     </FormControl>
@@ -429,70 +429,70 @@ function OrganizationBrandingPage() {
             </CardContent>
             <CardFooter>
               <Button
-                type=&quot;submit&quot;
+                type="submit"
                 disabled={saveBrandingMutation.isPending || !canCustomize}
-                className=&quot;ml-auto&quot;
+                className="ml-auto"
               >
                 {saveBrandingMutation.isPending && (
-                  <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 {!saveBrandingMutation.isPending && (
-                  <PaintBucket className=&quot;mr-2 h-4 w-4&quot; />
+                  <PaintBucket className="mr-2 h-4 w-4" />
                 )}
                 Save Branding
               </Button>
             </CardFooter>
           </Card>
 
-          <div className=&quot;p-4 border rounded-lg bg-muted/50&quot;>
-            <h3 className=&quot;font-semibold mb-2&quot;>Branding Preview</h3>
+          <div className="p-4 border rounded-lg bg-muted/50">
+            <h3 className="font-semibold mb-2">Branding Preview</h3>
             <div
-              className=&quot;p-6 border rounded-lg bg-white dark:bg-slate-900&quot;
+              className="p-6 border rounded-lg bg-white dark:bg-slate-900"
               style={
                 {
-                  &quot;--primary-color&quot;: form.watch(&quot;primary_color&quot;) || &quot;#00A8A8&quot;,
-                  &quot;--secondary-color&quot;:
-                    form.watch(&quot;secondary_color&quot;) || &quot;#675EA9&quot;,
-                  &quot;--accent-color&quot;: form.watch(&quot;accent_color&quot;) || &quot;#2DD4BF&quot;,
+                  "--primary-color": form.watch("primary_color") || "#00A8A8",
+                  "--secondary-color":
+                    form.watch("secondary_color") || "#675EA9",
+                  "--accent-color": form.watch("accent_color") || "#2DD4BF",
                 } as React.CSSProperties
               }
             >
               <div
-                className=&quot;h-12 w-full mb-4 bg-[var(--primary-color)]&quot;
+                className="h-12 w-full mb-4 bg-[var(--primary-color)]"
                 style={{
-                  fontFamily: form.watch(&quot;font_family&quot;) || &quot;Inter, sans-serif&quot;,
+                  fontFamily: form.watch("font_family") || "Inter, sans-serif",
                 }}
               >
-                <div className=&quot;h-full flex items-center px-4 text-white font-medium&quot;>
-                  {form.watch(&quot;logo_url&quot;) ? (
+                <div className="h-full flex items-center px-4 text-white font-medium">
+                  {form.watch("logo_url") ? (
                     <img
-                      src={form.watch(&quot;logo_url&quot;) || &quot;&quot;}
-                      alt=&quot;Organization Logo&quot;
-                      className=&quot;h-8 max-w-[160px] object-contain&quot;
+                      src={form.watch("logo_url") || ""}
+                      alt="Organization Logo"
+                      className="h-8 max-w-[160px] object-contain"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          &quot;data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 100 100%22%3E%3Crect fill%3D%22%23CCC%22 width%3D%22100%22 height%3D%22100%22%2F%3E%3Cpath fill%3D%22%23FFF%22 d%3D%22M34 46h32v8H34z%22%2F%3E%3C%2Fsvg%3E&quot;;
+                          "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 viewBox%3D%220 0 100 100%22%3E%3Crect fill%3D%22%23CCC%22 width%3D%22100%22 height%3D%22100%22%2F%3E%3Cpath fill%3D%22%23FFF%22 d%3D%22M34 46h32v8H34z%22%2F%3E%3C%2Fsvg%3E";
                       }}
                     />
                   ) : (
-                    <span>{organization?.name || &quot;Organization Name&quot;}</span>
+                    <span>{organization?.name || "Organization Name"}</span>
                   )}
                 </div>
               </div>
-              <div className=&quot;flex gap-2 mb-4&quot;>
-                <div className=&quot;h-8 px-4 flex items-center justify-center text-white text-sm font-medium rounded-md bg-[var(--primary-color)]&quot;>
+              <div className="flex gap-2 mb-4">
+                <div className="h-8 px-4 flex items-center justify-center text-white text-sm font-medium rounded-md bg-[var(--primary-color)]">
                   Primary Button
                 </div>
-                <div className=&quot;h-8 px-4 flex items-center justify-center text-[var(--primary-color)] text-sm font-medium rounded-md bg-white border border-[var(--primary-color)]&quot;>
+                <div className="h-8 px-4 flex items-center justify-center text-[var(--primary-color)] text-sm font-medium rounded-md bg-white border border-[var(--primary-color)]">
                   Secondary Button
                 </div>
-                <div className=&quot;h-8 px-4 flex items-center justify-center text-white text-sm font-medium rounded-md bg-[var(--accent-color)]&quot;>
+                <div className="h-8 px-4 flex items-center justify-center text-white text-sm font-medium rounded-md bg-[var(--accent-color)]">
                   Accent Button
                 </div>
               </div>
-              <div className=&quot;h-4 w-1/2 rounded-full bg-[var(--secondary-color)] mb-4&quot;></div>
-              <div className=&quot;h-4 w-3/4 rounded-full bg-[var(--secondary-color)] opacity-70 mb-4&quot;></div>
-              <div className=&quot;h-4 w-1/3 rounded-full bg-[var(--secondary-color)] opacity-40 mb-4"></div>
+              <div className="h-4 w-1/2 rounded-full bg-[var(--secondary-color)] mb-4"></div>
+              <div className="h-4 w-3/4 rounded-full bg-[var(--secondary-color)] opacity-70 mb-4"></div>
+              <div className="h-4 w-1/3 rounded-full bg-[var(--secondary-color)] opacity-40 mb-4"></div>
             </div>
           </div>
         </form>

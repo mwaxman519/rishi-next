@@ -9,13 +9,13 @@
 // Only use in client components with 'use client' directive
 export const GOOGLE_MAPS_API_KEY =
   process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
-  &quot;AIzaSyA3tzNS4vtTfjkVMoB7zYC35NS4lG2DI5U&quot;;
+  "AIzaSyA3tzNS4vtTfjkVMoB7zYC35NS4lG2DI5U";
 
 // Google Maps API configuration options
-export const GOOGLE_MAPS_LIBRARIES = [&quot;places&quot;, &quot;marker&quot;];
-export const GOOGLE_MAPS_VERSION = &quot;weekly&quot;;
+export const GOOGLE_MAPS_LIBRARIES = ["places", "marker"];
+export const GOOGLE_MAPS_VERSION = "weekly";
 export const GOOGLE_MAPS_ID =
-  process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID || &quot;8bb5ff3cc2e55613&quot;; // Default Map ID for advanced markers
+  process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID || "8bb5ff3cc2e55613"; // Default Map ID for advanced markers
 
 // Centralized Loader configuration to prevent duplicate loading errors
 export const getGoogleMapsLoaderConfig = () => ({
@@ -38,14 +38,14 @@ export const getGoogleMapsOptions = (
   zoomControl: showControls,
   mapId: GOOGLE_MAPS_ID, // Add Map ID for advanced markers
   styles:
-    theme === &quot;dark&quot;
+    theme === "dark"
       ? [
-          { elementType: &quot;geometry&quot;, stylers: [{ color: &quot;#242f3e&quot; }] },
+          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
           {
-            elementType: &quot;labels.text.stroke&quot;,
-            stylers: [{ color: &quot;#242f3e&quot; }],
+            elementType: "labels.text.stroke",
+            stylers: [{ color: "#242f3e" }],
           },
-          { elementType: &quot;labels.text.fill&quot;, stylers: [{ color: &quot;#746855&quot; }] },
+          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
         ]
       : [],
 });

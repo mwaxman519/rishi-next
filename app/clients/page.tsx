@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Building,
   Users,
@@ -15,37 +15,37 @@ import {
   CreditCard,
   Layers,
   Store,
-} from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
+} from "lucide-react";
+import Link from "next/link";
 
 export default function ClientsPage() {
   return (
-    <div className=&quot;container mx-auto py-6 space-y-8&quot;>
-      <div className=&quot;flex justify-between items-center&quot;>
-        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Client Management</h1>
+    <div className="container mx-auto py-6 space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold tracking-tight">Client Management</h1>
       </div>
 
-      <Tabs defaultValue=&quot;directory&quot; className=&quot;w-full&quot;>
-        <TabsList className=&quot;mb-4&quot;>
-          <TabsTrigger value=&quot;directory&quot;>Directory</TabsTrigger>
-          <TabsTrigger value=&quot;profile&quot;>Profile</TabsTrigger>
-          <TabsTrigger value=&quot;brands&quot;>Brands</TabsTrigger>
-          <TabsTrigger value=&quot;locations&quot;>Locations</TabsTrigger>
-          <TabsTrigger value=&quot;users&quot;>Users</TabsTrigger>
-          <TabsTrigger value=&quot;billing&quot;>Billing</TabsTrigger>
+      <Tabs defaultValue="directory" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="directory">Directory</TabsTrigger>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="brands">Brands</TabsTrigger>
+          <TabsTrigger value="locations">Locations</TabsTrigger>
+          <TabsTrigger value="users">Users</TabsTrigger>
+          <TabsTrigger value="billing">Billing</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;directory&quot; className=&quot;space-y-6&quot;>
-          <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="directory" className="space-y-6">
+          <p className="text-muted-foreground">
             View and manage all client organizations in the system.
           </p>
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Client Card */}
-            <Card className=&quot;transition-all hover:shadow-md&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <CardTitle className=&quot;flex items-center&quot;>
-                  <Building className=&quot;mr-2 h-5 w-5 text-primary&quot; />
+            <Card className="transition-all hover:shadow-md">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center">
+                  <Building className="mr-2 h-5 w-5 text-primary" />
                   Acme Corporation
                 </CardTitle>
                 <CardDescription>
@@ -53,28 +53,28 @@ export default function ClientsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-sm space-y-2&quot;>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Brands:</span>
-                    <span className=&quot;font-medium&quot;>3</span>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Brands:</span>
+                    <span className="font-medium">3</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Locations:</span>
-                    <span className=&quot;font-medium&quot;>12</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Locations:</span>
+                    <span className="font-medium">12</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Users:</span>
-                    <span className=&quot;font-medium&quot;>8</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Users:</span>
+                    <span className="font-medium">8</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Regions:</span>
-                    <span className=&quot;font-medium&quot;>5 states</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Regions:</span>
+                    <span className="font-medium">5 states</span>
                   </div>
                 </div>
-                <div className=&quot;mt-4 flex justify-end&quot;>
+                <div className="mt-4 flex justify-end">
                   <Link
-                    href=&quot;/clients/profile?id=1&quot;
-                    className=&quot;text-sm font-medium text-primary hover:underline&quot;
+                    href="/clients/profile?id=1"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
                     Manage Client →
                   </Link>
@@ -83,37 +83,37 @@ export default function ClientsPage() {
             </Card>
 
             {/* Placeholder for more clients */}
-            <Card className=&quot;bg-muted/50 border-dashed transition-all hover:shadow-md&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <CardTitle className=&quot;flex items-center&quot;>
-                  <Building className=&quot;mr-2 h-5 w-5 text-muted-foreground&quot; />
+            <Card className="bg-muted/50 border-dashed transition-all hover:shadow-md">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center">
+                  <Building className="mr-2 h-5 w-5 text-muted-foreground" />
                   Globex Industries
                 </CardTitle>
                 <CardDescription>Tier 3 - White-label service</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-sm space-y-2&quot;>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Brands:</span>
-                    <span className=&quot;font-medium&quot;>2</span>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Brands:</span>
+                    <span className="font-medium">2</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Locations:</span>
-                    <span className=&quot;font-medium&quot;>5</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Locations:</span>
+                    <span className="font-medium">5</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Users:</span>
-                    <span className=&quot;font-medium&quot;>4</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Users:</span>
+                    <span className="font-medium">4</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Regions:</span>
-                    <span className=&quot;font-medium&quot;>3 states</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Regions:</span>
+                    <span className="font-medium">3 states</span>
                   </div>
                 </div>
-                <div className=&quot;mt-4 flex justify-end&quot;>
+                <div className="mt-4 flex justify-end">
                   <Link
-                    href=&quot;/clients/profile?id=2&quot;
-                    className=&quot;text-sm font-medium text-primary hover:underline&quot;
+                    href="/clients/profile?id=2"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
                     Manage Client →
                   </Link>
@@ -122,63 +122,63 @@ export default function ClientsPage() {
             </Card>
 
             {/* Add new client card */}
-            <Card className=&quot;border-dashed border-primary/20 bg-muted/30 transition-all hover:shadow-md hover:border-primary/40&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <CardTitle className=&quot;flex items-center text-primary&quot;>
-                  <Building className=&quot;mr-2 h-5 w-5&quot; />
+            <Card className="border-dashed border-primary/20 bg-muted/30 transition-all hover:shadow-md hover:border-primary/40">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center text-primary">
+                  <Building className="mr-2 h-5 w-5" />
                   Add New Client
                 </CardTitle>
                 <CardDescription>
                   Create a new client organization
                 </CardDescription>
               </CardHeader>
-              <CardContent className=&quot;flex flex-col items-center justify-center py-8&quot;>
+              <CardContent className="flex flex-col items-center justify-center py-8">
                 <Link
-                  href=&quot;/clients/new&quot;
-                  className=&quot;h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors&quot;
+                  href="/clients/new"
+                  className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors"
                 >
-                  <span className=&quot;text-2xl font-semibold&quot;>+</span>
+                  <span className="text-2xl font-semibold">+</span>
                 </Link>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;profile&quot;>
-          <div className=&quot;flex items-center justify-center h-64&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="profile">
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">
               Select a client from the directory to view and edit their profile.
             </p>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;brands&quot;>
-          <div className=&quot;flex items-center justify-center h-64&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="brands">
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">
               Select a client to manage their brands.
             </p>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;locations&quot;>
-          <div className=&quot;flex items-center justify-center h-64&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="locations">
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">
               Select a client to manage their locations and venues.
             </p>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;users&quot;>
-          <div className=&quot;flex items-center justify-center h-64&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="users">
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">
               Select a client to manage their user accounts.
             </p>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;billing&quot;>
-          <div className=&quot;flex items-center justify-center h-64&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="billing">
+          <div className="flex items-center justify-center h-64">
+            <p className="text-muted-foreground">
               Select a client to view and manage billing information.
             </p>
           </div>

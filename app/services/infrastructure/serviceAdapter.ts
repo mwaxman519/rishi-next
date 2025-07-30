@@ -58,9 +58,9 @@ export class RemoteServiceAdapter<T extends object>
 export class DefaultApiClient implements ApiClient {
   async get<T>(url: string, options?: any): Promise<T> {
     const response = await fetch(url, {
-      method: &quot;GET&quot;,
+      method: "GET",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
         ...options?.headers,
       },
     });
@@ -70,9 +70,9 @@ export class DefaultApiClient implements ApiClient {
 
   async post<T>(url: string, data: any, options?: any): Promise<T> {
     const response = await fetch(url, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
         ...options?.headers,
       },
       body: JSON.stringify(data),
@@ -83,9 +83,9 @@ export class DefaultApiClient implements ApiClient {
 
   async put<T>(url: string, data: any, options?: any): Promise<T> {
     const response = await fetch(url, {
-      method: &quot;PUT&quot;,
+      method: "PUT",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
         ...options?.headers,
       },
       body: JSON.stringify(data),
@@ -96,9 +96,9 @@ export class DefaultApiClient implements ApiClient {
 
   async delete<T>(url: string, options?: any): Promise<T> {
     const response = await fetch(url, {
-      method: &quot;DELETE&quot;,
+      method: "DELETE",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
         ...options?.headers,
       },
     });

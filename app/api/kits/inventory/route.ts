@@ -1,18 +1,18 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { z } from &quot;zod&quot;;
-import { db } from &quot;../../../../lib/db-connection&quot;;
+import { z } from "zod";
+import { db } from "../../../../lib/db-connection";
 import {
   kitComponentInventory,
   insertKitComponentInventorySchema,
   kits,
-} from &quot;@shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { getOrganizationHeaderData } from &quot;@/lib/organization-context&quot;;
-import { checkPermission } from &quot;@/lib/rbac&quot;;
+} from "@shared/schema";
+import { eq, and } from "drizzle-orm";
+import { getOrganizationHeaderData } from "@/lib/organization-context";
+import { checkPermission } from "@/lib/rbac";
 
 // GET /api/kits/inventory
 export async function GET(req: NextRequest) {
@@ -21,10 +21,10 @@ export async function GET(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to view kit inventory
-    const hasPermission = await checkPermission(req, &quot;read:staff&quot;);
+    const hasPermission = await checkPermission(req, "read:staff");
     if (!hasPermission) {
       return NextResponse.json(
-        { error: &quot;You do not have permission to view kit inventory&quot; },
+        { error: "You do not have permission to view kit inventory" },
         { status: 403 },
       );
     }
@@ -32,8 +32,8 @@ export async function GET(req: NextRequest) {
     // Get query parameters
     const url = new URL(req.url);
     const searchParams = url.searchParams;
-    const kitId = (searchParams.get(&quot;kitId&quot;) || undefined);
-    const lowStock = (searchParams.get(&quot;lowStock&quot;) || undefined);
+    const kitId = (searchParams.get("kitId") || undefined);
+    const lowStock = (searchParams.get("lowStock") || undefined);
 
     // Build the query
     let query = db.select().from(kitComponentInventory);
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
       query = query.where(eq(kitComponentInventory.kitId, parseInt(kitId)));
     }
 
-    if (lowStock === &quot;true&quot;) {
+    if (lowStock === "true") {
       // Get components where quantity is below lowThreshold
       query = query.where(
         and(
@@ -60,9 +60,9 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(inventory);
   } catch (error) {
-    console.error(&quot;Error fetching kit inventory:&quot;, error);
+    console.error("Error fetching kit inventory:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch kit inventory&quot; },
+      { error: "Failed to fetch kit inventory" },
       { status: 500 },
     );
   }
@@ -75,10 +75,10 @@ export async function POST(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to update kit inventory
-    const hasPermission = await checkPermission(req, &quot;update:staff&quot;);
+    const hasPermission = await checkPermission(req, "update:staff");
     if (!hasPermission) {
       return NextResponse.json(
-        { error: &quot;You do not have permission to update kit inventory&quot; },
+        { error: "You do not have permission to update kit inventory" },
         { status: 403 },
       );
     }
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
     const [kit] = await db.select().from(kits).where(eq(kits.id, kitId));
     if (!kit) {
       return NextResponse.json(
-        { error: &quot;Kit does not exist&quot; },
+        { error: "Kit does not exist" },
         { status: 400 },
       );
     }
@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
       result = inserted;
     }
 
-    // Update the kit&apos;s last inventory date
+    // Update the kit's last inventory date
     await db
       .update(kits)
       .set({ lastInventoryDate: new Date(), updated_at: new Date() })
@@ -145,15 +145,15 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
-    console.error(&quot;Error updating kit inventory:&quot;, error);
+    console.error("Error updating kit inventory:", error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: &quot;Validation error&quot;, details: error.errors },
+        { error: "Validation error", details: error.errors },
         { status: 400 },
       );
     }
     return NextResponse.json(
-      { error: &quot;Failed to update kit inventory&quot; },
+      { error: "Failed to update kit inventory" },
       { status: 500 },
     );
   }

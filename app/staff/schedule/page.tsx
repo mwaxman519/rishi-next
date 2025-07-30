@@ -1,16 +1,16 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Avatar, AvatarFallback } from &quot;@/components/ui/avatar&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Calendar,
   Clock,
@@ -25,133 +25,133 @@ import {
   UserCheck,
   AlertCircle,
   CheckCircle,
-} from &quot;lucide-react&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 
 // Authentic schedule data with UUID format following architectural guidelines
 const scheduleData = [
   {
-    id: &quot;770e8400-e29b-41d4-a716-446655440001&quot;,
-    eventId: &quot;j0k1l2m3-n4o5-6789-jklm-012345678901&quot;,
-    eventTitle: &quot;Product Launch - Downtown Mall&quot;,
-    date: &quot;2025-06-18&quot;,
-    startTime: &quot;10:00&quot;,
-    endTime: &quot;18:00&quot;,
-    location: &quot;Downtown Shopping Mall&quot;,
-    client: &quot;TechHub Events&quot;,
+    id: "770e8400-e29b-41d4-a716-446655440001",
+    eventId: "j0k1l2m3-n4o5-6789-jklm-012345678901",
+    eventTitle: "Product Launch - Downtown Mall",
+    date: "2025-06-18",
+    startTime: "10:00",
+    endTime: "18:00",
+    location: "Downtown Shopping Mall",
+    client: "TechHub Events",
     requiredStaff: 5,
     assignedStaff: 4,
-    status: &quot;needs_staff&quot;,
+    status: "needs_staff",
     assignments: [
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440001&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440001&quot;,
-        staffName: &quot;Taylor Martinez&quot;,
-        role: &quot;Lead Brand Agent&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440001",
+        staffId: "660e8400-e29b-41d4-a716-446655440001",
+        staffName: "Taylor Martinez",
+        role: "Lead Brand Agent",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440002&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440003&quot;,
-        staffName: &quot;Hannah Wilson&quot;,
-        role: &quot;Brand Agent&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440002",
+        staffId: "660e8400-e29b-41d4-a716-446655440003",
+        staffName: "Hannah Wilson",
+        role: "Brand Agent",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440003&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440004&quot;,
-        staffName: &quot;Justin Moore&quot;,
-        role: &quot;Brand Agent&quot;,
-        status: &quot;pending&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440003",
+        staffId: "660e8400-e29b-41d4-a716-446655440004",
+        staffName: "Justin Moore",
+        role: "Brand Agent",
+        status: "pending",
         checkInTime: null,
         checkOutTime: null,
       },
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440004&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440005&quot;,
-        staffName: &quot;Nicole Lee&quot;,
-        role: &quot;Product Specialist&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440004",
+        staffId: "660e8400-e29b-41d4-a716-446655440005",
+        staffName: "Nicole Lee",
+        role: "Product Specialist",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
     ],
   },
   {
-    id: &quot;770e8400-e29b-41d4-a716-446655440002&quot;,
-    eventId: &quot;k1l2m3n4-o5p6-7890-klmn-123456789012&quot;,
-    eventTitle: &quot;Summer Brand Activation&quot;,
-    date: &quot;2025-06-20&quot;,
-    startTime: &quot;12:00&quot;,
-    endTime: &quot;20:00&quot;,
-    location: &quot;Central Park Plaza&quot;,
-    client: &quot;Premium Events Ltd&quot;,
+    id: "770e8400-e29b-41d4-a716-446655440002",
+    eventId: "k1l2m3n4-o5p6-7890-klmn-123456789012",
+    eventTitle: "Summer Brand Activation",
+    date: "2025-06-20",
+    startTime: "12:00",
+    endTime: "20:00",
+    location: "Central Park Plaza",
+    client: "Premium Events Ltd",
     requiredStaff: 6,
     assignedStaff: 6,
-    status: &quot;fully_staffed&quot;,
+    status: "fully_staffed",
     assignments: [
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440005&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440001&quot;,
-        staffName: &quot;Taylor Martinez&quot;,
-        role: &quot;Event Coordinator&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440005",
+        staffId: "660e8400-e29b-41d4-a716-446655440001",
+        staffName: "Taylor Martinez",
+        role: "Event Coordinator",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440006&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440003&quot;,
-        staffName: &quot;Hannah Wilson&quot;,
-        role: &quot;Brand Agent&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440006",
+        staffId: "660e8400-e29b-41d4-a716-446655440003",
+        staffName: "Hannah Wilson",
+        role: "Brand Agent",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440007&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440004&quot;,
-        staffName: &quot;Justin Moore&quot;,
-        role: &quot;Brand Agent&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440007",
+        staffId: "660e8400-e29b-41d4-a716-446655440004",
+        staffName: "Justin Moore",
+        role: "Brand Agent",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440008&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440005&quot;,
-        staffName: &quot;Nicole Lee&quot;,
-        role: &quot;Brand Agent&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440008",
+        staffId: "660e8400-e29b-41d4-a716-446655440005",
+        staffName: "Nicole Lee",
+        role: "Brand Agent",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
     ],
   },
   {
-    id: &quot;770e8400-e29b-41d4-a716-446655440003&quot;,
-    eventId: &quot;l2m3n4o5-p6q7-8901-lmno-234567890123&quot;,
-    eventTitle: &quot;Corporate Trade Show&quot;,
-    date: &quot;2025-06-22&quot;,
-    startTime: &quot;09:00&quot;,
-    endTime: &quot;17:00&quot;,
-    location: &quot;Convention Center Hall A&quot;,
-    client: &quot;Acme Corp&quot;,
+    id: "770e8400-e29b-41d4-a716-446655440003",
+    eventId: "l2m3n4o5-p6q7-8901-lmno-234567890123",
+    eventTitle: "Corporate Trade Show",
+    date: "2025-06-22",
+    startTime: "09:00",
+    endTime: "17:00",
+    location: "Convention Center Hall A",
+    client: "Acme Corp",
     requiredStaff: 8,
     assignedStaff: 7,
-    status: &quot;needs_staff&quot;,
+    status: "needs_staff",
     assignments: [
       {
-        id: &quot;880e8400-e29b-41d4-a716-446655440009&quot;,
-        staffId: &quot;660e8400-e29b-41d4-a716-446655440001&quot;,
-        staffName: &quot;Taylor Martinez&quot;,
-        role: &quot;Lead Coordinator&quot;,
-        status: &quot;confirmed&quot;,
+        id: "880e8400-e29b-41d4-a716-446655440009",
+        staffId: "660e8400-e29b-41d4-a716-446655440001",
+        staffName: "Taylor Martinez",
+        role: "Lead Coordinator",
+        status: "confirmed",
         checkInTime: null,
         checkOutTime: null,
       },
@@ -193,62 +193,62 @@ const ScheduleEventCard = ({
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case &quot;fully_staffed&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
-      case &quot;needs_staff&quot;:
-        return &quot;bg-orange-100 text-orange-800 border-orange-200&quot;;
-      case &quot;overstaffed&quot;:
-        return &quot;bg-blue-100 text-blue-800 border-blue-200&quot;;
-      case &quot;cancelled&quot;:
-        return &quot;bg-red-100 text-red-800 border-red-200&quot;;
+      case "fully_staffed":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "needs_staff":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "overstaffed":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "cancelled":
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case &quot;fully_staffed&quot;:
-        return <CheckCircle className=&quot;h-4 w-4&quot; />;
-      case &quot;needs_staff&quot;:
-        return <AlertCircle className=&quot;h-4 w-4&quot; />;
-      case &quot;overstaffed&quot;:
-        return <Users className=&quot;h-4 w-4&quot; />;
+      case "fully_staffed":
+        return <CheckCircle className="h-4 w-4" />;
+      case "needs_staff":
+        return <AlertCircle className="h-4 w-4" />;
+      case "overstaffed":
+        return <Users className="h-4 w-4" />;
       default:
-        return <Clock className=&quot;h-4 w-4&quot; />;
+        return <Clock className="h-4 w-4" />;
     }
   };
 
   const getAssignmentStatusColor = (status: string) => {
     switch (status) {
-      case &quot;confirmed&quot;:
-        return &quot;bg-green-100 text-green-800&quot;;
-      case &quot;pending&quot;:
-        return &quot;bg-yellow-100 text-yellow-800&quot;;
-      case &quot;declined&quot;:
-        return &quot;bg-red-100 text-red-800&quot;;
+      case "confirmed":
+        return "bg-green-100 text-green-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "declined":
+        return "bg-red-100 text-red-800";
       default:
-        return &quot;bg-gray-100 text-gray-800&quot;;
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <Card className=&quot;hover:shadow-lg transition-all duration-200&quot;>
-      <CardHeader className=&quot;pb-4&quot;>
-        <div className=&quot;flex items-start justify-between&quot;>
-          <div className=&quot;flex-1&quot;>
-            <CardTitle className=&quot;text-lg&quot;>{event.eventTitle}</CardTitle>
-            <CardDescription className=&quot;mt-2 space-y-1&quot;>
-              <div className=&quot;flex items-center&quot;>
-                <Calendar className=&quot;h-4 w-4 mr-2&quot; />
+    <Card className="hover:shadow-lg transition-all duration-200">
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <CardTitle className="text-lg">{event.eventTitle}</CardTitle>
+            <CardDescription className="mt-2 space-y-1">
+              <div className="flex items-center">
+                <Calendar className="h-4 w-4 mr-2" />
                 <span>{event.date}</span>
-                <Clock className=&quot;h-4 w-4 ml-4 mr-2&quot; />
+                <Clock className="h-4 w-4 ml-4 mr-2" />
                 <span>
                   {event.startTime} - {event.endTime}
                 </span>
               </div>
-              <div className=&quot;flex items-center&quot;>
-                <MapPin className=&quot;h-4 w-4 mr-2&quot; />
+              <div className="flex items-center">
+                <MapPin className="h-4 w-4 mr-2" />
                 <span>{event.location}</span>
               </div>
             </CardDescription>
@@ -257,28 +257,28 @@ const ScheduleEventCard = ({
             className={`${getStatusColor(event.status)} border flex items-center gap-1`}
           >
             {getStatusIcon(event.status)}
-            {event.status.replace(&quot;_&quot;, &quot; &quot;).toUpperCase()}
+            {event.status.replace("_", " ").toUpperCase()}
           </Badge>
         </div>
       </CardHeader>
 
-      <CardContent className=&quot;space-y-4&quot;>
+      <CardContent className="space-y-4">
         {/* Staffing Overview */}
-        <div className=&quot;bg-blue-50 rounded-lg p-4&quot;>
-          <div className=&quot;flex items-center justify-between mb-2&quot;>
-            <div className=&quot;flex items-center&quot;>
-              <Users className=&quot;h-4 w-4 mr-2 text-blue-600&quot; />
-              <span className=&quot;text-sm font-medium text-blue-800&quot;>
+        <div className="bg-blue-50 rounded-lg p-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center">
+              <Users className="h-4 w-4 mr-2 text-blue-600" />
+              <span className="text-sm font-medium text-blue-800">
                 Staffing Status
               </span>
             </div>
-            <span className=&quot;text-sm font-bold text-blue-800&quot;>
+            <span className="text-sm font-bold text-blue-800">
               {event.assignedStaff}/{event.requiredStaff}
             </span>
           </div>
-          <div className=&quot;w-full bg-blue-200 rounded-full h-2&quot;>
+          <div className="w-full bg-blue-200 rounded-full h-2">
             <div
-              className=&quot;bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300&quot;
+              className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300"
               style={{
                 width: `${Math.min((event.assignedStaff / event.requiredStaff) * 100, 100)}%`,
               }}
@@ -288,27 +288,27 @@ const ScheduleEventCard = ({
 
         {/* Staff Assignments */}
         <div>
-          <div className=&quot;text-sm font-medium mb-3&quot;>Assigned Staff</div>
-          <div className=&quot;space-y-2 max-h-32 overflow-y-auto&quot;>
+          <div className="text-sm font-medium mb-3">Assigned Staff</div>
+          <div className="space-y-2 max-h-32 overflow-y-auto">
             {event.assignments.map((assignment) => (
               <div
                 key={assignment.id}
-                className=&quot;flex items-center justify-between p-2 bg-gray-50 rounded-lg&quot;
+                className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
               >
-                <div className=&quot;flex items-center space-x-2&quot;>
-                  <Avatar className=&quot;h-8 w-8&quot;>
-                    <AvatarFallback className=&quot;text-xs&quot;>
+                <div className="flex items-center space-x-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="text-xs">
                       {assignment.staffName
-                        .split(&quot; &quot;)
+                        .split(" ")
                         .map((n) => n[0])
-                        .join("&quot;)}
+                        .join("")}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className=&quot;text-sm font-medium&quot;>
+                    <p className="text-sm font-medium">
                       {assignment.staffName}
                     </p>
-                    <p className=&quot;text-xs text-muted-foreground&quot;>
+                    <p className="text-xs text-muted-foreground">
                       {assignment.role}
                     </p>
                   </div>
@@ -322,38 +322,38 @@ const ScheduleEventCard = ({
             ))}
           </div>
           {event.assignments.length === 0 && (
-            <div className=&quot;text-center py-4 text-muted-foreground&quot;>
-              <UserCheck className=&quot;h-8 w-8 mx-auto mb-2 opacity-50&quot; />
-              <p className=&quot;text-sm&quot;>No staff assigned yet</p>
+            <div className="text-center py-4 text-muted-foreground">
+              <UserCheck className="h-8 w-8 mx-auto mb-2 opacity-50" />
+              <p className="text-sm">No staff assigned yet</p>
             </div>
           )}
         </div>
 
         {/* Action Buttons */}
-        <div className=&quot;flex space-x-2 pt-2 border-t&quot;>
+        <div className="flex space-x-2 pt-2 border-t">
           <Button
-            size=&quot;sm&quot;
-            className=&quot;flex-1&quot;
-            onClick={() => onAction(&quot;view&quot;, event.id)}
+            size="sm"
+            className="flex-1"
+            onClick={() => onAction("view", event.id)}
           >
-            <Eye className=&quot;h-4 w-4 mr-1&quot; />
+            <Eye className="h-4 w-4 mr-1" />
             View Details
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;edit&quot;, event.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("edit", event.id)}
           >
-            <Edit className=&quot;h-4 w-4 mr-1&quot; />
+            <Edit className="h-4 w-4 mr-1" />
             Manage
           </Button>
-          {event.status === &quot;needs_staff&quot; && (
+          {event.status === "needs_staff" && (
             <Button
-              size=&quot;sm&quot;
-              variant=&quot;outline&quot;
-              onClick={() => onAction(&quot;assign&quot;, event.id)}
+              size="sm"
+              variant="outline"
+              onClick={() => onAction("assign", event.id)}
             >
-              <Plus className=&quot;h-4 w-4 mr-1&quot; />
+              <Plus className="h-4 w-4 mr-1" />
               Add Staff
             </Button>
           )}
@@ -365,8 +365,8 @@ const ScheduleEventCard = ({
 
 export default function StaffSchedulePage() {
   const [currentWeek, setCurrentWeek] = useState(new Date());
-  const [viewMode, setViewMode] = useState(&quot;week&quot;);
-  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
+  const [viewMode, setViewMode] = useState("week");
+  const [statusFilter, setStatusFilter] = useState("all");
   const { toast } = useToast();
 
   const handleAction = async (action: string, eventId: string) => {
@@ -378,7 +378,7 @@ export default function StaffSchedulePage() {
       timestamp: new Date().toISOString(),
       scheduleEventId: eventId,
       eventTitle: event?.eventTitle,
-      initiatedBy: &quot;internal_admin&quot;,
+      initiatedBy: "internal_admin",
       metadata: {
         eventDate: event?.date,
         staffingStatus: event?.status,
@@ -388,24 +388,24 @@ export default function StaffSchedulePage() {
     };
 
     // In real implementation, this would publish to event bus
-    console.log(&quot;Publishing schedule event:&quot;, eventPayload);
+    console.log("Publishing schedule event:", eventPayload);
 
     switch (action) {
-      case &quot;view&quot;:
+      case "view":
         toast({
-          title: &quot;Event Details&quot;,
+          title: "Event Details",
           description: `Opening detailed view for ${event?.eventTitle}`,
         });
         break;
-      case &quot;edit&quot;:
+      case "edit":
         toast({
-          title: &quot;Schedule Management&quot;,
+          title: "Schedule Management",
           description: `Opening schedule editor for ${event?.eventTitle}`,
         });
         break;
-      case &quot;assign&quot;:
+      case "assign":
         toast({
-          title: &quot;Staff Assignment&quot;,
+          title: "Staff Assignment",
           description: `Opening staff assignment panel for ${event?.eventTitle}`,
         });
         break;
@@ -413,15 +413,15 @@ export default function StaffSchedulePage() {
   };
 
   const filteredEvents = scheduleData.filter((event) => {
-    return statusFilter === &quot;all&quot; || event.status === statusFilter;
+    return statusFilter === "all" || event.status === statusFilter;
   });
 
   const totalEvents = scheduleData.length;
   const fullyStaffedEvents = scheduleData.filter(
-    (e) => e.status === &quot;fully_staffed&quot;,
+    (e) => e.status === "fully_staffed",
   ).length;
   const needsStaffEvents = scheduleData.filter(
-    (e) => e.status === &quot;needs_staff&quot;,
+    (e) => e.status === "needs_staff",
   ).length;
   const totalAssignments = scheduleData.reduce(
     (sum, e) => sum + e.assignedStaff,
@@ -444,119 +444,119 @@ export default function StaffSchedulePage() {
   };
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+    <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Staff Schedule</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">Staff Schedule</h1>
+          <p className="text-muted-foreground">
             Manage staff assignments and event scheduling across all locations
           </p>
         </div>
         <Button>
-          <Plus className=&quot;mr-2 h-4 w-4&quot; />
+          <Plus className="mr-2 h-4 w-4" />
           Create Schedule
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Total Events
                 </p>
-                <p className=&quot;text-2xl font-bold&quot;>{totalEvents}</p>
+                <p className="text-2xl font-bold">{totalEvents}</p>
               </div>
-              <Calendar className=&quot;h-8 w-8 text-blue-600&quot; />
+              <Calendar className="h-8 w-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Fully Staffed
                 </p>
-                <p className=&quot;text-2xl font-bold text-green-600&quot;>
+                <p className="text-2xl font-bold text-green-600">
                   {fullyStaffedEvents}
                 </p>
               </div>
-              <CheckCircle className=&quot;h-8 w-8 text-green-600&quot; />
+              <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Needs Staff
                 </p>
-                <p className=&quot;text-2xl font-bold text-orange-600&quot;>
+                <p className="text-2xl font-bold text-orange-600">
                   {needsStaffEvents}
                 </p>
               </div>
-              <AlertCircle className=&quot;h-8 w-8 text-orange-600&quot; />
+              <AlertCircle className="h-8 w-8 text-orange-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Total Assignments
                 </p>
-                <p className=&quot;text-2xl font-bold text-purple-600&quot;>
+                <p className="text-2xl font-bold text-purple-600">
                   {totalAssignments}
                 </p>
               </div>
-              <Users className=&quot;h-8 w-8 text-purple-600&quot; />
+              <Users className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Week Navigation */}
-      <div className=&quot;flex items-center justify-between&quot;>
-        <div className=&quot;flex items-center space-x-4&quot;>
-          <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={() => navigateWeek(-1)}>
-            <ChevronLeft className=&quot;h-4 w-4&quot; />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <Button variant="outline" size="sm" onClick={() => navigateWeek(-1)}>
+            <ChevronLeft className="h-4 w-4" />
           </Button>
-          <div className=&quot;text-lg font-medium&quot;>
+          <div className="text-lg font-medium">
             {formatWeekRange(currentWeek)}
           </div>
-          <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={() => navigateWeek(1)}>
-            <ChevronRight className=&quot;h-4 w-4&quot; />
+          <Button variant="outline" size="sm" onClick={() => navigateWeek(1)}>
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className=&quot;flex items-center space-x-2&quot;>
+        <div className="flex items-center space-x-2">
           <Button
-            variant={statusFilter === &quot;all&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            size=&quot;sm&quot;
-            onClick={() => setStatusFilter(&quot;all&quot;)}
+            variant={statusFilter === "all" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setStatusFilter("all")}
           >
             All Events
           </Button>
           <Button
-            variant={statusFilter === &quot;needs_staff&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            size=&quot;sm&quot;
-            onClick={() => setStatusFilter(&quot;needs_staff&quot;)}
+            variant={statusFilter === "needs_staff" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setStatusFilter("needs_staff")}
           >
             Needs Staff
           </Button>
           <Button
-            variant={statusFilter === &quot;fully_staffed&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            size=&quot;sm&quot;
-            onClick={() => setStatusFilter(&quot;fully_staffed&quot;)}
+            variant={statusFilter === "fully_staffed" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setStatusFilter("fully_staffed")}
           >
             Fully Staffed
           </Button>
@@ -566,13 +566,13 @@ export default function StaffSchedulePage() {
       {/* Schedule View */}
       <Tabs value={viewMode} onValueChange={setViewMode}>
         <TabsList>
-          <TabsTrigger value=&quot;week&quot;>Week View</TabsTrigger>
-          <TabsTrigger value=&quot;day&quot;>Day View</TabsTrigger>
-          <TabsTrigger value=&quot;list&quot;>List View</TabsTrigger>
+          <TabsTrigger value="week">Week View</TabsTrigger>
+          <TabsTrigger value="day">Day View</TabsTrigger>
+          <TabsTrigger value="list">List View</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;week&quot; className=&quot;space-y-4 mt-6&quot;>
-          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6&quot;>
+        <TabsContent value="week" className="space-y-4 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredEvents.map((event) => (
               <ScheduleEventCard
                 key={event.id}
@@ -583,8 +583,8 @@ export default function StaffSchedulePage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;day&quot; className=&quot;space-y-4 mt-6&quot;>
-          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
+        <TabsContent value="day" className="space-y-4 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {filteredEvents.map((event) => (
               <ScheduleEventCard
                 key={event.id}
@@ -595,8 +595,8 @@ export default function StaffSchedulePage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;list&quot; className=&quot;mt-6&quot;>
-          <div className=&quot;space-y-4&quot;>
+        <TabsContent value="list" className="mt-6">
+          <div className="space-y-4">
             {filteredEvents.map((event) => (
               <ScheduleEventCard
                 key={event.id}
@@ -609,12 +609,12 @@ export default function StaffSchedulePage() {
       </Tabs>
 
       {filteredEvents.length === 0 && (
-        <div className=&quot;text-center py-12&quot;>
-          <Calendar className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
-          <h3 className=&quot;mt-4 text-lg font-medium&quot;>
+        <div className="text-center py-12">
+          <Calendar className="h-12 w-12 mx-auto text-muted-foreground/50" />
+          <h3 className="mt-4 text-lg font-medium">
             No scheduled events found
           </h3>
-          <p className=&quot;mt-2 text-muted-foreground">
+          <p className="mt-2 text-muted-foreground">
             No events match your current filter criteria.
           </p>
         </div>

@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { db } from &quot;../../../../lib/db-connection&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import * as schema from &quot;@shared/schema&quot;;
-import { comparePasswords } from &quot;@/lib/auth-server&quot;;
-import { sign } from &quot;jsonwebtoken&quot;;
+import { db } from "../../../../lib/db-connection";
+import { eq } from "drizzle-orm";
+import * as schema from "@shared/schema";
+import { comparePasswords } from "@/lib/auth-server";
+import { sign } from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     if (!username || !password) {
       return NextResponse.json(
-        { success: false, error: &quot;Username and password are required&quot; },
+        { success: false, error: "Username and password are required" },
         { status: 400 }
       );
     }
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     if (!user || !user.password) {
       console.log('Login: User not found or no password for username:', username);
       return NextResponse.json(
-        { success: false, error: &quot;Invalid credentials&quot; },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     if (!isValid) {
       console.log('Login: Password validation failed for username:', username);
       return NextResponse.json(
-        { success: false, error: &quot;Invalid credentials&quot; },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     const token = sign(
       { id: user.id, username: user.username },
       process.env.JWT_SECRET!,
-      { expiresIn: &quot;24h&quot; }
+      { expiresIn: "24h" }
     );
 
     const response = NextResponse.json({
@@ -65,18 +65,18 @@ export async function POST(req: NextRequest) {
     });
 
     // Set cookie
-    response.cookies.set(&quot;auth-token&quot;, token, {
+    response.cookies.set("auth-token", token, {
       httpOnly: true,
-      secure: (process.env.NODE_ENV as string) === &quot;production&quot;,
-      sameSite: &quot;lax&quot;,
+      secure: (process.env.NODE_ENV as string) === "production",
+      sameSite: "lax",
       maxAge: 24 * 60 * 60, // 24 hours
     });
 
     return response;
   } catch (error) {
-    console.error(&quot;Login error:&quot;, error);
+    console.error("Login error:", error);
     return NextResponse.json(
-      { success: false, error: &quot;Internal server error&quot; },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
-import { DateSelectArg } from &quot;@fullcalendar/core&quot;;
-import { format } from &quot;date-fns&quot;;
+import React, { useState, useEffect } from "react";
+import { DateSelectArg } from "@fullcalendar/core";
+import { format } from "date-fns";
 
 interface AvailabilityConflict {
   existingBlock: {
@@ -10,10 +10,10 @@ interface AvailabilityConflict {
     title: string;
     startDate: string | Date;
     endDate: string | Date;
-    status: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
+    status: "available" | "unavailable" | "tentative";
     isRecurring: boolean;
   };
-  conflictType: &quot;overlap&quot; | &quot;adjacent&quot; | &quot;contained&quot;;
+  conflictType: "overlap" | "adjacent" | "contained";
 }
 
 interface AvailabilityModalProps {
@@ -27,7 +27,7 @@ interface AvailabilityModalProps {
     recurrenceEndType?: string,
     recurrenceEndDate?: string,
     recurrenceCount?: number,
-    mergeStrategy?: &quot;merge&quot; | &quot;override&quot;,
+    mergeStrategy?: "merge" | "override",
     modifiedStartStr?: string,
     modifiedEndStr?: string,
   ) => void;
@@ -45,9 +45,9 @@ export default function AvailabilityModal({
   // Format dates and times for display and editing
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [startTimeStr, setStartTimeStr] = useState("&quot;);
-  const [endTimeStr, setEndTimeStr] = useState(&quot;&quot;);
-  const [dayStr, setDayStr] = useState(&quot;&quot;);
+  const [startTimeStr, setStartTimeStr] = useState("");
+  const [endTimeStr, setEndTimeStr] = useState("");
+  const [dayStr, setDayStr] = useState("");
 
   // Initialize dates when selectInfo changes
   useEffect(() => {
@@ -57,19 +57,19 @@ export default function AvailabilityModal({
 
       setStartDate(start);
       setEndDate(end);
-      setStartTimeStr(format(start, &quot;HH:mm&quot;));
-      setEndTimeStr(format(end, &quot;HH:mm&quot;));
-      setDayStr(format(start, &quot;EEEE, MMMM d, yyyy&quot;));
+      setStartTimeStr(format(start, "HH:mm"));
+      setEndTimeStr(format(end, "HH:mm"));
+      setDayStr(format(start, "EEEE, MMMM d, yyyy"));
     }
   }, [selectInfo]);
 
   // Form state
-  const [title, setTitle] = useState(&quot;&quot;);
-  const [status, setStatus] = useState(&quot;available&quot;);
+  const [title, setTitle] = useState("");
+  const [status, setStatus] = useState("available");
   const [isRecurring, setIsRecurring] = useState(false);
-  const [recurrencePattern, setRecurrencePattern] = useState(&quot;weekly&quot;);
-  const [recurrenceEndType, setRecurrenceEndType] = useState(&quot;date&quot;);
-  const [recurrenceEndDate, setRecurrenceEndDate] = useState(&quot;&quot;);
+  const [recurrencePattern, setRecurrencePattern] = useState("weekly");
+  const [recurrenceEndType, setRecurrenceEndType] = useState("date");
+  const [recurrenceEndDate, setRecurrenceEndDate] = useState("");
   const [recurrenceCount, setRecurrenceCount] = useState(10);
 
   // Conflict detection
@@ -77,7 +77,7 @@ export default function AvailabilityModal({
   const [hasConflicts, setHasConflicts] = useState(false);
   const [isCheckingConflicts, setIsCheckingConflicts] = useState(false);
   const [mergeStrategy, setMergeStrategy] = useState<
-    &quot;merge&quot; | &quot;override&quot; | undefined
+    "merge" | "override" | undefined
   >(undefined);
 
   // Use userId from props or fallback to default UUID
@@ -89,12 +89,12 @@ export default function AvailabilityModal({
   useEffect(() => {
     if (propUserId) {
       setUserId(propUserId);
-      console.log(&quot;Using provided userId from prop:&quot;, propUserId);
+      console.log("Using provided userId from prop:", propUserId);
     } else {
       // Use default UUID for mock user
-      const defaultUserId = &quot;00000000-0000-0000-0000-000000000001&quot;;
+      const defaultUserId = "00000000-0000-0000-0000-000000000001";
       setUserId(defaultUserId);
-      console.log(&quot;Using default userId:&quot;, defaultUserId);
+      console.log("Using default userId:", defaultUserId);
     }
   }, [propUserId]);
 
@@ -103,7 +103,7 @@ export default function AvailabilityModal({
     if (isOpen && selectInfo) {
       const defaultEndDate = new Date(selectInfo.startStr);
       defaultEndDate.setMonth(defaultEndDate.getMonth() + 3);
-      const endDateStr = defaultEndDate.toISOString().split(&quot;T&quot;)[0];
+      const endDateStr = defaultEndDate.toISOString().split("T")[0];
       if (endDateStr) {
         setRecurrenceEndDate(endDateStr);
       }
@@ -126,9 +126,9 @@ export default function AvailabilityModal({
       const response = await fetch(
         `/api/availability/conflicts?userId=${userId}&startDate=${selectInfo.startStr}&endDate=${selectInfo.endStr}&status=${status}`,
         {
-          method: &quot;GET&quot;,
+          method: "GET",
           headers: {
-            &quot;Content-Type&quot;: &quot;application/json&quot;,
+            "Content-Type": "application/json",
           },
         },
       );
@@ -146,7 +146,7 @@ export default function AvailabilityModal({
           );
 
           if (sameStatusConflicts.length > 0) {
-            setMergeStrategy(&quot;merge&quot;);
+            setMergeStrategy("merge");
           } else {
             setConflicts(data.conflicts);
             setHasConflicts(true);
@@ -162,7 +162,7 @@ export default function AvailabilityModal({
       }
       setMergeStrategy(undefined);
     } catch (error) {
-      console.error(&quot;Error checking conflicts:&quot;, error);
+      console.error("Error checking conflicts:", error);
       setConflicts([]);
       setHasConflicts(false);
     } finally {
@@ -176,13 +176,13 @@ export default function AvailabilityModal({
 
     // Validate required fields
     if (!title.trim()) {
-      alert(&quot;Please enter a title for this availability block.&quot;);
+      alert("Please enter a title for this availability block.");
       return;
     }
 
     // Check if we need merge strategy for conflicts
     if (hasConflicts && !mergeStrategy) {
-      alert(&quot;Please choose how to handle the scheduling conflicts.&quot;);
+      alert("Please choose how to handle the scheduling conflicts.");
       return;
     }
 
@@ -210,10 +210,10 @@ export default function AvailabilityModal({
       isRecurring,
       recurrencePattern,
       isRecurring ? recurrenceEndType : undefined,
-      isRecurring && recurrenceEndType === &quot;date&quot;
+      isRecurring && recurrenceEndType === "date"
         ? recurrenceEndDate
         : undefined,
-      isRecurring && recurrenceEndType === &quot;count&quot;
+      isRecurring && recurrenceEndType === "count"
         ? recurrenceCount
         : undefined,
       mergeStrategy,
@@ -226,19 +226,19 @@ export default function AvailabilityModal({
   };
 
   const handleClose = () => {
-    setStatus(&quot;available&quot;);
-    setTitle(&quot;&quot;);
+    setStatus("available");
+    setTitle("");
     setTitle(
-      status === &quot;available&quot;
-        ? &quot;Available&quot;
-        : status === &quot;unavailable&quot;
-          ? &quot;Unavailable&quot;
-          : &quot;Tentative&quot;,
+      status === "available"
+        ? "Available"
+        : status === "unavailable"
+          ? "Unavailable"
+          : "Tentative",
     );
     setIsRecurring(false);
-    setRecurrencePattern(&quot;weekly&quot;);
-    setRecurrenceEndType(&quot;date&quot;);
-    setRecurrenceEndDate(&quot;&quot;);
+    setRecurrencePattern("weekly");
+    setRecurrenceEndType("date");
+    setRecurrenceEndDate("");
     setRecurrenceCount(10);
     setConflicts([]);
     setHasConflicts(false);
@@ -248,128 +248,128 @@ export default function AvailabilityModal({
 
   // Update title when status changes
   useEffect(() => {
-    if (status === &quot;available&quot;) {
-      setTitle(&quot;Available&quot;);
-    } else if (status === &quot;unavailable&quot;) {
-      setTitle(&quot;Unavailable&quot;);
-    } else if (status === &quot;tentative&quot;) {
-      setTitle(&quot;Tentative&quot;);
+    if (status === "available") {
+      setTitle("Available");
+    } else if (status === "unavailable") {
+      setTitle("Unavailable");
+    } else if (status === "tentative") {
+      setTitle("Tentative");
     }
   }, [status]);
 
   if (!isOpen || !selectInfo) return null;
 
   return (
-    <div className=&quot;fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50&quot;>
-      <div className=&quot;bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto&quot;>
-        <h2 className=&quot;text-xl font-semibold mb-4&quot;>Add Availability Block</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl font-semibold mb-4">Add Availability Block</h2>
 
         {/* Time Display */}
-        <div className=&quot;mb-4 p-3 bg-gray-50 rounded&quot;>
-          <div className=&quot;text-sm text-gray-600&quot;>{dayStr}</div>
-          <div className=&quot;font-medium&quot;>
+        <div className="mb-4 p-3 bg-gray-50 rounded">
+          <div className="text-sm text-gray-600">{dayStr}</div>
+          <div className="font-medium">
             {startTimeStr} - {endTimeStr}
           </div>
         </div>
 
         {/* Title Input */}
-        <div className=&quot;mb-4&quot;>
-          <label className=&quot;block text-sm font-medium mb-1&quot;>Title</label>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Title</label>
           <input
-            type=&quot;text&quot;
+            type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
-            placeholder=&quot;Enter availability title&quot;
+            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Enter availability title"
           />
         </div>
 
         {/* Status Selection */}
-        <div className=&quot;mb-4&quot;>
-          <label className=&quot;block text-sm font-medium mb-1&quot;>Status</label>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Status</label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value=&quot;available&quot;>Available</option>
-            <option value=&quot;unavailable&quot;>Unavailable</option>
-            <option value=&quot;tentative&quot;>Tentative</option>
+            <option value="available">Available</option>
+            <option value="unavailable">Unavailable</option>
+            <option value="tentative">Tentative</option>
           </select>
         </div>
 
         {/* Recurring Options */}
-        <div className=&quot;mb-4&quot;>
-          <label className=&quot;flex items-center&quot;>
+        <div className="mb-4">
+          <label className="flex items-center">
             <input
-              type=&quot;checkbox&quot;
+              type="checkbox"
               checked={isRecurring}
               onChange={(e) => setIsRecurring(e.target.checked)}
-              className=&quot;mr-2&quot;
+              className="mr-2"
             />
-            <span className=&quot;text-sm font-medium&quot;>Make this recurring</span>
+            <span className="text-sm font-medium">Make this recurring</span>
           </label>
         </div>
 
         {isRecurring && (
-          <div className=&quot;mb-4 p-3 bg-gray-50 rounded&quot;>
-            <div className=&quot;mb-3&quot;>
-              <label className=&quot;block text-sm font-medium mb-1&quot;>
+          <div className="mb-4 p-3 bg-gray-50 rounded">
+            <div className="mb-3">
+              <label className="block text-sm font-medium mb-1">
                 Repeat Pattern
               </label>
               <select
                 value={recurrencePattern}
                 onChange={(e) => setRecurrencePattern(e.target.value)}
-                className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value=&quot;daily&quot;>Daily</option>
-                <option value=&quot;weekly&quot;>Weekly</option>
-                <option value=&quot;monthly&quot;>Monthly</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
               </select>
             </div>
 
-            <div className=&quot;mb-3&quot;>
-              <label className=&quot;block text-sm font-medium mb-1&quot;>
+            <div className="mb-3">
+              <label className="block text-sm font-medium mb-1">
                 End Condition
               </label>
               <select
                 value={recurrenceEndType}
                 onChange={(e) => setRecurrenceEndType(e.target.value)}
-                className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value=&quot;date&quot;>End by date</option>
-                <option value=&quot;count&quot;>End after number of occurrences</option>
+                <option value="date">End by date</option>
+                <option value="count">End after number of occurrences</option>
               </select>
             </div>
 
-            {recurrenceEndType === &quot;date&quot; && (
+            {recurrenceEndType === "date" && (
               <div>
-                <label className=&quot;block text-sm font-medium mb-1&quot;>
+                <label className="block text-sm font-medium mb-1">
                   End Date
                 </label>
                 <input
-                  type=&quot;date&quot;
+                  type="date"
                   value={recurrenceEndDate}
                   onChange={(e) => setRecurrenceEndDate(e.target.value)}
-                  className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             )}
 
-            {recurrenceEndType === &quot;count&quot; && (
+            {recurrenceEndType === "count" && (
               <div>
-                <label className=&quot;block text-sm font-medium mb-1&quot;>
+                <label className="block text-sm font-medium mb-1">
                   Number of Occurrences
                 </label>
                 <input
-                  type=&quot;number&quot;
+                  type="number"
                   value={recurrenceCount}
                   onChange={(e) =>
                     setRecurrenceCount(parseInt(e.target.value) || 1)
                   }
-                  min=&quot;1&quot;
-                  max=&quot;100&quot;
-                  className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent&quot;
+                  min="1"
+                  max="100"
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             )}
@@ -378,82 +378,82 @@ export default function AvailabilityModal({
 
         {/* Conflict Detection Results */}
         {isCheckingConflicts && (
-          <div className=&quot;mb-4 p-3 bg-blue-50 border border-blue-200 rounded&quot;>
-            <div className=&quot;text-sm text-blue-600&quot;>
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+            <div className="text-sm text-blue-600">
               Checking for conflicts...
             </div>
           </div>
         )}
 
         {hasConflicts && conflicts.length > 0 && (
-          <div className=&quot;mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded&quot;>
-            <div className=&quot;text-sm font-medium text-yellow-800 mb-2&quot;>
+          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+            <div className="text-sm font-medium text-yellow-800 mb-2">
               Scheduling Conflicts Detected ({conflicts.length})
             </div>
-            <div className=&quot;space-y-2 mb-3&quot;>
+            <div className="space-y-2 mb-3">
               {conflicts.slice(0, 3).map((conflict, index) => (
                 <div
                   key={index}
-                  className=&quot;text-xs text-yellow-700 bg-yellow-100 p-2 rounded&quot;
+                  className="text-xs text-yellow-700 bg-yellow-100 p-2 rounded"
                 >
-                  <div className=&quot;font-medium&quot;>
+                  <div className="font-medium">
                     {conflict.existingBlock.title}
                   </div>
                   <div>
                     {format(
                       new Date(conflict.existingBlock.startDate),
-                      &quot;MMM d, h:mm a&quot;,
-                    )}{&quot; &quot;}
+                      "MMM d, h:mm a",
+                    )}{" "}
                     -
-                    {format(new Date(conflict.existingBlock.endDate), &quot;h:mm a&quot;)}
+                    {format(new Date(conflict.existingBlock.endDate), "h:mm a")}
                   </div>
-                  <div className=&quot;capitalize&quot;>
+                  <div className="capitalize">
                     Status: {conflict.existingBlock.status}
                   </div>
                 </div>
               ))}
               {conflicts.length > 3 && (
-                <div className=&quot;text-xs text-yellow-600&quot;>
+                <div className="text-xs text-yellow-600">
                   ...and {conflicts.length - 3} more conflicts
                 </div>
               )}
             </div>
 
             <div>
-              <label className=&quot;block text-sm font-medium mb-1 text-yellow-800&quot;>
+              <label className="block text-sm font-medium mb-1 text-yellow-800">
                 Resolution Strategy
               </label>
               <select
-                value={mergeStrategy || &quot;&quot;}
+                value={mergeStrategy || ""}
                 onChange={(e) =>
                   setMergeStrategy(
-                    e.target.value as &quot;merge&quot; | &quot;override&quot; | undefined,
+                    e.target.value as "merge" | "override" | undefined,
                   )
                 }
-                className=&quot;w-full p-2 border rounded focus:ring-2 focus:ring-yellow-500 focus:border-transparent&quot;
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
               >
-                <option value=&quot;&quot;>Choose resolution...</option>
-                <option value=&quot;merge&quot;>Merge with existing blocks</option>
-                <option value=&quot;override&quot;>Override existing blocks</option>
+                <option value="">Choose resolution...</option>
+                <option value="merge">Merge with existing blocks</option>
+                <option value="override">Override existing blocks</option>
               </select>
             </div>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className=&quot;flex justify-end space-x-3&quot;>
+        <div className="flex justify-end space-x-3">
           <button
             onClick={handleClose}
-            className=&quot;px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors&quot;
+            className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={isCheckingConflicts || (hasConflicts && !mergeStrategy)}
-            className=&quot;px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors&quot;
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
           >
-            {isCheckingConflicts ? &quot;Checking...&quot; : &quot;Save"}
+            {isCheckingConflicts ? "Checking..." : "Save"}
           </button>
         </div>
       </div>

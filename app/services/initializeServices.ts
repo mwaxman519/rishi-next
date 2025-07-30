@@ -5,18 +5,18 @@
  * It registers event handlers, starts background jobs, and sets up any required infrastructure.
  */
 
-import { registerLocationEventHandler } from &quot;./locations/locationEventHandler&quot;;
-import { registerErrorHandlingStrategies } from &quot;./infrastructure/messaging/errorHandlingStrategies&quot;;
-import { webSocketEventSubscriber } from &quot;./infrastructure/messaging/webSocketEventSubscriber&quot;;
+import { registerLocationEventHandler } from "./locations/locationEventHandler";
+import { registerErrorHandlingStrategies } from "./infrastructure/messaging/errorHandlingStrategies";
+import { webSocketEventSubscriber } from "./infrastructure/messaging/webSocketEventSubscriber";
 import {
   locationEventBus,
   connectLocationEventBusToWebSockets,
   setupLocationEventLogging,
-} from &quot;./infrastructure/messaging/locationEvents&quot;;
+} from "./infrastructure/messaging/locationEvents";
 
 // Enhanced error handling with custom error handler
-import { eventBus } from &quot;./infrastructure/messaging/distributedEventBus&quot;;
-import { webSocketEventPublisher } from &quot;./infrastructure/messaging/webSocketEventPublisher&quot;;
+import { eventBus } from "./infrastructure/messaging/distributedEventBus";
+import { webSocketEventPublisher } from "./infrastructure/messaging/webSocketEventPublisher";
 
 let initialized = false;
 
@@ -90,11 +90,11 @@ declare global {
  */
 export function initializeServices() {
   if (initialized) {
-    console.log(&quot;[Services] Services already initialized, skipping&quot;);
+    console.log("[Services] Services already initialized, skipping");
     return;
   }
 
-  console.log(&quot;[Services] Initializing application services...&quot;);
+  console.log("[Services] Initializing application services...");
 
   try {
     // Register error handling strategies
@@ -105,17 +105,17 @@ export function initializeServices() {
 
     // Register WebSocket event subscriber
     eventBus.subscribe(webSocketEventSubscriber);
-    console.log(&quot;[Services] WebSocket event subscriber registered&quot;);
+    console.log("[Services] WebSocket event subscriber registered");
 
     // Connect location event bus to WebSocket publisher
     connectLocationEventBusToWebSockets(webSocketEventPublisher);
     console.log(
-      &quot;[Services] Location event bus connected to WebSocket publisher&quot;,
+      "[Services] Location event bus connected to WebSocket publisher",
     );
 
     // Setup location event logging
     setupLocationEventLogging();
-    console.log(&quot;[Services] Location event logging enabled&quot;);
+    console.log("[Services] Location event logging enabled");
 
     // Initialize event bus monitoring
     setupEventBusMonitoring();
@@ -126,9 +126,9 @@ export function initializeServices() {
     // initializeBackgroundJobs();
 
     initialized = true;
-    console.log(&quot;[Services] All services successfully initialized&quot;);
+    console.log("[Services] All services successfully initialized");
   } catch (error) {
-    console.error(&quot;[Services] Error initializing services:&quot;, error);
+    console.error("[Services] Error initializing services:", error);
     throw error;
   }
 }

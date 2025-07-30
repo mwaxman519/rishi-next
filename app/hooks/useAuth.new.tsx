@@ -19,15 +19,15 @@
  * - Proper security checks are enforced
  */
 
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, createContext, useContext } from &quot;react&quot;;
+import { useState, useEffect, createContext, useContext } from "react";
 import {
   useAuthService,
   UserSession,
   LoginCredentials,
   RegisterData,
-} from &quot;./useAuthService&quot;;
+} from "./useAuthService";
 
 // Define registration result interface
 interface RegisterResult {
@@ -71,12 +71,12 @@ const AuthContext = createContext<AuthContextType>({
     /* Default implementation */
   },
   login: async () => {
-    console.error(&quot;Login not implemented in default context&quot;);
+    console.error("Login not implemented in default context");
     return false;
   },
   register: async () => {
-    console.error(&quot;Register not implemented in default context&quot;);
-    return { success: false, error: &quot;Registration not implemented&quot; };
+    console.error("Register not implemented in default context");
+    return { success: false, error: "Registration not implemented" };
   },
 });
 
@@ -99,9 +99,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { user: sessionUser } = await authService.getSession();
         setUser(sessionUser);
       } catch (err) {
-        console.error(&quot;Error loading user:&quot;, err);
+        console.error("Error loading user:", err);
         setError(
-          err instanceof Error ? err : new Error(&quot;Unknown error loading user&quot;),
+          err instanceof Error ? err : new Error("Unknown error loading user"),
         );
       } finally {
         setIsLoading(false);
@@ -117,14 +117,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Super admins have all permissions
     if (
-      user.role === &quot;super_admin&quot; ||
-      (user.roles && user.roles.includes(&quot;SUPER_ADMIN&quot;))
+      user.role === "super_admin" ||
+      (user.roles && user.roles.includes("SUPER_ADMIN"))
     ) {
       return true;
     }
 
     // Development mode: grant all permissions
-    if (process.env.NODE_ENV === &quot;development&quot;) {
+    if (process.env.NODE_ENV === "development") {
       return true;
     }
 
@@ -135,11 +135,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Helper properties to identify user types
   const isRishiManagement =
-    user?.role === &quot;internal_admin&quot; || user?.role === &quot;super_admin&quot;;
-  const isFieldManager = user?.role === &quot;internal_field_manager&quot;;
-  const isBrandAgent = user?.role === &quot;brand_agent&quot;;
-  const isClientUser = user?.role === &quot;client_user&quot;;
-  const isSuperAdmin = user?.role === &quot;super_admin&quot;;
+    user?.role === "internal_admin" || user?.role === "super_admin";
+  const isFieldManager = user?.role === "internal_field_manager";
+  const isBrandAgent = user?.role === "brand_agent";
+  const isClientUser = user?.role === "client_user";
+  const isSuperAdmin = user?.role === "super_admin";
 
   // Logout function implementation
   const logout = async (): Promise<void> => {
@@ -152,9 +152,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Clear user state
       setUser(null);
     } catch (err) {
-      console.error(&quot;Error during logout:&quot;, err);
+      console.error("Error during logout:", err);
       setError(
-        err instanceof Error ? err : new Error(&quot;Unknown error during logout&quot;),
+        err instanceof Error ? err : new Error("Unknown error during logout"),
       );
     } finally {
       setIsLoading(false);
@@ -177,9 +177,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(userData);
       return true;
     } catch (err) {
-      console.error(&quot;Login error:&quot;, err);
+      console.error("Login error:", err);
       setError(
-        err instanceof Error ? err : new Error(&quot;Unknown error during login&quot;),
+        err instanceof Error ? err : new Error("Unknown error during login"),
       );
       return false;
     } finally {
@@ -200,7 +200,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Password validation
       if (password !== confirmPassword) {
-        return { success: false, error: &quot;Passwords do not match&quot; };
+        return { success: false, error: "Passwords do not match" };
       }
 
       // Call register from auth service
@@ -216,17 +216,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return { success: true };
     } catch (err) {
-      console.error(&quot;Registration error:&quot;, err);
+      console.error("Registration error:", err);
       setError(
         err instanceof Error
           ? err
-          : new Error(&quot;Unknown error during registration&quot;),
+          : new Error("Unknown error during registration"),
       );
 
       return {
         success: false,
         error:
-          err instanceof Error ? err.message : &quot;An unexpected error occurred&quot;,
+          err instanceof Error ? err.message : "An unexpected error occurred",
       };
     } finally {
       setIsLoading(false);

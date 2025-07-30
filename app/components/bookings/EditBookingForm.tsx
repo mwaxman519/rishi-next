@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import * as z from &quot;zod&quot;;
-import { addHours, format, parse } from &quot;date-fns&quot;;
-import { CalendarIcon } from &quot;lucide-react&quot;;
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { addHours, format, parse } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -15,59 +15,59 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Calendar } from &quot;@/components/ui/calendar&quot;;
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from &quot;@/components/ui/popover&quot;;
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import { Card, CardContent } from &quot;@/components/ui/card&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import LocationSelector from &quot;@/components/locations/LocationSelector&quot;;
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import LocationSelector from "@/components/locations/LocationSelector";
 // TimeRangePicker is imported but not used, using native time inputs instead
 
 // Data will be fetched from database via API
 
 // Activity types
 const activityTypes = [
-  { id: &quot;event&quot;, name: &quot;Event&quot; },
-  { id: &quot;merchandising&quot;, name: &quot;Merchandising&quot; },
-  { id: &quot;secret_shopping&quot;, name: &quot;Secret Shopping&quot; },
-  { id: &quot;training&quot;, name: &quot;Training&quot; },
-  { id: &quot;logistics&quot;, name: &quot;Logistics&quot; },
-  { id: &quot;other&quot;, name: &quot;Other&quot; },
+  { id: "event", name: "Event" },
+  { id: "merchandising", name: "Merchandising" },
+  { id: "secret_shopping", name: "Secret Shopping" },
+  { id: "training", name: "Training" },
+  { id: "logistics", name: "Logistics" },
+  { id: "other", name: "Other" },
 ];
 
 // Promotion types
 const promotionTypes = [
-  { id: &quot;product_launch&quot;, name: &quot;Product Launch&quot; },
-  { id: &quot;seasonal&quot;, name: &quot;Seasonal Campaign&quot; },
-  { id: &quot;discount&quot;, name: &quot;Discount Promotion&quot; },
-  { id: &quot;brand_awareness&quot;, name: &quot;Brand Awareness&quot; },
-  { id: &quot;sampling&quot;, name: &quot;Product Sampling&quot; },
-  { id: &quot;demonstration&quot;, name: &quot;Product Demonstration&quot; },
+  { id: "product_launch", name: "Product Launch" },
+  { id: "seasonal", name: "Seasonal Campaign" },
+  { id: "discount", name: "Discount Promotion" },
+  { id: "brand_awareness", name: "Brand Awareness" },
+  { id: "sampling", name: "Product Sampling" },
+  { id: "demonstration", name: "Product Demonstration" },
 ];
 
 // Priority levels
 const priorityLevels = [
-  { id: &quot;low&quot;, name: &quot;Low&quot; },
-  { id: &quot;medium&quot;, name: &quot;Medium&quot; },
-  { id: &quot;high&quot;, name: &quot;High&quot; },
-  { id: &quot;urgent&quot;, name: &quot;Urgent&quot; },
+  { id: "low", name: "Low" },
+  { id: "medium", name: "Medium" },
+  { id: "high", name: "High" },
+  { id: "urgent", name: "Urgent" },
 ];
 
 // Form validation schema
@@ -75,10 +75,10 @@ const formSchema = z
   .object({
     title: z
       .string()
-      .min(3, { message: &quot;Title must be at least 3 characters long&quot; }),
+      .min(3, { message: "Title must be at least 3 characters long" }),
     description: z.string().optional(),
     activityType: z.string(),
-    locationId: z.string().min(1, { message: &quot;Please select a location&quot; }),
+    locationId: z.string().min(1, { message: "Please select a location" }),
     startDate: z.date(),
     endDate: z.date(),
     allDay: z.boolean().default(false),
@@ -100,21 +100,21 @@ const formSchema = z
       return true;
     },
     {
-      message: &quot;Start and end times are required when not an all-day event&quot;,
-      path: [&quot;startTime&quot;],
+      message: "Start and end times are required when not an all-day event",
+      path: ["startTime"],
     },
   )
   .refine(
     (data) => {
       // For events, require promotion type
-      if (data.activityType === &quot;event&quot;) {
+      if (data.activityType === "event") {
         return !!data.promotionType;
       }
       return true;
     },
     {
-      message: &quot;Promotion type is required for events&quot;,
-      path: [&quot;promotionType&quot;],
+      message: "Promotion type is required for events",
+      path: ["promotionType"],
     },
   );
 
@@ -145,7 +145,7 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         }
         
         // Fetch booking details if editing
-        if (id && id !== &quot;new&quot;) {
+        if (id && id !== "new") {
           const bookingResponse = await fetch(`/api/bookings/${id}`);
           if (bookingResponse.ok) {
             const bookingData = await bookingResponse.json();
@@ -166,21 +166,21 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "&quot;,
-      description: &quot;&quot;,
-      activityType: &quot;&quot;,
-      locationId: &quot;&quot;,
+      title: "",
+      description: "",
+      activityType: "",
+      locationId: "",
       startDate: new Date(),
       endDate: new Date(),
       allDay: false,
-      startTime: &quot;09:00&quot;,
-      endTime: &quot;17:00&quot;,
-      priority: &quot;medium&quot;,
+      startTime: "09:00",
+      endTime: "17:00",
+      priority: "medium",
       budget: 0,
-      promotionType: &quot;&quot;,
-      kitTemplateId: &quot;&quot;,
+      promotionType: "",
+      kitTemplateId: "",
       requiredStaffCount: 1,
-      specialInstructions: &quot;&quot;,
+      specialInstructions: "",
     },
   });
 
@@ -188,15 +188,15 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
   useEffect(() => {
     if (initialData) {
       const startTime = initialData.startDate
-        ? format(initialData.startDate, &quot;HH:mm&quot;)
-        : &quot;09:00&quot;;
+        ? format(initialData.startDate, "HH:mm")
+        : "09:00";
       const endTime = initialData.endDate
-        ? format(initialData.endDate, &quot;HH:mm&quot;)
-        : &quot;17:00&quot;;
+        ? format(initialData.endDate, "HH:mm")
+        : "17:00";
 
       form.reset({
         title: initialData.title,
-        description: initialData.description || &quot;&quot;,
+        description: initialData.description || "",
         activityType: initialData.activityType,
         locationId: initialData.location.id,
         startDate: initialData.startDate,
@@ -209,15 +209,15 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         promotionType: initialData.promotionType || undefined,
         kitTemplateId: initialData.kitTemplateId,
         requiredStaffCount: initialData.requiredStaffCount,
-        specialInstructions: initialData.specialInstructions || &quot;&quot;,
+        specialInstructions: initialData.specialInstructions || "",
       });
     }
   }, [initialData, form]);
 
   // Watch form values for conditional rendering
-  const activityType = form.watch(&quot;activityType&quot;);
-  const allDay = form.watch(&quot;allDay&quot;);
-  const startDate = form.watch(&quot;startDate&quot;);
+  const activityType = form.watch("activityType");
+  const allDay = form.watch("allDay");
+  const startDate = form.watch("startDate");
 
   // Handle form submission
   const onSubmit = async (values: FormValues) => {
@@ -231,8 +231,8 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
       if (!allDay && values.startTime && values.endTime) {
         // Parse times and combine with dates
-        const [startHourStr, startMinuteStr] = values.startTime.split(&quot;:&quot;);
-        const [endHourStr, endMinuteStr] = values.endTime.split(&quot;:&quot;);
+        const [startHourStr, startMinuteStr] = values.startTime.split(":");
+        const [endHourStr, endMinuteStr] = values.endTime.split(":");
 
         // Make sure we have valid numbers before using them
         const startHours = startHourStr ? parseInt(startHourStr, 10) : 0;
@@ -275,8 +275,8 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
       if (response.ok) {
         toast({
-          title: &quot;Booking updated&quot;,
-          description: &quot;The booking has been successfully updated.&quot;,
+          title: "Booking updated",
+          description: "The booking has been successfully updated.",
         });
 
         // Redirect to booking detail page
@@ -285,11 +285,11 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         throw new Error('Failed to update booking');
       }
     } catch (error) {
-      console.error(&quot;Error updating activity:&quot;, error);
+      console.error("Error updating activity:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to update the activity. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to update the activity. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -304,7 +304,7 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
   // Loading state
   if (!initialData) {
     return (
-      <div className=&quot;flex justify-center py-10&quot;>
+      <div className="flex justify-center py-10">
         <p>Loading booking details...</p>
       </div>
     );
@@ -314,26 +314,26 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className=&quot;space-y-8 max-w-3xl&quot;
+        className="space-y-8 max-w-3xl"
       >
-        <div className=&quot;space-y-6&quot;>
+        <div className="space-y-6">
           <div>
-            <h2 className=&quot;text-xl font-semibold tracking-tight&quot;>
+            <h2 className="text-xl font-semibold tracking-tight">
               Basic Information
             </h2>
-            <p className=&quot;text-muted-foreground text-sm mt-1&quot;>
+            <p className="text-muted-foreground text-sm mt-1">
               General details about the activity
             </p>
           </div>
 
           <FormField
             control={form.control}
-            name=&quot;title&quot;
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Activity Title</FormLabel>
                 <FormControl>
-                  <Input placeholder=&quot;Enter a descriptive title&quot; {...field} />
+                  <Input placeholder="Enter a descriptive title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -342,14 +342,14 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
           <FormField
             control={form.control}
-            name=&quot;description&quot;
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder=&quot;Describe the purpose and details of this activity&quot;
-                    className=&quot;min-h-[120px]&quot;
+                    placeholder="Describe the purpose and details of this activity"
+                    className="min-h-[120px]"
                     {...field}
                   />
                 </FormControl>
@@ -358,21 +358,21 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
             )}
           />
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
-              name=&quot;activityType&quot;
+              name="activityType"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Activity Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value || &quot;&quot;}
-                    value={field.value || &quot;&quot;}
+                    defaultValue={field.value || ""}
+                    value={field.value || ""}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select activity type&quot; />
+                        <SelectValue placeholder="Select activity type" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -390,18 +390,18 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
             <FormField
               control={form.control}
-              name=&quot;priority&quot;
+              name="priority"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Priority</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value || &quot;&quot;}
-                    value={field.value || &quot;&quot;}
+                    defaultValue={field.value || ""}
+                    value={field.value || ""}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select priority level&quot; />
+                        <SelectValue placeholder="Select priority level" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -422,22 +422,22 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         <Separator />
 
         {/* Location selection */}
-        <div className=&quot;space-y-6&quot;>
+        <div className="space-y-6">
           <div>
-            <h2 className=&quot;text-xl font-semibold tracking-tight&quot;>Location</h2>
-            <p className=&quot;text-muted-foreground text-sm mt-1&quot;>
+            <h2 className="text-xl font-semibold tracking-tight">Location</h2>
+            <p className="text-muted-foreground text-sm mt-1">
               Where this activity will take place
             </p>
           </div>
 
           <FormField
             control={form.control}
-            name=&quot;locationId&quot;
+            name="locationId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <div className=&quot;space-y-2&quot;>
+                  <div className="space-y-2">
                     <LocationSelector
                       selectedLocationId={field.value}
                       onLocationChange={(id: string) => field.onChange(id)}
@@ -456,53 +456,53 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         <Separator />
 
         {/* Date and time selection */}
-        <div className=&quot;space-y-6&quot;>
+        <div className="space-y-6">
           <div>
-            <h2 className=&quot;text-xl font-semibold tracking-tight&quot;>Schedule</h2>
-            <p className=&quot;text-muted-foreground text-sm mt-1&quot;>
+            <h2 className="text-xl font-semibold tracking-tight">Schedule</h2>
+            <p className="text-muted-foreground text-sm mt-1">
               When this activity will take place
             </p>
           </div>
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
-              name=&quot;startDate&quot;
+              name="startDate"
               render={({ field }) => (
-                <FormItem className=&quot;flex flex-col&quot;>
+                <FormItem className="flex flex-col">
                   <FormLabel>Start Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant=&quot;outline&quot;
-                          className=&quot;w-full pl-3 text-left font-normal&quot;
+                          variant="outline"
+                          className="w-full pl-3 text-left font-normal"
                         >
                           {field.value ? (
-                            format(field.value, &quot;MMMM d, yyyy&quot;)
+                            format(field.value, "MMMM d, yyyy")
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
-                        mode=&quot;single&quot;
+                        mode="single"
                         selected={field.value}
                         onSelect={(date) => {
                           if (date) {
                             field.onChange(date);
 
                             // If end date is before start date, update it
-                            const endDate = form.getValues(&quot;endDate&quot;);
+                            const endDate = form.getValues("endDate");
                             if (endDate < date) {
-                              form.setValue(&quot;endDate&quot;, date);
+                              form.setValue("endDate", date);
                             }
                           }
                         }}
-                        disabled={(date) => date < new Date(&quot;1900-01-01&quot;)}
+                        disabled={(date) => date < new Date("1900-01-01")}
                         initialFocus
                       />
                     </PopoverContent>
@@ -514,33 +514,33 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
             <FormField
               control={form.control}
-              name=&quot;endDate&quot;
+              name="endDate"
               render={({ field }) => (
-                <FormItem className=&quot;flex flex-col&quot;>
+                <FormItem className="flex flex-col">
                   <FormLabel>End Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant=&quot;outline&quot;
-                          className=&quot;w-full pl-3 text-left font-normal&quot;
+                          variant="outline"
+                          className="w-full pl-3 text-left font-normal"
                         >
                           {field.value ? (
-                            format(field.value, &quot;MMMM d, yyyy&quot;)
+                            format(field.value, "MMMM d, yyyy")
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
+                    <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
-                        mode=&quot;single&quot;
+                        mode="single"
                         selected={field.value}
                         onSelect={(date) => date && field.onChange(date)}
                         disabled={(date) =>
-                          date < startDate || date < new Date(&quot;1900-01-01&quot;)
+                          date < startDate || date < new Date("1900-01-01")
                         }
                         initialFocus
                       />
@@ -554,11 +554,11 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
           <FormField
             control={form.control}
-            name=&quot;allDay&quot;
+            name="allDay"
             render={({ field }) => (
-              <FormItem className=&quot;flex flex-row items-center justify-between rounded-lg border p-4&quot;>
-                <div className=&quot;space-y-0.5&quot;>
-                  <FormLabel className=&quot;text-base&quot;>All-day Event</FormLabel>
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">All-day Event</FormLabel>
                   <FormDescription>
                     Toggle if this activity runs for the entire day(s)
                   </FormDescription>
@@ -574,15 +574,15 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
           />
 
           {!allDay && (
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name=&quot;startTime&quot;
+                name="startTime"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Start Time</FormLabel>
                     <FormControl>
-                      <Input type=&quot;time&quot; {...field} />
+                      <Input type="time" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -591,12 +591,12 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
               <FormField
                 control={form.control}
-                name=&quot;endTime&quot;
+                name="endTime"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>End Time</FormLabel>
                     <FormControl>
-                      <Input type=&quot;time&quot; {...field} />
+                      <Input type="time" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -609,31 +609,31 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         <Separator />
 
         {/* Activity-specific fields */}
-        <div className=&quot;space-y-6&quot;>
+        <div className="space-y-6">
           <div>
-            <h2 className=&quot;text-xl font-semibold tracking-tight&quot;>
+            <h2 className="text-xl font-semibold tracking-tight">
               Activity Details
             </h2>
-            <p className=&quot;text-muted-foreground text-sm mt-1&quot;>
+            <p className="text-muted-foreground text-sm mt-1">
               Specific information for this activity type
             </p>
           </div>
 
-          {activityType === &quot;event&quot; && (
+          {activityType === "event" && (
             <FormField
               control={form.control}
-              name=&quot;promotionType&quot;
+              name="promotionType"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Promotion Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value || &quot;&quot;}
-                    value={field.value || &quot;&quot;}
+                    defaultValue={field.value || ""}
+                    value={field.value || ""}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select promotion type&quot; />
+                        <SelectValue placeholder="Select promotion type" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -652,22 +652,22 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
           <FormField
             control={form.control}
-            name=&quot;kitTemplateId&quot;
+            name="kitTemplateId"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Kit Template</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value || &quot;&quot;}
-                  value={field.value || &quot;&quot;}
+                  defaultValue={field.value || ""}
+                  value={field.value || ""}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder=&quot;Select a kit template&quot; />
+                      <SelectValue placeholder="Select a kit template" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value=&quot;&quot;>None</SelectItem>
+                    <SelectItem value="">None</SelectItem>
                     {kitTemplates.map((kit) => (
                       <SelectItem key={kit.id} value={kit.id}>
                         {kit.name}
@@ -683,17 +683,17 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
             )}
           />
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
-              name=&quot;budget&quot;
+              name="budget"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Budget</FormLabel>
                   <FormControl>
                     <Input
-                      type=&quot;number&quot;
-                      placeholder=&quot;0.00&quot;
+                      type="number"
+                      placeholder="0.00"
                       {...field}
                       onChange={(e) =>
                         field.onChange(e.target.valueAsNumber || 0)
@@ -710,13 +710,13 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
             <FormField
               control={form.control}
-              name=&quot;requiredStaffCount&quot;
+              name="requiredStaffCount"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Required Staff</FormLabel>
                   <FormControl>
                     <Input
-                      type=&quot;number&quot;
+                      type="number"
                       min={0}
                       {...field}
                       onChange={(e) =>
@@ -735,14 +735,14 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
 
           <FormField
             control={form.control}
-            name=&quot;specialInstructions&quot;
+            name="specialInstructions"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Special Instructions</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder=&quot;Any specific instructions or notes for this activity&quot;
-                    className=&quot;min-h-[120px]&quot;
+                    placeholder="Any specific instructions or notes for this activity"
+                    className="min-h-[120px]"
                     {...field}
                   />
                 </FormControl>
@@ -756,17 +756,17 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         </div>
 
         {/* Submit buttons */}
-        <div className=&quot;flex items-center justify-end gap-4 pt-4&quot;>
+        <div className="flex items-center justify-end gap-4 pt-4">
           <Button
-            type=&quot;button&quot;
-            variant=&quot;outline&quot;
+            type="button"
+            variant="outline"
             onClick={handleCancel}
             disabled={isLoading}
           >
             Cancel
           </Button>
-          <Button type=&quot;submit&quot; disabled={isLoading || !form.formState.isDirty}>
-            {isLoading ? &quot;Saving...&quot; : &quot;Save Changes"}
+          <Button type="submit" disabled={isLoading || !form.formState.isDirty}>
+            {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </form>

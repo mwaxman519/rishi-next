@@ -1,42 +1,42 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Logout API Endpoint
  * Handles user logout by clearing session cookies
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { cookies } from &quot;next/headers&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 // Logout handler
 export async function POST(request: NextRequest) {
   try {
-    console.log(&quot;Processing logout request...&quot;);
+    console.log("Processing logout request...");
 
     // Clear the session cookie
     const cookieStore = cookies();
-    cookieStore.delete(&quot;session&quot;);
+    cookieStore.delete("session");
 
-    console.log(&quot;User logged out successfully&quot;);
+    console.log("User logged out successfully");
 
     // Return success response
     return NextResponse.json(
       {
         success: true,
-        message: &quot;Logged out successfully&quot;,
+        message: "Logged out successfully",
       },
       { status: 200 },
     );
   } catch (error) {
-    console.error(&quot;Error in logout process:&quot;, error);
+    console.error("Error in logout process:", error);
 
     // Return appropriate error response
     return NextResponse.json(
       {
-        error: &quot;Failed to logout&quot;,
-        details: error instanceof Error ? error.message : &quot;Unknown error&quot;,
+        error: "Failed to logout",
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );

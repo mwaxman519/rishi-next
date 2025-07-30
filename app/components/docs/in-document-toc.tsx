@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useEffect, useState } from &quot;react&quot;;
-import { cn } from &quot;../../lib/client-utils&quot;;
+import React, { useEffect, useState } from "react";
+import { cn } from "../../lib/client-utils";
 
 interface Heading {
   id: string;
@@ -15,18 +15,18 @@ interface InDocumentTocProps {
 
 export function InDocumentToc({ className }: InDocumentTocProps) {
   const [headings, setHeadings] = useState<Heading[]>([]);
-  const [activeId, setActiveId] = useState<string>("&quot;);
+  const [activeId, setActiveId] = useState<string>("");
 
   // Extract headings from the document
   useEffect(() => {
-    const article = document.querySelector(&quot;article&quot;);
+    const article = document.querySelector("article");
     if (!article) return;
 
     // Find all headings (h2, h3, h4)
-    const elements = article.querySelectorAll(&quot;h2, h3, h4&quot;);
+    const elements = article.querySelectorAll("h2, h3, h4");
     const extractedHeadings: Heading[] = Array.from(elements).map((el) => ({
       id: el.id,
-      text: el.textContent || &quot;&quot;,
+      text: el.textContent || "",
       level: parseInt(el.tagName.substring(1), 10),
     }));
 
@@ -60,7 +60,7 @@ export function InDocumentToc({ className }: InDocumentTocProps) {
         }
       },
       {
-        rootMargin: &quot;-100px 0px -65% 0px&quot;, // Adjusted for header height and more precise tracking
+        rootMargin: "-100px 0px -65% 0px", // Adjusted for header height and more precise tracking
         threshold: [0, 0.25, 0.5, 0.75, 1],
       },
     );
@@ -78,35 +78,35 @@ export function InDocumentToc({ className }: InDocumentTocProps) {
   }
 
   return (
-    <div className={cn(&quot;text-sm&quot;, className)}>
-      <h3 className=&quot;text-sm font-semibold mb-3 pb-2 border-b bg-gradient-to-r from-purple-600 to-teal-500 text-transparent bg-clip-text border-gray-200 dark:border-gray-700&quot;>
+    <div className={cn("text-sm", className)}>
+      <h3 className="text-sm font-semibold mb-3 pb-2 border-b bg-gradient-to-r from-purple-600 to-teal-500 text-transparent bg-clip-text border-gray-200 dark:border-gray-700">
         On This Page
       </h3>
       <nav>
-        <ul className=&quot;space-y-1&quot;>
+        <ul className="space-y-1">
           {headings.map((heading) => (
             <li
               key={heading.id}
               className={cn(
-                &quot;leading-tight py-0.5&quot;,
-                heading.level === 2 ? &quot;ml-0&quot; : &quot;&quot;,
-                heading.level === 3 ? &quot;ml-3&quot; : &quot;&quot;,
-                heading.level === 4 ? &quot;ml-6&quot; : &quot;&quot;,
+                "leading-tight py-0.5",
+                heading.level === 2 ? "ml-0" : "",
+                heading.level === 3 ? "ml-3" : "",
+                heading.level === 4 ? "ml-6" : "",
               )}
             >
               <a
                 href={`#${heading.id}`}
                 className={cn(
-                  &quot;inline-block transition-all duration-150 rounded-md px-1.5 py-1 text-sm&quot;,
-                  &quot;text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50&quot;,
+                  "inline-block transition-all duration-150 rounded-md px-1.5 py-1 text-sm",
+                  "text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50",
                   activeId === heading.id &&
-                    &quot;bg-gradient-to-r from-purple-100 to-teal-50 text-purple-700 font-medium dark:from-purple-900/20 dark:to-teal-900/20 dark:text-teal-300 dark:border dark:border-teal-800/40&quot;,
+                    "bg-gradient-to-r from-purple-100 to-teal-50 text-purple-700 font-medium dark:from-purple-900/20 dark:to-teal-900/20 dark:text-teal-300 dark:border dark:border-teal-800/40",
                 )}
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById(heading.id)?.scrollIntoView({
-                    behavior: &quot;smooth&quot;,
-                    block: &quot;start",
+                    behavior: "smooth",
+                    block: "start",
                   });
                 }}
               >

@@ -1,4 +1,4 @@
-import { PermissionContext } from &quot;./rbac-enhanced&quot;;
+import { PermissionContext } from "./rbac-enhanced";
 
 /**
  * Extract organization ID from a URL path
@@ -39,7 +39,7 @@ export function extractRegionIdsFromPath(path: string): number[] | undefined {
 
   if (regionMatch && regionMatch[1]) {
     // Support comma-separated list of region IDs
-    return regionMatch[1].split(&quot;,&quot;).map((id) => parseInt(id.trim(), 10));
+    return regionMatch[1].split(",").map((id) => parseInt(id.trim(), 10));
   }
 
   return undefined;

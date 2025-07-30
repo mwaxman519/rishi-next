@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useEffect, useRef, useState } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import React, { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Loader2, MapPin, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Augment Window interface to add Google Maps properties
 declare global {
@@ -37,7 +37,7 @@ interface SimpleAddressPickerProps {
  */
 export default function SimpleAddressPicker({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: SimpleAddressPickerProps): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [googleInitialized, setGoogleInitialized] = useState(false);
@@ -59,7 +59,7 @@ export default function SimpleAddressPicker({
   // Function to initialize the map with a location
   const initializeMap = (location: { lat: number; lng: number }) => {
     if (!mapRef.current || !window.google?.maps) {
-      console.error(&quot;Map container or Google Maps not available&quot;);
+      console.error("Map container or Google Maps not available");
       return;
     }
 
@@ -99,35 +99,35 @@ export default function SimpleAddressPicker({
         markerRef.current.setPosition(location);
       }
     } catch (error) {
-      console.error(&quot;Error initializing map:&quot;, error);
+      console.error("Error initializing map:", error);
       toast({
-        title: &quot;Map Error&quot;,
-        description: &quot;Could not display the map&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Map Error",
+        description: "Could not display the map",
+        variant: "destructive",
       });
     }
   };
 
   // Main initialization logic
   useEffect(() => {
-    console.log(&quot;🔍 SimpleAddressPicker: Component mounted&quot;);
+    console.log("🔍 SimpleAddressPicker: Component mounted");
 
     // Set the global callback for the Google Maps script
     window.initGoogleMaps = () => {
-      console.log(&quot;🔍 Google Maps script loaded and callback triggered&quot;);
+      console.log("🔍 Google Maps script loaded and callback triggered");
       initializeGoogleComponents();
     };
 
     function initializeGoogleComponents() {
-      console.log(&quot;🔍 Initializing Google Maps components...&quot;);
+      console.log("🔍 Initializing Google Maps components...");
 
       if (!autocompleteContainerRef.current) {
-        console.error(&quot;🔍 Autocomplete container ref not available&quot;);
+        console.error("🔍 Autocomplete container ref not available");
         return;
       }
 
       if (!window.google?.maps?.places) {
-        console.error(&quot;🔍 Google Maps Places API not available&quot;);
+        console.error("🔍 Google Maps Places API not available");
         return;
       }
 
@@ -136,25 +136,25 @@ export default function SimpleAddressPicker({
         const { PlaceAutocompleteElement } = window.google.maps.places;
 
         if (!PlaceAutocompleteElement) {
-          console.error(&quot;🔍 PlaceAutocompleteElement not available in the API&quot;);
+          console.error("🔍 PlaceAutocompleteElement not available in the API");
           toast({
-            title: &quot;API Error&quot;,
-            description: &quot;Required Google Maps components not available&quot;,
-            variant: &quot;destructive&quot;,
+            title: "API Error",
+            description: "Required Google Maps components not available",
+            variant: "destructive",
           });
           return;
         }
 
-        console.log(&quot;🔍 Creating PlaceAutocompleteElement instance&quot;);
+        console.log("🔍 Creating PlaceAutocompleteElement instance");
 
         // Create the autocomplete element with minimal configuration
-        console.log(&quot;🔍 Creating PlaceAutocompleteElement with configuration&quot;);
+        console.log("🔍 Creating PlaceAutocompleteElement with configuration");
         const element = new PlaceAutocompleteElement({
-          types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
+          types: ["address", "establishment", "geocode"],
         });
 
         console.log(
-          &quot;🔍 PlaceAutocompleteElement created successfully:&quot;,
+          "🔍 PlaceAutocompleteElement created successfully:",
           element,
         );
 
@@ -162,68 +162,68 @@ export default function SimpleAddressPicker({
         window.debugElement = element;
 
         // Style the element to match our UI
-        console.log(&quot;🔍 Applying styles to element&quot;);
+        console.log("🔍 Applying styles to element");
 
         // Force the element to be visible and properly sized
-        element.style.display = &quot;block&quot;;
-        element.style.width = &quot;100%&quot;;
-        element.style.minHeight = &quot;40px&quot;;
+        element.style.display = "block";
+        element.style.width = "100%";
+        element.style.minHeight = "40px";
 
         // Match our app's styling
-        element.style.padding = &quot;8px 12px&quot;;
-        element.style.backgroundColor = &quot;transparent&quot;;
-        element.style.boxSizing = &quot;border-box&quot;;
+        element.style.padding = "8px 12px";
+        element.style.backgroundColor = "transparent";
+        element.style.boxSizing = "border-box";
 
-        // Remove the default border since we&apos;re using a container with border
-        element.style.border = &quot;none&quot;;
+        // Remove the default border since we're using a container with border
+        element.style.border = "none";
 
         // Make sure the container is empty before adding elements
         // Don't try to remove children directly to avoid React DOM conflicts
-        autocompleteContainerRef.current.innerHTML = &quot;&quot;;
+        autocompleteContainerRef.current.innerHTML = "";
 
         // Add the element directly to the DOM
         autocompleteContainerRef.current.appendChild(element);
         console.log(
-          &quot;🔍 PlaceAutocompleteElement appended to DOM:&quot;,
+          "🔍 PlaceAutocompleteElement appended to DOM:",
           autocompleteContainerRef.current,
         );
 
         // Add a search icon for UI consistency (place on top of the input)
-        const searchIcon = document.createElement(&quot;div&quot;);
-        searchIcon.style.position = &quot;absolute&quot;;
-        searchIcon.style.left = &quot;10px&quot;;
-        searchIcon.style.top = &quot;12px&quot;;
-        searchIcon.style.zIndex = &quot;10&quot;;
-        searchIcon.style.pointerEvents = &quot;none&quot;;
-        searchIcon.innerHTML = `<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-search&quot;><circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;></circle><path d=&quot;m21 21-4.3-4.3&quot;></path></svg>`;
+        const searchIcon = document.createElement("div");
+        searchIcon.style.position = "absolute";
+        searchIcon.style.left = "10px";
+        searchIcon.style.top = "12px";
+        searchIcon.style.zIndex = "10";
+        searchIcon.style.pointerEvents = "none";
+        searchIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>`;
         autocompleteContainerRef.current.appendChild(searchIcon);
 
         // Add 12px padding to any input element created by Google
         setTimeout(() => {
           const inputElements =
-            autocompleteContainerRef.current.querySelectorAll(&quot;input&quot;);
+            autocompleteContainerRef.current.querySelectorAll("input");
           console.log(
-            &quot;🔍 Input elements found in container:&quot;,
+            "🔍 Input elements found in container:",
             inputElements.length,
           );
           inputElements.forEach((input) => {
-            input.style.paddingLeft = &quot;32px&quot;;
+            input.style.paddingLeft = "32px";
           });
         }, 100);
 
         console.log(
-          &quot;🔍 Element properties:&quot;,
+          "🔍 Element properties:",
           Object.getOwnPropertyNames(element),
         );
         console.log(
-          &quot;🔍 Element prototype:&quot;,
+          "🔍 Element prototype:",
           Object.getOwnPropertyNames(Object.getPrototypeOf(element)),
         );
 
         // Add event listener for the place_changed event
-        element.addEventListener(&quot;gmp-placeselect&quot;, (event: any) => {
+        element.addEventListener("gmp-placeselect", (event: any) => {
           console.log(
-            &quot;🎯 PlaceAutocompleteElement selection event triggered!&quot;,
+            "🎯 PlaceAutocompleteElement selection event triggered!",
             event,
           );
 
@@ -232,86 +232,86 @@ export default function SimpleAddressPicker({
             let placeValue;
 
             // Check if the element has a getPlaceValue method
-            if (typeof element.getPlaceValue === &quot;function&quot;) {
-              console.log(&quot;🎯 Using element.getPlaceValue()&quot;);
+            if (typeof element.getPlaceValue === "function") {
+              console.log("🎯 Using element.getPlaceValue()");
               placeValue = element.getPlaceValue();
-              console.log(&quot;🎯 Place value from getPlaceValue:&quot;, placeValue);
+              console.log("🎯 Place value from getPlaceValue:", placeValue);
             }
             // Check the event.detail.place structure
             else if (event.detail && event.detail.place) {
-              console.log(&quot;🎯 Using event.detail.place&quot;);
+              console.log("🎯 Using event.detail.place");
               placeValue = event.detail.place;
-              console.log(&quot;🎯 Place value from event.detail:&quot;, placeValue);
+              console.log("🎯 Place value from event.detail:", placeValue);
             }
             // Check other possible locations
             else if (event.place) {
-              console.log(&quot;🎯 Using event.place&quot;);
+              console.log("🎯 Using event.place");
               placeValue = event.place;
-              console.log(&quot;🎯 Place value from event:&quot;, placeValue);
+              console.log("🎯 Place value from event:", placeValue);
             } else {
-              console.error(&quot;🎯 No place value found in event&quot;);
+              console.error("🎯 No place value found in event");
               console.error(
-                &quot;🎯 Event:&quot;,
+                "🎯 Event:",
                 JSON.stringify(event, (k, v) =>
-                  typeof v === &quot;function&quot; ? &quot;[Function]&quot; : v,
+                  typeof v === "function" ? "[Function]" : v,
                 ),
               );
 
               // As a last resort, try a direct DOM query to see if we can get more info
               const placeElements = document.querySelectorAll(
-                &quot;gmp-place-autocomplete&quot;,
+                "gmp-place-autocomplete",
               );
-              console.log(&quot;🎯 Found place elements:&quot;, placeElements);
+              console.log("🎯 Found place elements:", placeElements);
 
               return;
             }
 
             // If we have a place value with an ID, proceed to fetch details
             if (placeValue && placeValue.id) {
-              console.log(&quot;🎯 Successfully extracted place ID:&quot;, placeValue.id);
+              console.log("🎯 Successfully extracted place ID:", placeValue.id);
               handlePlaceSelection(placeValue.id);
             } else {
-              console.error(&quot;🎯 No place ID found in place value&quot;);
+              console.error("🎯 No place ID found in place value");
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Could not identify the selected location&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Could not identify the selected location",
+                variant: "destructive",
               });
             }
           } catch (error) {
-            console.error(&quot;🎯 Error handling place selection:&quot;, error);
+            console.error("🎯 Error handling place selection:", error);
             toast({
-              title: &quot;Error&quot;,
-              description: &quot;Error processing the selected location&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Error",
+              description: "Error processing the selected location",
+              variant: "destructive",
             });
           }
         });
 
         // Notify that initialization is complete
         console.log(
-          &quot;🔍 PlaceAutocompleteElement initialized and attached to DOM&quot;,
+          "🔍 PlaceAutocompleteElement initialized and attached to DOM",
         );
         setGoogleInitialized(true);
       } catch (error) {
-        console.error(&quot;🔍 Error during Google Maps initialization:&quot;, error);
+        console.error("🔍 Error during Google Maps initialization:", error);
         toast({
-          title: &quot;Initialization Error&quot;,
-          description: &quot;Failed to initialize location services&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Initialization Error",
+          description: "Failed to initialize location services",
+          variant: "destructive",
         });
       }
     }
 
     // Function to handle place selection and fetch details
     function handlePlaceSelection(placeId: string) {
-      console.log(&quot;🔍 Handling place selection for ID:&quot;, placeId);
+      console.log("🔍 Handling place selection for ID:", placeId);
       setIsLoading(true);
 
       try {
-        // Create a service if it doesn&apos;t exist
+        // Create a service if it doesn't exist
         if (!placesServiceRef.current) {
-          console.log(&quot;🔍 Creating PlacesService&quot;);
+          console.log("🔍 Creating PlacesService");
           // Use a map if available, otherwise create with a div
           if (mapInstanceRef.current) {
             placesServiceRef.current =
@@ -319,48 +319,48 @@ export default function SimpleAddressPicker({
                 mapInstanceRef.current,
               );
           } else {
-            const tempDiv = document.createElement(&quot;div&quot;);
+            const tempDiv = document.createElement("div");
             placesServiceRef.current =
               new window.google.maps.places.PlacesService(tempDiv);
           }
         }
 
-        console.log(&quot;🔍 Requesting place details&quot;);
+        console.log("🔍 Requesting place details");
         placesServiceRef.current.getDetails(
           {
             placeId: placeId,
             fields: [
-              &quot;name&quot;,
-              &quot;formatted_address&quot;,
-              &quot;geometry&quot;,
-              &quot;address_components&quot;,
-              &quot;place_id&quot;,
+              "name",
+              "formatted_address",
+              "geometry",
+              "address_components",
+              "place_id",
             ],
           },
           (result: any, status: any) => {
-            console.log(&quot;🔍 Place details response received. Status:&quot;, status);
+            console.log("🔍 Place details response received. Status:", status);
             setIsLoading(false);
 
             if (
               status === window.google.maps.places.PlacesServiceStatus.OK &&
               result
             ) {
-              console.log(&quot;🔍 Place details successfully retrieved:&quot;, result);
+              console.log("🔍 Place details successfully retrieved:", result);
 
               // Process the place data
               if (result.geometry && result.geometry.location) {
                 // Extract location data
                 const location = result.geometry.location;
                 const latitude =
-                  typeof location.lat === &quot;function&quot;
+                  typeof location.lat === "function"
                     ? location.lat()
                     : location.lat;
                 const longitude =
-                  typeof location.lng === &quot;function&quot;
+                  typeof location.lng === "function"
                     ? location.lng()
                     : location.lng;
 
-                console.log(&quot;🔍 Location coordinates:&quot;, latitude, longitude);
+                console.log("🔍 Location coordinates:", latitude, longitude);
 
                 // Update UI state to show the map
                 setSelectedLocation({ lat: latitude, lng: longitude });
@@ -373,104 +373,104 @@ export default function SimpleAddressPicker({
 
                 // Create the address data object to pass to parent
                 const addressData: AddressData = {
-                  formatted_address: result.formatted_address || &quot;&quot;,
+                  formatted_address: result.formatted_address || "",
                   address_components: result.address_components || [],
                   latitude,
                   longitude,
                   place_id: result.place_id,
-                  name: result.name || &quot;&quot;,
+                  name: result.name || "",
                 };
 
-                console.log(&quot;🔍 Address data prepared:&quot;, addressData);
+                console.log("🔍 Address data prepared:", addressData);
 
                 // Call the parent callback with the address data
-                console.log(&quot;🔍 Calling onAddressSelect with data&quot;);
+                console.log("🔍 Calling onAddressSelect with data");
                 onAddressSelect(addressData);
-                console.log(&quot;🔍 onAddressSelect call completed&quot;);
+                console.log("🔍 onAddressSelect call completed");
               } else {
                 console.error(
-                  &quot;🔍 Place result missing geometry or location:&quot;,
+                  "🔍 Place result missing geometry or location:",
                   result,
                 );
                 toast({
-                  title: &quot;Error&quot;,
-                  description: &quot;Selected location missing coordinate data&quot;,
-                  variant: &quot;destructive&quot;,
+                  title: "Error",
+                  description: "Selected location missing coordinate data",
+                  variant: "destructive",
                 });
               }
             } else {
-              console.error(&quot;🔍 Error fetching place details. Status:&quot;, status);
+              console.error("🔍 Error fetching place details. Status:", status);
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Could not retrieve location details&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Could not retrieve location details",
+                variant: "destructive",
               });
             }
           },
         );
       } catch (error) {
-        console.error(&quot;🔍 Error in handlePlaceSelection:&quot;, error);
+        console.error("🔍 Error in handlePlaceSelection:", error);
         setIsLoading(false);
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Error processing location data&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Error processing location data",
+          variant: "destructive",
         });
       }
     }
 
     // Check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.places) {
-      console.log(&quot;🔍 Google Maps already loaded, initializing components&quot;);
+      console.log("🔍 Google Maps already loaded, initializing components");
       initializeGoogleComponents();
     } else {
       // Load the Google Maps script
       const existingScript = document.querySelector(
-        'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
+        'script[src*="maps.googleapis.com/maps/api"]',
       );
 
       if (!existingScript) {
-        console.log(&quot;🔍 Loading Google Maps script&quot;);
+        console.log("🔍 Loading Google Maps script");
         // Try all possible API key environment variables
         const apiKey =
           process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
           process.env.NEXT_PUBLIC_GOOGLE_MAPS_JS_API_KEY ||
           process.env.NEXT_PUBLIC_GOOGLE_API_KEY ||
-          &quot;&quot;;
+          "";
 
-        console.log(&quot;🔍 Using API Key:&quot;, apiKey ? &quot;Key found&quot; : &quot;Key missing&quot;);
+        console.log("🔍 Using API Key:", apiKey ? "Key found" : "Key missing");
 
-        const script = document.createElement(&quot;script&quot;);
+        const script = document.createElement("script");
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async&v=beta`;
         script.async = true;
         script.defer = true;
 
         // Add detailed debugging for script loading issues
         script.onerror = () => {
-          console.error(&quot;🔍 Failed to load Google Maps script&quot;);
+          console.error("🔍 Failed to load Google Maps script");
           console.error(
-            &quot;🔍 API Key used (first few chars):&quot;,
-            apiKey ? apiKey.substring(0, 8) + &quot;...&quot; : &quot;none&quot;,
+            "🔍 API Key used (first few chars):",
+            apiKey ? apiKey.substring(0, 8) + "..." : "none",
           );
-          console.error(&quot;🔍 Full script URL:&quot;, script.src);
+          console.error("🔍 Full script URL:", script.src);
 
           toast({
-            title: &quot;Loading Error&quot;,
-            description: &quot;Failed to load Google Maps services&quot;,
-            variant: &quot;destructive&quot;,
+            title: "Loading Error",
+            description: "Failed to load Google Maps services",
+            variant: "destructive",
           });
         };
         document.head.appendChild(script);
       } else {
         console.log(
-          &quot;🔍 Google Maps script already loading, waiting for callback&quot;,
+          "🔍 Google Maps script already loading, waiting for callback",
         );
       }
     }
 
     // Cleanup function
     return () => {
-      console.log(&quot;🔍 SimpleAddressPicker: Component unmounting, cleaning up&quot;);
+      console.log("🔍 SimpleAddressPicker: Component unmounting, cleaning up");
       if (window.initGoogleMaps) {
         delete window.initGoogleMaps;
       }
@@ -485,16 +485,16 @@ export default function SimpleAddressPicker({
       {/* Address search container */}
       <div
         ref={autocompleteContainerRef}
-        className=&quot;relative min-h-[45px] border rounded-md mb-2&quot;
+        className="relative min-h-[45px] border rounded-md mb-2"
       >
-        {/* Only show loading placeholder when Google isn&apos;t initialized */}
+        {/* Only show loading placeholder when Google isn't initialized */}
         {!googleInitialized && (
-          <div className=&quot;absolute inset-0 flex items-center bg-background rounded-md&quot;>
-            <Search className=&quot;absolute left-2.5 top-50% h-4 w-4 text-muted-foreground&quot; />
+          <div className="absolute inset-0 flex items-center bg-background rounded-md">
+            <Search className="absolute left-2.5 top-50% h-4 w-4 text-muted-foreground" />
             <Input
-              type=&quot;text&quot;
-              placeholder=&quot;Loading location search...&quot;
-              className=&quot;pl-9 border-none&quot;
+              type="text"
+              placeholder="Loading location search..."
+              className="pl-9 border-none"
               disabled={true}
             />
           </div>
@@ -503,18 +503,18 @@ export default function SimpleAddressPicker({
 
       {/* Loading indicator */}
       {isLoading && (
-        <div className=&quot;absolute right-2.5 top-2.5 z-10&quot;>
-          <Loader2 className=&quot;h-4 w-4 animate-spin text-muted-foreground&quot; />
+        <div className="absolute right-2.5 top-2.5 z-10">
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         </div>
       )}
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className=&quot;mt-4&quot;>
+        <div className="mt-4">
           <div
             ref={mapRef}
-            className=&quot;w-full h-[250px] rounded-md border&quot;
-            aria-label=&quot;Map showing selected location"
+            className="w-full h-[250px] rounded-md border"
+            aria-label="Map showing selected location"
           />
         </div>
       )}

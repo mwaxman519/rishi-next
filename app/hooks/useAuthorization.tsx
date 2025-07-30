@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import { Permission } from &quot;../services/rbac/models&quot;;
-import { getUserPermissions, hasPermission } from &quot;../client/services/rbac&quot;;
-import { useOrganization } from &quot;../contexts/OrganizationProvider&quot;;
+import { useQuery } from "@tanstack/react-query";
+import { Permission } from "../services/rbac/models";
+import { getUserPermissions, hasPermission } from "../client/services/rbac";
+import { useOrganization } from "../contexts/OrganizationProvider";
 
 /**
  * Hook for checking user permissions
@@ -18,7 +18,7 @@ export function useAuthorization() {
     isLoading,
     error,
   } = useQuery<Permission[] | { permissions?: Permission[] }>({
-    queryKey: [&quot;/api/auth/permissions&quot;, organizationId],
+    queryKey: ["/api/auth/permissions", organizationId],
     queryFn: () => getUserPermissions(organizationId),
     // Keep cache for 5 minutes
     staleTime: 5 * 60 * 1000,
@@ -33,7 +33,7 @@ export function useAuthorization() {
     }
 
     // Extract the parts of the permission
-    const [action, resource] = permission.split(&quot;:&quot;);
+    const [action, resource] = permission.split(":");
 
     // Handle development mode where permissions is an object
     const permissionList = Array.isArray(permissions)

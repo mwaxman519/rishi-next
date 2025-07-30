@@ -1,73 +1,73 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
-import { RoleManager } from &quot;../components/rbac/RoleManager&quot;;
-import { PermissionsMatrix } from &quot;../components/rbac/PermissionsMatrix&quot;;
-import { USER_ROLES } from &quot;../../shared/schema&quot;;
-import { UserRole } from &quot;../lib/rbac&quot;;
+import React, { useState } from "react";
+import { RoleManager } from "../components/rbac/RoleManager";
+import { PermissionsMatrix } from "../components/rbac/PermissionsMatrix";
+import { USER_ROLES } from "../../shared/schema";
+import { UserRole } from "../lib/rbac";
 
 export default function RolesPage() {
   const [activeTab, setActiveTab] = useState<
-    &quot;role-manager&quot; | &quot;all-permissions&quot; | &quot;access-map&quot;
-  >(&quot;role-manager&quot;);
+    "role-manager" | "all-permissions" | "access-map"
+  >("role-manager");
 
   return (
-    <div className=&quot;container mx-auto py-8 space-y-6&quot;>
-      <h1 className=&quot;text-3xl font-bold&quot;>Role Management</h1>
-      <p className=&quot;text-muted-foreground&quot;>
+    <div className="container mx-auto py-8 space-y-6">
+      <h1 className="text-3xl font-bold">Role Management</h1>
+      <p className="text-muted-foreground">
         Configure and visualize roles and permissions in the system.
       </p>
 
-      <div className=&quot;flex space-x-1 border-b&quot;>
+      <div className="flex space-x-1 border-b">
         <button
-          className={`px-4 py-2 ${activeTab === &quot;role-manager&quot; ? &quot;text-primary border-b-2 border-primary&quot; : &quot;text-muted-foreground&quot;}`}
-          onClick={() => setActiveTab(&quot;role-manager&quot;)}
+          className={`px-4 py-2 ${activeTab === "role-manager" ? "text-primary border-b-2 border-primary" : "text-muted-foreground"}`}
+          onClick={() => setActiveTab("role-manager")}
         >
           Role Manager
         </button>
         <button
-          className={`px-4 py-2 ${activeTab === &quot;all-permissions&quot; ? &quot;text-primary border-b-2 border-primary&quot; : &quot;text-muted-foreground&quot;}`}
-          onClick={() => setActiveTab(&quot;all-permissions&quot;)}
+          className={`px-4 py-2 ${activeTab === "all-permissions" ? "text-primary border-b-2 border-primary" : "text-muted-foreground"}`}
+          onClick={() => setActiveTab("all-permissions")}
         >
           All Permissions
         </button>
         <button
-          className={`px-4 py-2 ${activeTab === &quot;access-map&quot; ? &quot;text-primary border-b-2 border-primary&quot; : &quot;text-muted-foreground&quot;}`}
-          onClick={() => setActiveTab(&quot;access-map&quot;)}
+          className={`px-4 py-2 ${activeTab === "access-map" ? "text-primary border-b-2 border-primary" : "text-muted-foreground"}`}
+          onClick={() => setActiveTab("access-map")}
         >
           Access Map
         </button>
       </div>
 
-      <div className=&quot;pt-4&quot;>
-        {activeTab === &quot;role-manager&quot; && <RoleManager />}
+      <div className="pt-4">
+        {activeTab === "role-manager" && <RoleManager />}
 
-        {activeTab === &quot;all-permissions&quot; && (
-          <div className=&quot;space-y-4&quot;>
-            <h2 className=&quot;text-xl font-semibold&quot;>Full Permissions Matrix</h2>
-            <p className=&quot;text-muted-foreground&quot;>
+        {activeTab === "all-permissions" && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Full Permissions Matrix</h2>
+            <p className="text-muted-foreground">
               View all permissions for all roles in the system.
             </p>
 
-            <div className=&quot;flex space-x-4 items-center&quot;>
-              <label className=&quot;flex items-center space-x-2&quot;>
+            <div className="flex space-x-4 items-center">
+              <label className="flex items-center space-x-2">
                 <input
-                  type=&quot;checkbox&quot;
-                  className=&quot;rounded border-gray-300 text-primary focus:ring-primary/80&quot;
+                  type="checkbox"
+                  className="rounded border-gray-300 text-primary focus:ring-primary/80"
                   // Compact view state handling
                 />
                 <span>Compact view</span>
               </label>
 
-              <label className=&quot;flex items-center space-x-2&quot;>
+              <label className="flex items-center space-x-2">
                 <select
-                  className=&quot;rounded border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 focus:ring-opacity-50&quot;
+                  className="rounded border-gray-300 focus:border-primary focus:ring focus:ring-primary/20 focus:ring-opacity-50"
                   // Role filter handling
                 >
-                  <option value="&quot;>All roles</option>
+                  <option value="">All roles</option>
                   {Object.values(USER_ROLES).map((role) => (
                     <option key={role} value={role}>
-                      {role.replace(/_/g, &quot; &quot;)}
+                      {role.replace(/_/g, " ")}
                     </option>
                   ))}
                 </select>
@@ -79,10 +79,10 @@ export default function RolesPage() {
           </div>
         )}
 
-        {activeTab === &quot;access-map&quot; && (
-          <div className=&quot;space-y-4&quot;>
-            <h2 className=&quot;text-xl font-semibold&quot;>Route Access Map</h2>
-            <p className=&quot;text-muted-foreground&quot;>
+        {activeTab === "access-map" && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Route Access Map</h2>
+            <p className="text-muted-foreground">
               Visualize which roles have access to specific routes in the
               application.
             </p>
@@ -99,121 +99,121 @@ function RouteAccessMap() {
   // Define common route groups for visualization
   const routeGroups = [
     {
-      name: &quot;User Management&quot;,
+      name: "User Management",
       routes: [
-        &quot;/users&quot;,
-        &quot;/users/create&quot;,
-        &quot;/users/edit&quot;,
-        &quot;/users/agents&quot;,
-        &quot;/users/managers&quot;,
-        &quot;/users/roles&quot;,
-        &quot;/users/activity&quot;,
+        "/users",
+        "/users/create",
+        "/users/edit",
+        "/users/agents",
+        "/users/managers",
+        "/users/roles",
+        "/users/activity",
       ],
     },
     {
-      name: &quot;Client Management&quot;,
+      name: "Client Management",
       routes: [
-        &quot;/clients&quot;,
-        &quot;/clients/create&quot;,
-        &quot;/clients/edit&quot;,
-        &quot;/clients/billing&quot;,
+        "/clients",
+        "/clients/create",
+        "/clients/edit",
+        "/clients/billing",
       ],
     },
     {
-      name: &quot;Field Management&quot;,
+      name: "Field Management",
       routes: [
-        &quot;/field&quot;,
-        &quot;/field/teams&quot;,
-        &quot;/field/regions&quot;,
-        &quot;/field/regions/assign&quot;,
+        "/field",
+        "/field/teams",
+        "/field/regions",
+        "/field/regions/assign",
       ],
     },
     {
-      name: &quot;Event Management&quot;,
-      routes: [&quot;/events&quot;, &quot;/events/create&quot;, &quot;/events/edit&quot;, &quot;/events/approval&quot;],
+      name: "Event Management",
+      routes: ["/events", "/events/create", "/events/edit", "/events/approval"],
     },
     {
-      name: &quot;Kit Management&quot;,
-      routes: [&quot;/kits&quot;, &quot;/kits/create&quot;, &quot;/kits/edit&quot;, &quot;/kits/assign&quot;],
+      name: "Kit Management",
+      routes: ["/kits", "/kits/create", "/kits/edit", "/kits/assign"],
     },
     {
-      name: &quot;Marketing Management&quot;,
+      name: "Marketing Management",
       routes: [
-        &quot;/marketing&quot;,
-        &quot;/marketing/create&quot;,
-        &quot;/marketing/edit&quot;,
-        &quot;/marketing/approve&quot;,
+        "/marketing",
+        "/marketing/create",
+        "/marketing/edit",
+        "/marketing/approve",
       ],
     },
     {
-      name: &quot;Agent Management&quot;,
+      name: "Agent Management",
       routes: [
-        &quot;/agents&quot;,
-        &quot;/agents/create&quot;,
-        &quot;/agents/edit&quot;,
-        &quot;/agents/assign&quot;,
-        &quot;/agents/performance&quot;,
+        "/agents",
+        "/agents/create",
+        "/agents/edit",
+        "/agents/assign",
+        "/agents/performance",
       ],
     },
     {
-      name: &quot;Dispensary Management&quot;,
+      name: "Dispensary Management",
       routes: [
-        &quot;/dispensaries&quot;,
-        &quot;/dispensaries/create&quot;,
-        &quot;/dispensaries/edit&quot;,
-        &quot;/dispensaries/assign&quot;,
+        "/dispensaries",
+        "/dispensaries/create",
+        "/dispensaries/edit",
+        "/dispensaries/assign",
       ],
     },
     {
-      name: &quot;Scheduling&quot;,
+      name: "Scheduling",
       routes: [
-        &quot;/scheduling&quot;,
-        &quot;/scheduling/calendar&quot;,
-        &quot;/scheduling/appointments&quot;,
-        &quot;/scheduling/manage&quot;,
+        "/scheduling",
+        "/scheduling/calendar",
+        "/scheduling/appointments",
+        "/scheduling/manage",
       ],
     },
     {
-      name: &quot;Reports&quot;,
-      routes: [&quot;/reports&quot;, &quot;/reports/create&quot;, &quot;/reports/edit&quot;],
+      name: "Reports",
+      routes: ["/reports", "/reports/create", "/reports/edit"],
     },
     {
-      name: &quot;Administration&quot;,
+      name: "Administration",
       routes: [
-        &quot;/admin&quot;,
-        &quot;/admin/settings&quot;,
-        &quot;/admin/logs&quot;,
-        &quot;/admin/metrics&quot;,
-        &quot;/admin/configuration&quot;,
+        "/admin",
+        "/admin/settings",
+        "/admin/logs",
+        "/admin/metrics",
+        "/admin/configuration",
       ],
     },
   ];
 
   // This would be filled with actual logic to check permissions by route and role
-  // For now we&apos;re just displaying the structure
+  // For now we're just displaying the structure
 
   return (
-    <div className=&quot;space-y-6&quot;>
+    <div className="space-y-6">
       {routeGroups.map((group, index) => (
-        <div key={index} className=&quot;border rounded-lg p-4&quot;>
-          <h3 className=&quot;text-lg font-medium mb-2&quot;>{group.name}</h3>
-          <div className=&quot;space-y-2&quot;>
+        <div key={index} className="border rounded-lg p-4">
+          <h3 className="text-lg font-medium mb-2">{group.name}</h3>
+          <div className="space-y-2">
             {group.routes.map((route, routeIndex) => (
               <div
                 key={routeIndex}
-                className=&quot;py-2 px-4 bg-gray-50 rounded flex justify-between&quot;
+                className="py-2 px-4 bg-gray-50 rounded flex justify-between"
               >
-                <span className=&quot;font-mono text-sm&quot;>{route}</span>
-                <div className=&quot;flex space-x-2&quot;>
+                <span className="font-mono text-sm">{route}</span>
+                <div className="flex space-x-2">
                   {/* This is where role access indicators would be shown */}
-                  <span className=&quot;text-xs px-2 py-1 bg-green-100 text-green-800 rounded&quot;>
-                    {route.includes(&quot;create&quot;) ||
-                    route.includes(&quot;edit&quot;) ||
-                    route.includes(&quot;delete&quot;)
-                      ? &quot;Admin+ only&quot;
-                      : route.includes(&quot;admin&quot;)
-                        ? &quot;Super Admin only&quot;
-                        : &quot;Varies by role&quot;}
+                  <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded">
+                    {route.includes("create") ||
+                    route.includes("edit") ||
+                    route.includes("delete")
+                      ? "Admin+ only"
+                      : route.includes("admin")
+                        ? "Super Admin only"
+                        : "Varies by role"}
                   </span>
                 </div>
               </div>
@@ -222,8 +222,8 @@ function RouteAccessMap() {
         </div>
       ))}
 
-      <div className=&quot;bg-yellow-50 border border-yellow-200 p-4 rounded-md&quot;>
-        <p className=&quot;text-yellow-800 text-sm">
+      <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-md">
+        <p className="text-yellow-800 text-sm">
           Note: This is a visual representation of route access. The actual
           permissions are enforced by the authorization middleware.
         </p>

@@ -1,60 +1,60 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useToast } from &quot;./use-toast&quot;;
+import { useState, useEffect } from "react";
+import { useToast } from "./use-toast";
 
 /**
  * Mock US states data for development
  */
 const MOCK_STATES = [
   {
-    id: &quot;1&quot;,
-    name: &quot;California&quot;,
-    code: &quot;CA&quot;,
-    regionId: &quot;5&quot;, // West
-    capital: &quot;Sacramento&quot;,
+    id: "1",
+    name: "California",
+    code: "CA",
+    regionId: "5", // West
+    capital: "Sacramento",
     isTerritory: false,
-    timezone: &quot;Pacific&quot;,
+    timezone: "Pacific",
     active: true,
   },
   {
-    id: &quot;2&quot;,
-    name: &quot;New York&quot;,
-    code: &quot;NY&quot;,
-    regionId: &quot;1&quot;, // Northeast
-    capital: &quot;Albany&quot;,
+    id: "2",
+    name: "New York",
+    code: "NY",
+    regionId: "1", // Northeast
+    capital: "Albany",
     isTerritory: false,
-    timezone: &quot;Eastern&quot;,
+    timezone: "Eastern",
     active: true,
   },
   {
-    id: &quot;3&quot;,
-    name: &quot;Texas&quot;,
-    code: &quot;TX&quot;,
-    regionId: &quot;4&quot;, // Southwest
-    capital: &quot;Austin&quot;,
+    id: "3",
+    name: "Texas",
+    code: "TX",
+    regionId: "4", // Southwest
+    capital: "Austin",
     isTerritory: false,
-    timezone: &quot;Central&quot;,
+    timezone: "Central",
     active: true,
   },
   {
-    id: &quot;4&quot;,
-    name: &quot;Florida&quot;,
-    code: &quot;FL&quot;,
-    regionId: &quot;2&quot;, // Southeast
-    capital: &quot;Tallahassee&quot;,
+    id: "4",
+    name: "Florida",
+    code: "FL",
+    regionId: "2", // Southeast
+    capital: "Tallahassee",
     isTerritory: false,
-    timezone: &quot;Eastern&quot;,
+    timezone: "Eastern",
     active: true,
   },
   {
-    id: &quot;5&quot;,
-    name: &quot;Illinois&quot;,
-    code: &quot;IL&quot;,
-    regionId: &quot;3&quot;, // Midwest
-    capital: &quot;Springfield&quot;,
+    id: "5",
+    name: "Illinois",
+    code: "IL",
+    regionId: "3", // Midwest
+    capital: "Springfield",
     isTerritory: false,
-    timezone: &quot;Central&quot;,
+    timezone: "Central",
     active: true,
   },
 ];
@@ -94,10 +94,10 @@ export function useStates() {
     try {
       setLoading(true);
 
-      const response = await fetch(&quot;/api/states&quot;, {
-        method: &quot;GET&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
-        credentials: &quot;include&quot;,
+      const response = await fetch("/api/states", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -109,21 +109,21 @@ export function useStates() {
         data = await response.json();
 
         if (!data || !data.states || !Array.isArray(data.states)) {
-          throw new Error(&quot;Invalid response format&quot;);
+          throw new Error("Invalid response format");
         }
 
         setStates(data.states);
       } catch (parseError) {
         console.warn(
-          &quot;Error parsing API response, using mock data:&quot;,
+          "Error parsing API response, using mock data:",
           parseError,
         );
         setStates(MOCK_STATES);
       }
     } catch (error) {
-      console.error(&quot;Error fetching states:&quot;, error);
+      console.error("Error fetching states:", error);
       setError(
-        error instanceof Error ? error : new Error(&quot;Failed to fetch states&quot;),
+        error instanceof Error ? error : new Error("Failed to fetch states"),
       );
       // Fallback to mock data on error
       setStates(MOCK_STATES);

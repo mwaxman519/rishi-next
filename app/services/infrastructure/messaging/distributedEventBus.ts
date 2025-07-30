@@ -1,12 +1,12 @@
-import { v4 as uuidv4 } from &quot;uuid&quot;;
-import { AppEvent, Event, PublishResult } from &quot;./eventTypes&quot;;
+import { v4 as uuidv4 } from "uuid";
+import { AppEvent, Event, PublishResult } from "./eventTypes";
 
 /**
  * CircuitBreaker for handling fault tolerance in distributed systems
  * Implements the Circuit Breaker pattern to prevent cascading failures
  */
 export class CircuitBreaker {
-  private state: &quot;CLOSED&quot; | &quot;OPEN&quot; | &quot;HALF_OPEN&quot; = &quot;CLOSED&quot;;
+  private state: "CLOSED" | "OPEN" | "HALF_OPEN" = "CLOSED";
   private failureCount = 0;
   private lastFailureTime = 0;
   private readonly failureThreshold: number;
@@ -18,11 +18,11 @@ export class CircuitBreaker {
   }
 
   async execute<T>(operation: () => Promise<T>): Promise<T> {
-    if (this.state === &quot;OPEN&quot;) {
+    if (this.state === "OPEN") {
       if (Date.now() - this.lastFailureTime > this.resetTimeout) {
-        this.state = &quot;HALF_OPEN&quot;;
+        this.state = "HALF_OPEN";
       } else {
-        throw new Error(&quot;Circuit breaker is open&quot;);
+        throw new Error("Circuit breaker is open");
       }
     }
 
@@ -38,7 +38,7 @@ export class CircuitBreaker {
 
   private onSuccess(): void {
     this.failureCount = 0;
-    this.state = &quot;CLOSED&quot;;
+    this.state = "CLOSED";
   }
 
   private onFailure(): void {
@@ -46,10 +46,10 @@ export class CircuitBreaker {
     this.lastFailureTime = Date.now();
 
     if (
-      this.state === &quot;HALF_OPEN&quot; ||
+      this.state === "HALF_OPEN" ||
       this.failureCount >= this.failureThreshold
     ) {
-      this.state = &quot;OPEN&quot;;
+      this.state = "OPEN";
     }
   }
 
@@ -59,7 +59,7 @@ export class CircuitBreaker {
 
   reset(): void {
     this.failureCount = 0;
-    this.state = &quot;CLOSED&quot;;
+    this.state = "CLOSED";
   }
 }
 
@@ -150,7 +150,7 @@ export class DistributedEventBus {
       id: uuidv4(),
       type: eventType,
       timestamp: new Date().toISOString(),
-      producer: &quot;application&quot;,
+      producer: "application",
       payload,
       metadata,
     };
@@ -207,9 +207,9 @@ export class DistributedEventBus {
       console.error(`[EventBus] Error publishing event ${eventType}:`, error);
 
       if (error instanceof Error) {
-        errors[&quot;eventBus&quot;] = error;
+        errors["eventBus"] = error;
       } else {
-        errors[&quot;eventBus&quot;] = new Error(String(error));
+        errors["eventBus"] = new Error(String(error));
       }
 
       return {
@@ -240,14 +240,14 @@ export class DistributedEventBus {
       } catch (error) {
         lastError = error;
         console.warn(
-          `[EventBus] Retry attempt ${attempt + 1} failed for event ${eventType || &quot;unknown&quot;} (${eventId || &quot;unknown&quot;}):`,
+          `[EventBus] Retry attempt ${attempt + 1} failed for event ${eventType || "unknown"} (${eventId || "unknown"}):`,
           error,
         );
 
         // On last attempt, we should integrate with our error handling strategies
         if (attempt === this.maxRetries - 1 && eventType) {
           console.log(
-            `[EventBus] Last retry attempt failed for event ${eventType} (${eventId || &quot;unknown&quot;})`,
+            `[EventBus] Last retry attempt failed for event ${eventType} (${eventId || "unknown"})`,
           );
 
           // In the future, we would integrate with the ErrorHandler here

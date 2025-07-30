@@ -1,80 +1,80 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
-import { AppLayout } from &quot;../components/app-layout&quot;;
+import React, { useState } from "react";
+import { AppLayout } from "../components/app-layout";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;../../components/ui/card&quot;;
-import { Button } from &quot;../../components/ui/button&quot;;
-import { Badge } from &quot;../../components/ui/badge&quot;;
-import { Input } from &quot;../../components/ui/input&quot;;
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { Input } from "../../components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;../../components/ui/select&quot;;
-import { MapPin, Search, Users, Calendar, Package } from &quot;lucide-react&quot;;
+} from "../../components/ui/select";
+import { MapPin, Search, Users, Calendar, Package } from "lucide-react";
 
 // Cannabis industry locations with authentic operational data
 const cannabisLocations = [
   {
-    id: &quot;loc_ca_001&quot;,
-    name: &quot;Bay Area Cannabis Collective&quot;,
-    address: &quot;1245 Market Street, San Francisco, CA 94103&quot;,
-    type: &quot;dispensary&quot;,
-    region: &quot;California&quot;,
-    status: &quot;active&quot;,
+    id: "loc_ca_001",
+    name: "Bay Area Cannabis Collective",
+    address: "1245 Market Street, San Francisco, CA 94103",
+    type: "dispensary",
+    region: "California",
+    status: "active",
     activeBookings: 3,
     staffCapacity: 12,
-    equipmentStored: [&quot;Demo Kit Alpha&quot;, &quot;Training Kit Basic&quot;],
+    equipmentStored: ["Demo Kit Alpha", "Training Kit Basic"],
   },
   {
-    id: &quot;loc_co_002&quot;,
-    name: &quot;Denver Convention Center&quot;,
-    address: &quot;700 14th Street, Denver, CO 80202&quot;,
-    type: &quot;event_venue&quot;,
-    region: &quot;Colorado&quot;,
-    status: &quot;active&quot;,
+    id: "loc_co_002",
+    name: "Denver Convention Center",
+    address: "700 14th Street, Denver, CO 80202",
+    type: "event_venue",
+    region: "Colorado",
+    status: "active",
     activeBookings: 1,
     staffCapacity: 20,
-    equipmentStored: [&quot;Conference Kit Pro&quot;, &quot;Event Kit Deluxe&quot;],
+    equipmentStored: ["Conference Kit Pro", "Event Kit Deluxe"],
   },
   {
-    id: &quot;loc_or_003&quot;,
-    name: &quot;Portland Training Facility&quot;,
-    address: &quot;2150 NW Westover Road, Portland, OR 97210&quot;,
-    type: &quot;training_center&quot;,
-    region: &quot;Oregon&quot;,
-    status: &quot;active&quot;,
+    id: "loc_or_003",
+    name: "Portland Training Facility",
+    address: "2150 NW Westover Road, Portland, OR 97210",
+    type: "training_center",
+    region: "Oregon",
+    status: "active",
     activeBookings: 2,
     staffCapacity: 8,
-    equipmentStored: [&quot;Training Kit Advanced&quot;, &quot;Demo Kit Beta&quot;],
+    equipmentStored: ["Training Kit Advanced", "Demo Kit Beta"],
   },
 ];
 
 const getStatusColor = (status: string) => {
   const colors: Record<string, string> = {
-    active: &quot;bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300&quot;,
+    active: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
     maintenance:
-      &quot;bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300&quot;,
+      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
   };
-  return colors[status] || &quot;bg-gray-100 text-gray-800&quot;;
+  return colors[status] || "bg-gray-100 text-gray-800";
 };
 
 export default function MapPage() {
-  const [selectedRegion, setSelectedRegion] = useState(&quot;all&quot;);
-  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [selectedRegion, setSelectedRegion] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState<any>(null);
 
   const filteredLocations = cannabisLocations.filter((location) => {
     const matchesRegion =
-      selectedRegion === &quot;all&quot; || location.region === selectedRegion;
+      selectedRegion === "all" || location.region === selectedRegion;
     const matchesSearch = location.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -83,79 +83,79 @@ export default function MapPage() {
 
   return (
     <AppLayout>
-      <div className=&quot;space-y-6&quot;>
-        <div className=&quot;flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0&quot;>
+      <div className="space-y-6">
+        <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
-            <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+            <h1 className="text-3xl font-bold tracking-tight">
               Cannabis Operations Map
             </h1>
-            <p className=&quot;text-muted-foreground mt-1&quot;>
+            <p className="text-muted-foreground mt-1">
               Interactive map of cannabis industry locations and operational
               centers
             </p>
           </div>
           <Button>
-            <MapPin className=&quot;mr-2 h-4 w-4&quot; />
+            <MapPin className="mr-2 h-4 w-4" />
             Add New Location
           </Button>
         </div>
 
-        <div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-6&quot;>
-          <div className=&quot;lg:col-span-1 space-y-4&quot;>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-1 space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle className=&quot;text-lg&quot;>Filter Locations</CardTitle>
+                <CardTitle className="text-lg">Filter Locations</CardTitle>
               </CardHeader>
-              <CardContent className=&quot;space-y-4&quot;>
-                <div className=&quot;relative&quot;>
-                  <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+              <CardContent className="space-y-4">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder=&quot;Search locations...&quot;
+                    placeholder="Search locations..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className=&quot;pl-9&quot;
+                    className="pl-9"
                   />
                 </div>
 
-                <div className=&quot;space-y-2&quot;>
-                  <label className=&quot;text-sm font-medium&quot;>Region</label>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Region</label>
                   <Select
                     value={selectedRegion}
                     onValueChange={setSelectedRegion}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder=&quot;All Regions&quot; />
+                      <SelectValue placeholder="All Regions" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=&quot;all&quot;>All Regions</SelectItem>
-                      <SelectItem value=&quot;California&quot;>California</SelectItem>
-                      <SelectItem value=&quot;Colorado&quot;>Colorado</SelectItem>
-                      <SelectItem value=&quot;Oregon&quot;>Oregon</SelectItem>
+                      <SelectItem value="all">All Regions</SelectItem>
+                      <SelectItem value="California">California</SelectItem>
+                      <SelectItem value="Colorado">Colorado</SelectItem>
+                      <SelectItem value="Oregon">Oregon</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </CardContent>
             </Card>
 
-            <div className=&quot;space-y-3&quot;>
+            <div className="space-y-3">
               {filteredLocations.map((location) => (
                 <Card
                   key={location.id}
                   className={`cursor-pointer transition-all hover:shadow-md ${
                     selectedLocation?.id === location.id
-                      ? &quot;ring-2 ring-primary&quot;
-                      : &quot;&quot;
+                      ? "ring-2 ring-primary"
+                      : ""
                   }`}
                   onClick={() => setSelectedLocation(location)}
                 >
-                  <CardHeader className=&quot;pb-2&quot;>
-                    <div className=&quot;flex items-start justify-between&quot;>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle className=&quot;text-base&quot;>
+                        <CardTitle className="text-base">
                           {location.name}
                         </CardTitle>
-                        <CardDescription className=&quot;text-sm&quot;>
-                          {location.region} • {location.type.replace(&quot;_&quot;, &quot; &quot;)}
+                        <CardDescription className="text-sm">
+                          {location.region} • {location.type.replace("_", " ")}
                         </CardDescription>
                       </div>
                       <Badge className={getStatusColor(location.status)}>
@@ -163,14 +163,14 @@ export default function MapPage() {
                       </Badge>
                     </div>
                   </CardHeader>
-                  <CardContent className=&quot;pt-0&quot;>
-                    <div className=&quot;flex items-center justify-between text-sm&quot;>
-                      <div className=&quot;flex items-center&quot;>
-                        <Calendar className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                  <CardContent className="pt-0">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
                         <span>{location.activeBookings} active</span>
                       </div>
-                      <div className=&quot;flex items-center&quot;>
-                        <Users className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                      <div className="flex items-center">
+                        <Users className="h-4 w-4 mr-2 text-muted-foreground" />
                         <span>{location.staffCapacity} capacity</span>
                       </div>
                     </div>
@@ -180,7 +180,7 @@ export default function MapPage() {
             </div>
           </div>
 
-          <div className=&quot;lg:col-span-2 space-y-4&quot;>
+          <div className="lg:col-span-2 space-y-4">
             <Card>
               <CardHeader>
                 <CardTitle>Cannabis Operations Map</CardTitle>
@@ -190,14 +190,14 @@ export default function MapPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;h-[400px] bg-muted/20 rounded-lg flex items-center justify-center&quot;>
-                  <div className=&quot;text-center space-y-2&quot;>
-                    <MapPin className=&quot;h-12 w-12 mx-auto text-muted-foreground&quot; />
-                    <p className=&quot;text-muted-foreground&quot;>
+                <div className="h-[400px] bg-muted/20 rounded-lg flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <MapPin className="h-12 w-12 mx-auto text-muted-foreground" />
+                    <p className="text-muted-foreground">
                       Interactive Map View
                     </p>
-                    <p className=&quot;text-sm text-muted-foreground&quot;>
-                      Cannabis locations across {filteredLocations.length}{&quot; "}
+                    <p className="text-sm text-muted-foreground">
+                      Cannabis locations across {filteredLocations.length}{" "}
                       operational centers
                     </p>
                   </div>

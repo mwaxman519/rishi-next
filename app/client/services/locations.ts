@@ -1,12 +1,12 @@
 /**
  * Client-side adapter for the Locations service
  */
-import { api } from &quot;@/lib/api&quot;;
+import { api } from "@/lib/api";
 import type {
   LocationDTO,
   CreateLocationParams,
   UpdateLocationParams,
-} from &quot;@/services/locations_core&quot;;
+} from "@/services/locations_core";
 
 export class LocationsClientService {
   /**
@@ -16,11 +16,11 @@ export class LocationsClientService {
     try {
       const queryString = new URLSearchParams(filters as any).toString();
       const response = await api.get(
-        `/api/locations${queryString ? `?${queryString}` : "&quot;}`,
+        `/api/locations${queryString ? `?${queryString}` : ""}`,
       );
       return response.data.locations || response.data.data || [];
     } catch (error) {
-      console.error(&quot;Error fetching locations:&quot;, error);
+      console.error("Error fetching locations:", error);
       throw error;
     }
   }
@@ -43,17 +43,17 @@ export class LocationsClientService {
    */
   async createLocation(data: CreateLocationParams): Promise<LocationDTO> {
     try {
-      const response = await api.post(&quot;/api/locations&quot;, data);
+      const response = await api.post("/api/locations", data);
 
       // Add defensive checking for response structure
       if (!response.data || !response.data.location) {
-        console.error(&quot;Invalid response structure:&quot;, response);
-        throw new Error(&quot;Server returned an invalid response format&quot;);
+        console.error("Invalid response structure:", response);
+        throw new Error("Server returned an invalid response format");
       }
 
       return response.data.location || response.data.data;
     } catch (error) {
-      console.error(&quot;Error creating location:&quot;, error);
+      console.error("Error creating location:", error);
       throw error;
     }
   }
@@ -70,8 +70,8 @@ export class LocationsClientService {
 
       // Add defensive checking for response structure
       if (!response.data || !response.data.location) {
-        console.error(&quot;Invalid response structure:&quot;, response);
-        throw new Error(&quot;Server returned an invalid response format&quot;);
+        console.error("Invalid response structure:", response);
+        throw new Error("Server returned an invalid response format");
       }
 
       return response.data.location || response.data.data;
@@ -102,8 +102,8 @@ export class LocationsClientService {
 
       // Add defensive checking for response structure
       if (!response.data || !response.data.location) {
-        console.error(&quot;Invalid response structure:&quot;, response);
-        throw new Error(&quot;Server returned an invalid response format&quot;);
+        console.error("Invalid response structure:", response);
+        throw new Error("Server returned an invalid response format");
       }
 
       return response.data.location || response.data.data;
@@ -130,8 +130,8 @@ export class LocationsClientService {
 
       // Add defensive checking for response structure
       if (!response.data || !response.data.location) {
-        console.error(&quot;Invalid response structure:&quot;, response);
-        throw new Error(&quot;Server returned an invalid response format");
+        console.error("Invalid response structure:", response);
+        throw new Error("Server returned an invalid response format");
       }
 
       return response.data.location || response.data.data;

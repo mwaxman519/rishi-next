@@ -1,21 +1,21 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
 // Google Maps API Key for geocoding
-const GOOGLE_MAPS_API_KEY = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;;
+const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";
 
 export async function GET(request: Request) {
   try {
     // Extract the address from the URL query parameters
     const { searchParams } = new URL(request.url);
-    const address = (searchParams.get(&quot;address&quot;) || undefined);
+    const address = (searchParams.get("address") || undefined);
 
     if (!address) {
       return NextResponse.json(
-        { error: &quot;Address parameter is required&quot; },
+        { error: "Address parameter is required" },
         { status: 400 },
       );
     }
@@ -27,8 +27,8 @@ export async function GET(request: Request) {
     const data = await response.json();
 
     // Check if the geocoding was successful
-    if (data.status !== &quot;OK&quot;) {
-      console.error(&quot;Geocoding error:&quot;, data);
+    if (data.status !== "OK") {
+      console.error("Geocoding error:", data);
       return NextResponse.json(
         { error: `Geocoding failed: ${data.status}` },
         { status: 400 },
@@ -44,9 +44,9 @@ export async function GET(request: Request) {
       formattedAddress: data.results[0].formatted_address,
     });
   } catch (error) {
-    console.error(&quot;Error in geocoding API:&quot;, error);
+    console.error("Error in geocoding API:", error);
     return NextResponse.json(
-      { error: &quot;An error occurred during geocoding&quot; },
+      { error: "An error occurred during geocoding" },
       { status: 500 },
     );
   }

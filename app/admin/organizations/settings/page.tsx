@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useState, Suspense } from &quot;react&quot;;
-import { useSearchParams, useRouter } from &quot;next/navigation&quot;;
-import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { z } from &quot;zod&quot;;
-import { ArrowLeft, Loader2, Save, User } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { ArrowLeft, Loader2, Save, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,8 +15,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -25,40 +25,40 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { toast } from &quot;@/hooks/use-toast&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { apiRequest } from &quot;@/lib/queryClient&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import type { Organization } from &quot;@shared/schema&quot;;
+} from "@/components/ui/select";
+import { toast } from "@/hooks/use-toast";
+import { Separator } from "@/components/ui/separator";
+import { apiRequest } from "@/lib/queryClient";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import type { Organization } from "@shared/schema";
 
 // Define the schema for organization settings
 const settingsFormSchema = z.object({
   organization_id: z.string().uuid(),
   notification_email: z
     .string()
-    .email({ message: &quot;Please enter a valid email address&quot; })
+    .email({ message: "Please enter a valid email address" })
     .optional()
-    .or(z.literal("&quot;)),
-  timezone: z.string().default(&quot;UTC&quot;),
-  language: z.string().default(&quot;en&quot;),
-  date_format: z.string().default(&quot;YYYY-MM-DD&quot;),
-  time_format: z.string().default(&quot;HH:mm&quot;),
-  billing_contact_name: z.string().optional().or(z.literal(&quot;&quot;)),
+    .or(z.literal("")),
+  timezone: z.string().default("UTC"),
+  language: z.string().default("en"),
+  date_format: z.string().default("YYYY-MM-DD"),
+  time_format: z.string().default("HH:mm"),
+  billing_contact_name: z.string().optional().or(z.literal("")),
   billing_contact_email: z
     .string()
-    .email({ message: &quot;Please enter a valid email address&quot; })
+    .email({ message: "Please enter a valid email address" })
     .optional()
-    .or(z.literal(&quot;&quot;)),
-  billing_address: z.string().optional().or(z.literal(&quot;&quot;)),
+    .or(z.literal("")),
+  billing_address: z.string().optional().or(z.literal("")),
   additional_settings: z.record(z.any()).optional(),
 });
 
@@ -69,8 +69,8 @@ export default function OrganizationSettingsPageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       }
     >
@@ -87,14 +87,14 @@ function OrganizationSettingsPage() {
   const [organizationId, setOrganizationId] = useState<string | null>(null);
 
   useEffect(() => {
-    const id = searchParams.get(&quot;organizationId&quot;);
+    const id = searchParams.get("organizationId");
     if (!id) {
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Organization ID is required&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Organization ID is required",
+        variant: "destructive",
       });
-      router.push(&quot;/admin/organizations&quot;);
+      router.push("/admin/organizations");
       return;
     }
     setOrganizationId(id);
@@ -127,15 +127,15 @@ function OrganizationSettingsPage() {
   const form = useForm<SettingsFormValues>({
     resolver: zodResolver(settingsFormSchema),
     defaultValues: {
-      organization_id: organizationId || &quot;&quot;,
-      notification_email: &quot;&quot;,
-      timezone: &quot;UTC&quot;,
-      language: &quot;en&quot;,
-      date_format: &quot;YYYY-MM-DD&quot;,
-      time_format: &quot;HH:mm&quot;,
-      billing_contact_name: &quot;&quot;,
-      billing_contact_email: &quot;&quot;,
-      billing_address: &quot;&quot;,
+      organization_id: organizationId || "",
+      notification_email: "",
+      timezone: "UTC",
+      language: "en",
+      date_format: "YYYY-MM-DD",
+      time_format: "HH:mm",
+      billing_contact_name: "",
+      billing_contact_email: "",
+      billing_address: "",
       additional_settings: {},
     },
   });
@@ -145,15 +145,15 @@ function OrganizationSettingsPage() {
     if (settingsData?.settings && organizationId) {
       form.reset({
         organization_id: organizationId,
-        notification_email: settingsData.settings.notification_email || &quot;&quot;,
-        timezone: settingsData.settings.timezone || &quot;UTC&quot;,
-        language: settingsData.settings.language || &quot;en&quot;,
-        date_format: settingsData.settings.date_format || &quot;YYYY-MM-DD&quot;,
-        time_format: settingsData.settings.time_format || &quot;HH:mm&quot;,
-        billing_contact_name: settingsData.settings.billing_contact_name || &quot;&quot;,
+        notification_email: settingsData.settings.notification_email || "",
+        timezone: settingsData.settings.timezone || "UTC",
+        language: settingsData.settings.language || "en",
+        date_format: settingsData.settings.date_format || "YYYY-MM-DD",
+        time_format: settingsData.settings.time_format || "HH:mm",
+        billing_contact_name: settingsData.settings.billing_contact_name || "",
         billing_contact_email:
-          settingsData.settings.billing_contact_email || &quot;&quot;,
-        billing_address: settingsData.settings.billing_address || &quot;&quot;,
+          settingsData.settings.billing_contact_email || "",
+        billing_address: settingsData.settings.billing_address || "",
         additional_settings: settingsData.settings.additional_settings || {},
       });
     }
@@ -162,16 +162,16 @@ function OrganizationSettingsPage() {
   const saveSettingsMutation = useMutation({
     mutationFn: async (data: SettingsFormValues) => {
       const response = await apiRequest(
-        &quot;POST&quot;,
-        &quot;/api/organizations/settings&quot;,
+        "POST",
+        "/api/organizations/settings",
         data,
       );
       return response.json();
     },
     onSuccess: () => {
       toast({
-        title: &quot;Settings saved&quot;,
-        description: &quot;Organization settings have been updated successfully.&quot;,
+        title: "Settings saved",
+        description: "Organization settings have been updated successfully.",
       });
       queryClient.invalidateQueries({
         queryKey: [
@@ -181,11 +181,11 @@ function OrganizationSettingsPage() {
     },
     onError: (error: Error) => {
       toast({
-        title: &quot;Error saving settings&quot;,
+        title: "Error saving settings",
         description:
           error.message ||
-          &quot;There was an error saving the organization settings.&quot;,
-        variant: &quot;destructive&quot;,
+          "There was an error saving the organization settings.",
+        variant: "destructive",
       });
     },
   });
@@ -196,8 +196,8 @@ function OrganizationSettingsPage() {
 
   if (isOrgLoading || isSettingsLoading || !organizationId) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -205,30 +205,30 @@ function OrganizationSettingsPage() {
   const organization = orgData;
 
   return (
-    <div className=&quot;container mx-auto py-6&quot;>
-      <div className=&quot;flex items-center mb-6&quot;>
+    <div className="container mx-auto py-6">
+      <div className="flex items-center mb-6">
         <Button
-          variant=&quot;ghost&quot;
-          onClick={() => router.push(&quot;/admin/organizations&quot;)}
-          className=&quot;mr-4&quot;
+          variant="ghost"
+          onClick={() => router.push("/admin/organizations")}
+          className="mr-4"
         >
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Organizations
         </Button>
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">
             Organization Settings
           </h1>
-          <p className=&quot;text-muted-foreground&quot;>
-            {organization?.name || &quot;Organization&quot;} - Configure settings
+          <p className="text-muted-foreground">
+            {organization?.name || "Organization"} - Configure settings
           </p>
         </div>
       </div>
 
-      <Separator className=&quot;my-6&quot; />
+      <Separator className="my-6" />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-8&quot;>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>General Settings</CardTitle>
@@ -236,18 +236,18 @@ function OrganizationSettingsPage() {
                 Configure the organization's general settings and preferences.
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-6&quot;>
+            <CardContent className="space-y-6">
               <FormField
                 control={form.control}
-                name=&quot;notification_email&quot;
+                name="notification_email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Notification Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;notifications@example.com&quot;
+                        placeholder="notifications@example.com"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                       />
                     </FormControl>
                     <FormDescription>
@@ -258,10 +258,10 @@ function OrganizationSettingsPage() {
                 )}
               />
 
-              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name=&quot;timezone&quot;
+                  name="timezone"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Timezone</FormLabel>
@@ -271,20 +271,20 @@ function OrganizationSettingsPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select a timezone&quot; />
+                            <SelectValue placeholder="Select a timezone" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value=&quot;UTC&quot;>UTC</SelectItem>
-                          <SelectItem value=&quot;America/Los_Angeles&quot;>
+                          <SelectItem value="UTC">UTC</SelectItem>
+                          <SelectItem value="America/Los_Angeles">
                             Pacific Time (US)
                           </SelectItem>
-                          <SelectItem value=&quot;America/New_York&quot;>
+                          <SelectItem value="America/New_York">
                             Eastern Time (US)
                           </SelectItem>
-                          <SelectItem value=&quot;Europe/London&quot;>London</SelectItem>
-                          <SelectItem value=&quot;Asia/Tokyo&quot;>Tokyo</SelectItem>
-                          <SelectItem value=&quot;Australia/Sydney&quot;>
+                          <SelectItem value="Europe/London">London</SelectItem>
+                          <SelectItem value="Asia/Tokyo">Tokyo</SelectItem>
+                          <SelectItem value="Australia/Sydney">
                             Sydney
                           </SelectItem>
                         </SelectContent>
@@ -299,7 +299,7 @@ function OrganizationSettingsPage() {
 
                 <FormField
                   control={form.control}
-                  name=&quot;language&quot;
+                  name="language"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Language</FormLabel>
@@ -309,15 +309,15 @@ function OrganizationSettingsPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select a language&quot; />
+                            <SelectValue placeholder="Select a language" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value=&quot;en&quot;>English</SelectItem>
-                          <SelectItem value=&quot;es&quot;>Spanish</SelectItem>
-                          <SelectItem value=&quot;fr&quot;>French</SelectItem>
-                          <SelectItem value=&quot;de&quot;>German</SelectItem>
-                          <SelectItem value=&quot;ja&quot;>Japanese</SelectItem>
+                          <SelectItem value="en">English</SelectItem>
+                          <SelectItem value="es">Spanish</SelectItem>
+                          <SelectItem value="fr">French</SelectItem>
+                          <SelectItem value="de">German</SelectItem>
+                          <SelectItem value="ja">Japanese</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormDescription>
@@ -329,10 +329,10 @@ function OrganizationSettingsPage() {
                 />
               </div>
 
-              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
-                  name=&quot;date_format&quot;
+                  name="date_format"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Date Format</FormLabel>
@@ -342,14 +342,14 @@ function OrganizationSettingsPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select a date format&quot; />
+                            <SelectValue placeholder="Select a date format" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value=&quot;YYYY-MM-DD&quot;>YYYY-MM-DD</SelectItem>
-                          <SelectItem value=&quot;MM/DD/YYYY&quot;>MM/DD/YYYY</SelectItem>
-                          <SelectItem value=&quot;DD/MM/YYYY&quot;>DD/MM/YYYY</SelectItem>
-                          <SelectItem value=&quot;MMMM D, YYYY&quot;>
+                          <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
+                          <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
+                          <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
+                          <SelectItem value="MMMM D, YYYY">
                             MMMM D, YYYY
                           </SelectItem>
                         </SelectContent>
@@ -364,7 +364,7 @@ function OrganizationSettingsPage() {
 
                 <FormField
                   control={form.control}
-                  name=&quot;time_format&quot;
+                  name="time_format"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Time Format</FormLabel>
@@ -374,12 +374,12 @@ function OrganizationSettingsPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select a time format&quot; />
+                            <SelectValue placeholder="Select a time format" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value=&quot;HH:mm&quot;>24-hour (HH:mm)</SelectItem>
-                          <SelectItem value=&quot;hh:mm A&quot;>
+                          <SelectItem value="HH:mm">24-hour (HH:mm)</SelectItem>
+                          <SelectItem value="hh:mm A">
                             12-hour (hh:mm AM/PM)
                           </SelectItem>
                         </SelectContent>
@@ -403,18 +403,18 @@ function OrganizationSettingsPage() {
                 communications.
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-6&quot;>
+            <CardContent className="space-y-6">
               <FormField
                 control={form.control}
-                name=&quot;billing_contact_name&quot;
+                name="billing_contact_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Billing Contact Name</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;John Doe&quot;
+                        placeholder="John Doe"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -424,15 +424,15 @@ function OrganizationSettingsPage() {
 
               <FormField
                 control={form.control}
-                name=&quot;billing_contact_email&quot;
+                name="billing_contact_email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Billing Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;billing@example.com&quot;
+                        placeholder="billing@example.com"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -442,15 +442,15 @@ function OrganizationSettingsPage() {
 
               <FormField
                 control={form.control}
-                name=&quot;billing_address&quot;
+                name="billing_address"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Billing Address</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder=&quot;123 Main St, Suite 100, City, State, 12345&quot;
+                        placeholder="123 Main St, Suite 100, City, State, 12345"
                         {...field}
-                        value={field.value || &quot;&quot;}
+                        value={field.value || ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -460,15 +460,15 @@ function OrganizationSettingsPage() {
             </CardContent>
             <CardFooter>
               <Button
-                type=&quot;submit&quot;
+                type="submit"
                 disabled={saveSettingsMutation.isPending}
-                className=&quot;ml-auto&quot;
+                className="ml-auto"
               >
                 {saveSettingsMutation.isPending && (
-                  <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 {!saveSettingsMutation.isPending && (
-                  <Save className=&quot;mr-2 h-4 w-4" />
+                  <Save className="mr-2 h-4 w-4" />
                 )}
                 Save Settings
               </Button>

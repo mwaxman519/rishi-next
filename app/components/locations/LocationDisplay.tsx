@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -8,12 +8,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
-import { LocationData } from &quot;./LocationSelector&quot;;
-import { useGoogleMaps } from &quot;@/contexts/GoogleMapsContext&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { LocationData } from "./LocationSelector";
+import { useGoogleMaps } from "@/contexts/GoogleMapsContext";
 
 interface LocationDisplayProps {
   location: LocationData;
@@ -47,7 +47,7 @@ export default function LocationDisplay({
     ) {
       try {
         // Initialize the map
-        const mapElement = document.getElementById(&quot;location-map&quot;);
+        const mapElement = document.getElementById("location-map");
         if (mapElement) {
           const map = new google.maps.Map(mapElement, {
             center: { lat: location.latitude, lng: location.longitude },
@@ -67,7 +67,7 @@ export default function LocationDisplay({
           setMapInitialized(true);
         }
       } catch (err) {
-        console.error(&quot;Error initializing map:&quot;, err);
+        console.error("Error initializing map:", err);
         setMapError(
           `Error initializing map: ${err instanceof Error ? err.message : String(err)}`,
         );
@@ -89,11 +89,11 @@ export default function LocationDisplay({
   };
 
   return (
-    <Card className=&quot;w-full dark:bg-gray-800 dark:text-gray-100&quot;>
-      <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+    <Card className="w-full dark:bg-gray-800 dark:text-gray-100">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div>
-          <CardTitle>{title || location.name || &quot;Location Details&quot;}</CardTitle>
-          <CardDescription className=&quot;dark:text-gray-300&quot;>
+          <CardTitle>{title || location.name || "Location Details"}</CardTitle>
+          <CardDescription className="dark:text-gray-300">
             {formattedAddress()}
           </CardDescription>
         </div>
@@ -101,13 +101,13 @@ export default function LocationDisplay({
         {statusBadge && (
           <Badge
             variant={
-              statusBadge === &quot;Approved&quot;
-                ? &quot;success&quot;
-                : statusBadge === &quot;Pending&quot;
-                  ? &quot;warning&quot;
-                  : statusBadge === &quot;Rejected&quot;
-                    ? &quot;destructive&quot;
-                    : &quot;outline&quot;
+              statusBadge === "Approved"
+                ? "success"
+                : statusBadge === "Pending"
+                  ? "warning"
+                  : statusBadge === "Rejected"
+                    ? "destructive"
+                    : "outline"
             }
           >
             {statusBadge}
@@ -115,48 +115,48 @@ export default function LocationDisplay({
         )}
       </CardHeader>
 
-      <CardContent className=&quot;space-y-4&quot;>
+      <CardContent className="space-y-4">
         {showMap && (
-          <div className=&quot;w-full rounded-md overflow-hidden h-[200px] relative dark:bg-gray-700&quot;>
+          <div className="w-full rounded-md overflow-hidden h-[200px] relative dark:bg-gray-700">
             {mapError && (
-              <div className=&quot;absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300&quot;>
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300">
                 <p>{mapError}</p>
               </div>
             )}
 
             {!mapInitialized && !mapError && (
-              <div className=&quot;absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-700&quot;>
-                <Skeleton className=&quot;h-full w-full dark:bg-gray-600&quot; />
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-700">
+                <Skeleton className="h-full w-full dark:bg-gray-600" />
               </div>
             )}
 
             <div
-              id=&quot;location-map&quot;
-              className=&quot;w-full h-full&quot;
+              id="location-map"
+              className="w-full h-full"
               style={{
-                display: !mapInitialized || mapError ? &quot;none&quot; : &quot;block&quot;,
+                display: !mapInitialized || mapError ? "none" : "block",
               }}
             />
           </div>
         )}
 
-        <div className=&quot;grid grid-cols-2 gap-2 text-sm&quot;>
+        <div className="grid grid-cols-2 gap-2 text-sm">
           <div>
-            <p className=&quot;text-gray-500 dark:text-gray-400&quot;>Address</p>
+            <p className="text-gray-500 dark:text-gray-400">Address</p>
             <p>{location.address1}</p>
             {location.address2 && <p>{location.address2}</p>}
           </div>
 
           <div>
-            <p className=&quot;text-gray-500 dark:text-gray-400&quot;>City, State, ZIP</p>
+            <p className="text-gray-500 dark:text-gray-400">City, State, ZIP</p>
             <p>
               {location.city}, {location.state} {location.zipcode}
             </p>
           </div>
 
           {location.latitude && location.longitude && (
-            <div className=&quot;col-span-2&quot;>
-              <p className=&quot;text-gray-500 dark:text-gray-400&quot;>Coordinates</p>
+            <div className="col-span-2">
+              <p className="text-gray-500 dark:text-gray-400">Coordinates</p>
               <p>
                 {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
               </p>
@@ -165,9 +165,9 @@ export default function LocationDisplay({
         </div>
       </CardContent>
 
-      <CardFooter className=&quot;flex justify-end space-x-2&quot;>
+      <CardFooter className="flex justify-end space-x-2">
         {onEdit && (
-          <Button variant=&quot;outline&quot; onClick={onEdit}>
+          <Button variant="outline" onClick={onEdit}>
             Edit
           </Button>
         )}

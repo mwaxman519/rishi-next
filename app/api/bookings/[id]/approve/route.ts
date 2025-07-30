@@ -1,16 +1,16 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { bookings } from &quot;@shared/schema&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { z } from &quot;zod&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { bookings } from "@shared/schema";
+import { eq } from "drizzle-orm";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { z } from "zod";
 
 // Validation schema for approval
 const approvalSchema = z.object({
@@ -29,13 +29,13 @@ export async function POST(
     // Get user from session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Verify permissions using proper authentication check
     if (!session.user || !(session.user as any).role) {
       return NextResponse.json(
-        { error: &quot;Forbidden: Insufficient permissions&quot; },
+        { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
       );
     }
@@ -45,7 +45,7 @@ export async function POST(
     
     if (!allowedRoles.includes(userRole)) {
       return NextResponse.json(
-        { error: &quot;Forbidden: Insufficient permissions&quot; },
+        { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
       );
     }
@@ -60,7 +60,7 @@ export async function POST(
     const updateResult = await db
       .update(bookings)
       .set({
-        status: &quot;approved&quot;,
+        status: "approved",
         approvedById: (session.user as any).id,
         approvedAt: new Date(),
         updatedAt: new Date(),
@@ -71,20 +71,20 @@ export async function POST(
     const updatedBooking = updateResult[0];
     if (!updatedBooking) {
       return NextResponse.json(
-        { error: &quot;Failed to update booking&quot; },
+        { error: "Failed to update booking" },
         { status: 500 }
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: &quot;Booking approved successfully&quot;,
+      message: "Booking approved successfully",
       booking: updatedBooking,
     });
   } catch (error: any) {
-    console.error(&quot;Error approving booking:&quot;, error);
+    console.error("Error approving booking:", error);
     return NextResponse.json(
-      { error: error.message || &quot;Failed to approve booking&quot; },
+      { error: error.message || "Failed to approve booking" },
       { status: 500 },
     );
   }

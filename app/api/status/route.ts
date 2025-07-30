@@ -1,11 +1,11 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 // Using direct database connection instead of problematic import
-// import { testDatabaseConnection } from &quot;@/lib/db&quot;;
-import { db } from &quot;@/lib/db&quot;;
+// import { testDatabaseConnection } from "@/lib/db";
+import { db } from "@/lib/db";
 
 /**
  * Safely extract hostname from DATABASE_URL
@@ -17,20 +17,20 @@ function extractDatabaseHost(url: string | undefined): string | null {
   }
 
   try {
-    const atIndex = url.indexOf(&quot;@&quot;);
+    const atIndex = url.indexOf("@");
     if (atIndex !== -1 && atIndex < url.length - 1) {
       // Get everything after the @ symbol
       const afterAt = url.substring(atIndex + 1);
       // Remove query parameters if any
-      const questionIndex = afterAt.indexOf(&quot;?&quot;);
+      const questionIndex = afterAt.indexOf("?");
       const hostPart =
         questionIndex !== -1 ? afterAt.substring(0, questionIndex) : afterAt;
 
       return `postgresql://${hostPart}`;
     }
-    return &quot;postgresql://[malformed-url]&quot;;
+    return "postgresql://[malformed-url]";
   } catch (e) {
-    return &quot;postgresql://[error-parsing-url]&quot;;
+    return "postgresql://[error-parsing-url]";
   }
 }
 
@@ -40,25 +40,25 @@ function extractDatabaseHost(url: string | undefined): string | null {
  */
 export async function GET(): Promise<NextResponse> {
   // Test the database connection
-  let dbStatus = &quot;unknown&quot;;
+  let dbStatus = "unknown";
   let dbError = null;
 
   try {
     // Direct database connection test instead of using problematic import
     const result = await db.execute('SELECT NOW() as current_time');
-    dbStatus = &quot;connected&quot;;
+    dbStatus = "connected";
     dbError = null;
   } catch (error) {
-    dbStatus = &quot;error&quot;;
-    dbError = error instanceof Error ? error.message : &quot;Unknown database error&quot;;
+    dbStatus = "error";
+    dbError = error instanceof Error ? error.message : "Unknown database error";
   }
 
   // Set appropriate HTTP status code based on database status
-  const httpStatus = dbStatus === &quot;connected&quot; ? 200 : 200; // Still use 200 to avoid triggering alerts
+  const httpStatus = dbStatus === "connected" ? 200 : 200; // Still use 200 to avoid triggering alerts
 
   // Add Cache-Control header to prevent caching
   const headers = new Headers();
-  headers.set(&quot;Cache-Control&quot;, &quot;no-store, max-age=0&quot;);
+  headers.set("Cache-Control", "no-store, max-age=0");
 
   // Process database URL safely
   const dbUrl = extractDatabaseHost(process.env.DATABASE_URL);
@@ -67,9 +67,9 @@ export async function GET(): Promise<NextResponse> {
   return NextResponse.json(
     {
       api: {
-        status: &quot;operational&quot;,
+        status: "operational",
         timestamp: new Date().toISOString(),
-        environment: process.env.NODE_ENV || &quot;unknown&quot;,
+        environment: process.env.NODE_ENV || "unknown",
       },
       database: {
         status: dbStatus,

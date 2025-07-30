@@ -1,11 +1,11 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import fs from &quot;fs/promises&quot;;
-import * as nodePath from &quot;path&quot;;
-import { getDocsDirectory } from &quot;@/lib/utils&quot;;
+import fs from "fs/promises";
+import * as nodePath from "path";
+import { getDocsDirectory } from "@/lib/utils";
 
 // Type definition for document tree
 type DocTree = { [key: string]: DocTree | null };
@@ -18,18 +18,18 @@ type DocTree = { [key: string]: DocTree | null };
 export async function GET() {
   try {
     // Log the start of the process
-    console.log(&quot;[DOCS TREE API] Starting to fetch document tree&quot;);
+    console.log("[DOCS TREE API] Starting to fetch document tree");
 
     // Get the tree without any fallbacks
     const tree = await getDocTree();
 
-    // Verify it&apos;s not empty and throw detailed error if it is
-    if (!tree || typeof tree !== &quot;object&quot;) {
-      throw new Error(&quot;Document tree is null or not an object&quot;);
+    // Verify it's not empty and throw detailed error if it is
+    if (!tree || typeof tree !== "object") {
+      throw new Error("Document tree is null or not an object");
     }
 
     if (Object.keys(tree).length === 0) {
-      throw new Error(&quot;Document tree is empty - no documents found&quot;);
+      throw new Error("Document tree is empty - no documents found");
     }
 
     // Log successful retrieval
@@ -40,23 +40,23 @@ export async function GET() {
     // Return the tree with cache-busting headers
     return NextResponse.json(tree, {
       headers: {
-        &quot;Cache-Control&quot;: &quot;no-store, must-revalidate&quot;,
-        Pragma: &quot;no-cache&quot;,
-        Expires: &quot;0&quot;,
+        "Cache-Control": "no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
       },
     });
   } catch (error) {
     // Log detailed error information
-    console.error(&quot;[DOCS TREE API] Failed to retrieve document tree:&quot;, error);
+    console.error("[DOCS TREE API] Failed to retrieve document tree:", error);
     console.error(
-      &quot;[DOCS TREE API] Error details:&quot;,
-      error instanceof Error ? error.stack : &quot;Unknown error&quot;,
+      "[DOCS TREE API] Error details:",
+      error instanceof Error ? error.stack : "Unknown error",
     );
 
     // Return error with status code and detailed message
     return NextResponse.json(
       {
-        error: &quot;Failed to retrieve document tree&quot;,
+        error: "Failed to retrieve document tree",
         message: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
         timestamp: new Date().toISOString(),
@@ -76,7 +76,7 @@ export async function GET() {
  */
 async function getDocTree(
   dir?: string,
-  currentPath: string = &quot;/&quot;,
+  currentPath: string = "/",
 ): Promise<DocTree> {
   // If dir is not provided, get the docs directory
   if (!dir) {
@@ -95,7 +95,7 @@ async function getDocTree(
       `[DOCS TREE] Found ${allItems.length} items in ${dir} (path: ${currentPath})`,
     );
 
-    const filteredItems = allItems.filter((item) => !item.startsWith(&quot;.&quot;));
+    const filteredItems = allItems.filter((item) => !item.startsWith("."));
     console.log(
       `[DOCS TREE] After filtering hidden items: ${filteredItems.length} items remain`,
     );
@@ -103,7 +103,7 @@ async function getDocTree(
     // Show sample of items
     if (filteredItems.length > 0) {
       const sample = filteredItems.slice(0, Math.min(10, filteredItems.length));
-      console.log(`[DOCS TREE] Sample items: ${sample.join(&quot;, &quot;)}`);
+      console.log(`[DOCS TREE] Sample items: ${sample.join(", ")}`);
     }
 
     // Separate directories and files
@@ -121,7 +121,7 @@ async function getDocTree(
           directories.push(item);
         } else if (
           stat.isFile() &&
-          (item.endsWith(&quot;.md&quot;) || item.endsWith(&quot;.mdx&quot;))
+          (item.endsWith(".md") || item.endsWith(".mdx"))
         ) {
           console.log(`[DOCS TREE] Found file: ${item} at ${itemPath}`);
           files.push(item);
@@ -141,19 +141,19 @@ async function getDocTree(
     directories.sort((a, b) => a.localeCompare(b));
     files.sort((a, b) => {
       // Always put README files first
-      if (a === &quot;README.md&quot; || a === &quot;README.mdx&quot;) return -1;
-      if (b === &quot;README.md&quot; || b === &quot;README.mdx&quot;) return 1;
+      if (a === "README.md" || a === "README.mdx") return -1;
+      if (b === "README.md" || b === "README.mdx") return 1;
       return a.localeCompare(b);
     });
 
     // Debug logging for important paths
     if (
-      dir.includes(&quot;api/endpoints&quot;) ||
-      currentPath.includes(&quot;api/endpoints&quot;)
+      dir.includes("api/endpoints") ||
+      currentPath.includes("api/endpoints")
     ) {
       console.log(`[DOCS TREE] 🔍 ENDPOINTS DIRECTORY SCAN - ${dir}`);
       console.log(
-        `[DOCS TREE] 🔍 Found ${files.length} endpoint files: ${files.join(&quot;, &quot;)}`,
+        `[DOCS TREE] 🔍 Found ${files.length} endpoint files: ${files.join(", ")}`,
       );
     }
 
@@ -161,7 +161,7 @@ async function getDocTree(
     for (const directory of directories) {
       const itemPath = nodePath.join(dir, directory);
       const nextPath =
-        currentPath === &quot;/&quot; ? `/${directory}` : `${currentPath}/${directory}`;
+        currentPath === "/" ? `/${directory}` : `${currentPath}/${directory}`;
       const subtree = await getDocTree(itemPath, nextPath);
       tree[directory] = subtree;
     }
@@ -176,8 +176,8 @@ async function getDocTree(
       `[DOCS TREE] Tree for ${dir} contains ${Object.keys(tree).length} entries`,
     );
 
-    // Check for empty tree and provide detailed warning (but don&apos;t use fallbacks)
-    if (currentPath === &quot;/&quot; && Object.keys(tree).length < 3) {
+    // Check for empty tree and provide detailed warning (but don't use fallbacks)
+    if (currentPath === "/" && Object.keys(tree).length < 3) {
       console.warn(`[DOCS TREE] ⚠️ Root tree has fewer than 3 entries`);
       console.warn(`[DOCS TREE] Documentation may be incomplete or missing`);
 
@@ -190,7 +190,7 @@ async function getDocTree(
     }
 
     // Log warning for endpoints directory without fallback
-    if (currentPath.includes(&quot;/api/endpoints&quot;) && files.length < 3) {
+    if (currentPath.includes("/api/endpoints") && files.length < 3) {
       console.warn(
         `[DOCS TREE] ⚠️ Endpoints directory has very few files (${files.length})`,
       );
@@ -220,21 +220,21 @@ async function getDocTree(
  */
 function getEndpointsFallbackTree(): DocTree {
   return {
-    &quot;README.md&quot;: null,
-    &quot;auth.md&quot;: null,
-    &quot;availability.md&quot;: null,
-    &quot;certifications.md&quot;: null,
-    &quot;docs.md&quot;: null,
-    &quot;employees.md&quot;: null,
-    &quot;facilities.md&quot;: null,
-    &quot;healthcheck.md&quot;: null,
-    &quot;items.md&quot;: null,
-    &quot;products.md&quot;: null,
-    &quot;shifts.md&quot;: null,
-    &quot;status.md&quot;: null,
-    &quot;sync.md&quot;: null,
-    &quot;time-entries.md&quot;: null,
-    &quot;users.md&quot;: null,
+    "README.md": null,
+    "auth.md": null,
+    "availability.md": null,
+    "certifications.md": null,
+    "docs.md": null,
+    "employees.md": null,
+    "facilities.md": null,
+    "healthcheck.md": null,
+    "items.md": null,
+    "products.md": null,
+    "shifts.md": null,
+    "status.md": null,
+    "sync.md": null,
+    "time-entries.md": null,
+    "users.md": null,
   };
 }
 
@@ -243,56 +243,56 @@ function getEndpointsFallbackTree(): DocTree {
  */
 function getFallbackDocTree(): DocTree {
   return {
-    &quot;README.md&quot;: null,
-    &quot;0-Project-Overview.md&quot;: null,
-    &quot;1-TypeScript-Guidelines.md&quot;: null,
-    &quot;2-Build-Optimization.md&quot;: null,
-    &quot;3-Database-Best-Practices.md&quot;: null,
-    &quot;4-CI-CD-and-Deployment.md&quot;: null,
+    "README.md": null,
+    "0-Project-Overview.md": null,
+    "1-TypeScript-Guidelines.md": null,
+    "2-Build-Optimization.md": null,
+    "3-Database-Best-Practices.md": null,
+    "4-CI-CD-and-Deployment.md": null,
     api: {
-      &quot;README.md&quot;: null,
-      &quot;authentication.md&quot;: null,
-      &quot;overview.md&quot;: null,
-      &quot;error-handling.md&quot;: null,
-      &quot;rate-limiting.md&quot;: null,
-      &quot;versioning.md&quot;: null,
-      &quot;security.md&quot;: null,
+      "README.md": null,
+      "authentication.md": null,
+      "overview.md": null,
+      "error-handling.md": null,
+      "rate-limiting.md": null,
+      "versioning.md": null,
+      "security.md": null,
       endpoints: getEndpointsFallbackTree(),
     },
     architecture: {
-      &quot;README.md&quot;: null,
-      &quot;system-architecture.md&quot;: null,
-      &quot;components.md&quot;: null,
-      &quot;data-flow.md&quot;: null,
-      &quot;database-schema.md&quot;: null,
-      &quot;authentication-flow.md&quot;: null,
-      &quot;integration-patterns.md&quot;: null,
-      &quot;event-bus-system.md&quot;: null,
-      &quot;microservices.md&quot;: null,
-      &quot;tech-stack.md&quot;: null,
+      "README.md": null,
+      "system-architecture.md": null,
+      "components.md": null,
+      "data-flow.md": null,
+      "database-schema.md": null,
+      "authentication-flow.md": null,
+      "integration-patterns.md": null,
+      "event-bus-system.md": null,
+      "microservices.md": null,
+      "tech-stack.md": null,
     },
-    &quot;development-guides&quot;: {
-      &quot;README.md&quot;: null,
-      &quot;getting-started.md&quot;: null,
-      &quot;contributing.md&quot;: null,
-      &quot;coding-standards.md&quot;: null,
-      &quot;documentation-system.md&quot;: null,
+    "development-guides": {
+      "README.md": null,
+      "getting-started.md": null,
+      "contributing.md": null,
+      "coding-standards.md": null,
+      "documentation-system.md": null,
     },
     features: {
-      &quot;README.md&quot;: null,
-      &quot;calendar.md&quot;: null,
-      &quot;availability.md&quot;: null,
-      &quot;scheduling.md&quot;: null,
-      &quot;documentation.md&quot;: null,
-      &quot;search.md&quot;: null,
-      &quot;user-management.md&quot;: null,
+      "README.md": null,
+      "calendar.md": null,
+      "availability.md": null,
+      "scheduling.md": null,
+      "documentation.md": null,
+      "search.md": null,
+      "user-management.md": null,
     },
-    &quot;getting-started&quot;: {
-      &quot;README.md&quot;: null,
-      &quot;installation.md&quot;: null,
-      &quot;configuration.md&quot;: null,
-      &quot;first-steps.md&quot;: null,
-      &quot;quickstart.md&quot;: null,
+    "getting-started": {
+      "README.md": null,
+      "installation.md": null,
+      "configuration.md": null,
+      "first-steps.md": null,
+      "quickstart.md": null,
     },
   };
 }

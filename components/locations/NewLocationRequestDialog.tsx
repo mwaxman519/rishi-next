@@ -1,26 +1,26 @@
-&quot;use client&quot;;
+"use client";
 
-import * as React from &quot;react&quot;;
-import { useState } from &quot;react&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import * as React from "react";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from &quot;@/components/ui/dialog&quot;;
+} from "@/components/ui/dialog";
 
 // Import location types for consistency
 enum LocationType {
-  VENUE = &quot;VENUE&quot;,
-  OFFICE = &quot;OFFICE&quot;,
-  STORAGE = &quot;STORAGE&quot;,
-  OTHER = &quot;OTHER&quot;,
+  VENUE = "VENUE",
+  OFFICE = "OFFICE",
+  STORAGE = "STORAGE",
+  OTHER = "OTHER",
 }
 
 interface NewLocationRequestDialogProps {
@@ -44,14 +44,14 @@ export function NewLocationRequestDialog({
   onSubmit,
 }: NewLocationRequestDialogProps) {
   const [formData, setFormData] = useState({
-    name: "&quot;,
+    name: "",
     type: LocationType.VENUE,
-    address1: &quot;&quot;,
-    address2: &quot;&quot;,
-    city: &quot;&quot;,
-    stateId: &quot;&quot;,
-    zipcode: &quot;&quot;,
-    notes: &quot;&quot;,
+    address1: "",
+    address2: "",
+    city: "",
+    stateId: "",
+    zipcode: "",
+    notes: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -74,14 +74,14 @@ export function NewLocationRequestDialog({
       if (success) {
         // Reset form
         setFormData({
-          name: &quot;&quot;,
+          name: "",
           type: LocationType.VENUE,
-          address1: &quot;&quot;,
-          address2: &quot;&quot;,
-          city: &quot;&quot;,
-          stateId: &quot;&quot;,
-          zipcode: &quot;&quot;,
-          notes: &quot;&quot;,
+          address1: "",
+          address2: "",
+          city: "",
+          stateId: "",
+          zipcode: "",
+          notes: "",
         });
       }
     } finally {
@@ -91,30 +91,30 @@ export function NewLocationRequestDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className=&quot;sm:max-w-[600px] bg-background dark:bg-gray-900 border dark:border-gray-800&quot;>
+      <DialogContent className="sm:max-w-[600px] bg-background dark:bg-gray-900 border dark:border-gray-800">
         <DialogHeader>
           <DialogTitle>Request a New Location</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
-          <div className=&quot;grid grid-cols-1 gap-4 sm:grid-cols-2&quot;>
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;name&quot;>Location Name</Label>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="name">Location Name</Label>
               <Input
-                id=&quot;name&quot;
-                name=&quot;name&quot;
+                id="name"
+                name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;type&quot;>Location Type</Label>
+            <div className="space-y-2">
+              <Label htmlFor="type">Location Type</Label>
               <select
-                id=&quot;type&quot;
-                name=&quot;type&quot;
-                className=&quot;w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2&quot;
+                id="type"
+                name="type"
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 value={formData.type}
                 onChange={handleChange}
                 required
@@ -128,55 +128,55 @@ export function NewLocationRequestDialog({
             </div>
           </div>
 
-          <div className=&quot;space-y-2&quot;>
-            <Label htmlFor=&quot;address1&quot;>Address Line 1</Label>
+          <div className="space-y-2">
+            <Label htmlFor="address1">Address Line 1</Label>
             <Input
-              id=&quot;address1&quot;
-              name=&quot;address1&quot;
+              id="address1"
+              name="address1"
               value={formData.address1}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className=&quot;space-y-2&quot;>
-            <Label htmlFor=&quot;address2&quot;>Address Line 2 (Optional)</Label>
+          <div className="space-y-2">
+            <Label htmlFor="address2">Address Line 2 (Optional)</Label>
             <Input
-              id=&quot;address2&quot;
-              name=&quot;address2&quot;
+              id="address2"
+              name="address2"
               value={formData.address2}
               onChange={handleChange}
             />
           </div>
 
-          <div className=&quot;grid grid-cols-1 gap-4 sm:grid-cols-3&quot;>
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;city&quot;>City</Label>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label htmlFor="city">City</Label>
               <Input
-                id=&quot;city&quot;
-                name=&quot;city&quot;
+                id="city"
+                name="city"
                 value={formData.city}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;stateId&quot;>State</Label>
+            <div className="space-y-2">
+              <Label htmlFor="stateId">State</Label>
               <Input
-                id=&quot;stateId&quot;
-                name=&quot;stateId&quot;
+                id="stateId"
+                name="stateId"
                 value={formData.stateId}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;zipcode&quot;>Zipcode</Label>
+            <div className="space-y-2">
+              <Label htmlFor="zipcode">Zipcode</Label>
               <Input
-                id=&quot;zipcode&quot;
-                name=&quot;zipcode&quot;
+                id="zipcode"
+                name="zipcode"
                 value={formData.zipcode}
                 onChange={handleChange}
                 required
@@ -184,12 +184,12 @@ export function NewLocationRequestDialog({
             </div>
           </div>
 
-          <div className=&quot;space-y-2&quot;>
-            <Label htmlFor=&quot;notes&quot;>Notes (Optional)</Label>
+          <div className="space-y-2">
+            <Label htmlFor="notes">Notes (Optional)</Label>
             <Textarea
-              id=&quot;notes&quot;
-              name=&quot;notes&quot;
-              className=&quot;min-h-[100px]&quot;
+              id="notes"
+              name="notes"
+              className="min-h-[100px]"
               value={formData.notes}
               onChange={handleChange}
             />
@@ -197,20 +197,20 @@ export function NewLocationRequestDialog({
 
           <DialogFooter>
             <Button
-              type=&quot;button&quot;
-              variant=&quot;outline&quot;
+              type="button"
+              variant="outline"
               onClick={() => onOpenChange(false)}
             >
               Cancel
             </Button>
-            <Button type=&quot;submit&quot; disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Submitting...
                 </>
               ) : (
-                &quot;Submit Request"
+                "Submit Request"
               )}
             </Button>
           </DialogFooter>

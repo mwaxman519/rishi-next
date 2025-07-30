@@ -4,13 +4,13 @@
  * Client-side adapter for interacting with the audit logging service.
  */
 
-import { ApiError } from &quot;@/lib/errors&quot;;
+import { ApiError } from "@/lib/errors";
 import {
   AuditEventType,
   AuditResourceType,
   AuditLogEntry,
   AuditLogQueryParams,
-} from &quot;@/services/audit/models&quot;;
+} from "@/services/audit/models";
 
 /**
  * Audit service client adapter
@@ -28,34 +28,34 @@ export class AuditServiceClient {
       // Build query string from params
       const queryParams = new URLSearchParams();
 
-      if (params.userId) queryParams.append(&quot;userId&quot;, params.userId);
+      if (params.userId) queryParams.append("userId", params.userId);
       if (params.organizationId)
-        queryParams.append(&quot;organizationId&quot;, params.organizationId);
-      if (params.eventType) queryParams.append(&quot;eventType&quot;, params.eventType);
+        queryParams.append("organizationId", params.organizationId);
+      if (params.eventType) queryParams.append("eventType", params.eventType);
       if (params.resourceType)
-        queryParams.append(&quot;resourceType&quot;, params.resourceType);
+        queryParams.append("resourceType", params.resourceType);
       if (params.resourceId)
-        queryParams.append(&quot;resourceId&quot;, params.resourceId);
-      if (params.startDate) queryParams.append(&quot;startDate&quot;, params.startDate);
-      if (params.endDate) queryParams.append(&quot;endDate&quot;, params.endDate);
+        queryParams.append("resourceId", params.resourceId);
+      if (params.startDate) queryParams.append("startDate", params.startDate);
+      if (params.endDate) queryParams.append("endDate", params.endDate);
       if (params.success !== undefined)
-        queryParams.append(&quot;success&quot;, params.success.toString());
-      if (params.limit) queryParams.append(&quot;limit&quot;, params.limit.toString());
-      if (params.offset) queryParams.append(&quot;offset&quot;, params.offset.toString());
+        queryParams.append("success", params.success.toString());
+      if (params.limit) queryParams.append("limit", params.limit.toString());
+      if (params.offset) queryParams.append("offset", params.offset.toString());
 
       const queryString = queryParams.toString();
-      const url = `/api/audit${queryString ? `?${queryString}` : "&quot;}`;
+      const url = `/api/audit${queryString ? `?${queryString}` : ""}`;
 
       const response = await fetch(url, {
-        method: &quot;GET&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
-        credentials: &quot;include&quot;,
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || &quot;Failed to fetch audit logs&quot;,
+          error.message || "Failed to fetch audit logs",
           response.status,
           error.details,
         );
@@ -66,7 +66,7 @@ export class AuditServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError(&quot;Failed to fetch audit logs&quot;, 500);
+      throw new ApiError("Failed to fetch audit logs", 500);
     }
   }
 
@@ -78,9 +78,9 @@ export class AuditServiceClient {
   async getAuditLogById(id: string): Promise<AuditLogEntry> {
     try {
       const response = await fetch(`/api/audit/${id}`, {
-        method: &quot;GET&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
-        credentials: &quot;include&quot;,
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -110,7 +110,7 @@ export class AuditServiceClient {
    */
   async getUserAuditLogs(
     userId: string,
-    params: Omit<AuditLogQueryParams, &quot;userId&quot;> = {},
+    params: Omit<AuditLogQueryParams, "userId"> = {},
   ): Promise<{ logs: AuditLogEntry[]; total: number }> {
     return this.getAuditLogs({ ...params, userId });
   }
@@ -123,7 +123,7 @@ export class AuditServiceClient {
    */
   async getOrganizationAuditLogs(
     organizationId: string,
-    params: Omit<AuditLogQueryParams, &quot;organizationId&quot;> = {},
+    params: Omit<AuditLogQueryParams, "organizationId"> = {},
   ): Promise<{ logs: AuditLogEntry[]; total: number }> {
     return this.getAuditLogs({ ...params, organizationId });
   }
@@ -138,7 +138,7 @@ export class AuditServiceClient {
   async getResourceAuditLogs(
     resourceType: AuditResourceType,
     resourceId: string,
-    params: Omit<AuditLogQueryParams, &quot;resourceType&quot; | &quot;resourceId&quot;> = {},
+    params: Omit<AuditLogQueryParams, "resourceType" | "resourceId"> = {},
   ): Promise<{ logs: AuditLogEntry[]; total: number }> {
     return this.getAuditLogs({ ...params, resourceType, resourceId });
   }
@@ -151,7 +151,7 @@ export class AuditServiceClient {
    */
   async getEventTypeAuditLogs(
     eventType: AuditEventType,
-    params: Omit<AuditLogQueryParams, &quot;eventType"> = {},
+    params: Omit<AuditLogQueryParams, "eventType"> = {},
   ): Promise<{ logs: AuditLogEntry[]; total: number }> {
     return this.getAuditLogs({ ...params, eventType });
   }

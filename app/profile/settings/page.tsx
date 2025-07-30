@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
-import Link from &quot;next/link&quot;;
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 
 export default function SettingsPage() {
   const { user } = useAuth();
@@ -15,7 +15,7 @@ export default function SettingsPage() {
     emailUpdates: true,
     twoFactorAuth: false,
     autoLogout: 30,
-    language: &quot;english&quot;,
+    language: "english",
   });
 
   const handleChange = (
@@ -24,7 +24,7 @@ export default function SettingsPage() {
     const { name, value, type } = e.target as HTMLInputElement;
 
     const newValue =
-      type === &quot;checkbox&quot; ? (e.target as HTMLInputElement).checked : value;
+      type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
 
     setSettings({
       ...settings,
@@ -45,22 +45,22 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className=&quot;min-h-screen bg-gray-50 dark:bg-gray-900&quot;>
-      <header className=&quot;bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700&quot;>
-        <div className=&quot;container mx-auto px-4 py-4 flex justify-between items-center&quot;>
-          <h1 className=&quot;text-2xl font-bold text-gray-900 dark:text-white&quot;>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Account Settings
           </h1>
-          <div className=&quot;flex space-x-2&quot;>
+          <div className="flex space-x-2">
             <Link
-              href=&quot;/profile&quot;
-              className=&quot;px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors&quot;
+              href="/profile"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors"
             >
               Back to Profile
             </Link>
             <Link
-              href=&quot;/dashboard&quot;
-              className=&quot;px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors&quot;
+              href="/dashboard"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors"
             >
               Dashboard
             </Link>
@@ -68,41 +68,41 @@ export default function SettingsPage() {
         </div>
       </header>
 
-      <main className=&quot;container mx-auto px-4 py-8&quot;>
-        <div className=&quot;bg-white dark:bg-gray-800 rounded-lg shadow p-6&quot;>
-          <h2 className=&quot;text-xl font-semibold mb-6 text-gray-800 dark:text-white&quot;>
+      <main className="container mx-auto px-4 py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <h2 className="text-xl font-semibold mb-6 text-gray-800 dark:text-white">
             User Preferences
           </h2>
 
           {saved && (
-            <div className=&quot;mb-6 p-3 bg-green-100 text-green-800 rounded&quot;>
+            <div className="mb-6 p-3 bg-green-100 text-green-800 rounded">
               Settings saved successfully.
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className=&quot;space-y-6&quot;>
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Account Section */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium text-gray-700 dark:text-gray-300 border-b pb-2&quot;>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 border-b pb-2">
                   Account Settings
                 </h3>
 
-                <div className=&quot;flex items-center justify-between&quot;>
+                <div className="flex items-center justify-between">
                   <label
-                    htmlFor=&quot;twoFactorAuth&quot;
-                    className=&quot;text-gray-700 dark:text-gray-300&quot;
+                    htmlFor="twoFactorAuth"
+                    className="text-gray-700 dark:text-gray-300"
                   >
                     Two-factor Authentication
                   </label>
-                  <div className=&quot;relative inline-block w-12 h-6 transition duration-200 ease-in-out&quot;>
+                  <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out">
                     <input
-                      type=&quot;checkbox&quot;
-                      id=&quot;twoFactorAuth&quot;
-                      name=&quot;twoFactorAuth&quot;
+                      type="checkbox"
+                      id="twoFactorAuth"
+                      name="twoFactorAuth"
                       checked={settings.twoFactorAuth}
                       onChange={handleChange}
-                      className=&quot;opacity-0 w-0 h-0&quot;
+                      className="opacity-0 w-0 h-0"
                     />
                     <span
                       onClick={() =>
@@ -113,13 +113,13 @@ export default function SettingsPage() {
                       }
                       className={`absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-full transition-colors duration-200 ${
                         settings.twoFactorAuth
-                          ? &quot;bg-blue-600&quot;
-                          : &quot;bg-gray-300 dark:bg-gray-600&quot;
+                          ? "bg-blue-600"
+                          : "bg-gray-300 dark:bg-gray-600"
                       }`}
                     >
                       <span
                         className={`absolute h-4 w-4 top-1 bg-white rounded-full transition-transform duration-200 ${
-                          settings.twoFactorAuth ? &quot;left-7&quot; : &quot;left-1&quot;
+                          settings.twoFactorAuth ? "left-7" : "left-1"
                         }`}
                       ></span>
                     </span>
@@ -128,67 +128,67 @@ export default function SettingsPage() {
 
                 <div>
                   <label
-                    htmlFor=&quot;autoLogout&quot;
-                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
+                    htmlFor="autoLogout"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                   >
                     Auto Logout (minutes)
                   </label>
                   <select
-                    id=&quot;autoLogout&quot;
-                    name=&quot;autoLogout&quot;
+                    id="autoLogout"
+                    name="autoLogout"
                     value={settings.autoLogout}
                     onChange={handleChange}
-                    className=&quot;w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white&quot;
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   >
-                    <option value=&quot;15&quot;>15 minutes</option>
-                    <option value=&quot;30&quot;>30 minutes</option>
-                    <option value=&quot;60&quot;>1 hour</option>
-                    <option value=&quot;120&quot;>2 hours</option>
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                    <option value="120">2 hours</option>
                   </select>
                 </div>
 
                 <div>
                   <label
-                    htmlFor=&quot;language&quot;
-                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
+                    htmlFor="language"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                   >
                     Language
                   </label>
                   <select
-                    id=&quot;language&quot;
-                    name=&quot;language&quot;
+                    id="language"
+                    name="language"
                     value={settings.language}
                     onChange={handleChange}
-                    className=&quot;w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white&quot;
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
                   >
-                    <option value=&quot;english&quot;>English</option>
-                    <option value=&quot;spanish&quot;>Spanish</option>
-                    <option value=&quot;french&quot;>French</option>
+                    <option value="english">English</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="french">French</option>
                   </select>
                 </div>
               </div>
 
               {/* Appearance & Notifications */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium text-gray-700 dark:text-gray-300 border-b pb-2&quot;>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 border-b pb-2">
                   Appearance & Notifications
                 </h3>
 
-                <div className=&quot;flex items-center justify-between&quot;>
+                <div className="flex items-center justify-between">
                   <label
-                    htmlFor=&quot;darkMode&quot;
-                    className=&quot;text-gray-700 dark:text-gray-300&quot;
+                    htmlFor="darkMode"
+                    className="text-gray-700 dark:text-gray-300"
                   >
                     Dark Mode
                   </label>
-                  <div className=&quot;relative inline-block w-12 h-6 transition duration-200 ease-in-out&quot;>
+                  <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out">
                     <input
-                      type=&quot;checkbox&quot;
-                      id=&quot;darkMode&quot;
-                      name=&quot;darkMode&quot;
+                      type="checkbox"
+                      id="darkMode"
+                      name="darkMode"
                       checked={settings.darkMode}
                       onChange={handleChange}
-                      className=&quot;opacity-0 w-0 h-0&quot;
+                      className="opacity-0 w-0 h-0"
                     />
                     <span
                       onClick={() =>
@@ -199,34 +199,34 @@ export default function SettingsPage() {
                       }
                       className={`absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-full transition-colors duration-200 ${
                         settings.darkMode
-                          ? &quot;bg-blue-600&quot;
-                          : &quot;bg-gray-300 dark:bg-gray-600&quot;
+                          ? "bg-blue-600"
+                          : "bg-gray-300 dark:bg-gray-600"
                       }`}
                     >
                       <span
                         className={`absolute h-4 w-4 top-1 bg-white rounded-full transition-transform duration-200 ${
-                          settings.darkMode ? &quot;left-7&quot; : &quot;left-1&quot;
+                          settings.darkMode ? "left-7" : "left-1"
                         }`}
                       ></span>
                     </span>
                   </div>
                 </div>
 
-                <div className=&quot;flex items-center justify-between&quot;>
+                <div className="flex items-center justify-between">
                   <label
-                    htmlFor=&quot;notifications&quot;
-                    className=&quot;text-gray-700 dark:text-gray-300&quot;
+                    htmlFor="notifications"
+                    className="text-gray-700 dark:text-gray-300"
                   >
                     In-app Notifications
                   </label>
-                  <div className=&quot;relative inline-block w-12 h-6 transition duration-200 ease-in-out&quot;>
+                  <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out">
                     <input
-                      type=&quot;checkbox&quot;
-                      id=&quot;notifications&quot;
-                      name=&quot;notifications&quot;
+                      type="checkbox"
+                      id="notifications"
+                      name="notifications"
                       checked={settings.notifications}
                       onChange={handleChange}
-                      className=&quot;opacity-0 w-0 h-0&quot;
+                      className="opacity-0 w-0 h-0"
                     />
                     <span
                       onClick={() =>
@@ -237,34 +237,34 @@ export default function SettingsPage() {
                       }
                       className={`absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-full transition-colors duration-200 ${
                         settings.notifications
-                          ? &quot;bg-blue-600&quot;
-                          : &quot;bg-gray-300 dark:bg-gray-600&quot;
+                          ? "bg-blue-600"
+                          : "bg-gray-300 dark:bg-gray-600"
                       }`}
                     >
                       <span
                         className={`absolute h-4 w-4 top-1 bg-white rounded-full transition-transform duration-200 ${
-                          settings.notifications ? &quot;left-7&quot; : &quot;left-1&quot;
+                          settings.notifications ? "left-7" : "left-1"
                         }`}
                       ></span>
                     </span>
                   </div>
                 </div>
 
-                <div className=&quot;flex items-center justify-between&quot;>
+                <div className="flex items-center justify-between">
                   <label
-                    htmlFor=&quot;emailUpdates&quot;
-                    className=&quot;text-gray-700 dark:text-gray-300&quot;
+                    htmlFor="emailUpdates"
+                    className="text-gray-700 dark:text-gray-300"
                   >
                     Email Updates
                   </label>
-                  <div className=&quot;relative inline-block w-12 h-6 transition duration-200 ease-in-out&quot;>
+                  <div className="relative inline-block w-12 h-6 transition duration-200 ease-in-out">
                     <input
-                      type=&quot;checkbox&quot;
-                      id=&quot;emailUpdates&quot;
-                      name=&quot;emailUpdates&quot;
+                      type="checkbox"
+                      id="emailUpdates"
+                      name="emailUpdates"
                       checked={settings.emailUpdates}
                       onChange={handleChange}
-                      className=&quot;opacity-0 w-0 h-0&quot;
+                      className="opacity-0 w-0 h-0"
                     />
                     <span
                       onClick={() =>
@@ -275,13 +275,13 @@ export default function SettingsPage() {
                       }
                       className={`absolute cursor-pointer top-0 left-0 right-0 bottom-0 rounded-full transition-colors duration-200 ${
                         settings.emailUpdates
-                          ? &quot;bg-blue-600&quot;
-                          : &quot;bg-gray-300 dark:bg-gray-600&quot;
+                          ? "bg-blue-600"
+                          : "bg-gray-300 dark:bg-gray-600"
                       }`}
                     >
                       <span
                         className={`absolute h-4 w-4 top-1 bg-white rounded-full transition-transform duration-200 ${
-                          settings.emailUpdates ? &quot;left-7&quot; : &quot;left-1&quot;
+                          settings.emailUpdates ? "left-7" : "left-1"
                         }`}
                       ></span>
                     </span>
@@ -290,11 +290,11 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className=&quot;pt-4 border-t border-gray-200 dark:border-gray-700&quot;>
-              <div className=&quot;flex justify-end&quot;>
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex justify-end">
                 <button
-                  type=&quot;submit&quot;
-                  className=&quot;px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors&quot;
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                 >
                   Save Settings
                 </button>
@@ -302,32 +302,32 @@ export default function SettingsPage() {
             </div>
           </form>
 
-          <div className=&quot;mt-8 pt-6 border-t border-gray-200 dark:border-gray-700&quot;>
-            <h3 className=&quot;text-lg font-medium text-gray-700 dark:text-gray-300 mb-4&quot;>
+          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-4">
               Advanced Settings
             </h3>
-            <p className=&quot;text-gray-600 dark:text-gray-400 mb-4&quot;>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               These settings are placeholders for future functionality. They
               will be implemented in a future update.
             </p>
-            <div className=&quot;flex space-x-3&quot;>
+            <div className="flex space-x-3">
               <button
                 onClick={() =>
                   alert(
-                    &quot;Change Password feature will be implemented in a future update&quot;,
+                    "Change Password feature will be implemented in a future update",
                   )
                 }
-                className=&quot;px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors&quot;
+                className="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
                 Change Password
               </button>
               <button
                 onClick={() =>
                   alert(
-                    &quot;Export Data feature will be implemented in a future update&quot;,
+                    "Export Data feature will be implemented in a future update",
                   )
                 }
-                className=&quot;px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors&quot;
+                className="px-4 py-2 bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
                 Export Data
               </button>

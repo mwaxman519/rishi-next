@@ -16,19 +16,19 @@
  * @since Phase 6 Implementation
  */
 
-import { z } from &quot;zod&quot;;
+import { z } from "zod";
 
 /**
  * Calendar Event Types
  * Defines the different types of calendar entries supported
  */
 export enum CalendarEventType {
-  SHIFT = &quot;shift&quot;,
-  EVENT = &quot;event&quot;,
-  AVAILABILITY_BLOCK = &quot;availability_block&quot;,
-  TIME_OFF = &quot;time_off&quot;,
-  MEETING = &quot;meeting&quot;,
-  TRAINING = &quot;training&quot;,
+  SHIFT = "shift",
+  EVENT = "event",
+  AVAILABILITY_BLOCK = "availability_block",
+  TIME_OFF = "time_off",
+  MEETING = "meeting",
+  TRAINING = "training",
 }
 
 /**
@@ -36,13 +36,13 @@ export enum CalendarEventType {
  * Tracks the current state of calendar events
  */
 export enum CalendarEventStatus {
-  DRAFT = &quot;draft&quot;,
-  SCHEDULED = &quot;scheduled&quot;,
-  CONFIRMED = &quot;confirmed&quot;,
-  IN_PROGRESS = &quot;in_progress&quot;,
-  COMPLETED = &quot;completed&quot;,
-  CANCELLED = &quot;cancelled&quot;,
-  POSTPONED = &quot;postponed&quot;,
+  DRAFT = "draft",
+  SCHEDULED = "scheduled",
+  CONFIRMED = "confirmed",
+  IN_PROGRESS = "in_progress",
+  COMPLETED = "completed",
+  CANCELLED = "cancelled",
+  POSTPONED = "postponed",
 }
 
 /**
@@ -50,10 +50,10 @@ export enum CalendarEventStatus {
  * Defines agent availability states
  */
 export enum AvailabilityStatus {
-  AVAILABLE = &quot;available&quot;,
-  BUSY = &quot;busy&quot;,
-  TENTATIVE = &quot;tentative&quot;,
-  OUT_OF_OFFICE = &quot;out_of_office&quot;,
+  AVAILABLE = "available",
+  BUSY = "busy",
+  TENTATIVE = "tentative",
+  OUT_OF_OFFICE = "out_of_office",
 }
 
 /**
@@ -62,7 +62,7 @@ export enum AvailabilityStatus {
  */
 export const CalendarEventSchema = z.object({
   id: z.string().uuid(),
-  title: z.string().min(1, &quot;Title is required&quot;),
+  title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   type: z.nativeEnum(CalendarEventType),
   status: z.nativeEnum(CalendarEventStatus),
@@ -70,7 +70,7 @@ export const CalendarEventSchema = z.object({
   // Temporal properties
   startDateTime: z.date(),
   endDateTime: z.date(),
-  timezone: z.string().default(&quot;UTC&quot;),
+  timezone: z.string().default("UTC"),
   isAllDay: z.boolean().default(false),
 
   // Organizational context
@@ -88,7 +88,7 @@ export const CalendarEventSchema = z.object({
 
   // Metadata
   color: z.string().optional(),
-  priority: z.enum([&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;, &quot;urgent&quot;]).default(&quot;medium&quot;),
+  priority: z.enum(["low", "medium", "high", "urgent"]).default("medium"),
   tags: z.array(z.string()).optional(),
   notes: z.string().optional(),
 
@@ -109,7 +109,7 @@ export const AvailabilityBlockSchema = z.object({
   // Time period
   startDateTime: z.date(),
   endDateTime: z.date(),
-  timezone: z.string().default(&quot;UTC&quot;),
+  timezone: z.string().default("UTC"),
 
   // Availability details
   status: z.nativeEnum(AvailabilityStatus),
@@ -129,12 +129,12 @@ export const AvailabilityBlockSchema = z.object({
 export const ScheduleConflictSchema = z.object({
   id: z.string().uuid(),
   type: z.enum([
-    &quot;overlap&quot;,
-    &quot;double_booking&quot;,
-    &quot;availability_conflict&quot;,
-    &quot;travel_time&quot;,
+    "overlap",
+    "double_booking",
+    "availability_conflict",
+    "travel_time",
   ]),
-  severity: z.enum([&quot;warning&quot;, &quot;error&quot;, &quot;critical&quot;]),
+  severity: z.enum(["warning", "error", "critical"]),
 
   // Conflicting events
   primaryEventId: z.string().uuid(),

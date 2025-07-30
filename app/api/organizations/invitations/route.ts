@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getCurrentAuthUser } from &quot;@/lib/auth-server&quot;;
-import { db } from &quot;../../../../lib/db-connection&quot;;
-import { organizationInvitations, userOrganizations } from &quot;@shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { hasPermission } from &quot;@/lib/rbac&quot;;
-import { randomBytes } from &quot;crypto&quot;;
+import { getCurrentAuthUser } from "@/lib/auth-server";
+import { db } from "../../../../lib/db-connection";
+import { organizationInvitations, userOrganizations } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
+import { hasPermission } from "@/lib/rbac";
+import { randomBytes } from "crypto";
 
 /**
  * GET /api/organizations/invitations
@@ -25,23 +25,23 @@ export async function GET(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get organizationId from query params
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: &quot;Organization ID is required&quot; },
+        { error: "Organization ID is required" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to view organization invitations
     // Ensure the user belongs to this organization or is a super admin
-    if (user.role !== &quot;super_admin&quot;) {
+    if (user.role !== "super_admin") {
       const userOrg = await db.query.userOrganizations.findFirst({
         where: (userOrg, { and, eq }) =>
           and(
@@ -50,20 +50,20 @@ export async function GET(request: NextRequest) {
           ),
       });
 
-      if (!userOrg && !(await hasPermission(user.id, &quot;read:organizations&quot;))) {
+      if (!userOrg && !(await hasPermission(user.id, "read:organizations"))) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to view invitations for this organization&quot;,
+              "You do not have permission to view invitations for this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions
-      if (!(await hasPermission(user.id, &quot;read:users&quot;))) {
+      if (!(await hasPermission(user.id, "read:users"))) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to view invitations&quot; },
+          { error: "You do not have permission to view invitations" },
           { status: 403 },
         );
       }
@@ -76,15 +76,15 @@ export async function GET(request: NextRequest) {
       .where(
         and(
           eq(userOrganizations.organizationId, organizationId),
-          eq(userOrganizations.status, &quot;pending&quot;),
+          eq(userOrganizations.status, "pending"),
         ),
       );
 
     return NextResponse.json({ invitations: organizationInvitations });
   } catch (error) {
-    console.error(&quot;Error fetching organization invitations:&quot;, error);
+    console.error("Error fetching organization invitations:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch organization invitations&quot; },
+      { error: "Failed to fetch organization invitations" },
       { status: 500 },
     );
   }
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get request body
@@ -116,13 +116,13 @@ export async function POST(request: NextRequest) {
 
     if (!email || !role || !organizationId) {
       return NextResponse.json(
-        { error: &quot;Email, Role and Organization ID are required&quot; },
+        { error: "Email, Role and Organization ID are required" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to invite users to organization
-    if (user.role !== &quot;super_admin&quot;) {
+    if (user.role !== "super_admin") {
       const userOrg = await db.query.userOrganizations.findFirst({
         where: (userOrg, { and, eq }) =>
           and(
@@ -132,46 +132,46 @@ export async function POST(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission(&quot;update:organizations&quot;, user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to invite users to this organization&quot;,
+              "You do not have permission to invite users to this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission(&quot;create:users&quot;, user.role)) {
+      if (!hasPermission("create:users", user.role)) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to invite users&quot; },
+          { error: "You do not have permission to invite users" },
           { status: 403 },
         );
       }
     }
 
-    // Check if there&apos;s an existing pending invitation for this email + organization
+    // Check if there's an existing pending invitation for this email + organization
     const existingInvitation = await db.query.organizationInvitations.findFirst(
       {
         where: (invitation, { and, eq }) =>
           and(
             eq(invitation.email, email),
             eq(invitation.organizationId, organizationId),
-            eq(invitation.status, &quot;pending&quot;),
+            eq(invitation.status, "pending"),
           ),
       },
     );
 
     if (existingInvitation) {
       return NextResponse.json(
-        { error: &quot;An invitation has already been sent to this email address&quot; },
+        { error: "An invitation has already been sent to this email address" },
         { status: 400 },
       );
     }
 
     // Generate a unique token for the invitation
-    const token = randomBytes(32).toString(&quot;hex&quot;);
+    const token = randomBytes(32).toString("hex");
 
     // Invitation expires in 7 days
     const expiresAt = new Date();
@@ -181,12 +181,12 @@ export async function POST(request: NextRequest) {
     try {
       // Convert organizationId to integer
       const orgId =
-        typeof organizationId === &quot;string&quot;
+        typeof organizationId === "string"
           ? parseInt(organizationId, 10)
           : organizationId;
       // Convert user.id to integer if needed
       const inviterId =
-        typeof user.id === &quot;string&quot; ? parseInt(user.id) : user.id;
+        typeof user.id === "string" ? parseInt(user.id) : user.id;
 
       const invitation = await db
         .insert(organizationInvitations)
@@ -209,13 +209,13 @@ export async function POST(request: NextRequest) {
         invitation: invitation[0],
       });
     } catch (dbError) {
-      console.error(&quot;Database error creating invitation:&quot;, dbError);
+      console.error("Database error creating invitation:", dbError);
       throw dbError;
     }
   } catch (error) {
-    console.error(&quot;Error creating invitation:&quot;, error);
+    console.error("Error creating invitation:", error);
     return NextResponse.json(
-      { error: &quot;Failed to create invitation&quot; },
+      { error: "Failed to create invitation" },
       { status: 500 },
     );
   }
@@ -236,16 +236,16 @@ export async function DELETE(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get invitationId from query params
     const { searchParams } = new URL(request.url);
-    const invitationId = (searchParams.get(&quot;id&quot;) || undefined);
+    const invitationId = (searchParams.get("id") || undefined);
 
     if (!invitationId) {
       return NextResponse.json(
-        { error: &quot;Invitation ID is required&quot; },
+        { error: "Invitation ID is required" },
         { status: 400 },
       );
     }
@@ -257,28 +257,28 @@ export async function DELETE(request: NextRequest) {
 
     if (!invitation) {
       return NextResponse.json(
-        { error: &quot;Invitation not found&quot; },
+        { error: "Invitation not found" },
         { status: 404 },
       );
     }
 
     // Only allow canceling pending invitations
-    if (invitation.status !== &quot;pending&quot;) {
+    if (invitation.status !== "pending") {
       return NextResponse.json(
-        { error: &quot;Only pending invitations can be canceled&quot; },
+        { error: "Only pending invitations can be canceled" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to cancel invitations for this organization
     // Handle type conversions for the comparison
-    const userId = typeof user.id === &quot;number&quot; ? user.id : parseInt(user.id);
+    const userId = typeof user.id === "number" ? user.id : parseInt(user.id);
     const invitedById =
-      typeof invitation.invitedById === &quot;string&quot;
+      typeof invitation.invitedById === "string"
         ? parseInt(invitation.invitedById)
         : invitation.invitedById;
 
-    if (user.role !== &quot;super_admin&quot; && invitedById !== userId) {
+    if (user.role !== "super_admin" && invitedById !== userId) {
       // Convert organizationId to string for query
       const orgIdStr = String(invitation.organizationId);
 
@@ -291,31 +291,31 @@ export async function DELETE(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin or the inviter
-      if (!userOrg && !hasPermission(&quot;update:organizations&quot;, user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to cancel invitations for this organization&quot;,
+              "You do not have permission to cancel invitations for this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission(&quot;update:users&quot;, user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to manage invitations&quot; },
+          { error: "You do not have permission to manage invitations" },
           { status: 403 },
         );
       }
     }
 
     // For development mode, return success without actual update
-    if (process.env.NODE_ENV !== &quot;production&quot;) {
+    if (process.env.NODE_ENV !== "production") {
       console.log(`DEVELOPMENT MODE: Would cancel invitation ${invitationId}`);
       return NextResponse.json({
         success: true,
-        message: &quot;Invitation canceled successfully&quot;,
+        message: "Invitation canceled successfully",
       });
     }
 
@@ -324,23 +324,23 @@ export async function DELETE(request: NextRequest) {
       await db
         .update(organizationInvitations)
         .set({
-          status: &quot;canceled&quot;,
+          status: "canceled",
           updated_at: new Date(),
         })
         .where(eq(organizationInvitations.id, parseInt(invitationId)));
 
       return NextResponse.json({
         success: true,
-        message: &quot;Invitation canceled successfully&quot;,
+        message: "Invitation canceled successfully",
       });
     } catch (dbError) {
-      console.error(&quot;Database error canceling invitation:&quot;, dbError);
+      console.error("Database error canceling invitation:", dbError);
       throw dbError;
     }
   } catch (error) {
-    console.error(&quot;Error canceling invitation:&quot;, error);
+    console.error("Error canceling invitation:", error);
     return NextResponse.json(
-      { error: &quot;Failed to cancel invitation&quot; },
+      { error: "Failed to cancel invitation" },
       { status: 500 },
     );
   }
@@ -361,7 +361,7 @@ export async function PATCH(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get request body
@@ -370,7 +370,7 @@ export async function PATCH(request: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { error: &quot;Invitation token is required&quot; },
+        { error: "Invitation token is required" },
         { status: 400 },
       );
     }
@@ -382,15 +382,15 @@ export async function PATCH(request: NextRequest) {
 
     if (!invitation) {
       return NextResponse.json(
-        { error: &quot;Invalid invitation token&quot; },
+        { error: "Invalid invitation token" },
         { status: 404 },
       );
     }
 
     // Check if invitation is still valid
-    if (invitation.status !== &quot;pending&quot;) {
+    if (invitation.status !== "pending") {
       return NextResponse.json(
-        { error: &quot;This invitation is no longer valid&quot; },
+        { error: "This invitation is no longer valid" },
         { status: 400 },
       );
     }
@@ -398,18 +398,18 @@ export async function PATCH(request: NextRequest) {
     // Check if invitation has expired
     if (invitation.expiresAt < new Date()) {
       // For development mode, log expiration
-      if (process.env.NODE_ENV !== &quot;production&quot;) {
+      if (process.env.NODE_ENV !== "production") {
         console.log(`DEVELOPMENT MODE: Invitation has expired`);
       } else {
         // In production, update invitation status
         await db
           .update(organizationInvitations)
-          .set({ status: &quot;expired&quot; })
+          .set({ status: "expired" })
           .where(eq(organizationInvitations.id, invitation.id));
       }
 
       return NextResponse.json(
-        { error: &quot;This invitation has expired&quot; },
+        { error: "This invitation has expired" },
         { status: 400 },
       );
     }
@@ -417,7 +417,7 @@ export async function PATCH(request: NextRequest) {
     // Check if the invitation email matches the current user's email
     if (invitation.email.toLowerCase() !== user.email.toLowerCase()) {
       return NextResponse.json(
-        { error: &quot;This invitation was sent to a different email address&quot; },
+        { error: "This invitation was sent to a different email address" },
         { status: 403 },
       );
     }
@@ -433,7 +433,7 @@ export async function PATCH(request: NextRequest) {
 
     if (existingUserOrg) {
       // For development mode, just log this condition
-      if (process.env.NODE_ENV !== &quot;production&quot;) {
+      if (process.env.NODE_ENV !== "production") {
         console.log(
           `DEVELOPMENT MODE: User is already a member of this organization`,
         );
@@ -441,13 +441,13 @@ export async function PATCH(request: NextRequest) {
         // In production, update invitation status
         await db
           .update(organizationInvitations)
-          .set({ status: &quot;accepted&quot; })
+          .set({ status: "accepted" })
           .where(eq(organizationInvitations.id, invitation.id));
       }
 
       return NextResponse.json(
         {
-          error: &quot;You are already a member of this organization&quot;,
+          error: "You are already a member of this organization",
           alreadyMember: true,
         },
         { status: 400 },
@@ -455,7 +455,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // For development mode, return success without actual database operations
-    if (process.env.NODE_ENV !== &quot;production&quot;) {
+    if (process.env.NODE_ENV !== "production") {
       console.log(
         `DEVELOPMENT MODE: Would add user ${user.id} to organization ${invitation.organizationId} with role ${invitation.role}`,
       );
@@ -499,7 +499,7 @@ export async function PATCH(request: NextRequest) {
       await db
         .update(organizationInvitations)
         .set({
-          status: &quot;accepted&quot;,
+          status: "accepted",
           updated_at: new Date(),
         })
         .where(eq(organizationInvitations.id, invitation.id));
@@ -509,13 +509,13 @@ export async function PATCH(request: NextRequest) {
         userOrganization: userOrg[0],
       });
     } catch (dbError) {
-      console.error(&quot;Database error accepting invitation:&quot;, dbError);
+      console.error("Database error accepting invitation:", dbError);
       throw dbError;
     }
   } catch (error) {
-    console.error(&quot;Error accepting invitation:&quot;, error);
+    console.error("Error accepting invitation:", error);
     return NextResponse.json(
-      { error: &quot;Failed to accept invitation&quot; },
+      { error: "Failed to accept invitation" },
       { status: 500 },
     );
   }

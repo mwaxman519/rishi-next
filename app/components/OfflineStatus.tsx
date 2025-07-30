@@ -49,11 +49,11 @@ export default function OfflineStatus() {
 
   if (!isOnline) {
     return (
-      <div className=&quot;fixed top-4 right-4 z-50 bg-red-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2&quot;>
-        <WifiOff className=&quot;w-4 h-4&quot; />
-        <span className=&quot;text-sm font-medium&quot;>Offline Mode</span>
+      <div className="fixed top-4 right-4 z-50 bg-red-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <WifiOff className="w-4 h-4" />
+        <span className="text-sm font-medium">Offline Mode</span>
         {pendingSync > 0 && (
-          <span className=&quot;bg-red-600 text-xs px-2 py-1 rounded-full&quot;>
+          <span className="bg-red-600 text-xs px-2 py-1 rounded-full">
             {pendingSync} pending
           </span>
         )}
@@ -63,17 +63,17 @@ export default function OfflineStatus() {
 
   if (pendingSync > 0) {
     return (
-      <div className=&quot;fixed top-4 right-4 z-50 bg-blue-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2&quot;>
-        <RefreshCw className=&quot;w-4 h-4 animate-spin&quot; />
-        <span className=&quot;text-sm font-medium&quot;>Syncing {pendingSync} items...</span>
+      <div className="fixed top-4 right-4 z-50 bg-blue-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <RefreshCw className="w-4 h-4 animate-spin" />
+        <span className="text-sm font-medium">Syncing {pendingSync} items...</span>
       </div>
     );
   }
 
   return (
-    <div className=&quot;fixed top-4 right-4 z-50 bg-green-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 opacity-75&quot;>
-      <Wifi className=&quot;w-4 h-4&quot; />
-      <span className=&quot;text-sm font-medium&quot;>Online</span>
+    <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 opacity-75">
+      <Wifi className="w-4 h-4" />
+      <span className="text-sm font-medium">Online</span>
     </div>
   );
 }

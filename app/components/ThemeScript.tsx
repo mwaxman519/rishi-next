@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 import { useEffect } from 'react';
 
@@ -52,5 +52,5 @@ export default function ThemeScript() {
     }
   }, []);
 
-  return null; // This component doesn&apos;t render anything
+  return null; // This component doesn't render anything
 }

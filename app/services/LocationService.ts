@@ -1,9 +1,9 @@
-import { db } from &quot;../../lib/db&quot;;
-import { locations } from &quot;@shared/schema&quot;;
-import { EventBusService } from &quot;./EventBusService&quot;;
-import { ServiceRegistry } from &quot;./ServiceRegistry&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
+import { db } from "../../lib/db";
+import { locations } from "@shared/schema";
+import { EventBusService } from "./EventBusService";
+import { ServiceRegistry } from "./ServiceRegistry";
+import { v4 as uuidv4 } from "uuid";
+import { eq, and } from "drizzle-orm";
 
 export interface LocationServiceInterface {
   getAllLocations(userId: string, organizationId: string, correlationId?: string): Promise<any[]>;
@@ -35,14 +35,14 @@ export class LocationService implements LocationServiceInterface {
     try {
       // Publish event for location query
       await this.eventBus.publish({
-        type: &quot;location.query.started&quot;,
+        type: "location.query.started",
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getAllLocations&quot;,
-          queryType: &quot;list&quot;
+          action: "getAllLocations",
+          queryType: "list"
         }
       });
 
@@ -57,28 +57,28 @@ export class LocationService implements LocationServiceInterface {
         .map(location => ({
           id: location.id,
           name: location.name,
-          type: location.type || &quot;venue&quot;,
-          address1: location.address1 || "&quot;,
-          address2: location.address2 || &quot;&quot;,
+          type: location.type || "venue",
+          address1: location.address1 || "",
+          address2: location.address2 || "",
           city: location.city,
-          state: location.state || &quot;&quot;,
-          stateCode: &quot;&quot;,
-          zipcode: location.zipcode || &quot;&quot;,
-          geoLat: location.geo_lat || &quot;&quot;,
-          geoLng: location.geo_lng || &quot;&quot;,
-          status: location.status || &quot;active&quot;,
+          state: location.state || "",
+          stateCode: "",
+          zipcode: location.zipcode || "",
+          geoLat: location.geo_lat || "",
+          geoLng: location.geo_lng || "",
+          status: location.status || "active",
           active: location.active,
         }));
 
       // Publish success event
       await this.eventBus.publish({
-        type: &quot;location.query.completed&quot;,
+        type: "location.query.completed",
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getAllLocations&quot;,
+          action: "getAllLocations",
           resultCount: activeLocations.length,
           totalCount: allLocations.length
         }
@@ -88,14 +88,14 @@ export class LocationService implements LocationServiceInterface {
     } catch (error) {
       // Publish error event
       await this.eventBus.publish({
-        type: &quot;location.query.failed&quot;,
+        type: "location.query.failed",
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getAllLocations&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "getAllLocations",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -108,12 +108,12 @@ export class LocationService implements LocationServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: &quot;location.query.started&quot;,
+        type: "location.query.started",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getLocationById&quot;,
+          action: "getLocationById",
           targetId: locationId
         }
       });
@@ -125,12 +125,12 @@ export class LocationService implements LocationServiceInterface {
         .limit(1);
 
       await this.eventBus.publish({
-        type: &quot;location.query.completed&quot;,
+        type: "location.query.completed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getLocationById&quot;,
+          action: "getLocationById",
           found: !!location
         }
       });
@@ -138,13 +138,13 @@ export class LocationService implements LocationServiceInterface {
       return location;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;location.query.failed&quot;,
+        type: "location.query.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getLocationById&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "getLocationById",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -158,12 +158,12 @@ export class LocationService implements LocationServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: &quot;location.create.started&quot;,
+        type: "location.create.started",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;createLocation&quot;,
+          action: "createLocation",
           locationName: data.name,
           locationType: data.type
         }
@@ -181,12 +181,12 @@ export class LocationService implements LocationServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: &quot;location.created&quot;,
+        type: "location.created",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;createLocation&quot;,
+          action: "createLocation",
           locationId: newLocation.id,
           locationName: newLocation.name,
           locationType: newLocation.type,
@@ -198,13 +198,13 @@ export class LocationService implements LocationServiceInterface {
       return newLocation;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;location.create.failed&quot;,
+        type: "location.create.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;createLocation&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "createLocation",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -217,12 +217,12 @@ export class LocationService implements LocationServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: &quot;location.update.started&quot;,
+        type: "location.update.started",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateLocation&quot;,
+          action: "updateLocation",
           locationId,
           updates: Object.keys(data)
         }
@@ -238,12 +238,12 @@ export class LocationService implements LocationServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: &quot;location.updated&quot;,
+        type: "location.updated",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateLocation&quot;,
+          action: "updateLocation",
           locationId,
           changes: Object.keys(data)
         }
@@ -252,13 +252,13 @@ export class LocationService implements LocationServiceInterface {
       return updatedLocation;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;location.update.failed&quot;,
+        type: "location.update.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateLocation&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error"
+          action: "updateLocation",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       

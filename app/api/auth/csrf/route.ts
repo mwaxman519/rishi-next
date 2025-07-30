@@ -1,12 +1,12 @@
-import { NextResponse } from &quot;next/server&quot;;
-import { randomBytes } from &quot;crypto&quot;;
+import { NextResponse } from "next/server";
+import { randomBytes } from "crypto";
 
 export async function GET() {
-  const csrfToken = randomBytes(32).toString(&quot;hex&quot;);
+  const csrfToken = randomBytes(32).toString("hex");
 
   return NextResponse.json({
     csrfToken,
   });
 }
 
-export const dynamic = &quot;force-dynamic&quot;;
+export const dynamic = "force-dynamic";

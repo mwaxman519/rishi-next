@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { db } from &quot;@/lib/db&quot;;
-import { and, eq } from &quot;drizzle-orm&quot;;
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
-import { organizations } from &quot;@shared/schema&quot;;
+import { db } from "@/lib/db";
+import { and, eq } from "drizzle-orm";
+import { getCurrentUser } from "@/lib/auth";
+import { organizations } from "@shared/schema";
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from &quot;@/lib/rbac-enhanced&quot;;
+} from "@/lib/rbac-enhanced";
 
 // GET /api/admin/organizations - Get all organizations
 export async function GET(request: NextRequest) {
@@ -18,12 +18,12 @@ export async function GET(request: NextRequest) {
     // Check authentication and authorization
     const authUser = await getCurrentUser();
     if (!authUser) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Only super_admin and internal_admin can access all organizations
-    if (!hasEnhancedPermission(&quot;view:organizations&quot;, authUser.role)) {
-      return NextResponse.json({ error: &quot;Permission denied&quot; }, { status: 403 });
+    if (!hasEnhancedPermission("view:organizations", authUser.role)) {
+      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
     }
 
     // Get organizations
@@ -33,9 +33,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(allOrganizations);
   } catch (error) {
-    console.error(&quot;Error fetching organizations:&quot;, error);
+    console.error("Error fetching organizations:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch organizations&quot; },
+      { error: "Failed to fetch organizations" },
       { status: 500 },
     );
   }
@@ -47,12 +47,12 @@ export async function POST(request: NextRequest) {
     // Check authentication and authorization
     const authUser = await getCurrentUser();
     if (!authUser) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Only super_admin and internal_admin can create organizations
-    if (!hasEnhancedPermission(&quot;create:organizations&quot;, authUser.role)) {
-      return NextResponse.json({ error: &quot;Permission denied&quot; }, { status: 403 });
+    if (!hasEnhancedPermission("create:organizations", authUser.role)) {
+      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
     }
 
     // Get organization data from request body
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     // Basic validation
     if (!data.name || !data.type) {
       return NextResponse.json(
-        { error: &quot;Name and type are required&quot; },
+        { error: "Name and type are required" },
         { status: 400 },
       );
     }
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
     if (existingOrg) {
       return NextResponse.json(
-        { error: &quot;Organization with this name already exists&quot; },
+        { error: "Organization with this name already exists" },
         { status: 409 },
       );
     }
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       .values({
         name: data.name,
         type: data.type,
-        status: data.status || &quot;active&quot;,
+        status: data.status || "active",
         subscription_tier: data.subscription_tier,
         logo_url: data.logo_url,
       })
@@ -96,9 +96,9 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(createdOrg, { status: 201 });
   } catch (error) {
-    console.error(&quot;Error creating organization:&quot;, error);
+    console.error("Error creating organization:", error);
     return NextResponse.json(
-      { error: &quot;Failed to create organization&quot; },
+      { error: "Failed to create organization" },
       { status: 500 },
     );
   }

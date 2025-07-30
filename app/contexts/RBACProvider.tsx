@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { createContext, useState, useEffect } from &quot;react&quot;;
-import { Permission, Role, ROLES, getUserPermissions } from &quot;../lib/rbac&quot;;
+import React, { createContext, useState, useEffect } from "react";
+import { Permission, Role, ROLES, getUserPermissions } from "../lib/rbac";
 
 // Interface for the RBAC context
 interface RBACContextType {

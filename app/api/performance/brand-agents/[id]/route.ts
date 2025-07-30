@@ -1,6 +1,6 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 

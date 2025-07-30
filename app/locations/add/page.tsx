@@ -1,18 +1,18 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useRef, useCallback } from &quot;react&quot;;
-import { ChevronLeft, Search, MapPin, Loader2 } from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import * as z from &quot;zod&quot;;
-import { useTheme } from &quot;next-themes&quot;;
-import { useMutation } from &quot;@tanstack/react-query&quot;;
-import { useToast } from &quot;@/components/ui/use-toast&quot;;
+import React, { useState, useRef, useCallback } from "react";
+import { ChevronLeft, Search, MapPin, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useTheme } from "next-themes";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
 
 // UI Components
-import { Button } from &quot;@/components/ui/button&quot;;
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,9 +20,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -31,17 +31,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Google Maps Components
 import {
@@ -50,22 +50,22 @@ import {
   Autocomplete,
   LoadScript,
   InfoWindow,
-} from &quot;@react-google-maps/api&quot;;
+} from "@react-google-maps/api";
 
 // Custom components
-import ManualAddressEntry from &quot;@/components/locations/ManualAddressEntry&quot;;
+import ManualAddressEntry from "@/components/locations/ManualAddressEntry";
 
 // API Key and Configuration
-const GOOGLE_MAPS_API_KEY = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;;
+const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";
 // Define libraries array outside component to avoid reloading warning
 // Use 'as any' to fix TypeScript error with the libraries prop
-const libraries = [&quot;places&quot;] as any;
+const libraries = ["places"] as any;
 
 // Map Container Style
 const containerStyle = {
-  width: &quot;100%&quot;,
-  height: &quot;400px&quot;,
-  borderRadius: &quot;0.5rem&quot;,
+  width: "100%",
+  height: "400px",
+  borderRadius: "0.5rem",
 };
 
 // Default Map Center (San Francisco)
@@ -76,10 +76,10 @@ const defaultCenter = {
 
 // Form Schema for Location Data
 const locationFormSchema = z.object({
-  name: z.string().min(2, { message: &quot;Name must be at least 2 characters.&quot; }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   locationType: z
     .string()
-    .min(1, { message: &quot;Please select a location type.&quot; }),
+    .min(1, { message: "Please select a location type." }),
   notes: z.string().optional(),
 });
 
@@ -96,7 +96,7 @@ export default function AddLocationPage() {
   const mapRef = useRef<google.maps.Map | null>(null);
 
   // UI State
-  const [activeTab, setActiveTab] = useState(&quot;google-search&quot;);
+  const [activeTab, setActiveTab] = useState("google-search");
 
   // Location State
   const [selectedLocation, setSelectedLocation] =
@@ -104,47 +104,47 @@ export default function AddLocationPage() {
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
   const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
-  const [mapTheme, setMapTheme] = useState<&quot;light&quot; | &quot;dark&quot;>(&quot;light&quot;);
+  const [mapTheme, setMapTheme] = useState<"light" | "dark">("light");
 
   // Form Setup
   const form = useForm<LocationFormValues>({
     resolver: zodResolver(locationFormSchema),
     defaultValues: {
-      name: "&quot;,
-      locationType: &quot;business&quot;,
-      notes: &quot;&quot;,
+      name: "",
+      locationType: "business",
+      notes: "",
     },
   });
 
   // Submit Mutation
   const submitMutation = useMutation({
     mutationFn: async (locationData: any) => {
-      const res = await fetch(&quot;/api/locations&quot;, {
-        method: &quot;POST&quot;,
+      const res = await fetch("/api/locations", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(locationData),
       });
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.error || &quot;Failed to submit location&quot;);
+        throw new Error(errorData.error || "Failed to submit location");
       }
 
       return res.json();
     },
     onSuccess: () => {
       toast({
-        title: &quot;Location submitted successfully&quot;,
-        description: &quot;Your location has been submitted for approval.&quot;,
+        title: "Location submitted successfully",
+        description: "Your location has been submitted for approval.",
       });
-      router.push(&quot;/locations&quot;);
+      router.push("/locations");
     },
     onError: (error: Error) => {
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Submission failed&quot;,
+        variant: "destructive",
+        title: "Submission failed",
         description: error.message,
       });
     },
@@ -152,7 +152,7 @@ export default function AddLocationPage() {
 
   // Theme Change Effect
   React.useEffect(() => {
-    const currentTheme = resolvedTheme === &quot;dark&quot; ? &quot;dark&quot; : &quot;light&quot;;
+    const currentTheme = resolvedTheme === "dark" ? "dark" : "light";
     setMapTheme(currentTheme);
 
     if (mapRef.current && window.google?.maps) {
@@ -161,90 +161,90 @@ export default function AddLocationPage() {
   }, [resolvedTheme]);
 
   // Apply Map Styling Based on Theme
-  const applyMapStyle = (map: google.maps.Map, theme: &quot;light&quot; | &quot;dark&quot;) => {
-    if (theme === &quot;dark&quot;) {
+  const applyMapStyle = (map: google.maps.Map, theme: "light" | "dark") => {
+    if (theme === "dark") {
       map.setOptions({
         styles: [
-          { elementType: &quot;geometry&quot;, stylers: [{ color: &quot;#242f3e&quot; }] },
+          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
           {
-            elementType: &quot;labels.text.stroke&quot;,
-            stylers: [{ color: &quot;#242f3e&quot; }],
+            elementType: "labels.text.stroke",
+            stylers: [{ color: "#242f3e" }],
           },
-          { elementType: &quot;labels.text.fill&quot;, stylers: [{ color: &quot;#746855&quot; }] },
+          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
           {
-            featureType: &quot;administrative.locality&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#d59563&quot; }],
-          },
-          {
-            featureType: &quot;poi&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#d59563&quot; }],
+            featureType: "administrative.locality",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
           },
           {
-            featureType: &quot;poi.park&quot;,
-            elementType: &quot;geometry&quot;,
-            stylers: [{ color: &quot;#263c3f&quot; }],
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
           },
           {
-            featureType: &quot;poi.park&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#6b9a76&quot; }],
+            featureType: "poi.park",
+            elementType: "geometry",
+            stylers: [{ color: "#263c3f" }],
           },
           {
-            featureType: &quot;road&quot;,
-            elementType: &quot;geometry&quot;,
-            stylers: [{ color: &quot;#38414e&quot; }],
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#6b9a76" }],
           },
           {
-            featureType: &quot;road&quot;,
-            elementType: &quot;geometry.stroke&quot;,
-            stylers: [{ color: &quot;#212a37&quot; }],
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [{ color: "#38414e" }],
           },
           {
-            featureType: &quot;road&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#9ca5b3&quot; }],
+            featureType: "road",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#212a37" }],
           },
           {
-            featureType: &quot;road.highway&quot;,
-            elementType: &quot;geometry&quot;,
-            stylers: [{ color: &quot;#746855&quot; }],
+            featureType: "road",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#9ca5b3" }],
           },
           {
-            featureType: &quot;road.highway&quot;,
-            elementType: &quot;geometry.stroke&quot;,
-            stylers: [{ color: &quot;#1f2835&quot; }],
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [{ color: "#746855" }],
           },
           {
-            featureType: &quot;road.highway&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#f3d19c&quot; }],
+            featureType: "road.highway",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#1f2835" }],
           },
           {
-            featureType: &quot;transit&quot;,
-            elementType: &quot;geometry&quot;,
-            stylers: [{ color: &quot;#2f3948&quot; }],
+            featureType: "road.highway",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#f3d19c" }],
           },
           {
-            featureType: &quot;transit.station&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#d59563&quot; }],
+            featureType: "transit",
+            elementType: "geometry",
+            stylers: [{ color: "#2f3948" }],
           },
           {
-            featureType: &quot;water&quot;,
-            elementType: &quot;geometry&quot;,
-            stylers: [{ color: &quot;#17263c&quot; }],
+            featureType: "transit.station",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }],
           },
           {
-            featureType: &quot;water&quot;,
-            elementType: &quot;labels.text.fill&quot;,
-            stylers: [{ color: &quot;#515c6d&quot; }],
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [{ color: "#17263c" }],
           },
           {
-            featureType: &quot;water&quot;,
-            elementType: &quot;labels.text.stroke&quot;,
-            stylers: [{ color: &quot;#17263c&quot; }],
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#515c6d" }],
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.stroke",
+            stylers: [{ color: "#17263c" }],
           },
         ],
       });
@@ -273,13 +273,13 @@ export default function AddLocationPage() {
 
       // Set the fields we want to retrieve from the Places API
       autocomplete.setFields([
-        &quot;address_components&quot;,
-        &quot;formatted_address&quot;,
-        &quot;geometry&quot;,
-        &quot;name&quot;,
-        &quot;place_id&quot;,
-        &quot;types&quot;,
-        &quot;vicinity&quot;,
+        "address_components",
+        "formatted_address",
+        "geometry",
+        "name",
+        "place_id",
+        "types",
+        "vicinity",
       ]);
     },
     [],
@@ -288,16 +288,16 @@ export default function AddLocationPage() {
   // Place Changed Handler
   const onPlaceChanged = useCallback(() => {
     if (!autocompleteRef.current) {
-      console.error(&quot;Autocomplete reference not available&quot;);
+      console.error("Autocomplete reference not available");
       return;
     }
 
     try {
       const place = autocompleteRef.current.getPlace();
-      console.log(&quot;Place selected:&quot;, place);
+      console.log("Place selected:", place);
 
       if (!place.geometry || !place.geometry.location) {
-        console.error(&quot;⚠️ Selected place has no geometry location&quot;);
+        console.error("⚠️ Selected place has no geometry location");
         return;
       }
 
@@ -307,8 +307,8 @@ export default function AddLocationPage() {
         lng: location.lng(),
       };
 
-      console.log(&quot;✅ Selected location:&quot;, latLng);
-      console.log(&quot;✅ Selected place:&quot;, place);
+      console.log("✅ Selected location:", latLng);
+      console.log("✅ Selected place:", place);
 
       // Update state with the selected place information
       setSelectedLocation(latLng);
@@ -323,30 +323,30 @@ export default function AddLocationPage() {
 
       // Set form values from place data
       if (place.name) {
-        form.setValue(&quot;name&quot;, place.name);
+        form.setValue("name", place.name);
       }
 
       // Set location type based on place types
       if (place.types && place.types.length > 0) {
-        if (place.types.includes(&quot;restaurant&quot;)) {
-          form.setValue(&quot;locationType&quot;, &quot;restaurant&quot;);
-        } else if (place.types.includes(&quot;store&quot;)) {
-          form.setValue(&quot;locationType&quot;, &quot;retail&quot;);
-        } else if (place.types.includes(&quot;office&quot;)) {
-          form.setValue(&quot;locationType&quot;, &quot;office&quot;);
-        } else if (place.types.includes(&quot;establishment&quot;)) {
-          form.setValue(&quot;locationType&quot;, &quot;business&quot;);
+        if (place.types.includes("restaurant")) {
+          form.setValue("locationType", "restaurant");
+        } else if (place.types.includes("store")) {
+          form.setValue("locationType", "retail");
+        } else if (place.types.includes("office")) {
+          form.setValue("locationType", "office");
+        } else if (place.types.includes("establishment")) {
+          form.setValue("locationType", "business");
         } else {
-          form.setValue(&quot;locationType&quot;, &quot;business&quot;);
+          form.setValue("locationType", "business");
         }
       }
     } catch (error) {
-      console.error(&quot;Error in onPlaceChanged:&quot;, error);
+      console.error("Error in onPlaceChanged:", error);
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Error selecting location&quot;,
+        variant: "destructive",
+        title: "Error selecting location",
         description:
-          &quot;There was a problem with the location selection. Please try again.&quot;,
+          "There was a problem with the location selection. Please try again.",
       });
     }
   }, [form, toast]);
@@ -354,14 +354,14 @@ export default function AddLocationPage() {
   // Clear Search Handler
   const handleClearSearch = useCallback(() => {
     if (inputRef.current) {
-      inputRef.current.value = &quot;&quot;;
+      inputRef.current.value = "";
     }
     setSelectedPlace(null);
     setSelectedLocation(null);
     setIsInfoOpen(false);
 
     // Reset form fields
-    form.setValue(&quot;name&quot;, &quot;&quot;);
+    form.setValue("name", "");
   }, [form]);
 
   // Find My Location Handler
@@ -386,18 +386,18 @@ export default function AddLocationPage() {
           if (window.google && window.google.maps) {
             const geocoder = new google.maps.Geocoder();
             geocoder.geocode({ location: latLng }, (results, status) => {
-              if (status === &quot;OK&quot; && results && results[0]) {
+              if (status === "OK" && results && results[0]) {
                 setSelectedPlace(results[0]);
                 setIsInfoOpen(true);
 
                 // Set form name based on place data
                 const result = results[0];
-                // Try to extract a name from formatted address if direct name property isn&apos;t available
+                // Try to extract a name from formatted address if direct name property isn't available
                 const addressName =
-                  result.formatted_address?.split(&quot;,&quot;)[0] || &quot;&quot;;
+                  result.formatted_address?.split(",")[0] || "";
                 form.setValue(
-                  &quot;name&quot;,
-                  (result as any).name || addressName || &quot;New Location&quot;,
+                  "name",
+                  (result as any).name || addressName || "New Location",
                 );
               } else {
                 console.error(`Geocoder failed: ${status}`);
@@ -406,21 +406,21 @@ export default function AddLocationPage() {
           }
         },
         (error) => {
-          console.error(&quot;Geolocation error:&quot;, error);
+          console.error("Geolocation error:", error);
           toast({
-            variant: &quot;destructive&quot;,
-            title: &quot;Geolocation error&quot;,
+            variant: "destructive",
+            title: "Geolocation error",
             description:
-              &quot;Unable to access your current location. Please check your browser permissions.&quot;,
+              "Unable to access your current location. Please check your browser permissions.",
           });
         },
       );
     } else {
-      console.error(&quot;Geolocation is not supported by this browser&quot;);
+      console.error("Geolocation is not supported by this browser");
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Not supported&quot;,
-        description: &quot;Geolocation is not supported by your browser.&quot;,
+        variant: "destructive",
+        title: "Not supported",
+        description: "Geolocation is not supported by your browser.",
       });
     }
   }, [form, toast]);
@@ -430,51 +430,51 @@ export default function AddLocationPage() {
     components: google.maps.GeocoderAddressComponent[] | undefined,
     type: string,
   ): string => {
-    if (!components) return &quot;&quot;;
+    if (!components) return "";
 
     const component = components.find((comp) => comp.types.includes(type));
 
-    return component ? component.long_name : &quot;&quot;;
+    return component ? component.long_name : "";
   };
 
   // Form Submission Handler
   const onSubmit = (values: LocationFormValues) => {
     if (!selectedPlace) {
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Location required&quot;,
+        variant: "destructive",
+        title: "Location required",
         description:
-          &quot;Please select a location using either the search tool or manual address entry.&quot;,
+          "Please select a location using either the search tool or manual address entry.",
       });
       return;
     }
 
     // Extract address components
     const city =
-      getAddressComponent(selectedPlace.address_components, &quot;locality&quot;) ||
-      getAddressComponent(selectedPlace.address_components, &quot;sublocality&quot;) ||
-      &quot;&quot;;
+      getAddressComponent(selectedPlace.address_components, "locality") ||
+      getAddressComponent(selectedPlace.address_components, "sublocality") ||
+      "";
     const state =
       getAddressComponent(
         selectedPlace.address_components,
-        &quot;administrative_area_level_1&quot;,
-      ) || &quot;&quot;;
+        "administrative_area_level_1",
+      ) || "";
     const postalCode =
-      getAddressComponent(selectedPlace.address_components, &quot;postal_code&quot;) ||
-      &quot;&quot;;
+      getAddressComponent(selectedPlace.address_components, "postal_code") ||
+      "";
 
     // Prepare data for submission
     const submissionData = {
       name: values.name.trim(),
-      address: selectedPlace.formatted_address || &quot;&quot;,
+      address: selectedPlace.formatted_address || "",
       city,
       state,
       zipCode: postalCode,
       latitude: selectedLocation?.lat || 0, // Use 0 if coordinates are not available
       longitude: selectedLocation?.lng || 0, // Use 0 if coordinates are not available
-      placeId: selectedPlace.place_id || &quot;&quot;,
+      placeId: selectedPlace.place_id || "",
       locationType: values.locationType,
-      notes: values.notes?.trim() || &quot;&quot;,
+      notes: values.notes?.trim() || "",
     };
 
     // Submit the data
@@ -482,27 +482,27 @@ export default function AddLocationPage() {
   };
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
-      <div className=&quot;flex items-center gap-2&quot;>
-        <Button variant=&quot;ghost&quot; size=&quot;sm&quot; className=&quot;gap-1&quot; asChild>
-          <Link href=&quot;/locations&quot;>
-            <ChevronLeft className=&quot;h-4 w-4&quot; />
+    <div className="container mx-auto py-6 space-y-6">
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="sm" className="gap-1" asChild>
+          <Link href="/locations">
+            <ChevronLeft className="h-4 w-4" />
             Back to Locations
           </Link>
         </Button>
       </div>
 
-      <div className=&quot;flex justify-between items-center&quot;>
-        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Add New Location</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold tracking-tight">Add New Location</h1>
       </div>
 
-      <p className=&quot;text-muted-foreground&quot;>
+      <p className="text-muted-foreground">
         Submit a new location for approval. Once approved, it will be available
         for booking and scheduling.
       </p>
 
-      <Alert className=&quot;bg-primary/5 border-primary/20 mb-6&quot;>
-        <MapPin className=&quot;h-4 w-4 text-primary&quot; />
+      <Alert className="bg-primary/5 border-primary/20 mb-6">
+        <MapPin className="h-4 w-4 text-primary" />
         <AlertTitle>Location Search</AlertTitle>
         <AlertDescription>
           Search for addresses or businesses, use your current location, or
@@ -510,8 +510,8 @@ export default function AddLocationPage() {
         </AlertDescription>
       </Alert>
 
-      <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-8&quot;>
-        <div className=&quot;space-y-6&quot;>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Find Location</CardTitle>
@@ -519,67 +519,67 @@ export default function AddLocationPage() {
                 Search for addresses, businesses, or add a location manually
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-6&quot;>
+            <CardContent className="space-y-6">
               <Tabs
                 value={activeTab}
                 onValueChange={setActiveTab}
-                className=&quot;w-full&quot;
+                className="w-full"
               >
-                <TabsList className=&quot;grid w-full grid-cols-2 mb-4&quot;>
-                  <TabsTrigger value=&quot;google-search&quot;>
+                <TabsList className="grid w-full grid-cols-2 mb-4">
+                  <TabsTrigger value="google-search">
                     Google Maps Search
                   </TabsTrigger>
-                  <TabsTrigger value=&quot;manual-entry&quot;>Manual Entry</TabsTrigger>
+                  <TabsTrigger value="manual-entry">Manual Entry</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value=&quot;google-search&quot; className=&quot;space-y-4&quot;>
+                <TabsContent value="google-search" className="space-y-4">
                   <LoadScript
                     googleMapsApiKey={GOOGLE_MAPS_API_KEY}
                     libraries={libraries}
                   >
-                    <div className=&quot;space-y-4&quot;>
-                      <div className=&quot;flex gap-2&quot;>
-                        <div className=&quot;flex-1 relative&quot;>
-                          <div className=&quot;absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none&quot;>
-                            <Search className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                    <div className="space-y-4">
+                      <div className="flex gap-2">
+                        <div className="flex-1 relative">
+                          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <Search className="h-4 w-4 text-muted-foreground" />
                           </div>
                           <Autocomplete
                             onLoad={onAutocompleteLoad}
                             onPlaceChanged={onPlaceChanged}
                             options={{
-                              types: [&quot;establishment&quot;, &quot;geocode&quot;],
+                              types: ["establishment", "geocode"],
                               fields: [
-                                &quot;address_components&quot;,
-                                &quot;formatted_address&quot;,
-                                &quot;geometry&quot;,
-                                &quot;name&quot;,
-                                &quot;place_id&quot;,
-                                &quot;types&quot;,
-                                &quot;vicinity&quot;,
+                                "address_components",
+                                "formatted_address",
+                                "geometry",
+                                "name",
+                                "place_id",
+                                "types",
+                                "vicinity",
                               ],
                             }}
                           >
                             <input
                               ref={inputRef}
-                              type=&quot;text&quot;
-                              placeholder=&quot;Search for a location...&quot;
-                              className=&quot;w-full pl-10 pr-4 py-3 border border-input bg-background rounded-md shadow-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none&quot;
+                              type="text"
+                              placeholder="Search for a location..."
+                              className="w-full pl-10 pr-4 py-3 border border-input bg-background rounded-md shadow-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                             />
                           </Autocomplete>
                         </div>
                         <Button
                           onClick={handleClearSearch}
-                          variant=&quot;outline&quot;
-                          size=&quot;sm&quot;
-                          type=&quot;button&quot;
+                          variant="outline"
+                          size="sm"
+                          type="button"
                         >
                           Clear
                         </Button>
                         <Button
                           onClick={handleFindMyLocation}
-                          variant=&quot;default&quot;
-                          size=&quot;sm&quot;
-                          type=&quot;button&quot;
+                          variant="default"
+                          size="sm"
+                          type="button"
                         >
                           My Location
                         </Button>
@@ -603,7 +603,7 @@ export default function AddLocationPage() {
                         {selectedLocation && (
                           <Marker
                             position={selectedLocation}
-                            title={selectedPlace?.name || &quot;Selected location&quot;}
+                            title={selectedPlace?.name || "Selected location"}
                             animation={window.google?.maps.Animation.DROP}
                           >
                             {isInfoOpen && selectedPlace && (
@@ -620,19 +620,19 @@ export default function AddLocationPage() {
                               >
                                 <div
                                   className={`max-w-xs p-2 rounded-md ${
-                                    mapTheme === &quot;dark&quot;
-                                      ? &quot;bg-gray-800 text-white border border-gray-700&quot;
-                                      : &quot;bg-white text-gray-900&quot;
+                                    mapTheme === "dark"
+                                      ? "bg-gray-800 text-white border border-gray-700"
+                                      : "bg-white text-gray-900"
                                   }`}
                                   style={{
-                                    minWidth: &quot;200px&quot;,
+                                    minWidth: "200px",
                                   }}
                                 >
-                                  <h3 className=&quot;font-medium&quot;>
-                                    {selectedPlace.name || &quot;Selected Location&quot;}
+                                  <h3 className="font-medium">
+                                    {selectedPlace.name || "Selected Location"}
                                   </h3>
                                   <p
-                                    className={`text-sm ${mapTheme === &quot;dark&quot; ? &quot;text-gray-300&quot; : &quot;text-gray-600&quot;}`}
+                                    className={`text-sm ${mapTheme === "dark" ? "text-gray-300" : "text-gray-600"}`}
                                   >
                                     {selectedPlace.formatted_address}
                                   </p>
@@ -646,11 +646,11 @@ export default function AddLocationPage() {
                   </LoadScript>
                 </TabsContent>
 
-                <TabsContent value=&quot;manual-entry&quot; className=&quot;space-y-4&quot;>
+                <TabsContent value="manual-entry" className="space-y-4">
                   <ManualAddressEntry
                     onLocationSelect={(locationData) => {
                       // Convert the manual address entry data to a format compatible with our form
-                      const formattedAddress = `${locationData.address1}${locationData.address2 ? &quot;, &quot; + locationData.address2 : &quot;&quot;}, ${locationData.city}, ${locationData.state} ${locationData.zipcode}`;
+                      const formattedAddress = `${locationData.address1}${locationData.address2 ? ", " + locationData.address2 : ""}, ${locationData.city}, ${locationData.state} ${locationData.zipcode}`;
 
                       // Create a place-like object
                       const place = {
@@ -659,37 +659,37 @@ export default function AddLocationPage() {
                           {
                             long_name: locationData.address1,
                             short_name: locationData.address1,
-                            types: [&quot;street_number&quot;, &quot;route&quot;],
+                            types: ["street_number", "route"],
                           },
                           {
                             long_name: locationData.city,
                             short_name: locationData.city,
-                            types: [&quot;locality&quot;],
+                            types: ["locality"],
                           },
                           {
                             long_name: locationData.state,
                             short_name: locationData.state,
-                            types: [&quot;administrative_area_level_1&quot;],
+                            types: ["administrative_area_level_1"],
                           },
                           {
                             long_name: locationData.zipcode,
                             short_name: locationData.zipcode,
-                            types: [&quot;postal_code&quot;],
+                            types: ["postal_code"],
                           },
                         ],
-                        place_id: &quot;&quot;,
+                        place_id: "",
                         name:
-                          locationData.name || formattedAddress.split(&quot;,&quot;)[0],
+                          locationData.name || formattedAddress.split(",")[0],
                       };
 
                       // Set form values - ensure we have a non-empty string as name
                       const locationName =
                         locationData.name ||
                         (formattedAddress
-                          ? formattedAddress.split(&quot;,&quot;)[0]
-                          : &quot;&quot;) ||
-                        &quot;New Location&quot;;
-                      form.setValue(&quot;name&quot;, locationName);
+                          ? formattedAddress.split(",")[0]
+                          : "") ||
+                        "New Location";
+                      form.setValue("name", locationName);
 
                       // Update state with the selected place
                       setSelectedPlace(place as any);
@@ -702,7 +702,7 @@ export default function AddLocationPage() {
                         });
                       }
                     }}
-                    onToggleSearchMode={() => setActiveTab(&quot;google-search&quot;)}
+                    onToggleSearchMode={() => setActiveTab("google-search")}
                   />
                 </TabsContent>
               </Tabs>
@@ -715,93 +715,93 @@ export default function AddLocationPage() {
                 <CardTitle>Selected Location</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className=&quot;space-y-4&quot;>
+                <div className="space-y-4">
                   <div>
-                    <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                    <h3 className="text-sm font-medium text-muted-foreground">
                       Address
                     </h3>
-                    <p className=&quot;font-medium&quot;>
+                    <p className="font-medium">
                       {selectedPlace.formatted_address}
                     </p>
                   </div>
 
                   <Separator />
 
-                  <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                  <div className="grid grid-cols-2 gap-4">
                     {selectedPlace.address_components && (
                       <>
                         <div>
-                          <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                          <h3 className="text-sm font-medium text-muted-foreground">
                             City
                           </h3>
                           <p>
                             {getAddressComponent(
                               selectedPlace.address_components,
-                              &quot;locality&quot;,
+                              "locality",
                             ) ||
                               getAddressComponent(
                                 selectedPlace.address_components,
-                                &quot;sublocality&quot;,
+                                "sublocality",
                               ) ||
-                              &quot;N/A&quot;}
+                              "N/A"}
                           </p>
                         </div>
                         <div>
-                          <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                          <h3 className="text-sm font-medium text-muted-foreground">
                             State/Province
                           </h3>
                           <p>
                             {getAddressComponent(
                               selectedPlace.address_components,
-                              &quot;administrative_area_level_1&quot;,
-                            ) || &quot;N/A&quot;}
+                              "administrative_area_level_1",
+                            ) || "N/A"}
                           </p>
                         </div>
                         <div>
-                          <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                          <h3 className="text-sm font-medium text-muted-foreground">
                             Postal Code
                           </h3>
                           <p>
                             {getAddressComponent(
                               selectedPlace.address_components,
-                              &quot;postal_code&quot;,
-                            ) || &quot;N/A&quot;}
+                              "postal_code",
+                            ) || "N/A"}
                           </p>
                         </div>
                         <div>
-                          <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                          <h3 className="text-sm font-medium text-muted-foreground">
                             Country
                           </h3>
                           <p>
                             {getAddressComponent(
                               selectedPlace.address_components,
-                              &quot;country&quot;,
-                            ) || &quot;N/A&quot;}
+                              "country",
+                            ) || "N/A"}
                           </p>
                         </div>
                       </>
                     )}
                   </div>
 
-                  <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                      <h3 className="text-sm font-medium text-muted-foreground">
                         Latitude
                       </h3>
-                      <p className=&quot;font-mono text-sm&quot;>
+                      <p className="font-mono text-sm">
                         {selectedLocation
                           ? selectedLocation.lat.toFixed(6)
-                          : &quot;N/A&quot;}
+                          : "N/A"}
                       </p>
                     </div>
                     <div>
-                      <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                      <h3 className="text-sm font-medium text-muted-foreground">
                         Longitude
                       </h3>
-                      <p className=&quot;font-mono text-sm&quot;>
+                      <p className="font-mono text-sm">
                         {selectedLocation
                           ? selectedLocation.lng.toFixed(6)
-                          : &quot;N/A&quot;}
+                          : "N/A"}
                       </p>
                     </div>
                   </div>
@@ -822,18 +822,18 @@ export default function AddLocationPage() {
             <CardContent>
               <Form {...form}>
                 <form
-                  id=&quot;location-form&quot;
+                  id="location-form"
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className=&quot;space-y-6&quot;
+                  className="space-y-6"
                 >
                   <FormField
                     control={form.control}
-                    name=&quot;name&quot;
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Location Name</FormLabel>
                         <FormControl>
-                          <Input placeholder=&quot;Enter location name&quot; {...field} />
+                          <Input placeholder="Enter location name" {...field} />
                         </FormControl>
                         <FormDescription>
                           Provide a clear, recognizable name for this location.
@@ -845,7 +845,7 @@ export default function AddLocationPage() {
 
                   <FormField
                     control={form.control}
-                    name=&quot;locationType&quot;
+                    name="locationType"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Location Type</FormLabel>
@@ -855,19 +855,19 @@ export default function AddLocationPage() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder=&quot;Select a location type&quot; />
+                              <SelectValue placeholder="Select a location type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value=&quot;business&quot;>Business</SelectItem>
-                            <SelectItem value=&quot;venue&quot;>Venue</SelectItem>
-                            <SelectItem value=&quot;office&quot;>Office</SelectItem>
-                            <SelectItem value=&quot;warehouse&quot;>Warehouse</SelectItem>
-                            <SelectItem value=&quot;retail&quot;>Retail Store</SelectItem>
-                            <SelectItem value=&quot;restaurant&quot;>
+                            <SelectItem value="business">Business</SelectItem>
+                            <SelectItem value="venue">Venue</SelectItem>
+                            <SelectItem value="office">Office</SelectItem>
+                            <SelectItem value="warehouse">Warehouse</SelectItem>
+                            <SelectItem value="retail">Retail Store</SelectItem>
+                            <SelectItem value="restaurant">
                               Restaurant
                             </SelectItem>
-                            <SelectItem value=&quot;landmark&quot;>Landmark</SelectItem>
+                            <SelectItem value="landmark">Landmark</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormDescription>
@@ -880,14 +880,14 @@ export default function AddLocationPage() {
 
                   <FormField
                     control={form.control}
-                    name=&quot;notes&quot;
+                    name="notes"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Additional Notes</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder=&quot;Add any special instructions or details about this location&quot;
-                            className=&quot;min-h-[120px]&quot;
+                            placeholder="Add any special instructions or details about this location"
+                            className="min-h-[120px]"
                             {...field}
                           />
                         </FormControl>
@@ -902,20 +902,20 @@ export default function AddLocationPage() {
                 </form>
               </Form>
             </CardContent>
-            <CardFooter className=&quot;flex justify-end&quot;>
+            <CardFooter className="flex justify-end">
               <Button
-                variant=&quot;outline&quot;
-                onClick={() => router.push(&quot;/locations&quot;)}
-                className=&quot;mr-2&quot;
+                variant="outline"
+                onClick={() => router.push("/locations")}
+                className="mr-2"
               >
                 Cancel
               </Button>
               <Button
-                type=&quot;submit&quot;
-                form=&quot;location-form&quot;
+                type="submit"
+                form="location-form"
                 disabled={!selectedPlace || submitMutation.isPending}
               >
-                {submitMutation.isPending ? &quot;Submitting...&quot; : &quot;Submit Location"}
+                {submitMutation.isPending ? "Submitting..." : "Submit Location"}
               </Button>
             </CardFooter>
           </Card>

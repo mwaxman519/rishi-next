@@ -1,29 +1,29 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useForm, FormProvider } from &quot;react-hook-form&quot;;
-import { z } from &quot;zod&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { format } from &quot;date-fns&quot;;
-import { Loader2, CalendarIcon, Clock } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { Loader2, CalendarIcon, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { cn } from &quot;@/lib/utils&quot;;
-import { useToast } from &quot;@/components/ui/use-toast&quot;;
-import { Calendar } from &quot;@/components/ui/calendar&quot;;
-import { Popover, PopoverContent, PopoverTrigger } from &quot;@/components/ui/popover&quot;;
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 // Minimal form schema for the example
 const bookingFormSchema = z.object({
@@ -45,7 +45,7 @@ interface BookingFormProps {
 }
 
 export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
-  const [activeTab, setActiveTab] = useState(&quot;details&quot;);
+  const [activeTab, setActiveTab] = useState("details");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -53,13 +53,13 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
       date: new Date(),
-      startTime: &quot;09:00&quot;,
-      endTime: &quot;17:00&quot;,
+      startTime: "09:00",
+      endTime: "17:00",
       isRecurring: false,
-      recurringFrequency: &quot;weekly&quot;,
+      recurringFrequency: "weekly",
       recurringCount: 4,
       sendInvites: false,
-      inviteEmails: "&quot;,
+      inviteEmails: "",
     },
   });
 
@@ -74,26 +74,26 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
   };
 
   return (
-    <div className=&quot;bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-800 shadow-sm&quot;>
+    <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-800 shadow-sm">
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
-            className=&quot;w-full&quot;
+            className="w-full"
           >
-            <div className=&quot;border-b&quot;>
-              <div className=&quot;px-6&quot;>
-                <TabsList className=&quot;grid grid-cols-2 mt-4 bg-transparent&quot;>
+            <div className="border-b">
+              <div className="px-6">
+                <TabsList className="grid grid-cols-2 mt-4 bg-transparent">
                   <TabsTrigger
-                    value=&quot;details&quot;
-                    className=&quot;data-[state=active]:border-b-2 data-[state=active]:border-primary&quot;
+                    value="details"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-primary"
                   >
                     Event Details
                   </TabsTrigger>
                   <TabsTrigger
-                    value=&quot;options&quot;
-                    className=&quot;data-[state=active]:border-b-2 data-[state=active]:border-primary&quot;
+                    value="options"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-primary"
                   >
                     Options
                   </TabsTrigger>
@@ -101,35 +101,35 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
               </div>
             </div>
 
-            <div className=&quot;p-6&quot;>
-              <TabsContent value=&quot;details&quot; className=&quot;mt-0 space-y-6&quot;>
-                <div className=&quot;grid grid-cols-1 gap-6&quot;>
+            <div className="p-6">
+              <TabsContent value="details" className="mt-0 space-y-6">
+                <div className="grid grid-cols-1 gap-6">
                   {/* Date Field */}
-                  <div className=&quot;space-y-2&quot;>
+                  <div className="space-y-2">
                     <Label>Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant=&quot;outline&quot;
+                          variant="outline"
                           className={cn(
-                            &quot;w-full justify-start text-left font-normal&quot;,
-                            !form.getValues(&quot;date&quot;) && &quot;text-muted-foreground&quot;,
+                            "w-full justify-start text-left font-normal",
+                            !form.getValues("date") && "text-muted-foreground",
                           )}
                         >
-                          <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
-                          {form.getValues(&quot;date&quot;) ? (
-                            format(form.getValues(&quot;date&quot;), &quot;PPP&quot;)
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {form.getValues("date") ? (
+                            format(form.getValues("date"), "PPP")
                           ) : (
                             <span>Pick a date</span>
                           )}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className=&quot;w-auto p-0&quot;>
+                      <PopoverContent className="w-auto p-0">
                         <Calendar
-                          mode=&quot;single&quot;
-                          selected={form.getValues(&quot;date&quot;)}
+                          mode="single"
+                          selected={form.getValues("date")}
                           onSelect={(date) =>
-                            form.setValue(&quot;date&quot;, date as Date)
+                            form.setValue("date", date as Date)
                           }
                           initialFocus
                         />
@@ -137,60 +137,60 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
                     </Popover>
                   </div>
 
-                  <div className=&quot;grid grid-cols-2 gap-6&quot;>
+                  <div className="grid grid-cols-2 gap-6">
                     {/* Start Time */}
-                    <div className=&quot;space-y-2&quot;>
-                      <Label htmlFor=&quot;startTime&quot;>Start Time</Label>
-                      <div className=&quot;relative&quot;>
+                    <div className="space-y-2">
+                      <Label htmlFor="startTime">Start Time</Label>
+                      <div className="relative">
                         <Popover>
                           <PopoverTrigger asChild>
                             <Button
-                              variant=&quot;outline&quot;
-                              className=&quot;w-full justify-start text-left font-normal flex items-center gap-2&quot;
+                              variant="outline"
+                              className="w-full justify-start text-left font-normal flex items-center gap-2"
                             >
-                              <Clock className=&quot;h-4 w-4&quot; />
+                              <Clock className="h-4 w-4" />
                               <span>
-                                {form.watch(&quot;startTime&quot;) || &quot;Select start time&quot;}
+                                {form.watch("startTime") || "Select start time"}
                               </span>
                             </Button>
                           </PopoverTrigger>
-                          <PopoverContent className=&quot;w-auto p-4&quot;>
-                            <div className=&quot;space-y-4&quot;>
+                          <PopoverContent className="w-auto p-4">
+                            <div className="space-y-4">
                               <div>
-                                <Label htmlFor=&quot;custom-start-time&quot;>Time</Label>
+                                <Label htmlFor="custom-start-time">Time</Label>
                                 <Input
-                                  id=&quot;custom-start-time&quot;
-                                  type=&quot;time&quot;
-                                  value={form.watch(&quot;startTime&quot;)}
+                                  id="custom-start-time"
+                                  type="time"
+                                  value={form.watch("startTime")}
                                   onChange={(e) =>
-                                    form.setValue(&quot;startTime&quot;, e.target.value)
+                                    form.setValue("startTime", e.target.value)
                                   }
-                                  className=&quot;mt-1 w-full&quot;
+                                  className="mt-1 w-full"
                                 />
                               </div>
-                              <div className=&quot;grid grid-cols-4 gap-2&quot;>
+                              <div className="grid grid-cols-4 gap-2">
                                 {[
-                                  &quot;09:00&quot;,
-                                  &quot;10:00&quot;,
-                                  &quot;12:00&quot;,
-                                  &quot;13:00&quot;,
-                                  &quot;14:00&quot;,
-                                  &quot;15:00&quot;,
-                                  &quot;16:00&quot;,
-                                  &quot;17:00&quot;,
+                                  "09:00",
+                                  "10:00",
+                                  "12:00",
+                                  "13:00",
+                                  "14:00",
+                                  "15:00",
+                                  "16:00",
+                                  "17:00",
                                 ].map((time) => (
                                   <Button
                                     key={time}
-                                    variant=&quot;outline&quot;
-                                    size=&quot;sm&quot;
+                                    variant="outline"
+                                    size="sm"
                                     className={cn(
-                                      form.watch(&quot;startTime&quot;) === time &&
-                                        &quot;bg-primary text-primary-foreground&quot;,
+                                      form.watch("startTime") === time &&
+                                        "bg-primary text-primary-foreground",
                                     )}
                                     onClick={() => {
-                                      form.setValue(&quot;startTime&quot;, time);
+                                      form.setValue("startTime", time);
                                     }}
-                                    type=&quot;button&quot;
+                                    type="button"
                                   >
                                     {time}
                                   </Button>
@@ -203,58 +203,58 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
                     </div>
 
                     {/* End Time */}
-                    <div className=&quot;space-y-2&quot;>
-                      <Label htmlFor=&quot;endTime&quot;>End Time</Label>
-                      <div className=&quot;relative&quot;>
+                    <div className="space-y-2">
+                      <Label htmlFor="endTime">End Time</Label>
+                      <div className="relative">
                         <Popover>
                           <PopoverTrigger asChild>
                             <Button
-                              variant=&quot;outline&quot;
-                              className=&quot;w-full justify-start text-left font-normal flex items-center gap-2&quot;
+                              variant="outline"
+                              className="w-full justify-start text-left font-normal flex items-center gap-2"
                             >
-                              <Clock className=&quot;h-4 w-4&quot; />
+                              <Clock className="h-4 w-4" />
                               <span>
-                                {form.watch(&quot;endTime&quot;) || &quot;Select end time&quot;}
+                                {form.watch("endTime") || "Select end time"}
                               </span>
                             </Button>
                           </PopoverTrigger>
-                          <PopoverContent className=&quot;w-auto p-4&quot;>
-                            <div className=&quot;space-y-4&quot;>
+                          <PopoverContent className="w-auto p-4">
+                            <div className="space-y-4">
                               <div>
-                                <Label htmlFor=&quot;custom-end-time&quot;>Time</Label>
+                                <Label htmlFor="custom-end-time">Time</Label>
                                 <Input
-                                  id=&quot;custom-end-time&quot;
-                                  type=&quot;time&quot;
-                                  value={form.watch(&quot;endTime&quot;)}
+                                  id="custom-end-time"
+                                  type="time"
+                                  value={form.watch("endTime")}
                                   onChange={(e) =>
-                                    form.setValue(&quot;endTime&quot;, e.target.value)
+                                    form.setValue("endTime", e.target.value)
                                   }
-                                  className=&quot;mt-1 w-full&quot;
+                                  className="mt-1 w-full"
                                 />
                               </div>
-                              <div className=&quot;grid grid-cols-4 gap-2&quot;>
+                              <div className="grid grid-cols-4 gap-2">
                                 {[
-                                  &quot;10:00&quot;,
-                                  &quot;11:00&quot;,
-                                  &quot;13:00&quot;,
-                                  &quot;14:00&quot;,
-                                  &quot;15:00&quot;,
-                                  &quot;16:00&quot;,
-                                  &quot;17:00&quot;,
-                                  &quot;18:00&quot;,
+                                  "10:00",
+                                  "11:00",
+                                  "13:00",
+                                  "14:00",
+                                  "15:00",
+                                  "16:00",
+                                  "17:00",
+                                  "18:00",
                                 ].map((time) => (
                                   <Button
                                     key={time}
-                                    variant=&quot;outline&quot;
-                                    size=&quot;sm&quot;
+                                    variant="outline"
+                                    size="sm"
                                     className={cn(
-                                      form.watch(&quot;endTime&quot;) === time &&
-                                        &quot;bg-primary text-primary-foreground&quot;,
+                                      form.watch("endTime") === time &&
+                                        "bg-primary text-primary-foreground",
                                     )}
                                     onClick={() => {
-                                      form.setValue(&quot;endTime&quot;, time);
+                                      form.setValue("endTime", time);
                                     }}
-                                    type=&quot;button&quot;
+                                    type="button"
                                   >
                                     {time}
                                   </Button>
@@ -269,114 +269,114 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
                 </div>
               </TabsContent>
 
-              <TabsContent value=&quot;options&quot; className=&quot;mt-0 space-y-6&quot;>
-                <div className=&quot;space-y-6&quot;>
+              <TabsContent value="options" className="mt-0 space-y-6">
+                <div className="space-y-6">
                   {/* Recurring Event Option */}
-                  <div className=&quot;border rounded-lg overflow-hidden&quot;>
+                  <div className="border rounded-lg overflow-hidden">
                     <button
-                      type=&quot;button&quot;
+                      type="button"
                       className={cn(
-                        &quot;w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors&quot;,
-                        form.watch(&quot;isRecurring&quot;) && &quot;border-b border-border&quot;,
+                        "w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors",
+                        form.watch("isRecurring") && "border-b border-border",
                       )}
                       onClick={() =>
-                        form.setValue(&quot;isRecurring&quot;, !form.watch(&quot;isRecurring&quot;))
+                        form.setValue("isRecurring", !form.watch("isRecurring"))
                       }
                     >
-                      <div className=&quot;flex items-center gap-3&quot;>
+                      <div className="flex items-center gap-3">
                         <div
                           className={cn(
-                            &quot;flex items-center justify-center w-8 h-8 rounded-full&quot;,
-                            form.watch(&quot;isRecurring&quot;)
-                              ? &quot;bg-primary text-primary-foreground&quot;
-                              : &quot;bg-muted-foreground/20 text-muted-foreground&quot;,
+                            "flex items-center justify-center w-8 h-8 rounded-full",
+                            form.watch("isRecurring")
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted-foreground/20 text-muted-foreground",
                           )}
                         >
-                          <CalendarIcon className=&quot;h-4 w-4&quot; />
+                          <CalendarIcon className="h-4 w-4" />
                         </div>
-                        <div className=&quot;text-left&quot;>
-                          <div className=&quot;font-medium&quot;>Recurring Event</div>
-                          <p className=&quot;text-muted-foreground text-sm&quot;>
+                        <div className="text-left">
+                          <div className="font-medium">Recurring Event</div>
+                          <p className="text-muted-foreground text-sm">
                             Set this event to repeat on a schedule
                           </p>
                         </div>
                       </div>
 
-                      <div className=&quot;flex items-center gap-3&quot;>
+                      <div className="flex items-center gap-3">
                         <span
                           className={cn(
-                            &quot;text-sm&quot;,
-                            form.watch(&quot;isRecurring&quot;)
-                              ? &quot;text-primary font-medium&quot;
-                              : &quot;text-muted-foreground&quot;,
+                            "text-sm",
+                            form.watch("isRecurring")
+                              ? "text-primary font-medium"
+                              : "text-muted-foreground",
                           )}
                         >
-                          {form.watch(&quot;isRecurring&quot;) ? &quot;Enabled&quot; : &quot;Disabled&quot;}
+                          {form.watch("isRecurring") ? "Enabled" : "Disabled"}
                         </span>
                         <div
-                          className=&quot;transform transition-transform duration-200&quot;
+                          className="transform transition-transform duration-200"
                           style={{
-                            transform: form.watch(&quot;isRecurring&quot;)
-                              ? &quot;rotate(180deg)&quot;
-                              : &quot;rotate(0deg)&quot;,
+                            transform: form.watch("isRecurring")
+                              ? "rotate(180deg)"
+                              : "rotate(0deg)",
                           }}
                         >
                           <svg
-                            xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                            width=&quot;18&quot;
-                            height=&quot;18&quot;
-                            viewBox=&quot;0 0 24 24&quot;
-                            fill=&quot;none&quot;
-                            stroke=&quot;currentColor&quot;
-                            strokeWidth=&quot;2&quot;
-                            strokeLinecap=&quot;round&quot;
-                            strokeLinejoin=&quot;round&quot;
-                            className=&quot;text-muted-foreground&quot;
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-muted-foreground"
                           >
-                            <path d=&quot;m6 9 6 6 6-6&quot; />
+                            <path d="m6 9 6 6 6-6" />
                           </svg>
                         </div>
                       </div>
                     </button>
 
-                    {form.watch(&quot;isRecurring&quot;) && (
-                      <div className=&quot;p-4 grid grid-cols-2 gap-4&quot;>
+                    {form.watch("isRecurring") && (
+                      <div className="p-4 grid grid-cols-2 gap-4">
                         {/* Frequency Selection */}
-                        <div className=&quot;space-y-2&quot;>
-                          <Label htmlFor=&quot;recurringFrequency&quot;>Frequency</Label>
+                        <div className="space-y-2">
+                          <Label htmlFor="recurringFrequency">Frequency</Label>
                           <Select
                             onValueChange={(value) =>
-                              form.setValue(&quot;recurringFrequency&quot;, value)
+                              form.setValue("recurringFrequency", value)
                             }
-                            value={form.watch(&quot;recurringFrequency&quot;)}
+                            value={form.watch("recurringFrequency")}
                           >
-                            <SelectTrigger id=&quot;recurringFrequency&quot;>
-                              <SelectValue placeholder=&quot;Select frequency&quot; />
+                            <SelectTrigger id="recurringFrequency">
+                              <SelectValue placeholder="Select frequency" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value=&quot;daily&quot;>Daily</SelectItem>
-                              <SelectItem value=&quot;weekly&quot;>Weekly</SelectItem>
-                              <SelectItem value=&quot;biweekly&quot;>
+                              <SelectItem value="daily">Daily</SelectItem>
+                              <SelectItem value="weekly">Weekly</SelectItem>
+                              <SelectItem value="biweekly">
                                 Bi-weekly
                               </SelectItem>
-                              <SelectItem value=&quot;monthly&quot;>Monthly</SelectItem>
+                              <SelectItem value="monthly">Monthly</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
 
                         {/* Count Selection */}
-                        <div className=&quot;space-y-2&quot;>
-                          <Label htmlFor=&quot;recurringCount&quot;>
+                        <div className="space-y-2">
+                          <Label htmlFor="recurringCount">
                             Number of Events
                           </Label>
                           <Select
                             onValueChange={(value) =>
-                              form.setValue(&quot;recurringCount&quot;, parseInt(value))
+                              form.setValue("recurringCount", parseInt(value))
                             }
-                            value={form.watch(&quot;recurringCount&quot;)?.toString()}
+                            value={form.watch("recurringCount")?.toString()}
                           >
-                            <SelectTrigger id=&quot;recurringCount&quot;>
-                              <SelectValue placeholder=&quot;Select count&quot; />
+                            <SelectTrigger id="recurringCount">
+                              <SelectValue placeholder="Select count" />
                             </SelectTrigger>
                             <SelectContent>
                               {[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
@@ -397,126 +397,126 @@ export function BookingFormFixed({ onSubmit, onCancel }: BookingFormProps) {
                   </div>
 
                   {/* Calendar Invites Option */}
-                  <div className=&quot;border rounded-lg overflow-hidden&quot;>
+                  <div className="border rounded-lg overflow-hidden">
                     <button
-                      type=&quot;button&quot;
+                      type="button"
                       className={cn(
-                        &quot;w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors&quot;,
-                        form.watch(&quot;sendInvites&quot;) && &quot;border-b border-border&quot;,
+                        "w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors",
+                        form.watch("sendInvites") && "border-b border-border",
                       )}
                       onClick={() =>
-                        form.setValue(&quot;sendInvites&quot;, !form.watch(&quot;sendInvites&quot;))
+                        form.setValue("sendInvites", !form.watch("sendInvites"))
                       }
                     >
-                      <div className=&quot;flex items-center gap-3&quot;>
+                      <div className="flex items-center gap-3">
                         <div
                           className={cn(
-                            &quot;flex items-center justify-center w-8 h-8 rounded-full&quot;,
-                            form.watch(&quot;sendInvites&quot;)
-                              ? &quot;bg-primary text-primary-foreground&quot;
-                              : &quot;bg-muted-foreground/20 text-muted-foreground&quot;,
+                            "flex items-center justify-center w-8 h-8 rounded-full",
+                            form.watch("sendInvites")
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted-foreground/20 text-muted-foreground",
                           )}
                         >
                           <svg
-                            xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                            width=&quot;16&quot;
-                            height=&quot;16&quot;
-                            viewBox=&quot;0 0 24 24&quot;
-                            fill=&quot;none&quot;
-                            stroke=&quot;currentColor&quot;
-                            strokeWidth=&quot;2&quot;
-                            strokeLinecap=&quot;round&quot;
-                            strokeLinejoin=&quot;round&quot;
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           >
-                            <path d=&quot;M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z&quot;></path>
-                            <polyline points=&quot;22,6 12,13 2,6&quot;></polyline>
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
                           </svg>
                         </div>
-                        <div className=&quot;text-left&quot;>
-                          <div className=&quot;font-medium&quot;>
+                        <div className="text-left">
+                          <div className="font-medium">
                             Send Calendar Invites
                           </div>
-                          <p className=&quot;text-muted-foreground text-sm&quot;>
+                          <p className="text-muted-foreground text-sm">
                             Send calendar invitations to all participants
                           </p>
                         </div>
                       </div>
 
-                      <div className=&quot;flex items-center gap-3&quot;>
+                      <div className="flex items-center gap-3">
                         <span
                           className={cn(
-                            &quot;text-sm&quot;,
-                            form.watch(&quot;sendInvites&quot;)
-                              ? &quot;text-primary font-medium&quot;
-                              : &quot;text-muted-foreground&quot;,
+                            "text-sm",
+                            form.watch("sendInvites")
+                              ? "text-primary font-medium"
+                              : "text-muted-foreground",
                           )}
                         >
-                          {form.watch(&quot;sendInvites&quot;) ? &quot;Enabled&quot; : &quot;Disabled&quot;}
+                          {form.watch("sendInvites") ? "Enabled" : "Disabled"}
                         </span>
                         <div
-                          className=&quot;transform transition-transform duration-200&quot;
+                          className="transform transition-transform duration-200"
                           style={{
-                            transform: form.watch(&quot;sendInvites&quot;)
-                              ? &quot;rotate(180deg)&quot;
-                              : &quot;rotate(0deg)&quot;,
+                            transform: form.watch("sendInvites")
+                              ? "rotate(180deg)"
+                              : "rotate(0deg)",
                           }}
                         >
                           <svg
-                            xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                            width=&quot;18&quot;
-                            height=&quot;18&quot;
-                            viewBox=&quot;0 0 24 24&quot;
-                            fill=&quot;none&quot;
-                            stroke=&quot;currentColor&quot;
-                            strokeWidth=&quot;2&quot;
-                            strokeLinecap=&quot;round&quot;
-                            strokeLinejoin=&quot;round&quot;
-                            className=&quot;text-muted-foreground&quot;
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="text-muted-foreground"
                           >
-                            <path d=&quot;m6 9 6 6 6-6&quot; />
+                            <path d="m6 9 6 6 6-6" />
                           </svg>
                         </div>
                       </div>
                     </button>
 
-                    {form.watch(&quot;sendInvites&quot;) && (
-                      <div className=&quot;p-4 space-y-3&quot;>
-                        <Label htmlFor=&quot;inviteEmails&quot;>
+                    {form.watch("sendInvites") && (
+                      <div className="p-4 space-y-3">
+                        <Label htmlFor="inviteEmails">
                           Participant Email Addresses
                         </Label>
                         <Textarea
-                          id=&quot;inviteEmails&quot;
-                          placeholder=&quot;Enter email addresses separated by commas&quot;
-                          {...form.register(&quot;inviteEmails&quot;)}
-                          className=&quot;min-h-[100px]&quot;
+                          id="inviteEmails"
+                          placeholder="Enter email addresses separated by commas"
+                          {...form.register("inviteEmails")}
+                          className="min-h-[100px]"
                         />
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className=&quot;flex justify-between pt-4&quot;>
+                <div className="flex justify-between pt-4">
                   <Button
-                    type=&quot;button&quot;
-                    variant=&quot;outline&quot;
-                    onClick={() => setActiveTab(&quot;details&quot;)}
+                    type="button"
+                    variant="outline"
+                    onClick={() => setActiveTab("details")}
                   >
                     Back
                   </Button>
 
-                  <div className=&quot;space-x-2&quot;>
-                    <Button type=&quot;button&quot; variant=&quot;outline&quot; onClick={onCancel}>
+                  <div className="space-x-2">
+                    <Button type="button" variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
 
-                    <Button type=&quot;submit&quot; disabled={isSubmitting}>
+                    <Button type="submit" disabled={isSubmitting}>
                       {isSubmitting ? (
                         <>
-                          <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Submitting...
                         </>
                       ) : (
-                        &quot;Submit Booking"
+                        "Submit Booking"
                       )}
                     </Button>
                   </div>

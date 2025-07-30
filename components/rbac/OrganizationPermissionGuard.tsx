@@ -1,7 +1,7 @@
-import React from &quot;react&quot;;
-import { useOrganizationPermissions } from &quot;@/components/../hooks/useOrganizationPermissions&quot;;
-import { useOrganization } from &quot;@/components/../contexts/OrganizationProvider&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
+import React from "react";
+import { useOrganizationPermissions } from "@/components/../hooks/useOrganizationPermissions";
+import { useOrganization } from "@/components/../contexts/OrganizationProvider";
+import { Loader2 } from "lucide-react";
 
 interface OrganizationPermissionGuardProps {
   /**
@@ -64,8 +64,8 @@ export function OrganizationPermissionGuard({
   // Loading state
   if (isLoading) {
     return hideLoader ? null : (
-      <div className=&quot;flex justify-center items-center p-4&quot;>
-        <Loader2 className=&quot;h-5 w-5 animate-spin text-primary&quot; />
+      <div className="flex justify-center items-center p-4">
+        <Loader2 className="h-5 w-5 animate-spin text-primary" />
       </div>
     );
   }
@@ -95,7 +95,7 @@ export function OrganizationPermissionGuard({
   }
 
   // If permission is granted, render children
-  if (typeof children === &quot;function&quot;) {
+  if (typeof children === "function") {
     return <>{children(hasPermission)}</>;
   }
 

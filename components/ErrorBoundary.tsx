@@ -1,15 +1,15 @@
-&quot;use client&quot;;
+"use client";
 
-import React from &quot;react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { AlertTriangle, RefreshCw, Home } from &quot;lucide-react&quot;;
+} from "@/components/ui/card";
+import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -35,7 +35,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error(&quot;ErrorBoundary caught an error:&quot;, error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
   resetError = () => {
@@ -55,36 +55,36 @@ export class ErrorBoundary extends React.Component<
       }
 
       return (
-        <div className=&quot;min-h-screen flex items-center justify-center p-4&quot;>
-          <Card className=&quot;w-full max-w-md&quot;>
-            <CardHeader className=&quot;text-center&quot;>
-              <div className=&quot;mx-auto w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mb-4&quot;>
-                <AlertTriangle className=&quot;w-6 h-6 text-red-600 dark:text-red-400&quot; />
+        <div className="min-h-screen flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardHeader className="text-center">
+              <div className="mx-auto w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mb-4">
+                <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
               </div>
-              <CardTitle className=&quot;text-xl&quot;>Something went wrong</CardTitle>
+              <CardTitle className="text-xl">Something went wrong</CardTitle>
               <CardDescription>
                 An unexpected error occurred. Please try refreshing the page.
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-4&quot;>
+            <CardContent className="space-y-4">
               {this.state.error && (
-                <div className=&quot;p-3 bg-gray-100 dark:bg-gray-800 rounded text-sm&quot;>
-                  <code className=&quot;text-red-600 dark:text-red-400&quot;>
+                <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded text-sm">
+                  <code className="text-red-600 dark:text-red-400">
                     {this.state.error.message}
                   </code>
                 </div>
               )}
-              <div className=&quot;flex gap-2&quot;>
-                <Button onClick={this.resetError} className=&quot;flex-1&quot;>
-                  <RefreshCw className=&quot;w-4 h-4 mr-2&quot; />
+              <div className="flex gap-2">
+                <Button onClick={this.resetError} className="flex-1">
+                  <RefreshCw className="w-4 h-4 mr-2" />
                   Try Again
                 </Button>
                 <Button
-                  variant=&quot;outline&quot;
-                  onClick={() => (window.location.href = &quot;/&quot;)}
-                  className=&quot;flex-1&quot;
+                  variant="outline"
+                  onClick={() => (window.location.href = "/")}
+                  className="flex-1"
                 >
-                  <Home className=&quot;w-4 h-4 mr-2&quot; />
+                  <Home className="w-4 h-4 mr-2" />
                   Go Home
                 </Button>
               </div>

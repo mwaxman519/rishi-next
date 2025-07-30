@@ -45,8 +45,8 @@
  * @since Phase 5 Implementation
  */
 
-import { ShiftRepository } from &quot;./repository&quot;;
-import { shiftEventPublisher } from &quot;./events&quot;;
+import { ShiftRepository } from "./repository";
+import { shiftEventPublisher } from "./events";
 import {
   ShiftDTO,
   CreateShiftParams,
@@ -56,7 +56,7 @@ import {
   updateShiftSchema,
   ShiftStatus,
   ShiftFilters,
-} from &quot;./models&quot;;
+} from "./models";
 
 export interface ServiceResponse<T> {
   success: boolean;
@@ -108,11 +108,11 @@ export class ShiftService {
         data: accessibleShifts,
       };
     } catch (error) {
-      console.error(&quot;ShiftService.getAllShifts error:&quot;, error);
+      console.error("ShiftService.getAllShifts error:", error);
       return {
         success: false,
-        error: &quot;Failed to get shifts&quot;,
-        code: &quot;GET_SHIFTS_FAILED&quot;,
+        error: "Failed to get shifts",
+        code: "GET_SHIFTS_FAILED",
       };
     }
   }
@@ -132,8 +132,8 @@ export class ShiftService {
       if (!shift) {
         return {
           success: false,
-          error: &quot;Shift not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Shift not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -143,8 +143,8 @@ export class ShiftService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -156,8 +156,8 @@ export class ShiftService {
       console.error(`ShiftService.getShiftById error for ID ${id}:`, error);
       return {
         success: false,
-        error: &quot;Failed to get shift&quot;,
-        code: &quot;GET_SHIFT_FAILED&quot;,
+        error: "Failed to get shift",
+        code: "GET_SHIFT_FAILED",
       };
     }
   }
@@ -192,11 +192,11 @@ export class ShiftService {
         data: shift,
       };
     } catch (error) {
-      console.error(&quot;ShiftService.createShift error:&quot;, error);
+      console.error("ShiftService.createShift error:", error);
       return {
         success: false,
-        error: &quot;Failed to create shift&quot;,
-        code: &quot;CREATE_FAILED&quot;,
+        error: "Failed to create shift",
+        code: "CREATE_FAILED",
       };
     }
   }
@@ -217,8 +217,8 @@ export class ShiftService {
       if (!existingShift) {
         return {
           success: false,
-          error: &quot;Shift not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Shift not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -233,8 +233,8 @@ export class ShiftService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -260,8 +260,8 @@ export class ShiftService {
       console.error(`ShiftService.updateShift error for ID ${id}:`, error);
       return {
         success: false,
-        error: &quot;Failed to update shift&quot;,
-        code: &quot;UPDATE_FAILED&quot;,
+        error: "Failed to update shift",
+        code: "UPDATE_FAILED",
       };
     }
   }
@@ -281,8 +281,8 @@ export class ShiftService {
       if (!shift) {
         return {
           success: false,
-          error: &quot;Shift not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Shift not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -292,8 +292,8 @@ export class ShiftService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -314,8 +314,8 @@ export class ShiftService {
       console.error(`ShiftService.deleteShift error for ID ${id}:`, error);
       return {
         success: false,
-        error: &quot;Failed to delete shift&quot;,
-        code: &quot;DELETE_FAILED&quot;,
+        error: "Failed to delete shift",
+        code: "DELETE_FAILED",
       };
     }
   }
@@ -334,8 +334,8 @@ export class ShiftService {
       if (!this.hasAssignmentPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -344,8 +344,8 @@ export class ShiftService {
       if (!shift) {
         return {
           success: false,
-          error: &quot;Shift not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Shift not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -368,11 +368,11 @@ export class ShiftService {
         data: assignment,
       };
     } catch (error) {
-      console.error(&quot;ShiftService.assignAgentToShift error:&quot;, error);
+      console.error("ShiftService.assignAgentToShift error:", error);
       return {
         success: false,
-        error: &quot;Failed to assign agent to shift&quot;,
-        code: &quot;ASSIGNMENT_FAILED&quot;,
+        error: "Failed to assign agent to shift",
+        code: "ASSIGNMENT_FAILED",
       };
     }
   }
@@ -392,14 +392,14 @@ export class ShiftService {
       if (!this.hasCancelPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
       // Update shift status to cancelled
       const updatedShift = await this.repository.update(id, {
-        status: &quot;cancelled&quot; as ShiftStatus,
+        status: "cancelled" as ShiftStatus,
         cancellationReason: reason,
       });
 
@@ -419,8 +419,8 @@ export class ShiftService {
       console.error(`ShiftService.cancelShift error for ID ${id}:`, error);
       return {
         success: false,
-        error: &quot;Failed to cancel shift&quot;,
-        code: &quot;CANCEL_FAILED&quot;,
+        error: "Failed to cancel shift",
+        code: "CANCEL_FAILED",
       };
     }
   }
@@ -435,7 +435,7 @@ export class ShiftService {
     organizationId: string,
   ): ShiftFilters {
     switch (userRole) {
-      case &quot;brand_agent&quot;:
+      case "brand_agent":
         // Brand agents can only see shifts assigned to them or open shifts
         return {
           ...filters,
@@ -443,15 +443,15 @@ export class ShiftService {
           agentId: requestingUserId,
         };
 
-      case &quot;internal_field_manager&quot;:
-      case &quot;organization_admin&quot;:
+      case "internal_field_manager":
+      case "organization_admin":
         // Field managers and org admins see organization shifts
         return {
           ...filters,
           organizationId,
         };
 
-      case &quot;super_admin&quot;:
+      case "super_admin":
         // Super admins can see all shifts, respect provided filters
         return filters;
 
@@ -474,19 +474,19 @@ export class ShiftService {
     organizationId: string,
   ): boolean {
     switch (userRole) {
-      case &quot;brand_agent&quot;:
+      case "brand_agent":
         // Brand agents can access shifts assigned to them or open shifts
         const isAssigned = shift.assignments?.some(
           (a) => a.agentId === requestingUserId,
         );
-        return isAssigned || [&quot;draft&quot;, &quot;open&quot;].includes(shift.status);
+        return isAssigned || ["draft", "open"].includes(shift.status);
 
-      case &quot;internal_field_manager&quot;:
-      case &quot;organization_admin&quot;:
+      case "internal_field_manager":
+      case "organization_admin":
         // Field managers and org admins can access organization shifts
         return shift.organizationId === organizationId;
 
-      case &quot;super_admin&quot;:
+      case "super_admin":
         return true;
 
       default:
@@ -504,9 +504,9 @@ export class ShiftService {
     organizationId: string,
   ): boolean {
     return [
-      &quot;internal_field_manager&quot;,
-      &quot;organization_admin&quot;,
-      &quot;super_admin&quot;,
+      "internal_field_manager",
+      "organization_admin",
+      "super_admin",
     ].includes(userRole);
   }
 
@@ -519,7 +519,7 @@ export class ShiftService {
     userRole: string,
     organizationId: string,
   ): boolean {
-    return [&quot;organization_admin&quot;, &quot;super_admin&quot;].includes(userRole);
+    return ["organization_admin", "super_admin"].includes(userRole);
   }
 
   /**
@@ -527,9 +527,9 @@ export class ShiftService {
    */
   private hasAssignmentPermissions(userRole: string): boolean {
     return [
-      &quot;internal_field_manager&quot;,
-      &quot;organization_admin&quot;,
-      &quot;super_admin&quot;,
+      "internal_field_manager",
+      "organization_admin",
+      "super_admin",
     ].includes(userRole);
   }
 
@@ -538,9 +538,9 @@ export class ShiftService {
    */
   private hasCancelPermissions(userRole: string): boolean {
     return [
-      &quot;internal_field_manager&quot;,
-      &quot;organization_admin&quot;,
-      &quot;super_admin&quot;,
+      "internal_field_manager",
+      "organization_admin",
+      "super_admin",
     ].includes(userRole);
   }
 }

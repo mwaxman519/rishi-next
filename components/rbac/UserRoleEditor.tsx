@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
-import { UserRole, Permission, getPermissionsForRole } from &quot;@/components/../lib/rbac&quot;;
-import { RoleAssigner } from &quot;./RoleAssigner&quot;;
-import { PermissionsEditor } from &quot;./PermissionsEditor&quot;;
+import React, { useState, useEffect } from "react";
+import { UserRole, Permission, getPermissionsForRole } from "@/components/../lib/rbac";
+import { RoleAssigner } from "./RoleAssigner";
+import { PermissionsEditor } from "./PermissionsEditor";
 
 interface UserProfile {
   id: number;
@@ -54,26 +54,26 @@ export function UserRoleEditor({
     try {
       setIsSaving(true);
 
-      // If we&apos;re customizing permissions, send them along with the role
+      // If we're customizing permissions, send them along with the role
       await onSave({
         role: selectedRole,
         customPermissions: isCustomizing ? customPermissions : undefined,
       });
     } catch (error) {
-      console.error(&quot;Error saving user role:&quot;, error);
+      console.error("Error saving user role:", error);
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className=&quot;space-y-6&quot;>
-      <div className=&quot;bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700&quot;>
-        <h3 className=&quot;text-lg font-medium mb-4 text-gray-900 dark:text-white&quot;>
+    <div className="space-y-6">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
           User Role
         </h3>
 
-        <div className=&quot;mb-6&quot;>
+        <div className="mb-6">
           <RoleAssigner
             currentRole={selectedRole}
             onChange={handleRoleChange}
@@ -82,29 +82,29 @@ export function UserRoleEditor({
           />
         </div>
 
-        <div className=&quot;flex items-center justify-between mb-4&quot;>
-          <h4 className=&quot;text-md font-medium text-gray-900 dark:text-white&quot;>
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="text-md font-medium text-gray-900 dark:text-white">
             Permissions
           </h4>
 
-          <div className=&quot;flex items-center&quot;>
+          <div className="flex items-center">
             <button
-              type=&quot;button&quot;
+              type="button"
               onClick={() => setIsCustomizing(!isCustomizing)}
               disabled={disabled}
               className={`
                 px-3 py-1 text-sm rounded-md
-                ${disabled ? &quot;opacity-50 cursor-not-allowed&quot; : &quot;cursor-pointer&quot;}
+                ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
                 ${
                   isCustomizing
-                    ? &quot;bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400&quot;
-                    : &quot;bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600&quot;
+                    ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400"
+                    : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600"
                 }
               `}
             >
               {isCustomizing
-                ? &quot;Using Custom Permissions&quot;
-                : &quot;Use Role Default Permissions&quot;}
+                ? "Using Custom Permissions"
+                : "Use Role Default Permissions"}
             </button>
           </div>
         </div>
@@ -116,14 +116,14 @@ export function UserRoleEditor({
             readOnly={disabled}
           />
         ) : (
-          <div className=&quot;text-sm text-gray-600 dark:text-gray-400 italic&quot;>
+          <div className="text-sm text-gray-600 dark:text-gray-400 italic">
             User has the default permissions for their role.
           </div>
         )}
 
-        <div className=&quot;mt-6 flex justify-end&quot;>
+        <div className="mt-6 flex justify-end">
           <button
-            type=&quot;button&quot;
+            type="button"
             onClick={handleSave}
             disabled={
               disabled ||
@@ -136,12 +136,12 @@ export function UserRoleEditor({
                 disabled ||
                 isSaving ||
                 (selectedRole === user.role && !isCustomizing)
-                  ? &quot;opacity-50 cursor-not-allowed&quot;
-                  : &quot;hover:bg-blue-700&quot;
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-blue-700"
               }
             `}
           >
-            {isSaving ? &quot;Saving...&quot; : &quot;Save Changes&quot;}
+            {isSaving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>

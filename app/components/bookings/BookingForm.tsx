@@ -1,11 +1,11 @@
-import { useState, useEffect } from &quot;react&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { z } from &quot;zod&quot;;
-import { format } from &quot;date-fns&quot;;
-import { CalendarIcon, Clock, MapPin, Plus, AlertCircle } from &quot;lucide-react&quot;;
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { format } from "date-fns";
+import { CalendarIcon, Clock, MapPin, Plus, AlertCircle } from "lucide-react";
 
-import { Button } from &quot;@/components/ui/button&quot;;
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,17 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Calendar } from &quot;@/components/ui/calendar&quot;;
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
@@ -32,42 +32,42 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from &quot;@/components/ui/popover&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { cn } from &quot;@/lib/utils&quot;;
-import { ScrollArea } from &quot;@/components/ui/scroll-area&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { RecurrenceForm } from &quot;./RecurrenceForm&quot;;
+} from "@/components/ui/popover";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RecurrenceForm } from "./RecurrenceForm";
 
 import {
   insertBookingSchema,
   InsertBooking,
   BOOKING_PRIORITY,
   BOOKING_STATUS,
-} from &quot;@shared/schema&quot;;
+} from "@shared/schema";
 import {
   RecurrencePattern,
   RecurrenceFrequency,
   RecurrenceDays,
   formatRecurrencePattern,
-} from &quot;@/lib/recurrence&quot;;
+} from "@/lib/recurrence";
 
 // Extend the insert schema with additional validation for the form
 const bookingFormSchema = insertBookingSchema
   .extend({
     // Convert date strings to Date objects for the form
     startDate: z.date({
-      required_error: &quot;Start date is required&quot;,
+      required_error: "Start date is required",
     }),
     endDate: z
       .date({
-        required_error: &quot;End date is required&quot;,
+        required_error: "End date is required",
       })
       .optional()
       .nullable(),
@@ -76,8 +76,8 @@ const bookingFormSchema = insertBookingSchema
     endTime: z.string().optional(),
   })
   .refine((data) => !data.endDate || data.startDate <= data.endDate, {
-    message: &quot;End date must be after start date&quot;,
-    path: [&quot;endDate&quot;],
+    message: "End date must be after start date",
+    path: ["endDate"],
   });
 
 // Define the type for our form values
@@ -108,7 +108,7 @@ export function BookingForm({
   kitTemplates = [],
 }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState(&quot;basic&quot;);
+  const [activeTab, setActiveTab] = useState("basic");
   const [isRecurring, setIsRecurring] = useState(
     initialValues.isRecurring || false,
   );
@@ -137,36 +137,36 @@ export function BookingForm({
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
-      title: initialValues.title || "&quot;,
-      description: initialValues.description || &quot;&quot;,
-      clientOrganizationId: initialValues.clientOrganizationId || &quot;&quot;,
-      locationId: initialValues.locationId || &quot;&quot;,
-      activityTypeId: initialValues.activityTypeId || &quot;&quot;,
+      title: initialValues.title || "",
+      description: initialValues.description || "",
+      clientOrganizationId: initialValues.clientOrganizationId || "",
+      locationId: initialValues.locationId || "",
+      activityTypeId: initialValues.activityTypeId || "",
       startDate: initialValues.startDate
         ? new Date(initialValues.startDate)
         : new Date(),
       endDate: initialValues.endDate
         ? new Date(initialValues.endDate)
         : new Date(),
-      startTime: initialValues.startTime || &quot;09:00&quot;,
-      endTime: initialValues.endTime || &quot;17:00&quot;,
+      startTime: initialValues.startTime || "09:00",
+      endTime: initialValues.endTime || "17:00",
       budget: initialValues.budget || undefined,
       attendeeEstimate: initialValues.attendeeEstimate || undefined,
       status: initialValues.status || BOOKING_STATUS.DRAFT,
       priority: initialValues.priority || BOOKING_PRIORITY.MEDIUM,
-      notes: initialValues.notes || &quot;&quot;,
-      promotionTypeId: initialValues.promotionTypeId || &quot;&quot;,
-      kitTemplateId: initialValues.kitTemplateId || &quot;&quot;,
+      notes: initialValues.notes || "",
+      promotionTypeId: initialValues.promotionTypeId || "",
+      kitTemplateId: initialValues.kitTemplateId || "",
       staffCount: initialValues.staffCount || 1,
       requiresTraining: initialValues.requiresTraining || false,
     },
   });
 
   // Get form values for preview
-  const startDate = form.watch(&quot;startDate&quot;);
-  const startTime = form.watch(&quot;startTime&quot;);
-  const endTime = form.watch(&quot;endTime&quot;);
-  const locationId = form.watch(&quot;locationId&quot;);
+  const startDate = form.watch("startDate");
+  const startTime = form.watch("startTime");
+  const endTime = form.watch("endTime");
+  const locationId = form.watch("locationId");
 
   // Get location name for preview if available
   const selectedLocation = locations.find((loc) => loc.id === locationId);
@@ -195,27 +195,27 @@ export function BookingForm({
 
       await onSave(bookingData);
     } catch (error) {
-      console.error(&quot;Error saving booking:&quot;, error);
+      console.error("Error saving booking:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className=&quot;space-y-6&quot;>
+    <div className="space-y-6">
       <Tabs
-        defaultValue=&quot;basic&quot;
+        defaultValue="basic"
         value={activeTab}
         onValueChange={setActiveTab}
-        className=&quot;w-full&quot;
+        className="w-full"
       >
-        <TabsList className=&quot;grid w-full grid-cols-3&quot;>
-          <TabsTrigger value=&quot;basic&quot;>Basic Info</TabsTrigger>
-          <TabsTrigger value=&quot;recurrence&quot;>Recurrence</TabsTrigger>
-          <TabsTrigger value=&quot;preview&quot;>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="basic">Basic Info</TabsTrigger>
+          <TabsTrigger value="recurrence">Recurrence</TabsTrigger>
+          <TabsTrigger value="preview">
             Preview
             {isRecurring && (
-              <Badge variant=&quot;outline&quot; className=&quot;ml-2&quot;>
+              <Badge variant="outline" className="ml-2">
                 Series
               </Badge>
             )}
@@ -225,17 +225,17 @@ export function BookingForm({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {/* Basic Information Tab */}
-            <TabsContent value=&quot;basic&quot; className=&quot;space-y-6 py-4&quot;>
-              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+            <TabsContent value="basic" className="space-y-6 py-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Title */}
                 <FormField
                   control={form.control}
-                  name=&quot;title&quot;
+                  name="title"
                   render={({ field }) => (
-                    <FormItem className=&quot;col-span-full&quot;>
+                    <FormItem className="col-span-full">
                       <FormLabel>Booking Title</FormLabel>
                       <FormControl>
-                        <Input placeholder=&quot;Enter booking title&quot; {...field} />
+                        <Input placeholder="Enter booking title" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -245,7 +245,7 @@ export function BookingForm({
                 {/* Organization */}
                 <FormField
                   control={form.control}
-                  name=&quot;clientOrganizationId&quot;
+                  name="clientOrganizationId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Client Organization</FormLabel>
@@ -255,7 +255,7 @@ export function BookingForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select organization&quot; />
+                            <SelectValue placeholder="Select organization" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -274,7 +274,7 @@ export function BookingForm({
                 {/* Location */}
                 <FormField
                   control={form.control}
-                  name=&quot;locationId&quot;
+                  name="locationId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Location</FormLabel>
@@ -284,7 +284,7 @@ export function BookingForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select location&quot; />
+                            <SelectValue placeholder="Select location" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -303,7 +303,7 @@ export function BookingForm({
                 {/* Activity Type */}
                 <FormField
                   control={form.control}
-                  name=&quot;activityTypeId&quot;
+                  name="activityTypeId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Activity Type</FormLabel>
@@ -313,7 +313,7 @@ export function BookingForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select activity type&quot; />
+                            <SelectValue placeholder="Select activity type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -332,32 +332,32 @@ export function BookingForm({
                 {/* Start Date */}
                 <FormField
                   control={form.control}
-                  name=&quot;startDate&quot;
+                  name="startDate"
                   render={({ field }) => (
-                    <FormItem className=&quot;flex flex-col&quot;>
+                    <FormItem className="flex flex-col">
                       <FormLabel>Start Date</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
-                              variant={&quot;outline&quot;}
+                              variant={"outline"}
                               className={cn(
-                                &quot;w-full pl-3 text-left font-normal&quot;,
-                                !field.value && &quot;text-muted-foreground&quot;,
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
                               )}
                             >
-                              <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
+                              <CalendarIcon className="mr-2 h-4 w-4" />
                               {field.value ? (
-                                format(field.value, &quot;PPP&quot;)
+                                format(field.value, "PPP")
                               ) : (
                                 <span>Pick a date</span>
                               )}
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
+                        <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
-                            mode=&quot;single&quot;
+                            mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
                             initialFocus
@@ -370,29 +370,29 @@ export function BookingForm({
                 />
 
                 {/* Time Range */}
-                <div className=&quot;flex items-center space-x-2&quot;>
+                <div className="flex items-center space-x-2">
                   <FormField
                     control={form.control}
-                    name=&quot;startTime&quot;
+                    name="startTime"
                     render={({ field }) => (
-                      <FormItem className=&quot;flex-1&quot;>
+                      <FormItem className="flex-1">
                         <FormLabel>Start Time</FormLabel>
                         <FormControl>
-                          <Input type=&quot;time&quot; {...field} />
+                          <Input type="time" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-                  <span className=&quot;mt-8&quot;>-</span>
+                  <span className="mt-8">-</span>
                   <FormField
                     control={form.control}
-                    name=&quot;endTime&quot;
+                    name="endTime"
                     render={({ field }) => (
-                      <FormItem className=&quot;flex-1&quot;>
+                      <FormItem className="flex-1">
                         <FormLabel>End Time</FormLabel>
                         <FormControl>
-                          <Input type=&quot;time&quot; {...field} />
+                          <Input type="time" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -403,21 +403,21 @@ export function BookingForm({
                 {/* Budget */}
                 <FormField
                   control={form.control}
-                  name=&quot;budget&quot;
+                  name="budget"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Budget</FormLabel>
                       <FormControl>
                         <Input
-                          type=&quot;number&quot;
-                          step=&quot;0.01&quot;
-                          placeholder=&quot;Enter budget amount&quot;
+                          type="number"
+                          step="0.01"
+                          placeholder="Enter budget amount"
                           {...field}
-                          value={field.value ?? &quot;&quot;}
+                          value={field.value ?? ""}
                           onChange={(e) => {
                             const value = e.target.value;
                             field.onChange(
-                              value === &quot;&quot; ? undefined : parseFloat(value),
+                              value === "" ? undefined : parseFloat(value),
                             );
                           }}
                         />
@@ -430,20 +430,20 @@ export function BookingForm({
                 {/* Attendee Estimate */}
                 <FormField
                   control={form.control}
-                  name=&quot;attendeeEstimate&quot;
+                  name="attendeeEstimate"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Estimated Attendees</FormLabel>
                       <FormControl>
                         <Input
-                          type=&quot;number&quot;
-                          placeholder=&quot;Enter estimated number of attendees&quot;
+                          type="number"
+                          placeholder="Enter estimated number of attendees"
                           {...field}
-                          value={field.value ?? &quot;&quot;}
+                          value={field.value ?? ""}
                           onChange={(e) => {
                             const value = e.target.value;
                             field.onChange(
-                              value === &quot;&quot; ? undefined : parseInt(value, 10),
+                              value === "" ? undefined : parseInt(value, 10),
                             );
                           }}
                         />
@@ -456,7 +456,7 @@ export function BookingForm({
                 {/* Priority */}
                 <FormField
                   control={form.control}
-                  name=&quot;priority&quot;
+                  name="priority"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Priority</FormLabel>
@@ -466,7 +466,7 @@ export function BookingForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select priority&quot; />
+                            <SelectValue placeholder="Select priority" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -492,7 +492,7 @@ export function BookingForm({
                 {/* Promotion Type */}
                 <FormField
                   control={form.control}
-                  name=&quot;promotionTypeId&quot;
+                  name="promotionTypeId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Promotion Type</FormLabel>
@@ -502,7 +502,7 @@ export function BookingForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select promotion type&quot; />
+                            <SelectValue placeholder="Select promotion type" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -521,7 +521,7 @@ export function BookingForm({
                 {/* Kit Template */}
                 <FormField
                   control={form.control}
-                  name=&quot;kitTemplateId&quot;
+                  name="kitTemplateId"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Kit Template</FormLabel>
@@ -531,7 +531,7 @@ export function BookingForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder=&quot;Select kit template&quot; />
+                            <SelectValue placeholder="Select kit template" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -550,14 +550,14 @@ export function BookingForm({
                 {/* Staff Count */}
                 <FormField
                   control={form.control}
-                  name=&quot;staffCount&quot;
+                  name="staffCount"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Staff Count</FormLabel>
                       <FormControl>
                         <Input
-                          type=&quot;number&quot;
-                          min=&quot;1&quot;
+                          type="number"
+                          min="1"
                           {...field}
                           onChange={(e) => {
                             const value = parseInt(e.target.value, 10);
@@ -575,13 +575,13 @@ export function BookingForm({
                 {/* Description - Full width */}
                 <FormField
                   control={form.control}
-                  name=&quot;description&quot;
+                  name="description"
                   render={({ field }) => (
-                    <FormItem className=&quot;col-span-full&quot;>
+                    <FormItem className="col-span-full">
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder=&quot;Enter booking details&quot;
+                          placeholder="Enter booking details"
                           {...field}
                           rows={3}
                         />
@@ -594,13 +594,13 @@ export function BookingForm({
                 {/* Notes - Full width */}
                 <FormField
                   control={form.control}
-                  name=&quot;notes&quot;
+                  name="notes"
                   render={({ field }) => (
-                    <FormItem className=&quot;col-span-full&quot;>
+                    <FormItem className="col-span-full">
                       <FormLabel>Notes</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder=&quot;Enter any additional notes&quot;
+                          placeholder="Enter any additional notes"
                           {...field}
                           rows={2}
                         />
@@ -611,15 +611,15 @@ export function BookingForm({
                 />
               </div>
 
-              <div className=&quot;flex justify-between mt-6&quot;>
-                <Button type=&quot;button&quot; variant=&quot;outline&quot; onClick={onCancel}>
+              <div className="flex justify-between mt-6">
+                <Button type="button" variant="outline" onClick={onCancel}>
                   Cancel
                 </Button>
-                <div className=&quot;space-x-2&quot;>
+                <div className="space-x-2">
                   <Button
-                    type=&quot;button&quot;
-                    variant=&quot;secondary&quot;
-                    onClick={() => setActiveTab(&quot;recurrence&quot;)}
+                    type="button"
+                    variant="secondary"
+                    onClick={() => setActiveTab("recurrence")}
                   >
                     Next: Recurrence
                   </Button>
@@ -628,7 +628,7 @@ export function BookingForm({
             </TabsContent>
 
             {/* Recurrence Tab */}
-            <TabsContent value=&quot;recurrence&quot; className=&quot;space-y-6 py-4&quot;>
+            <TabsContent value="recurrence" className="space-y-6 py-4">
               <RecurrenceForm
                 isRecurring={isRecurring}
                 onIsRecurringChange={setIsRecurring}
@@ -640,7 +640,7 @@ export function BookingForm({
 
               {isRecurring && (
                 <Alert>
-                  <AlertCircle className=&quot;h-4 w-4&quot; />
+                  <AlertCircle className="h-4 w-4" />
                   <AlertTitle>Recurring Booking</AlertTitle>
                   <AlertDescription>
                     This booking will generate multiple events according to your
@@ -649,19 +649,19 @@ export function BookingForm({
                 </Alert>
               )}
 
-              <div className=&quot;flex justify-between mt-6&quot;>
+              <div className="flex justify-between mt-6">
                 <Button
-                  type=&quot;button&quot;
-                  variant=&quot;outline&quot;
-                  onClick={() => setActiveTab(&quot;basic&quot;)}
+                  type="button"
+                  variant="outline"
+                  onClick={() => setActiveTab("basic")}
                 >
                   Back: Basic Info
                 </Button>
-                <div className=&quot;space-x-2&quot;>
+                <div className="space-x-2">
                   <Button
-                    type=&quot;button&quot;
-                    variant=&quot;secondary&quot;
-                    onClick={() => setActiveTab(&quot;preview&quot;)}
+                    type="button"
+                    variant="secondary"
+                    onClick={() => setActiveTab("preview")}
                   >
                     Next: Preview
                   </Button>
@@ -670,8 +670,8 @@ export function BookingForm({
             </TabsContent>
 
             {/* Preview Tab */}
-            <TabsContent value=&quot;preview&quot; className=&quot;space-y-6 py-4&quot;>
-              <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
+            <TabsContent value="preview" className="space-y-6 py-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle>Booking Summary</CardTitle>
@@ -679,66 +679,66 @@ export function BookingForm({
                       Review your booking details before submitting
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className=&quot;space-y-4&quot;>
-                    <div className=&quot;space-y-1&quot;>
-                      <h4 className=&quot;text-sm font-medium&quot;>Title</h4>
-                      <p>{form.watch(&quot;title&quot;) || &quot;Untitled Booking&quot;}</p>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-medium">Title</h4>
+                      <p>{form.watch("title") || "Untitled Booking"}</p>
                     </div>
 
-                    <div className=&quot;space-y-1&quot;>
-                      <h4 className=&quot;text-sm font-medium&quot;>Description</h4>
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
-                        {form.watch(&quot;description&quot;) || &quot;No description provided&quot;}
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-medium">Description</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {form.watch("description") || "No description provided"}
                       </p>
                     </div>
 
-                    <div className=&quot;grid grid-cols-2 gap-4&quot;>
-                      <div className=&quot;space-y-1&quot;>
-                        <h4 className=&quot;text-sm font-medium&quot;>Organization</h4>
-                        <p className=&quot;text-sm&quot;>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-medium">Organization</h4>
+                        <p className="text-sm">
                           {organizations.find(
-                            (o) => o.id === form.watch(&quot;clientOrganizationId&quot;),
-                          )?.name || &quot;Not specified&quot;}
+                            (o) => o.id === form.watch("clientOrganizationId"),
+                          )?.name || "Not specified"}
                         </p>
                       </div>
 
-                      <div className=&quot;space-y-1&quot;>
-                        <h4 className=&quot;text-sm font-medium&quot;>Activity Type</h4>
-                        <p className=&quot;text-sm&quot;>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-medium">Activity Type</h4>
+                        <p className="text-sm">
                           {activityTypes.find(
-                            (t) => t.id === form.watch(&quot;activityTypeId&quot;),
-                          )?.name || &quot;Not specified&quot;}
+                            (t) => t.id === form.watch("activityTypeId"),
+                          )?.name || "Not specified"}
                         </p>
                       </div>
 
-                      <div className=&quot;space-y-1&quot;>
-                        <h4 className=&quot;text-sm font-medium&quot;>Budget</h4>
-                        <p className=&quot;text-sm&quot;>
-                          {form.watch(&quot;budget&quot;)
-                            ? `$${form.watch(&quot;budget&quot;).toFixed(2)}`
-                            : &quot;Not specified&quot;}
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-medium">Budget</h4>
+                        <p className="text-sm">
+                          {form.watch("budget")
+                            ? `$${form.watch("budget").toFixed(2)}`
+                            : "Not specified"}
                         </p>
                       </div>
 
-                      <div className=&quot;space-y-1&quot;>
-                        <h4 className=&quot;text-sm font-medium&quot;>Priority</h4>
-                        <p className=&quot;text-sm&quot;>
-                          {form.watch(&quot;priority&quot;).charAt(0).toUpperCase() +
-                            form.watch(&quot;priority&quot;).slice(1)}
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-medium">Priority</h4>
+                        <p className="text-sm">
+                          {form.watch("priority").charAt(0).toUpperCase() +
+                            form.watch("priority").slice(1)}
                         </p>
                       </div>
 
-                      <div className=&quot;space-y-1&quot;>
-                        <h4 className=&quot;text-sm font-medium&quot;>Staff Count</h4>
-                        <p className=&quot;text-sm&quot;>{form.watch(&quot;staffCount&quot;)}</p>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-medium">Staff Count</h4>
+                        <p className="text-sm">{form.watch("staffCount")}</p>
                       </div>
 
-                      <div className=&quot;space-y-1&quot;>
-                        <h4 className=&quot;text-sm font-medium&quot;>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-medium">
                           Estimated Attendees
                         </h4>
-                        <p className=&quot;text-sm&quot;>
-                          {form.watch(&quot;attendeeEstimate&quot;) || &quot;Not specified&quot;}
+                        <p className="text-sm">
+                          {form.watch("attendeeEstimate") || "Not specified"}
                         </p>
                       </div>
                     </div>
@@ -751,15 +751,15 @@ export function BookingForm({
                     <CardTitle>Booking Schedule</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className=&quot;space-y-2&quot;>
+                    <div className="space-y-2">
                       <div>
-                        <strong>Date:</strong> {startDate ? format(startDate, &quot;PPP&quot;) : &quot;Not set&quot;}
+                        <strong>Date:</strong> {startDate ? format(startDate, "PPP") : "Not set"}
                       </div>
                       <div>
-                        <strong>Time:</strong> {startTime || &quot;Not set&quot;} - {endTime || &quot;Not set&quot;}
+                        <strong>Time:</strong> {startTime || "Not set"} - {endTime || "Not set"}
                       </div>
                       <div>
-                        <strong>Location:</strong> {locationName || &quot;Not specified&quot;}
+                        <strong>Location:</strong> {locationName || "Not specified"}
                       </div>
                       {isRecurring && (
                         <div>
@@ -771,29 +771,29 @@ export function BookingForm({
                 </Card>
               </div>
 
-              <div className=&quot;flex justify-between mt-6&quot;>
+              <div className="flex justify-between mt-6">
                 <Button
-                  type=&quot;button&quot;
-                  variant=&quot;outline&quot;
-                  onClick={() => setActiveTab(&quot;recurrence&quot;)}
+                  type="button"
+                  variant="outline"
+                  onClick={() => setActiveTab("recurrence")}
                 >
                   Back: Recurrence
                 </Button>
-                <div className=&quot;space-x-2&quot;>
+                <div className="space-x-2">
                   <Button
-                    type=&quot;button&quot;
-                    variant=&quot;outline&quot;
+                    type="button"
+                    variant="outline"
                     onClick={onCancel}
                     disabled={isSubmitting}
                   >
                     Cancel
                   </Button>
-                  <Button type=&quot;submit&quot; disabled={isSubmitting}>
+                  <Button type="submit" disabled={isSubmitting}>
                     {isSubmitting
-                      ? &quot;Saving...&quot;
+                      ? "Saving..."
                       : isEdit
-                        ? &quot;Update Booking&quot;
-                        : &quot;Create Booking"}
+                        ? "Update Booking"
+                        : "Create Booking"}
                   </Button>
                 </div>
               </div>

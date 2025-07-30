@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 /**
  * Authentication Hook and Context Provider
@@ -21,8 +21,8 @@
  * - Proper security checks are enforced
  */
 
-import { useState, useEffect, createContext, useContext } from &quot;react&quot;;
-import { jwtDecode } from &quot;jwt-decode&quot;;
+import { useState, useEffect, createContext, useContext } from "react";
+import { jwtDecode } from "jwt-decode";
 
 // Define our own UserSession type based on the mock user in auth.ts
 export interface UserSession {
@@ -79,12 +79,12 @@ const AuthContext = createContext<AuthContextType>({
     /* Default implementation */
   },
   login: async () => {
-    console.error(&quot;Login not implemented in default context&quot;);
+    console.error("Login not implemented in default context");
     return false;
   },
   register: async () => {
-    console.error(&quot;Register not implemented in default context&quot;);
-    return { success: false, error: &quot;Registration not implemented&quot; };
+    console.error("Register not implemented in default context");
+    return { success: false, error: "Registration not implemented" };
   },
 });
 
@@ -95,7 +95,7 @@ export function isTokenExpired(token: string | undefined): boolean {
     const decoded = jwtDecode<{ exp: number }>(token);
     return decoded.exp * 1000 < Date.now();
   } catch (e) {
-    console.error(&quot;Error decoding token:&quot;, e);
+    console.error("Error decoding token:", e);
     return true;
   }
 }
@@ -116,26 +116,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         // Check for a URL parameter that allows toggling auth state for development/testing
         const urlParams =
-          typeof window !== &quot;undefined&quot;
+          typeof window !== "undefined"
             ? new URLSearchParams(window.location.search)
             : null;
         const showUnauthenticated =
-          urlParams?.get(&quot;unauthenticated&quot;) === &quot;true&quot;;
+          urlParams?.get("unauthenticated") === "true";
 
         // In development, use a mock user unless explicitly showing unauthenticated state
         // BUT ONLY IN DEVELOPMENT MODE - not in production
-        if (process.env.NODE_ENV === &quot;development&quot; && !showUnauthenticated) {
-          console.log(&quot;DEVELOPMENT MODE: Using mock user for testing&quot;);
+        if (process.env.NODE_ENV === "development" && !showUnauthenticated) {
+          console.log("DEVELOPMENT MODE: Using mock user for testing");
           // Simulate API delay
           await new Promise((resolve) => setTimeout(resolve, 500));
 
           setUser({
-            id: &quot;00000000-0000-0000-0000-000000000001&quot;,
-            email: &quot;admin@example.com&quot;,
-            name: &quot;Admin User&quot;,
-            role: &quot;super_admin&quot;,
-            organizationId: &quot;00000000-0000-0000-0000-000000000001&quot;,
-            roles: [&quot;SUPER_ADMIN&quot;],
+            id: "00000000-0000-0000-0000-000000000001",
+            email: "admin@example.com",
+            name: "Admin User",
+            role: "super_admin",
+            organizationId: "00000000-0000-0000-0000-000000000001",
+            roles: ["SUPER_ADMIN"],
           });
           setIsLoading(false);
           return;
@@ -143,24 +143,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         // If showing unauthenticated state
         if (showUnauthenticated) {
-          console.log(&quot;DEVELOPMENT MODE: Showing unauthenticated view&quot;);
+          console.log("DEVELOPMENT MODE: Showing unauthenticated view");
           setUser(null);
           setIsLoading(false);
           return;
         }
 
         // In production, would fetch from /api/auth/session
-        const response = await fetch(&quot;/api/auth/session&quot;);
+        const response = await fetch("/api/auth/session");
         if (!response.ok) {
-          throw new Error(&quot;Failed to load user session&quot;);
+          throw new Error("Failed to load user session");
         }
 
         const data = await response.json();
         setUser(data.user || null);
       } catch (err) {
-        console.error(&quot;Error loading user:&quot;, err);
+        console.error("Error loading user:", err);
         setError(
-          err instanceof Error ? err : new Error(&quot;Unknown error loading user&quot;),
+          err instanceof Error ? err : new Error("Unknown error loading user"),
         );
       } finally {
         setIsLoading(false);
@@ -176,14 +176,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Super admins have all permissions
     if (
-      user.role === &quot;super_admin&quot; ||
-      (user.roles && user.roles.includes(&quot;SUPER_ADMIN&quot;))
+      user.role === "super_admin" ||
+      (user.roles && user.roles.includes("SUPER_ADMIN"))
     ) {
       return true;
     }
 
     // Development mode: grant all permissions
-    if (process.env.NODE_ENV === &quot;development&quot;) {
+    if (process.env.NODE_ENV === "development") {
       return true;
     }
 
@@ -194,49 +194,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Helper properties to identify user types
   const isRishiManagement =
-    user?.role === &quot;internal_admin&quot; || user?.role === &quot;super_admin&quot;;
-  const isFieldManager = user?.role === &quot;internal_field_manager&quot;;
-  const isBrandAgent = user?.role === &quot;brand_agent&quot;;
-  const isClientUser = user?.role === &quot;client_user&quot;;
-  const isSuperAdmin = user?.role === &quot;super_admin&quot;;
+    user?.role === "internal_admin" || user?.role === "super_admin";
+  const isFieldManager = user?.role === "internal_field_manager";
+  const isBrandAgent = user?.role === "brand_agent";
+  const isClientUser = user?.role === "client_user";
+  const isSuperAdmin = user?.role === "super_admin";
 
   // Logout function implementation
   const logout = async (): Promise<void> => {
     try {
       // Call logout API
-      if (process.env.NODE_ENV !== &quot;development&quot;) {
-        const response = await fetch(&quot;/api/auth/logout&quot;, {
-          method: &quot;POST&quot;,
+      if (process.env.NODE_ENV !== "development") {
+        const response = await fetch("/api/auth/logout", {
+          method: "POST",
           headers: {
-            &quot;Content-Type&quot;: &quot;application/json&quot;,
+            "Content-Type": "application/json",
           },
         });
 
         if (!response.ok) {
-          throw new Error(&quot;Logout failed&quot;);
+          throw new Error("Logout failed");
         }
       } else {
-        console.log(&quot;DEVELOPMENT MODE: Logging out user&quot;);
+        console.log("DEVELOPMENT MODE: Logging out user");
       }
 
       // Clear user state
       setUser(null);
 
       // Redirect to login page or home page
-      if (typeof window !== &quot;undefined&quot;) {
+      if (typeof window !== "undefined") {
         // For development, add the unauthenticated parameter
-        if (process.env.NODE_ENV === &quot;development&quot;) {
-          console.log(&quot;DEVELOPMENT MODE: Redirecting to unauthenticated view&quot;);
-          window.location.href = &quot;/?unauthenticated=true&quot;;
+        if (process.env.NODE_ENV === "development") {
+          console.log("DEVELOPMENT MODE: Redirecting to unauthenticated view");
+          window.location.href = "/?unauthenticated=true";
         } else {
           // In production, redirect to login
-          window.location.href = &quot;/auth/login&quot;;
+          window.location.href = "/auth/login";
         }
       }
     } catch (err) {
-      console.error(&quot;Error during logout:&quot;, err);
+      console.error("Error during logout:", err);
       setError(
-        err instanceof Error ? err : new Error(&quot;Unknown error during logout&quot;),
+        err instanceof Error ? err : new Error("Unknown error during logout"),
       );
     }
   };
@@ -254,44 +254,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // ONLY IN DEVELOPMENT MODE - not in production
       // In development mode, simulate successful login with mock user for easier testing
-      if (process.env.NODE_ENV === &quot;development&quot;) {
-        console.log(&quot;DEVELOPMENT MODE: Simulating successful login&quot;);
+      if (process.env.NODE_ENV === "development") {
+        console.log("DEVELOPMENT MODE: Simulating successful login");
         // Simulate API delay
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         setUser({
-          id: &quot;00000000-0000-0000-0000-000000000001&quot;,
-          email: username.includes(&quot;@&quot;) ? username : `${username}@example.com`,
-          name: &quot;Admin User&quot;,
-          role: &quot;super_admin&quot;,
-          organizationId: &quot;00000000-0000-0000-0000-000000000001&quot;,
-          roles: [&quot;SUPER_ADMIN&quot;],
+          id: "00000000-0000-0000-0000-000000000001",
+          email: username.includes("@") ? username : `${username}@example.com`,
+          name: "Admin User",
+          role: "super_admin",
+          organizationId: "00000000-0000-0000-0000-000000000001",
+          roles: ["SUPER_ADMIN"],
         });
 
         return true;
       }
 
       // In production, would call the login API
-      const response = await fetch(&quot;/api/auth/login&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || &quot;Login failed&quot;);
+        throw new Error(errorData.message || "Login failed");
       }
 
       const data = await response.json();
       setUser(data.user);
       return true;
     } catch (err) {
-      console.error(&quot;Login error:&quot;, err);
+      console.error("Login error:", err);
       setError(
-        err instanceof Error ? err : new Error(&quot;Unknown error during login&quot;),
+        err instanceof Error ? err : new Error("Unknown error during login"),
       );
       return false;
     } finally {
@@ -312,20 +312,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Password validation
       if (password !== confirmPassword) {
-        return { success: false, error: &quot;Passwords do not match&quot; };
+        return { success: false, error: "Passwords do not match" };
       }
 
       // In development mode, simulate successful registration
-      if (process.env.NODE_ENV === &quot;development&quot;) {
-        console.log(&quot;DEVELOPMENT MODE: Simulating successful registration&quot;);
+      if (process.env.NODE_ENV === "development") {
+        console.log("DEVELOPMENT MODE: Simulating successful registration");
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         setUser({
-          id: &quot;00000000-0000-0000-0000-000000000001&quot;,
-          email: username.includes(&quot;@&quot;) ? username : `${username}@example.com`,
-          name: &quot;New User&quot;,
-          role: role || &quot;brand_agent&quot;,
-          organizationId: &quot;00000000-0000-0000-0000-000000000001&quot;,
+          id: "00000000-0000-0000-0000-000000000001",
+          email: username.includes("@") ? username : `${username}@example.com`,
+          name: "New User",
+          role: role || "brand_agent",
+          organizationId: "00000000-0000-0000-0000-000000000001",
           roles: [role.toUpperCase()],
         });
 
@@ -333,10 +333,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // In production, call the registration API
-      const response = await fetch(&quot;/api/auth/register&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password, role }),
       });
@@ -345,7 +345,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const errorData = await response.json().catch(() => ({}));
         return {
           success: false,
-          error: errorData.message || &quot;Registration failed, please try again&quot;,
+          error: errorData.message || "Registration failed, please try again",
         };
       }
 
@@ -353,16 +353,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(data.user);
       return { success: true };
     } catch (err) {
-      console.error(&quot;Registration error:&quot;, err);
+      console.error("Registration error:", err);
       setError(
         err instanceof Error
           ? err
-          : new Error(&quot;Unknown error during registration&quot;),
+          : new Error("Unknown error during registration"),
       );
       return {
         success: false,
         error:
-          err instanceof Error ? err.message : &quot;An unexpected error occurred&quot;,
+          err instanceof Error ? err.message : "An unexpected error occurred",
       };
     } finally {
       setIsLoading(false);

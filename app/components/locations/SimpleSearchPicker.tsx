@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import React from &quot;react&quot;;
-import { LocationPicker } from &quot;@/components/maps/LocationPicker&quot;;
+import React from "react";
+import { LocationPicker } from "@/components/maps/LocationPicker";
 
 /**
  * AddressData represents a location selected by the user

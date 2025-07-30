@@ -15,10 +15,10 @@ import {
   LocationApprovalPayload,
   LocationRejectionPayload,
   LocationDeletedPayload,
-} from &quot;../infrastructure/messaging/eventTypes&quot;;
-import { EventSubscriber } from &quot;../infrastructure/messaging/distributedEventBus&quot;;
-import { db } from &quot;../../lib/db&quot;;
-import { notificationService } from &quot;../notifications/notificationService&quot;;
+} from "../infrastructure/messaging/eventTypes";
+import { EventSubscriber } from "../infrastructure/messaging/distributedEventBus";
+import { db } from "../../lib/db";
+import { notificationService } from "../notifications/notificationService";
 
 /**
  * LocationEventHandler
@@ -105,7 +105,7 @@ export class LocationEventHandler implements EventSubscriber {
 
     try {
       // Log the event
-      await this.logEvent(&quot;location_created&quot;, event.id, {
+      await this.logEvent("location_created", event.id, {
         locationId: payload.locationId,
         submittedById: payload.submittedById,
       });
@@ -138,7 +138,7 @@ export class LocationEventHandler implements EventSubscriber {
 
     try {
       // Log the event
-      await this.logEvent(&quot;location_updated&quot;, event.id, {
+      await this.logEvent("location_updated", event.id, {
         locationId: payload.locationId,
         updatedById: payload.updatedById,
         changes: payload.changes,
@@ -172,7 +172,7 @@ export class LocationEventHandler implements EventSubscriber {
 
     try {
       // Log the event
-      await this.logEvent(&quot;location_approved&quot;, event.id, {
+      await this.logEvent("location_approved", event.id, {
         locationId: payload.locationId,
         approvedById: payload.approvedById,
         submittedById: payload.submittedById,
@@ -183,7 +183,7 @@ export class LocationEventHandler implements EventSubscriber {
         try {
           await this.sendApprovalNotification(
             payload.locationId,
-            payload.name || &quot;Your location&quot;,
+            payload.name || "Your location",
             payload.submittedById,
             payload.approvedByName,
           );
@@ -224,7 +224,7 @@ export class LocationEventHandler implements EventSubscriber {
 
     try {
       // Log the event
-      await this.logEvent(&quot;location_rejected&quot;, event.id, {
+      await this.logEvent("location_rejected", event.id, {
         locationId: payload.locationId,
         rejectedById: payload.rejectedById,
         submittedById: payload.submittedById,
@@ -236,7 +236,7 @@ export class LocationEventHandler implements EventSubscriber {
         try {
           await this.sendRejectionNotification(
             payload.locationId,
-            payload.name || &quot;Your location&quot;,
+            payload.name || "Your location",
             payload.submittedById,
             payload.rejectedByName,
             payload.rejectionReason,
@@ -275,7 +275,7 @@ export class LocationEventHandler implements EventSubscriber {
 
     try {
       // Log the event
-      await this.logEvent(&quot;location_deleted&quot;, event.id, {
+      await this.logEvent("location_deleted", event.id, {
         locationId: payload.locationId,
         deletedById: payload.deletedById,
       });
@@ -314,14 +314,14 @@ export class LocationEventHandler implements EventSubscriber {
     try {
       await notificationService.sendNotification({
         userId,
-        title: &quot;Location Approved&quot;,
-        message: `Your location &quot;${locationName}&quot; has been approved by ${approverName}.`,
-        type: &quot;success&quot;,
+        title: "Location Approved",
+        message: `Your location "${locationName}" has been approved by ${approverName}.`,
+        type: "success",
         link: `/locations/${locationId}`,
-        priority: &quot;medium&quot;,
+        priority: "medium",
         metadata: {
           locationId,
-          eventType: &quot;location_approved&quot;,
+          eventType: "location_approved",
           approverName,
         },
       });
@@ -354,19 +354,19 @@ export class LocationEventHandler implements EventSubscriber {
 
     const reason = rejectionReason
       ? `Reason: ${rejectionReason}`
-      : &quot;No specific reason was provided.&quot;;
+      : "No specific reason was provided.";
 
     try {
       await notificationService.sendNotification({
         userId,
-        title: &quot;Location Rejected&quot;,
-        message: `Your location &quot;${locationName}&quot; was not approved by ${rejectorName}. ${reason}`,
-        type: &quot;warning&quot;,
+        title: "Location Rejected",
+        message: `Your location "${locationName}" was not approved by ${rejectorName}. ${reason}`,
+        type: "warning",
         link: `/locations/submit`,
-        priority: &quot;medium&quot;,
+        priority: "medium",
         metadata: {
           locationId,
-          eventType: &quot;location_rejected&quot;,
+          eventType: "location_rejected",
           rejectorName,
           rejectionReason,
         },
@@ -393,7 +393,7 @@ export class LocationEventHandler implements EventSubscriber {
     details: Record<string, any>,
   ): Promise<void> {
     try {
-      // For now, simply log to console as we don&apos;t have an event log table
+      // For now, simply log to console as we don't have an event log table
       // In a real implementation, we would persist this to a database
       console.log(`[EventLog] Logging event: ${eventType}`, {
         eventId,
@@ -421,10 +421,10 @@ export class LocationEventHandler implements EventSubscriber {
 export const locationEventHandler = new LocationEventHandler();
 
 // Initialize and register handler with event bus
-import { eventBus } from &quot;../infrastructure/messaging/distributedEventBus&quot;;
+import { eventBus } from "../infrastructure/messaging/distributedEventBus";
 
 // Register the event handler
 export function registerLocationEventHandler(): void {
-  console.log(&quot;[LocationEventHandler] Registering location event handler&quot;);
+  console.log("[LocationEventHandler] Registering location event handler");
   eventBus.subscribe(locationEventHandler);
 }

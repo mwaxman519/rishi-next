@@ -1,17 +1,17 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Expense Approval API Routes - Event-Driven Microservice
  * Handles expense approval and rejection workflows
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { ExpenseService } from &quot;../../../services/expenses/ExpenseService&quot;;
-import { ExpenseApprovalSchema } from &quot;../../../services/expenses/models&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { ExpenseService } from "../../../services/expenses/ExpenseService";
+import { ExpenseApprovalSchema } from "../../../services/expenses/models";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 const expenseService = new ExpenseService();
 
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
@@ -32,21 +32,21 @@ export async function POST(request: NextRequest) {
     const result = await expenseService.processApproval(
       validatedApproval,
       (session.user as any).id,
-      (session.user as any).role || &quot;brand_agent&quot;,
-      (session.user as any).organizationId || "&quot;,
+      (session.user as any).role || "brand_agent",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {
       const statusCode =
-        result.code === &quot;APPROVAL_PERMISSION_DENIED&quot; ? 403 : 400;
+        result.code === "APPROVAL_PERMISSION_DENIED" ? 403 : 400;
       return NextResponse.json({ error: result.error }, { status: statusCode });
     }
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error(&quot;Error processing expense approval:&quot;, error);
+    console.error("Error processing expense approval:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error" },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }

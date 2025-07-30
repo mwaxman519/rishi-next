@@ -22,19 +22,19 @@
  * @since Phase 7 Implementation
  */
 
-import { z } from &quot;zod&quot;;
+import { z } from "zod";
 
 /**
  * Analytics Data Types
  * Defines the types of analytics data collected
  */
 export enum AnalyticsDataType {
-  USER_BEHAVIOR = &quot;user_behavior&quot;,
-  PERFORMANCE_METRICS = &quot;performance_metrics&quot;,
-  BUSINESS_METRICS = &quot;business_metrics&quot;,
-  OPERATIONAL_METRICS = &quot;operational_metrics&quot;,
-  FINANCIAL_METRICS = &quot;financial_metrics&quot;,
-  QUALITY_METRICS = &quot;quality_metrics&quot;,
+  USER_BEHAVIOR = "user_behavior",
+  PERFORMANCE_METRICS = "performance_metrics",
+  BUSINESS_METRICS = "business_metrics",
+  OPERATIONAL_METRICS = "operational_metrics",
+  FINANCIAL_METRICS = "financial_metrics",
+  QUALITY_METRICS = "quality_metrics",
 }
 
 /**
@@ -42,18 +42,18 @@ export enum AnalyticsDataType {
  * Supported chart types for dashboard components
  */
 export enum ChartType {
-  LINE = &quot;line&quot;,
-  BAR = &quot;bar&quot;,
-  AREA = &quot;area&quot;,
-  PIE = &quot;pie&quot;,
-  DONUT = &quot;donut&quot;,
-  SCATTER = &quot;scatter&quot;,
-  HEATMAP = &quot;heatmap&quot;,
-  GAUGE = &quot;gauge&quot;,
-  FUNNEL = &quot;funnel&quot;,
-  TREEMAP = &quot;treemap&quot;,
-  SANKEY = &quot;sankey&quot;,
-  TIMELINE = &quot;timeline&quot;,
+  LINE = "line",
+  BAR = "bar",
+  AREA = "area",
+  PIE = "pie",
+  DONUT = "donut",
+  SCATTER = "scatter",
+  HEATMAP = "heatmap",
+  GAUGE = "gauge",
+  FUNNEL = "funnel",
+  TREEMAP = "treemap",
+  SANKEY = "sankey",
+  TIMELINE = "timeline",
 }
 
 /**
@@ -61,12 +61,12 @@ export enum ChartType {
  * Standard time periods for analytics aggregation
  */
 export enum TimePeriod {
-  HOUR = &quot;hour&quot;,
-  DAY = &quot;day&quot;,
-  WEEK = &quot;week&quot;,
-  MONTH = &quot;month&quot;,
-  QUARTER = &quot;quarter&quot;,
-  YEAR = &quot;year&quot;,
+  HOUR = "hour",
+  DAY = "day",
+  WEEK = "week",
+  MONTH = "month",
+  QUARTER = "quarter",
+  YEAR = "year",
 }
 
 /**
@@ -74,11 +74,11 @@ export enum TimePeriod {
  * Status tracking for generated reports
  */
 export enum ReportStatus {
-  DRAFT = &quot;draft&quot;,
-  GENERATING = &quot;generating&quot;,
-  COMPLETED = &quot;completed&quot;,
-  FAILED = &quot;failed&quot;,
-  SCHEDULED = &quot;scheduled&quot;,
+  DRAFT = "draft",
+  GENERATING = "generating",
+  COMPLETED = "completed",
+  FAILED = "failed",
+  SCHEDULED = "scheduled",
 }
 
 /**
@@ -87,7 +87,7 @@ export enum ReportStatus {
  */
 export const DashboardWidgetSchema = z.object({
   id: z.string().uuid(),
-  title: z.string().min(1, &quot;Widget title is required&quot;),
+  title: z.string().min(1, "Widget title is required"),
   description: z.string().optional(),
   type: z.nativeEnum(ChartType),
   dataSource: z.string(), // Query or data endpoint
@@ -102,7 +102,7 @@ export const DashboardWidgetSchema = z.object({
     xAxis: z.string().optional(),
     yAxis: z.string().optional(),
     groupBy: z.string().optional(),
-    aggregation: z.enum([&quot;sum&quot;, &quot;avg&quot;, &quot;count&quot;, &quot;min&quot;, &quot;max&quot;]).default(&quot;sum&quot;),
+    aggregation: z.enum(["sum", "avg", "count", "min", "max"]).default("sum"),
 
     // Styling
     colors: z.array(z.string()).optional(),
@@ -145,12 +145,12 @@ export const DashboardWidgetSchema = z.object({
  */
 export const DashboardSchema = z.object({
   id: z.string().uuid(),
-  name: z.string().min(1, &quot;Dashboard name is required&quot;),
+  name: z.string().min(1, "Dashboard name is required"),
   description: z.string().optional(),
 
   // Dashboard configuration
   layout: z.array(DashboardWidgetSchema),
-  theme: z.enum([&quot;light&quot;, &quot;dark&quot;, &quot;auto&quot;]).default(&quot;auto&quot;),
+  theme: z.enum(["light", "dark", "auto"]).default("auto"),
   refreshInterval: z.number().min(0).default(300), // Global refresh interval
 
   // Access control
@@ -162,7 +162,7 @@ export const DashboardSchema = z.object({
     .array(
       z.object({
         userId: z.string().uuid(),
-        permission: z.enum([&quot;view&quot;, &quot;edit&quot;]),
+        permission: z.enum(["view", "edit"]),
       }),
     )
     .optional(),
@@ -170,14 +170,14 @@ export const DashboardSchema = z.object({
   // Categorization
   category: z
     .enum([
-      &quot;executive&quot;,
-      &quot;operations&quot;,
-      &quot;financial&quot;,
-      &quot;hr&quot;,
-      &quot;performance&quot;,
-      &quot;custom&quot;,
+      "executive",
+      "operations",
+      "financial",
+      "hr",
+      "performance",
+      "custom",
     ])
-    .default(&quot;custom&quot;),
+    .default("custom"),
   tags: z.array(z.string()).optional(),
 
   // Metadata
@@ -201,14 +201,14 @@ export const AnalyticsMetricSchema = z.object({
   type: z.nativeEnum(AnalyticsDataType),
   unit: z.string().optional(), // e.g., 'hours', 'dollars', 'count'
   format: z
-    .enum([&quot;number&quot;, &quot;currency&quot;, &quot;percentage&quot;, &quot;duration&quot;])
-    .default(&quot;number&quot;),
+    .enum(["number", "currency", "percentage", "duration"])
+    .default("number"),
 
   // Calculation details
   calculation: z.object({
     source: z.string(), // Table or view name
     field: z.string(), // Field to aggregate
-    aggregation: z.enum([&quot;sum&quot;, &quot;avg&quot;, &quot;count&quot;, &quot;min&quot;, &quot;max&quot;, &quot;distinct&quot;]),
+    aggregation: z.enum(["sum", "avg", "count", "min", "max", "distinct"]),
     filters: z.record(z.any()).optional(),
     groupBy: z.array(z.string()).optional(),
   }),
@@ -238,24 +238,24 @@ export const AnalyticsMetricSchema = z.object({
  */
 export const ReportTemplateSchema = z.object({
   id: z.string().uuid(),
-  name: z.string().min(1, &quot;Report name is required&quot;),
+  name: z.string().min(1, "Report name is required"),
   description: z.string().optional(),
 
   // Report configuration
   type: z.enum([
-    &quot;summary&quot;,
-    &quot;detailed&quot;,
-    &quot;executive&quot;,
-    &quot;operational&quot;,
-    &quot;financial&quot;,
+    "summary",
+    "detailed",
+    "executive",
+    "operational",
+    "financial",
   ]),
-  format: z.enum([&quot;pdf&quot;, &quot;excel&quot;, &quot;csv&quot;, &quot;json&quot;]).default(&quot;pdf&quot;),
+  format: z.enum(["pdf", "excel", "csv", "json"]).default("pdf"),
 
   // Content definition
   sections: z.array(
     z.object({
       title: z.string(),
-      type: z.enum([&quot;text&quot;, &quot;chart&quot;, &quot;table&quot;, &quot;metric&quot;]),
+      type: z.enum(["text", "chart", "table", "metric"]),
       content: z.object({
         query: z.string().optional(),
         chartType: z.nativeEnum(ChartType).optional(),
@@ -269,9 +269,9 @@ export const ReportTemplateSchema = z.object({
   schedule: z
     .object({
       enabled: z.boolean().default(false),
-      frequency: z.enum([&quot;daily&quot;, &quot;weekly&quot;, &quot;monthly&quot;, &quot;quarterly&quot;]),
+      frequency: z.enum(["daily", "weekly", "monthly", "quarterly"]),
       time: z.string(), // HH:MM format
-      timezone: z.string().default(&quot;UTC&quot;),
+      timezone: z.string().default("UTC"),
       recipients: z.array(
         z.object({
           email: z.string().email(),
@@ -286,7 +286,7 @@ export const ReportTemplateSchema = z.object({
     .array(
       z.object({
         name: z.string(),
-        type: z.enum([&quot;date&quot;, &quot;select&quot;, &quot;text&quot;, &quot;number&quot;]),
+        type: z.enum(["date", "select", "text", "number"]),
         required: z.boolean().default(false),
         defaultValue: z.any().optional(),
         options: z.array(z.any()).optional(),
@@ -317,7 +317,7 @@ export const GeneratedReportSchema = z.object({
 
   // Report details
   status: z.nativeEnum(ReportStatus),
-  format: z.enum([&quot;pdf&quot;, &quot;excel&quot;, &quot;csv&quot;, &quot;json&quot;]),
+  format: z.enum(["pdf", "excel", "csv", "json"]),
 
   // Generation details
   parameters: z.record(z.any()),
@@ -355,14 +355,14 @@ export const RealTimeMetricSchema = z.object({
   value: z.number(),
   previousValue: z.number().optional(),
   change: z.number().optional(), // Percentage change
-  changeType: z.enum([&quot;increase&quot;, &quot;decrease&quot;, &quot;stable&quot;]).optional(),
+  changeType: z.enum(["increase", "decrease", "stable"]).optional(),
 
   // Time context
   timestamp: z.date(),
   period: z.nativeEnum(TimePeriod),
 
   // Additional context
-  dimensions: z.record(z.string()).optional(), // e.g., { &quot;location&quot;: &quot;store-1&quot;, &quot;brand&quot;: &quot;brand-a&quot; }
+  dimensions: z.record(z.string()).optional(), // e.g., { "location": "store-1", "brand": "brand-a" }
   metadata: z.record(z.any()).optional(),
 });
 
@@ -376,7 +376,7 @@ export const PostHogConfigSchema = z.object({
 
   // PostHog configuration
   projectApiKey: z.string(),
-  host: z.string().default(&quot;https://app.posthog.com&quot;),
+  host: z.string().default("https://app.posthog.com"),
 
   // Event tracking configuration
   trackPageViews: z.boolean().default(true),
@@ -591,7 +591,7 @@ export interface PlatformKPIs {
  * Settings for data export functionality
  */
 export interface ExportConfig {
-  format: &quot;csv&quot; | &quot;excel&quot; | &quot;json&quot; | &quot;pdf&quot;;
+  format: "csv" | "excel" | "json" | "pdf";
   includeHeaders: boolean;
   dateFormat: string;
   timezone: string;
@@ -609,12 +609,12 @@ export interface AlertConfig {
   name: string;
   metricId: string;
   condition: {
-    operator: &quot;gt&quot; | &quot;lt&quot; | &quot;eq&quot; | &quot;gte&quot; | &quot;lte&quot;;
+    operator: "gt" | "lt" | "eq" | "gte" | "lte";
     threshold: number;
   };
-  frequency: &quot;immediate&quot; | &quot;hourly&quot; | &quot;daily&quot;;
+  frequency: "immediate" | "hourly" | "daily";
   channels: Array<{
-    type: &quot;email&quot; | &quot;sms&quot; | &quot;slack&quot; | &quot;webhook&quot;;
+    type: "email" | "sms" | "slack" | "webhook";
     target: string;
   }>;
   isActive: boolean;

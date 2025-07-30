@@ -1,43 +1,43 @@
-&quot;use client&quot;;
+"use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Map, MapPin, Globe, BarChart, Search } from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
+} from "@/components/ui/card";
+import { Map, MapPin, Globe, BarChart, Search } from "lucide-react";
+import Link from "next/link";
 
 export default function RegionsPage() {
   return (
-    <div className=&quot;container mx-auto py-6 space-y-8&quot;>
-      <div className=&quot;flex justify-between items-center&quot;>
-        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Region Management</h1>
+    <div className="container mx-auto py-6 space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold tracking-tight">Region Management</h1>
       </div>
 
-      <Tabs defaultValue=&quot;map-view&quot; className=&quot;w-full&quot;>
-        <TabsList className=&quot;mb-4&quot;>
-          <TabsTrigger value=&quot;map-view&quot;>Map View</TabsTrigger>
-          <TabsTrigger value=&quot;states&quot;>States</TabsTrigger>
-          <TabsTrigger value=&quot;custom-regions&quot;>Custom Regions</TabsTrigger>
-          <TabsTrigger value=&quot;coverage&quot;>Coverage Analysis</TabsTrigger>
+      <Tabs defaultValue="map-view" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="map-view">Map View</TabsTrigger>
+          <TabsTrigger value="states">States</TabsTrigger>
+          <TabsTrigger value="custom-regions">Custom Regions</TabsTrigger>
+          <TabsTrigger value="coverage">Coverage Analysis</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;map-view&quot; className=&quot;space-y-6&quot;>
-          <p className=&quot;text-muted-foreground mb-4&quot;>
+        <TabsContent value="map-view" className="space-y-6">
+          <p className="text-muted-foreground mb-4">
             Interactive map of all service regions.
           </p>
 
           <Card>
-            <CardContent className=&quot;p-6&quot;>
-              <div className=&quot;h-[500px] flex items-center justify-center border rounded-md bg-slate-50&quot;>
-                <div className=&quot;text-center&quot;>
-                  <Map className=&quot;h-12 w-12 mx-auto text-primary mb-4&quot; />
-                  <h3 className=&quot;text-lg font-medium&quot;>Interactive Map</h3>
-                  <p className=&quot;text-muted-foreground max-w-md mt-2&quot;>
+            <CardContent className="p-6">
+              <div className="h-[500px] flex items-center justify-center border rounded-md bg-slate-50">
+                <div className="text-center">
+                  <Map className="h-12 w-12 mx-auto text-primary mb-4" />
+                  <h3 className="text-lg font-medium">Interactive Map</h3>
+                  <p className="text-muted-foreground max-w-md mt-2">
                     The interactive map will display all service regions with
                     filtering options.
                   </p>
@@ -47,45 +47,45 @@ export default function RegionsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;states&quot; className=&quot;space-y-6&quot;>
-          <p className=&quot;text-muted-foreground mb-4&quot;>
+        <TabsContent value="states" className="space-y-6">
+          <p className="text-muted-foreground mb-4">
             State-level region configuration.
           </p>
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* State Region Card */}
-            <Card className=&quot;transition-all hover:shadow-md&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <div className=&quot;flex justify-between items-start&quot;>
-                  <CardTitle className=&quot;flex items-center&quot;>
-                    <MapPin className=&quot;mr-2 h-5 w-5 text-primary&quot; />
+            <Card className="transition-all hover:shadow-md">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="flex items-center">
+                    <MapPin className="mr-2 h-5 w-5 text-primary" />
                     California
                   </CardTitle>
-                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800&quot;>
+                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800">
                     Active
                   </span>
                 </div>
                 <CardDescription>State-wide coverage</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-sm space-y-2&quot;>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Clients:</span>
-                    <span className=&quot;font-medium&quot;>3</span>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Clients:</span>
+                    <span className="font-medium">3</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Staff:</span>
-                    <span className=&quot;font-medium&quot;>25</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Staff:</span>
+                    <span className="font-medium">25</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Events (YTD):</span>
-                    <span className=&quot;font-medium&quot;>48</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Events (YTD):</span>
+                    <span className="font-medium">48</span>
                   </div>
                 </div>
-                <div className=&quot;mt-4 flex justify-end&quot;>
+                <div className="mt-4 flex justify-end">
                   <Link
-                    href=&quot;/regions/states/ca&quot;
-                    className=&quot;text-sm font-medium text-primary hover:underline&quot;
+                    href="/regions/states/ca"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
                     Manage Region →
                   </Link>
@@ -94,38 +94,38 @@ export default function RegionsPage() {
             </Card>
 
             {/* Another State Region Card */}
-            <Card className=&quot;transition-all hover:shadow-md&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <div className=&quot;flex justify-between items-start&quot;>
-                  <CardTitle className=&quot;flex items-center&quot;>
-                    <MapPin className=&quot;mr-2 h-5 w-5 text-primary&quot; />
+            <Card className="transition-all hover:shadow-md">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="flex items-center">
+                    <MapPin className="mr-2 h-5 w-5 text-primary" />
                     Texas
                   </CardTitle>
-                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800&quot;>
+                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800">
                     Active
                   </span>
                 </div>
                 <CardDescription>State-wide coverage</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-sm space-y-2&quot;>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Clients:</span>
-                    <span className=&quot;font-medium&quot;>2</span>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Clients:</span>
+                    <span className="font-medium">2</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Staff:</span>
-                    <span className=&quot;font-medium&quot;>18</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Staff:</span>
+                    <span className="font-medium">18</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Events (YTD):</span>
-                    <span className=&quot;font-medium&quot;>32</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Events (YTD):</span>
+                    <span className="font-medium">32</span>
                   </div>
                 </div>
-                <div className=&quot;mt-4 flex justify-end&quot;>
+                <div className="mt-4 flex justify-end">
                   <Link
-                    href=&quot;/regions/states/tx&quot;
-                    className=&quot;text-sm font-medium text-primary hover:underline&quot;
+                    href="/regions/states/tx"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
                     Manage Region →
                   </Link>
@@ -134,67 +134,67 @@ export default function RegionsPage() {
             </Card>
 
             {/* Add State Region Card */}
-            <Card className=&quot;border-dashed border-primary/20 bg-muted/30 transition-all hover:shadow-md hover:border-primary/40&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <CardTitle className=&quot;flex items-center text-primary&quot;>
-                  <MapPin className=&quot;mr-2 h-5 w-5&quot; />
+            <Card className="border-dashed border-primary/20 bg-muted/30 transition-all hover:shadow-md hover:border-primary/40">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center text-primary">
+                  <MapPin className="mr-2 h-5 w-5" />
                   Add State Region
                 </CardTitle>
                 <CardDescription>Configure a new state region</CardDescription>
               </CardHeader>
-              <CardContent className=&quot;flex flex-col items-center justify-center py-8&quot;>
+              <CardContent className="flex flex-col items-center justify-center py-8">
                 <Link
-                  href=&quot;/regions/states/new&quot;
-                  className=&quot;h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors&quot;
+                  href="/regions/states/new"
+                  className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors"
                 >
-                  <span className=&quot;text-2xl font-semibold&quot;>+</span>
+                  <span className="text-2xl font-semibold">+</span>
                 </Link>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;custom-regions&quot; className=&quot;space-y-6&quot;>
-          <p className=&quot;text-muted-foreground mb-4&quot;>
+        <TabsContent value="custom-regions" className="space-y-6">
+          <p className="text-muted-foreground mb-4">
             Client-specific custom service regions.
           </p>
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Custom Region Card */}
-            <Card className=&quot;transition-all hover:shadow-md&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <div className=&quot;flex justify-between items-start&quot;>
-                  <CardTitle className=&quot;flex items-center&quot;>
-                    <Globe className=&quot;mr-2 h-5 w-5 text-primary&quot; />
+            <Card className="transition-all hover:shadow-md">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="flex items-center">
+                    <Globe className="mr-2 h-5 w-5 text-primary" />
                     Bay Area Metro
                   </CardTitle>
-                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800&quot;>
+                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800">
                     Active
                   </span>
                 </div>
                 <CardDescription>Acme Corporation</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-sm space-y-2&quot;>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Coverage:</span>
-                    <span className=&quot;font-medium&quot;>15 ZIP codes</span>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Coverage:</span>
+                    <span className="font-medium">15 ZIP codes</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Staff:</span>
-                    <span className=&quot;font-medium&quot;>12</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Staff:</span>
+                    <span className="font-medium">12</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">
                       Kits Available:
                     </span>
-                    <span className=&quot;font-medium&quot;>8</span>
+                    <span className="font-medium">8</span>
                   </div>
                 </div>
-                <div className=&quot;mt-4 flex justify-end&quot;>
+                <div className="mt-4 flex justify-end">
                   <Link
-                    href=&quot;/regions/custom/1&quot;
-                    className=&quot;text-sm font-medium text-primary hover:underline&quot;
+                    href="/regions/custom/1"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
                     Edit Region →
                   </Link>
@@ -203,40 +203,40 @@ export default function RegionsPage() {
             </Card>
 
             {/* Another Custom Region Card */}
-            <Card className=&quot;transition-all hover:shadow-md&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <div className=&quot;flex justify-between items-start&quot;>
-                  <CardTitle className=&quot;flex items-center&quot;>
-                    <Globe className=&quot;mr-2 h-5 w-5 text-primary&quot; />
+            <Card className="transition-all hover:shadow-md">
+              <CardHeader className="pb-3">
+                <div className="flex justify-between items-start">
+                  <CardTitle className="flex items-center">
+                    <Globe className="mr-2 h-5 w-5 text-primary" />
                     Greater Chicago
                   </CardTitle>
-                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800&quot;>
+                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800">
                     Active
                   </span>
                 </div>
                 <CardDescription>Globex Industries</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-sm space-y-2&quot;>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Coverage:</span>
-                    <span className=&quot;font-medium&quot;>22 ZIP codes</span>
+                <div className="text-sm space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Coverage:</span>
+                    <span className="font-medium">22 ZIP codes</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>Staff:</span>
-                    <span className=&quot;font-medium&quot;>9</span>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Staff:</span>
+                    <span className="font-medium">9</span>
                   </div>
-                  <div className=&quot;flex justify-between&quot;>
-                    <span className=&quot;text-muted-foreground&quot;>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">
                       Kits Available:
                     </span>
-                    <span className=&quot;font-medium&quot;>6</span>
+                    <span className="font-medium">6</span>
                   </div>
                 </div>
-                <div className=&quot;mt-4 flex justify-end&quot;>
+                <div className="mt-4 flex justify-end">
                   <Link
-                    href=&quot;/regions/custom/2&quot;
-                    className=&quot;text-sm font-medium text-primary hover:underline&quot;
+                    href="/regions/custom/2"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
                     Edit Region →
                   </Link>
@@ -245,36 +245,36 @@ export default function RegionsPage() {
             </Card>
 
             {/* Add Custom Region Card */}
-            <Card className=&quot;border-dashed border-primary/20 bg-muted/30 transition-all hover:shadow-md hover:border-primary/40&quot;>
-              <CardHeader className=&quot;pb-3&quot;>
-                <CardTitle className=&quot;flex items-center text-primary&quot;>
-                  <Globe className=&quot;mr-2 h-5 w-5&quot; />
+            <Card className="border-dashed border-primary/20 bg-muted/30 transition-all hover:shadow-md hover:border-primary/40">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center text-primary">
+                  <Globe className="mr-2 h-5 w-5" />
                   Add Custom Region
                 </CardTitle>
                 <CardDescription>Create a new custom region</CardDescription>
               </CardHeader>
-              <CardContent className=&quot;flex flex-col items-center justify-center py-8&quot;>
+              <CardContent className="flex flex-col items-center justify-center py-8">
                 <Link
-                  href=&quot;/regions/custom/new&quot;
-                  className=&quot;h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors&quot;
+                  href="/regions/custom/new"
+                  className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors"
                 >
-                  <span className=&quot;text-2xl font-semibold&quot;>+</span>
+                  <span className="text-2xl font-semibold">+</span>
                 </Link>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;coverage&quot; className=&quot;space-y-6&quot;>
-          <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="coverage" className="space-y-6">
+          <p className="text-muted-foreground">
             Analysis of coverage, gaps, and overlaps in service regions.
           </p>
 
-          <div className=&quot;flex items-center justify-center h-64&quot;>
-            <div className=&quot;text-center&quot;>
-              <BarChart className=&quot;h-12 w-12 mx-auto text-primary mb-4&quot; />
-              <h3 className=&quot;text-lg font-medium&quot;>Coverage Analysis</h3>
-              <p className=&quot;text-muted-foreground max-w-md mt-2&quot;>
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <BarChart className="h-12 w-12 mx-auto text-primary mb-4" />
+              <h3 className="text-lg font-medium">Coverage Analysis</h3>
+              <p className="text-muted-foreground max-w-md mt-2">
                 This section will provide analytics on regional coverage,
                 identifying gaps and overlaps.
               </p>

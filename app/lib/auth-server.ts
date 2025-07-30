@@ -2,10 +2,10 @@
  * Server-side authentication utilities
  */
 
-import bcrypt from &quot;bcryptjs&quot;;
-import * as jwt from &quot;jsonwebtoken&quot;;
-import { cookies } from &quot;next/headers&quot;;
-import { getUserById } from &quot;@/api/auth-service/models/user-repository&quot;;
+import bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { getUserById } from "@/api/auth-service/models/user-repository";
 
 /**
  * Hash a password for storage
@@ -26,50 +26,50 @@ export async function comparePasswords(
 }
 
 export async function getCurrentUser() {
-  console.log(&quot;[Auth Server] getCurrentUser function entry&quot;);
+  console.log("[Auth Server] getCurrentUser function entry");
   try {
-    console.log(&quot;[Auth Server] Starting cookie retrieval...&quot;);
+    console.log("[Auth Server] Starting cookie retrieval...");
     const cookieStore = cookies();
-    console.log(&quot;[Auth Server] Cookie store created successfully&quot;);
+    console.log("[Auth Server] Cookie store created successfully");
     
     const allCookies = cookieStore.getAll();
-    console.log(&quot;[Auth Server] All cookies:&quot;, allCookies.map(c => `${c.name}=${c.value.substring(0, 10)}...`));
+    console.log("[Auth Server] All cookies:", allCookies.map(c => `${c.name}=${c.value.substring(0, 10)}...`));
     
     // Use the EXACT cookie name from AUTH_CONFIG
-    const authToken = cookieStore.get(&quot;auth_token&quot;);
+    const authToken = cookieStore.get("auth_token");
     
-    console.log(&quot;[Auth Server] Looking for auth token in cookies...&quot;);
-    console.log(&quot;[Auth Server] Available cookie names:&quot;, allCookies.map(c => c.name));
-    console.log(&quot;[Auth Server] Auth token found:&quot;, !!authToken);
-    console.log(&quot;[Auth Server] Auth token value length:&quot;, authToken?.value?.length || 0);
+    console.log("[Auth Server] Looking for auth token in cookies...");
+    console.log("[Auth Server] Available cookie names:", allCookies.map(c => c.name));
+    console.log("[Auth Server] Auth token found:", !!authToken);
+    console.log("[Auth Server] Auth token value length:", authToken?.value?.length || 0);
     
     // Debug: Try different cookie access methods
     if (!authToken) {
-      console.log(&quot;[Auth Server] Trying alternative cookie access...&quot;);
+      console.log("[Auth Server] Trying alternative cookie access...");
       try {
-        const { cookies: nextCookies } = await import(&quot;next/headers&quot;);
+        const { cookies: nextCookies } = await import("next/headers");
         const cookieStore2 = nextCookies();
-        const authToken2 = cookieStore2.get(&quot;auth_token&quot;);
-        console.log(&quot;[Auth Server] Alternative method found token:&quot;, !!authToken2);
+        const authToken2 = cookieStore2.get("auth_token");
+        console.log("[Auth Server] Alternative method found token:", !!authToken2);
       } catch (e) {
-        console.log(&quot;[Auth Server] Alternative method failed:&quot;, e);
+        console.log("[Auth Server] Alternative method failed:", e);
       }
     }
     
     if (!authToken) {
-      console.log(&quot;[Auth Server] No auth token found in cookies - checking headers...&quot;);
+      console.log("[Auth Server] No auth token found in cookies - checking headers...");
       // Also check headers for authorization
       const headers = new Headers();
       try {
         const authHeader = headers.get('Authorization') || headers.get('authorization');
-        console.log(&quot;[Auth Server] Authorization header:&quot;, !!authHeader);
+        console.log("[Auth Server] Authorization header:", !!authHeader);
       } catch (e) {
-        console.log(&quot;[Auth Server] Cannot access headers:&quot;, e);
+        console.log("[Auth Server] Cannot access headers:", e);
       }
       return null;
     }
     
-    console.log(&quot;[Auth Server] Found auth token:&quot;, authToken.value.substring(0, 20) + &quot;...&quot;);
+    console.log("[Auth Server] Found auth token:", authToken.value.substring(0, 20) + "...");
 
     // Verify the token using the same method as auth service (JOSE library)
     let payload;
@@ -77,25 +77,25 @@ export async function getCurrentUser() {
       // Use the same JWT secret as the auth service
       const jwtSecret = process.env.JWT_SECRET;
       if (!jwtSecret) {
-        console.error(&quot;[Auth Server] JWT_SECRET environment variable not set&quot;);
+        console.error("[Auth Server] JWT_SECRET environment variable not set");
         return null;
       }
-      console.log(&quot;[Auth Server] Using JWT secret for verification:&quot;, jwtSecret.substring(0, 10));
+      console.log("[Auth Server] Using JWT secret for verification:", jwtSecret.substring(0, 10));
       
       // Use JOSE library for verification to match auth service
-      const { jwtVerify } = await import(&quot;jose&quot;);
+      const { jwtVerify } = await import("jose");
       const secretKey = new TextEncoder().encode(jwtSecret);
       const { payload: josePayload } = await jwtVerify(authToken.value, secretKey);
       payload = josePayload;
     } catch (error) {
-      console.log(&quot;[Auth] Invalid token:&quot;, error);
+      console.log("[Auth] Invalid token:", error);
       return null;
     }
     
     // JOSE uses 'sub' field for user ID, not 'id'
     const userId = payload.sub;
     if (!userId) {
-      console.log(&quot;[Auth] Invalid token payload - no user ID&quot;);
+      console.log("[Auth] Invalid token payload - no user ID");
       return null;
     }
 
@@ -103,24 +103,24 @@ export async function getCurrentUser() {
     const user = await getUserById(userId);
     
     if (!user) {
-      console.log(&quot;[Auth] User not found for token&quot;);
+      console.log("[Auth] User not found for token");
       return null;
     }
 
-    console.log(&quot;[Auth] User authenticated:&quot;, user.username, &quot;role:&quot;, user.role);
+    console.log("[Auth] User authenticated:", user.username, "role:", user.role);
 
     return {
       id: user.id,
       username: user.username,
       email: user.email || null,
       fullName: user.fullName || null,
-      role: user.role || &quot;brand_agent&quot;,
+      role: user.role || "brand_agent",
       active: Boolean(user.active !== false),
     };
   } catch (error) {
-    console.error(&quot;[Auth Server] Critical authentication error:&quot;, error);
-    console.error(&quot;[Auth Server] Error stack:&quot;, (error as Error)?.stack);
-    console.error(&quot;[Auth Server] Error type:&quot;, typeof error);
+    console.error("[Auth Server] Critical authentication error:", error);
+    console.error("[Auth Server] Error stack:", (error as Error)?.stack);
+    console.error("[Auth Server] Error type:", typeof error);
     return null;
   }
 }

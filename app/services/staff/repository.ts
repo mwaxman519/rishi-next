@@ -4,7 +4,7 @@
  * Production implementation for staff repository with database operations
  * interact with the database once the schema is defined for staff-related tables.
  */
-import { db } from &quot;../../../lib/db-connection&quot;;
+import { db } from "../../../lib/db-connection";
 import {
   StaffMember,
   StaffSkill,
@@ -20,7 +20,7 @@ import {
   UpdateTimeOffRequestParams,
   StaffFilters,
   StaffStatus,
-} from &quot;./models&quot;;
+} from "./models";
 
 export class StaffRepository {
   /**
@@ -32,7 +32,7 @@ export class StaffRepository {
       // In the actual implementation, this would build queries based on filters
       return [];
     } catch (error) {
-      console.error(&quot;Error finding staff members:&quot;, error);
+      console.error("Error finding staff members:", error);
       throw new Error(
         `Failed to find staff members: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -79,10 +79,10 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Staff member creation not implemented yet - database schema needed&quot;,
+        "Staff member creation not implemented yet - database schema needed",
       );
     } catch (error) {
-      console.error(&quot;Error creating staff member:&quot;, error);
+      console.error("Error creating staff member:", error);
       throw new Error(
         `Failed to create staff member: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -99,7 +99,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Staff member update not implemented yet - database schema needed&quot;,
+        "Staff member update not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error updating staff member with ID ${id}:`, error);
@@ -116,7 +116,7 @@ export class StaffRepository {
     try {
       // This could either be a hard delete or a soft delete (status change)
       throw new Error(
-        &quot;Staff member deletion not implemented yet - database schema needed&quot;,
+        "Staff member deletion not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error deleting staff member with ID ${id}:`, error);
@@ -137,7 +137,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Staff status change not implemented yet - database schema needed&quot;,
+        "Staff status change not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(
@@ -177,10 +177,10 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Skill addition not implemented yet - database schema needed&quot;,
+        "Skill addition not implemented yet - database schema needed",
       );
     } catch (error) {
-      console.error(&quot;Error adding skill to staff member:&quot;, error);
+      console.error("Error adding skill to staff member:", error);
       throw new Error(
         `Failed to add skill: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -197,7 +197,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Skill update not implemented yet - database schema needed&quot;,
+        "Skill update not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error updating skill with ID ${id}:`, error);
@@ -214,7 +214,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Skill removal not implemented yet - database schema needed&quot;,
+        "Skill removal not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error removing skill with ID ${id}:`, error);
@@ -253,10 +253,10 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Availability addition not implemented yet - database schema needed&quot;,
+        "Availability addition not implemented yet - database schema needed",
       );
     } catch (error) {
-      console.error(&quot;Error adding availability:&quot;, error);
+      console.error("Error adding availability:", error);
       throw new Error(
         `Failed to add availability: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -273,7 +273,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Availability update not implemented yet - database schema needed&quot;,
+        "Availability update not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error updating availability with ID ${id}:`, error);
@@ -290,7 +290,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Availability removal not implemented yet - database schema needed&quot;,
+        "Availability removal not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error removing availability with ID ${id}:`, error);
@@ -329,10 +329,10 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Time off request creation not implemented yet - database schema needed&quot;,
+        "Time off request creation not implemented yet - database schema needed",
       );
     } catch (error) {
-      console.error(&quot;Error creating time off request:&quot;, error);
+      console.error("Error creating time off request:", error);
       throw new Error(
         `Failed to create time off request: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -349,7 +349,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Time off request update not implemented yet - database schema needed&quot;,
+        "Time off request update not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error updating time off request with ID ${id}:`, error);
@@ -370,7 +370,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Time off request approval not implemented yet - database schema needed&quot;,
+        "Time off request approval not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error approving time off request with ID ${id}:`, error);
@@ -392,7 +392,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Time off request rejection not implemented yet - database schema needed&quot;,
+        "Time off request rejection not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error rejecting time off request with ID ${id}:`, error);
@@ -409,7 +409,7 @@ export class StaffRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        &quot;Time off request cancellation not implemented yet - database schema needed&quot;,
+        "Time off request cancellation not implemented yet - database schema needed",
       );
     } catch (error) {
       console.error(`Error cancelling time off request with ID ${id}:`, error);

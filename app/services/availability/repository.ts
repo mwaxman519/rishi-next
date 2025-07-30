@@ -1,16 +1,16 @@
 // Repository for availability data access
-import { db } from &quot;../../lib/db&quot;;
+import { db } from "../../lib/db";
 import {
   AvailabilityBlock,
   availabilityBlocks,
   InsertAvailabilityBlock,
-} from &quot;../../../shared/schema&quot;;
-import { sql, eq, and, or, ne } from &quot;drizzle-orm&quot;;
+} from "../../../shared/schema";
+import { sql, eq, and, or, ne } from "drizzle-orm";
 import {
   AvailabilityDTO,
   AvailabilityQueryOptions,
   AvailabilityConflict,
-} from &quot;./models&quot;;
+} from "./models";
 
 /**
  * AvailabilityRepository - Manages data access for availability blocks
@@ -23,10 +23,10 @@ export class AvailabilityRepository {
     return {
       id: block.id,
       userId: block.userId,
-      title: &quot;Available&quot;,
+      title: "Available",
       startDate: new Date(block.startDate),
       endDate: new Date(block.endDate),
-      status: block.status as &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;,
+      status: block.status as "available" | "unavailable" | "tentative",
       isRecurring: block.isRecurring || false,
       dayOfWeek: block.dayOfWeek !== null ? block.dayOfWeek : undefined,
       created_at: new Date(block.createdAt),
@@ -48,7 +48,7 @@ export class AvailabilityRepository {
     // Convert dates to standard format strings for cache key
     const start = startDate instanceof Date ? startDate : new Date(startDate);
     const end = endDate instanceof Date ? endDate : new Date(endDate);
-    const cacheKey = `${start.toISOString().split(&quot;T&quot;)[0]}-${end.toISOString().split(&quot;T&quot;)[0]}`;
+    const cacheKey = `${start.toISOString().split("T")[0]}-${end.toISOString().split("T")[0]}`;
 
     // Return cached result if available
     if (this.daysOfWeekCache[cacheKey]) {
@@ -73,7 +73,7 @@ export class AvailabilityRepository {
   async findAll(options: AvailabilityQueryOptions): Promise<AvailabilityDTO[]> {
     try {
       console.log(
-        &quot;🔍 [AvailabilityRepository.findAll] Starting query with options:&quot;,
+        "🔍 [AvailabilityRepository.findAll] Starting query with options:",
         JSON.stringify(options, (key, value) =>
           value instanceof Date ? value.toISOString() : value,
         ),
@@ -82,7 +82,7 @@ export class AvailabilityRepository {
       // Validate userId must be a number
       if (!options.userId || isNaN(options.userId)) {
         console.error(
-          &quot;❌ [AvailabilityRepository.findAll] Invalid userId:&quot;,
+          "❌ [AvailabilityRepository.findAll] Invalid userId:",
           options.userId,
         );
         return []; // Return empty array instead of throwing
@@ -91,14 +91,14 @@ export class AvailabilityRepository {
       // Handle potential database issues
       if (!db) {
         console.error(
-          &quot;❌ [AvailabilityRepository.findAll] Database instance is not available&quot;,
+          "❌ [AvailabilityRepository.findAll] Database instance is not available",
         );
         return []; // Return empty array rather than causing an error
       }
 
       // Removed database connection check for performance
       // We assume the database connection is working at this point
-      // since it&apos;s already checked at application startup
+      // since it's already checked at application startup
 
       // Apply filters
       const filters = [];
@@ -120,7 +120,7 @@ export class AvailabilityRepository {
 
         if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
           console.error(
-            &quot;❌ [AvailabilityRepository.findAll] Invalid date range:&quot;,
+            "❌ [AvailabilityRepository.findAll] Invalid date range:",
             options.startDate,
             options.endDate,
           );
@@ -135,7 +135,7 @@ export class AvailabilityRepository {
           );
 
           console.log(
-            `✅ [AvailabilityRepository.findAll] Days of week in range: ${daysOfWeekInRange.join(&quot;, &quot;)}`,
+            `✅ [AvailabilityRepository.findAll] Days of week in range: ${daysOfWeekInRange.join(", ")}`,
           );
 
           // Simplified filter strategy to prevent timeouts
@@ -148,7 +148,7 @@ export class AvailabilityRepository {
                 sql`${availabilityBlocks.end_date} >= ${startDate}`,
                 eq(availabilityBlocks.is_recurring, false),
               ),
-              // Include ALL recurring blocks with an expanded query to ensure we don&apos;t miss any patterns
+              // Include ALL recurring blocks with an expanded query to ensure we don't miss any patterns
               daysOfWeekInRange.length > 0
                 ? and(
                     eq(availabilityBlocks.is_recurring, true),
@@ -165,7 +165,7 @@ export class AvailabilityRepository {
           );
         } catch (dateError) {
           console.error(
-            &quot;❌ [AvailabilityRepository.findAll] Error processing date range:&quot;,
+            "❌ [AvailabilityRepository.findAll] Error processing date range:",
             dateError,
           );
           // Use a simpler filter if date processing fails
@@ -240,7 +240,7 @@ export class AvailabilityRepository {
 
         // Set a more generous timeout for the query (10 seconds)
         const timeoutPromise = new Promise<any[]>((_, reject) => {
-          setTimeout(() => reject(new Error(&quot;Database query timeout&quot;)), 10000);
+          setTimeout(() => reject(new Error("Database query timeout")), 10000);
         });
 
         // Track query execution time
@@ -261,14 +261,14 @@ export class AvailabilityRepository {
         );
       } catch (dbError) {
         console.error(
-          &quot;❌ [AvailabilityRepository.findAll] Database query error:&quot;,
+          "❌ [AvailabilityRepository.findAll] Database query error:",
           dbError,
         );
         return []; // Return empty array instead of throwing
       }
     } catch (error) {
       console.error(
-        &quot;❌ [AvailabilityRepository.findAll] Unhandled error:&quot;,
+        "❌ [AvailabilityRepository.findAll] Unhandled error:",
         error,
       );
       return []; // Return empty array instead of throwing to make the API more resilient
@@ -283,7 +283,7 @@ export class AvailabilityRepository {
         .where(eq(availabilityBlocks.id, id));
       return block ? this.mapToAvailabilityDTO(block) : null;
     } catch (error) {
-      console.error(&quot;Error in findById:&quot;, error);
+      console.error("Error in findById:", error);
       return null;
     }
   }
@@ -296,7 +296,7 @@ export class AvailabilityRepository {
         .returning();
       return this.mapToAvailabilityDTO(newBlock);
     } catch (error) {
-      console.error(&quot;Error in create:&quot;, error);
+      console.error("Error in create:", error);
       throw error;
     }
   }
@@ -313,7 +313,7 @@ export class AvailabilityRepository {
         .returning();
       return this.mapToAvailabilityDTO(updatedBlock);
     } catch (error) {
-      console.error(&quot;Error in update:&quot;, error);
+      console.error("Error in update:", error);
       return null;
     }
   }
@@ -326,7 +326,7 @@ export class AvailabilityRepository {
         .from(availabilityBlocks)
         .where(eq(availabilityBlocks.id, id));
 
-      // If block doesn&apos;t exist, just return true as it&apos;s already gone
+      // If block doesn't exist, just return true as it's already gone
       if (!block) {
         console.log(`Block ${id} not found, nothing to delete`);
         return true;
@@ -342,7 +342,7 @@ export class AvailabilityRepository {
         block.is_recurring === true &&
         block.recurrence_group !== null &&
         block.recurrence_group !== undefined &&
-        block.recurrence_group !== "&quot;;
+        block.recurrence_group !== "";
 
       // If this is not a recurring block, just delete it directly
       if (!isRecurringBlock) {
@@ -394,9 +394,9 @@ export class AvailabilityRepository {
       await db.delete(availabilityBlocks).where(eq(availabilityBlocks.id, id));
 
       // Step 4: Always update the recurrence count for recurring blocks with count-based recurrence
-      // Regardless of which occurrence is being deleted, we need to reduce the count since there&apos;s one less occurrence
+      // Regardless of which occurrence is being deleted, we need to reduce the count since there's one less occurrence
       if (
-        recurrenceEndType === &quot;count&quot; &&
+        recurrenceEndType === "count" &&
         recurrenceCount &&
         recurrenceCount > 1
       ) {
@@ -438,7 +438,7 @@ export class AvailabilityRepository {
 
       return true;
     } catch (error) {
-      console.error(&quot;❌ Error in delete:&quot;, error);
+      console.error("❌ Error in delete:", error);
       return false;
     }
   }
@@ -486,7 +486,7 @@ export class AvailabilityRepository {
         count: result.length,
       };
     } catch (error) {
-      console.error(&quot;Error in deleteSeries:&quot;, error);
+      console.error("Error in deleteSeries:", error);
       return { success: false, count: 0 };
     }
   }
@@ -499,7 +499,7 @@ export class AvailabilityRepository {
   ): Promise<AvailabilityConflict[]> {
     try {
       console.log(
-        `[AvailabilityRepository.findConflicts] Checking conflicts for userId=${userId}, startDate=${startDate}, endDate=${endDate}, excludeBlockId=${excludeBlockId || &quot;none&quot;}`,
+        `[AvailabilityRepository.findConflicts] Checking conflicts for userId=${userId}, startDate=${startDate}, endDate=${endDate}, excludeBlockId=${excludeBlockId || "none"}`,
       );
 
       // Validate inputs
@@ -512,13 +512,13 @@ export class AvailabilityRepository {
 
       // Convert string dates to Date objects and normalize to UTC
       const startDateObj = new Date(
-        typeof startDate === &quot;string&quot; ? startDate : startDate.toISOString(),
+        typeof startDate === "string" ? startDate : startDate.toISOString(),
       );
       const endDateObj = new Date(
-        typeof endDate === &quot;string&quot; ? endDate : endDate.toISOString(),
+        typeof endDate === "string" ? endDate : endDate.toISOString(),
       );
 
-      // Check if we&apos;re dealing with a recurring event
+      // Check if we're dealing with a recurring event
       const baseFilters = [
         eq(availabilityBlocks.user_id, userId),
         or(
@@ -588,14 +588,14 @@ export class AvailabilityRepository {
         );
 
         return conflictingBlocks.map((block: AvailabilityBlock) => {
-          let conflictType: &quot;overlap&quot; | &quot;adjacent&quot; | &quot;contained&quot; = &quot;overlap&quot;;
+          let conflictType: "overlap" | "adjacent" | "contained" = "overlap";
 
           const blockStart = new Date(block.start_date);
           const blockEnd = new Date(block.end_date);
 
           // Check if new block is entirely contained within existing block
           if (startDateObj >= blockStart && endDateObj <= blockEnd) {
-            conflictType = &quot;contained&quot;;
+            conflictType = "contained";
           }
           // Check if blocks are adjacent (might want to allow this)
           else if (
@@ -604,7 +604,7 @@ export class AvailabilityRepository {
             Math.abs(new Date(endDateObj).getTime() - blockStart.getTime()) <
               1000
           ) {
-            conflictType = &quot;adjacent&quot;;
+            conflictType = "adjacent";
           }
 
           const dto = this.mapToAvailabilityDTO(block);
@@ -615,14 +615,14 @@ export class AvailabilityRepository {
         });
       } catch (dbError) {
         console.error(
-          &quot;[AvailabilityRepository.findConflicts] Database error:&quot;,
+          "[AvailabilityRepository.findConflicts] Database error:",
           dbError,
         );
         return []; // Return empty array instead of throwing
       }
     } catch (error) {
       console.error(
-        &quot;[AvailabilityRepository.findConflicts] Unhandled error:",
+        "[AvailabilityRepository.findConflicts] Unhandled error:",
         error,
       );
       return []; // Return empty array instead of throwing to make the API more resilient

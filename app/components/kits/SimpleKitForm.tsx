@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
-import { useCreateKit, useKitTemplates } from &quot;@/hooks/useKits&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
+import { useCreateKit, useKitTemplates } from "@/hooks/useKits";
+import { useToast } from "@/hooks/use-toast";
 
 interface SimpleKitFormProps {
   onSuccess: () => void;
@@ -15,13 +15,13 @@ export default function SimpleKitForm({ onSuccess }: SimpleKitFormProps) {
   const createMutation = useCreateKit();
 
   const [formData, setFormData] = useState({
-    serialNumber: "&quot;,
+    serialNumber: "",
     templateId: 0,
     brandRegionId: 1,
-    status: &quot;Ready&quot;,
+    status: "Ready",
     components: {},
-    notes: &quot;&quot;,
-    assignedDate: new Date().toISOString().split(&quot;T&quot;)[0],
+    notes: "",
+    assignedDate: new Date().toISOString().split("T")[0],
   });
 
   useEffect(() => {
@@ -53,61 +53,61 @@ export default function SimpleKitForm({ onSuccess }: SimpleKitFormProps) {
       await createMutation.mutateAsync(formData);
 
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Kit created successfully&quot;,
+        title: "Success",
+        description: "Kit created successfully",
       });
 
       // Reset form
       setFormData({
-        serialNumber: &quot;&quot;,
+        serialNumber: "",
         templateId: 0,
         brandRegionId: 1,
-        status: &quot;Ready&quot;,
+        status: "Ready",
         components: {},
-        notes: &quot;&quot;,
-        assignedDate: new Date().toISOString().split(&quot;T&quot;)[0],
+        notes: "",
+        assignedDate: new Date().toISOString().split("T")[0],
       });
 
       // Notify parent of success
       onSuccess();
     } catch (error) {
-      console.error(&quot;Error creating kit:&quot;, error);
+      console.error("Error creating kit:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to create kit. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to create kit. Please try again.",
+        variant: "destructive",
       });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
-      <div className=&quot;space-y-2&quot;>
-        <label htmlFor=&quot;serialNumber&quot; className=&quot;text-sm font-medium&quot;>
-          Serial Number <span className=&quot;text-red-500&quot;>*</span>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <label htmlFor="serialNumber" className="text-sm font-medium">
+          Serial Number <span className="text-red-500">*</span>
         </label>
         <input
-          id=&quot;serialNumber&quot;
-          name=&quot;serialNumber&quot;
-          type=&quot;text&quot;
+          id="serialNumber"
+          name="serialNumber"
+          type="text"
           required
           minLength={3}
-          placeholder=&quot;Enter kit serial number&quot;
-          className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md&quot;
+          placeholder="Enter kit serial number"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md"
           value={formData.serialNumber}
           onChange={handleChange}
         />
       </div>
 
-      <div className=&quot;space-y-2&quot;>
-        <label htmlFor=&quot;templateId&quot; className=&quot;text-sm font-medium&quot;>
-          Template <span className=&quot;text-red-500&quot;>*</span>
+      <div className="space-y-2">
+        <label htmlFor="templateId" className="text-sm font-medium">
+          Template <span className="text-red-500">*</span>
         </label>
         <select
-          id=&quot;templateId&quot;
-          name=&quot;templateId&quot;
+          id="templateId"
+          name="templateId"
           required
-          className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md&quot;
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md"
           value={formData.templateId}
           onChange={handleNumberChange}
           disabled={templatesLoading}
@@ -124,83 +124,83 @@ export default function SimpleKitForm({ onSuccess }: SimpleKitFormProps) {
             <option disabled>No templates available</option>
           )}
         </select>
-        <p className=&quot;text-xs text-gray-500&quot;>
+        <p className="text-xs text-gray-500">
           Select the template to use for this kit
         </p>
       </div>
 
-      <div className=&quot;space-y-2&quot;>
-        <label htmlFor=&quot;brandRegionId&quot; className=&quot;text-sm font-medium&quot;>
-          Brand/Region ID <span className=&quot;text-red-500&quot;>*</span>
+      <div className="space-y-2">
+        <label htmlFor="brandRegionId" className="text-sm font-medium">
+          Brand/Region ID <span className="text-red-500">*</span>
         </label>
         <input
-          id=&quot;brandRegionId&quot;
-          name=&quot;brandRegionId&quot;
-          type=&quot;number&quot;
-          min=&quot;1&quot;
+          id="brandRegionId"
+          name="brandRegionId"
+          type="number"
+          min="1"
           required
-          className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md&quot;
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md"
           value={formData.brandRegionId}
           onChange={handleNumberChange}
         />
-        <p className=&quot;text-xs text-gray-500&quot;>
+        <p className="text-xs text-gray-500">
           Assign this kit to a brand/region
         </p>
       </div>
 
-      <div className=&quot;space-y-2&quot;>
-        <label htmlFor=&quot;status&quot; className=&quot;text-sm font-medium&quot;>
-          Status <span className=&quot;text-red-500&quot;>*</span>
+      <div className="space-y-2">
+        <label htmlFor="status" className="text-sm font-medium">
+          Status <span className="text-red-500">*</span>
         </label>
         <select
-          id=&quot;status&quot;
-          name=&quot;status&quot;
+          id="status"
+          name="status"
           required
-          className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md&quot;
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md"
           value={formData.status}
           onChange={handleChange}
         >
-          <option value=&quot;Ready&quot;>Ready</option>
-          <option value=&quot;Deployed&quot;>Deployed</option>
-          <option value=&quot;In Transit&quot;>In Transit</option>
-          <option value=&quot;Maintenance&quot;>Maintenance</option>
+          <option value="Ready">Ready</option>
+          <option value="Deployed">Deployed</option>
+          <option value="In Transit">In Transit</option>
+          <option value="Maintenance">Maintenance</option>
         </select>
       </div>
 
-      <div className=&quot;space-y-2&quot;>
-        <label htmlFor=&quot;notes&quot; className=&quot;text-sm font-medium&quot;>
+      <div className="space-y-2">
+        <label htmlFor="notes" className="text-sm font-medium">
           Notes
         </label>
         <textarea
-          id=&quot;notes&quot;
-          name=&quot;notes&quot;
-          placeholder=&quot;Enter notes for this kit&quot;
-          className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md resize-none min-h-[80px]&quot;
-          value={formData.notes || &quot;&quot;}
+          id="notes"
+          name="notes"
+          placeholder="Enter notes for this kit"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md resize-none min-h-[80px]"
+          value={formData.notes || ""}
           onChange={handleChange}
         />
       </div>
 
-      <div className=&quot;flex justify-end space-x-3 pt-3&quot;>
+      <div className="flex justify-end space-x-3 pt-3">
         <button
-          type=&quot;button&quot;
-          className=&quot;px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700&quot;
+          type="button"
+          className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
           onClick={onSuccess}
         >
           Cancel
         </button>
         <button
-          type=&quot;submit&quot;
+          type="submit"
           disabled={createMutation.isPending}
-          className=&quot;px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 flex items-center&quot;
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 flex items-center"
         >
           {createMutation.isPending ? (
             <>
-              <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Creating...
             </>
           ) : (
-            &quot;Create Kit"
+            "Create Kit"
           )}
         </button>
       </div>

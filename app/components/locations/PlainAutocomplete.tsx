@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useRef, useState, useEffect } from &quot;react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useRef, useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Loader2, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface AddressData {
   formatted_address: string;
@@ -22,9 +22,9 @@ interface Props {
 
 export default function PlainAutocomplete({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: Props) {
-  const [address, setAddress] = useState(&quot;&quot;);
+  const [address, setAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -34,9 +34,9 @@ export default function PlainAutocomplete({
 
     if (!address.trim()) {
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Please enter an address&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Please enter an address",
+        variant: "destructive",
       });
       return;
     }
@@ -46,7 +46,7 @@ export default function PlainAutocomplete({
     try {
       // Create a geocoder to convert address to coordinates
       if (!window.google?.maps?.Geocoder) {
-        throw new Error(&quot;Google Maps Geocoder not available&quot;);
+        throw new Error("Google Maps Geocoder not available");
       }
 
       const geocoder = new window.google.maps.Geocoder();
@@ -69,28 +69,28 @@ export default function PlainAutocomplete({
               address_components: result.address_components || [],
               latitude: location.lat(),
               longitude: location.lng(),
-              place_id: result.place_id || &quot;&quot;,
+              place_id: result.place_id || "",
               name: address,
             };
 
-            console.log(&quot;Got location data from manual entry:&quot;, addressData);
+            console.log("Got location data from manual entry:", addressData);
             onAddressSelect(addressData);
           } else {
             toast({
-              title: &quot;Error&quot;,
-              description: &quot;Could not find coordinates for the entered address&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Error",
+              description: "Could not find coordinates for the entered address",
+              variant: "destructive",
             });
           }
         },
       );
     } catch (error) {
-      console.error(&quot;Error geocoding address:&quot;, error);
+      console.error("Error geocoding address:", error);
       setIsLoading(false);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to process the address&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to process the address",
+        variant: "destructive",
       });
     }
   };
@@ -103,7 +103,7 @@ export default function PlainAutocomplete({
   useEffect(() => {
     // Define window.initMap callback
     window.initMap = function () {
-      console.log(&quot;Google Maps API loaded&quot;);
+      console.log("Google Maps API loaded");
 
       // Set up autocomplete if input element exists
       if (inputRef.current && window.google?.maps?.places) {
@@ -112,12 +112,12 @@ export default function PlainAutocomplete({
           autocompleteRef.current = new window.google.maps.places.Autocomplete(
             inputRef.current,
             {
-              types: [&quot;address&quot;], // Only use address type to avoid mixing errors
+              types: ["address"], // Only use address type to avoid mixing errors
             },
           );
 
           // Add place_changed listener
-          autocompleteRef.current.addListener(&quot;place_changed&quot;, () => {
+          autocompleteRef.current.addListener("place_changed", () => {
             const place = autocompleteRef.current.getPlace();
 
             if (!place.geometry) {
@@ -134,7 +134,7 @@ export default function PlainAutocomplete({
               address_components: place.address_components || [],
               latitude: location.lat(),
               longitude: location.lng(),
-              place_id: place.place_id || &quot;&quot;,
+              place_id: place.place_id || "",
               name: place.name || address,
             };
 
@@ -144,7 +144,7 @@ export default function PlainAutocomplete({
             }
 
             // Call the callback
-            console.log(&quot;Autocomplete selected location:&quot;, addressData);
+            console.log("Autocomplete selected location:", addressData);
 
             // Use setTimeout to ensure this runs after React's state updates
             setTimeout(() => {
@@ -152,14 +152,14 @@ export default function PlainAutocomplete({
             }, 0);
           });
         } catch (error) {
-          console.error(&quot;Error setting up Google autocomplete:&quot;, error);
+          console.error("Error setting up Google autocomplete:", error);
         }
       }
     };
 
     // Load Google Maps script if not loaded
     if (!window.google) {
-      const script = document.createElement(&quot;script&quot;);
+      const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PPMg1ZVIB8ih7JIsTVahbPzlAhwJ70Q&libraries=places&callback=initMap&v=weekly`;
       script.async = true;
       script.defer = true;
@@ -182,22 +182,22 @@ export default function PlainAutocomplete({
 
   return (
     <div className={className}>
-      <form onSubmit={handleSubmit} className=&quot;relative&quot;>
-        <div className=&quot;relative&quot;>
-          <Search className=&quot;absolute left-2.5 top-[14px] h-4 w-4 text-muted-foreground&quot; />
+      <form onSubmit={handleSubmit} className="relative">
+        <div className="relative">
+          <Search className="absolute left-2.5 top-[14px] h-4 w-4 text-muted-foreground" />
           <Input
             ref={inputRef}
-            type=&quot;text&quot;
+            type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder=&quot;Enter an address...&quot;
-            className=&quot;pl-9 pr-24 h-12&quot;
+            placeholder="Enter an address..."
+            className="pl-9 pr-24 h-12"
             disabled={isLoading}
           />
-          <div className=&quot;absolute right-1 top-1&quot;>
-            <Button type=&quot;submit&quot; size=&quot;sm&quot; disabled={isLoading}>
+          <div className="absolute right-1 top-1">
+            <Button type="submit" size="sm" disabled={isLoading}>
               {isLoading ? (
-                <Loader2 className=&quot;h-4 w-4 animate-spin mr-2" />
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
               ) : null}
               Search
             </Button>

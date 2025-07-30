@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useRef, useState } from &quot;react&quot;;
-import { Loader } from &quot;@googlemaps/js-api-loader&quot;;
+import { useEffect, useRef, useState } from "react";
+import { Loader } from "@googlemaps/js-api-loader";
 
 export interface MapLocation {
   id: string;
@@ -46,18 +46,18 @@ export function GoogleMapComponent({
   useEffect(() => {
     if (!mapRef.current || isLoaded) return;
 
-    console.log(&quot;Loading Google Maps API...&quot;);
+    console.log("Loading Google Maps API...");
 
     const loader = new Loader({
       apiKey,
-      version: &quot;weekly&quot;,
-      libraries: [&quot;places&quot;, &quot;marker&quot;],
+      version: "weekly",
+      libraries: ["places", "marker"],
     });
 
     loader
       .load()
       .then(() => {
-        console.log(&quot;Google Maps API loaded&quot;);
+        console.log("Google Maps API loaded");
         setIsLoaded(true);
 
         if (mapRef.current) {
@@ -65,7 +65,7 @@ export function GoogleMapComponent({
           const map = new google.maps.Map(mapRef.current, {
             center: { lat: 39.8282, lng: -98.5795 }, // Default center (US)
             zoom: 4,
-            mapId: &quot;DEMO_MAP_ID&quot;,
+            mapId: "DEMO_MAP_ID",
             streetViewControl: false,
             mapTypeControl: false,
             fullscreenControl: true,
@@ -79,7 +79,7 @@ export function GoogleMapComponent({
         }
       })
       .catch((err) => {
-        console.error(&quot;Error loading Google Maps:&quot;, err);
+        console.error("Error loading Google Maps:", err);
       });
 
     return () => {
@@ -109,8 +109,8 @@ export function GoogleMapComponent({
   // Function to validate coordinates
   const isValidCoordinate = (lat?: number, lng?: number): boolean => {
     return (
-      typeof lat === &quot;number&quot; &&
-      typeof lng === &quot;number&quot; &&
+      typeof lat === "number" &&
+      typeof lng === "number" &&
       !isNaN(lat) &&
       !isNaN(lng) &&
       lat >= -90 &&
@@ -124,7 +124,7 @@ export function GoogleMapComponent({
   useEffect(() => {
     if (!mapInstance || !isLoaded) return;
 
-    console.log(&quot;Adding markers to map&quot;);
+    console.log("Adding markers to map");
 
     // First close any open info windows
     if (infoWindowRef.current) {
@@ -149,16 +149,16 @@ export function GoogleMapComponent({
     // Add markers for each location
     locations.forEach((location) => {
       if (!isValidCoordinate(location.latitude, location.longitude)) {
-        console.warn(&quot;Invalid coordinates for location:&quot;, location.name);
+        console.warn("Invalid coordinates for location:", location.name);
         return;
       }
 
       try {
         // Create marker element
-        const markerElement = document.createElement(&quot;div&quot;);
-        markerElement.className = &quot;marker-pin&quot;;
+        const markerElement = document.createElement("div");
+        markerElement.className = "marker-pin";
         markerElement.innerHTML = `
-          <div style=&quot;
+          <div style="
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -168,7 +168,7 @@ export function GoogleMapComponent({
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-          &quot;></div>
+          "></div>
         `;
 
         // Create advanced marker
@@ -183,7 +183,7 @@ export function GoogleMapComponent({
         });
 
         // Add click handler
-        marker.addListener(&quot;click&quot;, () => {
+        marker.addListener("click", () => {
           if (onMarkerClick) {
             onMarkerClick(location.id);
           } else {
@@ -196,14 +196,14 @@ export function GoogleMapComponent({
         newMarkers.push(marker);
       } catch (error) {
         console.error(
-          &quot;Error creating marker for location:&quot;,
+          "Error creating marker for location:",
           location.name,
           error,
         );
       }
     });
 
-    // If there&apos;s a selected location, center on it
+    // If there's a selected location, center on it
     if (selectedLocationId) {
       centerOnLocation(selectedLocationId);
     }
@@ -257,9 +257,9 @@ export function GoogleMapComponent({
 
     // Create content
     const content = `
-      <div class=&quot;p-2 max-w-[250px]&quot;>
-        <h3 class=&quot;font-medium text-sm&quot;>${location.name}</h3>
-        <p class=&quot;text-xs text-gray-600&quot;>${location.address}</p>
+      <div class="p-2 max-w-[250px]">
+        <h3 class="font-medium text-sm">${location.name}</h3>
+        <p class="text-xs text-gray-600">${location.address}</p>
       </div>
     `;
 
@@ -280,11 +280,11 @@ export function GoogleMapComponent({
       !location ||
       !isValidCoordinate(location.latitude, location.longitude)
     ) {
-      console.warn(&quot;Cannot center on location - invalid ID or coordinates&quot;);
+      console.warn("Cannot center on location - invalid ID or coordinates");
       return;
     }
 
-    console.log(&quot;Centering on location:&quot;, location.name);
+    console.log("Centering on location:", location.name);
 
     // Center and zoom
     mapInstance.setCenter({
@@ -321,7 +321,7 @@ export function GoogleMapComponent({
       mapInstance.fitBounds(bounds);
 
       // Adjust zoom level
-      google.maps.event.addListenerOnce(mapInstance, &quot;bounds_changed&quot;, () => {
+      google.maps.event.addListenerOnce(mapInstance, "bounds_changed", () => {
         if (mapInstance) {
           const zoom = mapInstance.getZoom();
           if (zoom !== undefined && zoom > 15) {
@@ -334,31 +334,31 @@ export function GoogleMapComponent({
 
   // Get marker color based on location state or type
   const getMarkerColor = (location: MapLocation): string => {
-    if (!location.state && !location.locationType) return &quot;#3b82f6&quot;; // Default blue
+    if (!location.state && !location.locationType) return "#3b82f6"; // Default blue
 
     // Color by state
     const stateColors: { [key: string]: string } = {
-      CA: &quot;#ef4444&quot;, // Red
-      NY: &quot;#3b82f6&quot;, // Blue
-      TX: &quot;#22c55e&quot;, // Green
-      FL: &quot;#f59e0b&quot;, // Amber
-      IL: &quot;#8b5cf6&quot;, // Purple
-      PA: &quot;#ec4899&quot;, // Pink
-      OH: &quot;#06b6d4&quot;, // Cyan
-      GA: &quot;#f97316&quot;, // Orange
-      NC: &quot;#8b5cf6&quot;, // Purple
-      MI: &quot;#06b6d4&quot;, // Cyan
+      CA: "#ef4444", // Red
+      NY: "#3b82f6", // Blue
+      TX: "#22c55e", // Green
+      FL: "#f59e0b", // Amber
+      IL: "#8b5cf6", // Purple
+      PA: "#ec4899", // Pink
+      OH: "#06b6d4", // Cyan
+      GA: "#f97316", // Orange
+      NC: "#8b5cf6", // Purple
+      MI: "#06b6d4", // Cyan
     };
 
     // Color by location type
     const typeColors: { [key: string]: string } = {
-      business: &quot;#3b82f6&quot;, // Blue
-      venue: &quot;#8b5cf6&quot;, // Purple
-      office: &quot;#22c55e&quot;, // Green
-      warehouse: &quot;#f59e0b&quot;, // Amber
-      retail: &quot;#ec4899&quot;, // Pink
-      restaurant: &quot;#06b6d4&quot;, // Cyan
-      landmark: &quot;#f97316&quot;, // Orange
+      business: "#3b82f6", // Blue
+      venue: "#8b5cf6", // Purple
+      office: "#22c55e", // Green
+      warehouse: "#f59e0b", // Amber
+      retail: "#ec4899", // Pink
+      restaurant: "#06b6d4", // Cyan
+      landmark: "#f97316", // Orange
     };
 
     // Prioritize state colors
@@ -368,27 +368,27 @@ export function GoogleMapComponent({
 
     // Fall back to type colors
     if (location.locationType) {
-      const type = location.locationType.toLowerCase().replace(&quot;_&quot;, "&quot;);
+      const type = location.locationType.toLowerCase().replace("_", "");
       if (type in typeColors) {
         return typeColors[type];
       }
     }
 
-    return &quot;#3b82f6&quot;; // Default blue
+    return "#3b82f6"; // Default blue
   };
 
   return (
     <div
       ref={mapRef}
       style={{
-        width: &quot;100%&quot;,
+        width: "100%",
         height: `${height}px`,
-        borderRadius: &quot;0.375rem&quot;,
+        borderRadius: "0.375rem",
       }}
-      className=&quot;bg-gray-900&quot;
+      className="bg-gray-900"
     >
       {!isLoaded && (
-        <div className=&quot;flex items-center justify-center h-full w-full text-gray-400">
+        <div className="flex items-center justify-center h-full w-full text-gray-400">
           Loading map...
         </div>
       )}

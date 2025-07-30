@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { cookies } from &quot;next/headers&quot;;
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,25 +13,25 @@ export async function POST(request: NextRequest) {
     // Create response
     const response = NextResponse.json({ 
       success: true, 
-      message: &quot;Logged out successfully&quot; 
+      message: "Logged out successfully" 
     });
 
     // Clear the auth token cookie
-    response.cookies.set(&quot;auth-token&quot;, "&quot;, {
+    response.cookies.set("auth-token", "", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === &quot;production&quot;,
-      sameSite: &quot;lax&quot;,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       maxAge: 0, // Expire immediately
-      path: &quot;/&quot;,
+      path: "/",
     });
 
     return response;
   } catch (error) {
-    console.error(&quot;Error during logout:&quot;, error);
+    console.error("Error during logout:", error);
     return NextResponse.json(
       { 
         success: false, 
-        error: &quot;Failed to logout" 
+        error: "Failed to logout" 
       },
       { status: 500 }
     );

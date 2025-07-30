@@ -1,18 +1,18 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -21,16 +21,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from &quot;@/components/ui/dialog&quot;;
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,10 +41,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from &quot;@/components/ui/alert-dialog&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { ScrollArea } from &quot;@/components/ui/scroll-area&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/alert-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
 import {
   Plus,
   Edit2,
@@ -58,7 +58,7 @@ import {
   Eye,
   UserPlus,
   Download,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 interface Role {
   id: string;
@@ -103,146 +103,146 @@ interface CreateRoleForm {
 
 const systemRoles: Role[] = [
   {
-    id: &quot;super_admin&quot;,
-    name: &quot;super_admin&quot;,
-    displayName: &quot;Super Admin&quot;,
-    description: &quot;Full system access with all administrative privileges&quot;,
+    id: "super_admin",
+    name: "super_admin",
+    displayName: "Super Admin",
+    description: "Full system access with all administrative privileges",
     level: 100,
     isSystemRole: true,
-    permissions: [&quot;all&quot;],
-    defaultPermissions: [&quot;all&quot;],
+    permissions: ["all"],
+    defaultPermissions: ["all"],
     userCount: 3,
     isActive: true,
     autoAssignPermissions: true,
-    createdAt: &quot;2024-01-01T00:00:00Z&quot;,
+    createdAt: "2024-01-01T00:00:00Z",
   },
   {
-    id: &quot;organization_admin&quot;,
-    name: &quot;organization_admin&quot;,
-    displayName: &quot;Organization Admin&quot;,
-    description: &quot;Administrative access within specific organizations&quot;,
+    id: "organization_admin",
+    name: "organization_admin",
+    displayName: "Organization Admin",
+    description: "Administrative access within specific organizations",
     level: 80,
     isSystemRole: true,
-    permissions: [&quot;org_admin&quot;, &quot;user_management&quot;, &quot;event_management&quot;],
+    permissions: ["org_admin", "user_management", "event_management"],
     defaultPermissions: [
-      &quot;org_admin&quot;,
-      &quot;user_management&quot;,
-      &quot;event_management&quot;,
-      &quot;reporting&quot;,
+      "org_admin",
+      "user_management",
+      "event_management",
+      "reporting",
     ],
     userCount: 12,
     isActive: true,
     autoAssignPermissions: true,
-    createdAt: &quot;2024-01-01T00:00:00Z&quot;,
+    createdAt: "2024-01-01T00:00:00Z",
   },
   {
-    id: &quot;internal_field_manager&quot;,
-    name: &quot;internal_field_manager&quot;,
-    displayName: &quot;Internal Field Manager&quot;,
-    description: &quot;Manages field operations and staff assignments&quot;,
+    id: "internal_field_manager",
+    name: "internal_field_manager",
+    displayName: "Internal Field Manager",
+    description: "Manages field operations and staff assignments",
     level: 60,
     isSystemRole: true,
-    permissions: [&quot;field_management&quot;, &quot;staff_assignment&quot;, &quot;event_coordination&quot;],
+    permissions: ["field_management", "staff_assignment", "event_coordination"],
     defaultPermissions: [
-      &quot;field_management&quot;,
-      &quot;staff_assignment&quot;,
-      &quot;event_coordination&quot;,
-      &quot;location_management&quot;,
-      &quot;kit_management&quot;,
+      "field_management",
+      "staff_assignment",
+      "event_coordination",
+      "location_management",
+      "kit_management",
     ],
     userCount: 28,
     isActive: true,
     autoAssignPermissions: true,
-    createdAt: &quot;2024-01-01T00:00:00Z&quot;,
+    createdAt: "2024-01-01T00:00:00Z",
   },
   {
-    id: &quot;brand_agent&quot;,
-    name: &quot;brand_agent&quot;,
-    displayName: &quot;Brand Agent&quot;,
-    description: &quot;Represents brand interests in field operations&quot;,
+    id: "brand_agent",
+    name: "brand_agent",
+    displayName: "Brand Agent",
+    description: "Represents brand interests in field operations",
     level: 40,
     isSystemRole: true,
-    permissions: [&quot;brand_events&quot;, &quot;reporting&quot;],
-    defaultPermissions: [&quot;brand_events&quot;, &quot;reporting&quot;],
+    permissions: ["brand_events", "reporting"],
+    defaultPermissions: ["brand_events", "reporting"],
     userCount: 156,
     isActive: true,
     autoAssignPermissions: true,
-    createdAt: &quot;2024-01-01T00:00:00Z&quot;,
+    createdAt: "2024-01-01T00:00:00Z",
   },
 ];
 
 const availablePermissions: Permission[] = [
   {
-    id: &quot;all&quot;,
-    name: &quot;all&quot;,
-    category: &quot;System&quot;,
-    description: &quot;Full system access&quot;,
+    id: "all",
+    name: "all",
+    category: "System",
+    description: "Full system access",
   },
   {
-    id: &quot;org_admin&quot;,
-    name: &quot;org_admin&quot;,
-    category: &quot;Organization&quot;,
-    description: &quot;Organization administration&quot;,
+    id: "org_admin",
+    name: "org_admin",
+    category: "Organization",
+    description: "Organization administration",
   },
   {
-    id: &quot;user_management&quot;,
-    name: &quot;user_management&quot;,
-    category: &quot;Users&quot;,
-    description: &quot;Manage users and roles&quot;,
+    id: "user_management",
+    name: "user_management",
+    category: "Users",
+    description: "Manage users and roles",
   },
   {
-    id: &quot;event_management&quot;,
-    name: &quot;event_management&quot;,
-    category: &quot;Events&quot;,
-    description: &quot;Create and manage events&quot;,
+    id: "event_management",
+    name: "event_management",
+    category: "Events",
+    description: "Create and manage events",
   },
   {
-    id: &quot;field_management&quot;,
-    name: &quot;field_management&quot;,
-    category: &quot;Operations&quot;,
-    description: &quot;Manage field operations&quot;,
+    id: "field_management",
+    name: "field_management",
+    category: "Operations",
+    description: "Manage field operations",
   },
   {
-    id: &quot;staff_assignment&quot;,
-    name: &quot;staff_assignment&quot;,
-    category: &quot;Operations&quot;,
-    description: &quot;Assign staff to events&quot;,
+    id: "staff_assignment",
+    name: "staff_assignment",
+    category: "Operations",
+    description: "Assign staff to events",
   },
   {
-    id: &quot;event_coordination&quot;,
-    name: &quot;event_coordination&quot;,
-    category: &quot;Events&quot;,
-    description: &quot;Coordinate event logistics&quot;,
+    id: "event_coordination",
+    name: "event_coordination",
+    category: "Events",
+    description: "Coordinate event logistics",
   },
   {
-    id: &quot;brand_events&quot;,
-    name: &quot;brand_events&quot;,
-    category: &quot;Brand&quot;,
-    description: &quot;Manage brand-specific events&quot;,
+    id: "brand_events",
+    name: "brand_events",
+    category: "Brand",
+    description: "Manage brand-specific events",
   },
   {
-    id: &quot;reporting&quot;,
-    name: &quot;reporting&quot;,
-    category: &quot;Analytics&quot;,
-    description: &quot;View and generate reports&quot;,
+    id: "reporting",
+    name: "reporting",
+    category: "Analytics",
+    description: "View and generate reports",
   },
   {
-    id: &quot;location_management&quot;,
-    name: &quot;location_management&quot;,
-    category: &quot;Operations&quot;,
-    description: &quot;Manage locations and venues&quot;,
+    id: "location_management",
+    name: "location_management",
+    category: "Operations",
+    description: "Manage locations and venues",
   },
   {
-    id: &quot;kit_management&quot;,
-    name: &quot;kit_management&quot;,
-    category: &quot;Operations&quot;,
-    description: &quot;Manage event kits and inventory&quot;,
+    id: "kit_management",
+    name: "kit_management",
+    category: "Operations",
+    description: "Manage event kits and inventory",
   },
   {
-    id: &quot;billing_access&quot;,
-    name: &quot;billing_access&quot;,
-    category: &quot;Financial&quot;,
-    description: &quot;Access billing and payments&quot;,
+    id: "billing_access",
+    name: "billing_access",
+    category: "Financial",
+    description: "Access billing and payments",
   },
 ];
 
@@ -250,9 +250,9 @@ export default function RolesManagement() {
   const { toast } = useToast();
   const [roles, setRoles] = useState<Role[]>(systemRoles);
   const [filteredRoles, setFilteredRoles] = useState<Role[]>(systemRoles);
-  const [searchTerm, setSearchTerm] = useState("&quot;);
-  const [levelFilter, setLevelFilter] = useState<string>(&quot;all&quot;);
-  const [typeFilter, setTypeFilter] = useState<string>(&quot;all&quot;);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [levelFilter, setLevelFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
 
   // Dialog states
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -263,9 +263,9 @@ export default function RolesManagement() {
 
   // Form states
   const [createForm, setCreateForm] = useState<CreateRoleForm>({
-    name: &quot;&quot;,
-    displayName: &quot;&quot;,
-    description: &quot;&quot;,
+    name: "",
+    displayName: "",
+    description: "",
     level: 50,
     permissions: [],
     defaultPermissions: [],
@@ -284,16 +284,16 @@ export default function RolesManagement() {
       );
     }
 
-    if (levelFilter !== &quot;all&quot;) {
+    if (levelFilter !== "all") {
       filtered = filtered.filter((role) => {
         switch (levelFilter) {
-          case &quot;critical&quot;:
+          case "critical":
             return role.level >= 90;
-          case &quot;high&quot;:
+          case "high":
             return role.level >= 70 && role.level < 90;
-          case &quot;moderate&quot;:
+          case "moderate":
             return role.level >= 50 && role.level < 70;
-          case &quot;standard&quot;:
+          case "standard":
             return role.level < 50;
           default:
             return true;
@@ -301,9 +301,9 @@ export default function RolesManagement() {
       });
     }
 
-    if (typeFilter !== &quot;all&quot;) {
+    if (typeFilter !== "all") {
       filtered = filtered.filter((role) =>
-        typeFilter === &quot;system&quot; ? role.isSystemRole : !role.isSystemRole,
+        typeFilter === "system" ? role.isSystemRole : !role.isSystemRole,
       );
     }
 
@@ -313,16 +313,16 @@ export default function RolesManagement() {
   const handleCreateRole = () => {
     if (!createForm.name || !createForm.displayName) {
       toast({
-        title: &quot;Validation Error&quot;,
-        description: &quot;Role name and display name are required&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Validation Error",
+        description: "Role name and display name are required",
+        variant: "destructive",
       });
       return;
     }
 
     const newRole: Role = {
-      id: createForm.name.toLowerCase().replace(/\s+/g, &quot;_&quot;),
-      name: createForm.name.toLowerCase().replace(/\s+/g, &quot;_&quot;),
+      id: createForm.name.toLowerCase().replace(/\s+/g, "_"),
+      name: createForm.name.toLowerCase().replace(/\s+/g, "_"),
       displayName: createForm.displayName,
       description: createForm.description,
       level: createForm.level,
@@ -337,9 +337,9 @@ export default function RolesManagement() {
 
     setRoles([...roles, newRole]);
     setCreateForm({
-      name: &quot;&quot;,
-      displayName: &quot;&quot;,
-      description: &quot;&quot;,
+      name: "",
+      displayName: "",
+      description: "",
       level: 50,
       permissions: [],
       defaultPermissions: [],
@@ -348,7 +348,7 @@ export default function RolesManagement() {
     setIsCreateDialogOpen(false);
 
     toast({
-      title: &quot;Role Created&quot;,
+      title: "Role Created",
       description: `${newRole.displayName} role has been created successfully`,
     });
   };
@@ -386,7 +386,7 @@ export default function RolesManagement() {
     setSelectedRole(null);
 
     toast({
-      title: &quot;Role Updated&quot;,
+      title: "Role Updated",
       description: `${updatedRole.displayName} role has been updated successfully`,
     });
   };
@@ -398,7 +398,7 @@ export default function RolesManagement() {
     setRoles(roles.filter((r) => r.id !== roleId));
 
     toast({
-      title: &quot;Role Deleted&quot;,
+      title: "Role Deleted",
       description: `${role.displayName} role has been deleted successfully`,
     });
   };
@@ -417,7 +417,7 @@ export default function RolesManagement() {
     setRoles([...roles, duplicatedRole]);
 
     toast({
-      title: &quot;Role Duplicated&quot;,
+      title: "Role Duplicated",
       description: `${duplicatedRole.displayName} has been created`,
     });
   };
@@ -461,26 +461,26 @@ export default function RolesManagement() {
     setRoles(updatedRoles);
 
     toast({
-      title: &quot;Default Permissions Updated&quot;,
-      description: &quot;Role default permissions have been updated successfully&quot;,
+      title: "Default Permissions Updated",
+      description: "Role default permissions have been updated successfully",
     });
   };
 
   const getRoleLevelColor = (level: number) => {
     if (level >= 90)
-      return &quot;bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200&quot;;
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
     if (level >= 70)
-      return &quot;bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200&quot;;
+      return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
     if (level >= 50)
-      return &quot;bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200&quot;;
-    return &quot;bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200&quot;;
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+    return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
   };
 
   const getRoleLevelText = (level: number) => {
-    if (level >= 90) return &quot;Critical&quot;;
-    if (level >= 70) return &quot;High&quot;;
-    if (level >= 50) return &quot;Moderate&quot;;
-    return &quot;Standard&quot;;
+    if (level >= 90) return "Critical";
+    if (level >= 70) return "High";
+    if (level >= 50) return "Moderate";
+    return "Standard";
   };
 
   const getPermissionsByCategory = () => {
@@ -497,33 +497,33 @@ export default function RolesManagement() {
   const exportRoles = () => {
     const dataStr = JSON.stringify(roles, null, 2);
     const dataUri =
-      &quot;data:application/json;charset=utf-8,&quot; + encodeURIComponent(dataStr);
-    const exportFileDefaultName = &quot;roles-export.json&quot;;
+      "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+    const exportFileDefaultName = "roles-export.json";
 
-    const linkElement = document.createElement(&quot;a&quot;);
-    linkElement.setAttribute(&quot;href&quot;, dataUri);
-    linkElement.setAttribute(&quot;download&quot;, exportFileDefaultName);
+    const linkElement = document.createElement("a");
+    linkElement.setAttribute("href", dataUri);
+    linkElement.setAttribute("download", exportFileDefaultName);
     linkElement.click();
 
     toast({
-      title: &quot;Export Complete&quot;,
-      description: &quot;Roles data has been exported successfully&quot;,
+      title: "Export Complete",
+      description: "Roles data has been exported successfully",
     });
   };
 
   return (
-    <div className=&quot;space-y-6&quot;>
+    <div className="space-y-6">
       {/* Header */}
-      <div className=&quot;flex flex-col gap-4 md:flex-row md:items-center md:justify-between&quot;>
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className=&quot;text-3xl font-bold&quot;>Role Management</h1>
-          <p className=&quot;text-muted-foreground mt-2&quot;>
+          <h1 className="text-3xl font-bold">Role Management</h1>
+          <p className="text-muted-foreground mt-2">
             Manage system roles and their permissions across the platform
           </p>
         </div>
-        <div className=&quot;flex gap-2&quot;>
-          <Button variant=&quot;outline&quot; onClick={exportRoles}>
-            <Download className=&quot;w-4 h-4 mr-2&quot; />
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={exportRoles}>
+            <Download className="w-4 h-4 mr-2" />
             Export
           </Button>
           <Dialog
@@ -532,7 +532,7 @@ export default function RolesManagement() {
           >
             <DialogTrigger asChild>
               <Button>
-                <Plus className=&quot;w-4 h-4 mr-2&quot; />
+                <Plus className="w-4 h-4 mr-2" />
                 Create Role
               </Button>
             </DialogTrigger>
@@ -543,40 +543,40 @@ export default function RolesManagement() {
 
       {/* Filters */}
       <Card>
-        <CardContent className=&quot;pt-6&quot;>
-          <div className=&quot;flex flex-col gap-4 md:flex-row md:items-center&quot;>
-            <div className=&quot;flex-1&quot;>
-              <div className=&quot;relative&quot;>
-                <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4&quot; />
+        <CardContent className="pt-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder=&quot;Search roles...&quot;
+                  placeholder="Search roles..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className=&quot;pl-10&quot;
+                  className="pl-10"
                 />
               </div>
             </div>
-            <div className=&quot;flex gap-2&quot;>
+            <div className="flex gap-2">
               <Select value={levelFilter} onValueChange={setLevelFilter}>
-                <SelectTrigger className=&quot;w-[140px]&quot;>
-                  <SelectValue placeholder=&quot;Access Level&quot; />
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="Access Level" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value=&quot;all&quot;>All Levels</SelectItem>
-                  <SelectItem value=&quot;critical&quot;>Critical (90+)</SelectItem>
-                  <SelectItem value=&quot;high&quot;>High (70-89)</SelectItem>
-                  <SelectItem value=&quot;moderate&quot;>Moderate (50-69)</SelectItem>
-                  <SelectItem value=&quot;standard&quot;>Standard (&lt;50)</SelectItem>
+                  <SelectItem value="all">All Levels</SelectItem>
+                  <SelectItem value="critical">Critical (90+)</SelectItem>
+                  <SelectItem value="high">High (70-89)</SelectItem>
+                  <SelectItem value="moderate">Moderate (50-69)</SelectItem>
+                  <SelectItem value="standard">Standard (<50)</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger className=&quot;w-[120px]&quot;>
-                  <SelectValue placeholder=&quot;Type&quot; />
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue placeholder="Type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value=&quot;all&quot;>All Types</SelectItem>
-                  <SelectItem value=&quot;system&quot;>System</SelectItem>
-                  <SelectItem value=&quot;custom&quot;>Custom</SelectItem>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+                  <SelectItem value="custom">Custom</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -585,14 +585,14 @@ export default function RolesManagement() {
       </Card>
 
       {/* Results Summary */}
-      <div className=&quot;flex items-center justify-between&quot;>
-        <p className=&quot;text-sm text-muted-foreground&quot;>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
           Showing {filteredRoles.length} of {roles.length} roles
         </p>
       </div>
 
       {/* Roles Grid */}
-      <div className=&quot;grid gap-6&quot;>
+      <div className="grid gap-6">
         {filteredRoles.map((role) => (
           <RoleCard
             key={role.id}
@@ -616,18 +616,18 @@ export default function RolesManagement() {
 
       {filteredRoles.length === 0 && (
         <Card>
-          <CardContent className=&quot;py-12 text-center&quot;>
-            <Shield className=&quot;w-12 h-12 text-muted-foreground mx-auto mb-4&quot; />
-            <h3 className=&quot;text-lg font-medium mb-2&quot;>No roles found</h3>
-            <p className=&quot;text-muted-foreground mb-4&quot;>
+          <CardContent className="py-12 text-center">
+            <Shield className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-medium mb-2">No roles found</h3>
+            <p className="text-muted-foreground mb-4">
               No roles match your current search and filter criteria.
             </p>
             <Button
-              variant=&quot;outline&quot;
+              variant="outline"
               onClick={() => {
-                setSearchTerm(&quot;&quot;);
-                setLevelFilter(&quot;all&quot;);
-                setTypeFilter(&quot;all&quot;);
+                setSearchTerm("");
+                setLevelFilter("all");
+                setTypeFilter("all");
               }}
             >
               Clear Filters
@@ -660,38 +660,38 @@ export default function RolesManagement() {
     const permissionCategories = getPermissionsByCategory();
 
     return (
-      <DialogContent className=&quot;max-w-2xl max-h-[80vh] overflow-y-auto&quot;>
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Create New Role</DialogTitle>
           <DialogDescription>
             Define a new role with specific permissions and access levels
           </DialogDescription>
         </DialogHeader>
-        <Tabs defaultValue=&quot;basic&quot; className=&quot;w-full&quot;>
-          <TabsList className=&quot;grid w-full grid-cols-2&quot;>
-            <TabsTrigger value=&quot;basic&quot;>Basic Details</TabsTrigger>
-            <TabsTrigger value=&quot;permissions&quot;>Permissions</TabsTrigger>
+        <Tabs defaultValue="basic" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="basic">Basic Details</TabsTrigger>
+            <TabsTrigger value="permissions">Permissions</TabsTrigger>
           </TabsList>
-          <TabsContent value=&quot;basic&quot; className=&quot;space-y-4&quot;>
+          <TabsContent value="basic" className="space-y-4">
             <div>
-              <Label htmlFor=&quot;role-name&quot;>Role Name *</Label>
+              <Label htmlFor="role-name">Role Name *</Label>
               <Input
-                id=&quot;role-name&quot;
-                placeholder=&quot;e.g., regional_manager&quot;
+                id="role-name"
+                placeholder="e.g., regional_manager"
                 value={createForm.name}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, name: e.target.value })
                 }
               />
-              <p className=&quot;text-xs text-muted-foreground mt-1&quot;>
+              <p className="text-xs text-muted-foreground mt-1">
                 Lowercase, underscores only. Used internally.
               </p>
             </div>
             <div>
-              <Label htmlFor=&quot;display-name&quot;>Display Name *</Label>
+              <Label htmlFor="display-name">Display Name *</Label>
               <Input
-                id=&quot;display-name&quot;
-                placeholder=&quot;e.g., Regional Manager&quot;
+                id="display-name"
+                placeholder="e.g., Regional Manager"
                 value={createForm.displayName}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, displayName: e.target.value })
@@ -699,10 +699,10 @@ export default function RolesManagement() {
               />
             </div>
             <div>
-              <Label htmlFor=&quot;description&quot;>Description</Label>
+              <Label htmlFor="description">Description</Label>
               <Textarea
-                id=&quot;description&quot;
-                placeholder=&quot;Describe the role's responsibilities...&quot;
+                id="description"
+                placeholder="Describe the role's responsibilities..."
                 value={createForm.description}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, description: e.target.value })
@@ -710,14 +710,14 @@ export default function RolesManagement() {
               />
             </div>
             <div>
-              <Label htmlFor=&quot;access-level&quot;>
+              <Label htmlFor="access-level">
                 Access Level: {createForm.level}
               </Label>
               <Input
-                id=&quot;access-level&quot;
-                type=&quot;range&quot;
-                min=&quot;1&quot;
-                max=&quot;100&quot;
+                id="access-level"
+                type="range"
+                min="1"
+                max="100"
                 value={createForm.level}
                 onChange={(e) =>
                   setCreateForm({
@@ -725,25 +725,25 @@ export default function RolesManagement() {
                     level: parseInt(e.target.value),
                   })
                 }
-                className=&quot;mt-2&quot;
+                className="mt-2"
               />
-              <div className=&quot;flex justify-between text-xs text-muted-foreground mt-1&quot;>
+              <div className="flex justify-between text-xs text-muted-foreground mt-1">
                 <span>Standard (1)</span>
                 <span>Critical (100)</span>
               </div>
             </div>
           </TabsContent>
-          <TabsContent value=&quot;permissions&quot; className=&quot;space-y-4&quot;>
-            <ScrollArea className=&quot;h-[300px]&quot;>
+          <TabsContent value="permissions" className="space-y-4">
+            <ScrollArea className="h-[300px]">
               {Object.entries(permissionCategories).map(
                 ([category, permissions]) => (
-                  <div key={category} className=&quot;mb-4&quot;>
-                    <h4 className=&quot;font-medium mb-2&quot;>{category}</h4>
-                    <div className=&quot;space-y-2 pl-4&quot;>
+                  <div key={category} className="mb-4">
+                    <h4 className="font-medium mb-2">{category}</h4>
+                    <div className="space-y-2 pl-4">
                       {permissions.map((permission) => (
                         <div
                           key={permission.id}
-                          className=&quot;flex items-start space-x-2&quot;
+                          className="flex items-start space-x-2"
                         >
                           <Checkbox
                             id={permission.id}
@@ -754,14 +754,14 @@ export default function RolesManagement() {
                               handleTogglePermission(permission.id)
                             }
                           />
-                          <div className=&quot;grid gap-1.5 leading-none&quot;>
+                          <div className="grid gap-1.5 leading-none">
                             <Label
                               htmlFor={permission.id}
-                              className=&quot;text-sm font-medium&quot;
+                              className="text-sm font-medium"
                             >
-                              {permission.name.replace(/_/g, &quot; &quot;)}
+                              {permission.name.replace(/_/g, " ")}
                             </Label>
-                            <p className=&quot;text-xs text-muted-foreground&quot;>
+                            <p className="text-xs text-muted-foreground">
                               {permission.description}
                             </p>
                           </div>
@@ -776,7 +776,7 @@ export default function RolesManagement() {
         </Tabs>
         <DialogFooter>
           <Button
-            variant=&quot;outline&quot;
+            variant="outline"
             onClick={() => setIsCreateDialogOpen(false)}
           >
             Cancel
@@ -793,23 +793,23 @@ export default function RolesManagement() {
     const permissionCategories = getPermissionsByCategory();
 
     return (
-      <DialogContent className=&quot;max-w-2xl max-h-[80vh] overflow-y-auto&quot;>
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Role: {role.displayName}</DialogTitle>
           <DialogDescription>
             Update role details and permissions
           </DialogDescription>
         </DialogHeader>
-        <Tabs defaultValue=&quot;basic&quot; className=&quot;w-full&quot;>
-          <TabsList className=&quot;grid w-full grid-cols-2&quot;>
-            <TabsTrigger value=&quot;basic&quot;>Basic Details</TabsTrigger>
-            <TabsTrigger value=&quot;permissions&quot;>Permissions</TabsTrigger>
+        <Tabs defaultValue="basic" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="basic">Basic Details</TabsTrigger>
+            <TabsTrigger value="permissions">Permissions</TabsTrigger>
           </TabsList>
-          <TabsContent value=&quot;basic&quot; className=&quot;space-y-4&quot;>
+          <TabsContent value="basic" className="space-y-4">
             <div>
-              <Label htmlFor=&quot;edit-display-name&quot;>Display Name</Label>
+              <Label htmlFor="edit-display-name">Display Name</Label>
               <Input
-                id=&quot;edit-display-name&quot;
+                id="edit-display-name"
                 value={createForm.displayName}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, displayName: e.target.value })
@@ -818,9 +818,9 @@ export default function RolesManagement() {
               />
             </div>
             <div>
-              <Label htmlFor=&quot;edit-description&quot;>Description</Label>
+              <Label htmlFor="edit-description">Description</Label>
               <Textarea
-                id=&quot;edit-description&quot;
+                id="edit-description"
                 value={createForm.description}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, description: e.target.value })
@@ -829,14 +829,14 @@ export default function RolesManagement() {
               />
             </div>
             <div>
-              <Label htmlFor=&quot;edit-access-level&quot;>
+              <Label htmlFor="edit-access-level">
                 Access Level: {createForm.level}
               </Label>
               <Input
-                id=&quot;edit-access-level&quot;
-                type=&quot;range&quot;
-                min=&quot;1&quot;
-                max=&quot;100&quot;
+                id="edit-access-level"
+                type="range"
+                min="1"
+                max="100"
                 value={createForm.level}
                 onChange={(e) =>
                   setCreateForm({
@@ -845,21 +845,21 @@ export default function RolesManagement() {
                   })
                 }
                 disabled={role.isSystemRole}
-                className=&quot;mt-2&quot;
+                className="mt-2"
               />
             </div>
           </TabsContent>
-          <TabsContent value=&quot;permissions&quot; className=&quot;space-y-4&quot;>
-            <ScrollArea className=&quot;h-[300px]&quot;>
+          <TabsContent value="permissions" className="space-y-4">
+            <ScrollArea className="h-[300px]">
               {Object.entries(permissionCategories).map(
                 ([category, permissions]) => (
-                  <div key={category} className=&quot;mb-4&quot;>
-                    <h4 className=&quot;font-medium mb-2&quot;>{category}</h4>
-                    <div className=&quot;space-y-2 pl-4&quot;>
+                  <div key={category} className="mb-4">
+                    <h4 className="font-medium mb-2">{category}</h4>
+                    <div className="space-y-2 pl-4">
                       {permissions.map((permission) => (
                         <div
                           key={permission.id}
-                          className=&quot;flex items-start space-x-2&quot;
+                          className="flex items-start space-x-2"
                         >
                           <Checkbox
                             id={`edit-${permission.id}`}
@@ -871,14 +871,14 @@ export default function RolesManagement() {
                             }
                             disabled={role.isSystemRole}
                           />
-                          <div className=&quot;grid gap-1.5 leading-none&quot;>
+                          <div className="grid gap-1.5 leading-none">
                             <Label
                               htmlFor={`edit-${permission.id}`}
-                              className=&quot;text-sm font-medium&quot;
+                              className="text-sm font-medium"
                             >
-                              {permission.name.replace(/_/g, &quot; &quot;)}
+                              {permission.name.replace(/_/g, " ")}
                             </Label>
-                            <p className=&quot;text-xs text-muted-foreground&quot;>
+                            <p className="text-xs text-muted-foreground">
                               {permission.description}
                             </p>
                           </div>
@@ -892,7 +892,7 @@ export default function RolesManagement() {
           </TabsContent>
         </Tabs>
         <DialogFooter>
-          <Button variant=&quot;outline&quot; onClick={() => setIsEditDialogOpen(false)}>
+          <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
             Cancel
           </Button>
           <Button onClick={handleUpdateRole} disabled={role.isSystemRole}>
@@ -912,15 +912,15 @@ export default function RolesManagement() {
     );
 
     return (
-      <DialogContent className=&quot;max-w-md&quot;>
+      <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>{role.displayName} Permissions</DialogTitle>
           <DialogDescription>
             View all permissions assigned to this role
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className=&quot;h-[400px]&quot;>
-          <div className=&quot;space-y-4&quot;>
+        <ScrollArea className="h-[400px]">
+          <div className="space-y-4">
             {Object.entries(permissionCategories).map(
               ([category, permissions]) => {
                 const categoryPermissions = permissions.filter((p) =>
@@ -930,14 +930,14 @@ export default function RolesManagement() {
 
                 return (
                   <div key={category}>
-                    <h4 className=&quot;font-medium mb-2&quot;>{category}</h4>
-                    <div className=&quot;space-y-1 pl-4&quot;>
+                    <h4 className="font-medium mb-2">{category}</h4>
+                    <div className="space-y-1 pl-4">
                       {categoryPermissions.map((permission) => (
-                        <div key={permission.id} className=&quot;text-sm&quot;>
-                          <div className=&quot;font-medium&quot;>
-                            {permission.name.replace(/_/g, &quot; &quot;)}
+                        <div key={permission.id} className="text-sm">
+                          <div className="font-medium">
+                            {permission.name.replace(/_/g, " ")}
                           </div>
-                          <div className=&quot;text-muted-foreground text-xs&quot;>
+                          <div className="text-muted-foreground text-xs">
                             {permission.description}
                           </div>
                         </div>
@@ -951,7 +951,7 @@ export default function RolesManagement() {
         </ScrollArea>
         <DialogFooter>
           <Button
-            variant=&quot;outline&quot;
+            variant="outline"
             onClick={() => setIsPermissionsDialogOpen(false)}
           >
             Close
@@ -977,37 +977,37 @@ export default function RolesManagement() {
     );
 
     return (
-      <DialogContent className=&quot;max-w-2xl&quot;>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Users with {role.displayName} Role</DialogTitle>
           <DialogDescription>
             {role.userCount} users are assigned to this role
           </DialogDescription>
         </DialogHeader>
-        <div className=&quot;space-y-4&quot;>
-          <div className=&quot;flex justify-between items-center&quot;>
-            <Input placeholder=&quot;Search users...&quot; className=&quot;max-w-sm&quot; />
-            <Button size=&quot;sm&quot;>
-              <UserPlus className=&quot;w-4 h-4 mr-2&quot; />
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <Input placeholder="Search users..." className="max-w-sm" />
+            <Button size="sm">
+              <UserPlus className="w-4 h-4 mr-2" />
               Assign Users
             </Button>
           </div>
-          <ScrollArea className=&quot;h-[300px]&quot;>
-            <div className=&quot;space-y-2&quot;>
+          <ScrollArea className="h-[300px]">
+            <div className="space-y-2">
               {mockUsers.slice(0, 10).map((user) => (
                 <div
                   key={user.id}
-                  className=&quot;flex items-center justify-between p-2 border rounded&quot;
+                  className="flex items-center justify-between p-2 border rounded"
                 >
                   <div>
-                    <div className=&quot;font-medium&quot;>
+                    <div className="font-medium">
                       {user.firstName} {user.lastName}
                     </div>
-                    <div className=&quot;text-sm text-muted-foreground&quot;>
+                    <div className="text-sm text-muted-foreground">
                       {user.email}
                     </div>
                   </div>
-                  <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+                  <Button variant="outline" size="sm">
                     Remove
                   </Button>
                 </div>
@@ -1016,7 +1016,7 @@ export default function RolesManagement() {
           </ScrollArea>
         </div>
         <DialogFooter>
-          <Button variant=&quot;outline&quot; onClick={() => setIsUsersDialogOpen(false)}>
+          <Button variant="outline" onClick={() => setIsUsersDialogOpen(false)}>
             Close
           </Button>
         </DialogFooter>
@@ -1045,21 +1045,21 @@ function RoleCard({
   getRoleLevelText: (level: number) => string;
 }) {
   return (
-    <Card className=&quot;hover:shadow-md transition-shadow&quot;>
+    <Card className="hover:shadow-md transition-shadow">
       <CardHeader>
-        <div className=&quot;flex items-center justify-between&quot;>
-          <div className=&quot;flex items-center space-x-3&quot;>
-            <Shield className=&quot;w-5 h-5 text-primary&quot; />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Shield className="w-5 h-5 text-primary" />
             <div>
-              <CardTitle className=&quot;text-xl&quot;>{role.displayName}</CardTitle>
-              <CardDescription className=&quot;text-sm font-mono text-muted-foreground&quot;>
+              <CardTitle className="text-xl">{role.displayName}</CardTitle>
+              <CardDescription className="text-sm font-mono text-muted-foreground">
                 {role.name}
               </CardDescription>
             </div>
           </div>
-          <div className=&quot;flex items-center space-x-2&quot;>
-            <Badge variant={role.isSystemRole ? &quot;secondary&quot; : &quot;outline&quot;}>
-              {role.isSystemRole ? &quot;System Role&quot; : &quot;Custom Role&quot;}
+          <div className="flex items-center space-x-2">
+            <Badge variant={role.isSystemRole ? "secondary" : "outline"}>
+              {role.isSystemRole ? "System Role" : "Custom Role"}
             </Badge>
             <Badge className={getRoleLevelColor(role.level)}>
               Level {role.level} - {getRoleLevelText(role.level)}
@@ -1068,62 +1068,62 @@ function RoleCard({
         </div>
       </CardHeader>
       <CardContent>
-        <div className=&quot;space-y-4&quot;>
-          <p className=&quot;text-sm text-muted-foreground&quot;>{role.description}</p>
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">{role.description}</p>
 
           <Separator />
 
-          <div className=&quot;flex items-center justify-between&quot;>
-            <div className=&quot;flex items-center space-x-4&quot;>
-              <div className=&quot;flex items-center space-x-2&quot;>
-                <Users className=&quot;w-4 h-4 text-muted-foreground&quot; />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <Users className="w-4 h-4 text-muted-foreground" />
                 <button
                   onClick={onViewUsers}
-                  className=&quot;text-sm font-medium hover:underline&quot;
+                  className="text-sm font-medium hover:underline"
                 >
                   {role.userCount} users
                 </button>
               </div>
               {role.createdAt && (
-                <div className=&quot;text-xs text-muted-foreground&quot;>
+                <div className="text-xs text-muted-foreground">
                   Created {new Date(role.createdAt).toLocaleDateString()}
                 </div>
               )}
             </div>
-            <div className=&quot;flex items-center space-x-1&quot;>
-              <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={onViewPermissions}>
-                <Eye className=&quot;w-4 h-4 mr-1&quot; />
+            <div className="flex items-center space-x-1">
+              <Button variant="outline" size="sm" onClick={onViewPermissions}>
+                <Eye className="w-4 h-4 mr-1" />
                 View
               </Button>
-              <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={() => onEdit(role)}>
-                <Edit2 className=&quot;w-4 h-4 mr-1&quot; />
+              <Button variant="outline" size="sm" onClick={() => onEdit(role)}>
+                <Edit2 className="w-4 h-4 mr-1" />
                 Edit
               </Button>
               <Button
-                variant=&quot;outline&quot;
-                size=&quot;sm&quot;
+                variant="outline"
+                size="sm"
                 onClick={() => onDuplicate(role)}
               >
-                <Copy className=&quot;w-4 h-4 mr-1&quot; />
+                <Copy className="w-4 h-4 mr-1" />
                 Duplicate
               </Button>
               {!role.isSystemRole && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button
-                      variant=&quot;outline&quot;
-                      size=&quot;sm&quot;
-                      className=&quot;text-destructive hover:text-destructive&quot;
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive hover:text-destructive"
                     >
-                      <Trash2 className=&quot;w-4 h-4&quot; />
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete Role</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Are you sure you want to delete the &quot;{role.displayName}&quot;
-                        role? This action cannot be undone and will affect{&quot; &quot;}
+                        Are you sure you want to delete the "{role.displayName}"
+                        role? This action cannot be undone and will affect{" "}
                         {role.userCount} users.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -1131,7 +1131,7 @@ function RoleCard({
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => onDelete(role.id)}
-                        className=&quot;bg-destructive text-destructive-foreground hover:bg-destructive/90&quot;
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                       >
                         Delete Role
                       </AlertDialogAction>
@@ -1143,17 +1143,17 @@ function RoleCard({
           </div>
 
           <div>
-            <Label className=&quot;text-xs font-medium text-muted-foreground&quot;>
+            <Label className="text-xs font-medium text-muted-foreground">
               PERMISSIONS
             </Label>
-            <div className=&quot;flex flex-wrap gap-1 mt-1&quot;>
+            <div className="flex flex-wrap gap-1 mt-1">
               {role.permissions.slice(0, 4).map((permission) => (
-                <Badge key={permission} variant=&quot;outline&quot; className=&quot;text-xs&quot;>
-                  {permission.replace(/_/g, &quot; &quot;)}
+                <Badge key={permission} variant="outline" className="text-xs">
+                  {permission.replace(/_/g, " ")}
                 </Badge>
               ))}
               {role.permissions.length > 4 && (
-                <Badge variant=&quot;outline&quot; className=&quot;text-xs">
+                <Badge variant="outline" className="text-xs">
                   +{role.permissions.length - 4} more
                 </Badge>
               )}

@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { z } from &quot;zod&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState, useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,15 +13,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 
 interface LocationData {
   address1: string;
@@ -43,13 +43,13 @@ interface ManualAddressEntryProps {
 // Create a schema for address validation
 const addressSchema = z.object({
   name: z.string().optional(),
-  address1: z.string().min(1, { message: &quot;Address is required&quot; }),
+  address1: z.string().min(1, { message: "Address is required" }),
   address2: z.string().optional(),
-  city: z.string().min(1, { message: &quot;City is required&quot; }),
-  state: z.string().min(1, { message: &quot;State is required&quot; }),
+  city: z.string().min(1, { message: "City is required" }),
+  state: z.string().min(1, { message: "State is required" }),
   zipcode: z
     .string()
-    .min(5, { message: &quot;ZIP code must be at least 5 characters&quot; }),
+    .min(5, { message: "ZIP code must be at least 5 characters" }),
 });
 
 type AddressFormValues = z.infer<typeof addressSchema>;
@@ -65,7 +65,7 @@ export default function ManualAddressEntry({
 
   useEffect(() => {
     // Fetch states from the API
-    fetch(&quot;/api/states&quot;)
+    fetch("/api/states")
       .then((response) => response.json())
       .then((data) => {
         if (data.states) {
@@ -73,19 +73,19 @@ export default function ManualAddressEntry({
         }
       })
       .catch((error) => {
-        console.error(&quot;Error fetching states:&quot;, error);
+        console.error("Error fetching states:", error);
       });
   }, []);
 
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      name: "&quot;,
-      address1: &quot;&quot;,
-      address2: &quot;&quot;,
-      city: &quot;&quot;,
-      state: &quot;&quot;,
-      zipcode: &quot;&quot;,
+      name: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zipcode: "",
     },
   });
 
@@ -100,7 +100,7 @@ export default function ManualAddressEntry({
 
       const locationData: LocationData = {
         ...data,
-        stateId: selectedState?.id || &quot;&quot;,
+        stateId: selectedState?.id || "",
       };
 
       // Try to geocode the address if possible
@@ -118,30 +118,30 @@ export default function ManualAddressEntry({
           locationData.longitude = geocodeResult.lng;
         }
       } catch (error) {
-        console.error(&quot;Geocoding error:&quot;, error);
+        console.error("Geocoding error:", error);
         // Continue without coordinates if geocoding fails
       }
 
       onLocationSelect(locationData);
     } catch (error) {
-      console.error(&quot;Error in form submission:&quot;, error);
+      console.error("Error in form submission:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className=&quot;space-y-4&quot;>
+    <div className="space-y-4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-4&quot;>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
             control={form.control}
-            name=&quot;name&quot;
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Location Name (Optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder=&quot;e.g., Downtown Office&quot; {...field} />
+                  <Input placeholder="e.g., Downtown Office" {...field} />
                 </FormControl>
                 <FormDescription>
                   Name or title for this location
@@ -153,12 +153,12 @@ export default function ManualAddressEntry({
 
           <FormField
             control={form.control}
-            name=&quot;address1&quot;
+            name="address1"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Address Line 1</FormLabel>
                 <FormControl>
-                  <Input placeholder=&quot;e.g., 123 Main St&quot; {...field} />
+                  <Input placeholder="e.g., 123 Main St" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -167,27 +167,27 @@ export default function ManualAddressEntry({
 
           <FormField
             control={form.control}
-            name=&quot;address2&quot;
+            name="address2"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Address Line 2 (Optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder=&quot;e.g., Apt 4B, Suite 100&quot; {...field} />
+                  <Input placeholder="e.g., Apt 4B, Suite 100" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <div className=&quot;grid grid-cols-2 gap-4&quot;>
+          <div className="grid grid-cols-2 gap-4">
             <FormField
               control={form.control}
-              name=&quot;city&quot;
+              name="city"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>City</FormLabel>
                   <FormControl>
-                    <Input placeholder=&quot;e.g., New York&quot; {...field} />
+                    <Input placeholder="e.g., New York" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -196,7 +196,7 @@ export default function ManualAddressEntry({
 
             <FormField
               control={form.control}
-              name=&quot;state&quot;
+              name="state"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>State</FormLabel>
@@ -206,7 +206,7 @@ export default function ManualAddressEntry({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select state&quot; />
+                        <SelectValue placeholder="Select state" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -225,25 +225,25 @@ export default function ManualAddressEntry({
 
           <FormField
             control={form.control}
-            name=&quot;zipcode&quot;
+            name="zipcode"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>ZIP Code</FormLabel>
                 <FormControl>
-                  <Input placeholder=&quot;e.g., 10001&quot; {...field} />
+                  <Input placeholder="e.g., 10001" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <div className=&quot;flex space-x-2&quot;>
-            <Button type=&quot;submit&quot; disabled={isLoading}>
-              {isLoading ? &quot;Submitting...&quot; : &quot;Submit Address&quot;}
+          <div className="flex space-x-2">
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Submitting..." : "Submit Address"}
             </Button>
             <Button
-              type=&quot;button&quot;
-              variant=&quot;outline"
+              type="button"
+              variant="outline"
               onClick={onToggleSearchMode}
             >
               Try Search Instead

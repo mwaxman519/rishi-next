@@ -2,10 +2,10 @@
  * Server-side organization utility functions
  * Used for fetching organization data from the server
  */
-import { db } from &quot;../../lib/db-connection&quot;;
-import { organizations, organizationUsers } from &quot;../../shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { getUser } from &quot;./auth-server&quot;;
+import { db } from "../../lib/db-connection";
+import { organizations, organizationUsers } from "../../shared/schema";
+import { eq, and } from "drizzle-orm";
+import { getUser } from "./auth-server";
 
 /**
  * Retrieves all organizations associated with a user
@@ -24,7 +24,7 @@ export async function getUserOrganizations(userId: string) {
 
     return userOrgs;
   } catch (error) {
-    console.error(&quot;Error fetching user organizations:&quot;, error);
+    console.error("Error fetching user organizations:", error);
     return [];
   }
 }
@@ -48,7 +48,7 @@ export async function isUserInOrganization(
 
     return !!userOrg;
   } catch (error) {
-    console.error(&quot;Error checking user organization membership:&quot;, error);
+    console.error("Error checking user organization membership:", error);
     return false;
   }
 }
@@ -72,7 +72,7 @@ export async function getUserPrimaryOrganization(userId: string) {
 
     return primaryOrg ? primaryOrg.organization : null;
   } catch (error) {
-    console.error(&quot;Error fetching user primary organization:&quot;, error);
+    console.error("Error fetching user primary organization:", error);
     return null;
   }
 }

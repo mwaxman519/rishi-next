@@ -1,12 +1,12 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { db } from &quot;@/lib/db&quot;;
-import { items, insertItemSchema } from &quot;@shared/schema&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import { z } from &quot;zod&quot;;
+import { db } from "@/lib/db";
+import { items, insertItemSchema } from "@shared/schema";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 // GET /api/items - Get all items
 export async function GET(): Promise<NextResponse> {
@@ -14,9 +14,9 @@ export async function GET(): Promise<NextResponse> {
     const allItems = await db.select().from(items);
     return NextResponse.json(allItems);
   } catch (error) {
-    console.error(&quot;Failed to fetch items:&quot;, error);
+    console.error("Failed to fetch items:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch items&quot; },
+      { error: "Failed to fetch items" },
       { status: 500 },
     );
   }
@@ -35,16 +35,16 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     return NextResponse.json(newItems[0], { status: 201 });
   } catch (error) {
-    console.error(&quot;Failed to create item:&quot;, error);
+    console.error("Failed to create item:", error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: &quot;Validation error&quot;, details: error.format() },
+        { error: "Validation error", details: error.format() },
         { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: &quot;Failed to create item&quot; },
+      { error: "Failed to create item" },
       { status: 500 },
     );
   }

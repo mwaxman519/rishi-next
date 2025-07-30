@@ -1,7 +1,7 @@
-export * from &quot;./models&quot;;
-export * from &quot;./rbacService&quot;;
+export * from "./models";
+export * from "./rbacService";
 
-import { RBACService } from &quot;./rbacService&quot;;
+import { RBACService } from "./rbacService";
 
 // Create a singleton instance of the RBAC service
 const rbacService = new RBACService();

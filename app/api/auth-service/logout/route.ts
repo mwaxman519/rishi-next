@@ -1,15 +1,15 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Logout API for Auth Microservice
  * 
  * Handles user logout and cookie clearing.
  */
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { successResponse } from &quot;../utils/response&quot;;
-import { AUTH_CONFIG } from &quot;../config&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { successResponse } from "../utils/response";
+import { AUTH_CONFIG } from "../config";
 
 /**
  * Handle POST /api/auth-service/logout
@@ -17,48 +17,48 @@ import { AUTH_CONFIG } from &quot;../config&quot;;
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log(&quot;[Auth Service] Logout request received&quot;);
+    console.log("[Auth Service] Logout request received");
 
     // Create response
     const response = NextResponse.json({
       success: true,
-      message: &quot;Logged out successfully&quot;,
-      service: &quot;auth-service&quot;,
-      version: &quot;1.0.0&quot;,
+      message: "Logged out successfully",
+      service: "auth-service",
+      version: "1.0.0",
     });
 
     // Clear both potential authentication cookies for complete logout
-    response.cookies.set(AUTH_CONFIG.COOKIE_NAME, "&quot;, {
+    response.cookies.set(AUTH_CONFIG.COOKIE_NAME, "", {
       expires: new Date(0),
       httpOnly: true,
-      secure: process.env.NODE_ENV === &quot;production&quot;,
-      sameSite: &quot;lax&quot;,
-      path: &quot;/&quot;,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
     });
     
     // Also clear the fallback cookie name for backward compatibility
-    response.cookies.set(&quot;auth-token&quot;, &quot;&quot;, {
+    response.cookies.set("auth-token", "", {
       expires: new Date(0),
       httpOnly: true,
-      secure: process.env.NODE_ENV === &quot;production&quot;,
-      sameSite: &quot;lax&quot;,
-      path: &quot;/&quot;,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
     });
 
-    console.log(&quot;[Auth Service] Logout successful, cookie cleared&quot;);
+    console.log("[Auth Service] Logout successful, cookie cleared");
     
     return response;
   } catch (error) {
-    console.error(&quot;[Auth Service] Logout error:&quot;, error);
+    console.error("[Auth Service] Logout error:", error);
     
     return NextResponse.json({
       success: false,
       error: {
-        message: &quot;Logout failed&quot;,
-        code: &quot;LOGOUT_ERROR&quot;,
+        message: "Logout failed",
+        code: "LOGOUT_ERROR",
       },
-      service: &quot;auth-service&quot;,
-      version: &quot;1.0.0",
+      service: "auth-service",
+      version: "1.0.0",
     }, { status: 500 });
   }
 }

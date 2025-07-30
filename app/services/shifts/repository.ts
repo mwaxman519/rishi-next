@@ -3,7 +3,7 @@
  * Database access layer for shift management operations
  */
 
-import { db } from &quot;../../db&quot;;
+import { db } from "../../db";
 import {
   shifts,
   shiftAssignments,
@@ -12,7 +12,7 @@ import {
   locations,
   brands,
   organizations,
-} from &quot;@shared/schema&quot;;
+} from "@shared/schema";
 import {
   eq,
   and,
@@ -24,7 +24,7 @@ import {
   inArray,
   isNull,
   isNotNull,
-} from &quot;drizzle-orm&quot;;
+} from "drizzle-orm";
 import {
   ShiftDTO,
   ShiftAssignmentDTO,
@@ -34,7 +34,7 @@ import {
   AvailabilityCheck,
   AvailabilityResult,
   ShiftAssignmentParams,
-} from &quot;./models&quot;;
+} from "./models";
 
 export interface ServiceResponse<T> {
   success: boolean;
@@ -130,7 +130,7 @@ export class ShiftRepository {
 
       return results.map(this.mapToShiftDTO);
     } catch (error) {
-      console.error(&quot;ShiftRepository.findAll error:&quot;, error);
+      console.error("ShiftRepository.findAll error:", error);
       throw error;
     }
   }
@@ -169,7 +169,7 @@ export class ShiftRepository {
 
       return shiftDTO;
     } catch (error) {
-      console.error(&quot;ShiftRepository.findById error:&quot;, error);
+      console.error("ShiftRepository.findById error:", error);
       throw error;
     }
   }
@@ -190,12 +190,12 @@ export class ShiftRepository {
       // Fetch the complete shift data
       const completeShift = await this.findById(createdShift.id);
       if (!completeShift) {
-        throw new Error(&quot;Failed to retrieve created shift&quot;);
+        throw new Error("Failed to retrieve created shift");
       }
 
       return completeShift;
     } catch (error) {
-      console.error(&quot;ShiftRepository.create error:&quot;, error);
+      console.error("ShiftRepository.create error:", error);
       throw error;
     }
   }
@@ -212,18 +212,18 @@ export class ShiftRepository {
         .returning();
 
       if (!updatedShift) {
-        throw new Error(&quot;Shift not found&quot;);
+        throw new Error("Shift not found");
       }
 
       // Fetch the complete updated shift data
       const completeShift = await this.findById(updatedShift.id);
       if (!completeShift) {
-        throw new Error(&quot;Failed to retrieve updated shift&quot;);
+        throw new Error("Failed to retrieve updated shift");
       }
 
       return completeShift;
     } catch (error) {
-      console.error(&quot;ShiftRepository.update error:&quot;, error);
+      console.error("ShiftRepository.update error:", error);
       throw error;
     }
   }
@@ -235,7 +235,7 @@ export class ShiftRepository {
     try {
       await db.delete(shifts).where(eq(shifts.id, id));
     } catch (error) {
-      console.error(&quot;ShiftRepository.delete error:&quot;, error);
+      console.error("ShiftRepository.delete error:", error);
       throw error;
     }
   }
@@ -261,12 +261,12 @@ export class ShiftRepository {
         createdAssignment.id,
       );
       if (!completeAssignment) {
-        throw new Error(&quot;Failed to retrieve created assignment&quot;);
+        throw new Error("Failed to retrieve created assignment");
       }
 
       return completeAssignment;
     } catch (error) {
-      console.error(&quot;ShiftRepository.assignAgent error:&quot;, error);
+      console.error("ShiftRepository.assignAgent error:", error);
       throw error;
     }
   }
@@ -286,7 +286,7 @@ export class ShiftRepository {
         .returning();
 
       if (!updatedAssignment) {
-        throw new Error(&quot;Assignment not found&quot;);
+        throw new Error("Assignment not found");
       }
 
       // Fetch the complete updated assignment data
@@ -294,12 +294,12 @@ export class ShiftRepository {
         updatedAssignment.id,
       );
       if (!completeAssignment) {
-        throw new Error(&quot;Failed to retrieve updated assignment&quot;);
+        throw new Error("Failed to retrieve updated assignment");
       }
 
       return completeAssignment;
     } catch (error) {
-      console.error(&quot;ShiftRepository.updateAssignment error:&quot;, error);
+      console.error("ShiftRepository.updateAssignment error:", error);
       throw error;
     }
   }
@@ -318,7 +318,7 @@ export class ShiftRepository {
           ),
         );
     } catch (error) {
-      console.error(&quot;ShiftRepository.unassignAgent error:&quot;, error);
+      console.error("ShiftRepository.unassignAgent error:", error);
       throw error;
     }
   }
@@ -344,21 +344,21 @@ export class ShiftRepository {
         agent: result.agent
           ? {
               id: result.agent.id,
-              firstName: result.agent.firstName || "&quot;,
-              lastName: result.agent.lastName || &quot;&quot;,
+              firstName: result.agent.firstName || "",
+              lastName: result.agent.lastName || "",
               email: result.agent.email,
             }
           : undefined,
         assignedByUser: result.assignedByUser
           ? {
               id: result.assignedByUser.id,
-              firstName: result.assignedByUser.firstName || &quot;&quot;,
-              lastName: result.assignedByUser.lastName || &quot;&quot;,
+              firstName: result.assignedByUser.firstName || "",
+              lastName: result.assignedByUser.lastName || "",
             }
           : undefined,
       }));
     } catch (error) {
-      console.error(&quot;ShiftRepository.getShiftAssignments error:&quot;, error);
+      console.error("ShiftRepository.getShiftAssignments error:", error);
       throw error;
     }
   }
@@ -407,13 +407,13 @@ export class ShiftRepository {
         assignedByUser: result.assignedByUser
           ? {
               id: result.assignedByUser.id,
-              firstName: result.assignedByUser.firstName || &quot;&quot;,
-              lastName: result.assignedByUser.lastName || &quot;&quot;,
+              firstName: result.assignedByUser.firstName || "",
+              lastName: result.assignedByUser.lastName || "",
             }
           : undefined,
       }));
     } catch (error) {
-      console.error(&quot;ShiftRepository.getAgentAssignments error:&quot;, error);
+      console.error("ShiftRepository.getAgentAssignments error:", error);
       throw error;
     }
   }
@@ -447,7 +447,7 @@ export class ShiftRepository {
         );
 
       const conflicts = conflictingShifts.map((result) => ({
-        type: &quot;shift&quot; as const,
+        type: "shift" as const,
         id: result.shift.id,
         title: result.shift.title,
         startDateTime: result.shift.startDateTime,
@@ -459,7 +459,7 @@ export class ShiftRepository {
         conflicts,
       };
     } catch (error) {
-      console.error(&quot;ShiftRepository.checkAvailability error:&quot;, error);
+      console.error("ShiftRepository.checkAvailability error:", error);
       throw error;
     }
   }
@@ -501,21 +501,21 @@ export class ShiftRepository {
         agent: result.agent
           ? {
               id: result.agent.id,
-              firstName: result.agent.firstName || &quot;&quot;,
-              lastName: result.agent.lastName || &quot;&quot;,
+              firstName: result.agent.firstName || "",
+              lastName: result.agent.lastName || "",
               email: result.agent.email,
             }
           : undefined,
         assignedByUser: result.assignedByUser
           ? {
               id: result.assignedByUser.id,
-              firstName: result.assignedByUser.firstName || &quot;&quot;,
-              lastName: result.assignedByUser.lastName || &quot;&quot;,
+              firstName: result.assignedByUser.firstName || "",
+              lastName: result.assignedByUser.lastName || "",
             }
           : undefined,
       };
     } catch (error) {
-      console.error(&quot;ShiftRepository.getAssignmentById error:&quot;, error);
+      console.error("ShiftRepository.getAssignmentById error:", error);
       throw error;
     }
   }
@@ -537,7 +537,7 @@ export class ShiftRepository {
             id: result.location.id,
             name: result.location.name,
             address:
-              `${result.location.address1 || &quot;&quot;} ${result.location.address2 || &quot;&quot;}`.trim(),
+              `${result.location.address1 || ""} ${result.location.address2 || ""}`.trim(),
           }
         : undefined,
       brand: result.brand
@@ -555,8 +555,8 @@ export class ShiftRepository {
       createdByUser: result.createdByUser
         ? {
             id: result.createdByUser.id,
-            firstName: result.createdByUser.firstName || &quot;&quot;,
-            lastName: result.createdByUser.lastName || &quot;",
+            firstName: result.createdByUser.firstName || "",
+            lastName: result.createdByUser.lastName || "",
           }
         : undefined,
     };

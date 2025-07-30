@@ -1,20 +1,20 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Shield, Users, Calendar, Settings } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Shield, Users, Calendar, Settings } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface FeatureSetting {
   id: string;
@@ -50,43 +50,43 @@ export default function RBACSettingsPage() {
         // Convert to feature setting format
         const featureSettings: FeatureSetting[] = [
           {
-            id: &quot;brand_agents_view_org_events&quot;,
-            name: &quot;Brand Agents Can View Organizational Events&quot;,
+            id: "brand_agents_view_org_events",
+            name: "Brand Agents Can View Organizational Events",
             description:
-              &quot;Allow brand agents to view all organizational events, not just their assigned ones&quot;,
-            category: &quot;Events&quot;,
+              "Allow brand agents to view all organizational events, not just their assigned ones",
+            category: "Events",
             value: data.brand_agents_view_org_events || false,
           },
           {
-            id: &quot;brand_agents_manage_availability&quot;,
-            name: &quot;Brand Agents Can Manage Availability&quot;,
+            id: "brand_agents_manage_availability",
+            name: "Brand Agents Can Manage Availability",
             description:
-              &quot;Allow brand agents to update their own availability and schedule preferences&quot;,
-            category: &quot;Events&quot;,
+              "Allow brand agents to update their own availability and schedule preferences",
+            category: "Events",
             value: data.brand_agents_manage_availability !== false,
           },
           {
-            id: &quot;field_coordinators_approve_assignments&quot;,
-            name: &quot;Field Coordinators Can Approve Assignments&quot;,
+            id: "field_coordinators_approve_assignments",
+            name: "Field Coordinators Can Approve Assignments",
             description:
-              &quot;Allow field coordinators to approve or reject event assignments&quot;,
-            category: &quot;Events&quot;,
+              "Allow field coordinators to approve or reject event assignments",
+            category: "Events",
             value: data.field_coordinators_approve_assignments !== false,
           },
           {
-            id: &quot;client_users_create_events&quot;,
-            name: &quot;Client Users Can Create Events&quot;,
+            id: "client_users_create_events",
+            name: "Client Users Can Create Events",
             description:
-              &quot;Allow client users to create new events for their organization&quot;,
-            category: &quot;Events&quot;,
+              "Allow client users to create new events for their organization",
+            category: "Events",
             value: data.client_users_create_events !== false,
           },
           {
-            id: &quot;enable_event_notifications&quot;,
-            name: &quot;Enable Event Notifications&quot;,
+            id: "enable_event_notifications",
+            name: "Enable Event Notifications",
             description:
-              &quot;Send notifications for event updates, assignments, and changes&quot;,
-            category: &quot;System&quot;,
+              "Send notifications for event updates, assignments, and changes",
+            category: "System",
             value: data.enable_event_notifications !== false,
           },
         ];
@@ -94,11 +94,11 @@ export default function RBACSettingsPage() {
         setSettings(featureSettings);
       }
     } catch (error) {
-      console.error(&quot;Error loading settings:&quot;, error);
+      console.error("Error loading settings:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to load RBAC settings&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to load RBAC settings",
+        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -124,9 +124,9 @@ export default function RBACSettingsPage() {
       const response = await fetch(
         `/api/organizations/${organizationId}/feature-settings`,
         {
-          method: &quot;PUT&quot;,
+          method: "PUT",
           headers: {
-            &quot;Content-Type&quot;: &quot;application/json&quot;,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(settingsObject),
         },
@@ -134,18 +134,18 @@ export default function RBACSettingsPage() {
 
       if (response.ok) {
         toast({
-          title: &quot;Success&quot;,
-          description: &quot;RBAC settings updated successfully&quot;,
+          title: "Success",
+          description: "RBAC settings updated successfully",
         });
       } else {
-        throw new Error(&quot;Failed to save settings&quot;);
+        throw new Error("Failed to save settings");
       }
     } catch (error) {
-      console.error(&quot;Error saving settings:&quot;, error);
+      console.error("Error saving settings:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to save RBAC settings&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to save RBAC settings",
+        variant: "destructive",
       });
     } finally {
       setSaving(false);
@@ -154,25 +154,25 @@ export default function RBACSettingsPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case &quot;Events&quot;:
-        return <Calendar className=&quot;h-4 w-4&quot; />;
-      case &quot;Users&quot;:
-        return <Users className=&quot;h-4 w-4&quot; />;
-      case &quot;System&quot;:
-        return <Settings className=&quot;h-4 w-4&quot; />;
+      case "Events":
+        return <Calendar className="h-4 w-4" />;
+      case "Users":
+        return <Users className="h-4 w-4" />;
+      case "System":
+        return <Settings className="h-4 w-4" />;
       default:
-        return <Shield className=&quot;h-4 w-4&quot; />;
+        return <Shield className="h-4 w-4" />;
     }
   };
 
   if (loading) {
     return (
-      <div className=&quot;container mx-auto p-6&quot;>
-        <div className=&quot;animate-pulse space-y-6&quot;>
-          <div className=&quot;h-8 bg-muted rounded w-1/3&quot;></div>
-          <div className=&quot;space-y-4&quot;>
+      <div className="container mx-auto p-6">
+        <div className="animate-pulse space-y-6">
+          <div className="h-8 bg-muted rounded w-1/3"></div>
+          <div className="space-y-4">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className=&quot;h-24 bg-muted rounded&quot;></div>
+              <div key={i} className="h-24 bg-muted rounded"></div>
             ))}
           </div>
         </div>
@@ -193,23 +193,23 @@ export default function RBACSettingsPage() {
   );
 
   return (
-    <div className=&quot;container mx-auto p-6 max-w-4xl&quot;>
-      <div className=&quot;flex items-center space-x-2 mb-6&quot;>
-        <Shield className=&quot;h-6 w-6 text-primary&quot; />
-        <h1 className=&quot;text-2xl font-bold&quot;>RBAC Settings</h1>
+    <div className="container mx-auto p-6 max-w-4xl">
+      <div className="flex items-center space-x-2 mb-6">
+        <Shield className="h-6 w-6 text-primary" />
+        <h1 className="text-2xl font-bold">RBAC Settings</h1>
       </div>
 
-      <p className=&quot;text-muted-foreground mb-8&quot;>
+      <p className="text-muted-foreground mb-8">
         Configure role-based access control settings for your organization.
         These settings control what actions different user roles can perform.
       </p>
 
-      <div className=&quot;space-y-6&quot;>
+      <div className="space-y-6">
         {Object.entries(settingsByCategory).map(
           ([category, categorySettings]) => (
             <Card key={category}>
               <CardHeader>
-                <CardTitle className=&quot;flex items-center space-x-2&quot;>
+                <CardTitle className="flex items-center space-x-2">
                   {getCategoryIcon(category)}
                   <span>{category} Permissions</span>
                 </CardTitle>
@@ -217,18 +217,18 @@ export default function RBACSettingsPage() {
                   Control access for {category.toLowerCase()}-related features
                 </CardDescription>
               </CardHeader>
-              <CardContent className=&quot;space-y-6&quot;>
+              <CardContent className="space-y-6">
                 {categorySettings.map((setting, index) => (
                   <div key={setting.id}>
-                    <div className=&quot;flex items-center justify-between&quot;>
-                      <div className=&quot;space-y-1 flex-1&quot;>
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1 flex-1">
                         <Label
                           htmlFor={setting.id}
-                          className=&quot;text-sm font-medium&quot;
+                          className="text-sm font-medium"
                         >
                           {setting.name}
                         </Label>
-                        <p className=&quot;text-sm text-muted-foreground&quot;>
+                        <p className="text-sm text-muted-foreground">
                           {setting.description}
                         </p>
                       </div>
@@ -241,7 +241,7 @@ export default function RBACSettingsPage() {
                       />
                     </div>
                     {index < categorySettings.length - 1 && (
-                      <Separator className=&quot;mt-6&quot; />
+                      <Separator className="mt-6" />
                     )}
                   </div>
                 ))}
@@ -251,21 +251,21 @@ export default function RBACSettingsPage() {
         )}
       </div>
 
-      <div className=&quot;flex justify-end mt-8&quot;>
+      <div className="flex justify-end mt-8">
         <Button onClick={saveSettings} disabled={saving}>
-          {saving ? &quot;Saving...&quot; : &quot;Save Settings&quot;}
+          {saving ? "Saving..." : "Save Settings"}
         </Button>
       </div>
 
-      <Card className=&quot;mt-8 border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950/30&quot;>
-        <CardContent className=&quot;pt-6&quot;>
-          <div className=&quot;flex items-start space-x-3&quot;>
-            <Shield className=&quot;h-5 w-5 text-orange-600 mt-0.5&quot; />
+      <Card className="mt-8 border-orange-200 bg-orange-50 dark:border-orange-800 dark:bg-orange-950/30">
+        <CardContent className="pt-6">
+          <div className="flex items-start space-x-3">
+            <Shield className="h-5 w-5 text-orange-600 mt-0.5" />
             <div>
-              <h3 className=&quot;font-medium text-orange-800 dark:text-orange-200&quot;>
+              <h3 className="font-medium text-orange-800 dark:text-orange-200">
                 Important Note
               </h3>
-              <p className=&quot;text-sm text-orange-700 dark:text-orange-300 mt-1&quot;>
+              <p className="text-sm text-orange-700 dark:text-orange-300 mt-1">
                 Changes to RBAC settings take effect immediately. Users may need
                 to refresh their browser to see updated permissions.
               </p>

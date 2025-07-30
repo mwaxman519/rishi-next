@@ -1,5 +1,5 @@
-import { UserRole, Resource, Permission, RBACUser } from &quot;.&quot;;
-import { getRolePermissions } from &quot;./permissions&quot;;
+import { UserRole, Resource, Permission, RBACUser } from ".";
+import { getRolePermissions } from "./permissions";
 
 /**
  * Checks if a user has the specified permission for a resource
@@ -17,7 +17,7 @@ export function hasPermission(
   if (!user) return false;
 
   // Super admins have all permissions
-  if (user.role === &quot;super_admin&quot;) return true;
+  if (user.role === "super_admin") return true;
 
   const userPermissions = getRolePermissions(user.role);
 

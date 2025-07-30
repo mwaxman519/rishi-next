@@ -4,7 +4,7 @@
  */
 
 // Re-export the advanced event bus for backwards compatibility
-export { advancedEventBus as distributedEventBus } from &quot;./AdvancedEventBus&quot;;
+export { advancedEventBus as distributedEventBus } from "./AdvancedEventBus";
 
 // Legacy interfaces for backwards compatibility
 export interface EventPublisher {

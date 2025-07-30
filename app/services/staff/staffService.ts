@@ -1,7 +1,7 @@
 /**
  * Staff Service - Core business logic for staff management
  */
-import { StaffRepository } from &quot;./repository&quot;;
+import { StaffRepository } from "./repository";
 import {
   StaffMember,
   StaffSkill,
@@ -19,9 +19,9 @@ import {
   RejectTimeOffRequestParams,
   StaffFilters,
   StaffStatus,
-} from &quot;./models&quot;;
-import { organizationService } from &quot;../organizations&quot;;
-import { rbacService } from &quot;../rbac&quot;;
+} from "./models";
+import { organizationService } from "../organizations";
+import { rbacService } from "../rbac";
 
 export class StaffService {
   private repository: StaffRepository;
@@ -63,7 +63,7 @@ export class StaffService {
       throw new Error(`Organization with ID ${data.organizationId} not found`);
     }
 
-    // Ensure user isn&apos;t already a staff member
+    // Ensure user isn't already a staff member
     const existingStaff = await this.repository.findByUserId(data.userId);
     if (existingStaff) {
       throw new Error(`User with ID ${data.userId} is already a staff member`);
@@ -76,7 +76,7 @@ export class StaffService {
     const hireDate = new Date(data.hireDate);
     const today = new Date();
     if (hireDate > today) {
-      throw new Error(&quot;Hire date cannot be in the future&quot;);
+      throw new Error("Hire date cannot be in the future");
     }
 
     return this.repository.create(data);
@@ -116,7 +116,7 @@ export class StaffService {
       const hireDate = new Date(data.hireDate);
       const today = new Date();
       if (hireDate > today) {
-        throw new Error(&quot;Hire date cannot be in the future&quot;);
+        throw new Error("Hire date cannot be in the future");
       }
     }
 
@@ -125,7 +125,7 @@ export class StaffService {
       const hireDate = new Date(data.hireDate || existingStaff.hireDate);
 
       if (terminationDate < hireDate) {
-        throw new Error(&quot;Termination date cannot be before hire date&quot;);
+        throw new Error("Termination date cannot be before hire date");
       }
     }
 
@@ -136,7 +136,7 @@ export class StaffService {
       !existingStaff.terminationDate
     ) {
       throw new Error(
-        &quot;Termination date is required when setting status to TERMINATED&quot;,
+        "Termination date is required when setting status to TERMINATED",
       );
     }
 
@@ -179,7 +179,7 @@ export class StaffService {
       !existingStaff.terminationDate
     ) {
       throw new Error(
-        &quot;Termination date is required when setting status to TERMINATED&quot;,
+        "Termination date is required when setting status to TERMINATED",
       );
     }
 
@@ -189,7 +189,7 @@ export class StaffService {
       const hireDateObj = new Date(existingStaff.hireDate);
 
       if (terminationDateObj < hireDateObj) {
-        throw new Error(&quot;Termination date cannot be before hire date&quot;);
+        throw new Error("Termination date cannot be before hire date");
       }
     }
 
@@ -226,7 +226,7 @@ export class StaffService {
 
       if (expiryDate <= certDate) {
         throw new Error(
-          &quot;Certification expiry date must be after certification date&quot;,
+          "Certification expiry date must be after certification date",
         );
       }
     }
@@ -270,7 +270,7 @@ export class StaffService {
 
     // Validate time range
     if (data.startTime >= data.endTime) {
-      throw new Error(&quot;Start time must be before end time&quot;);
+      throw new Error("Start time must be before end time");
     }
 
     return this.repository.addAvailability(data);
@@ -315,7 +315,7 @@ export class StaffService {
     const endDate = new Date(data.endDate);
 
     if (startDate > endDate) {
-      throw new Error(&quot;Start date must be before or equal to end date&quot;);
+      throw new Error("Start date must be before or equal to end date");
     }
 
     // Validate not in the past
@@ -323,7 +323,7 @@ export class StaffService {
     today.setHours(0, 0, 0, 0); // Set to start of day for comparison
 
     if (startDate < today) {
-      throw new Error(&quot;Time off requests cannot start in the past&quot;);
+      throw new Error("Time off requests cannot start in the past");
     }
 
     return this.repository.createTimeOffRequest(data);
@@ -420,7 +420,7 @@ export class StaffService {
       await this.repository.getTimeOffRequestsForStaff(staffId);
 
     const hasOverlappingTimeOff = timeOffRequests.some((request) => {
-      if (request.status !== &quot;approved&quot;) {
+      if (request.status !== "approved") {
         return false;
       }
 

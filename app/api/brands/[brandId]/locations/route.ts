@@ -1,21 +1,21 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
 import {
   brandLocations,
   brands,
   locations,
-} from &quot;@/shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
-import { checkPermission } from &quot;@/lib/rbac&quot;;
-import { z } from &quot;zod&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
+} from "@/shared/schema";
+import { eq, and } from "drizzle-orm";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
+import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 
 // Get all locations for a specific brand
 export async function GET(
@@ -26,7 +26,7 @@ export async function GET(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { brandId } = await params;
@@ -40,7 +40,7 @@ export async function GET(
       .limit(1);
 
     if (brandExists.length === 0) {
-      return NextResponse.json({ error: &quot;Brand not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Brand not found" }, { status: 404 });
     }
 
     // Get all brand locations with location details
@@ -75,7 +75,7 @@ export async function GET(
   } catch (error) {
     console.error(`Error fetching brand locations:`, error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch brand locations&quot; },
+      { error: "Failed to fetch brand locations" },
       { status: 500 },
     );
   }
@@ -95,7 +95,7 @@ export async function POST(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { brandId } = await params;
@@ -109,7 +109,7 @@ export async function POST(
       .limit(1);
 
     if (brandExists.length === 0) {
-      return NextResponse.json({ error: &quot;Brand not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Brand not found" }, { status: 404 });
     }
 
     // Validate request body
@@ -119,7 +119,7 @@ export async function POST(
     if (!validationResult.success) {
       return NextResponse.json(
         {
-          error: &quot;Invalid request data&quot;,
+          error: "Invalid request data",
           details: validationResult.error.format(),
         },
         { status: 400 },
@@ -137,7 +137,7 @@ export async function POST(
 
     if (locationExists.length === 0) {
       return NextResponse.json(
-        { error: &quot;Location not found&quot; },
+        { error: "Location not found" },
         { status: 404 },
       );
     }
@@ -145,14 +145,14 @@ export async function POST(
     const location = locationExists[0];
     if (!location) {
       return NextResponse.json(
-        { error: &quot;Location not found&quot; },
+        { error: "Location not found" },
         { status: 404 }
       );
     }
 
-    if (location.status !== &quot;approved&quot;) {
+    if (location.status !== "approved") {
       return NextResponse.json(
-        { error: &quot;Location is not approved for use&quot; },
+        { error: "Location is not approved for use" },
         { status: 400 },
       );
     }
@@ -171,7 +171,7 @@ export async function POST(
 
     if (existingBrandLocation.length > 0) {
       return NextResponse.json(
-        { error: &quot;Location is already added to this brand&quot; },
+        { error: "Location is already added to this brand" },
         { status: 400 },
       );
     }
@@ -188,13 +188,13 @@ export async function POST(
     await db.insert(brandLocations).values(newBrandLocation);
 
     return NextResponse.json({
-      message: &quot;Location added to brand successfully&quot;,
+      message: "Location added to brand successfully",
       brandLocation: newBrandLocation,
     });
   } catch (error) {
     console.error(`Error adding location to brand:`, error);
     return NextResponse.json(
-      { error: &quot;Failed to add location to brand&quot; },
+      { error: "Failed to add location to brand" },
       { status: 500 },
     );
   }

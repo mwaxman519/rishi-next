@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
 import {
   Search,
   Filter,
@@ -18,29 +18,29 @@ import {
   Tag,
   ChevronDown,
   CircleIcon,
-} from &quot;lucide-react&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { ScrollArea } from &quot;@/components/ui/scroll-area&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useQuery } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from &quot;@/components/ui/popover&quot;;
+} from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from &quot;@/components/ui/command&quot;;
+} from "@/components/ui/command";
 
 export interface LocationFilterValues {
   search: string;
@@ -86,7 +86,7 @@ interface ZipCodeItem {
 export function LocationFilters({
   onFilterChange,
   initialValues = {
-    search: "&quot;,
+    search: "",
     states: [],
     regions: [],
     cities: [],
@@ -103,11 +103,11 @@ export function LocationFilters({
   const { data: statesData, isLoading: statesLoading } = useQuery<{
     states?: StateItem[];
   }>({
-    queryKey: [&quot;locationStates&quot;],
+    queryKey: ["locationStates"],
     queryFn: async () => {
-      const res = await fetch(&quot;/api/locations/states&quot;);
+      const res = await fetch("/api/locations/states");
       if (!res.ok) {
-        throw new Error(&quot;Failed to fetch states&quot;);
+        throw new Error("Failed to fetch states");
       }
       return res.json();
     },
@@ -117,11 +117,11 @@ export function LocationFilters({
   const { data: regionsData, isLoading: regionsLoading } = useQuery<{
     regions?: RegionItem[];
   }>({
-    queryKey: [&quot;locationRegions&quot;],
+    queryKey: ["locationRegions"],
     queryFn: async () => {
-      const res = await fetch(&quot;/api/locations/regions&quot;);
+      const res = await fetch("/api/locations/regions");
       if (!res.ok) {
-        throw new Error(&quot;Failed to fetch regions&quot;);
+        throw new Error("Failed to fetch regions");
       }
       return res.json();
     },
@@ -131,13 +131,13 @@ export function LocationFilters({
   const { data: citiesData, isLoading: citiesLoading } = useQuery<{
     cities?: CityItem[];
   }>({
-    queryKey: [&quot;locationCities&quot;, filters.states],
+    queryKey: ["locationCities", filters.states],
     queryFn: async () => {
       const statesParam =
-        filters.states.length > 0 ? `?states=${filters.states.join(&quot;,&quot;)}` : &quot;&quot;;
+        filters.states.length > 0 ? `?states=${filters.states.join(",")}` : "";
       const res = await fetch(`/api/locations/cities${statesParam}`);
       if (!res.ok) {
-        throw new Error(&quot;Failed to fetch cities&quot;);
+        throw new Error("Failed to fetch cities");
       }
       return res.json();
     },
@@ -148,24 +148,24 @@ export function LocationFilters({
   const { data: zipCodesData, isLoading: zipCodesLoading } = useQuery<{
     zipCodes?: ZipCodeItem[];
   }>({
-    queryKey: [&quot;locationZipCodes&quot;, filters.states, filters.cities],
+    queryKey: ["locationZipCodes", filters.states, filters.cities],
     queryFn: async () => {
       const statesParam =
-        filters.states.length > 0 ? `states=${filters.states.join(&quot;,&quot;)}` : &quot;&quot;;
+        filters.states.length > 0 ? `states=${filters.states.join(",")}` : "";
       const citiesParam =
-        filters.cities.length > 0 ? `cities=${filters.cities.join(&quot;,&quot;)}` : &quot;&quot;;
+        filters.cities.length > 0 ? `cities=${filters.cities.join(",")}` : "";
 
-      let url = &quot;/api/locations/zipcodes&quot;;
+      let url = "/api/locations/zipcodes";
       if (statesParam || citiesParam) {
-        url += &quot;?&quot;;
+        url += "?";
         if (statesParam) url += statesParam;
-        if (statesParam && citiesParam) url += &quot;&&quot;;
+        if (statesParam && citiesParam) url += "&";
         if (citiesParam) url += citiesParam;
       }
 
       const res = await fetch(url);
       if (!res.ok) {
-        throw new Error(&quot;Failed to fetch ZIP codes&quot;);
+        throw new Error("Failed to fetch ZIP codes");
       }
       return res.json();
     },
@@ -292,7 +292,7 @@ export function LocationFilters({
   // Clear all filters
   const clearAllFilters = () => {
     setFilters({
-      search: &quot;&quot;,
+      search: "",
       states: [],
       regions: [],
       cities: [],
@@ -312,95 +312,95 @@ export function LocationFilters({
     statesLoading || regionsLoading || citiesLoading || zipCodesLoading;
 
   return (
-    <div className=&quot;space-y-4&quot;>
+    <div className="space-y-4">
       {isLoading ? (
-        <div className=&quot;flex justify-center py-4&quot;>
-          <Loader2 className=&quot;h-6 w-6 animate-spin text-primary&quot; />
+        <div className="flex justify-center py-4">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
         </div>
       ) : (
-        <div className=&quot;space-y-4&quot;>
+        <div className="space-y-4">
           {/* Filters */}
-          <div className=&quot;space-y-4&quot;>
+          <div className="space-y-4">
             {/* Text search */}
-            <div className=&quot;flex items-center space-x-2&quot;>
-              <div className=&quot;w-full max-w-md&quot;>
-                <div className=&quot;relative&quot;>
-                  <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+            <div className="flex items-center space-x-2">
+              <div className="w-full max-w-md">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    type=&quot;text&quot;
-                    placeholder=&quot;Search by name, address, etc.&quot;
+                    type="text"
+                    placeholder="Search by name, address, etc."
                     value={filters.search}
                     onChange={(e) => handleSearchQueryChange(e.target.value)}
-                    className=&quot;pl-9&quot;
+                    className="pl-9"
                   />
                 </div>
               </div>
 
               <Button
-                variant=&quot;outline&quot;
-                size=&quot;sm&quot;
+                variant="outline"
+                size="sm"
                 onClick={() => setShowFilters(!showFilters)}
-                className=&quot;flex items-center h-10&quot;
+                className="flex items-center h-10"
               >
-                <Filter className=&quot;h-4 w-4 mr-1.5&quot; />
-                {showFilters ? &quot;Hide&quot; : &quot;Filters&quot;}
+                <Filter className="h-4 w-4 mr-1.5" />
+                {showFilters ? "Hide" : "Filters"}
                 <ChevronDown
-                  className={`h-4 w-4 ml-1 transition-transform ${showFilters ? &quot;rotate-180&quot; : &quot;&quot;}`}
+                  className={`h-4 w-4 ml-1 transition-transform ${showFilters ? "rotate-180" : ""}`}
                 />
               </Button>
             </div>
 
             {/* Expanded filters */}
             {showFilters && (
-              <div className=&quot;p-3 border rounded-md bg-card/50 dark:bg-card/50&quot;>
+              <div className="p-3 border rounded-md bg-card/50 dark:bg-card/50">
                 {/* Primary filters - 1st row */}
-                <div className=&quot;flex flex-wrap gap-2 mb-4&quot;>
+                <div className="flex flex-wrap gap-2 mb-4">
                   {/* Status filter */}
-                  <div className=&quot;min-w-[140px] max-w-[180px]&quot;>
+                  <div className="min-w-[140px] max-w-[180px]">
                     <Select
                       onValueChange={(value) => {
                         setFilters((prev) => {
-                          if (!value || value === &quot;_all&quot;) {
+                          if (!value || value === "_all") {
                             return { ...prev, status: [] };
                           }
                           return { ...prev, status: [value] };
                         });
                       }}
-                      value={filters.status[0] || &quot;_all&quot;}
+                      value={filters.status[0] || "_all"}
                     >
-                      <SelectTrigger className=&quot;h-8 text-xs&quot;>
-                        <div className=&quot;flex items-center gap-1.5&quot;>
-                          <CircleIcon className=&quot;h-3 w-3 text-muted-foreground&quot; />
+                      <SelectTrigger className="h-8 text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <CircleIcon className="h-3 w-3 text-muted-foreground" />
                           <span>
                             {filters.status[0]
                               ? `Status: ${filters.status[0].charAt(0).toUpperCase() + filters.status[0].slice(1)}`
-                              : &quot;Status: All&quot;}
+                              : "Status: All"}
                           </span>
                         </div>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value=&quot;_all&quot;>All Statuses</SelectItem>
-                        <SelectItem value=&quot;active&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <div className=&quot;h-2 w-2 rounded-full bg-green-500 dark:bg-green-400 mr-1.5&quot;></div>
+                        <SelectItem value="_all">All Statuses</SelectItem>
+                        <SelectItem value="active">
+                          <div className="flex items-center">
+                            <div className="h-2 w-2 rounded-full bg-green-500 dark:bg-green-400 mr-1.5"></div>
                             Active
                           </div>
                         </SelectItem>
-                        <SelectItem value=&quot;pending&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <div className=&quot;h-2 w-2 rounded-full bg-amber-500 dark:bg-amber-400 mr-1.5&quot;></div>
+                        <SelectItem value="pending">
+                          <div className="flex items-center">
+                            <div className="h-2 w-2 rounded-full bg-amber-500 dark:bg-amber-400 mr-1.5"></div>
                             Pending
                           </div>
                         </SelectItem>
-                        <SelectItem value=&quot;inactive&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <div className=&quot;h-2 w-2 rounded-full bg-gray-400 dark:bg-gray-500 mr-1.5&quot;></div>
+                        <SelectItem value="inactive">
+                          <div className="flex items-center">
+                            <div className="h-2 w-2 rounded-full bg-gray-400 dark:bg-gray-500 mr-1.5"></div>
                             Inactive
                           </div>
                         </SelectItem>
-                        <SelectItem value=&quot;flagged&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <div className=&quot;h-2 w-2 rounded-full bg-red-500 dark:bg-red-400 mr-1.5&quot;></div>
+                        <SelectItem value="flagged">
+                          <div className="flex items-center">
+                            <div className="h-2 w-2 rounded-full bg-red-500 dark:bg-red-400 mr-1.5"></div>
                             Flagged
                           </div>
                         </SelectItem>
@@ -409,69 +409,69 @@ export function LocationFilters({
                   </div>
 
                   {/* Location Type filter */}
-                  <div className=&quot;min-w-[140px] max-w-[180px]&quot;>
+                  <div className="min-w-[140px] max-w-[180px]">
                     <Select
                       onValueChange={(value) => {
                         setFilters((prev) => {
-                          if (!value || value === &quot;_all&quot;) {
+                          if (!value || value === "_all") {
                             return { ...prev, locationType: [] };
                           }
                           return { ...prev, locationType: [value] };
                         });
                       }}
-                      value={filters.locationType[0] || &quot;_all&quot;}
+                      value={filters.locationType[0] || "_all"}
                     >
-                      <SelectTrigger className=&quot;h-8 text-xs&quot;>
-                        <div className=&quot;flex items-center gap-1.5&quot;>
-                          <Tag className=&quot;h-3 w-3 text-muted-foreground&quot; />
+                      <SelectTrigger className="h-8 text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <Tag className="h-3 w-3 text-muted-foreground" />
                           <span>
                             {filters.locationType[0]
                               ? `Type: ${filters.locationType[0].charAt(0).toUpperCase() + filters.locationType[0].slice(1)}`
-                              : &quot;Type: All&quot;}
+                              : "Type: All"}
                           </span>
                         </div>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value=&quot;_all&quot;>All Types</SelectItem>
-                        <SelectItem value=&quot;office&quot;>Office</SelectItem>
-                        <SelectItem value=&quot;retail&quot;>Retail</SelectItem>
-                        <SelectItem value=&quot;warehouse&quot;>Warehouse</SelectItem>
-                        <SelectItem value=&quot;venue&quot;>Venue</SelectItem>
+                        <SelectItem value="_all">All Types</SelectItem>
+                        <SelectItem value="office">Office</SelectItem>
+                        <SelectItem value="retail">Retail</SelectItem>
+                        <SelectItem value="warehouse">Warehouse</SelectItem>
+                        <SelectItem value="venue">Venue</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   {/* States filter */}
-                  <div className=&quot;min-w-[140px] max-w-[180px]&quot;>
+                  <div className="min-w-[140px] max-w-[180px]">
                     <Select
                       onValueChange={(value) => {
                         // Clear existing state selections and set new one
-                        if (!value || value === &quot;_all&quot;) {
+                        if (!value || value === "_all") {
                           setFilters((prev) => ({ ...prev, states: [] }));
                         } else {
                           // Set single state selection
                           setFilters((prev) => ({ ...prev, states: [value] }));
                         }
                       }}
-                      value={filters.states[0] || &quot;_all&quot;}
+                      value={filters.states[0] || "_all"}
                     >
-                      <SelectTrigger className=&quot;h-8 text-xs&quot;>
-                        <div className=&quot;flex items-center gap-1.5&quot;>
-                          <MapIcon className=&quot;h-3 w-3 text-muted-foreground&quot; />
+                      <SelectTrigger className="h-8 text-xs">
+                        <div className="flex items-center gap-1.5">
+                          <MapIcon className="h-3 w-3 text-muted-foreground" />
                           <span>
                             {filters.states[0]
                               ? `State: ${filters.states[0]}`
-                              : &quot;State: All&quot;}
+                              : "State: All"}
                           </span>
                         </div>
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value=&quot;_all&quot;>All States</SelectItem>
+                        <SelectItem value="_all">All States</SelectItem>
                         {statesData?.states?.map((state: StateItem) => (
                           <SelectItem key={state.code} value={state.code}>
-                            <div className=&quot;flex items-center justify-between w-full&quot;>
+                            <div className="flex items-center justify-between w-full">
                               <span>{state.name}</span>
-                              <span className=&quot;text-xs ml-2 text-muted-foreground&quot;>
+                              <span className="text-xs ml-2 text-muted-foreground">
                                 ({state.count})
                               </span>
                             </div>
@@ -482,39 +482,39 @@ export function LocationFilters({
                   </div>
 
                   {/* City typeahead - small compact popover */}
-                  <div className=&quot;min-w-[110px] max-w-[140px]&quot;>
+                  <div className="min-w-[110px] max-w-[140px]">
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant=&quot;outline&quot;
-                          className=&quot;h-8 px-2.5 w-full justify-between text-xs font-normal truncate&quot;
-                          size=&quot;sm&quot;
+                          variant="outline"
+                          className="h-8 px-2.5 w-full justify-between text-xs font-normal truncate"
+                          size="sm"
                         >
-                          <div className=&quot;flex items-center gap-1.5 truncate&quot;>
-                            <Building className=&quot;h-3 w-3 flex-shrink-0 text-muted-foreground&quot; />
-                            <span className=&quot;truncate&quot;>
+                          <div className="flex items-center gap-1.5 truncate">
+                            <Building className="h-3 w-3 flex-shrink-0 text-muted-foreground" />
+                            <span className="truncate">
                               {filters.cities.length > 0
                                 ? `City: ${filters.cities[0]}`
-                                : &quot;City: All&quot;}
+                                : "City: All"}
                             </span>
                           </div>
-                          <ChevronDown className=&quot;h-3.5 w-3.5 opacity-50 flex-shrink-0&quot; />
+                          <ChevronDown className="h-3.5 w-3.5 opacity-50 flex-shrink-0" />
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className=&quot;w-[240px] p-0&quot;>
+                      <PopoverContent className="w-[240px] p-0">
                         <Command>
                           <CommandInput
-                            placeholder=&quot;Search city...&quot;
-                            className=&quot;h-8 text-xs&quot;
+                            placeholder="Search city..."
+                            className="h-8 text-xs"
                           />
                           <CommandEmpty>No city found.</CommandEmpty>
-                          <CommandGroup className=&quot;max-h-[200px] overflow-auto&quot;>
+                          <CommandGroup className="max-h-[200px] overflow-auto">
                             <CommandItem
-                              value=&quot;_all&quot;
+                              value="_all"
                               onSelect={() => {
                                 setFilters((prev) => ({ ...prev, cities: [] }));
                               }}
-                              className=&quot;text-xs&quot;
+                              className="text-xs"
                             >
                               All Cities
                             </CommandItem>
@@ -534,10 +534,10 @@ export function LocationFilters({
                                       cities: [value],
                                     }));
                                   }}
-                                  className=&quot;text-xs flex justify-between&quot;
+                                  className="text-xs flex justify-between"
                                 >
                                   <span>{city.name}</span>
-                                  <span className=&quot;text-xs text-muted-foreground&quot;>
+                                  <span className="text-xs text-muted-foreground">
                                     ({city.count})
                                   </span>
                                 </CommandItem>
@@ -549,15 +549,15 @@ export function LocationFilters({
                   </div>
 
                   {/* ZIP Code - small input */}
-                  <div className=&quot;min-w-[100px] max-w-[130px]&quot;>
-                    <div className=&quot;relative&quot;>
-                      <div className=&quot;absolute inset-y-0 left-2 flex items-center pointer-events-none&quot;>
-                        <MapPin className=&quot;h-3 w-3 text-muted-foreground&quot; />
+                  <div className="min-w-[100px] max-w-[130px]">
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
+                        <MapPin className="h-3 w-3 text-muted-foreground" />
                       </div>
                       <Input
-                        type=&quot;text&quot;
-                        placeholder=&quot;ZIP Code&quot;
-                        value={filters.zipCodes[0] || &quot;&quot;}
+                        type="text"
+                        placeholder="ZIP Code"
+                        value={filters.zipCodes[0] || ""}
                         onChange={(e) => {
                           const value = e.target.value.trim();
                           if (value) {
@@ -569,19 +569,19 @@ export function LocationFilters({
                             setFilters((prev) => ({ ...prev, zipCodes: [] }));
                           }
                         }}
-                        className=&quot;h-8 text-xs pl-7 pr-6&quot;
+                        className="h-8 text-xs pl-7 pr-6"
                       />
                       {filters.zipCodes.length > 0 && (
                         <Button
-                          type=&quot;button&quot;
-                          variant=&quot;ghost&quot;
+                          type="button"
+                          variant="ghost"
                           onClick={() =>
                             setFilters((prev) => ({ ...prev, zipCodes: [] }))
                           }
-                          className=&quot;absolute inset-y-0 right-0 h-8 w-6 p-0&quot;
+                          className="absolute inset-y-0 right-0 h-8 w-6 p-0"
                         >
-                          <X className=&quot;h-3 w-3&quot; />
-                          <span className=&quot;sr-only&quot;>Clear</span>
+                          <X className="h-3 w-3" />
+                          <span className="sr-only">Clear</span>
                         </Button>
                       )}
                     </div>
@@ -594,124 +594,124 @@ export function LocationFilters({
                   filters.states.length > 0 ||
                   filters.cities.length > 0 ||
                   filters.zipCodes.length > 0) && (
-                  <div className=&quot;mt-3 flex flex-wrap gap-2 items-center&quot;>
+                  <div className="mt-3 flex flex-wrap gap-2 items-center">
                     {filters.status.length > 0 && (
                       <Badge
-                        variant=&quot;outline&quot;
-                        className=&quot;text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10&quot;
+                        variant="outline"
+                        className="text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10"
                       >
                         Status: {filters.status[0]}
                         <Button
-                          type=&quot;button&quot;
-                          variant=&quot;ghost&quot;
-                          size=&quot;icon&quot;
+                          type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={() =>
                             setFilters((prev) => ({ ...prev, status: [] }))
                           }
-                          className=&quot;h-4 w-4 ml-1 p-0&quot;
+                          className="h-4 w-4 ml-1 p-0"
                         >
-                          <X className=&quot;h-2.5 w-2.5&quot; />
-                          <span className=&quot;sr-only&quot;>Clear</span>
+                          <X className="h-2.5 w-2.5" />
+                          <span className="sr-only">Clear</span>
                         </Button>
                       </Badge>
                     )}
 
                     {filters.locationType.length > 0 && (
                       <Badge
-                        variant=&quot;outline&quot;
-                        className=&quot;text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10&quot;
+                        variant="outline"
+                        className="text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10"
                       >
                         Type: {filters.locationType[0]}
                         <Button
-                          type=&quot;button&quot;
-                          variant=&quot;ghost&quot;
-                          size=&quot;icon&quot;
+                          type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={() =>
                             setFilters((prev) => ({
                               ...prev,
                               locationType: [],
                             }))
                           }
-                          className=&quot;h-4 w-4 ml-1 p-0&quot;
+                          className="h-4 w-4 ml-1 p-0"
                         >
-                          <X className=&quot;h-2.5 w-2.5&quot; />
-                          <span className=&quot;sr-only&quot;>Clear</span>
+                          <X className="h-2.5 w-2.5" />
+                          <span className="sr-only">Clear</span>
                         </Button>
                       </Badge>
                     )}
 
                     {filters.states.length > 0 && (
                       <Badge
-                        variant=&quot;outline&quot;
-                        className=&quot;text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10&quot;
+                        variant="outline"
+                        className="text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10"
                       >
                         State: {filters.states[0]}
                         <Button
-                          type=&quot;button&quot;
-                          variant=&quot;ghost&quot;
-                          size=&quot;icon&quot;
+                          type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={() =>
                             setFilters((prev) => ({ ...prev, states: [] }))
                           }
-                          className=&quot;h-4 w-4 ml-1 p-0&quot;
+                          className="h-4 w-4 ml-1 p-0"
                         >
-                          <X className=&quot;h-2.5 w-2.5&quot; />
-                          <span className=&quot;sr-only&quot;>Clear</span>
+                          <X className="h-2.5 w-2.5" />
+                          <span className="sr-only">Clear</span>
                         </Button>
                       </Badge>
                     )}
 
                     {filters.cities.length > 0 && (
                       <Badge
-                        variant=&quot;outline&quot;
-                        className=&quot;text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10&quot;
+                        variant="outline"
+                        className="text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10"
                       >
                         City: {filters.cities[0]}
                         <Button
-                          type=&quot;button&quot;
-                          variant=&quot;ghost&quot;
-                          size=&quot;icon&quot;
+                          type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={() =>
                             setFilters((prev) => ({ ...prev, cities: [] }))
                           }
-                          className=&quot;h-4 w-4 ml-1 p-0&quot;
+                          className="h-4 w-4 ml-1 p-0"
                         >
-                          <X className=&quot;h-2.5 w-2.5&quot; />
-                          <span className=&quot;sr-only&quot;>Clear</span>
+                          <X className="h-2.5 w-2.5" />
+                          <span className="sr-only">Clear</span>
                         </Button>
                       </Badge>
                     )}
 
                     {filters.zipCodes.length > 0 && (
                       <Badge
-                        variant=&quot;outline&quot;
-                        className=&quot;text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10&quot;
+                        variant="outline"
+                        className="text-xs px-2 py-0 h-6 bg-opacity-20 dark:bg-opacity-20 bg-primary/10 dark:bg-primary/10"
                       >
                         ZIP: {filters.zipCodes[0]}
                         <Button
-                          type=&quot;button&quot;
-                          variant=&quot;ghost&quot;
-                          size=&quot;icon&quot;
+                          type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={() =>
                             setFilters((prev) => ({ ...prev, zipCodes: [] }))
                           }
-                          className=&quot;h-4 w-4 ml-1 p-0&quot;
+                          className="h-4 w-4 ml-1 p-0"
                         >
-                          <X className=&quot;h-2.5 w-2.5&quot; />
-                          <span className=&quot;sr-only&quot;>Clear</span>
+                          <X className="h-2.5 w-2.5" />
+                          <span className="sr-only">Clear</span>
                         </Button>
                       </Badge>
                     )}
 
                     <Button
-                      type=&quot;button&quot;
-                      variant=&quot;ghost&quot;
-                      size=&quot;sm&quot;
+                      type="button"
+                      variant="ghost"
+                      size="sm"
                       onClick={clearAllFilters}
-                      className=&quot;h-6 text-xs&quot;
+                      className="h-6 text-xs"
                     >
                       Clear all
-                      <X className=&quot;ml-1 h-3 w-3" />
+                      <X className="ml-1 h-3 w-3" />
                     </Button>
                   </div>
                 )}

@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import { QueryClient } from &quot;@tanstack/react-query&quot;;
+import { QueryClient } from "@tanstack/react-query";
 
 /**
  * Default fetch function for API requests
@@ -8,7 +8,7 @@ import { QueryClient } from &quot;@tanstack/react-query&quot;;
  * Includes improved error handling and retry logic
  */
 export async function apiRequest(
-  method: &quot;GET&quot; | &quot;POST&quot; | &quot;PUT&quot; | &quot;PATCH&quot; | &quot;DELETE&quot;,
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   url: string,
   data?: any,
   retries = 1,
@@ -16,19 +16,19 @@ export async function apiRequest(
   const options: RequestInit = {
     method,
     headers: {
-      &quot;Content-Type&quot;: &quot;application/json&quot;,
+      "Content-Type": "application/json",
     },
-    credentials: &quot;include&quot;, // Include cookies for auth
+    credentials: "include", // Include cookies for auth
     // Add cache control for GET requests
-    cache: method === &quot;GET&quot; ? &quot;default&quot; : &quot;no-cache&quot;,
+    cache: method === "GET" ? "default" : "no-cache",
   };
 
   if (data) {
     try {
       options.body = JSON.stringify(data);
     } catch (error) {
-      console.error(&quot;Error serializing request data:&quot;, error);
-      throw new Error(&quot;Invalid request data&quot;);
+      console.error("Error serializing request data:", error);
+      throw new Error("Invalid request data");
     }
   }
 

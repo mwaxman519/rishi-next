@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { db } from &quot;@/lib/db&quot;;
-import { permissions } from &quot;@shared/schema&quot;;
+import { db } from "@/lib/db";
+import { permissions } from "@shared/schema";
 
 /**
  * Fetch all available permissions
@@ -22,9 +22,9 @@ export async function GET(req: NextRequest) {
     
     return NextResponse.json(allPermissions);
   } catch (error) {
-    console.error(&quot;Error fetching permissions:&quot;, error);
+    console.error("Error fetching permissions:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch permissions&quot; },
+      { error: "Failed to fetch permissions" },
       { status: 500 },
     );
   }

@@ -1,14 +1,14 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import FullCalendar from &quot;@fullcalendar/react&quot;;
-import dayGridPlugin from &quot;@fullcalendar/daygrid&quot;;
-import timeGridPlugin from &quot;@fullcalendar/timegrid&quot;;
-import interactionPlugin from &quot;@fullcalendar/interaction&quot;;
-import { Card, CardContent } from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
   DialogContent,
@@ -16,8 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from &quot;@/components/ui/dialog&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 import {
   CalendarIcon,
   ChevronLeft,
@@ -26,10 +26,10 @@ import {
   Users,
   Clock,
   CheckCircle2,
-} from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
-import { format, parseISO } from &quot;date-fns&quot;;
-import { useToast } from &quot;@/components/ui/use-toast&quot;;
+} from "lucide-react";
+import Link from "next/link";
+import { format, parseISO } from "date-fns";
+import { useToast } from "@/components/ui/use-toast";
 
 interface EventCalendarViewProps {
   organizationId: string | undefined;
@@ -39,18 +39,18 @@ interface EventCalendarViewProps {
 const formatEventsForCalendar = (events: any[]) => {
   return events.map((event) => {
     // Determine color based on status
-    let backgroundColor = &quot;#4f46e5&quot;; // Default blue for scheduled
-    let borderColor = &quot;#4338ca&quot;;
+    let backgroundColor = "#4f46e5"; // Default blue for scheduled
+    let borderColor = "#4338ca";
 
-    if (event.status === &quot;in_progress&quot;) {
-      backgroundColor = &quot;#0ea5e9&quot;; // Blue
-      borderColor = &quot;#0284c7&quot;;
-    } else if (event.status === &quot;completed&quot;) {
-      backgroundColor = &quot;#10b981&quot;; // Green
-      borderColor = &quot;#059669&quot;;
-    } else if (event.status === &quot;canceled&quot;) {
-      backgroundColor = &quot;#ef4444&quot;; // Red
-      borderColor = &quot;#dc2626&quot;;
+    if (event.status === "in_progress") {
+      backgroundColor = "#0ea5e9"; // Blue
+      borderColor = "#0284c7";
+    } else if (event.status === "completed") {
+      backgroundColor = "#10b981"; // Green
+      borderColor = "#059669";
+    } else if (event.status === "canceled") {
+      backgroundColor = "#ef4444"; // Red
+      borderColor = "#dc2626";
     }
 
     return {
@@ -60,9 +60,9 @@ const formatEventsForCalendar = (events: any[]) => {
       end: event.endDateTime,
       backgroundColor,
       borderColor,
-      textColor: &quot;#fff&quot;,
+      textColor: "#fff",
       extendedProps: {
-        location: event.location?.name || &quot;No location specified&quot;,
+        location: event.location?.name || "No location specified",
         status: event.status,
         description: event.description,
         staffAssigned: event.staffCount || 0,
@@ -84,17 +84,17 @@ export default function EventCalendarView({
     isLoading,
     error,
   } = useQuery<any[]>({
-    queryKey: [&quot;events&quot;, organizationId],
+    queryKey: ["events", organizationId],
     queryFn: async () => {
       const url = organizationId
         ? `/api/events?organizationId=${organizationId}`
-        : &quot;/api/events&quot;;
+        : "/api/events";
 
       const response = await fetch(url);
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || &quot;Failed to fetch events&quot;);
+        throw new Error(errorData.error || "Failed to fetch events");
       }
 
       return await response.json();
@@ -109,7 +109,7 @@ export default function EventCalendarView({
     fetch(`/api/events/${eventId}`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error(&quot;Failed to fetch event details&quot;);
+          throw new Error("Failed to fetch event details");
         }
         return response.json();
       })
@@ -123,9 +123,9 @@ export default function EventCalendarView({
       })
       .catch((error) => {
         toast({
-          title: &quot;Error&quot;,
+          title: "Error",
           description: error.message,
-          variant: &quot;destructive&quot;,
+          variant: "destructive",
         });
       });
   };
@@ -133,35 +133,35 @@ export default function EventCalendarView({
   // Format status for display
   const formatStatus = (status: string) => {
     return status
-      .split(&quot;_&quot;)
+      .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(&quot; &quot;);
+      .join(" ");
   };
 
   // Get badge variant based on status
   const getBadgeVariant = (status: string) => {
     switch (status) {
-      case &quot;scheduled&quot;:
-        return &quot;default&quot;;
-      case &quot;in_progress&quot;:
-        return &quot;secondary&quot;;
-      case &quot;completed&quot;:
-        return &quot;success&quot;;
-      case &quot;canceled&quot;:
-        return &quot;destructive&quot;;
+      case "scheduled":
+        return "default";
+      case "in_progress":
+        return "secondary";
+      case "completed":
+        return "success";
+      case "canceled":
+        return "destructive";
       default:
-        return &quot;outline&quot;;
+        return "outline";
     }
   };
 
   if (isLoading) {
-    return <Skeleton className=&quot;w-full h-[600px]&quot; />;
+    return <Skeleton className="w-full h-[600px]" />;
   }
 
   if (error) {
     return (
-      <div className=&quot;rounded-md bg-destructive/15 p-4&quot;>
-        <p className=&quot;text-destructive&quot;>
+      <div className="rounded-md bg-destructive/15 p-4">
+        <p className="text-destructive">
           Error loading events: {(error as Error).message}
         </p>
       </div>
@@ -172,42 +172,42 @@ export default function EventCalendarView({
 
   return (
     <div>
-      <Card className=&quot;mb-6&quot;>
-        <CardContent className=&quot;p-0&quot;>
+      <Card className="mb-6">
+        <CardContent className="p-0">
           <FullCalendar
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView=&quot;dayGridMonth&quot;
+            initialView="dayGridMonth"
             headerToolbar={{
-              left: &quot;prev,next today&quot;,
-              center: &quot;title&quot;,
-              right: &quot;dayGridMonth,timeGridWeek,timeGridDay&quot;,
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
             }}
             events={calendarEvents}
             eventClick={handleEventClick}
-            height=&quot;auto&quot;
+            height="auto"
             aspectRatio={1.5}
             contentHeight={600}
             expandRows={true}
             customButtons={{
               prev: {
-                text: "&quot;,
+                text: "",
                 click: function (calendar) {
                   if (calendar.el) {
                     const calendarApi = calendar.view.calendar;
                     calendarApi.prev();
                   }
                 },
-                icon: &quot;chevron-left&quot;,
+                icon: "chevron-left",
               },
               next: {
-                text: &quot;&quot;,
+                text: "",
                 click: function (calendar) {
                   if (calendar.el) {
                     const calendarApi = calendar.view.calendar;
                     calendarApi.next();
                   }
                 },
-                icon: &quot;chevron-right&quot;,
+                icon: "chevron-right",
               },
             }}
           />
@@ -216,21 +216,21 @@ export default function EventCalendarView({
 
       {/* Event Details Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className=&quot;sm:max-w-[500px]&quot;>
+        <DialogContent className="sm:max-w-[500px]">
           {selectedEvent && (
             <>
               <DialogHeader>
                 <DialogTitle>{selectedEvent.title}</DialogTitle>
                 <DialogDescription>
-                  {format(new Date(selectedEvent.startDateTime), &quot;PPp&quot;)} -
-                  {format(new Date(selectedEvent.endDateTime), &quot;PPp&quot;)}
+                  {format(new Date(selectedEvent.startDateTime), "PPp")} -
+                  {format(new Date(selectedEvent.endDateTime), "PPp")}
                 </DialogDescription>
               </DialogHeader>
-              <div className=&quot;py-4 space-y-4&quot;>
-                <div className=&quot;flex items-start space-x-2&quot;>
+              <div className="py-4 space-y-4">
+                <div className="flex items-start space-x-2">
                   <Badge
                     variant={getBadgeVariant(selectedEvent.status)}
-                    className=&quot;mt-0.5&quot;
+                    className="mt-0.5"
                   >
                     {formatStatus(selectedEvent.status)}
                   </Badge>
@@ -238,40 +238,40 @@ export default function EventCalendarView({
 
                 {selectedEvent.description && (
                   <div>
-                    <h4 className=&quot;text-sm font-medium mb-1&quot;>Description</h4>
-                    <p className=&quot;text-sm text-muted-foreground&quot;>
+                    <h4 className="text-sm font-medium mb-1">Description</h4>
+                    <p className="text-sm text-muted-foreground">
                       {selectedEvent.description}
                     </p>
                   </div>
                 )}
 
-                <div className=&quot;grid grid-cols-1 gap-3&quot;>
-                  <div className=&quot;flex items-center&quot;>
-                    <MapPin className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="flex items-center">
+                    <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
                     <span>{selectedEvent.extendedProps.location}</span>
                   </div>
 
-                  <div className=&quot;flex items-center&quot;>
-                    <Clock className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                  <div className="flex items-center">
+                    <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
                     <span>
-                      {format(new Date(selectedEvent.startDateTime), &quot;PPp&quot;)} -
-                      {format(new Date(selectedEvent.endDateTime), &quot;p&quot;)}
+                      {format(new Date(selectedEvent.startDateTime), "PPp")} -
+                      {format(new Date(selectedEvent.endDateTime), "p")}
                     </span>
                   </div>
 
-                  <div className=&quot;flex items-center&quot;>
-                    <Users className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                  <div className="flex items-center">
+                    <Users className="h-4 w-4 mr-2 text-muted-foreground" />
                     <span>
                       {selectedEvent.extendedProps.staffAssigned > 0
                         ? `${selectedEvent.extendedProps.staffAssigned} staff assigned`
-                        : &quot;No staff assigned&quot;}
+                        : "No staff assigned"}
                     </span>
                   </div>
                 </div>
               </div>
               <DialogFooter>
                 <Button
-                  variant=&quot;outline"
+                  variant="outline"
                   onClick={() => setIsDialogOpen(false)}
                 >
                   Close

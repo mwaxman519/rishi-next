@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import Link from &quot;next/link&quot;;
+import Link from "next/link";
 import {
   Building,
   MapPin,
@@ -9,7 +9,7 @@ import {
   UserCog,
   CreditCard,
   ArrowRight,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -17,153 +17,153 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;../components/ui/card&quot;;
-import { Button } from &quot;../components/ui/button&quot;;
-import { useAuthorization } from &quot;../hooks/useAuthorization&quot;;
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { useAuthorization } from "../hooks/useAuthorization";
 
 // Define the management modules
 const managementModules = [
   {
-    title: &quot;Client Accounts&quot;,
-    description: &quot;Manage client organizations and account settings&quot;,
-    icon: <Building className=&quot;h-10 w-10 text-blue-600 dark:text-blue-400&quot; />,
-    href: &quot;/client-management/accounts&quot;,
-    permission: &quot;view:client-accounts&quot;,
+    title: "Client Accounts",
+    description: "Manage client organizations and account settings",
+    icon: <Building className="h-10 w-10 text-blue-600 dark:text-blue-400" />,
+    href: "/client-management/accounts",
+    permission: "view:client-accounts",
     stats: {
       count: 5,
-      label: &quot;Active Clients&quot;,
+      label: "Active Clients",
     },
     actions: [
       {
-        label: &quot;Add Client&quot;,
-        href: &quot;/client-management/accounts/create&quot;,
-        permission: &quot;create:client-accounts&quot;,
+        label: "Add Client",
+        href: "/client-management/accounts/create",
+        permission: "create:client-accounts",
       },
       {
-        label: &quot;View All&quot;,
-        href: &quot;/client-management/accounts&quot;,
-        permission: &quot;view:client-accounts&quot;,
+        label: "View All",
+        href: "/client-management/accounts",
+        permission: "view:client-accounts",
       },
     ],
   },
   {
-    title: &quot;Location Management&quot;,
-    description: &quot;Manage venues, facilities, and service locations&quot;,
+    title: "Location Management",
+    description: "Manage venues, facilities, and service locations",
     icon: (
-      <MapPin className=&quot;h-10 w-10 text-emerald-600 dark:text-emerald-400&quot; />
+      <MapPin className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
     ),
-    href: &quot;/client-management/locations&quot;,
-    permission: &quot;view:locations&quot;,
+    href: "/client-management/locations",
+    permission: "view:locations",
     stats: {
       count: 5,
-      label: &quot;Total Locations&quot;,
+      label: "Total Locations",
     },
     actions: [
       {
-        label: &quot;Add Location&quot;,
-        href: &quot;/client-management/locations/create&quot;,
-        permission: &quot;create:locations&quot;,
+        label: "Add Location",
+        href: "/client-management/locations/create",
+        permission: "create:locations",
       },
       {
-        label: &quot;View All&quot;,
-        href: &quot;/client-management/locations&quot;,
-        permission: &quot;view:locations&quot;,
+        label: "View All",
+        href: "/client-management/locations",
+        permission: "view:locations",
       },
     ],
   },
   {
-    title: &quot;Kit Management&quot;,
-    description: &quot;Manage kit templates and deployed equipment kits&quot;,
+    title: "Kit Management",
+    description: "Manage kit templates and deployed equipment kits",
     icon: (
-      <Package2 className=&quot;h-10 w-10 text-purple-600 dark:text-purple-400&quot; />
+      <Package2 className="h-10 w-10 text-purple-600 dark:text-purple-400" />
     ),
-    href: &quot;/client-management/kits&quot;,
-    permission: &quot;view:kits&quot;,
+    href: "/client-management/kits",
+    permission: "view:kits",
     stats: {
       count: 5,
-      label: &quot;Deployed Kits&quot;,
+      label: "Deployed Kits",
     },
     actions: [
       {
-        label: &quot;Add Kit&quot;,
-        href: &quot;/client-management/kits/create&quot;,
-        permission: &quot;create:kits&quot;,
+        label: "Add Kit",
+        href: "/client-management/kits/create",
+        permission: "create:kits",
       },
       {
-        label: &quot;View All&quot;,
-        href: &quot;/client-management/kits&quot;,
-        permission: &quot;view:kits&quot;,
+        label: "View All",
+        href: "/client-management/kits",
+        permission: "view:kits",
       },
     ],
   },
   {
-    title: &quot;Staff Management&quot;,
-    description: &quot;Manage client staff assignments and scheduling&quot;,
-    icon: <Users className=&quot;h-10 w-10 text-orange-600 dark:text-orange-400&quot; />,
-    href: &quot;/client-management/staff&quot;,
-    permission: &quot;view:staff&quot;,
+    title: "Staff Management",
+    description: "Manage client staff assignments and scheduling",
+    icon: <Users className="h-10 w-10 text-orange-600 dark:text-orange-400" />,
+    href: "/client-management/staff",
+    permission: "view:staff",
     stats: {
       count: 5,
-      label: &quot;Assigned Staff&quot;,
+      label: "Assigned Staff",
     },
     actions: [
       {
-        label: &quot;Assign Staff&quot;,
-        href: &quot;/client-management/staff/create&quot;,
-        permission: &quot;assign:staff&quot;,
+        label: "Assign Staff",
+        href: "/client-management/staff/create",
+        permission: "assign:staff",
       },
       {
-        label: &quot;View All&quot;,
-        href: &quot;/client-management/staff&quot;,
-        permission: &quot;view:staff&quot;,
+        label: "View All",
+        href: "/client-management/staff",
+        permission: "view:staff",
       },
     ],
   },
   {
-    title: &quot;Client Users&quot;,
-    description: &quot;Manage client user accounts and access control&quot;,
+    title: "Client Users",
+    description: "Manage client user accounts and access control",
     icon: (
-      <UserCog className=&quot;h-10 w-10 text-indigo-600 dark:text-indigo-400&quot; />
+      <UserCog className="h-10 w-10 text-indigo-600 dark:text-indigo-400" />
     ),
-    href: &quot;/client-management/users&quot;,
-    permission: &quot;view:client-users&quot;,
+    href: "/client-management/users",
+    permission: "view:client-users",
     stats: {
       count: 5,
-      label: &quot;Active Users&quot;,
+      label: "Active Users",
     },
     actions: [
       {
-        label: &quot;Add User&quot;,
-        href: &quot;/client-management/users/create&quot;,
-        permission: &quot;create:client-users&quot;,
+        label: "Add User",
+        href: "/client-management/users/create",
+        permission: "create:client-users",
       },
       {
-        label: &quot;View All&quot;,
-        href: &quot;/client-management/users&quot;,
-        permission: &quot;view:client-users&quot;,
+        label: "View All",
+        href: "/client-management/users",
+        permission: "view:client-users",
       },
     ],
   },
   {
-    title: &quot;Billing Management&quot;,
-    description: &quot;Manage client invoices, billing, and payment information&quot;,
-    icon: <CreditCard className=&quot;h-10 w-10 text-teal-600 dark:text-teal-400&quot; />,
-    href: &quot;/client-management/billing&quot;,
-    permission: &quot;view:invoices&quot;,
+    title: "Billing Management",
+    description: "Manage client invoices, billing, and payment information",
+    icon: <CreditCard className="h-10 w-10 text-teal-600 dark:text-teal-400" />,
+    href: "/client-management/billing",
+    permission: "view:invoices",
     stats: {
       count: 3,
-      label: &quot;Pending Invoices&quot;,
+      label: "Pending Invoices",
     },
     actions: [
       {
-        label: &quot;Create Invoice&quot;,
-        href: &quot;/client-management/billing/invoices/create&quot;,
-        permission: &quot;create:invoices&quot;,
+        label: "Create Invoice",
+        href: "/client-management/billing/invoices/create",
+        permission: "create:invoices",
       },
       {
-        label: &quot;View All&quot;,
-        href: &quot;/client-management/billing&quot;,
-        permission: &quot;view:invoices&quot;,
+        label: "View All",
+        href: "/client-management/billing",
+        permission: "view:invoices",
       },
     ],
   },
@@ -178,44 +178,44 @@ export default function ClientManagementPage() {
   );
 
   return (
-    <div className=&quot;container mx-auto px-4 py-8&quot;>
-      <div className=&quot;mb-8&quot;>
-        <h1 className=&quot;text-3xl font-bold text-gray-900 dark:text-white&quot;>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Client Management
         </h1>
-        <p className=&quot;mt-2 text-gray-600 dark:text-gray-400 text-lg&quot;>
+        <p className="mt-2 text-gray-600 dark:text-gray-400 text-lg">
           Comprehensive tools for managing client organizations, facilities, and
           resources
         </p>
       </div>
 
-      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {accessibleModules.map((module, index) => (
-          <Card key={index} className=&quot;overflow-hidden&quot;>
-            <CardHeader className=&quot;pb-2&quot;>
-              <div className=&quot;flex items-start justify-between&quot;>
+          <Card key={index} className="overflow-hidden">
+            <CardHeader className="pb-2">
+              <div className="flex items-start justify-between">
                 <div>{module.icon}</div>
-                <div className=&quot;bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2 text-center&quot;>
-                  <div className=&quot;text-2xl font-bold&quot;>{module.stats.count}</div>
-                  <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-2 text-center">
+                  <div className="text-2xl font-bold">{module.stats.count}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     {module.stats.label}
                   </div>
                 </div>
               </div>
-              <CardTitle className=&quot;mt-4 text-xl&quot;>{module.title}</CardTitle>
+              <CardTitle className="mt-4 text-xl">{module.title}</CardTitle>
               <CardDescription>{module.description}</CardDescription>
             </CardHeader>
-            <CardContent className=&quot;pb-2&quot;>
-              <div className=&quot;space-y-2&quot;>
+            <CardContent className="pb-2">
+              <div className="space-y-2">
                 {module.actions.map(
                   (action, actionIndex) =>
                     checkPermission(action.permission) && (
-                      <div key={actionIndex} className=&quot;text-sm&quot;>
+                      <div key={actionIndex} className="text-sm">
                         <Link
                           href={action.href}
-                          className=&quot;text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1&quot;
+                          className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
                         >
-                          <ArrowRight className=&quot;h-3 w-3&quot; /> {action.label}
+                          <ArrowRight className="h-3 w-3" /> {action.label}
                         </Link>
                       </div>
                     ),
@@ -223,7 +223,7 @@ export default function ClientManagementPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button asChild variant=&quot;outline&quot; className=&quot;w-full&quot;>
+              <Button asChild variant="outline" className="w-full">
                 <Link href={module.href}>Manage {module.title}</Link>
               </Button>
             </CardFooter>

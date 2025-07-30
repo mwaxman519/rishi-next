@@ -7,4 +7,4 @@
  */
 
 // Re-export everything from the shared schema
-export * from &quot;../../shared/schema&quot;;
+export * from "../../shared/schema";

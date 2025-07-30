@@ -1,18 +1,18 @@
-import React from &quot;react&quot;;
-import Link from &quot;next/link&quot;;
-import { Clock } from &quot;lucide-react&quot;;
+import React from "react";
+import Link from "next/link";
+import { Clock } from "lucide-react";
 
 export default function FixedAvailabilityLink() {
-  // Create a floating link that&apos;s always visible
+  // Create a floating link that's always visible
   return (
-    <div className=&quot;fixed-availability-link&quot;>
+    <div className="fixed-availability-link">
       <Link
-        href=&quot;/availability&quot;
-        className=&quot;availability-btn&quot;
-        title=&quot;My Availability&quot;
+        href="/availability"
+        className="availability-btn"
+        title="My Availability"
       >
-        <Clock className=&quot;icon&quot; size={20} />
-        <span className=&quot;label&quot;>My Availability</span>
+        <Clock className="icon" size={20} />
+        <span className="label">My Availability</span>
       </Link>
 
       <style jsx>{`

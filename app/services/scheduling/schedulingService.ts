@@ -1,7 +1,7 @@
 /**
  * Scheduling Service - Core business logic for scheduling management
  */
-import { SchedulingRepository } from &quot;./repository&quot;;
+import { SchedulingRepository } from "./repository";
 import {
   Schedule,
   ScheduleShift,
@@ -24,12 +24,12 @@ import {
   AssignmentFilters,
   PublishScheduleParams,
   FinalizeScheduleParams,
-} from &quot;./models&quot;;
-import { organizationService } from &quot;../organizations&quot;;
-import { eventsService } from &quot;../events&quot;;
-import { staffService } from &quot;../staff&quot;;
-import { EventStatus } from &quot;../events/models&quot;;
-import { StaffStatus } from &quot;../staff/models&quot;;
+} from "./models";
+import { organizationService } from "../organizations";
+import { eventsService } from "../events";
+import { staffService } from "../staff";
+import { EventStatus } from "../events/models";
+import { StaffStatus } from "../staff/models";
 
 export class SchedulingService {
   private repository: SchedulingRepository;
@@ -81,7 +81,7 @@ export class SchedulingService {
     const endDate = new Date(data.endDate);
 
     if (startDate > endDate) {
-      throw new Error(&quot;Start date must be before or equal to end date&quot;);
+      throw new Error("Start date must be before or equal to end date");
     }
 
     // If using a template, apply it
@@ -155,21 +155,21 @@ export class SchedulingService {
       const endDate = new Date(data.endDate);
 
       if (startDate > endDate) {
-        throw new Error(&quot;Start date must be before or equal to end date&quot;);
+        throw new Error("Start date must be before or equal to end date");
       }
     } else if (data.startDate && !data.endDate) {
       const startDate = new Date(data.startDate);
       const endDate = new Date(existingSchedule.endDate);
 
       if (startDate > endDate) {
-        throw new Error(&quot;Start date must be before existing end date&quot;);
+        throw new Error("Start date must be before existing end date");
       }
     } else if (!data.startDate && data.endDate) {
       const startDate = new Date(existingSchedule.startDate);
       const endDate = new Date(data.endDate);
 
       if (startDate > endDate) {
-        throw new Error(&quot;Existing start date must be before end date&quot;);
+        throw new Error("Existing start date must be before end date");
       }
     }
 
@@ -179,7 +179,7 @@ export class SchedulingService {
         data.status === ScheduleStatus.PUBLISHED &&
         existingSchedule.status === ScheduleStatus.DRAFT
       ) {
-        throw new Error(&quot;Use publishSchedule method to publish a schedule&quot;);
+        throw new Error("Use publishSchedule method to publish a schedule");
       }
 
       if (
@@ -187,7 +187,7 @@ export class SchedulingService {
         (existingSchedule.status === ScheduleStatus.DRAFT ||
           existingSchedule.status === ScheduleStatus.PUBLISHED)
       ) {
-        throw new Error(&quot;Use finalizeSchedule method to finalize a schedule&quot;);
+        throw new Error("Use finalizeSchedule method to finalize a schedule");
       }
     }
 
@@ -318,7 +318,7 @@ export class SchedulingService {
     const fullEndDate = new Date(`${data.date}T${data.endTime}`);
 
     if (fullStartDate >= fullEndDate) {
-      throw new Error(&quot;Shift start time must be before end time&quot;);
+      throw new Error("Shift start time must be before end time");
     }
 
     // Check if shift date is within schedule date range
@@ -327,7 +327,7 @@ export class SchedulingService {
     const shiftDate = new Date(data.date);
 
     if (shiftDate < scheduleStartDate || shiftDate > scheduleEndDate) {
-      throw new Error(&quot;Shift date must be within schedule date range&quot;);
+      throw new Error("Shift date must be within schedule date range");
     }
 
     // Production implementation - validate location exists in database
@@ -373,7 +373,7 @@ export class SchedulingService {
       const fullEndDate = new Date(`${data.date}T${endTime}`);
 
       if (fullStartDate >= fullEndDate) {
-        throw new Error(&quot;Shift start time must be before end time&quot;);
+        throw new Error("Shift start time must be before end time");
       }
 
       // Check if new date is within schedule date range
@@ -382,7 +382,7 @@ export class SchedulingService {
       const shiftDate = new Date(data.date);
 
       if (shiftDate < scheduleStartDate || shiftDate > scheduleEndDate) {
-        throw new Error(&quot;Shift date must be within schedule date range&quot;);
+        throw new Error("Shift date must be within schedule date range");
       }
     } else if (!data.date && (data.startTime || data.endTime)) {
       const startTime = data.startTime || existingShift.startTime;
@@ -391,7 +391,7 @@ export class SchedulingService {
       const fullEndDate = new Date(`${existingShift.date}T${endTime}`);
 
       if (fullStartDate >= fullEndDate) {
-        throw new Error(&quot;Shift start time must be before end time&quot;);
+        throw new Error("Shift start time must be before end time");
       }
     }
 
@@ -614,7 +614,7 @@ export class SchedulingService {
 
     // If declining, ensure reason is provided
     if (
-      data.status === &quot;declined&quot; &&
+      data.status === "declined" &&
       !data.declineReason &&
       !existingAssignment.declineReason
     ) {
@@ -783,7 +783,7 @@ export class SchedulingService {
 
     // Validate time range
     if (data.startTime >= data.endTime) {
-      throw new Error(&quot;Start time must be before end time&quot;);
+      throw new Error("Start time must be before end time");
     }
 
     // Production implementation - validate location exists in database
@@ -811,15 +811,15 @@ export class SchedulingService {
     // Validate time range if changing times
     if (data.startTime && data.endTime) {
       if (data.startTime >= data.endTime) {
-        throw new Error(&quot;Start time must be before end time&quot;);
+        throw new Error("Start time must be before end time");
       }
     } else if (data.startTime && !data.endTime) {
       if (data.startTime >= existingTemplate.endTime) {
-        throw new Error(&quot;Start time must be before existing end time&quot;);
+        throw new Error("Start time must be before existing end time");
       }
     } else if (!data.startTime && data.endTime) {
       if (existingTemplate.startTime >= data.endTime) {
-        throw new Error(&quot;Existing start time must be before end time&quot;);
+        throw new Error("Existing start time must be before end time");
       }
     }
 
@@ -879,7 +879,7 @@ export class SchedulingService {
         title: shiftTemplate.title,
         description: shiftTemplate.description,
         locationId: shiftTemplate.locationId,
-        date: shiftDate.toISOString().split(&quot;T&quot;)[0], // YYYY-MM-DD format
+        date: shiftDate.toISOString().split("T")[0], // YYYY-MM-DD format
         startTime: shiftTemplate.startTime,
         endTime: shiftTemplate.endTime,
         requiredStaffCount: shiftTemplate.requiredStaffCount,

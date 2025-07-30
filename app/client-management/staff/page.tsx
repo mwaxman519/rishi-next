@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
+import { useState, useEffect } from "react";
 import {
   Users,
   User,
@@ -14,7 +14,7 @@ import {
   ClipboardCheck,
   AlertCircle,
   Trash2,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -22,9 +22,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;../../components/ui/card&quot;;
-import { Button } from &quot;../../components/ui/button&quot;;
-import { Input } from &quot;../../components/ui/input&quot;;
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,7 +32,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from &quot;../../components/ui/dropdown-menu&quot;;
+} from "../../components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -41,14 +41,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from &quot;../../components/ui/table&quot;;
-import { Badge } from &quot;../../components/ui/badge&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+} from "../../components/ui/table";
+import { Badge } from "../../components/ui/badge";
+import { useAuthorization } from "@/hooks/useAuthorization";
 
 // Mock data for staff
 
 export default function StaffManagementPage() {
-  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
   const { checkPermission } = useAuthorization();
 
   // Filter staff based on search query
@@ -85,44 +85,44 @@ export default function StaffManagementPage() {
   // Function to get status badge color
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case &quot;active&quot;:
+      case "active":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-green-50 text-green-700 border-green-200&quot;
+            variant="outline"
+            className="bg-green-50 text-green-700 border-green-200"
           >
             Active
           </Badge>
         );
-      case &quot;on leave&quot;:
+      case "on leave":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;
+            variant="outline"
+            className="bg-yellow-50 text-yellow-700 border-yellow-200"
           >
             On Leave
           </Badge>
         );
-      case &quot;training&quot;:
+      case "training":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-blue-50 text-blue-700 border-blue-200&quot;
+            variant="outline"
+            className="bg-blue-50 text-blue-700 border-blue-200"
           >
             Training
           </Badge>
         );
-      case &quot;inactive&quot;:
+      case "inactive":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-gray-50 text-gray-700 border-gray-200&quot;
+            variant="outline"
+            className="bg-gray-50 text-gray-700 border-gray-200"
           >
             Inactive
           </Badge>
         );
       default:
-        return <Badge variant=&quot;outline&quot;>{status}</Badge>;
+        return <Badge variant="outline">{status}</Badge>;
     }
   };
 
@@ -130,15 +130,15 @@ export default function StaffManagementPage() {
   const getCertificationBadge = (certified: boolean) => {
     return certified ? (
       <Badge
-        variant=&quot;outline&quot;
-        className=&quot;bg-green-50 text-green-700 border-green-200&quot;
+        variant="outline"
+        className="bg-green-50 text-green-700 border-green-200"
       >
         Certified
       </Badge>
     ) : (
       <Badge
-        variant=&quot;outline&quot;
-        className=&quot;bg-red-50 text-red-700 border-red-200&quot;
+        variant="outline"
+        className="bg-red-50 text-red-700 border-red-200"
       >
         Not Certified
       </Badge>
@@ -146,65 +146,65 @@ export default function StaffManagementPage() {
   };
 
   return (
-    <div className=&quot;container mx-auto px-4 py-8&quot;>
-      <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4&quot;>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <div>
-          <h1 className=&quot;text-3xl font-bold text-gray-900 dark:text-white&quot;>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Staff Management
           </h1>
-          <p className=&quot;mt-1 text-gray-600 dark:text-gray-400&quot;>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">
             Manage client staff assignments and scheduling
           </p>
         </div>
 
-        <div className=&quot;flex flex-col sm:flex-row gap-3&quot;>
-          <div className=&quot;relative&quot;>
-            <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
-              type=&quot;search&quot;
-              placeholder=&quot;Search staff...&quot;
-              className=&quot;pl-8 w-full sm:w-[250px]&quot;
+              type="search"
+              placeholder="Search staff..."
+              className="pl-8 w-full sm:w-[250px]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           <Button
-            className=&quot;flex items-center gap-1&quot;
-            disabled={!checkPermission(&quot;assign:staff&quot;)}
+            className="flex items-center gap-1"
+            disabled={!checkPermission("assign:staff")}
           >
-            <Plus className=&quot;h-4 w-4&quot; /> Assign Staff
+            <Plus className="h-4 w-4" /> Assign Staff
           </Button>
         </div>
       </div>
 
       <Card>
-        <CardContent className=&quot;p-0&quot;>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className=&quot;w-[250px]&quot;>Staff Member</TableHead>
+                <TableHead className="w-[250px]">Staff Member</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Client / Location</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Certification</TableHead>
                 <TableHead>Assigned Since</TableHead>
-                <TableHead className=&quot;text-right&quot;>Actions</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredStaff.length > 0 ? (
                 filteredStaff.map((staff) => (
                   <TableRow key={staff.id}>
-                    <TableCell className=&quot;font-medium&quot;>
-                      <div className=&quot;flex items-center&quot;>
-                        <div className=&quot;flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-3&quot;>
-                          <User className=&quot;h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
+                    <TableCell className="font-medium">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-3">
+                          <User className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                         </div>
                         <div>
                           <div>{staff.name}</div>
-                          <div className=&quot;text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1&quot;>
-                            <Mail className=&quot;h-3 w-3&quot; /> {staff.email}
+                          <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1">
+                            <Mail className="h-3 w-3" /> {staff.email}
                           </div>
                         </div>
                       </div>
@@ -212,8 +212,8 @@ export default function StaffManagementPage() {
                     <TableCell>{staff.role}</TableCell>
                     <TableCell>
                       <div>
-                        <div className=&quot;font-medium&quot;>{staff.client}</div>
-                        <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
+                        <div className="font-medium">{staff.client}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
                           {staff.location}
                         </div>
                       </div>
@@ -223,60 +223,60 @@ export default function StaffManagementPage() {
                       {getCertificationBadge(staff.certified)}
                     </TableCell>
                     <TableCell>{staff.assignedSince}</TableCell>
-                    <TableCell className=&quot;text-right&quot;>
+                    <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant=&quot;ghost&quot; size=&quot;icon&quot;>
-                            <MoreVertical className=&quot;h-4 w-4&quot; />
-                            <span className=&quot;sr-only&quot;>Actions</span>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical className="h-4 w-4" />
+                            <span className="sr-only">Actions</span>
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align=&quot;end&quot;>
+                        <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Staff Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer&quot;
-                            disabled={!checkPermission(&quot;edit:staff&quot;)}
+                            className="cursor-pointer"
+                            disabled={!checkPermission("edit:staff")}
                           >
-                            <Edit className=&quot;h-4 w-4 mr-2&quot; /> Edit Assignment
+                            <Edit className="h-4 w-4 mr-2" /> Edit Assignment
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer&quot;
-                            disabled={!checkPermission(&quot;schedule:staff&quot;)}
+                            className="cursor-pointer"
+                            disabled={!checkPermission("schedule:staff")}
                           >
-                            <CalendarClock className=&quot;h-4 w-4 mr-2&quot; /> View
+                            <CalendarClock className="h-4 w-4 mr-2" /> View
                             Schedule
                           </DropdownMenuItem>
-                          <DropdownMenuItem className=&quot;cursor-pointer&quot;>
-                            <Phone className=&quot;h-4 w-4 mr-2&quot; /> Contact
+                          <DropdownMenuItem className="cursor-pointer">
+                            <Phone className="h-4 w-4 mr-2" /> Contact
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           {staff.certified ? (
                             <DropdownMenuItem
-                              className=&quot;cursor-pointer text-yellow-600&quot;
+                              className="cursor-pointer text-yellow-600"
                               disabled={
-                                !checkPermission(&quot;manage:certifications&quot;)
+                                !checkPermission("manage:certifications")
                               }
                             >
-                              <AlertCircle className=&quot;h-4 w-4 mr-2&quot; /> Revoke
+                              <AlertCircle className="h-4 w-4 mr-2" /> Revoke
                               Certification
                             </DropdownMenuItem>
                           ) : (
                             <DropdownMenuItem
-                              className=&quot;cursor-pointer text-green-600&quot;
+                              className="cursor-pointer text-green-600"
                               disabled={
-                                !checkPermission(&quot;manage:certifications&quot;)
+                                !checkPermission("manage:certifications")
                               }
                             >
-                              <ClipboardCheck className=&quot;h-4 w-4 mr-2&quot; /> Mark
+                              <ClipboardCheck className="h-4 w-4 mr-2" /> Mark
                               as Certified
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer text-red-600&quot;
-                            disabled={!checkPermission(&quot;remove:staff&quot;)}
+                            className="cursor-pointer text-red-600"
+                            disabled={!checkPermission("remove:staff")}
                           >
-                            <Trash2 className=&quot;h-4 w-4 mr-2&quot; /> Remove
+                            <Trash2 className="h-4 w-4 mr-2" /> Remove
                             Assignment
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -288,7 +288,7 @@ export default function StaffManagementPage() {
                 <TableRow>
                   <TableCell
                     colSpan={7}
-                    className=&quot;text-center py-8 text-gray-500 dark:text-gray-400"
+                    className="text-center py-8 text-gray-500 dark:text-gray-400"
                   >
                     No staff assignments found
                   </TableCell>

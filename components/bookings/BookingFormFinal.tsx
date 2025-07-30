@@ -1,26 +1,26 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 
 // Get 3-letter timezone abbreviation
 function getTimezoneAbbr() {
   // Try to get standard format like EDT, PDT, etc.
-  const options = { timeZoneName: &quot;short&quot; } as Intl.DateTimeFormatOptions;
-  const dateString = new Date().toLocaleTimeString(&quot;en-US&quot;, options);
-  const abbr = dateString.split(&quot; &quot;)[2];
-  return abbr && abbr.length <= 5 ? abbr : &quot;Local&quot;; // Fallback to 'Local' if no abbreviation found
+  const options = { timeZoneName: "short" } as Intl.DateTimeFormatOptions;
+  const dateString = new Date().toLocaleTimeString("en-US", options);
+  const abbr = dateString.split(" ")[2];
+  return abbr && abbr.length <= 5 ? abbr : "Local"; // Fallback to 'Local' if no abbreviation found
 }
-import { z } from &quot;zod&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { useForm, FormProvider } from &quot;react-hook-form&quot;;
-import { format } from &quot;date-fns&quot;;
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, FormProvider } from "react-hook-form";
+import { format } from "date-fns";
 import {
   CalendarIcon,
   ChevronLeft,
   ChevronRight,
   Clock,
   Loader2,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 /**
  * Booking Form Component - Part of the Bookings Microservice
  *
@@ -53,22 +53,22 @@ import {
  * We've chosen this over the built-in calendar component for improved
  * cross-browser compatibility, better mobile support, and more consistent styling.
  */
-import DatePicker from &quot;react-datepicker&quot;;
-import &quot;react-datepicker/dist/react-datepicker.css&quot;; // Base styles for the datepicker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"; // Base styles for the datepicker
 
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useToast } from "@/hooks/use-toast";
 // Mock location types and status for development
 enum LocationType {
-  VENUE = &quot;VENUE&quot;,
-  OFFICE = &quot;OFFICE&quot;,
-  STORAGE = &quot;STORAGE&quot;,
-  OTHER = &quot;OTHER&quot;,
+  VENUE = "VENUE",
+  OFFICE = "OFFICE",
+  STORAGE = "STORAGE",
+  OTHER = "OTHER",
 }
 
 enum LocationStatus {
-  PENDING = &quot;PENDING&quot;,
-  APPROVED = &quot;APPROVED&quot;,
-  REJECTED = &quot;REJECTED&quot;,
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
 }
 
 // Location data transfer object
@@ -86,39 +86,39 @@ interface LocationDTO {
   rejectionReason?: string;
 }
 
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Calendar } from &quot;@/components/ui/calendar&quot;;
-import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { LocationSelector } from &quot;@/components/locations/LocationSelector&quot;;
-import { Popover, PopoverContent, PopoverTrigger } from &quot;@/components/ui/popover&quot;;
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { LocationSelector } from "@/components/locations/LocationSelector";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { cn } from &quot;@/lib/utils&quot;;
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 // Define the booking form schema
 const bookingFormSchema = z.object({
   // title is auto-generated, not a direct field
-  date: z.date({ required_error: &quot;Please select a date&quot; }),
-  startTime: z.string().min(1, { message: &quot;Please enter a start time&quot; }),
-  endTime: z.string().min(1, { message: &quot;Please enter an end time&quot; }),
-  locationId: z.string().min(1, { message: &quot;Please select a location&quot; }),
+  date: z.date({ required_error: "Please select a date" }),
+  startTime: z.string().min(1, { message: "Please enter a start time" }),
+  endTime: z.string().min(1, { message: "Please enter an end time" }),
+  locationId: z.string().min(1, { message: "Please select a location" }),
   activityType: z
     .string()
-    .min(1, { message: &quot;Please select an activity type&quot; }),
-  eventType: z.string().min(1, { message: &quot;Please select an event type&quot; }),
-  clientId: z.string().min(1, { message: &quot;Please select a client&quot; }),
-  brand: z.string().min(1, { message: &quot;Please select a brand&quot; }),
+    .min(1, { message: "Please select an activity type" }),
+  eventType: z.string().min(1, { message: "Please select an event type" }),
+  clientId: z.string().min(1, { message: "Please select a client" }),
+  brand: z.string().min(1, { message: "Please select a brand" }),
   eventDetails: z.string().optional(),
   promotionType: z.string().optional(),
   promotionDetails: z.string().optional(),
@@ -127,7 +127,7 @@ const bookingFormSchema = z.object({
   // Recurring event settings
   isRecurring: z.boolean().default(false),
   recurringFrequency: z
-    .enum([&quot;daily&quot;, &quot;weekly&quot;, &quot;biweekly&quot;, &quot;monthly&quot;])
+    .enum(["daily", "weekly", "biweekly", "monthly"])
     .optional(),
   recurringCount: z.number().min(2).max(52).optional(),
 
@@ -150,231 +150,231 @@ export function BookingFormFinal({
   defaultValues,
 }: BookingFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState(&quot;details&quot;);
+  const [activeTab, setActiveTab] = useState("details");
 
   // Initialize form with default values
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
       date: new Date(),
-      startTime: &quot;09:00&quot;,
-      endTime: &quot;17:00&quot;,
-      locationId: "&quot;,
-      activityType: &quot;&quot;,
-      eventType: &quot;&quot;,
-      clientId: &quot;&quot;,
-      brand: &quot;&quot;,
-      eventDetails: &quot;&quot;,
-      promotionType: &quot;none&quot;,
-      promotionDetails: &quot;&quot;,
-      notes: &quot;&quot;,
+      startTime: "09:00",
+      endTime: "17:00",
+      locationId: "",
+      activityType: "",
+      eventType: "",
+      clientId: "",
+      brand: "",
+      eventDetails: "",
+      promotionType: "none",
+      promotionDetails: "",
+      notes: "",
       isRecurring: false,
-      recurringFrequency: &quot;weekly&quot;,
+      recurringFrequency: "weekly",
       recurringCount: 4,
       sendInvites: false,
-      inviteEmails: &quot;&quot;,
+      inviteEmails: "",
       ...defaultValues,
     },
   });
 
   // Event type options for cannabis industry
   const eventTypes = [
-    { value: &quot;dispensary_popup&quot;, label: &quot;Dispensary Pop-up&quot; },
-    { value: &quot;product_launch&quot;, label: &quot;Product Launch&quot; },
-    { value: &quot;in_store_demo&quot;, label: &quot;In-Store Demonstration&quot; },
-    { value: &quot;vendor_day&quot;, label: &quot;Vendor Day&quot; },
-    { value: &quot;cannabis_expo&quot;, label: &quot;Cannabis Expo/Convention&quot; },
-    { value: &quot;patient_education&quot;, label: &quot;Patient Education Event&quot; },
-    { value: &quot;budtender_training&quot;, label: &quot;Budtender Training&quot; },
-    { value: &quot;secret_shopping&quot;, label: &quot;Secret Shopping&quot; },
-    { value: &quot;industry_event&quot;, label: &quot;Industry Networking Event&quot; },
-    { value: &quot;seasonal_promotion&quot;, label: &quot;Seasonal Promotion&quot; },
-    { value: &quot;other&quot;, label: &quot;Other&quot; },
+    { value: "dispensary_popup", label: "Dispensary Pop-up" },
+    { value: "product_launch", label: "Product Launch" },
+    { value: "in_store_demo", label: "In-Store Demonstration" },
+    { value: "vendor_day", label: "Vendor Day" },
+    { value: "cannabis_expo", label: "Cannabis Expo/Convention" },
+    { value: "patient_education", label: "Patient Education Event" },
+    { value: "budtender_training", label: "Budtender Training" },
+    { value: "secret_shopping", label: "Secret Shopping" },
+    { value: "industry_event", label: "Industry Networking Event" },
+    { value: "seasonal_promotion", label: "Seasonal Promotion" },
+    { value: "other", label: "Other" },
   ];
 
   // Activity type options for cannabis industry
   const activityTypes = [
-    { value: &quot;brand_representation&quot;, label: &quot;Brand Representation&quot; },
-    { value: &quot;merchandising&quot;, label: &quot;Merchandising&quot; },
-    { value: &quot;product_demo&quot;, label: &quot;Product Demonstration&quot; },
-    { value: &quot;staff_training&quot;, label: &quot;Staff Training&quot; },
-    { value: &quot;patient_education&quot;, label: &quot;Patient Education&quot; },
-    { value: &quot;product_sampling&quot;, label: &quot;Product Sampling (where legal)&quot; },
-    { value: &quot;logistics&quot;, label: &quot;Logistics/Kit Movement&quot; },
-    { value: &quot;market_research&quot;, label: &quot;Market Research&quot; },
-    { value: &quot;display_setup&quot;, label: &quot;Display Setup&quot; },
-    { value: &quot;consumer_education&quot;, label: &quot;Consumer Education&quot; },
-    { value: &quot;other&quot;, label: &quot;Other&quot; },
+    { value: "brand_representation", label: "Brand Representation" },
+    { value: "merchandising", label: "Merchandising" },
+    { value: "product_demo", label: "Product Demonstration" },
+    { value: "staff_training", label: "Staff Training" },
+    { value: "patient_education", label: "Patient Education" },
+    { value: "product_sampling", label: "Product Sampling (where legal)" },
+    { value: "logistics", label: "Logistics/Kit Movement" },
+    { value: "market_research", label: "Market Research" },
+    { value: "display_setup", label: "Display Setup" },
+    { value: "consumer_education", label: "Consumer Education" },
+    { value: "other", label: "Other" },
   ];
 
   // Activities available for cannabis industry
   const availableActivities = [
-    { value: &quot;product_explanation&quot;, label: &quot;Product Explanation&quot; },
-    { value: &quot;strain_education&quot;, label: &quot;Strain/Variety Education&quot; },
-    { value: &quot;consumption_guidance&quot;, label: &quot;Consumption Guidance&quot; },
-    { value: &quot;terpene_education&quot;, label: &quot;Terpene Profile Education&quot; },
-    { value: &quot;budtender_training&quot;, label: &quot;Budtender Training&quot; },
-    { value: &quot;compliance_review&quot;, label: &quot;Compliance Review&quot; },
-    { value: &quot;display_maintenance&quot;, label: &quot;Display Maintenance&quot; },
+    { value: "product_explanation", label: "Product Explanation" },
+    { value: "strain_education", label: "Strain/Variety Education" },
+    { value: "consumption_guidance", label: "Consumption Guidance" },
+    { value: "terpene_education", label: "Terpene Profile Education" },
+    { value: "budtender_training", label: "Budtender Training" },
+    { value: "compliance_review", label: "Compliance Review" },
+    { value: "display_maintenance", label: "Display Maintenance" },
     {
-      value: &quot;promotional_material&quot;,
-      label: &quot;Promotional Material Distribution&quot;,
+      value: "promotional_material",
+      label: "Promotional Material Distribution",
     },
-    { value: &quot;customer_interaction&quot;, label: &quot;Customer Interaction&quot; },
-    { value: &quot;kit_inventory&quot;, label: &quot;Kit Inventory Management&quot; },
-    { value: &quot;restock_shelves&quot;, label: &quot;Restock Shelves&quot; },
-    { value: &quot;product_transfer&quot;, label: &quot;Product Transfer Coordination&quot; },
-    { value: &quot;competitor_analysis&quot;, label: &quot;Competitor Analysis&quot; },
-    { value: &quot;market_feedback&quot;, label: &quot;Market Feedback Collection&quot; },
-    { value: &quot;regional_trends&quot;, label: &quot;Regional Trends Assessment&quot; },
-    { value: &quot;other_activity&quot;, label: &quot;Other Activity&quot; },
+    { value: "customer_interaction", label: "Customer Interaction" },
+    { value: "kit_inventory", label: "Kit Inventory Management" },
+    { value: "restock_shelves", label: "Restock Shelves" },
+    { value: "product_transfer", label: "Product Transfer Coordination" },
+    { value: "competitor_analysis", label: "Competitor Analysis" },
+    { value: "market_feedback", label: "Market Feedback Collection" },
+    { value: "regional_trends", label: "Regional Trends Assessment" },
+    { value: "other_activity", label: "Other Activity" },
   ];
 
   // Approved dispensary locations in the system
   const approvedLocations = [
     {
-      id: &quot;loc-001&quot;,
-      name: &quot;Green Therapeutics Dispensary&quot;,
-      address: &quot;123 Main Street, Los Angeles, CA&quot;,
+      id: "loc-001",
+      name: "Green Therapeutics Dispensary",
+      address: "123 Main Street, Los Angeles, CA",
       capacity: 50,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-002&quot;,
-      name: &quot;Healing Leaf Collective&quot;,
-      address: &quot;45 Market Avenue, San Francisco, CA&quot;,
+      id: "loc-002",
+      name: "Healing Leaf Collective",
+      address: "45 Market Avenue, San Francisco, CA",
       capacity: 35,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-003&quot;,
-      name: &quot;Herbal Wellness Center&quot;,
-      address: &quot;78 Highland Drive, Oakland, CA&quot;,
+      id: "loc-003",
+      name: "Herbal Wellness Center",
+      address: "78 Highland Drive, Oakland, CA",
       capacity: 40,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-004&quot;,
-      name: &quot;Emerald City Cannabis&quot;,
-      address: &quot;10 Pacific Boulevard, San Diego, CA&quot;,
+      id: "loc-004",
+      name: "Emerald City Cannabis",
+      address: "10 Pacific Boulevard, San Diego, CA",
       capacity: 60,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-005&quot;,
-      name: &quot;Coastal Dispensary&quot;,
-      address: &quot;22 Ocean View, Santa Barbara, CA&quot;,
+      id: "loc-005",
+      name: "Coastal Dispensary",
+      address: "22 Ocean View, Santa Barbara, CA",
       capacity: 30,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-006&quot;,
-      name: &quot;Nature's Medicine&quot;,
-      address: &quot;55 Redwood Lane, Sacramento, CA&quot;,
+      id: "loc-006",
+      name: "Nature's Medicine",
+      address: "55 Redwood Lane, Sacramento, CA",
       capacity: 45,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-007&quot;,
-      name: &quot;Evergreen Dispensary&quot;,
-      address: &quot;33 Valley Road, Phoenix, AZ&quot;,
+      id: "loc-007",
+      name: "Evergreen Dispensary",
+      address: "33 Valley Road, Phoenix, AZ",
       capacity: 50,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-008&quot;,
-      name: &quot;Pure Relief Dispensary&quot;,
-      address: &quot;67 Desert View, Tucson, AZ&quot;,
+      id: "loc-008",
+      name: "Pure Relief Dispensary",
+      address: "67 Desert View, Tucson, AZ",
       capacity: 40,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-009&quot;,
-      name: &quot;Great Lakes Cannabis Co.&quot;,
-      address: &quot;12 Lakeshore Drive, Detroit, MI&quot;,
+      id: "loc-009",
+      name: "Great Lakes Cannabis Co.",
+      address: "12 Lakeshore Drive, Detroit, MI",
       capacity: 55,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
     {
-      id: &quot;loc-010&quot;,
-      name: &quot;Midwest Healing Center&quot;,
-      address: &quot;88 River Street, Grand Rapids, MI&quot;,
+      id: "loc-010",
+      name: "Midwest Healing Center",
+      address: "88 River Street, Grand Rapids, MI",
       capacity: 35,
-      status: &quot;approved&quot;,
+      status: "approved",
     },
   ];
 
   // Cannabis industry promotion types
   const promotionTypes = [
-    { value: &quot;none&quot;, label: &quot;No Promotion&quot; },
-    { value: &quot;first_time_discount&quot;, label: &quot;First-Time Patient Discount&quot; },
-    { value: &quot;bogo&quot;, label: &quot;Buy One Get One (BOGO)&quot; },
-    { value: &quot;percent_off&quot;, label: &quot;Percentage Off Products&quot; },
-    { value: &quot;doorbuster&quot;, label: &quot;Doorbuster Special&quot; },
-    { value: &quot;early_bird&quot;, label: &quot;Early Bird Special&quot; },
-    { value: &quot;price_point&quot;, label: &quot;Special Price Point ($X per unit)&quot; },
-    { value: &quot;bundle&quot;, label: &quot;Product Bundle Deal&quot; },
-    { value: &quot;loyalty_points&quot;, label: &quot;Double Loyalty Points&quot; },
-    { value: &quot;product_launch&quot;, label: &quot;New Product Launch Special&quot; },
-    { value: &quot;bulk_discount&quot;, label: &quot;Bulk Purchase Discount&quot; },
-    { value: &quot;freebie&quot;, label: &quot;Free Accessory/Merchandise&quot; },
-    { value: &quot;brand_day&quot;, label: &quot;Brand Day Special&quot; },
-    { value: &quot;holiday&quot;, label: &quot;Holiday/Seasonal Promotion&quot; },
-    { value: &quot;other&quot;, label: &quot;Other Promotion&quot; },
+    { value: "none", label: "No Promotion" },
+    { value: "first_time_discount", label: "First-Time Patient Discount" },
+    { value: "bogo", label: "Buy One Get One (BOGO)" },
+    { value: "percent_off", label: "Percentage Off Products" },
+    { value: "doorbuster", label: "Doorbuster Special" },
+    { value: "early_bird", label: "Early Bird Special" },
+    { value: "price_point", label: "Special Price Point ($X per unit)" },
+    { value: "bundle", label: "Product Bundle Deal" },
+    { value: "loyalty_points", label: "Double Loyalty Points" },
+    { value: "product_launch", label: "New Product Launch Special" },
+    { value: "bulk_discount", label: "Bulk Purchase Discount" },
+    { value: "freebie", label: "Free Accessory/Merchandise" },
+    { value: "brand_day", label: "Brand Day Special" },
+    { value: "holiday", label: "Holiday/Seasonal Promotion" },
+    { value: "other", label: "Other Promotion" },
   ];
 
   // Cannabis client-brand relationship data
   const clientsWithBrands = [
     {
-      id: &quot;00000000-0000-0000-0000-000000000001&quot;,
-      name: &quot;Rishi Internal&quot;,
+      id: "00000000-0000-0000-0000-000000000001",
+      name: "Rishi Internal",
       isDefault: false,
       brands: [], // Internal users pick client first, then see that client's brands
     },
     {
-      id: &quot;00000000-0000-0000-0000-000000000002&quot;,
-      name: &quot;Green Horizon Distribution&quot;,
+      id: "00000000-0000-0000-0000-000000000002",
+      name: "Green Horizon Distribution",
       isDefault: false,
       brands: [
-        { value: &quot;horizon_farms&quot;, label: &quot;Horizon Farms&quot; },
-        { value: &quot;green_life&quot;, label: &quot;Green Life&quot; },
-        { value: &quot;nature_therapeutics&quot;, label: &quot;Nature Therapeutics&quot; },
+        { value: "horizon_farms", label: "Horizon Farms" },
+        { value: "green_life", label: "Green Life" },
+        { value: "nature_therapeutics", label: "Nature Therapeutics" },
       ],
     },
     {
-      id: &quot;00000000-0000-0000-0000-000000000003&quot;,
-      name: &quot;Pacific Cannabis Brands&quot;,
+      id: "00000000-0000-0000-0000-000000000003",
+      name: "Pacific Cannabis Brands",
       isDefault: false,
       brands: [
-        { value: &quot;pacific_gold&quot;, label: &quot;Pacific Gold&quot; },
-        { value: &quot;coastal_cannabis&quot;, label: &quot;Coastal Cannabis&quot; },
-        { value: &quot;ocean_grown&quot;, label: &quot;Ocean Grown&quot; },
+        { value: "pacific_gold", label: "Pacific Gold" },
+        { value: "coastal_cannabis", label: "Coastal Cannabis" },
+        { value: "ocean_grown", label: "Ocean Grown" },
       ],
     },
     {
-      id: &quot;00000000-0000-0000-0000-000000000004&quot;,
-      name: &quot;Emerald Valley Products&quot;,
+      id: "00000000-0000-0000-0000-000000000004",
+      name: "Emerald Valley Products",
       isDefault: false,
       brands: [
-        { value: &quot;emerald_extracts&quot;, label: &quot;Emerald Extracts&quot; },
-        { value: &quot;valley_vapors&quot;, label: &quot;Valley Vapors&quot; },
-        { value: &quot;pure_essence&quot;, label: &quot;Pure Essence&quot; },
+        { value: "emerald_extracts", label: "Emerald Extracts" },
+        { value: "valley_vapors", label: "Valley Vapors" },
+        { value: "pure_essence", label: "Pure Essence" },
       ],
     },
     {
-      id: &quot;00000000-0000-0000-0000-000000000005&quot;,
-      name: &quot;Highland Cultivators&quot;,
+      id: "00000000-0000-0000-0000-000000000005",
+      name: "Highland Cultivators",
       isDefault: false,
       brands: [
-        { value: &quot;highland_reserve&quot;, label: &quot;Highland Reserve&quot; },
-        { value: &quot;mountain_grown&quot;, label: &quot;Mountain Grown&quot; },
-        { value: &quot;alpine_therapeutics&quot;, label: &quot;Alpine Therapeutics&quot; },
+        { value: "highland_reserve", label: "Highland Reserve" },
+        { value: "mountain_grown", label: "Mountain Grown" },
+        { value: "alpine_therapeutics", label: "Alpine Therapeutics" },
       ],
     },
   ];
 
   // State to track selected client and available brands
-  const [selectedClientId, setSelectedClientId] = useState<string>(&quot;&quot;);
+  const [selectedClientId, setSelectedClientId] = useState<string>("");
   const [availableBrands, setAvailableBrands] = useState<
     Array<{ value: string; label: string }>
   >([]);
@@ -393,7 +393,7 @@ export function BookingFormFinal({
       if (client) {
         setAvailableBrands(client.brands);
         // Clear brand selection when client changes
-        form.setValue(&quot;brand&quot;, &quot;&quot;);
+        form.setValue("brand", "");
       }
     } else {
       setAvailableBrands([]);
@@ -405,7 +405,7 @@ export function BookingFormFinal({
     if (!isInternalUser) {
       // In a real app, this would get the user's clientId from auth context
       // For mock purposes, we'll use Acme Corp
-      const userClientId = &quot;00000000-0000-0000-0000-000000000002&quot;; // Acme Corp
+      const userClientId = "00000000-0000-0000-0000-000000000002"; // Acme Corp
       setSelectedClientId(userClientId);
 
       // Set available brands based on client
@@ -430,7 +430,7 @@ export function BookingFormFinal({
     return () => subscription.unsubscribe();
   }, [form]);
 
-  // Add a &quot;Quick Settings&quot; button to the Event Details page
+  // Add a "Quick Settings" button to the Event Details page
   const [showQuickSettings, setShowQuickSettings] = useState(false);
 
   // Add effect to automatically navigate to options tab when enabling options
@@ -440,16 +440,16 @@ export function BookingFormFinal({
       // If user enables either feature from a details panel quick toggle
       if (
         showQuickSettings &&
-        activeTab === &quot;details&quot; &&
-        (name === &quot;isRecurring&quot; || name === &quot;sendInvites&quot;)
+        activeTab === "details" &&
+        (name === "isRecurring" || name === "sendInvites")
       ) {
         // If the user has turned on either option
         if (
-          (name === &quot;isRecurring&quot; && form.getValues(&quot;isRecurring&quot;)) ||
-          (name === &quot;sendInvites&quot; && form.getValues(&quot;sendInvites&quot;))
+          (name === "isRecurring" && form.getValues("isRecurring")) ||
+          (name === "sendInvites" && form.getValues("sendInvites"))
         ) {
           // Switch to options tab automatically
-          setActiveTab(&quot;options&quot;);
+          setActiveTab("options");
         }
       }
     });
@@ -459,13 +459,13 @@ export function BookingFormFinal({
 
   // Generate title from booking info (for display and submission)
   const generateTitle = (): string => {
-    const brand = form.watch(&quot;brand&quot;);
-    const eventType = form.watch(&quot;eventType&quot;);
-    const activityType = form.watch(&quot;activityType&quot;);
-    const locationId = form.watch(&quot;locationId&quot;);
-    const date = form.watch(&quot;date&quot;);
+    const brand = form.watch("brand");
+    const eventType = form.watch("eventType");
+    const activityType = form.watch("activityType");
+    const locationId = form.watch("locationId");
+    const date = form.watch("date");
 
-    let generatedTitle = &quot;New Booking&quot;;
+    let generatedTitle = "New Booking";
 
     // Build title progressively, adding parts as they become available
     if (brand) {
@@ -500,13 +500,13 @@ export function BookingFormFinal({
 
         // Add location status if pending approval
         if (selectedLocation?.status === LocationStatus.PENDING) {
-          generatedTitle += &quot; (Location Pending Approval)&quot;;
+          generatedTitle += " (Location Pending Approval)";
         }
       }
 
       // Add date if available
       if (date) {
-        generatedTitle += ` on ${format(date, &quot;MMM d, yyyy&quot;)}`;
+        generatedTitle += ` on ${format(date, "MMM d, yyyy")}`;
       }
     }
 
@@ -523,7 +523,7 @@ export function BookingFormFinal({
       title: generateTitle(), // Add the auto-generated title
     };
 
-    console.log(&quot;Submitting with data:&quot;, submissionData);
+    console.log("Submitting with data:", submissionData);
 
     // Simulate API call with timeout
     setTimeout(() => {
@@ -533,20 +533,20 @@ export function BookingFormFinal({
   };
 
   return (
-    <div className=&quot;bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-800 shadow-sm&quot;>
-      <div className=&quot;p-6 border-b dark:border-gray-800&quot;>
-        <div className=&quot;flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:justify-between&quot;>
-          <div className=&quot;flex-1 group&quot;>
-            <div className=&quot;flex items-center&quot;>
-              <span className=&quot;text-sm font-medium text-muted-foreground mr-2&quot;>
+    <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-800 shadow-sm">
+      <div className="p-6 border-b dark:border-gray-800">
+        <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row md:items-center md:justify-between">
+          <div className="flex-1 group">
+            <div className="flex items-center">
+              <span className="text-sm font-medium text-muted-foreground mr-2">
                 Event Title:
               </span>
-              <span className=&quot;badge bg-primary/10 text-primary px-2 py-0.5 text-xs rounded&quot;>
+              <span className="badge bg-primary/10 text-primary px-2 py-0.5 text-xs rounded">
                 Live Preview
               </span>
             </div>
             <h2
-              className=&quot;text-xl font-semibold text-primary mt-1 truncate group-hover:text-clip cursor-default&quot;
+              className="text-xl font-semibold text-primary mt-1 truncate group-hover:text-clip cursor-default"
               title={generateTitle()}
               key={`title-${titleUpdateTrigger}`} // Force re-render on any form field change
             >
@@ -561,45 +561,45 @@ export function BookingFormFinal({
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
-            className=&quot;w-full&quot;
+            className="w-full"
           >
-            <div className=&quot;border-b&quot;>
-              <div className=&quot;px-6&quot;>
-                <TabsList className=&quot;grid grid-cols-2 mt-4 bg-transparent&quot;>
+            <div className="border-b">
+              <div className="px-6">
+                <TabsList className="grid grid-cols-2 mt-4 bg-transparent">
                   <TabsTrigger
-                    value=&quot;details&quot;
-                    className=&quot;rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none&quot;
+                    value="details"
+                    className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none"
                   >
                     Event Details
                   </TabsTrigger>
                   <TabsTrigger
-                    value=&quot;options&quot;
-                    className=&quot;rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none relative&quot;
+                    value="options"
+                    className="rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none relative"
                   >
                     Options
                     {/* Add a small dot indicator to draw attention to the Options tab */}
-                    <span className=&quot;absolute -right-1 -top-1 h-3 w-3 bg-primary rounded-full border-2 border-background&quot;></span>
+                    <span className="absolute -right-1 -top-1 h-3 w-3 bg-primary rounded-full border-2 border-background"></span>
                   </TabsTrigger>
                 </TabsList>
               </div>
             </div>
 
-            <div className=&quot;p-6&quot;>
-              <TabsContent value=&quot;details&quot; className=&quot;mt-0 space-y-6&quot;>
-                <div className=&quot;grid grid-cols-1 gap-6&quot;>
+            <div className="p-6">
+              <TabsContent value="details" className="mt-0 space-y-6">
+                <div className="grid grid-cols-1 gap-6">
                   {/* Client Field - Only visible for internal users */}
                   {isInternalUser && (
-                    <div className=&quot;space-y-2&quot;>
-                      <Label htmlFor=&quot;clientId&quot;>Client</Label>
+                    <div className="space-y-2">
+                      <Label htmlFor="clientId">Client</Label>
                       <Select
                         onValueChange={(value) => {
-                          form.setValue(&quot;clientId&quot;, value);
+                          form.setValue("clientId", value);
                           setSelectedClientId(value);
                         }}
-                        defaultValue={form.getValues(&quot;clientId&quot;)}
+                        defaultValue={form.getValues("clientId")}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder=&quot;Select a client&quot; />
+                          <SelectValue placeholder="Select a client" />
                         </SelectTrigger>
                         <SelectContent>
                           {clientsWithBrands.map((client) => (
@@ -610,7 +610,7 @@ export function BookingFormFinal({
                         </SelectContent>
                       </Select>
                       {form.formState.errors.clientId && (
-                        <p className=&quot;text-sm font-medium text-destructive&quot;>
+                        <p className="text-sm font-medium text-destructive">
                           {form.formState.errors.clientId.message}
                         </p>
                       )}
@@ -618,19 +618,19 @@ export function BookingFormFinal({
                   )}
 
                   {/* Brand Field */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;brand&quot;>Brand</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="brand">Brand</Label>
                     <Select
-                      onValueChange={(value) => form.setValue(&quot;brand&quot;, value)}
-                      defaultValue={form.getValues(&quot;brand&quot;)}
+                      onValueChange={(value) => form.setValue("brand", value)}
+                      defaultValue={form.getValues("brand")}
                       disabled={availableBrands.length === 0}
                     >
                       <SelectTrigger>
                         <SelectValue
                           placeholder={
                             availableBrands.length === 0
-                              ? &quot;Select a client first&quot;
-                              : &quot;Select a brand&quot;
+                              ? "Select a client first"
+                              : "Select a brand"
                           }
                         />
                       </SelectTrigger>
@@ -643,23 +643,23 @@ export function BookingFormFinal({
                       </SelectContent>
                     </Select>
                     {form.formState.errors.brand && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.brand.message}
                       </p>
                     )}
                   </div>
 
                   {/* Event Type Field */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;eventType&quot;>Event Type</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="eventType">Event Type</Label>
                     <Select
                       onValueChange={(value) =>
-                        form.setValue(&quot;eventType&quot;, value)
+                        form.setValue("eventType", value)
                       }
-                      defaultValue={form.getValues(&quot;eventType&quot;)}
+                      defaultValue={form.getValues("eventType")}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select an event type&quot; />
+                        <SelectValue placeholder="Select an event type" />
                       </SelectTrigger>
                       <SelectContent>
                         {eventTypes.map((type) => (
@@ -670,19 +670,19 @@ export function BookingFormFinal({
                       </SelectContent>
                     </Select>
                     {form.formState.errors.eventType && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.eventType.message}
                       </p>
                     )}
                   </div>
 
                   {/* Location Field with Advanced Selection */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;locationId&quot;>Location</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="locationId">Location</Label>
                     <LocationSelector
-                      value={form.watch(&quot;locationId&quot;)}
+                      value={form.watch("locationId")}
                       onChange={(locationId, locationData) => {
-                        form.setValue(&quot;locationId&quot;, locationId);
+                        form.setValue("locationId", locationId);
 
                         // Store the full location data for title generation
                         if (locationData) {
@@ -696,9 +696,9 @@ export function BookingFormFinal({
                           locationData.rejectionReason
                         ) {
                           toast({
-                            title: &quot;Location Rejected&quot;,
+                            title: "Location Rejected",
                             description: `This location has been rejected: ${locationData.rejectionReason}`,
-                            variant: &quot;destructive&quot;,
+                            variant: "destructive",
                           });
                         }
 
@@ -708,10 +708,10 @@ export function BookingFormFinal({
                           locationData.status === LocationStatus.PENDING
                         ) {
                           toast({
-                            title: &quot;Location Pending Approval&quot;,
+                            title: "Location Pending Approval",
                             description:
-                              &quot;You can still submit your booking, but it will require additional approval.&quot;,
-                            variant: &quot;default&quot;,
+                              "You can still submit your booking, but it will require additional approval.",
+                            variant: "default",
                           });
                         }
                       }}
@@ -739,44 +739,44 @@ export function BookingFormFinal({
                         }
 
                         toast({
-                          title: &quot;Location Request Submitted&quot;,
+                          title: "Location Request Submitted",
                           description:
-                            &quot;Your location request has been submitted for approval.&quot;,
+                            "Your location request has been submitted for approval.",
                         });
 
                         return newLocation;
                       }}
                     />
-                    <p className=&quot;text-sm text-muted-foreground&quot;>
+                    <p className="text-sm text-muted-foreground">
                       Select from existing locations or request a new one.
                       Bookings can be submitted with pending locations.
                     </p>
                     {form.formState.errors.locationId && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.locationId.message}
                       </p>
                     )}
                   </div>
 
-                  <div className=&quot;grid grid-cols-2 gap-6&quot;>
+                  <div className="grid grid-cols-2 gap-6">
                     {/* Date Field */}
-                    <div className=&quot;space-y-2&quot;>
+                    <div className="space-y-2">
                       <Label>Date</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
-                            variant=&quot;outline&quot;
+                            variant="outline"
                             className={cn(
-                              &quot;w-full justify-start text-left font-normal&quot;,
-                              !form.getValues(&quot;date&quot;) &&
-                                &quot;text-muted-foreground&quot;,
+                              "w-full justify-start text-left font-normal",
+                              !form.getValues("date") &&
+                                "text-muted-foreground",
                             )}
                           >
-                            <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
-                            {form.getValues(&quot;date&quot;) ? (
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {form.getValues("date") ? (
                               <span>
-                                {format(form.getValues(&quot;date&quot;), &quot;PPP&quot;)}
-                                <span className=&quot;ml-1 text-xs text-muted-foreground&quot;>
+                                {format(form.getValues("date"), "PPP")}
+                                <span className="ml-1 text-xs text-muted-foreground">
                                   ({getTimezoneAbbr()})
                                 </span>
                               </span>
@@ -786,8 +786,8 @@ export function BookingFormFinal({
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent
-                          className=&quot;w-auto p-3 border border-border shadow-md bg-background&quot;
-                          align=&quot;start&quot;
+                          className="w-auto p-3 border border-border shadow-md bg-background"
+                          align="start"
                         >
                           {/*
                            * Enhanced DatePicker component with custom styling and behavior
@@ -797,14 +797,14 @@ export function BookingFormFinal({
                            * - Integrates with app's theme system via tailwind classes
                            */}
                           <DatePicker
-                            selected={form.getValues(&quot;date&quot;)}
+                            selected={form.getValues("date")}
                             onChange={(date) =>
-                              form.setValue(&quot;date&quot;, date as Date)
+                              form.setValue("date", date as Date)
                             }
                             inline
-                            dateFormat=&quot;PPP&quot; // Long date format from date-fns
+                            dateFormat="PPP" // Long date format from date-fns
                             showPopperArrow={false} // Removes default arrow for cleaner UI
-                            calendarClassName=&quot;bg-background text-foreground rounded-md&quot; // Theme-aware styling
+                            calendarClassName="bg-background text-foreground rounded-md" // Theme-aware styling
                             /**
                              * Custom header renderer for the DatePicker
                              * This replaces the default header with our own styled version
@@ -817,25 +817,25 @@ export function BookingFormFinal({
                               prevMonthButtonDisabled, // Boolean to disable prev button
                               nextMonthButtonDisabled, // Boolean to disable next button
                             }) => (
-                              <div className=&quot;flex items-center justify-between px-2 py-2 text-foreground w-full&quot;>
+                              <div className="flex items-center justify-between px-2 py-2 text-foreground w-full">
                                 <button
                                   onClick={decreaseMonth}
                                   disabled={prevMonthButtonDisabled}
-                                  type=&quot;button&quot;
-                                  className=&quot;p-1.5 rounded-full hover:bg-muted dark:hover:bg-gray-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary/30&quot;
+                                  type="button"
+                                  className="p-1.5 rounded-full hover:bg-muted dark:hover:bg-gray-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary/30"
                                 >
-                                  <ChevronLeft className=&quot;h-4 w-4&quot; />
+                                  <ChevronLeft className="h-4 w-4" />
                                 </button>
-                                <div className=&quot;text-sm font-medium&quot;>
-                                  {format(date, &quot;MMMM yyyy&quot;)}
+                                <div className="text-sm font-medium">
+                                  {format(date, "MMMM yyyy")}
                                 </div>
                                 <button
                                   onClick={increaseMonth}
                                   disabled={nextMonthButtonDisabled}
-                                  type=&quot;button&quot;
-                                  className=&quot;p-1.5 rounded-full hover:bg-muted dark:hover:bg-gray-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary/30&quot;
+                                  type="button"
+                                  className="p-1.5 rounded-full hover:bg-muted dark:hover:bg-gray-700 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary/30"
                                 >
-                                  <ChevronRight className=&quot;h-4 w-4&quot; />
+                                  <ChevronRight className="h-4 w-4" />
                                 </button>
                               </div>
                             )}
@@ -843,23 +843,23 @@ export function BookingFormFinal({
                         </PopoverContent>
                       </Popover>
                       {form.formState.errors.date && (
-                        <p className=&quot;text-sm font-medium text-destructive&quot;>
+                        <p className="text-sm font-medium text-destructive">
                           {form.formState.errors.date.message}
                         </p>
                       )}
                     </div>
 
                     {/* Activity Type */}
-                    <div className=&quot;space-y-2&quot;>
+                    <div className="space-y-2">
                       <Label>Activity Type</Label>
                       <Select
                         onValueChange={(value) =>
-                          form.setValue(&quot;activityType&quot;, value)
+                          form.setValue("activityType", value)
                         }
-                        defaultValue={form.getValues(&quot;activityType&quot;)}
+                        defaultValue={form.getValues("activityType")}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder=&quot;Select activity type&quot; />
+                          <SelectValue placeholder="Select activity type" />
                         </SelectTrigger>
                         <SelectContent>
                           {activityTypes.map((type) => (
@@ -870,177 +870,177 @@ export function BookingFormFinal({
                         </SelectContent>
                       </Select>
                       {form.formState.errors.activityType && (
-                        <p className=&quot;text-sm font-medium text-destructive&quot;>
+                        <p className="text-sm font-medium text-destructive">
                           {form.formState.errors.activityType.message}
                         </p>
                       )}
                     </div>
                   </div>
 
-                  <div className=&quot;grid grid-cols-2 gap-6&quot;>
+                  <div className="grid grid-cols-2 gap-6">
                     {/* Start Time */}
-                    <div className=&quot;space-y-2&quot;>
-                      <Label htmlFor=&quot;startTime&quot;>Start Time</Label>
-                      <div className=&quot;flex items-center space-x-2&quot;>
+                    <div className="space-y-2">
+                      <Label htmlFor="startTime">Start Time</Label>
+                      <div className="flex items-center space-x-2">
                         <Select
-                          value={form.watch(&quot;startTime&quot;)}
+                          value={form.watch("startTime")}
                           onValueChange={(value) =>
-                            form.setValue(&quot;startTime&quot;, value)
+                            form.setValue("startTime", value)
                           }
                         >
-                          <SelectTrigger className=&quot;w-full&quot;>
-                            <div className=&quot;flex items-center&quot;>
-                              <Clock className=&quot;h-4 w-4 mr-2&quot; />
-                              <SelectValue placeholder=&quot;Select start time&quot; />
-                              {form.watch(&quot;startTime&quot;) && (
-                                <span className=&quot;ml-1 text-xs text-muted-foreground&quot;>
+                          <SelectTrigger className="w-full">
+                            <div className="flex items-center">
+                              <Clock className="h-4 w-4 mr-2" />
+                              <SelectValue placeholder="Select start time" />
+                              {form.watch("startTime") && (
+                                <span className="ml-1 text-xs text-muted-foreground">
                                   ({getTimezoneAbbr()})
                                 </span>
                               )}
                             </div>
                           </SelectTrigger>
-                          <SelectContent className=&quot;h-80 overflow-y-auto&quot;>
-                            <div className=&quot;p-2 text-xs text-muted-foreground&quot;>
-                              Local timezone:{&quot; &quot;}
+                          <SelectContent className="h-80 overflow-y-auto">
+                            <div className="p-2 text-xs text-muted-foreground">
+                              Local timezone:{" "}
                               {Intl.DateTimeFormat().resolvedOptions().timeZone}
                             </div>
-                            <SelectItem value=&quot;00:00&quot;>12:00 AM</SelectItem>
-                            <SelectItem value=&quot;00:30&quot;>12:30 AM</SelectItem>
-                            <SelectItem value=&quot;01:00&quot;>1:00 AM</SelectItem>
-                            <SelectItem value=&quot;01:30&quot;>1:30 AM</SelectItem>
-                            <SelectItem value=&quot;02:00&quot;>2:00 AM</SelectItem>
-                            <SelectItem value=&quot;02:30&quot;>2:30 AM</SelectItem>
-                            <SelectItem value=&quot;03:00&quot;>3:00 AM</SelectItem>
-                            <SelectItem value=&quot;03:30&quot;>3:30 AM</SelectItem>
-                            <SelectItem value=&quot;04:00&quot;>4:00 AM</SelectItem>
-                            <SelectItem value=&quot;04:30&quot;>4:30 AM</SelectItem>
-                            <SelectItem value=&quot;05:00&quot;>5:00 AM</SelectItem>
-                            <SelectItem value=&quot;05:30&quot;>5:30 AM</SelectItem>
-                            <SelectItem value=&quot;06:00&quot;>6:00 AM</SelectItem>
-                            <SelectItem value=&quot;06:30&quot;>6:30 AM</SelectItem>
-                            <SelectItem value=&quot;07:00&quot;>7:00 AM</SelectItem>
-                            <SelectItem value=&quot;07:30&quot;>7:30 AM</SelectItem>
-                            <SelectItem value=&quot;08:00&quot;>8:00 AM</SelectItem>
-                            <SelectItem value=&quot;08:30&quot;>8:30 AM</SelectItem>
-                            <SelectItem value=&quot;09:00&quot;>9:00 AM</SelectItem>
-                            <SelectItem value=&quot;09:30&quot;>9:30 AM</SelectItem>
-                            <SelectItem value=&quot;10:00&quot;>10:00 AM</SelectItem>
-                            <SelectItem value=&quot;10:30&quot;>10:30 AM</SelectItem>
-                            <SelectItem value=&quot;11:00&quot;>11:00 AM</SelectItem>
-                            <SelectItem value=&quot;11:30&quot;>11:30 AM</SelectItem>
-                            <SelectItem value=&quot;12:00&quot;>12:00 PM</SelectItem>
-                            <SelectItem value=&quot;12:30&quot;>12:30 PM</SelectItem>
-                            <SelectItem value=&quot;13:00&quot;>1:00 PM</SelectItem>
-                            <SelectItem value=&quot;13:30&quot;>1:30 PM</SelectItem>
-                            <SelectItem value=&quot;14:00&quot;>2:00 PM</SelectItem>
-                            <SelectItem value=&quot;14:30&quot;>2:30 PM</SelectItem>
-                            <SelectItem value=&quot;15:00&quot;>3:00 PM</SelectItem>
-                            <SelectItem value=&quot;15:30&quot;>3:30 PM</SelectItem>
-                            <SelectItem value=&quot;16:00&quot;>4:00 PM</SelectItem>
-                            <SelectItem value=&quot;16:30&quot;>4:30 PM</SelectItem>
-                            <SelectItem value=&quot;17:00&quot;>5:00 PM</SelectItem>
-                            <SelectItem value=&quot;17:30&quot;>5:30 PM</SelectItem>
-                            <SelectItem value=&quot;18:00&quot;>6:00 PM</SelectItem>
-                            <SelectItem value=&quot;18:30&quot;>6:30 PM</SelectItem>
-                            <SelectItem value=&quot;19:00&quot;>7:00 PM</SelectItem>
-                            <SelectItem value=&quot;19:30&quot;>7:30 PM</SelectItem>
-                            <SelectItem value=&quot;20:00&quot;>8:00 PM</SelectItem>
-                            <SelectItem value=&quot;20:30&quot;>8:30 PM</SelectItem>
-                            <SelectItem value=&quot;21:00&quot;>9:00 PM</SelectItem>
-                            <SelectItem value=&quot;21:30&quot;>9:30 PM</SelectItem>
-                            <SelectItem value=&quot;22:00&quot;>10:00 PM</SelectItem>
-                            <SelectItem value=&quot;22:30&quot;>10:30 PM</SelectItem>
-                            <SelectItem value=&quot;23:00&quot;>11:00 PM</SelectItem>
-                            <SelectItem value=&quot;23:30&quot;>11:30 PM</SelectItem>
+                            <SelectItem value="00:00">12:00 AM</SelectItem>
+                            <SelectItem value="00:30">12:30 AM</SelectItem>
+                            <SelectItem value="01:00">1:00 AM</SelectItem>
+                            <SelectItem value="01:30">1:30 AM</SelectItem>
+                            <SelectItem value="02:00">2:00 AM</SelectItem>
+                            <SelectItem value="02:30">2:30 AM</SelectItem>
+                            <SelectItem value="03:00">3:00 AM</SelectItem>
+                            <SelectItem value="03:30">3:30 AM</SelectItem>
+                            <SelectItem value="04:00">4:00 AM</SelectItem>
+                            <SelectItem value="04:30">4:30 AM</SelectItem>
+                            <SelectItem value="05:00">5:00 AM</SelectItem>
+                            <SelectItem value="05:30">5:30 AM</SelectItem>
+                            <SelectItem value="06:00">6:00 AM</SelectItem>
+                            <SelectItem value="06:30">6:30 AM</SelectItem>
+                            <SelectItem value="07:00">7:00 AM</SelectItem>
+                            <SelectItem value="07:30">7:30 AM</SelectItem>
+                            <SelectItem value="08:00">8:00 AM</SelectItem>
+                            <SelectItem value="08:30">8:30 AM</SelectItem>
+                            <SelectItem value="09:00">9:00 AM</SelectItem>
+                            <SelectItem value="09:30">9:30 AM</SelectItem>
+                            <SelectItem value="10:00">10:00 AM</SelectItem>
+                            <SelectItem value="10:30">10:30 AM</SelectItem>
+                            <SelectItem value="11:00">11:00 AM</SelectItem>
+                            <SelectItem value="11:30">11:30 AM</SelectItem>
+                            <SelectItem value="12:00">12:00 PM</SelectItem>
+                            <SelectItem value="12:30">12:30 PM</SelectItem>
+                            <SelectItem value="13:00">1:00 PM</SelectItem>
+                            <SelectItem value="13:30">1:30 PM</SelectItem>
+                            <SelectItem value="14:00">2:00 PM</SelectItem>
+                            <SelectItem value="14:30">2:30 PM</SelectItem>
+                            <SelectItem value="15:00">3:00 PM</SelectItem>
+                            <SelectItem value="15:30">3:30 PM</SelectItem>
+                            <SelectItem value="16:00">4:00 PM</SelectItem>
+                            <SelectItem value="16:30">4:30 PM</SelectItem>
+                            <SelectItem value="17:00">5:00 PM</SelectItem>
+                            <SelectItem value="17:30">5:30 PM</SelectItem>
+                            <SelectItem value="18:00">6:00 PM</SelectItem>
+                            <SelectItem value="18:30">6:30 PM</SelectItem>
+                            <SelectItem value="19:00">7:00 PM</SelectItem>
+                            <SelectItem value="19:30">7:30 PM</SelectItem>
+                            <SelectItem value="20:00">8:00 PM</SelectItem>
+                            <SelectItem value="20:30">8:30 PM</SelectItem>
+                            <SelectItem value="21:00">9:00 PM</SelectItem>
+                            <SelectItem value="21:30">9:30 PM</SelectItem>
+                            <SelectItem value="22:00">10:00 PM</SelectItem>
+                            <SelectItem value="22:30">10:30 PM</SelectItem>
+                            <SelectItem value="23:00">11:00 PM</SelectItem>
+                            <SelectItem value="23:30">11:30 PM</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       {form.formState.errors.startTime && (
-                        <p className=&quot;text-sm font-medium text-destructive&quot;>
+                        <p className="text-sm font-medium text-destructive">
                           {form.formState.errors.startTime.message}
                         </p>
                       )}
                     </div>
 
                     {/* End Time */}
-                    <div className=&quot;space-y-2&quot;>
-                      <Label htmlFor=&quot;endTime&quot;>End Time</Label>
-                      <div className=&quot;flex items-center space-x-2&quot;>
+                    <div className="space-y-2">
+                      <Label htmlFor="endTime">End Time</Label>
+                      <div className="flex items-center space-x-2">
                         <Select
-                          value={form.watch(&quot;endTime&quot;)}
+                          value={form.watch("endTime")}
                           onValueChange={(value) =>
-                            form.setValue(&quot;endTime&quot;, value)
+                            form.setValue("endTime", value)
                           }
                         >
-                          <SelectTrigger className=&quot;w-full&quot;>
-                            <div className=&quot;flex items-center&quot;>
-                              <Clock className=&quot;h-4 w-4 mr-2&quot; />
-                              <SelectValue placeholder=&quot;Select end time&quot; />
-                              {form.watch(&quot;endTime&quot;) && (
-                                <span className=&quot;ml-1 text-xs text-muted-foreground&quot;>
+                          <SelectTrigger className="w-full">
+                            <div className="flex items-center">
+                              <Clock className="h-4 w-4 mr-2" />
+                              <SelectValue placeholder="Select end time" />
+                              {form.watch("endTime") && (
+                                <span className="ml-1 text-xs text-muted-foreground">
                                   ({getTimezoneAbbr()})
                                 </span>
                               )}
                             </div>
                           </SelectTrigger>
-                          <SelectContent className=&quot;h-80 overflow-y-auto&quot;>
-                            <div className=&quot;p-2 text-xs text-muted-foreground&quot;>
-                              Local timezone:{&quot; &quot;}
+                          <SelectContent className="h-80 overflow-y-auto">
+                            <div className="p-2 text-xs text-muted-foreground">
+                              Local timezone:{" "}
                               {Intl.DateTimeFormat().resolvedOptions().timeZone}
                             </div>
-                            <SelectItem value=&quot;00:00&quot;>12:00 AM</SelectItem>
-                            <SelectItem value=&quot;00:30&quot;>12:30 AM</SelectItem>
-                            <SelectItem value=&quot;01:00&quot;>1:00 AM</SelectItem>
-                            <SelectItem value=&quot;01:30&quot;>1:30 AM</SelectItem>
-                            <SelectItem value=&quot;02:00&quot;>2:00 AM</SelectItem>
-                            <SelectItem value=&quot;02:30&quot;>2:30 AM</SelectItem>
-                            <SelectItem value=&quot;03:00&quot;>3:00 AM</SelectItem>
-                            <SelectItem value=&quot;03:30&quot;>3:30 AM</SelectItem>
-                            <SelectItem value=&quot;04:00&quot;>4:00 AM</SelectItem>
-                            <SelectItem value=&quot;04:30&quot;>4:30 AM</SelectItem>
-                            <SelectItem value=&quot;05:00&quot;>5:00 AM</SelectItem>
-                            <SelectItem value=&quot;05:30&quot;>5:30 AM</SelectItem>
-                            <SelectItem value=&quot;06:00&quot;>6:00 AM</SelectItem>
-                            <SelectItem value=&quot;06:30&quot;>6:30 AM</SelectItem>
-                            <SelectItem value=&quot;07:00&quot;>7:00 AM</SelectItem>
-                            <SelectItem value=&quot;07:30&quot;>7:30 AM</SelectItem>
-                            <SelectItem value=&quot;08:00&quot;>8:00 AM</SelectItem>
-                            <SelectItem value=&quot;08:30&quot;>8:30 AM</SelectItem>
-                            <SelectItem value=&quot;09:00&quot;>9:00 AM</SelectItem>
-                            <SelectItem value=&quot;09:30&quot;>9:30 AM</SelectItem>
-                            <SelectItem value=&quot;10:00&quot;>10:00 AM</SelectItem>
-                            <SelectItem value=&quot;10:30&quot;>10:30 AM</SelectItem>
-                            <SelectItem value=&quot;11:00&quot;>11:00 AM</SelectItem>
-                            <SelectItem value=&quot;11:30&quot;>11:30 AM</SelectItem>
-                            <SelectItem value=&quot;12:00&quot;>12:00 PM</SelectItem>
-                            <SelectItem value=&quot;12:30&quot;>12:30 PM</SelectItem>
-                            <SelectItem value=&quot;13:00&quot;>1:00 PM</SelectItem>
-                            <SelectItem value=&quot;13:30&quot;>1:30 PM</SelectItem>
-                            <SelectItem value=&quot;14:00&quot;>2:00 PM</SelectItem>
-                            <SelectItem value=&quot;14:30&quot;>2:30 PM</SelectItem>
-                            <SelectItem value=&quot;15:00&quot;>3:00 PM</SelectItem>
-                            <SelectItem value=&quot;15:30&quot;>3:30 PM</SelectItem>
-                            <SelectItem value=&quot;16:00&quot;>4:00 PM</SelectItem>
-                            <SelectItem value=&quot;16:30&quot;>4:30 PM</SelectItem>
-                            <SelectItem value=&quot;17:00&quot;>5:00 PM</SelectItem>
-                            <SelectItem value=&quot;17:30&quot;>5:30 PM</SelectItem>
-                            <SelectItem value=&quot;18:00&quot;>6:00 PM</SelectItem>
-                            <SelectItem value=&quot;18:30&quot;>6:30 PM</SelectItem>
-                            <SelectItem value=&quot;19:00&quot;>7:00 PM</SelectItem>
-                            <SelectItem value=&quot;19:30&quot;>7:30 PM</SelectItem>
-                            <SelectItem value=&quot;20:00&quot;>8:00 PM</SelectItem>
-                            <SelectItem value=&quot;20:30&quot;>8:30 PM</SelectItem>
-                            <SelectItem value=&quot;21:00&quot;>9:00 PM</SelectItem>
-                            <SelectItem value=&quot;21:30&quot;>9:30 PM</SelectItem>
-                            <SelectItem value=&quot;22:00&quot;>10:00 PM</SelectItem>
-                            <SelectItem value=&quot;22:30&quot;>10:30 PM</SelectItem>
-                            <SelectItem value=&quot;23:00&quot;>11:00 PM</SelectItem>
-                            <SelectItem value=&quot;23:30&quot;>11:30 PM</SelectItem>
+                            <SelectItem value="00:00">12:00 AM</SelectItem>
+                            <SelectItem value="00:30">12:30 AM</SelectItem>
+                            <SelectItem value="01:00">1:00 AM</SelectItem>
+                            <SelectItem value="01:30">1:30 AM</SelectItem>
+                            <SelectItem value="02:00">2:00 AM</SelectItem>
+                            <SelectItem value="02:30">2:30 AM</SelectItem>
+                            <SelectItem value="03:00">3:00 AM</SelectItem>
+                            <SelectItem value="03:30">3:30 AM</SelectItem>
+                            <SelectItem value="04:00">4:00 AM</SelectItem>
+                            <SelectItem value="04:30">4:30 AM</SelectItem>
+                            <SelectItem value="05:00">5:00 AM</SelectItem>
+                            <SelectItem value="05:30">5:30 AM</SelectItem>
+                            <SelectItem value="06:00">6:00 AM</SelectItem>
+                            <SelectItem value="06:30">6:30 AM</SelectItem>
+                            <SelectItem value="07:00">7:00 AM</SelectItem>
+                            <SelectItem value="07:30">7:30 AM</SelectItem>
+                            <SelectItem value="08:00">8:00 AM</SelectItem>
+                            <SelectItem value="08:30">8:30 AM</SelectItem>
+                            <SelectItem value="09:00">9:00 AM</SelectItem>
+                            <SelectItem value="09:30">9:30 AM</SelectItem>
+                            <SelectItem value="10:00">10:00 AM</SelectItem>
+                            <SelectItem value="10:30">10:30 AM</SelectItem>
+                            <SelectItem value="11:00">11:00 AM</SelectItem>
+                            <SelectItem value="11:30">11:30 AM</SelectItem>
+                            <SelectItem value="12:00">12:00 PM</SelectItem>
+                            <SelectItem value="12:30">12:30 PM</SelectItem>
+                            <SelectItem value="13:00">1:00 PM</SelectItem>
+                            <SelectItem value="13:30">1:30 PM</SelectItem>
+                            <SelectItem value="14:00">2:00 PM</SelectItem>
+                            <SelectItem value="14:30">2:30 PM</SelectItem>
+                            <SelectItem value="15:00">3:00 PM</SelectItem>
+                            <SelectItem value="15:30">3:30 PM</SelectItem>
+                            <SelectItem value="16:00">4:00 PM</SelectItem>
+                            <SelectItem value="16:30">4:30 PM</SelectItem>
+                            <SelectItem value="17:00">5:00 PM</SelectItem>
+                            <SelectItem value="17:30">5:30 PM</SelectItem>
+                            <SelectItem value="18:00">6:00 PM</SelectItem>
+                            <SelectItem value="18:30">6:30 PM</SelectItem>
+                            <SelectItem value="19:00">7:00 PM</SelectItem>
+                            <SelectItem value="19:30">7:30 PM</SelectItem>
+                            <SelectItem value="20:00">8:00 PM</SelectItem>
+                            <SelectItem value="20:30">8:30 PM</SelectItem>
+                            <SelectItem value="21:00">9:00 PM</SelectItem>
+                            <SelectItem value="21:30">9:30 PM</SelectItem>
+                            <SelectItem value="22:00">10:00 PM</SelectItem>
+                            <SelectItem value="22:30">10:30 PM</SelectItem>
+                            <SelectItem value="23:00">11:00 PM</SelectItem>
+                            <SelectItem value="23:30">11:30 PM</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       {form.formState.errors.endTime && (
-                        <p className=&quot;text-sm font-medium text-destructive&quot;>
+                        <p className="text-sm font-medium text-destructive">
                           {form.formState.errors.endTime.message}
                         </p>
                       )}
@@ -1050,85 +1050,85 @@ export function BookingFormFinal({
                   {/* Activity Type is now sufficient - removing separate activities selection */}
 
                   {/* Event Details */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;eventDetails&quot;>Event Details</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="eventDetails">Event Details</Label>
                     <Textarea
-                      id=&quot;eventDetails&quot;
-                      placeholder=&quot;Enter any important details about the overall event&quot;
-                      className=&quot;min-h-[100px]&quot;
-                      {...form.register(&quot;eventDetails&quot;)}
+                      id="eventDetails"
+                      placeholder="Enter any important details about the overall event"
+                      className="min-h-[100px]"
+                      {...form.register("eventDetails")}
                     />
                     {form.formState.errors.eventDetails && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.eventDetails.message}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className=&quot;flex justify-end mt-6&quot;>
+                <div className="flex justify-end mt-6">
                   <Button
-                    type=&quot;button&quot;
-                    onClick={() => setActiveTab(&quot;options&quot;)}
-                    className=&quot;flex items-center gap-2&quot;
+                    type="button"
+                    onClick={() => setActiveTab("options")}
+                    className="flex items-center gap-2"
                   >
                     <span>Continue to Options</span>
                     <svg
-                      xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                      width=&quot;16&quot;
-                      height=&quot;16&quot;
-                      viewBox=&quot;0 0 24 24&quot;
-                      fill=&quot;none&quot;
-                      stroke=&quot;currentColor&quot;
-                      strokeWidth=&quot;2&quot;
-                      strokeLinecap=&quot;round&quot;
-                      strokeLinejoin=&quot;round&quot;
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <path d=&quot;M5 12h14&quot;></path>
-                      <path d=&quot;m12 5 7 7-7 7&quot;></path>
+                      <path d="M5 12h14"></path>
+                      <path d="m12 5 7 7-7 7"></path>
                     </svg>
                   </Button>
                 </div>
               </TabsContent>
 
-              <TabsContent value=&quot;options&quot; className=&quot;mt-0 space-y-6&quot;>
-                <div className=&quot;mb-4 p-3 bg-muted/30 rounded-md border border-muted flex items-start gap-3&quot;>
+              <TabsContent value="options" className="mt-0 space-y-6">
+                <div className="mb-4 p-3 bg-muted/30 rounded-md border border-muted flex items-start gap-3">
                   <svg
-                    xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                    width=&quot;20&quot;
-                    height=&quot;20&quot;
-                    viewBox=&quot;0 0 24 24&quot;
-                    fill=&quot;none&quot;
-                    stroke=&quot;currentColor&quot;
-                    strokeWidth=&quot;2&quot;
-                    strokeLinecap=&quot;round&quot;
-                    strokeLinejoin=&quot;round&quot;
-                    className=&quot;text-primary mt-0.5&quot;
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-primary mt-0.5"
                   >
-                    <circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;></circle>
-                    <line x1=&quot;12&quot; y1=&quot;16&quot; x2=&quot;12&quot; y2=&quot;12&quot;></line>
-                    <line x1=&quot;12&quot; y1=&quot;8&quot; x2=&quot;12.01&quot; y2=&quot;8&quot;></line>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
                   </svg>
                   <div>
-                    <p className=&quot;font-medium text-sm&quot;>Additional Options</p>
-                    <p className=&quot;text-muted-foreground text-sm&quot;>
+                    <p className="font-medium text-sm">Additional Options</p>
+                    <p className="text-muted-foreground text-sm">
                       Configure recurring events, promotional details, and
                       calendar invites for this booking.
                     </p>
                   </div>
                 </div>
-                <div className=&quot;grid grid-cols-1 gap-6&quot;>
+                <div className="grid grid-cols-1 gap-6">
                   {/* Promotion Type */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;promotionType&quot;>Promotion Type</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="promotionType">Promotion Type</Label>
                     <Select
                       onValueChange={(value) =>
-                        form.setValue(&quot;promotionType&quot;, value)
+                        form.setValue("promotionType", value)
                       }
-                      value={form.watch(&quot;promotionType&quot;) || &quot;none&quot;}
+                      value={form.watch("promotionType") || "none"}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select a promotion type&quot; />
+                        <SelectValue placeholder="Select a promotion type" />
                       </SelectTrigger>
                       <SelectContent>
                         {promotionTypes.map((type) => (
@@ -1139,40 +1139,40 @@ export function BookingFormFinal({
                       </SelectContent>
                     </Select>
                     {form.formState.errors.promotionType && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.promotionType.message}
                       </p>
                     )}
                   </div>
 
                   {/* Promotion Details */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;promotionDetails&quot;>Promotion Details</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="promotionDetails">Promotion Details</Label>
                     <Textarea
-                      id=&quot;promotionDetails&quot;
-                      placeholder=&quot;Enter promotion details and requirements&quot;
-                      className=&quot;min-h-[100px]&quot;
-                      {...form.register(&quot;promotionDetails&quot;)}
-                      disabled={form.watch(&quot;promotionType&quot;) === &quot;none&quot;}
+                      id="promotionDetails"
+                      placeholder="Enter promotion details and requirements"
+                      className="min-h-[100px]"
+                      {...form.register("promotionDetails")}
+                      disabled={form.watch("promotionType") === "none"}
                     />
                     {form.formState.errors.promotionDetails && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.promotionDetails.message}
                       </p>
                     )}
                   </div>
 
                   {/* Notes */}
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;notes&quot;>Additional Notes</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="notes">Additional Notes</Label>
                     <Textarea
-                      id=&quot;notes&quot;
-                      placeholder=&quot;Enter any additional information&quot;
-                      className=&quot;min-h-[100px]&quot;
-                      {...form.register(&quot;notes&quot;)}
+                      id="notes"
+                      placeholder="Enter any additional information"
+                      className="min-h-[100px]"
+                      {...form.register("notes")}
                     />
                     {form.formState.errors.notes && (
-                      <p className=&quot;text-sm font-medium text-destructive&quot;>
+                      <p className="text-sm font-medium text-destructive">
                         {form.formState.errors.notes.message}
                       </p>
                     )}
@@ -1181,139 +1181,139 @@ export function BookingFormFinal({
                   <Separator />
 
                   {/* Toggle Options */}
-                  <div className=&quot;space-y-6&quot;>
+                  <div className="space-y-6">
                     {/* Recurring Event Option */}
-                    <div className=&quot;border rounded-lg overflow-hidden&quot;>
+                    <div className="border rounded-lg overflow-hidden">
                       <button
-                        type=&quot;button&quot;
+                        type="button"
                         className={cn(
-                          &quot;w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors&quot;,
-                          form.watch(&quot;isRecurring&quot;) && &quot;border-b border-border&quot;,
+                          "w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors",
+                          form.watch("isRecurring") && "border-b border-border",
                         )}
                         onClick={() =>
                           form.setValue(
-                            &quot;isRecurring&quot;,
-                            !form.watch(&quot;isRecurring&quot;),
+                            "isRecurring",
+                            !form.watch("isRecurring"),
                           )
                         }
                       >
-                        <div className=&quot;flex items-center gap-3&quot;>
+                        <div className="flex items-center gap-3">
                           <div
                             className={cn(
-                              &quot;flex items-center justify-center w-8 h-8 rounded-full&quot;,
-                              form.watch(&quot;isRecurring&quot;)
-                                ? &quot;bg-primary text-primary-foreground&quot;
-                                : &quot;bg-muted-foreground/20 text-muted-foreground&quot;,
+                              "flex items-center justify-center w-8 h-8 rounded-full",
+                              form.watch("isRecurring")
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted-foreground/20 text-muted-foreground",
                             )}
                           >
                             <svg
-                              xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                              width=&quot;16&quot;
-                              height=&quot;16&quot;
-                              viewBox=&quot;0 0 24 24&quot;
-                              fill=&quot;none&quot;
-                              stroke=&quot;currentColor&quot;
-                              strokeWidth=&quot;2&quot;
-                              strokeLinecap=&quot;round&quot;
-                              strokeLinejoin=&quot;round&quot;
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             >
                               <rect
-                                x=&quot;3&quot;
-                                y=&quot;4&quot;
-                                width=&quot;18&quot;
-                                height=&quot;18&quot;
-                                rx=&quot;2&quot;
-                                ry=&quot;2&quot;
+                                x="3"
+                                y="4"
+                                width="18"
+                                height="18"
+                                rx="2"
+                                ry="2"
                               ></rect>
-                              <line x1=&quot;16&quot; y1=&quot;2&quot; x2=&quot;16&quot; y2=&quot;6&quot;></line>
-                              <line x1=&quot;8&quot; y1=&quot;2&quot; x2=&quot;8&quot; y2=&quot;6&quot;></line>
-                              <line x1=&quot;3&quot; y1=&quot;10&quot; x2=&quot;21&quot; y2=&quot;10&quot;></line>
-                              <line x1=&quot;8&quot; y1=&quot;14&quot; x2=&quot;8&quot; y2=&quot;14&quot;></line>
-                              <line x1=&quot;12&quot; y1=&quot;14&quot; x2=&quot;12&quot; y2=&quot;14&quot;></line>
-                              <line x1=&quot;16&quot; y1=&quot;14&quot; x2=&quot;16&quot; y2=&quot;14&quot;></line>
-                              <line x1=&quot;8&quot; y1=&quot;18&quot; x2=&quot;8&quot; y2=&quot;18&quot;></line>
-                              <line x1=&quot;12&quot; y1=&quot;18&quot; x2=&quot;12&quot; y2=&quot;18&quot;></line>
-                              <line x1=&quot;16&quot; y1=&quot;18&quot; x2=&quot;16&quot; y2=&quot;18&quot;></line>
+                              <line x1="16" y1="2" x2="16" y2="6"></line>
+                              <line x1="8" y1="2" x2="8" y2="6"></line>
+                              <line x1="3" y1="10" x2="21" y2="10"></line>
+                              <line x1="8" y1="14" x2="8" y2="14"></line>
+                              <line x1="12" y1="14" x2="12" y2="14"></line>
+                              <line x1="16" y1="14" x2="16" y2="14"></line>
+                              <line x1="8" y1="18" x2="8" y2="18"></line>
+                              <line x1="12" y1="18" x2="12" y2="18"></line>
+                              <line x1="16" y1="18" x2="16" y2="18"></line>
                             </svg>
                           </div>
-                          <div className=&quot;text-left&quot;>
-                            <div className=&quot;font-medium&quot;>Recurring Event</div>
-                            <p className=&quot;text-muted-foreground text-sm&quot;>
+                          <div className="text-left">
+                            <div className="font-medium">Recurring Event</div>
+                            <p className="text-muted-foreground text-sm">
                               Set this event to repeat on a schedule
                             </p>
                           </div>
                         </div>
 
-                        <div className=&quot;flex items-center gap-3&quot;>
+                        <div className="flex items-center gap-3">
                           <span
                             className={cn(
-                              &quot;text-sm&quot;,
-                              form.watch(&quot;isRecurring&quot;)
-                                ? &quot;text-primary font-medium&quot;
-                                : &quot;text-muted-foreground&quot;,
+                              "text-sm",
+                              form.watch("isRecurring")
+                                ? "text-primary font-medium"
+                                : "text-muted-foreground",
                             )}
                           >
-                            {form.watch(&quot;isRecurring&quot;) ? &quot;Enabled&quot; : &quot;Disabled&quot;}
+                            {form.watch("isRecurring") ? "Enabled" : "Disabled"}
                           </span>
                           <div
-                            className=&quot;transform transition-transform duration-200&quot;
+                            className="transform transition-transform duration-200"
                             style={{
-                              transform: form.watch(&quot;isRecurring&quot;)
-                                ? &quot;rotate(180deg)&quot;
-                                : &quot;rotate(0deg)&quot;,
+                              transform: form.watch("isRecurring")
+                                ? "rotate(180deg)"
+                                : "rotate(0deg)",
                             }}
                           >
                             <svg
-                              xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                              width=&quot;18&quot;
-                              height=&quot;18&quot;
-                              viewBox=&quot;0 0 24 24&quot;
-                              fill=&quot;none&quot;
-                              stroke=&quot;currentColor&quot;
-                              strokeWidth=&quot;2&quot;
-                              strokeLinecap=&quot;round&quot;
-                              strokeLinejoin=&quot;round&quot;
-                              className=&quot;text-muted-foreground&quot;
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="text-muted-foreground"
                             >
-                              <path d=&quot;m6 9 6 6 6-6&quot; />
+                              <path d="m6 9 6 6 6-6" />
                             </svg>
                           </div>
                         </div>
                       </button>
 
-                      {form.watch(&quot;isRecurring&quot;) && (
-                        <div className=&quot;p-4 grid grid-cols-2 gap-4&quot;>
+                      {form.watch("isRecurring") && (
+                        <div className="p-4 grid grid-cols-2 gap-4">
                           {/* Frequency Selection */}
-                          <div className=&quot;space-y-2&quot;>
-                            <Label htmlFor=&quot;recurringFrequency&quot;>
+                          <div className="space-y-2">
+                            <Label htmlFor="recurringFrequency">
                               Frequency
                             </Label>
                             <Select
                               value={
-                                form.watch(&quot;recurringFrequency&quot;) || &quot;weekly&quot;
+                                form.watch("recurringFrequency") || "weekly"
                               }
                               onValueChange={(
                                 value:
-                                  | &quot;daily&quot;
-                                  | &quot;weekly&quot;
-                                  | &quot;biweekly&quot;
-                                  | &quot;monthly&quot;,
-                              ) => form.setValue(&quot;recurringFrequency&quot;, value)}
+                                  | "daily"
+                                  | "weekly"
+                                  | "biweekly"
+                                  | "monthly",
+                              ) => form.setValue("recurringFrequency", value)}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder=&quot;Select frequency&quot; />
+                                <SelectValue placeholder="Select frequency" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value=&quot;daily&quot;>
+                                <SelectItem value="daily">
                                   Daily (every day)
                                 </SelectItem>
-                                <SelectItem value=&quot;weekly&quot;>
+                                <SelectItem value="weekly">
                                   Weekly (every 7 days)
                                 </SelectItem>
-                                <SelectItem value=&quot;biweekly&quot;>
+                                <SelectItem value="biweekly">
                                   Bi-weekly (every 14 days)
                                 </SelectItem>
-                                <SelectItem value=&quot;monthly&quot;>
+                                <SelectItem value="monthly">
                                   Monthly (every 30 days)
                                 </SelectItem>
                               </SelectContent>
@@ -1321,23 +1321,23 @@ export function BookingFormFinal({
                           </div>
 
                           {/* Occurrences Count */}
-                          <div className=&quot;space-y-2&quot;>
-                            <Label htmlFor=&quot;recurringCount&quot;>
+                          <div className="space-y-2">
+                            <Label htmlFor="recurringCount">
                               Number of events
                             </Label>
                             <Select
                               value={
-                                form.watch(&quot;recurringCount&quot;)?.toString() || &quot;4&quot;
+                                form.watch("recurringCount")?.toString() || "4"
                               }
                               onValueChange={(value) => {
                                 const count = parseInt(value, 10);
                                 if (!isNaN(count)) {
-                                  form.setValue(&quot;recurringCount&quot;, count);
+                                  form.setValue("recurringCount", count);
                                 }
                               }}
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder=&quot;Select count&quot; />
+                                <SelectValue placeholder="Select count" />
                               </SelectTrigger>
                               <SelectContent>
                                 {/* Generate options from 2-10 events */}
@@ -1352,13 +1352,13 @@ export function BookingFormFinal({
                                   ),
                                 )}
                                 {/* Common event frequencies */}
-                                <SelectItem value=&quot;12&quot;>
+                                <SelectItem value="12">
                                   12 events (quarterly)
                                 </SelectItem>
-                                <SelectItem value=&quot;24&quot;>
+                                <SelectItem value="24">
                                   24 events (biweekly)
                                 </SelectItem>
-                                <SelectItem value=&quot;52&quot;>
+                                <SelectItem value="52">
                                   52 events (weekly)
                                 </SelectItem>
                               </SelectContent>
@@ -1366,58 +1366,58 @@ export function BookingFormFinal({
                           </div>
 
                           {/* Preview of dates (optional enhancement) */}
-                          <div className=&quot;col-span-2 mt-3 p-3 bg-primary/5 rounded-md border border-primary/10&quot;>
-                            <p className=&quot;font-medium text-sm text-primary flex items-center gap-2&quot;>
+                          <div className="col-span-2 mt-3 p-3 bg-primary/5 rounded-md border border-primary/10">
+                            <p className="font-medium text-sm text-primary flex items-center gap-2">
                               <svg
-                                xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                                width=&quot;16&quot;
-                                height=&quot;16&quot;
-                                viewBox=&quot;0 0 24 24&quot;
-                                fill=&quot;none&quot;
-                                stroke=&quot;currentColor&quot;
-                                strokeWidth=&quot;2&quot;
-                                strokeLinecap=&quot;round&quot;
-                                strokeLinejoin=&quot;round&quot;
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               >
                                 <rect
-                                  x=&quot;3&quot;
-                                  y=&quot;4&quot;
-                                  width=&quot;18&quot;
-                                  height=&quot;18&quot;
-                                  rx=&quot;2&quot;
-                                  ry=&quot;2&quot;
+                                  x="3"
+                                  y="4"
+                                  width="18"
+                                  height="18"
+                                  rx="2"
+                                  ry="2"
                                 ></rect>
-                                <line x1=&quot;16&quot; y1=&quot;2&quot; x2=&quot;16&quot; y2=&quot;6&quot;></line>
-                                <line x1=&quot;8&quot; y1=&quot;2&quot; x2=&quot;8&quot; y2=&quot;6&quot;></line>
-                                <line x1=&quot;3&quot; y1=&quot;10&quot; x2=&quot;21&quot; y2=&quot;10&quot;></line>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
                               </svg>
                               Recurring Series Preview
                             </p>
-                            <div className=&quot;mt-2&quot;>
-                              <p className=&quot;text-sm&quot;>
-                                Starting on{&quot; &quot;}
-                                <span className=&quot;font-medium&quot;>
+                            <div className="mt-2">
+                              <p className="text-sm">
+                                Starting on{" "}
+                                <span className="font-medium">
                                   {format(
-                                    form.watch(&quot;date&quot;) || new Date(),
-                                    &quot;MMMM d, yyyy&quot;,
+                                    form.watch("date") || new Date(),
+                                    "MMMM d, yyyy",
                                   )}
                                 </span>
-                                , this will create{&quot; &quot;}
-                                <span className=&quot;font-medium&quot;>
-                                  {form.watch(&quot;recurringCount&quot;) || 4}
-                                </span>{&quot; &quot;}
+                                , this will create{" "}
+                                <span className="font-medium">
+                                  {form.watch("recurringCount") || 4}
+                                </span>{" "}
                                 events,
-                                {form.watch(&quot;recurringFrequency&quot;) === &quot;daily&quot; &&
-                                  &quot; one per day&quot;}
-                                {form.watch(&quot;recurringFrequency&quot;) ===
-                                  &quot;weekly&quot; && &quot; one per week&quot;}
-                                {form.watch(&quot;recurringFrequency&quot;) ===
-                                  &quot;biweekly&quot; && &quot; one every two weeks&quot;}
-                                {form.watch(&quot;recurringFrequency&quot;) ===
-                                  &quot;monthly&quot; && &quot; one per month&quot;}
+                                {form.watch("recurringFrequency") === "daily" &&
+                                  " one per day"}
+                                {form.watch("recurringFrequency") ===
+                                  "weekly" && " one per week"}
+                                {form.watch("recurringFrequency") ===
+                                  "biweekly" && " one every two weeks"}
+                                {form.watch("recurringFrequency") ===
+                                  "monthly" && " one per month"}
                                 .
                               </p>
-                              <p className=&quot;text-xs text-muted-foreground mt-1&quot;>
+                              <p className="text-xs text-muted-foreground mt-1">
                                 Each event will have the same details (time,
                                 location, etc.) but occur on different dates.
                               </p>
@@ -1428,116 +1428,116 @@ export function BookingFormFinal({
                     </div>
 
                     {/* Calendar Invites Option */}
-                    <div className=&quot;border rounded-lg overflow-hidden&quot;>
+                    <div className="border rounded-lg overflow-hidden">
                       <button
-                        type=&quot;button&quot;
+                        type="button"
                         className={cn(
-                          &quot;w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors&quot;,
-                          form.watch(&quot;sendInvites&quot;) && &quot;border-b border-border&quot;,
+                          "w-full p-4 flex items-center justify-between bg-muted/50 hover:bg-muted transition-colors",
+                          form.watch("sendInvites") && "border-b border-border",
                         )}
                         onClick={() =>
                           form.setValue(
-                            &quot;sendInvites&quot;,
-                            !form.watch(&quot;sendInvites&quot;),
+                            "sendInvites",
+                            !form.watch("sendInvites"),
                           )
                         }
                       >
-                        <div className=&quot;flex items-center gap-3&quot;>
+                        <div className="flex items-center gap-3">
                           <div
                             className={cn(
-                              &quot;flex items-center justify-center w-8 h-8 rounded-full&quot;,
-                              form.watch(&quot;sendInvites&quot;)
-                                ? &quot;bg-primary text-primary-foreground&quot;
-                                : &quot;bg-muted-foreground/20 text-muted-foreground&quot;,
+                              "flex items-center justify-center w-8 h-8 rounded-full",
+                              form.watch("sendInvites")
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted-foreground/20 text-muted-foreground",
                             )}
                           >
                             <svg
-                              xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                              width=&quot;16&quot;
-                              height=&quot;16&quot;
-                              viewBox=&quot;0 0 24 24&quot;
-                              fill=&quot;none&quot;
-                              stroke=&quot;currentColor&quot;
-                              strokeWidth=&quot;2&quot;
-                              strokeLinecap=&quot;round&quot;
-                              strokeLinejoin=&quot;round&quot;
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             >
-                              <path d=&quot;M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z&quot;></path>
-                              <polyline points=&quot;22,6 12,13 2,6&quot;></polyline>
+                              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                              <polyline points="22,6 12,13 2,6"></polyline>
                             </svg>
                           </div>
-                          <div className=&quot;text-left&quot;>
-                            <div className=&quot;font-medium&quot;>
+                          <div className="text-left">
+                            <div className="font-medium">
                               Send Calendar Invites
                             </div>
-                            <p className=&quot;text-muted-foreground text-sm&quot;>
+                            <p className="text-muted-foreground text-sm">
                               Send calendar invitations to all participants
                             </p>
                           </div>
                         </div>
 
-                        <div className=&quot;flex items-center gap-3&quot;>
+                        <div className="flex items-center gap-3">
                           <span
                             className={cn(
-                              &quot;text-sm&quot;,
-                              form.watch(&quot;sendInvites&quot;)
-                                ? &quot;text-primary font-medium&quot;
-                                : &quot;text-muted-foreground&quot;,
+                              "text-sm",
+                              form.watch("sendInvites")
+                                ? "text-primary font-medium"
+                                : "text-muted-foreground",
                             )}
                           >
-                            {form.watch(&quot;sendInvites&quot;) ? &quot;Enabled&quot; : &quot;Disabled&quot;}
+                            {form.watch("sendInvites") ? "Enabled" : "Disabled"}
                           </span>
                           <div
-                            className=&quot;transform transition-transform duration-200&quot;
+                            className="transform transition-transform duration-200"
                             style={{
-                              transform: form.watch(&quot;sendInvites&quot;)
-                                ? &quot;rotate(180deg)&quot;
-                                : &quot;rotate(0deg)&quot;,
+                              transform: form.watch("sendInvites")
+                                ? "rotate(180deg)"
+                                : "rotate(0deg)",
                             }}
                           >
                             <svg
-                              xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                              width=&quot;18&quot;
-                              height=&quot;18&quot;
-                              viewBox=&quot;0 0 24 24&quot;
-                              fill=&quot;none&quot;
-                              stroke=&quot;currentColor&quot;
-                              strokeWidth=&quot;2&quot;
-                              strokeLinecap=&quot;round&quot;
-                              strokeLinejoin=&quot;round&quot;
-                              className=&quot;text-muted-foreground&quot;
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="18"
+                              height="18"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="text-muted-foreground"
                             >
-                              <path d=&quot;m6 9 6 6 6-6&quot; />
+                              <path d="m6 9 6 6 6-6" />
                             </svg>
                           </div>
                         </div>
                       </button>
 
-                      {form.watch(&quot;sendInvites&quot;) && (
-                        <div className=&quot;p-4 space-y-3&quot;>
-                          <div className=&quot;flex justify-between items-start&quot;>
+                      {form.watch("sendInvites") && (
+                        <div className="p-4 space-y-3">
+                          <div className="flex justify-between items-start">
                             <div>
                               <Label
-                                htmlFor=&quot;inviteEmails&quot;
-                                className=&quot;flex items-center gap-2&quot;
+                                htmlFor="inviteEmails"
+                                className="flex items-center gap-2"
                               >
                                 <svg
-                                  xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                                  width=&quot;16&quot;
-                                  height=&quot;16&quot;
-                                  viewBox=&quot;0 0 24 24&quot;
-                                  fill=&quot;none&quot;
-                                  stroke=&quot;currentColor&quot;
-                                  strokeWidth=&quot;2&quot;
-                                  strokeLinecap=&quot;round&quot;
-                                  strokeLinejoin=&quot;round&quot;
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
                                 >
-                                  <path d=&quot;M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z&quot;></path>
-                                  <polyline points=&quot;22,6 12,13 2,6&quot;></polyline>
+                                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                  <polyline points="22,6 12,13 2,6"></polyline>
                                 </svg>
                                 Participant Email Addresses
                               </Label>
-                              <p className=&quot;text-xs text-muted-foreground&quot;>
+                              <p className="text-xs text-muted-foreground">
                                 Each person will receive an email with a
                                 calendar invitation
                               </p>
@@ -1545,30 +1545,30 @@ export function BookingFormFinal({
                           </div>
 
                           <Textarea
-                            id=&quot;inviteEmails&quot;
-                            placeholder=&quot;Enter email addresses separated by commas (e.g., user@example.com, person@company.com)&quot;
-                            {...form.register(&quot;inviteEmails&quot;)}
-                            className=&quot;min-h-[100px]&quot;
+                            id="inviteEmails"
+                            placeholder="Enter email addresses separated by commas (e.g., user@example.com, person@company.com)"
+                            {...form.register("inviteEmails")}
+                            className="min-h-[100px]"
                           />
 
-                          <div className=&quot;flex items-start gap-2 p-2 bg-primary/5 rounded-sm&quot;>
+                          <div className="flex items-start gap-2 p-2 bg-primary/5 rounded-sm">
                             <svg
-                              xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                              width=&quot;16&quot;
-                              height=&quot;16&quot;
-                              viewBox=&quot;0 0 24 24&quot;
-                              fill=&quot;none&quot;
-                              stroke=&quot;currentColor&quot;
-                              strokeWidth=&quot;2&quot;
-                              strokeLinecap=&quot;round&quot;
-                              strokeLinejoin=&quot;round&quot;
-                              className=&quot;text-primary mt-0.5&quot;
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="text-primary mt-0.5"
                             >
-                              <circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;></circle>
-                              <line x1=&quot;12&quot; y1=&quot;16&quot; x2=&quot;12&quot; y2=&quot;12&quot;></line>
-                              <line x1=&quot;12&quot; y1=&quot;8&quot; x2=&quot;12.01&quot; y2=&quot;8&quot;></line>
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <line x1="12" y1="16" x2="12" y2="12"></line>
+                              <line x1="12" y1="8" x2="12.01" y2="8"></line>
                             </svg>
-                            <p className=&quot;text-xs text-muted-foreground&quot;>
+                            <p className="text-xs text-muted-foreground">
                               Invitations will include all event details (date,
                               time, location) and will appear in recipients'
                               calendar applications like Google Calendar,
@@ -1581,28 +1581,28 @@ export function BookingFormFinal({
                   </div>
                 </div>
 
-                <div className=&quot;flex justify-between pt-4&quot;>
+                <div className="flex justify-between pt-4">
                   <Button
-                    type=&quot;button&quot;
-                    variant=&quot;outline&quot;
-                    onClick={() => setActiveTab(&quot;details&quot;)}
+                    type="button"
+                    variant="outline"
+                    onClick={() => setActiveTab("details")}
                   >
                     Back
                   </Button>
 
-                  <div className=&quot;space-x-2&quot;>
-                    <Button type=&quot;button&quot; variant=&quot;outline&quot; onClick={onCancel}>
+                  <div className="space-x-2">
+                    <Button type="button" variant="outline" onClick={onCancel}>
                       Cancel
                     </Button>
 
-                    <Button type=&quot;submit&quot; disabled={isSubmitting}>
+                    <Button type="submit" disabled={isSubmitting}>
                       {isSubmitting ? (
                         <>
-                          <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Submitting...
                         </>
                       ) : (
-                        &quot;Submit Booking"
+                        "Submit Booking"
                       )}
                     </Button>
                   </div>

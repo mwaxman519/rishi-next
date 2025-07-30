@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { clsx, type ClassValue } from &quot;clsx&quot;;
-import { twMerge } from &quot;tailwind-merge&quot;;
-import { format, formatDistanceToNow, isToday, isYesterday } from &quot;date-fns&quot;;
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { format, formatDistanceToNow, isToday, isYesterday } from "date-fns";
 
 /**
  * Combines multiple class names or conditional class names and resolves Tailwind CSS conflicts
@@ -19,22 +19,22 @@ export function cn(...inputs: ClassValue[]) {
 export function formatDisplayDate(
   date: Date | string | number | null | undefined,
 ): string {
-  if (!date) return "&quot;;
+  if (!date) return "";
 
   const dateObj =
-    typeof date === &quot;string&quot; || typeof date === &quot;number&quot;
+    typeof date === "string" || typeof date === "number"
       ? new Date(date)
       : date;
 
   // Simple fallback implementation that works on client side
   try {
-    return new Intl.DateTimeFormat(&quot;en-US&quot;, {
-      year: &quot;numeric&quot;,
-      month: &quot;short&quot;,
-      day: &quot;numeric&quot;,
+    return new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     }).format(dateObj);
   } catch (error) {
-    return &quot;Invalid date&quot;;
+    return "Invalid date";
   }
 }
 
@@ -49,22 +49,22 @@ export function safeLocalStorage<T>(
   let storedValue: T = defaultValue;
 
   // Only access localStorage on the client
-  if (typeof window !== &quot;undefined&quot;) {
+  if (typeof window !== "undefined") {
     try {
       const item = window.localStorage.getItem(key);
       storedValue = item ? JSON.parse(item) : defaultValue;
     } catch (error) {
-      console.error(`Error reading localStorage key &quot;${key}&quot;:`, error);
+      console.error(`Error reading localStorage key "${key}":`, error);
     }
   }
 
   // Function to update the value
   const setValue = (value: T) => {
-    if (typeof window !== &quot;undefined&quot;) {
+    if (typeof window !== "undefined") {
       try {
         window.localStorage.setItem(key, JSON.stringify(value));
       } catch (error) {
-        console.error(`Error setting localStorage key &quot;${key}&quot;:`, error);
+        console.error(`Error setting localStorage key "${key}":`, error);
       }
     }
   };
@@ -74,22 +74,22 @@ export function safeLocalStorage<T>(
 
 /**
  * Create breadcrumbs array from path string - client-side version
- * Transforms &quot;/docs/admin/users&quot; into [{label: &quot;docs&quot;, path: &quot;/docs&quot;}, {label: &quot;admin&quot;, path: &quot;/docs/admin&quot;}, ...]
+ * Transforms "/docs/admin/users" into [{label: "docs", path: "/docs"}, {label: "admin", path: "/docs/admin"}, ...]
  */
 export function createBreadcrumbsFromPath(path: string) {
   if (!path) return [];
 
   // Remove trailing slash if present
-  const cleanPath = path.endsWith(&quot;/&quot;) ? path.slice(0, -1) : path;
+  const cleanPath = path.endsWith("/") ? path.slice(0, -1) : path;
 
   // Skip empty segments
-  const segments = cleanPath.split(&quot;/&quot;).filter(Boolean);
+  const segments = cleanPath.split("/").filter(Boolean);
 
   // Create breadcrumb items with accumulated paths
   return segments.map((segment, index) => {
     const label =
-      segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, &quot; &quot;);
-    const path = &quot;/&quot; + segments.slice(0, index + 1).join(&quot;/&quot;);
+      segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
+    const path = "/" + segments.slice(0, index + 1).join("/");
     return { label, path };
   });
 }
@@ -99,33 +99,33 @@ export function createBreadcrumbsFromPath(path: string) {
  * Client-only utility to avoid SSR date issues
  */
 export function formatRelativeTime(date: Date | string | number): string {
-  if (!date) return &quot;&quot;;
+  if (!date) return "";
 
   const dateObj =
-    typeof date === &quot;string&quot; || typeof date === &quot;number&quot;
+    typeof date === "string" || typeof date === "number"
       ? new Date(date)
       : date;
 
   // For invalid dates
   if (isNaN(dateObj.getTime())) {
-    return &quot;Invalid date&quot;;
+    return "Invalid date";
   }
 
-  // For today, show relative time (e.g., &quot;2 hours ago&quot;)
+  // For today, show relative time (e.g., "2 hours ago")
   if (isToday(dateObj)) {
     return formatDistanceToNow(dateObj, { addSuffix: true });
   }
 
-  // For yesterday, show &quot;Yesterday at HH:MM AM/PM&quot;
+  // For yesterday, show "Yesterday at HH:MM AM/PM"
   if (isYesterday(dateObj)) {
-    return `Yesterday at ${format(dateObj, &quot;h:mm a&quot;)}`;
+    return `Yesterday at ${format(dateObj, "h:mm a")}`;
   }
 
-  // For the current year, show &quot;MMM D at h:mm a&quot; (e.g., &quot;Jan 5 at 3:30 PM&quot;)
+  // For the current year, show "MMM D at h:mm a" (e.g., "Jan 5 at 3:30 PM")
   if (dateObj.getFullYear() === new Date().getFullYear()) {
-    return format(dateObj, &quot;MMM d 'at' h:mm a&quot;);
+    return format(dateObj, "MMM d 'at' h:mm a");
   }
 
-  // For other dates, show &quot;MMM D, YYYY&quot; (e.g., &quot;Jan 5, 2022&quot;)
-  return format(dateObj, &quot;MMM d, yyyy");
+  // For other dates, show "MMM D, YYYY" (e.g., "Jan 5, 2022")
+  return format(dateObj, "MMM d, yyyy");
 }

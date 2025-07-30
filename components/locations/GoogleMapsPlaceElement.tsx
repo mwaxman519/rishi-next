@@ -1,10 +1,10 @@
 // GoogleMapsPlaceElement.tsx
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useRef, useState } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Loader2, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Declare the global Google Maps types
 declare global {
@@ -31,13 +31,13 @@ interface GoogleMapsPlaceElementProps {
 /**
  * GoogleMapsPlaceElement - A component that renders the Google Maps Place Autocomplete element
  *
- * This component uses a &quot;portal-like&quot; approach where we don&apos;t let React manage the DOM for
+ * This component uses a "portal-like" approach where we don't let React manage the DOM for
  * the Google Maps element at all. Instead, we use a div that stays stable across renders
  * as a container, and we manually add/remove Google elements to it.
  */
 export default function GoogleMapsPlaceElement({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: GoogleMapsPlaceElementProps) {
   // Create refs to store DOM elements
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,9 +65,9 @@ export default function GoogleMapsPlaceElement({
     function initializeMap(location: { lat: number; lng: number }) {
       if (!mapRef.current || !window.google || !window.google.maps) return;
 
-      console.log(&quot;🗺️ Initializing map with location:&quot;, location);
+      console.log("🗺️ Initializing map with location:", location);
 
-      // Create a new map instance if it doesn&apos;t exist
+      // Create a new map instance if it doesn't exist
       if (!mapInstanceRef.current) {
         mapInstanceRef.current = new window.google.maps.Map(mapRef.current, {
           center: location,
@@ -99,7 +99,7 @@ export default function GoogleMapsPlaceElement({
   useEffect(() => {
     // Define the callback function that Google Maps will call when loaded
     window.initGoogleMaps = () => {
-      console.log(&quot;🔍 Google Maps script loaded and callback triggered&quot;);
+      console.log("🔍 Google Maps script loaded and callback triggered");
       setIsScriptLoaded(true);
 
       // Delay the setup to ensure DOM is ready
@@ -107,21 +107,21 @@ export default function GoogleMapsPlaceElement({
         if (containerRef.current) {
           setupGooglePlaceAutocomplete();
         } else {
-          console.error(&quot;Container ref not available after timeout&quot;);
+          console.error("Container ref not available after timeout");
         }
       }, 100);
     };
 
     // Function to handle the place selection and request details
     function handlePlaceSelection(placeId: string) {
-      console.log(&quot;🔍 Handling place selection for ID:&quot;, placeId);
+      console.log("🔍 Handling place selection for ID:", placeId);
       setIsLoading(true);
 
       try {
-        // Create a places service if it doesn&apos;t exist
+        // Create a places service if it doesn't exist
         if (!placesServiceRef.current) {
-          console.log(&quot;🔍 Creating PlacesService&quot;);
-          const tempDiv = document.createElement(&quot;div&quot;);
+          console.log("🔍 Creating PlacesService");
+          const tempDiv = document.createElement("div");
           placesServiceRef.current =
             new window.google.maps.places.PlacesService(tempDiv);
         }
@@ -131,15 +131,15 @@ export default function GoogleMapsPlaceElement({
           {
             placeId: placeId,
             fields: [
-              &quot;name&quot;,
-              &quot;formatted_address&quot;,
-              &quot;geometry&quot;,
-              &quot;address_components&quot;,
-              &quot;place_id&quot;,
+              "name",
+              "formatted_address",
+              "geometry",
+              "address_components",
+              "place_id",
             ],
           },
           (result: any, status: any) => {
-            console.log(&quot;🔍 Place details response. Status:&quot;, status);
+            console.log("🔍 Place details response. Status:", status);
             setIsLoading(false);
 
             if (
@@ -147,17 +147,17 @@ export default function GoogleMapsPlaceElement({
               result
             ) {
               // Successfully got place details
-              console.log(&quot;🔍 Place details retrieved:&quot;, result);
+              console.log("🔍 Place details retrieved:", result);
 
               if (result.geometry && result.geometry.location) {
                 // Extract coordinates from the result
                 const location = result.geometry.location;
                 const latitude =
-                  typeof location.lat === &quot;function&quot;
+                  typeof location.lat === "function"
                     ? location.lat()
                     : location.lat;
                 const longitude =
-                  typeof location.lng === &quot;function&quot;
+                  typeof location.lng === "function"
                     ? location.lng()
                     : location.lng;
 
@@ -167,43 +167,43 @@ export default function GoogleMapsPlaceElement({
 
                 // Create address data to pass to parent
                 const addressData: AddressData = {
-                  formatted_address: result.formatted_address || &quot;&quot;,
+                  formatted_address: result.formatted_address || "",
                   address_components: result.address_components || [],
                   latitude,
                   longitude,
                   place_id: result.place_id,
-                  name: result.name || &quot;&quot;,
+                  name: result.name || "",
                 };
 
                 // Notify the parent component
                 onAddressSelect(addressData);
               } else {
                 // Handle missing geometry
-                console.error(&quot;🔍 Place missing location data:&quot;, result);
+                console.error("🔍 Place missing location data:", result);
                 toast({
-                  title: &quot;Error&quot;,
-                  description: &quot;Selected location missing coordinate data&quot;,
-                  variant: &quot;destructive&quot;,
+                  title: "Error",
+                  description: "Selected location missing coordinate data",
+                  variant: "destructive",
                 });
               }
             } else {
               // Handle API error
-              console.error(&quot;🔍 Error fetching place details. Status:&quot;, status);
+              console.error("🔍 Error fetching place details. Status:", status);
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Could not retrieve location details&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Could not retrieve location details",
+                variant: "destructive",
               });
             }
           },
         );
       } catch (error) {
-        console.error(&quot;🔍 Error in handlePlaceSelection:&quot;, error);
+        console.error("🔍 Error in handlePlaceSelection:", error);
         setIsLoading(false);
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Error processing location data&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Error processing location data",
+          variant: "destructive",
         });
       }
     }
@@ -211,7 +211,7 @@ export default function GoogleMapsPlaceElement({
     // Setup function to create and attach the PlaceAutocompleteElement
     function setupGooglePlaceAutocomplete() {
       console.log(
-        &quot;🔍 Setting up Google PlaceAutocompleteElement with containerRef state:&quot;,
+        "🔍 Setting up Google PlaceAutocompleteElement with containerRef state:",
         !!containerRef.current,
       );
 
@@ -222,29 +222,29 @@ export default function GoogleMapsPlaceElement({
     // Check container ref with retry mechanism
     function checkContainerAndSetup() {
       if (!containerRef.current) {
-        console.warn(&quot;🔍 Container ref not available yet, scheduling retry&quot;);
+        console.warn("🔍 Container ref not available yet, scheduling retry");
         // Schedule a retry
         setTimeout(checkContainerAndSetup, 100);
         return;
       }
 
       // Container ref is available, proceed with autocomplete setup
-      console.log(&quot;🔍 Container ref is available, setting up autocomplete&quot;);
+      console.log("🔍 Container ref is available, setting up autocomplete");
 
       // Double-check Google Maps is available
       if (!window.google || !window.google.maps || !window.google.maps.places) {
-        console.error(&quot;Google Maps API not fully loaded&quot;);
+        console.error("Google Maps API not fully loaded");
         setIsLoading(false);
         toast({
-          title: &quot;API Loading Error&quot;,
-          description: &quot;Google Maps API failed to load completely&quot;,
-          variant: &quot;destructive&quot;,
+          title: "API Loading Error",
+          description: "Google Maps API failed to load completely",
+          variant: "destructive",
         });
         return;
       }
 
       try {
-        console.log(&quot;🔍 Setting up Google PlaceAutocompleteElement&quot;);
+        console.log("🔍 Setting up Google PlaceAutocompleteElement");
 
         // Clear the container
         while (containerRef.current.firstChild) {
@@ -254,70 +254,70 @@ export default function GoogleMapsPlaceElement({
         // Verify PlaceAutocompleteElement exists before creating it
         if (!window.google.maps.places.PlaceAutocompleteElement) {
           console.error(
-            &quot;🔍 PlaceAutocompleteElement constructor is not available&quot;,
+            "🔍 PlaceAutocompleteElement constructor is not available",
           );
           setIsLoading(false);
           toast({
-            title: &quot;API Support Error&quot;,
+            title: "API Support Error",
             description:
-              &quot;Your Google Maps API key does not have access to the PlaceAutocompleteElement beta feature&quot;,
-            variant: &quot;destructive&quot;,
+              "Your Google Maps API key does not have access to the PlaceAutocompleteElement beta feature",
+            variant: "destructive",
           });
           return;
         }
 
-        console.log(&quot;🔍 Creating PlaceAutocompleteElement&quot;);
+        console.log("🔍 Creating PlaceAutocompleteElement");
 
         // Create the autocomplete element with minimal configuration
         const element = new window.google.maps.places.PlaceAutocompleteElement({
-          types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
+          types: ["address", "establishment", "geocode"],
         });
 
         // Style the element
-        element.style.display = &quot;block&quot;;
-        element.style.width = &quot;100%&quot;;
-        element.style.minHeight = &quot;40px&quot;;
-        element.style.padding = &quot;8px 12px 8px 32px&quot;;
-        element.style.backgroundColor = &quot;transparent&quot;;
-        element.style.boxSizing = &quot;border-box&quot;;
-        element.style.border = &quot;none&quot;;
+        element.style.display = "block";
+        element.style.width = "100%";
+        element.style.minHeight = "40px";
+        element.style.padding = "8px 12px 8px 32px";
+        element.style.backgroundColor = "transparent";
+        element.style.boxSizing = "border-box";
+        element.style.border = "none";
 
         // Create a container for the search icon
-        const searchIcon = document.createElement(&quot;div&quot;);
-        searchIcon.style.position = &quot;absolute&quot;;
-        searchIcon.style.left = &quot;10px&quot;;
-        searchIcon.style.top = &quot;12px&quot;;
-        searchIcon.style.zIndex = &quot;10&quot;;
-        searchIcon.style.pointerEvents = &quot;none&quot;;
-        searchIcon.innerHTML = `<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-search&quot;><circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;></circle><path d=&quot;m21 21-4.3-4.3&quot;></path></svg>`;
+        const searchIcon = document.createElement("div");
+        searchIcon.style.position = "absolute";
+        searchIcon.style.left = "10px";
+        searchIcon.style.top = "12px";
+        searchIcon.style.zIndex = "10";
+        searchIcon.style.pointerEvents = "none";
+        searchIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>`;
 
         // Append elements to the container
         containerRef.current.appendChild(element);
         containerRef.current.appendChild(searchIcon);
 
         // Add event listener for place selection
-        element.addEventListener(&quot;gmp-placeselect&quot;, (event: any) => {
-          console.log(&quot;🎯 PlaceAutocompleteElement selection event triggered!&quot;);
+        element.addEventListener("gmp-placeselect", (event: any) => {
+          console.log("🎯 PlaceAutocompleteElement selection event triggered!");
 
           try {
             // Check if we can get the place from the event
             if (event.detail && event.detail.place && event.detail.place.id) {
-              console.log(&quot;🎯 Place ID found:&quot;, event.detail.place.id);
+              console.log("🎯 Place ID found:", event.detail.place.id);
               handlePlaceSelection(event.detail.place.id);
             } else {
-              console.error(&quot;🎯 No valid place found in event:&quot;, event);
+              console.error("🎯 No valid place found in event:", event);
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Could not identify the selected location&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Could not identify the selected location",
+                variant: "destructive",
               });
             }
           } catch (error) {
-            console.error(&quot;🎯 Error handling place selection:&quot;, error);
+            console.error("🎯 Error handling place selection:", error);
             toast({
-              title: &quot;Error&quot;,
-              description: &quot;Error processing the selected location&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Error",
+              description: "Error processing the selected location",
+              variant: "destructive",
             });
           }
         });
@@ -325,18 +325,18 @@ export default function GoogleMapsPlaceElement({
         // Done loading
         setIsLoading(false);
         console.log(
-          &quot;🔍 Google PlaceAutocompleteElement initialized successfully&quot;,
+          "🔍 Google PlaceAutocompleteElement initialized successfully",
         );
       } catch (error) {
         console.error(
-          &quot;🔍 Error setting up Google PlaceAutocompleteElement:&quot;,
+          "🔍 Error setting up Google PlaceAutocompleteElement:",
           error,
         );
         setIsLoading(false);
         toast({
-          title: &quot;Initialization Error&quot;,
-          description: &quot;Failed to initialize location services&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Initialization Error",
+          description: "Failed to initialize location services",
+          variant: "destructive",
         });
       }
     }
@@ -344,18 +344,18 @@ export default function GoogleMapsPlaceElement({
     // Check if Google Maps is already loaded
     if (window.google && window.google.maps) {
       console.log(
-        &quot;🔍 Google Maps already loaded, checking for PlaceAutocompleteElement support&quot;,
+        "🔍 Google Maps already loaded, checking for PlaceAutocompleteElement support",
       );
 
       // Check if the places library exists
       if (window.google.maps.places) {
         console.log(
-          &quot;🔍 Places library found, checking for PlaceAutocompleteElement&quot;,
+          "🔍 Places library found, checking for PlaceAutocompleteElement",
         );
 
-        // Check if PlaceAutocompleteElement is available (it&apos;s in the beta API)
+        // Check if PlaceAutocompleteElement is available (it's in the beta API)
         if (window.google.maps.places.PlaceAutocompleteElement) {
-          console.log(&quot;🔍 PlaceAutocompleteElement is available!&quot;);
+          console.log("🔍 PlaceAutocompleteElement is available!");
           setIsScriptLoaded(true);
 
           // Delay to ensure the DOM is ready
@@ -364,55 +364,55 @@ export default function GoogleMapsPlaceElement({
           }, 100);
         } else {
           console.error(
-            &quot;🔍 PlaceAutocompleteElement not available - you need beta API enabled&quot;,
+            "🔍 PlaceAutocompleteElement not available - you need beta API enabled",
           );
           toast({
-            title: &quot;API Support Error&quot;,
+            title: "API Support Error",
             description:
-              &quot;Your Google Maps API key does not have access to the PlaceAutocompleteElement beta feature&quot;,
-            variant: &quot;destructive&quot;,
+              "Your Google Maps API key does not have access to the PlaceAutocompleteElement beta feature",
+            variant: "destructive",
           });
         }
       } else {
-        console.error(&quot;🔍 Places library not available&quot;);
+        console.error("🔍 Places library not available");
         toast({
-          title: &quot;API Loading Error&quot;,
-          description: &quot;Google Maps Places library failed to load&quot;,
-          variant: &quot;destructive&quot;,
+          title: "API Loading Error",
+          description: "Google Maps Places library failed to load",
+          variant: "destructive",
         });
       }
     } else {
       // Load the Google Maps script
       const existingScript = document.querySelector(
-        'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
+        'script[src*="maps.googleapis.com/maps/api"]',
       );
 
       if (!existingScript) {
-        console.log(&quot;🔍 Loading Google Maps script&quot;);
+        console.log("🔍 Loading Google Maps script");
         const apiKey =
           process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
           process.env.NEXT_PUBLIC_GOOGLE_MAPS_JS_API_KEY ||
           process.env.NEXT_PUBLIC_GOOGLE_API_KEY ||
-          &quot;&quot;;
+          "";
 
-        const script = document.createElement(&quot;script&quot;);
+        const script = document.createElement("script");
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async&v=beta`;
         script.async = true;
         script.defer = true;
 
         script.onerror = () => {
-          console.error(&quot;🔍 Failed to load Google Maps script&quot;);
+          console.error("🔍 Failed to load Google Maps script");
           setIsLoading(false);
           toast({
-            title: &quot;Loading Error&quot;,
-            description: &quot;Failed to load Google Maps services&quot;,
-            variant: &quot;destructive&quot;,
+            title: "Loading Error",
+            description: "Failed to load Google Maps services",
+            variant: "destructive",
           });
         };
 
         document.head.appendChild(script);
       } else {
-        console.log(&quot;🔍 Google Maps script already loading&quot;);
+        console.log("🔍 Google Maps script already loading");
       }
     }
 
@@ -425,23 +425,23 @@ export default function GoogleMapsPlaceElement({
   return (
     <div className={`${className} relative`}>
       {/* Address search container */}
-      <div className=&quot;relative min-h-[45px] border rounded-md mb-2&quot;>
+      <div className="relative min-h-[45px] border rounded-md mb-2">
         {/* Always render the container ref, but conditionally show the loading state over it */}
-        <div ref={containerRef} className=&quot;relative w-full min-h-[40px]&quot; />
+        <div ref={containerRef} className="relative w-full min-h-[40px]" />
 
         {/* Show loading overlay when not ready */}
         {(isLoading || !isScriptLoaded) && (
-          <div className=&quot;absolute inset-0 bg-background z-10&quot;>
-            <div className=&quot;relative flex items-center h-full&quot;>
-              <Search className=&quot;absolute left-2.5 top-50% transform translate-y-[-50%] h-4 w-4 text-muted-foreground&quot; />
+          <div className="absolute inset-0 bg-background z-10">
+            <div className="relative flex items-center h-full">
+              <Search className="absolute left-2.5 top-50% transform translate-y-[-50%] h-4 w-4 text-muted-foreground" />
               <Input
-                type=&quot;text&quot;
-                placeholder=&quot;Loading location search...&quot;
-                className=&quot;pl-9 h-full border-0&quot;
+                type="text"
+                placeholder="Loading location search..."
+                className="pl-9 h-full border-0"
                 disabled={true}
               />
-              <div className=&quot;absolute right-2.5 top-50% transform translate-y-[-50%]&quot;>
-                <Loader2 className=&quot;h-4 w-4 animate-spin text-muted-foreground&quot; />
+              <div className="absolute right-2.5 top-50% transform translate-y-[-50%]">
+                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
               </div>
             </div>
           </div>
@@ -450,11 +450,11 @@ export default function GoogleMapsPlaceElement({
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className=&quot;mt-4&quot;>
+        <div className="mt-4">
           <div
             ref={mapRef}
-            className=&quot;w-full h-[250px] rounded-md border&quot;
-            aria-label=&quot;Map showing selected location"
+            className="w-full h-[250px] rounded-md border"
+            aria-label="Map showing selected location"
           />
         </div>
       )}

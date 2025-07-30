@@ -1,14 +1,14 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { NotificationService } from &quot;../../../../services/notifications/notificationService&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { NotificationService } from "../../../../services/notifications/notificationService";
+import { getServerSession } from "next-auth";
 // Use proper authentication for all environments
-import { authOptions } from &quot;@/lib/auth-options&quot;;
+import { authOptions } from "@/lib/auth-options";
 
 /**
  * POST /api/notifications/[id]/read
@@ -26,7 +26,7 @@ export async function POST(
 
     if (!session?.user) {
       return NextResponse.json(
-        { error: &quot;Authentication required&quot; },
+        { error: "Authentication required" },
         { status: 401 },
       );
     }
@@ -37,9 +37,9 @@ export async function POST(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(&quot;Error marking notification as read:&quot;, error);
+    console.error("Error marking notification as read:", error);
     return NextResponse.json(
-      { error: &quot;Failed to mark notification as read&quot; },
+      { error: "Failed to mark notification as read" },
       { status: 500 },
     );
   }

@@ -8,8 +8,8 @@
  * @version 1.0.0
  */
 
-import { z } from &quot;zod&quot;;
-import { InsertBrandAgentAssignment } from &quot;@shared/schema&quot;;
+import { z } from "zod";
+import { InsertBrandAgentAssignment } from "@shared/schema";
 
 /**
  * Brand Agent representation with assignments and skills
@@ -83,10 +83,10 @@ export interface RosterMetrics {
  * Assignment role types
  */
 export const AssignmentRoles = {
-  PRIMARY: &quot;primary&quot;,
-  BACKUP: &quot;backup&quot;,
-  SEASONAL: &quot;seasonal&quot;,
-  TEMPORARY: &quot;temporary&quot;,
+  PRIMARY: "primary",
+  BACKUP: "backup",
+  SEASONAL: "seasonal",
+  TEMPORARY: "temporary",
 } as const;
 
 export type AssignmentRole =
@@ -97,14 +97,14 @@ export type AssignmentRole =
  */
 export const brandAgentAssignmentSchema = z
   .object({
-    userId: z.string().uuid(&quot;Invalid user ID&quot;),
-    brandId: z.string().uuid(&quot;Invalid brand ID&quot;),
-    assignmentRole: z.enum([&quot;primary&quot;, &quot;backup&quot;, &quot;seasonal&quot;, &quot;temporary&quot;], {
+    userId: z.string().uuid("Invalid user ID"),
+    brandId: z.string().uuid("Invalid brand ID"),
+    assignmentRole: z.enum(["primary", "backup", "seasonal", "temporary"], {
       errorMap: () => ({
-        message: &quot;Role must be primary, backup, seasonal, or temporary&quot;,
+        message: "Role must be primary, backup, seasonal, or temporary",
       }),
     }),
-    startDate: z.date().min(new Date(), &quot;Start date cannot be in the past&quot;),
+    startDate: z.date().min(new Date(), "Start date cannot be in the past"),
     endDate: z.date().optional(),
     skills: z.record(z.any()).optional(),
     territoryIds: z.array(z.string().uuid()).optional().default([]),
@@ -117,8 +117,8 @@ export const brandAgentAssignmentSchema = z
       return true;
     },
     {
-      message: &quot;End date must be after start date&quot;,
-      path: [&quot;endDate&quot;],
+      message: "End date must be after start date",
+      path: ["endDate"],
     },
   );
 
@@ -146,18 +146,18 @@ export function validateBrandAgentAssignment(
  * Agent skill validation schema
  */
 export const agentSkillSchema = z.object({
-  userId: z.string().uuid(&quot;Invalid user ID&quot;),
-  skillType: z.enum([&quot;certification&quot;, &quot;language&quot;, &quot;specialty&quot;, &quot;equipment&quot;], {
+  userId: z.string().uuid("Invalid user ID"),
+  skillType: z.enum(["certification", "language", "specialty", "equipment"], {
     errorMap: () => ({
       message:
-        &quot;Skill type must be certification, language, specialty, or equipment&quot;,
+        "Skill type must be certification, language, specialty, or equipment",
     }),
   }),
   skillName: z
     .string()
-    .min(1, &quot;Skill name is required&quot;)
-    .max(200, &quot;Skill name too long&quot;),
-  proficiencyLevel: z.enum([&quot;beginner&quot;, &quot;intermediate&quot;, &quot;expert&quot;]).optional(),
+    .min(1, "Skill name is required")
+    .max(200, "Skill name too long"),
+  proficiencyLevel: z.enum(["beginner", "intermediate", "expert"]).optional(),
   expiresAt: z.date().optional(),
 });
 
@@ -180,9 +180,9 @@ export interface AssignmentConflict {
   agentId: string;
   agentName: string;
   conflictType:
-    | &quot;existing_assignment&quot;
-    | &quot;skill_mismatch&quot;
-    | &quot;territory_unavailable&quot;;
+    | "existing_assignment"
+    | "skill_mismatch"
+    | "territory_unavailable";
   conflictDetails: string;
   existingAssignment?: {
     brandId: string;
@@ -198,11 +198,11 @@ export interface AssignmentConflict {
  */
 export interface RosterOptimizationSuggestion {
   type:
-    | &quot;coverage_gap&quot;
-    | &quot;overallocation&quot;
-    | &quot;skill_improvement&quot;
-    | &quot;territory_rebalance&quot;;
-  priority: &quot;high&quot; | &quot;medium&quot; | &quot;low&quot;;
+    | "coverage_gap"
+    | "overallocation"
+    | "skill_improvement"
+    | "territory_rebalance";
+  priority: "high" | "medium" | "low";
   description: string;
   affectedAgents: string[];
   suggestedActions: string[];

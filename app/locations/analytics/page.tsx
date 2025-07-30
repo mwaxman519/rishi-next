@@ -1,14 +1,14 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
+import { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Bar,
   BarChart,
@@ -24,40 +24,40 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from &quot;recharts&quot;;
+} from "recharts";
 
 // Sample location analytics data
 const locationSubmissionData = [
-  { month: &quot;Jan&quot;, submissions: 65, approvals: 43, rejections: 22 },
-  { month: &quot;Feb&quot;, submissions: 78, approvals: 52, rejections: 26 },
-  { month: &quot;Mar&quot;, submissions: 91, approvals: 73, rejections: 18 },
-  { month: &quot;Apr&quot;, submissions: 125, approvals: 101, rejections: 24 },
-  { month: &quot;May&quot;, submissions: 131, approvals: 114, rejections: 17 },
-  { month: &quot;Jun&quot;, submissions: 142, approvals: 122, rejections: 20 },
+  { month: "Jan", submissions: 65, approvals: 43, rejections: 22 },
+  { month: "Feb", submissions: 78, approvals: 52, rejections: 26 },
+  { month: "Mar", submissions: 91, approvals: 73, rejections: 18 },
+  { month: "Apr", submissions: 125, approvals: 101, rejections: 24 },
+  { month: "May", submissions: 131, approvals: 114, rejections: 17 },
+  { month: "Jun", submissions: 142, approvals: 122, rejections: 20 },
 ];
 
 const locationTypeData = [
-  { name: &quot;Dispensary&quot;, value: 68 },
-  { name: &quot;Event Space&quot;, value: 14 },
-  { name: &quot;Consumption Lounge&quot;, value: 8 },
-  { name: &quot;Distribution Center&quot;, value: 6 },
-  { name: &quot;Manufacturing Facility&quot;, value: 4 },
+  { name: "Dispensary", value: 68 },
+  { name: "Event Space", value: 14 },
+  { name: "Consumption Lounge", value: 8 },
+  { name: "Distribution Center", value: 6 },
+  { name: "Manufacturing Facility", value: 4 },
 ];
 
 const regionData = [
-  { name: &quot;California&quot;, locations: 120 },
-  { name: &quot;Colorado&quot;, locations: 85 },
-  { name: &quot;Washington&quot;, locations: 72 },
-  { name: &quot;Nevada&quot;, locations: 65 },
-  { name: &quot;Oregon&quot;, locations: 60 },
-  { name: &quot;Massachusetts&quot;, locations: 40 },
-  { name: &quot;Illinois&quot;, locations: 38 },
-  { name: &quot;Michigan&quot;, locations: 35 },
-  { name: &quot;Arizona&quot;, locations: 30 },
-  { name: &quot;New York&quot;, locations: 25 },
+  { name: "California", locations: 120 },
+  { name: "Colorado", locations: 85 },
+  { name: "Washington", locations: 72 },
+  { name: "Nevada", locations: 65 },
+  { name: "Oregon", locations: 60 },
+  { name: "Massachusetts", locations: 40 },
+  { name: "Illinois", locations: 38 },
+  { name: "Michigan", locations: 35 },
+  { name: "Arizona", locations: 30 },
+  { name: "New York", locations: 25 },
 ];
 
-const COLORS = [&quot;#0088FE&quot;, &quot;#00C49F&quot;, &quot;#FFBB28&quot;, &quot;#FF8042&quot;, &quot;#8884d8&quot;];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
 const renderActiveShape = (props: any) => {
   const {
@@ -82,11 +82,11 @@ const renderActiveShape = (props: any) => {
   const my = cy + (outerRadius + 30) * sin;
   const ex = mx + (cos >= 0 ? 1 : -1) * 22;
   const ey = my;
-  const textAnchor = cos >= 0 ? &quot;start&quot; : &quot;end&quot;;
+  const textAnchor = cos >= 0 ? "start" : "end";
 
   return (
     <g>
-      <text x={cx} y={cy} dy={8} textAnchor=&quot;middle&quot; fill={fill}>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
         {payload.name}
       </text>
       <Sector
@@ -110,21 +110,21 @@ const renderActiveShape = (props: any) => {
       <path
         d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
         stroke={fill}
-        fill=&quot;none&quot;
+        fill="none"
       />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke=&quot;none&quot; />
+      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
-        fill=&quot;#333&quot;
+        fill="#333"
       >{`${value} locations`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         dy={18}
         textAnchor={textAnchor}
-        fill=&quot;#999&quot;
+        fill="#999"
       >
         {`(${(percent * 100).toFixed(2)}%)`}
       </text>
@@ -140,69 +140,69 @@ export default function LocationAnalyticsPage() {
   };
 
   return (
-    <div className=&quot;container space-y-8 p-8&quot;>
+    <div className="container space-y-8 p-8">
       <div>
-        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+        <h1 className="text-3xl font-bold tracking-tight">
           Location Analytics
         </h1>
-        <p className=&quot;text-muted-foreground mt-2&quot;>
+        <p className="text-muted-foreground mt-2">
           Comprehensive analytics and insights on location management across the
           platform.
         </p>
       </div>
 
-      <Tabs defaultValue=&quot;overview&quot; className=&quot;space-y-4&quot;>
+      <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
-          <TabsTrigger value=&quot;overview&quot;>Overview</TabsTrigger>
-          <TabsTrigger value=&quot;submissions&quot;>Submissions</TabsTrigger>
-          <TabsTrigger value=&quot;regional&quot;>Regional</TabsTrigger>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="submissions">Submissions</TabsTrigger>
+          <TabsTrigger value="regional">Regional</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;overview&quot; className=&quot;space-y-4&quot;>
-          <div className=&quot;grid gap-4 md:grid-cols-2 lg:grid-cols-3&quot;>
+        <TabsContent value="overview" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Total Locations
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>532</div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <div className="text-2xl font-bold">532</div>
+                <p className="text-xs text-muted-foreground">
                   +24 from last month
                 </p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Pending Approvals
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>19</div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <div className="text-2xl font-bold">19</div>
+                <p className="text-xs text-muted-foreground">
                   -3 from last week
                 </p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Approval Rate
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>86%</div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <div className="text-2xl font-bold">86%</div>
+                <p className="text-xs text-muted-foreground">
                   +2% from previous quarter
                 </p>
               </CardContent>
             </Card>
           </div>
 
-          <div className=&quot;grid gap-4 md:grid-cols-2&quot;>
-            <Card className=&quot;col-span-1&quot;>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card className="col-span-1">
               <CardHeader>
                 <CardTitle>Location Types</CardTitle>
                 <CardDescription>
@@ -210,19 +210,19 @@ export default function LocationAnalyticsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;h-80 w-full&quot;>
-                  <ResponsiveContainer width=&quot;100%&quot; height=&quot;100%&quot;>
+                <div className="h-80 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         activeIndex={activeIndex}
                         activeShape={renderActiveShape}
                         data={locationTypeData}
-                        cx=&quot;50%&quot;
-                        cy=&quot;50%&quot;
+                        cx="50%"
+                        cy="50%"
                         innerRadius={60}
                         outerRadius={80}
-                        fill=&quot;#8884d8&quot;
-                        dataKey=&quot;value&quot;
+                        fill="#8884d8"
+                        dataKey="value"
                         onMouseEnter={onPieEnter}
                       >
                         {locationTypeData.map((_, index) => (
@@ -239,7 +239,7 @@ export default function LocationAnalyticsPage() {
               </CardContent>
             </Card>
 
-            <Card className=&quot;col-span-1&quot;>
+            <Card className="col-span-1">
               <CardHeader>
                 <CardTitle>Submission Trends</CardTitle>
                 <CardDescription>
@@ -247,8 +247,8 @@ export default function LocationAnalyticsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;h-80 w-full&quot;>
-                  <ResponsiveContainer width=&quot;100%&quot; height=&quot;100%&quot;>
+                <div className="h-80 w-full">
+                  <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={locationSubmissionData}
                       margin={{
@@ -258,21 +258,21 @@ export default function LocationAnalyticsPage() {
                         bottom: 5,
                       }}
                     >
-                      <CartesianGrid strokeDasharray=&quot;3 3&quot; />
-                      <XAxis dataKey=&quot;month&quot; />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="month" />
                       <YAxis />
                       <Tooltip />
                       <Legend />
                       <Line
-                        type=&quot;monotone&quot;
-                        dataKey=&quot;submissions&quot;
-                        stroke=&quot;#8884d8&quot;
+                        type="monotone"
+                        dataKey="submissions"
+                        stroke="#8884d8"
                         activeDot={{ r: 8 }}
                       />
                       <Line
-                        type=&quot;monotone&quot;
-                        dataKey=&quot;approvals&quot;
-                        stroke=&quot;#82ca9d&quot;
+                        type="monotone"
+                        dataKey="approvals"
+                        stroke="#82ca9d"
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -282,7 +282,7 @@ export default function LocationAnalyticsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;submissions&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="submissions" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Submission Metrics</CardTitle>
@@ -291,8 +291,8 @@ export default function LocationAnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className=&quot;h-96 w-full&quot;>
-                <ResponsiveContainer width=&quot;100%&quot; height=&quot;100%&quot;>
+              <div className="h-96 w-full">
+                <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={locationSubmissionData}
                     margin={{
@@ -302,28 +302,28 @@ export default function LocationAnalyticsPage() {
                       bottom: 5,
                     }}
                   >
-                    <CartesianGrid strokeDasharray=&quot;3 3&quot; />
-                    <XAxis dataKey=&quot;month&quot; />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
                     <Bar
-                      dataKey=&quot;submissions&quot;
-                      stackId=&quot;a&quot;
-                      fill=&quot;#8884d8&quot;
-                      name=&quot;Total Submissions&quot;
+                      dataKey="submissions"
+                      stackId="a"
+                      fill="#8884d8"
+                      name="Total Submissions"
                     />
                     <Bar
-                      dataKey=&quot;approvals&quot;
-                      stackId=&quot;b&quot;
-                      fill=&quot;#82ca9d&quot;
-                      name=&quot;Approvals&quot;
+                      dataKey="approvals"
+                      stackId="b"
+                      fill="#82ca9d"
+                      name="Approvals"
                     />
                     <Bar
-                      dataKey=&quot;rejections&quot;
-                      stackId=&quot;b&quot;
-                      fill=&quot;#ffc658&quot;
-                      name=&quot;Rejections&quot;
+                      dataKey="rejections"
+                      stackId="b"
+                      fill="#ffc658"
+                      name="Rejections"
                     />
                   </BarChart>
                 </ResponsiveContainer>
@@ -331,28 +331,28 @@ export default function LocationAnalyticsPage() {
             </CardContent>
           </Card>
 
-          <div className=&quot;grid gap-4 md:grid-cols-2&quot;>
+          <div className="grid gap-4 md:grid-cols-2">
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Average Approval Time
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>1.8 days</div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <div className="text-2xl font-bold">1.8 days</div>
+                <p className="text-xs text-muted-foreground">
                   -0.3 days from previous quarter
                 </p>
               </CardContent>
             </Card>
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Common Rejection Reasons
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className=&quot;ml-2 list-disc [&>li]:mt-2&quot;>
+                <ul className="ml-2 list-disc [&>li]:mt-2">
                   <li>Incomplete information (42%)</li>
                   <li>Address verification failed (26%)</li>
                   <li>Duplicate entry (18%)</li>
@@ -363,17 +363,17 @@ export default function LocationAnalyticsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;regional&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="regional" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Regional Distribution</CardTitle>
               <CardDescription>Location distribution by region</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className=&quot;h-96 w-full&quot;>
-                <ResponsiveContainer width=&quot;100%&quot; height=&quot;100%&quot;>
+              <div className="h-96 w-full">
+                <ResponsiveContainer width="100%" height="100%">
                   <BarChart
-                    layout=&quot;vertical&quot;
+                    layout="vertical"
                     data={regionData}
                     margin={{
                       top: 5,
@@ -382,12 +382,12 @@ export default function LocationAnalyticsPage() {
                       bottom: 5,
                     }}
                   >
-                    <CartesianGrid strokeDasharray=&quot;3 3&quot; />
-                    <XAxis type=&quot;number&quot; />
-                    <YAxis dataKey=&quot;name&quot; type=&quot;category&quot; scale=&quot;band&quot; />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis dataKey="name" type="category" scale="band" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey=&quot;locations&quot; fill=&quot;#8884d8&quot; />
+                    <Bar dataKey="locations" fill="#8884d8" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -400,9 +400,9 @@ export default function LocationAnalyticsPage() {
               <CardDescription>Monthly growth by top regions</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className=&quot;h-80 w-full&quot;>
-                <div className=&quot;flex items-center justify-center h-full&quot;>
-                  <p className=&quot;text-muted-foreground&quot;>
+              <div className="h-80 w-full">
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">
                     Regional growth data is being calculated. Check back soon.
                   </p>
                 </div>

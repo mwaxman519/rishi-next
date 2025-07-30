@@ -1,4 +1,4 @@
-import { ServiceAdapter, ApiClient } from &quot;../infrastructure/serviceAdapter&quot;;
+import { ServiceAdapter, ApiClient } from "../infrastructure/serviceAdapter";
 import {
   AvailabilityDTO,
   AvailabilityResponse,
@@ -8,7 +8,7 @@ import {
   AvailabilityQueryOptions,
   ConflictCheckResponse,
   ServiceResponse,
-} from &quot;./models&quot;;
+} from "./models";
 
 // Instead of importing the service directly which causes client-side importing issues,
 // we'll define the interface and use dynamic imports for server-only code
@@ -16,7 +16,7 @@ import {
 /**
  * Interface for the Availability Service
  * This abstracts the capabilities of the service, regardless of whether
- * it&apos;s a local service or a remote microservice.
+ * it's a local service or a remote microservice.
  */
 export interface IAvailabilityService {
   getAvailabilityBlocks(
@@ -52,14 +52,14 @@ export class LocalAvailabilityServiceAdapter
   // This method should only be called on the server side
   async getServiceAsync(): Promise<IAvailabilityService> {
     // Dynamically import the service only when needed on the server
-    const { availabilityService } = await import(&quot;./availabilityService&quot;);
+    const { availabilityService } = await import("./availabilityService");
     return availabilityService;
   }
 
   // Not safe for client-side use - will throw an error if used on client
   getService(): IAvailabilityService {
     throw new Error(
-      &quot;Direct service access is only available server-side. Use API routes instead.&quot;,
+      "Direct service access is only available server-side. Use API routes instead.",
     );
   }
 }
@@ -89,28 +89,28 @@ export class RemoteAvailabilityServiceAdapter
         try {
           // Build query string from options
           const queryParams = new URLSearchParams();
-          queryParams.append(&quot;userId&quot;, options.userId.toString());
+          queryParams.append("userId", options.userId.toString());
 
           if (options.startDate) {
             // Safely handle Date or string type
             const startDate =
-              typeof options.startDate === &quot;string&quot;
+              typeof options.startDate === "string"
                 ? options.startDate
                 : options.startDate.toISOString();
-            queryParams.append(&quot;startDate&quot;, startDate);
+            queryParams.append("startDate", startDate);
           }
 
           if (options.endDate) {
             // Safely handle Date or string type
             const endDate =
-              typeof options.endDate === &quot;string&quot;
+              typeof options.endDate === "string"
                 ? options.endDate
                 : options.endDate.toISOString();
-            queryParams.append(&quot;endDate&quot;, endDate);
+            queryParams.append("endDate", endDate);
           }
 
           if (options.status) {
-            queryParams.append(&quot;status&quot;, options.status);
+            queryParams.append("status", options.status);
           }
 
           const url = `${baseUrl}/availability?${queryParams.toString()}`;
@@ -123,7 +123,7 @@ export class RemoteAvailabilityServiceAdapter
             error:
               error instanceof Error
                 ? error.message
-                : &quot;Failed to fetch availability blocks&quot;,
+                : "Failed to fetch availability blocks",
           };
         }
       },
@@ -142,7 +142,7 @@ export class RemoteAvailabilityServiceAdapter
             error:
               error instanceof Error
                 ? error.message
-                : &quot;Failed to fetch availability block&quot;,
+                : "Failed to fetch availability block",
           };
         }
       },
@@ -164,7 +164,7 @@ export class RemoteAvailabilityServiceAdapter
             error:
               error instanceof Error
                 ? error.message
-                : &quot;Failed to create availability block&quot;,
+                : "Failed to create availability block",
           };
         }
       },
@@ -184,7 +184,7 @@ export class RemoteAvailabilityServiceAdapter
             error:
               error instanceof Error
                 ? error.message
-                : &quot;Failed to update availability block&quot;,
+                : "Failed to update availability block",
           };
         }
       },
@@ -210,7 +210,7 @@ export class RemoteAvailabilityServiceAdapter
             error:
               error instanceof Error
                 ? error.message
-                : &quot;Failed to delete availability block&quot;,
+                : "Failed to delete availability block",
           };
         }
       },
@@ -223,20 +223,20 @@ export class RemoteAvailabilityServiceAdapter
       ): Promise<ConflictCheckResponse> {
         try {
           const queryParams = new URLSearchParams();
-          queryParams.append(&quot;userId&quot;, userId.toString());
+          queryParams.append("userId", userId.toString());
 
           // Safely handle Date or string type
           const formattedStartDate =
-            typeof startDate === &quot;string&quot; ? startDate : startDate.toISOString();
-          queryParams.append(&quot;startDate&quot;, formattedStartDate);
+            typeof startDate === "string" ? startDate : startDate.toISOString();
+          queryParams.append("startDate", formattedStartDate);
 
           // Safely handle Date or string type
           const formattedEndDate =
-            typeof endDate === &quot;string&quot; ? endDate : endDate.toISOString();
-          queryParams.append(&quot;endDate&quot;, formattedEndDate);
+            typeof endDate === "string" ? endDate : endDate.toISOString();
+          queryParams.append("endDate", formattedEndDate);
 
           if (excludeBlockId !== undefined) {
-            queryParams.append(&quot;excludeBlockId&quot;, excludeBlockId.toString());
+            queryParams.append("excludeBlockId", excludeBlockId.toString());
           }
 
           const url = `${baseUrl}/availability/conflicts?${queryParams.toString()}`;
@@ -249,7 +249,7 @@ export class RemoteAvailabilityServiceAdapter
             error:
               error instanceof Error
                 ? error.message
-                : &quot;Failed to check for conflicts&quot;,
+                : "Failed to check for conflicts",
           };
         }
       },

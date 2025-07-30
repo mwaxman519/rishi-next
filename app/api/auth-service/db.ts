@@ -4,35 +4,35 @@
  * Provides database access for the auth service using Drizzle ORM.
  * This is a dedicated connection to ensure microservice-like independence.
  */
-import { neon } from &quot;@neondatabase/serverless&quot;;
-import { drizzle } from &quot;drizzle-orm/neon-http&quot;;
-import * as schema from &quot;@shared/schema&quot;;
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import * as schema from "@shared/schema";
 
 // CRITICAL ENVIRONMENT DETECTION WITH STRICT SEPARATION
-export function getEnvironment(): &quot;development&quot; | &quot;staging&quot; | &quot;production&quot; {
+export function getEnvironment(): "development" | "staging" | "production" {
   // HIGHEST PRIORITY: Explicit environment overrides
-  if (process.env.FORCE_ENVIRONMENT === &quot;development&quot;) return &quot;development&quot;;
-  if (process.env.FORCE_ENVIRONMENT === &quot;staging&quot;) return &quot;staging&quot;;
-  if (process.env.FORCE_ENVIRONMENT === &quot;production&quot;) return &quot;production&quot;;
+  if (process.env.FORCE_ENVIRONMENT === "development") return "development";
+  if (process.env.FORCE_ENVIRONMENT === "staging") return "staging";
+  if (process.env.FORCE_ENVIRONMENT === "production") return "production";
 
   // DEVELOPMENT: Local development server (NODE_ENV=development AND not in build)
-  if (process.env.NODE_ENV === &quot;development&quot; && 
+  if (process.env.NODE_ENV === "development" && 
       process.env.NEXT_PHASE !== 'phase-production-build') {
-    return &quot;development&quot;;
+    return "development";
   }
 
   // PRODUCTION: Vercel production environment
-  if (process.env.VERCEL_ENV === &quot;production&quot; || process.env.VERCEL === &quot;1&quot;) {
-    return &quot;production&quot;;
+  if (process.env.VERCEL_ENV === "production" || process.env.VERCEL === "1") {
+    return "production";
   }
 
   // STAGING: Replit Autoscale deployment
-  if (process.env.REPLIT === &quot;1&quot; || 
-      process.env.REPLIT_DEPLOYMENT === &quot;1&quot; || 
+  if (process.env.REPLIT === "1" || 
+      process.env.REPLIT_DEPLOYMENT === "1" || 
       process.env.REPLIT_DOMAINS ||
-      process.env.DEPLOY_ENV === &quot;staging&quot; ||
-      process.env.NEXT_PUBLIC_APP_ENV === &quot;staging&quot;) {
-    return &quot;staging&quot;;
+      process.env.DEPLOY_ENV === "staging" ||
+      process.env.NEXT_PUBLIC_APP_ENV === "staging") {
+    return "staging";
   }
 
   // BUILD TIME: During VoltBuilder builds, use production (but with explicit env check)
@@ -40,18 +40,18 @@ export function getEnvironment(): &quot;development&quot; | &quot;staging&quot; 
       process.env.NODE_ENV === 'production') {
     // Check for explicit production database URL first
     if (process.env.PRODUCTION_DATABASE_URL) {
-      return &quot;production&quot;;
+      return "production";
     }
     // Check for explicit environment override
-    if (process.env.FORCE_ENVIRONMENT === &quot;production&quot;) {
-      return &quot;production&quot;;
+    if (process.env.FORCE_ENVIRONMENT === "production") {
+      return "production";
     }
     // Use staging for builds to avoid dev/prod cross-contamination
-    return &quot;staging&quot;;
+    return "staging";
   }
 
   // DEFAULT: Development (safest for unknown scenarios)
-  return &quot;development&quot;;
+  return "development";
 }
 
 // Get environment-specific database URL with strict separation
@@ -69,23 +69,23 @@ function getDatabaseUrl(): string {
       console.log(`[Auth Service] Using PRODUCTION_DATABASE_URL for build-time static generation`);
       return process.env.PRODUCTION_DATABASE_URL;
     }
-    console.error(&quot;[Auth Service] Build-time requires DATABASE_URL or PRODUCTION_DATABASE_URL&quot;);
-    throw new Error(&quot;Build-time database URL not configured&quot;);
+    console.error("[Auth Service] Build-time requires DATABASE_URL or PRODUCTION_DATABASE_URL");
+    throw new Error("Build-time database URL not configured");
   }
 
   // STRICT ENVIRONMENT-SPECIFIC DATABASE SEPARATION
-  if (env === &quot;development&quot;) {
+  if (env === "development") {
     // Development MUST use development-specific database or default DATABASE_URL
     const devUrl = process.env.DEV_DATABASE_URL || process.env.DATABASE_URL;
     if (!devUrl) {
-      console.error(&quot;[Auth Service] Development environment requires DATABASE_URL or DEV_DATABASE_URL&quot;);
-      throw new Error(&quot;Development database URL not configured&quot;);
+      console.error("[Auth Service] Development environment requires DATABASE_URL or DEV_DATABASE_URL");
+      throw new Error("Development database URL not configured");
     }
     console.log(`[Auth Service] Using development database`);
     return devUrl;
   }
 
-  if (env === &quot;staging&quot;) {
+  if (env === "staging") {
     // Staging MUST use staging-specific database
     if (process.env.STAGING_DATABASE_URL) {
       console.log(`[Auth Service] Using staging database`);
@@ -96,16 +96,16 @@ function getDatabaseUrl(): string {
       console.log(`[Auth Service] Using DATABASE_URL for staging (no STAGING_DATABASE_URL set)`);
       return process.env.DATABASE_URL;
     }
-    console.error(&quot;[Auth Service] Staging environment requires STAGING_DATABASE_URL or DATABASE_URL&quot;);
-    throw new Error(&quot;Staging database URL not configured&quot;);
+    console.error("[Auth Service] Staging environment requires STAGING_DATABASE_URL or DATABASE_URL");
+    throw new Error("Staging database URL not configured");
   }
 
-  if (env === &quot;production&quot;) {
+  if (env === "production") {
     // Production MUST use production-specific database
     const prodUrl = process.env.PRODUCTION_DATABASE_URL || process.env.DATABASE_URL;
     if (!prodUrl) {
-      console.error(&quot;[Auth Service] Production environment requires PRODUCTION_DATABASE_URL or DATABASE_URL&quot;);
-      throw new Error(&quot;Production database URL not configured&quot;);
+      console.error("[Auth Service] Production environment requires PRODUCTION_DATABASE_URL or DATABASE_URL");
+      throw new Error("Production database URL not configured");
     }
     console.log(`[Auth Service] Using production database`);
     return prodUrl;

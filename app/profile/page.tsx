@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useAuth } from &quot;../hooks/useAuth&quot;;
-import Link from &quot;next/link&quot;;
+import { useState, useEffect } from "react";
+import { useAuth } from "../hooks/useAuth";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const { user } = useAuth();
@@ -10,22 +10,22 @@ export default function ProfilePage() {
   // Extend the formData with fields that are not yet in the User type
   // These will be implemented in a future update
   const [formData, setFormData] = useState({
-    fullName: "&quot;,
-    email: &quot;&quot;,
-    phone: &quot;&quot;,
-    bio: &quot;&quot;,
+    fullName: "",
+    email: "",
+    phone: "",
+    bio: "",
   });
 
   useEffect(() => {
     if (user) {
       // Initialize form with user data
-      // For now, we&apos;re only setting the full_name that exists in the User type
+      // For now, we're only setting the full_name that exists in the User type
       // The other fields will be implemented in a future update
       setFormData({
-        fullName: user.fullName || &quot;&quot;,
-        email: &quot;&quot;, // Will be implemented in future
-        phone: &quot;&quot;, // Will be implemented in future
-        bio: &quot;&quot;, // Will be implemented in future
+        fullName: user.fullName || "",
+        email: "", // Will be implemented in future
+        phone: "", // Will be implemented in future
+        bio: "", // Will be implemented in future
       });
     }
   }, [user]);
@@ -47,20 +47,20 @@ export default function ProfilePage() {
     // In a real implementation, this would submit to an API
     setIsEditing(false);
 
-    alert(&quot;Profile update feature will be implemented in a future update&quot;);
+    alert("Profile update feature will be implemented in a future update");
   };
 
   return (
-    <div className=&quot;min-h-screen bg-gray-50 dark:bg-gray-900&quot;>
-      <header className=&quot;bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700&quot;>
-        <div className=&quot;container mx-auto px-4 py-4 flex justify-between items-center&quot;>
-          <h1 className=&quot;text-2xl font-bold text-gray-900 dark:text-white&quot;>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             Profile
           </h1>
-          <div className=&quot;flex space-x-2&quot;>
+          <div className="flex space-x-2">
             <Link
-              href=&quot;/dashboard&quot;
-              className=&quot;px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors&quot;
+              href="/dashboard"
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded transition-colors"
             >
               Back to Dashboard
             </Link>
@@ -68,16 +68,16 @@ export default function ProfilePage() {
         </div>
       </header>
 
-      <main className=&quot;container mx-auto px-4 py-8&quot;>
-        <div className=&quot;bg-white dark:bg-gray-800 rounded-lg shadow p-6&quot;>
-          <div className=&quot;flex justify-between items-center mb-6&quot;>
-            <h2 className=&quot;text-xl font-semibold text-gray-800 dark:text-white&quot;>
+      <main className="container mx-auto px-4 py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
               Your Profile
             </h2>
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className=&quot;px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors&quot;
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
               >
                 Edit Profile
               </button>
@@ -85,134 +85,134 @@ export default function ProfilePage() {
           </div>
 
           {isEditing ? (
-            <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
-                  htmlFor=&quot;fullName&quot;
-                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
+                  htmlFor="fullName"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Full Name
                 </label>
                 <input
-                  type=&quot;text&quot;
-                  id=&quot;fullName&quot;
-                  name=&quot;fullName&quot;
+                  type="text"
+                  id="fullName"
+                  name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  className=&quot;w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white&quot;
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
                 <label
-                  htmlFor=&quot;email&quot;
-                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Email
                 </label>
                 <input
-                  type=&quot;email&quot;
-                  id=&quot;email&quot;
-                  name=&quot;email&quot;
+                  type="email"
+                  id="email"
+                  name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className=&quot;w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white&quot;
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
                 <label
-                  htmlFor=&quot;phone&quot;
-                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Phone
                 </label>
                 <input
-                  type=&quot;tel&quot;
-                  id=&quot;phone&quot;
-                  name=&quot;phone&quot;
+                  type="tel"
+                  id="phone"
+                  name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className=&quot;w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white&quot;
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
                 <label
-                  htmlFor=&quot;bio&quot;
-                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
+                  htmlFor="bio"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
                 >
                   Bio
                 </label>
                 <textarea
-                  id=&quot;bio&quot;
-                  name=&quot;bio&quot;
+                  id="bio"
+                  name="bio"
                   rows={4}
                   value={formData.bio}
                   onChange={handleChange}
-                  className=&quot;w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white&quot;
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
-              <div className=&quot;flex space-x-3&quot;>
+              <div className="flex space-x-3">
                 <button
-                  type=&quot;submit&quot;
-                  className=&quot;px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors&quot;
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
                 >
                   Save Changes
                 </button>
                 <button
-                  type=&quot;button&quot;
+                  type="button"
                   onClick={() => setIsEditing(false)}
-                  className=&quot;px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500 transition-colors&quot;
+                  className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500 transition-colors"
                 >
                   Cancel
                 </button>
               </div>
             </form>
           ) : (
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
-              <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded&quot;>
-                <h3 className=&quot;font-medium text-gray-700 dark:text-gray-300 mb-2&quot;>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-4 border border-gray-200 dark:border-gray-700 rounded">
+                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Username
                 </h3>
-                <p className=&quot;text-gray-900 dark:text-white&quot;>
-                  {user?.username || &quot;N/A&quot;}
+                <p className="text-gray-900 dark:text-white">
+                  {user?.username || "N/A"}
                 </p>
               </div>
 
-              <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded&quot;>
-                <h3 className=&quot;font-medium text-gray-700 dark:text-gray-300 mb-2&quot;>
+              <div className="p-4 border border-gray-200 dark:border-gray-700 rounded">
+                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Full Name
                 </h3>
-                <p className=&quot;text-gray-900 dark:text-white&quot;>
-                  {user?.fullName || &quot;Not provided&quot;}
+                <p className="text-gray-900 dark:text-white">
+                  {user?.fullName || "Not provided"}
                 </p>
               </div>
 
-              <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded&quot;>
-                <h3 className=&quot;font-medium text-gray-700 dark:text-gray-300 mb-2&quot;>
+              <div className="p-4 border border-gray-200 dark:border-gray-700 rounded">
+                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Role
                 </h3>
-                <p className=&quot;text-gray-900 dark:text-white&quot;>
-                  {user?.role || &quot;N/A&quot;}
+                <p className="text-gray-900 dark:text-white">
+                  {user?.role || "N/A"}
                 </p>
               </div>
 
-              <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded&quot;>
-                <h3 className=&quot;font-medium text-gray-700 dark:text-gray-300 mb-2&quot;>
+              <div className="p-4 border border-gray-200 dark:border-gray-700 rounded">
+                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   User ID
                 </h3>
-                <p className=&quot;text-gray-900 dark:text-white&quot;>
-                  {user?.id || &quot;N/A&quot;}
+                <p className="text-gray-900 dark:text-white">
+                  {user?.id || "N/A"}
                 </p>
               </div>
 
-              <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded md:col-span-2&quot;>
-                <h3 className=&quot;font-medium text-gray-700 dark:text-gray-300 mb-2&quot;>
+              <div className="p-4 border border-gray-200 dark:border-gray-700 rounded md:col-span-2">
+                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Profile Status
                 </h3>
-                <p className=&quot;text-gray-900 dark:text-white">
+                <p className="text-gray-900 dark:text-white">
                   This is a profile placeholder. In a future update, users will
                   be able to edit their profiles.
                 </p>

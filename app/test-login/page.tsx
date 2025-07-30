@@ -1,27 +1,27 @@
-&quot;use client&quot;;
+"use client";
 
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { useState } from &quot;react&quot;;
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 export default function TestLoginPage() {
-  const [username, setUsername] = useState(&quot;mike&quot;);
-  const [password, setPassword] = useState(&quot;wrench519&quot;);
-  const [testResult, setTestResult] = useState<string>("&quot;);
+  const [username, setUsername] = useState("mike");
+  const [password, setPassword] = useState("wrench519");
+  const [testResult, setTestResult] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   const testLogin = async () => {
     setIsLoading(true);
-    setTestResult(&quot;Testing login...&quot;);
+    setTestResult("Testing login...");
     
     try {
       // Step 1: Test login
-      const loginResponse = await fetch(&quot;/api/auth-service/login&quot;, {
-        method: &quot;POST&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
-        credentials: &quot;include&quot;,
+      const loginResponse = await fetch("/api/auth-service/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ username, password }),
       });
 
@@ -35,9 +35,9 @@ export default function TestLoginPage() {
       
       // Step 2: Test session immediately after login
       setTimeout(async () => {
-        const sessionResponse = await fetch(&quot;/api/auth-service/session&quot;, {
-          method: &quot;GET&quot;,
-          credentials: &quot;include&quot;,
+        const sessionResponse = await fetch("/api/auth-service/session", {
+          method: "GET",
+          credentials: "include",
         });
 
         if (!sessionResponse.ok) {
@@ -62,12 +62,12 @@ export default function TestLoginPage() {
 
   const testSession = async () => {
     setIsLoading(true);
-    setTestResult(&quot;Testing session...&quot;);
+    setTestResult("Testing session...");
     
     try {
-      const response = await fetch(&quot;/api/auth-service/session&quot;, {
-        method: &quot;GET&quot;,
-        credentials: &quot;include&quot;,
+      const response = await fetch("/api/auth-service/session", {
+        method: "GET",
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -79,7 +79,7 @@ export default function TestLoginPage() {
       if (data.data.user) {
         setTestResult(`Session successful! User: ${data.data.user.username}, Role: ${data.data.user.role}`);
       } else {
-        setTestResult(&quot;Session check: No user found (not logged in)&quot;);
+        setTestResult("Session check: No user found (not logged in)");
       }
     } catch (error) {
       setTestResult(`Error: ${error}`);
@@ -90,12 +90,12 @@ export default function TestLoginPage() {
 
   const testLogout = async () => {
     setIsLoading(true);
-    setTestResult(&quot;Testing logout...&quot;);
+    setTestResult("Testing logout...");
     
     try {
-      const response = await fetch(&quot;/api/auth-service/logout&quot;, {
-        method: &quot;POST&quot;,
-        credentials: &quot;include&quot;,
+      const response = await fetch("/api/auth-service/logout", {
+        method: "POST",
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -103,7 +103,7 @@ export default function TestLoginPage() {
         return;
       }
 
-      setTestResult(&quot;Logout successful!&quot;);
+      setTestResult("Logout successful!");
     } catch (error) {
       setTestResult(`Error: ${error}`);
     } finally {
@@ -112,58 +112,58 @@ export default function TestLoginPage() {
   };
 
   return (
-    <div className=&quot;container mx-auto py-6 max-w-2xl&quot;>
+    <div className="container mx-auto py-6 max-w-2xl">
       <Card>
         <CardHeader>
           <CardTitle>Authentication Test</CardTitle>
         </CardHeader>
-        <CardContent className=&quot;space-y-4&quot;>
-          <div className=&quot;grid grid-cols-2 gap-4&quot;>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor=&quot;username&quot;>Username</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
-                id=&quot;username&quot;
+                id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder=&quot;Enter username&quot;
+                placeholder="Enter username"
               />
             </div>
             <div>
-              <Label htmlFor=&quot;password&quot;>Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
-                id=&quot;password&quot;
-                type=&quot;password&quot;
+                id="password"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder=&quot;Enter password&quot;
+                placeholder="Enter password"
               />
             </div>
           </div>
           
-          <div className=&quot;flex gap-4&quot;>
+          <div className="flex gap-4">
             <Button onClick={testLogin} disabled={isLoading}>
               Test Login
             </Button>
-            <Button onClick={testSession} disabled={isLoading} variant=&quot;outline&quot;>
+            <Button onClick={testSession} disabled={isLoading} variant="outline">
               Test Session
             </Button>
-            <Button onClick={testLogout} disabled={isLoading} variant=&quot;outline&quot;>
+            <Button onClick={testLogout} disabled={isLoading} variant="outline">
               Test Logout
             </Button>
           </div>
           
           {testResult && (
-            <div className=&quot;mt-4&quot;>
+            <div className="mt-4">
               <Label>Test Result:</Label>
-              <pre className=&quot;bg-gray-100 p-4 rounded text-sm overflow-auto whitespace-pre-wrap&quot;>
+              <pre className="bg-gray-100 p-4 rounded text-sm overflow-auto whitespace-pre-wrap">
                 {testResult}
               </pre>
             </div>
           )}
           
-          <div className=&quot;mt-4 p-4 bg-blue-50 rounded&quot;>
-            <h4 className=&quot;font-semibold mb-2&quot;>Debug Information</h4>
-            <p className=&quot;text-sm">
+          <div className="mt-4 p-4 bg-blue-50 rounded">
+            <h4 className="font-semibold mb-2">Debug Information</h4>
+            <p className="text-sm">
               <strong>Environment:</strong> {process.env.NODE_ENV}<br/>
               <strong>In iframe:</strong> {typeof window !== 'undefined' && window.self !== window.top ? 'Yes' : 'No'}<br/>
               <strong>Hostname:</strong> {typeof window !== 'undefined' ? window.location.hostname : 'N/A'}

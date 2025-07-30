@@ -3,11 +3,11 @@
  * Production implementation using database authentication
  */
 
-import { db } from &quot;./db&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import * as schema from &quot;@shared/schema&quot;;
-import { cookies } from &quot;next/headers&quot;;
-import { verify } from &quot;jsonwebtoken&quot;;
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import * as schema from "@shared/schema";
+import { cookies } from "next/headers";
+import { verify } from "jsonwebtoken";
 
 interface User {
   id: string;
@@ -23,7 +23,7 @@ interface User {
 export async function getUserFromSession(): Promise<User | null> {
   try {
     const cookieStore = cookies();
-    const token = cookieStore.get(&quot;auth-token&quot;)?.value;
+    const token = cookieStore.get("auth-token")?.value;
     
     if (!token) {
       return null;
@@ -31,7 +31,7 @@ export async function getUserFromSession(): Promise<User | null> {
 
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
+      throw new Error("JWT_SECRET environment variable is required");
     }
     const decoded = verify(token, jwtSecret) as any;
     
@@ -52,7 +52,7 @@ export async function getUserFromSession(): Promise<User | null> {
       role: user.role,
     };
   } catch (error) {
-    console.error(&quot;Error getting user from session:&quot;, error);
+    console.error("Error getting user from session:", error);
     return null;
   }
 }

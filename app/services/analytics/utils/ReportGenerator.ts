@@ -14,7 +14,7 @@ import {
   GeneratedReport,
   ReportStatus,
   AnalyticsServiceResponse,
-} from &quot;../models&quot;;
+} from "../models";
 
 export class ReportGenerator {
   /**
@@ -57,7 +57,7 @@ export class ReportGenerator {
       const completedReport: GeneratedReport = {
         ...report,
         status: ReportStatus.COMPLETED,
-        fileName: `${report.name.toLowerCase().replace(/\s+/g, &quot;-&quot;)}.${template.format}`,
+        fileName: `${report.name.toLowerCase().replace(/\s+/g, "-")}.${template.format}`,
         fileSize: Math.floor(Math.random() * 1000000) + 100000, // Mock file size
         downloadUrl: `/api/analytics/reports/${report.id}/download`,
         executionTime,
@@ -65,11 +65,11 @@ export class ReportGenerator {
 
       return { success: true, data: completedReport };
     } catch (error) {
-      console.error(&quot;Error generating report:&quot;, error);
+      console.error("Error generating report:", error);
       return {
         success: false,
-        error: &quot;Failed to generate report&quot;,
-        code: &quot;REPORT_GENERATION_ERROR&quot;,
+        error: "Failed to generate report",
+        code: "REPORT_GENERATION_ERROR",
       };
     }
   }

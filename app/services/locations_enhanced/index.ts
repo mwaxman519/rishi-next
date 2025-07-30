@@ -2,11 +2,11 @@
  * Enhanced Locations Service with Geocoding
  * Extends the existing locations_core service with automatic geocoding
  */
-import { LocationRepository } from &quot;./repository&quot;;
-import { EnhancedLocationsService } from &quot;./locationsService&quot;;
-import { geocodingService } from &quot;../maps&quot;;
+import { LocationRepository } from "./repository";
+import { EnhancedLocationsService } from "./locationsService";
+import { geocodingService } from "../maps";
 
-export * from &quot;./models&quot;;
+export * from "./models";
 
 const locationRepository = new LocationRepository();
 export const locationsService = new EnhancedLocationsService(

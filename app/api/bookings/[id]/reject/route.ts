@@ -1,21 +1,21 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import { bookings } from &quot;@/shared/schema&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { z } from &quot;zod&quot;;
-import { eventBus } from &quot;../../../../events/event-bus&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { eq } from "drizzle-orm";
+import { bookings } from "@/shared/schema";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { z } from "zod";
+import { eventBus } from "../../../../events/event-bus";
 
 // Validation schema for rejection
 const rejectionSchema = z.object({
-  reason: z.string().min(1, &quot;A reason for rejection is required&quot;),
+  reason: z.string().min(1, "A reason for rejection is required"),
 });
 
 /**
@@ -30,13 +30,13 @@ export async function POST(
     // Get user from session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Verify permissions using proper authentication check
     if (!session.user || !(session.user as any).role) {
       return NextResponse.json(
-        { error: &quot;Forbidden: Insufficient permissions&quot; },
+        { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
       );
     }
@@ -46,7 +46,7 @@ export async function POST(
     
     if (!allowedRoles.includes(userRole)) {
       return NextResponse.json(
-        { error: &quot;Forbidden: Insufficient permissions&quot; },
+        { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
       );
     }
@@ -65,21 +65,21 @@ export async function POST(
       .limit(1);
 
     if (!existingBooking) {
-      return NextResponse.json({ error: &quot;Booking not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
     // Check if the booking is already rejected
-    if (existingBooking.status === &quot;rejected&quot;) {
+    if (existingBooking.status === "rejected") {
       return NextResponse.json(
-        { error: &quot;Booking is already rejected&quot; },
+        { error: "Booking is already rejected" },
         { status: 400 },
       );
     }
 
     // Check if the booking is already approved
-    if (existingBooking.status === &quot;approved&quot;) {
+    if (existingBooking.status === "approved") {
       return NextResponse.json(
-        { error: &quot;Cannot reject an approved booking&quot; },
+        { error: "Cannot reject an approved booking" },
         { status: 400 },
       );
     }
@@ -88,7 +88,7 @@ export async function POST(
     const updateResult = await db
       .update(bookings)
       .set({
-        status: &quot;rejected&quot;,
+        status: "rejected",
         rejectedById: (session.user as any).id,
         rejectedAt: new Date(),
         rejectionReason: validatedData.reason,
@@ -100,13 +100,13 @@ export async function POST(
     const updatedBooking = updateResult[0];
     if (!updatedBooking) {
       return NextResponse.json(
-        { error: &quot;Failed to update booking&quot; },
+        { error: "Failed to update booking" },
         { status: 500 }
       );
     }
 
     // Publish event
-    await eventBus.publish(&quot;BOOKING_REJECTED&quot;, {
+    await eventBus.publish("BOOKING_REJECTED", {
       bookingId: updatedBooking.id,
       clientId: updatedBooking.clientOrganizationId,
       rejectedBy: (session.user as any).id,
@@ -116,13 +116,13 @@ export async function POST(
     });
 
     return NextResponse.json(
-      { success: true, message: &quot;Booking rejected successfully&quot; },
+      { success: true, message: "Booking rejected successfully" },
       { status: 200 },
     );
   } catch (error: any) {
-    console.error(&quot;Error rejecting booking:&quot;, error);
+    console.error("Error rejecting booking:", error);
     return NextResponse.json(
-      { error: error.message || &quot;Failed to reject booking&quot; },
+      { error: error.message || "Failed to reject booking" },
       { status: 500 },
     );
   }

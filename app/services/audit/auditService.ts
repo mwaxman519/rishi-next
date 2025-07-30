@@ -4,16 +4,16 @@
  * Service layer for audit logging functionality.
  */
 
-import { NextRequest } from &quot;next/server&quot;;
-import { AuditRepository } from &quot;./repository&quot;;
+import { NextRequest } from "next/server";
+import { AuditRepository } from "./repository";
 import {
   AuditEventType,
   AuditLogEntry,
   AuditLogQueryParams,
   AuditResourceType,
   CreateAuditLogDto,
-} from &quot;./models&quot;;
-import { getCurrentUser } from &quot;../../lib/auth&quot;;
+} from "./models";
+import { getCurrentUser } from "../../lib/auth";
 
 /**
  * Service for audit logging operations
@@ -47,24 +47,24 @@ export class AuditService {
       const user = await getCurrentUser();
 
       if (!user) {
-        console.warn(&quot;Cannot create audit log: No authenticated user&quot;);
+        console.warn("Cannot create audit log: No authenticated user");
         return null;
       }
 
       // Extract organization from context header
-      const organizationId = req.headers.get(&quot;x-organization-id&quot;) || null;
+      const organizationId = req.headers.get("x-organization-id") || null;
 
       // Extract IP and User-Agent
       const ipAddress =
-        req.headers.get(&quot;x-forwarded-for&quot;) ||
-        req.headers.get(&quot;x-real-ip&quot;) ||
-        &quot;unknown&quot;;
+        req.headers.get("x-forwarded-for") ||
+        req.headers.get("x-real-ip") ||
+        "unknown";
 
-      const userAgent = req.headers.get(&quot;user-agent&quot;) || null;
+      const userAgent = req.headers.get("user-agent") || null;
 
       const auditData: CreateAuditLogDto = {
         userId: user.id,
-        username: user.username || user.email || &quot;unknown&quot;,
+        username: user.username || user.email || "unknown",
         organizationId,
         eventType,
         resourceType,
@@ -77,7 +77,7 @@ export class AuditService {
 
       return this.repository.createAuditLog(auditData);
     } catch (error) {
-      console.error(&quot;Error creating audit log from request:&quot;, error);
+      console.error("Error creating audit log from request:", error);
       return null;
     }
   }

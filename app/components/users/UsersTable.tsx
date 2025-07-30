@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthorization } from "@/hooks/useAuthorization";
 import {
   MoreHorizontal,
   Eye,
@@ -14,7 +14,7 @@ import {
   X,
   CheckCircle,
   XCircle,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,9 +22,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu-fixed&quot;;
+} from "@/components/ui/dropdown-menu-fixed";
 
-import { UserProfile } from &quot;@/services/users/models&quot;;
+import { UserProfile } from "@/services/users/models";
 
 interface UsersTableProps {
   users: UserProfile[];
@@ -39,7 +39,7 @@ export default function UsersTable({
 }: UsersTableProps) {
   const router = useRouter();
   const { checkPermission } = useAuthorization();
-  const [searchTerm, setSearchTerm] = useState("&quot;);
+  const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState<string | null>(null);
   const [showInactiveUsers, setShowInactiveUsers] = useState(true);
 
@@ -65,7 +65,7 @@ export default function UsersTable({
   // Helper function to safely get user initials
   function getUserInitial(user: UserProfile): string {
     // Check fullName first
-    if (user.fullName && typeof user.fullName === &quot;string&quot;) {
+    if (user.fullName && typeof user.fullName === "string") {
       const trimmed = user.fullName.trim();
       if (trimmed.length > 0) {
         return trimmed.charAt(0).toUpperCase();
@@ -73,7 +73,7 @@ export default function UsersTable({
     }
 
     // Check username second
-    if (user.username && typeof user.username === &quot;string&quot;) {
+    if (user.username && typeof user.username === "string") {
       const trimmed = user.username.trim();
       if (trimmed.length > 0) {
         return trimmed.charAt(0).toUpperCase();
@@ -81,86 +81,86 @@ export default function UsersTable({
     }
 
     // Default fallback
-    return &quot;?&quot;;
+    return "?";
   }
 
   // Get unique roles for filter dropdown
   const uniqueRoles = Array.from(new Set(users.map((user) => user.role)));
 
   return (
-    <div className=&quot;bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden&quot;>
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
       {/* Search and filters header */}
-      <div className=&quot;px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50&quot;>
-        <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between gap-3&quot;>
+      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           {/* Search box */}
-          <div className=&quot;relative flex-1 max-w-md&quot;>
-            <div className=&quot;absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none&quot;>
-              <Search className=&quot;h-4 w-4 text-gray-400&quot; />
+          <div className="relative flex-1 max-w-md">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
             </div>
             <input
-              type=&quot;text&quot;
-              placeholder=&quot;Search users...&quot;
+              type="text"
+              placeholder="Search users..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className=&quot;pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md w-full focus:ring-primary focus:border-primary dark:bg-gray-800 dark:text-white&quot;
+              className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md w-full focus:ring-primary focus:border-primary dark:bg-gray-800 dark:text-white"
             />
             {searchTerm && (
               <button
-                onClick={() => setSearchTerm(&quot;&quot;)}
-                className=&quot;absolute inset-y-0 right-0 pr-3 flex items-center&quot;
+                onClick={() => setSearchTerm("")}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
               >
-                <X className=&quot;h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300&quot; />
+                <X className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
               </button>
             )}
           </div>
 
           {/* Filters */}
-          <div className=&quot;flex items-center space-x-3&quot;>
+          <div className="flex items-center space-x-3">
             {/* Role filter */}
-            <div className=&quot;relative&quot;>
+            <div className="relative">
               <select
-                value={filterRole || &quot;&quot;}
+                value={filterRole || ""}
                 onChange={(e) => setFilterRole(e.target.value || null)}
-                className=&quot;appearance-none pl-3 pr-8 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary dark:bg-gray-800 dark:text-white&quot;
+                className="appearance-none pl-3 pr-8 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-primary focus:border-primary dark:bg-gray-800 dark:text-white"
               >
-                <option value=&quot;&quot;>All Roles</option>
+                <option value="">All Roles</option>
                 {uniqueRoles.map((role) => (
                   <option key={role} value={role}>
                     {role
-                      .replace(&quot;_&quot;, &quot; &quot;)
+                      .replace("_", " ")
                       .replace(/\b\w/g, (l) => l.toUpperCase())}
                   </option>
                 ))}
               </select>
-              <div className=&quot;pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500 dark:text-gray-400&quot;>
-                <Filter className=&quot;h-4 w-4&quot; />
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500 dark:text-gray-400">
+                <Filter className="h-4 w-4" />
               </div>
             </div>
 
             {/* Active/Inactive filter */}
-            <div className=&quot;flex items-center space-x-2&quot;>
+            <div className="flex items-center space-x-2">
               <input
-                id=&quot;showInactive&quot;
-                type=&quot;checkbox&quot;
+                id="showInactive"
+                type="checkbox"
                 checked={showInactiveUsers}
                 onChange={(e) => setShowInactiveUsers(e.target.checked)}
-                className=&quot;h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded&quot;
+                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
               />
               <label
-                htmlFor=&quot;showInactive&quot;
-                className=&quot;text-sm text-gray-700 dark:text-gray-300&quot;
+                htmlFor="showInactive"
+                className="text-sm text-gray-700 dark:text-gray-300"
               >
                 Show Inactive
               </label>
             </div>
 
             {/* New User Button (conditionally rendered) */}
-            {checkPermission(&quot;create:users&quot;) && (
+            {checkPermission("create:users") && (
               <button
-                onClick={() => router.push(&quot;/users/new&quot;)}
-                className=&quot;inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none&quot;
+                onClick={() => router.push("/users/new")}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none"
               >
-                <UserPlus className=&quot;mr-1.5 h-4 w-4&quot; />
+                <UserPlus className="mr-1.5 h-4 w-4" />
                 New User
               </button>
             )}
@@ -170,77 +170,77 @@ export default function UsersTable({
 
       {/* Users table */}
       {filteredUsers.length === 0 ? (
-        <div className=&quot;p-6 text-center&quot;>
-          <p className=&quot;text-gray-500 dark:text-gray-400&quot;>
+        <div className="p-6 text-center">
+          <p className="text-gray-500 dark:text-gray-400">
             {searchTerm || filterRole || !showInactiveUsers
-              ? &quot;No users match your search or filters.&quot;
-              : &quot;No users found in the system.&quot;}
+              ? "No users match your search or filters."
+              : "No users found in the system."}
           </p>
           {(searchTerm || filterRole || !showInactiveUsers) && (
             <button
               onClick={() => {
-                setSearchTerm(&quot;&quot;);
+                setSearchTerm("");
                 setFilterRole(null);
                 setShowInactiveUsers(true);
               }}
-              className=&quot;mt-2 text-sm text-primary hover:text-primary/80&quot;
+              className="mt-2 text-sm text-primary hover:text-primary/80"
             >
               Clear all filters
             </button>
           )}
         </div>
       ) : (
-        <div className=&quot;overflow-x-auto&quot;>
-          <table className=&quot;min-w-full divide-y divide-gray-200 dark:divide-gray-700&quot;>
-            <thead className=&quot;bg-gray-50 dark:bg-gray-900&quot;>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-900">
               <tr>
                 <th
-                  scope=&quot;col&quot;
-                  className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                 >
                   User
                 </th>
                 <th
-                  scope=&quot;col&quot;
-                  className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                 >
                   Role
                 </th>
                 <th
-                  scope=&quot;col&quot;
-                  className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                 >
                   Status
                 </th>
                 <th
-                  scope=&quot;col&quot;
-                  className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                 >
                   Joined
                 </th>
                 <th
-                  scope=&quot;col&quot;
-                  className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
                 >
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className=&quot;bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700&quot;>
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {filteredUsers.map((user) => (
                 <tr
                   key={user.id}
-                  className=&quot;hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors&quot;
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
                   onClick={() => onViewUser(user.id)}
                 >
-                  <td className=&quot;px-6 py-4 whitespace-nowrap&quot;>
-                    <div className=&quot;flex items-center&quot;>
-                      <div className=&quot;flex-shrink-0 h-10 w-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300&quot;>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 h-10 w-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300">
                         {user.profileImage ? (
                           <img
                             src={user.profileImage}
-                            alt={user.fullName || user.username || &quot;User&quot;}
-                            className=&quot;h-10 w-10 rounded-full object-cover&quot;
+                            alt={user.fullName || user.username || "User"}
+                            className="h-10 w-10 rounded-full object-cover"
                             onError={(e) => {
                               e.currentTarget.onerror = null;
                               e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName || user.username)}&background=0D8ABC&color=fff`;
@@ -250,85 +250,85 @@ export default function UsersTable({
                           <span>{getUserInitial(user)}</span>
                         )}
                       </div>
-                      <div className=&quot;ml-4&quot;>
-                        <div className=&quot;text-sm font-medium text-gray-900 dark:text-white&quot;>
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {user.fullName || user.username}
                         </div>
-                        <div className=&quot;text-sm text-gray-500 dark:text-gray-400&quot;>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
                           {user.email || user.username}
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className=&quot;px-6 py-4 whitespace-nowrap&quot;>
-                    <span className=&quot;px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100&quot;>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">
                       {user.role
-                        .replace(&quot;_&quot;, &quot; &quot;)
+                        .replace("_", " ")
                         .replace(/\b\w/g, (l) => l.toUpperCase())}
                     </span>
                   </td>
-                  <td className=&quot;px-6 py-4 whitespace-nowrap&quot;>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                         user.active
-                          ? &quot;bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100&quot;
-                          : &quot;bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100&quot;
+                          ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100"
+                          : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100"
                       }`}
                     >
                       {user.active ? (
                         <>
-                          <CheckCircle className=&quot;mr-1 h-3 w-3&quot; />
+                          <CheckCircle className="mr-1 h-3 w-3" />
                           Active
                         </>
                       ) : (
                         <>
-                          <XCircle className=&quot;mr-1 h-3 w-3&quot; />
+                          <XCircle className="mr-1 h-3 w-3" />
                           Inactive
                         </>
                       )}
                     </span>
                   </td>
-                  <td className=&quot;px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400&quot;>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
-                  <td className=&quot;px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400&quot;>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     <div
                       onClick={(e) => e.stopPropagation()}
-                      className=&quot;flex items-center space-x-2&quot;
+                      className="flex items-center space-x-2"
                     >
                       <DropdownMenu>
-                        <DropdownMenuTrigger className=&quot;inline-flex items-center justify-center p-1 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 focus:outline-none&quot;>
-                          <MoreHorizontal className=&quot;h-4 w-4&quot; />
+                        <DropdownMenuTrigger className="inline-flex items-center justify-center p-1 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                          <MoreHorizontal className="h-4 w-4" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align=&quot;end&quot; className=&quot;w-48&quot;>
+                        <DropdownMenuContent align="end" className="w-48">
                           <DropdownMenuLabel>User Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
                             onClick={() => onViewUser(user.id)}
-                            className=&quot;cursor-pointer&quot;
+                            className="cursor-pointer"
                           >
-                            <Eye className=&quot;mr-2 h-4 w-4&quot; />
+                            <Eye className="mr-2 h-4 w-4" />
                             View Details
                           </DropdownMenuItem>
-                          {checkPermission(&quot;edit:users&quot;) && (
+                          {checkPermission("edit:users") && (
                             <DropdownMenuItem
                               onClick={() =>
                                 router.push(`/users/${user.id}/edit`)
                               }
-                              className=&quot;cursor-pointer&quot;
+                              className="cursor-pointer"
                             >
-                              <Edit className=&quot;mr-2 h-4 w-4&quot; />
+                              <Edit className="mr-2 h-4 w-4" />
                               Edit User
                             </DropdownMenuItem>
                           )}
-                          {checkPermission(&quot;delete:users&quot;) && onDeleteUser && (
+                          {checkPermission("delete:users") && onDeleteUser && (
                             <>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
                                 onClick={() => onDeleteUser(user.id)}
-                                className=&quot;cursor-pointer text-red-600 dark:text-red-400&quot;
+                                className="cursor-pointer text-red-600 dark:text-red-400"
                               >
-                                <Trash className=&quot;mr-2 h-4 w-4" />
+                                <Trash className="mr-2 h-4 w-4" />
                                 Delete User
                               </DropdownMenuItem>
                             </>

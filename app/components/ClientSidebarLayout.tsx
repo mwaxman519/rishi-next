@@ -1,11 +1,11 @@
-&quot;use client&quot;;
+"use client";
 
-import { usePathname } from &quot;next/navigation&quot;;
-import { useAuth } from &quot;../hooks/useAuth&quot;;
-import ResponsiveLayout from &quot;./layout/ResponsiveLayout&quot;;
-import PublicLayout from &quot;./PublicLayout&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
-import { useState, useEffect } from &quot;react&quot;;
+import { usePathname } from "next/navigation";
+import { useAuth } from "../hooks/useAuth";
+import ResponsiveLayout from "./layout/ResponsiveLayout";
+import PublicLayout from "./PublicLayout";
+import { Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface ClientSidebarLayoutProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export default function ClientSidebarLayout({
   const { user, loading } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
-  // This ensures hydration mismatch doesn&apos;t occur
+  // This ensures hydration mismatch doesn't occur
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -27,10 +27,10 @@ export default function ClientSidebarLayout({
   if (!isClient) {
     // Only show loading for client-side hydration, not for auth loading
     // This prevents an infinite loading state if auth is stuck
-    console.log(&quot;ClientSidebarLayout: Client-side hydration in progress&quot;);
+    console.log("ClientSidebarLayout: Client-side hydration in progress");
     return (
-      <div className=&quot;flex items-center justify-center h-screen&quot;>
-        <Loader2 className=&quot;h-10 w-10 animate-spin text-primary&quot; />
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -39,12 +39,12 @@ export default function ClientSidebarLayout({
   // This ensures the app will render even if auth is slow
   if (loading) {
     console.log(
-      &quot;ClientSidebarLayout: Auth is still loading, proceeding with null user&quot;,
+      "ClientSidebarLayout: Auth is still loading, proceeding with null user",
     );
   }
 
   // Debug info for navigation
-  console.log(&quot;ClientSidebarLayout Path:&quot;, pathname, &quot;User Role:&quot;, user?.role);
+  console.log("ClientSidebarLayout Path:", pathname, "User Role:", user?.role);
 
   // Decide which layout to use based on authentication state
   if (user) {

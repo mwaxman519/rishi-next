@@ -4,7 +4,7 @@ import {
   createRemoteJWKSet,
   JWTPayload,
   jwtVerify as joseJwtVerify,
-} from &quot;jose&quot;;
+} from "jose";
 
 // Export jose functions
 export { SignJWT, createRemoteJWKSet };
@@ -19,11 +19,11 @@ export async function jwtVerify(
     const result = await joseJwtVerify(token, secret);
     return result;
   } catch (error) {
-    console.error(&quot;JWT verification error in wrapper:&quot;, error);
+    console.error("JWT verification error in wrapper:", error);
 
     // Log additional debugging information (Edge-compatible)
-    console.log(&quot;Token length:&quot;, token.length);
-    console.log(&quot;Secret length:&quot;, secret.length);
+    console.log("Token length:", token.length);
+    console.log("Secret length:", secret.length);
 
     throw error; // Re-throw the error for the caller to handle
   }

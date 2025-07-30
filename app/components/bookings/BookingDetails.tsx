@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Calendar,
   Clock,
@@ -19,8 +19,8 @@ import {
   MessageSquare,
   Users,
   CalendarCheck,
-} from &quot;lucide-react&quot;;
-import { format } from &quot;date-fns&quot;;
+} from "lucide-react";
+import { format } from "date-fns";
 import {
   Card,
   CardContent,
@@ -28,12 +28,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,7 +41,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu&quot;;
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -50,9 +50,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from &quot;@/components/ui/dialog&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Booking details will be fetched from database via API
 
@@ -61,16 +61,16 @@ const activityStatusMapper: Record<
   string,
   {
     label: string;
-    variant: &quot;default&quot; | &quot;secondary&quot; | &quot;destructive&quot; | &quot;outline&quot;;
+    variant: "default" | "secondary" | "destructive" | "outline";
   }
 > = {
-  draft: { label: &quot;Draft&quot;, variant: &quot;outline&quot; },
-  pending: { label: &quot;Pending Approval&quot;, variant: &quot;secondary&quot; },
-  approved: { label: &quot;Approved&quot;, variant: &quot;default&quot; },
-  in_progress: { label: &quot;In Progress&quot;, variant: &quot;default&quot; },
-  completed: { label: &quot;Completed&quot;, variant: &quot;outline&quot; },
-  rejected: { label: &quot;Rejected&quot;, variant: &quot;destructive&quot; },
-  cancelled: { label: &quot;Cancelled&quot;, variant: &quot;destructive&quot; },
+  draft: { label: "Draft", variant: "outline" },
+  pending: { label: "Pending Approval", variant: "secondary" },
+  approved: { label: "Approved", variant: "default" },
+  in_progress: { label: "In Progress", variant: "default" },
+  completed: { label: "Completed", variant: "outline" },
+  rejected: { label: "Rejected", variant: "destructive" },
+  cancelled: { label: "Cancelled", variant: "destructive" },
 };
 
 // Activity type mapper
@@ -79,24 +79,24 @@ const activityTypeMapper: Record<
   { label: string; icon: React.ReactNode }
 > = {
   event: {
-    label: &quot;Event&quot;,
-    icon: <Calendar className=&quot;h-4 w-4 mr-1&quot; />,
+    label: "Event",
+    icon: <Calendar className="h-4 w-4 mr-1" />,
   },
   merchandising: {
-    label: &quot;Merchandising&quot;,
-    icon: <CheckCircle2 className=&quot;h-4 w-4 mr-1&quot; />,
+    label: "Merchandising",
+    icon: <CheckCircle2 className="h-4 w-4 mr-1" />,
   },
   secret_shopping: {
-    label: &quot;Secret Shopping&quot;,
-    icon: <UserCircle className=&quot;h-4 w-4 mr-1&quot; />,
+    label: "Secret Shopping",
+    icon: <UserCircle className="h-4 w-4 mr-1" />,
   },
   training: {
-    label: &quot;Training&quot;,
-    icon: <Users className=&quot;h-4 w-4 mr-1&quot; />,
+    label: "Training",
+    icon: <Users className="h-4 w-4 mr-1" />,
   },
   logistics: {
-    label: &quot;Logistics&quot;,
-    icon: <Package className=&quot;h-4 w-4 mr-1&quot; />,
+    label: "Logistics",
+    icon: <Package className="h-4 w-4 mr-1" />,
   },
 };
 
@@ -109,7 +109,7 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showApproveDialog, setShowApproveDialog] = useState(false);
   const [showRejectDialog, setShowRejectDialog] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState("&quot;);
+  const [rejectionReason, setRejectionReason] = useState("");
 
   // In a real app, fetch data from API
   // useEffect(() => {
@@ -170,18 +170,18 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
         }
         
         toast({
-          title: &quot;Booking Approved&quot;,
-          description: &quot;The booking has been approved successfully.&quot;,
+          title: "Booking Approved",
+          description: "The booking has been approved successfully.",
         });
       } else {
         throw new Error('Failed to approve booking');
       }
     } catch (error) {
-      console.error(&quot;Error approving booking:&quot;, error);
+      console.error("Error approving booking:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to approve the booking. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to approve the booking. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -202,7 +202,7 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
 
       if (response.ok) {
         setShowRejectDialog(false);
-        setRejectionReason(&quot;&quot;);
+        setRejectionReason("");
 
         // Refresh booking data
         const updatedResponse = await fetch(`/api/bookings/${bookingId}`);
@@ -212,18 +212,18 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
         }
 
         toast({
-          title: &quot;Booking Rejected&quot;,
-          description: &quot;The booking has been rejected successfully.&quot;,
+          title: "Booking Rejected",
+          description: "The booking has been rejected successfully.",
         });
       } else {
         throw new Error('Failed to reject booking');
       }
     } catch (error) {
-      console.error(&quot;Error rejecting booking:&quot;, error);
+      console.error("Error rejecting booking:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to reject the booking. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to reject the booking. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -233,7 +233,7 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
   const handleDelete = async () => {
     if (
       window.confirm(
-        &quot;Are you sure you want to delete this booking? This action cannot be undone.&quot;,
+        "Are you sure you want to delete this booking? This action cannot be undone.",
       )
     ) {
       setIsLoading(true);
@@ -245,20 +245,20 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
 
         if (response.ok) {
           toast({
-            title: &quot;Booking Deleted&quot;,
-            description: &quot;The booking has been deleted successfully.&quot;,
+            title: "Booking Deleted",
+            description: "The booking has been deleted successfully.",
           });
           // Navigate back to bookings list
-          router.push(&quot;/bookings&quot;);
+          router.push("/bookings");
         } else {
           throw new Error('Failed to delete booking');
         }
       } catch (error) {
-        console.error(&quot;Error deleting booking:&quot;, error);
+        console.error("Error deleting booking:", error);
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to delete the booking. Please try again.&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to delete the booking. Please try again.",
+          variant: "destructive",
         });
         setIsLoading(false);
       }
@@ -267,15 +267,15 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
 
   // Format helpers
   const formatDate = (date: Date) => {
-    return format(date, &quot;MMMM d, yyyy&quot;);
+    return format(date, "MMMM d, yyyy");
   };
 
   const formatTime = (date: Date) => {
-    return format(date, &quot;h:mm a&quot;);
+    return format(date, "h:mm a");
   };
 
   const formatDateTime = (date: Date) => {
-    return format(date, &quot;MMM d, yyyy h:mm a&quot;);
+    return format(date, "MMM d, yyyy h:mm a");
   };
 
   // Check if user can approve/reject (in real app would check user role)
@@ -285,12 +285,12 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
 
   if (!booking) {
     return (
-      <div className=&quot;flex items-center justify-center h-[400px]&quot;>
-        <div className=&quot;text-center&quot;>
-          <AlertCircle className=&quot;h-10 w-10 text-muted-foreground mx-auto mb-4&quot; />
-          <h3 className=&quot;text-lg font-medium&quot;>Booking Not Found</h3>
-          <p className=&quot;text-muted-foreground mt-2&quot;>
-            The booking you&apos;re looking for doesn&apos;t exist or has been removed.
+      <div className="flex items-center justify-center h-[400px]">
+        <div className="text-center">
+          <AlertCircle className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-medium">Booking Not Found</h3>
+          <p className="text-muted-foreground mt-2">
+            The booking you're looking for doesn't exist or has been removed.
           </p>
         </div>
       </div>
@@ -298,55 +298,55 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
   }
 
   return (
-    <div className=&quot;space-y-6&quot;>
-      <div className=&quot;flex flex-col lg:flex-row lg:items-start justify-between gap-4&quot;>
+    <div className="space-y-6">
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight break-words&quot;>
+          <h1 className="text-3xl font-bold tracking-tight break-words">
             {booking.title}
           </h1>
-          <div className=&quot;flex flex-wrap gap-2 mt-2&quot;>
+          <div className="flex flex-wrap gap-2 mt-2">
             <Badge
               variant={
                 activityStatusMapper[booking.activityStatus]?.variant ||
-                &quot;default&quot;
+                "default"
               }
-              className=&quot;px-2 py-1&quot;
+              className="px-2 py-1"
             >
               {activityStatusMapper[booking.activityStatus]?.label ||
                 booking.activityStatus}
             </Badge>
-            <Badge variant=&quot;outline&quot; className=&quot;flex items-center px-2 py-1&quot;>
+            <Badge variant="outline" className="flex items-center px-2 py-1">
               {activityTypeMapper[booking.activityType]?.icon}
               {activityTypeMapper[booking.activityType]?.label ||
                 booking.activityType}
             </Badge>
             <Badge
-              variant=&quot;outline&quot;
-              className=&quot;flex items-center px-2 py-1 capitalize&quot;
+              variant="outline"
+              className="flex items-center px-2 py-1 capitalize"
             >
-              <AlarmClock className=&quot;h-3.5 w-3.5 mr-1&quot; />
+              <AlarmClock className="h-3.5 w-3.5 mr-1" />
               {booking.priority} Priority
             </Badge>
           </div>
         </div>
 
-        <div className=&quot;flex flex-wrap gap-2&quot;>
+        <div className="flex flex-wrap gap-2">
           {/* Approval and status controls */}
-          {booking.activityStatus === &quot;pending&quot; && canApprove && (
+          {booking.activityStatus === "pending" && canApprove && (
             <>
               <Button
-                className=&quot;gap-1&quot;
+                className="gap-1"
                 onClick={() => setShowApproveDialog(true)}
               >
-                <CheckCircle2 className=&quot;h-4 w-4&quot; />
+                <CheckCircle2 className="h-4 w-4" />
                 Approve
               </Button>
               <Button
-                variant=&quot;outline&quot;
-                className=&quot;gap-1&quot;
+                variant="outline"
+                className="gap-1"
                 onClick={() => setShowRejectDialog(true)}
               >
-                <XCircle className=&quot;h-4 w-4&quot; />
+                <XCircle className="h-4 w-4" />
                 Reject
               </Button>
             </>
@@ -355,17 +355,17 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
           {/* Edit and more actions */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant=&quot;outline&quot; size=&quot;icon&quot;>
-                <MoreHorizontal className=&quot;h-4 w-4&quot; />
+              <Button variant="outline" size="icon">
+                <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align=&quot;end&quot;>
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               {canEdit && (
                 <DropdownMenuItem
                   onClick={() => router.push(`/bookings/${id}/edit`)}
                 >
-                  <Edit className=&quot;h-4 w-4 mr-2&quot; />
+                  <Edit className="h-4 w-4 mr-2" />
                   Edit Booking
                 </DropdownMenuItem>
               )}
@@ -374,17 +374,17 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
                   /* Add to calendar functionality */
                 }}
               >
-                <CalendarCheck className=&quot;h-4 w-4 mr-2&quot; />
+                <CalendarCheck className="h-4 w-4 mr-2" />
                 Add to Calendar
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               {canDelete && (
                 <DropdownMenuItem
-                  className=&quot;text-destructive focus:text-destructive&quot;
+                  className="text-destructive focus:text-destructive"
                   onClick={handleDelete}
                   disabled={isLoading}
                 >
-                  <Trash2 className=&quot;h-4 w-4 mr-2&quot; />
+                  <Trash2 className="h-4 w-4 mr-2" />
                   Delete Booking
                 </DropdownMenuItem>
               )}
@@ -394,41 +394,41 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
       </div>
 
       {/* Main content tabs */}
-      <Tabs defaultValue=&quot;details&quot; className=&quot;w-full&quot;>
-        <TabsList className=&quot;grid grid-cols-3 max-w-md&quot;>
-          <TabsTrigger value=&quot;details&quot;>Details</TabsTrigger>
-          <TabsTrigger value=&quot;staff&quot;>
+      <Tabs defaultValue="details" className="w-full">
+        <TabsList className="grid grid-cols-3 max-w-md">
+          <TabsTrigger value="details">Details</TabsTrigger>
+          <TabsTrigger value="staff">
             Staff ({booking.assignments.length})
           </TabsTrigger>
-          <TabsTrigger value=&quot;history&quot;>History</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;details&quot; className=&quot;mt-6 space-y-6&quot;>
+        <TabsContent value="details" className="mt-6 space-y-6">
           {/* Main info card */}
           <Card>
             <CardHeader>
-              <CardTitle className=&quot;text-xl&quot;>Activity Information</CardTitle>
+              <CardTitle className="text-xl">Activity Information</CardTitle>
             </CardHeader>
-            <CardContent className=&quot;space-y-6&quot;>
+            <CardContent className="space-y-6">
               {booking.description && (
                 <div>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground mb-2&quot;>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
                     Description
                   </h3>
-                  <p className=&quot;text-sm&quot;>{booking.description}</p>
+                  <p className="text-sm">{booking.description}</p>
                 </div>
               )}
 
-              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
-                <div className=&quot;space-y-3&quot;>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-muted-foreground">
                     Date & Time
                   </h3>
-                  <div className=&quot;flex items-start gap-3&quot;>
-                    <Calendar className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
+                  <div className="flex items-start gap-3">
+                    <Calendar className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                     <div>
                       {booking.startDate && (
-                        <div className=&quot;font-medium&quot;>
+                        <div className="font-medium">
                           {formatDate(booking.startDate)}
                           {booking.endDate &&
                             booking.endDate.toDateString() !==
@@ -439,13 +439,13 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
                       {!booking.allDay &&
                         booking.startDate &&
                         booking.endDate && (
-                          <div className=&quot;text-sm text-muted-foreground&quot;>
-                            {formatTime(booking.startDate)} -{&quot; &quot;}
+                          <div className="text-sm text-muted-foreground">
+                            {formatTime(booking.startDate)} -{" "}
                             {formatTime(booking.endDate)}
                           </div>
                         )}
                       {booking.allDay && (
-                        <div className=&quot;text-sm text-muted-foreground&quot;>
+                        <div className="text-sm text-muted-foreground">
                           All day
                         </div>
                       )}
@@ -453,45 +453,45 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
                   </div>
                 </div>
 
-                <div className=&quot;space-y-3&quot;>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-muted-foreground">
                     Location
                   </h3>
-                  <div className=&quot;flex items-start gap-3&quot;>
-                    <MapPin className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
+                  <div className="flex items-start gap-3">
+                    <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                     <div>
-                      <div className=&quot;font-medium&quot;>{booking.location.name}</div>
-                      <div className=&quot;text-sm text-muted-foreground&quot;>
+                      <div className="font-medium">{booking.location.name}</div>
+                      <div className="text-sm text-muted-foreground">
                         {booking.location.address}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {booking.activityType === &quot;event&quot; && booking.promotionType && (
-                  <div className=&quot;space-y-3&quot;>
-                    <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                {booking.activityType === "event" && booking.promotionType && (
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">
                       Promotion Type
                     </h3>
-                    <div className=&quot;flex items-start gap-3&quot;>
-                      <FileText className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
-                      <div className=&quot;font-medium&quot;>{booking.promotionType}</div>
+                    <div className="flex items-start gap-3">
+                      <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                      <div className="font-medium">{booking.promotionType}</div>
                     </div>
                   </div>
                 )}
 
                 {booking.kitTemplate && (
-                  <div className=&quot;space-y-3&quot;>
-                    <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">
                       Kit Template
                     </h3>
-                    <div className=&quot;flex items-start gap-3&quot;>
-                      <Package className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
+                    <div className="flex items-start gap-3">
+                      <Package className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
                       <div>
-                        <div className=&quot;font-medium&quot;>
+                        <div className="font-medium">
                           {booking.kitTemplate.name}
                         </div>
-                        <div className=&quot;text-sm text-muted-foreground&quot;>
+                        <div className="text-sm text-muted-foreground">
                           {booking.kitTemplate.items} items
                         </div>
                       </div>
@@ -499,26 +499,26 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
                   </div>
                 )}
 
-                <div className=&quot;space-y-3&quot;>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-muted-foreground">
                     Required Staff
                   </h3>
-                  <div className=&quot;flex items-start gap-3&quot;>
-                    <Users className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
-                    <div className=&quot;font-medium&quot;>
+                  <div className="flex items-start gap-3">
+                    <Users className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                    <div className="font-medium">
                       {booking.requiredStaffCount} staff members
                     </div>
                   </div>
                 </div>
 
                 {booking.budget !== undefined && (
-                  <div className=&quot;space-y-3&quot;>
-                    <h3 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">
                       Budget
                     </h3>
-                    <div className=&quot;flex items-start gap-3&quot;>
-                      <FileText className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
-                      <div className=&quot;font-medium&quot;>
+                    <div className="flex items-start gap-3">
+                      <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                      <div className="font-medium">
                         $
                         {booking.budget.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
@@ -531,12 +531,12 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
               </div>
 
               {booking.specialInstructions && (
-                <div className=&quot;pt-4 border-t&quot;>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground mb-2&quot;>
+                <div className="pt-4 border-t">
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">
                     Special Instructions
                   </h3>
                   <Alert>
-                    <AlertCircle className=&quot;h-4 w-4&quot; />
+                    <AlertCircle className="h-4 w-4" />
                     <AlertTitle>Note</AlertTitle>
                     <AlertDescription>
                       {booking.specialInstructions}
@@ -548,21 +548,21 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;staff&quot; className=&quot;mt-6 space-y-6&quot;>
+        <TabsContent value="staff" className="mt-6 space-y-6">
           <Card>
-            <CardHeader className=&quot;flex flex-row items-center justify-between&quot;>
-              <CardTitle className=&quot;text-xl&quot;>Staff Assignments</CardTitle>
-              <Button size=&quot;sm&quot;>Assign Staff</Button>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-xl">Staff Assignments</CardTitle>
+              <Button size="sm">Assign Staff</Button>
             </CardHeader>
             <CardContent>
               {booking.assignments.length > 0 ? (
-                <div className=&quot;space-y-4&quot;>
+                <div className="space-y-4">
                   {booking.assignments.map((assignment) => (
                     <div
                       key={assignment.id}
-                      className=&quot;flex items-center justify-between p-3 bg-muted/40 rounded-md&quot;
+                      className="flex items-center justify-between p-3 bg-muted/40 rounded-md"
                     >
-                      <div className=&quot;flex items-center gap-3&quot;>
+                      <div className="flex items-center gap-3">
                         <Avatar>
                           <AvatarImage
                             src={assignment.userAvatar || undefined}
@@ -572,31 +572,31 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <div className=&quot;font-medium&quot;>
+                          <div className="font-medium">
                             {assignment.userName}
                           </div>
-                          <div className=&quot;text-xs text-muted-foreground capitalize&quot;>
+                          <div className="text-xs text-muted-foreground capitalize">
                             {assignment.role}
                           </div>
                         </div>
                       </div>
                       <Badge
                         variant={
-                          assignment.status === &quot;accepted&quot;
-                            ? &quot;default&quot;
-                            : &quot;outline&quot;
+                          assignment.status === "accepted"
+                            ? "default"
+                            : "outline"
                         }
                       >
-                        {assignment.status === &quot;accepted&quot;
-                          ? &quot;Accepted&quot;
-                          : &quot;Pending&quot;}
+                        {assignment.status === "accepted"
+                          ? "Accepted"
+                          : "Pending"}
                       </Badge>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className=&quot;text-center py-6 text-muted-foreground&quot;>
-                  <Users className=&quot;h-8 w-8 mx-auto mb-2 opacity-50&quot; />
+                <div className="text-center py-6 text-muted-foreground">
+                  <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p>No staff members assigned yet</p>
                 </div>
               )}
@@ -604,35 +604,35 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;history&quot; className=&quot;mt-6 space-y-6&quot;>
+        <TabsContent value="history" className="mt-6 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className=&quot;text-xl&quot;>Activity History</CardTitle>
+              <CardTitle className="text-xl">Activity History</CardTitle>
               <CardDescription>
                 Timeline of changes and approvals for this booking
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className=&quot;space-y-4&quot;>
+              <div className="space-y-4">
                 {booking.approvalHistory.map((item, index) => (
-                  <div key={item.id} className=&quot;flex gap-4&quot;>
-                    <div className=&quot;mt-1&quot;>
-                      <div className=&quot;w-2 h-2 rounded-full bg-primary&quot;></div>
+                  <div key={item.id} className="flex gap-4">
+                    <div className="mt-1">
+                      <div className="w-2 h-2 rounded-full bg-primary"></div>
                       {index < booking.approvalHistory.length - 1 && (
-                        <div className=&quot;w-0.5 h-full bg-muted-foreground/20 ml-[3px] mt-1&quot;></div>
+                        <div className="w-0.5 h-full bg-muted-foreground/20 ml-[3px] mt-1"></div>
                       )}
                     </div>
-                    <div className=&quot;flex-1 pb-4&quot;>
-                      <div className=&quot;flex flex-col gap-1&quot;>
-                        <div className=&quot;text-sm text-muted-foreground&quot;>
+                    <div className="flex-1 pb-4">
+                      <div className="flex flex-col gap-1">
+                        <div className="text-sm text-muted-foreground">
                           {formatDateTime(item.timestamp)}
                         </div>
-                        <div className=&quot;font-medium&quot;>
-                          <span className=&quot;capitalize&quot;>{item.status}</span>
+                        <div className="font-medium">
+                          <span className="capitalize">{item.status}</span>
                           {item.user && <> by {item.user}</>}
                         </div>
                         {item.notes && (
-                          <div className=&quot;text-sm mt-1 text-muted-foreground&quot;>
+                          <div className="text-sm mt-1 text-muted-foreground">
                             {item.notes}
                           </div>
                         )}
@@ -641,16 +641,16 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
                   </div>
                 ))}
 
-                <div className=&quot;flex gap-4&quot;>
-                  <div className=&quot;mt-1&quot;>
-                    <div className=&quot;w-2 h-2 rounded-full bg-primary/30&quot;></div>
+                <div className="flex gap-4">
+                  <div className="mt-1">
+                    <div className="w-2 h-2 rounded-full bg-primary/30"></div>
                   </div>
-                  <div className=&quot;flex-1&quot;>
-                    <div className=&quot;flex flex-col gap-1&quot;>
-                      <div className=&quot;text-sm text-muted-foreground&quot;>
+                  <div className="flex-1">
+                    <div className="flex flex-col gap-1">
+                      <div className="text-sm text-muted-foreground">
                         {formatDateTime(booking.createdAt)}
                       </div>
-                      <div className=&quot;font-medium&quot;>
+                      <div className="font-medium">
                         Created by {booking.createdBy.name}
                       </div>
                     </div>
@@ -672,10 +672,10 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
               you sure you want to proceed?
             </DialogDescription>
           </DialogHeader>
-          <div className=&quot;py-4&quot;>
-            <div className=&quot;rounded-md bg-muted p-4&quot;>
-              <div className=&quot;font-medium&quot;>{booking.title}</div>
-              <div className=&quot;text-sm text-muted-foreground mt-1&quot;>
+          <div className="py-4">
+            <div className="rounded-md bg-muted p-4">
+              <div className="font-medium">{booking.title}</div>
+              <div className="text-sm text-muted-foreground mt-1">
                 {formatDate(booking.startDate)}
                 {booking.startDate &&
                   booking.endDate &&
@@ -685,14 +685,14 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
           </div>
           <DialogFooter>
             <Button
-              variant=&quot;outline&quot;
+              variant="outline"
               onClick={() => setShowApproveDialog(false)}
               disabled={isLoading}
             >
               Cancel
             </Button>
             <Button onClick={handleApprove} disabled={isLoading}>
-              {isLoading ? &quot;Approving...&quot; : &quot;Approve Activity&quot;}
+              {isLoading ? "Approving..." : "Approve Activity"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -708,10 +708,10 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
               information will be shared with the creator.
             </DialogDescription>
           </DialogHeader>
-          <div className=&quot;py-4 space-y-4&quot;>
-            <div className=&quot;rounded-md bg-muted p-4&quot;>
-              <div className=&quot;font-medium&quot;>{booking.title}</div>
-              <div className=&quot;text-sm text-muted-foreground mt-1&quot;>
+          <div className="py-4 space-y-4">
+            <div className="rounded-md bg-muted p-4">
+              <div className="font-medium">{booking.title}</div>
+              <div className="text-sm text-muted-foreground mt-1">
                 {formatDate(booking.startDate)}
                 {booking.startDate &&
                   booking.endDate &&
@@ -722,24 +722,24 @@ export default function BookingDetails({ id }: BookingDetailsProps) {
             <Textarea
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
-              placeholder=&quot;Explain why this activity is being rejected...&quot;
-              className=&quot;min-h-[120px]&quot;
+              placeholder="Explain why this activity is being rejected..."
+              className="min-h-[120px]"
             />
           </div>
           <DialogFooter>
             <Button
-              variant=&quot;outline&quot;
+              variant="outline"
               onClick={() => setShowRejectDialog(false)}
               disabled={isLoading}
             >
               Cancel
             </Button>
             <Button
-              variant=&quot;destructive&quot;
+              variant="destructive"
               onClick={handleReject}
               disabled={isLoading || !rejectionReason.trim()}
             >
-              {isLoading ? &quot;Rejecting...&quot; : &quot;Reject Activity"}
+              {isLoading ? "Rejecting..." : "Reject Activity"}
             </Button>
           </DialogFooter>
         </DialogContent>

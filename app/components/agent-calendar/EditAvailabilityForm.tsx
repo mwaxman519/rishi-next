@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
-import { AvailabilityDTO } from &quot;@/models/availability&quot;;
-import { format, parse } from &quot;date-fns&quot;;
+import React, { useState, useEffect } from "react";
+import { AvailabilityDTO } from "@/models/availability";
+import { format, parse } from "date-fns";
 
 interface EditAvailabilityFormProps {
   availabilityBlock: AvailabilityDTO;
@@ -11,13 +11,13 @@ interface EditAvailabilityFormProps {
 }
 
 const daysOfWeek = [
-  { value: 0, label: &quot;Sunday&quot; },
-  { value: 1, label: &quot;Monday&quot; },
-  { value: 2, label: &quot;Tuesday&quot; },
-  { value: 3, label: &quot;Wednesday&quot; },
-  { value: 4, label: &quot;Thursday&quot; },
-  { value: 5, label: &quot;Friday&quot; },
-  { value: 6, label: &quot;Saturday&quot; },
+  { value: 0, label: "Sunday" },
+  { value: 1, label: "Monday" },
+  { value: 2, label: "Tuesday" },
+  { value: 3, label: "Wednesday" },
+  { value: 4, label: "Thursday" },
+  { value: 5, label: "Friday" },
+  { value: 6, label: "Saturday" },
 ];
 
 export default function EditAvailabilityForm({
@@ -35,9 +35,9 @@ export default function EditAvailabilityForm({
   const [formValues, setFormValues] = useState({
     title: availabilityBlock.title || null,
     status: availabilityBlock.status || null,
-    date: format(startDate, &quot;yyyy-MM-dd&quot;),
-    startTime: format(startDate, &quot;HH:mm&quot;),
-    endTime: format(endDate, &quot;HH:mm&quot;),
+    date: format(startDate, "yyyy-MM-dd"),
+    startTime: format(startDate, "HH:mm"),
+    endTime: format(endDate, "HH:mm"),
     isRecurring: availabilityBlock.isRecurring || false,
     dayOfWeek:
       availabilityBlock.dayOfWeek !== undefined
@@ -53,7 +53,7 @@ export default function EditAvailabilityForm({
   ) => {
     const { name, value, type } = e.target;
 
-    if (type === &quot;checkbox&quot;) {
+    if (type === "checkbox") {
       const checkbox = e.target as HTMLInputElement;
       setFormValues({
         ...formValues,
@@ -74,9 +74,9 @@ export default function EditAvailabilityForm({
 
     try {
       // Parse the form values back into a date
-      const dateObj = parse(formValues.date, &quot;yyyy-MM-dd&quot;, new Date());
-      const [startHours, startMinutes] = formValues.startTime.split(&quot;:&quot;);
-      const [endHours, endMinutes] = formValues.endTime.split(&quot;:&quot;);
+      const dateObj = parse(formValues.date, "yyyy-MM-dd", new Date());
+      const [startHours, startMinutes] = formValues.startTime.split(":");
+      const [endHours, endMinutes] = formValues.endTime.split(":");
 
       const startDate = new Date(dateObj);
       startDate.setHours(parseInt(startHours), parseInt(startMinutes), 0, 0);
@@ -86,14 +86,14 @@ export default function EditAvailabilityForm({
 
       // Check if end time is before start time
       if (endDate < startDate) {
-        throw new Error(&quot;End time must be after start time&quot;);
+        throw new Error("End time must be after start time");
       }
 
       // Check for conflicts with other availability blocks
-      const conflictsResponse = await fetch(&quot;/api/availability/conflicts&quot;, {
-        method: &quot;POST&quot;,
+      const conflictsResponse = await fetch("/api/availability/conflicts", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: availabilityBlock.userId,
@@ -104,7 +104,7 @@ export default function EditAvailabilityForm({
       });
 
       if (!conflictsResponse.ok) {
-        throw new Error(&quot;Failed to check for availability conflicts&quot;);
+        throw new Error("Failed to check for availability conflicts");
       }
 
       const conflictsData = await conflictsResponse.json();
@@ -113,7 +113,7 @@ export default function EditAvailabilityForm({
       if (conflictsData.hasConflicts && conflictsData.conflicts?.length > 0) {
         const conflictCount = conflictsData.conflicts.length;
         const conflictMessage = `This availability block conflicts with ${conflictCount} existing block${
-          conflictCount > 1 ? &quot;s&quot; : "&quot;
+          conflictCount > 1 ? "s" : ""
         }. Do you still want to update it?`;
 
         if (!window.confirm(conflictMessage)) {
@@ -152,9 +152,9 @@ export default function EditAvailabilityForm({
       const response = await fetch(
         `/api/availability/${availabilityBlock.id}`,
         {
-          method: &quot;PUT&quot;,
+          method: "PUT",
           headers: {
-            &quot;Content-Type&quot;: &quot;application/json&quot;,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(updateData),
         },
@@ -163,117 +163,117 @@ export default function EditAvailabilityForm({
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.error || &quot;No error details available&quot;,
+          errorData.error || "No error details available",
         );
       }
 
       // Handle success
       onSuccess();
     } catch (err) {
-      console.error(&quot;Error updating availability:&quot;, err);
-      setError(err instanceof Error ? err.message : &quot;An error occurred&quot;);
+      console.error("Error updating availability:", err);
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className=&quot;bg-white rounded-lg shadow p-6&quot;>
-      <div className=&quot;flex justify-between items-center mb-4&quot;>
-        <h3 className=&quot;text-lg font-bold&quot;>Edit Availability Block</h3>
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-bold">Edit Availability Block</h3>
         <button
           onClick={onCancel}
-          className=&quot;text-gray-500 hover:text-gray-700&quot;
-          aria-label=&quot;Close&quot;
+          className="text-gray-500 hover:text-gray-700"
+          aria-label="Close"
         >
           <svg
-            xmlns=&quot;http://www.w3.org/2000/svg&quot;
-            className=&quot;h-5 w-5&quot;
-            viewBox=&quot;0 0 20 20&quot;
-            fill=&quot;currentColor&quot;
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
           >
             <path
-              fillRule=&quot;evenodd&quot;
-              d=&quot;M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z&quot;
-              clipRule=&quot;evenodd&quot;
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
             />
           </svg>
         </button>
       </div>
 
       {error && (
-        <div className=&quot;bg-red-100 text-red-800 p-3 rounded mb-4&quot;>{error}</div>
+        <div className="bg-red-100 text-red-800 p-3 rounded mb-4">{error}</div>
       )}
 
-      <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Title (Optional)
           </label>
           <input
-            type=&quot;text&quot;
-            name=&quot;title&quot;
+            type="text"
+            name="title"
             value={formValues.title}
             onChange={handleChange}
-            className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
           />
         </div>
 
         <div>
-          <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Date
           </label>
           <input
-            type=&quot;date&quot;
-            name=&quot;date&quot;
+            type="date"
+            name="date"
             value={formValues.date}
             onChange={handleChange}
-            className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
             required
           />
         </div>
 
-        <div className=&quot;grid grid-cols-2 gap-4&quot;>
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Start Time
             </label>
             <input
-              type=&quot;time&quot;
-              name=&quot;startTime&quot;
+              type="time"
+              name="startTime"
               value={formValues.startTime}
               onChange={handleChange}
-              className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
               required
             />
           </div>
           <div>
-            <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               End Time
             </label>
             <input
-              type=&quot;time&quot;
-              name=&quot;endTime&quot;
+              type="time"
+              name="endTime"
               value={formValues.endTime}
               onChange={handleChange}
-              className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
               required
             />
           </div>
         </div>
 
-        <div className=&quot;flex items-center&quot;>
+        <div className="flex items-center">
           <input
-            type=&quot;checkbox&quot;
-            id=&quot;isRecurring&quot;
-            name=&quot;isRecurring&quot;
+            type="checkbox"
+            id="isRecurring"
+            name="isRecurring"
             checked={formValues.isRecurring}
             onChange={handleChange}
-            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded&quot;
+            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
           />
           <label
-            htmlFor=&quot;isRecurring&quot;
-            className=&quot;ml-2 block text-sm text-gray-700&quot;
+            htmlFor="isRecurring"
+            className="ml-2 block text-sm text-gray-700"
           >
             Recurring
           </label>
@@ -281,14 +281,14 @@ export default function EditAvailabilityForm({
 
         {formValues.isRecurring && (
           <div>
-            <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Day of Week
             </label>
             <select
-              name=&quot;dayOfWeek&quot;
+              name="dayOfWeek"
               value={formValues.dayOfWeek}
               onChange={handleChange}
-              className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
               required={formValues.isRecurring}
             >
               {daysOfWeek.map((day) => (
@@ -301,38 +301,38 @@ export default function EditAvailabilityForm({
         )}
 
         <div>
-          <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Status
           </label>
           <select
-            name=&quot;status&quot;
+            name="status"
             value={formValues.status}
             onChange={handleChange}
-            className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
             required
           >
-            <option value=&quot;available&quot;>Available</option>
-            <option value=&quot;unavailable&quot;>Unavailable</option>
-            <option value=&quot;tentative&quot;>Tentative</option>
+            <option value="available">Available</option>
+            <option value="unavailable">Unavailable</option>
+            <option value="tentative">Tentative</option>
           </select>
         </div>
 
-        <div className=&quot;flex justify-end space-x-3 pt-4&quot;>
+        <div className="flex justify-end space-x-3 pt-4">
           <button
-            type=&quot;button&quot;
+            type="button"
             onClick={onCancel}
-            className=&quot;px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500&quot;
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
           >
             Cancel
           </button>
           <button
-            type=&quot;submit&quot;
+            type="submit"
             disabled={isSubmitting}
             className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-              isSubmitting ? &quot;opacity-75 cursor-not-allowed&quot; : &quot;&quot;
+              isSubmitting ? "opacity-75 cursor-not-allowed" : ""
             }`}
           >
-            {isSubmitting ? &quot;Saving...&quot; : &quot;Save Changes"}
+            {isSubmitting ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>

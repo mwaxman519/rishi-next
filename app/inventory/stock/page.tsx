@@ -1,24 +1,24 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Search,
   Package,
@@ -41,15 +41,15 @@ import {
   Wrench,
   ChevronRight,
   ScanLine,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import Link from &quot;next/link&quot;;
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 import {
   Sheet,
   SheetContent,
@@ -57,7 +57,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from &quot;@/components/ui/sheet&quot;;
+} from "@/components/ui/sheet";
 
 // Scalable stock data for hundreds of items across states/territories
 const stockData = {
@@ -72,46 +72,46 @@ const stockData = {
     territories: 87,
   },
   territories: [
-    { code: &quot;CA-01&quot;, name: &quot;Northern California&quot;, agents: 45, items: 523 },
-    { code: &quot;CA-02&quot;, name: &quot;Bay Area&quot;, agents: 62, items: 742 },
-    { code: &quot;CA-03&quot;, name: &quot;Southern California&quot;, agents: 58, items: 689 },
-    { code: &quot;CO-01&quot;, name: &quot;Denver Metro&quot;, agents: 38, items: 412 },
-    { code: &quot;WA-01&quot;, name: &quot;Seattle Region&quot;, agents: 41, items: 487 },
+    { code: "CA-01", name: "Northern California", agents: 45, items: 523 },
+    { code: "CA-02", name: "Bay Area", agents: 62, items: 742 },
+    { code: "CA-03", name: "Southern California", agents: 58, items: 689 },
+    { code: "CO-01", name: "Denver Metro", agents: 38, items: 412 },
+    { code: "WA-01", name: "Seattle Region", agents: 41, items: 487 },
   ],
   itemTypes: [
-    { type: &quot;Folding Table&quot;, total: 892, assigned: 821, available: 71 },
-    { type: &quot;Storage Tote&quot;, total: 1243, assigned: 1189, available: 54 },
-    { type: &quot;Tablecloth&quot;, total: 756, assigned: 692, available: 64 },
-    { type: &quot;Display Stand&quot;, total: 434, assigned: 398, available: 36 },
-    { type: &quot;Banner Stand&quot;, total: 523, assigned: 487, available: 36 },
+    { type: "Folding Table", total: 892, assigned: 821, available: 71 },
+    { type: "Storage Tote", total: 1243, assigned: 1189, available: 54 },
+    { type: "Tablecloth", total: 756, assigned: 692, available: 64 },
+    { type: "Display Stand", total: 434, assigned: 398, available: 36 },
+    { type: "Banner Stand", total: 523, assigned: 487, available: 36 },
   ],
   stockItems: [
     {
-      id: &quot;SI-001&quot;,
-      serialNumber: &quot;TBL-CA01-2024-001&quot;,
-      itemType: &quot;Folding Table&quot;,
-      category: &quot;Furniture&quot;,
-      assignedTo: &quot;Sarah Johnson&quot;,
-      agentId: &quot;BA-CA01-045&quot;,
-      territory: &quot;CA-01&quot;,
-      brand: &quot;Elevated Essence&quot;,
-      status: &quot;assigned&quot;,
-      condition: &quot;good&quot;,
-      lastScan: &quot;2025-01-17T14:30:00Z&quot;,
+      id: "SI-001",
+      serialNumber: "TBL-CA01-2024-001",
+      itemType: "Folding Table",
+      category: "Furniture",
+      assignedTo: "Sarah Johnson",
+      agentId: "BA-CA01-045",
+      territory: "CA-01",
+      brand: "Elevated Essence",
+      status: "assigned",
+      condition: "good",
+      lastScan: "2025-01-17T14:30:00Z",
       location: { lat: 37.7749, lng: -122.4194 },
     },
     {
-      id: &quot;SI-002&quot;,
-      serialNumber: &quot;TOTE-CA02-2024-015&quot;,
-      itemType: &quot;Storage Tote&quot;,
-      category: &quot;Storage&quot;,
-      assignedTo: &quot;Mike Chen&quot;,
-      agentId: &quot;BA-CA02-022&quot;,
-      territory: &quot;CA-02&quot;,
-      brand: &quot;Green Valley Collective&quot;,
-      status: &quot;assigned&quot;,
-      condition: &quot;excellent&quot;,
-      lastScan: &quot;2025-01-17T09:15:00Z&quot;,
+      id: "SI-002",
+      serialNumber: "TOTE-CA02-2024-015",
+      itemType: "Storage Tote",
+      category: "Storage",
+      assignedTo: "Mike Chen",
+      agentId: "BA-CA02-022",
+      territory: "CA-02",
+      brand: "Green Valley Collective",
+      status: "assigned",
+      condition: "excellent",
+      lastScan: "2025-01-17T09:15:00Z",
       location: { lat: 37.3382, lng: -121.8863 },
     },
     // More items would be loaded dynamically
@@ -131,15 +131,15 @@ const StockFilterSheet = ({
   onClose
 }) => {
   return (
-    <div className=&quot;space-y-6 p-1&quot;>
+    <div className="space-y-6 p-1">
       <div>
-        <h3 className=&quot;text-sm font-semibold mb-3&quot;>Territory</h3>
+        <h3 className="text-sm font-semibold mb-3">Territory</h3>
         <Select value={selectedTerritory} onValueChange={setSelectedTerritory}>
-          <SelectTrigger className=&quot;w-full&quot;>
-            <SelectValue placeholder=&quot;All Territories&quot; />
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Territories" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value=&quot;all&quot;>All Territories ({stockData.stats.territories})</SelectItem>
+            <SelectItem value="all">All Territories ({stockData.stats.territories})</SelectItem>
             {stockData.territories.map((territory) => (
               <SelectItem key={territory.code} value={territory.code}>
                 {territory.name} ({territory.items} items)
@@ -150,13 +150,13 @@ const StockFilterSheet = ({
       </div>
 
       <div>
-        <h3 className=&quot;text-sm font-semibold mb-3&quot;>Item Type</h3>
+        <h3 className="text-sm font-semibold mb-3">Item Type</h3>
         <Select value={selectedItemType} onValueChange={setSelectedItemType}>
-          <SelectTrigger className=&quot;w-full&quot;>
-            <SelectValue placeholder=&quot;All Types&quot; />
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Types" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value=&quot;all&quot;>All Item Types</SelectItem>
+            <SelectItem value="all">All Item Types</SelectItem>
             {stockData.itemTypes.map((type) => (
               <SelectItem key={type.type} value={type.type}>
                 {type.type} ({type.total})
@@ -167,47 +167,47 @@ const StockFilterSheet = ({
       </div>
 
       <div>
-        <h3 className=&quot;text-sm font-semibold mb-3&quot;>Status</h3>
+        <h3 className="text-sm font-semibold mb-3">Status</h3>
         <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className=&quot;w-full&quot;>
-            <SelectValue placeholder=&quot;All Status&quot; />
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value=&quot;all&quot;>All Status</SelectItem>
-            <SelectItem value=&quot;assigned&quot;>Assigned</SelectItem>
-            <SelectItem value=&quot;available&quot;>Available</SelectItem>
-            <SelectItem value=&quot;in_transit&quot;>In Transit</SelectItem>
-            <SelectItem value=&quot;missing&quot;>Missing</SelectItem>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="assigned">Assigned</SelectItem>
+            <SelectItem value="available">Available</SelectItem>
+            <SelectItem value="in_transit">In Transit</SelectItem>
+            <SelectItem value="missing">Missing</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div>
-        <h3 className=&quot;text-sm font-semibold mb-3&quot;>Condition</h3>
+        <h3 className="text-sm font-semibold mb-3">Condition</h3>
         <Select value={selectedCondition} onValueChange={setSelectedCondition}>
-          <SelectTrigger className=&quot;w-full&quot;>
-            <SelectValue placeholder=&quot;All Conditions&quot; />
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Conditions" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value=&quot;all&quot;>All Conditions</SelectItem>
-            <SelectItem value=&quot;excellent&quot;>Excellent</SelectItem>
-            <SelectItem value=&quot;good&quot;>Good</SelectItem>
-            <SelectItem value=&quot;fair&quot;>Fair</SelectItem>
-            <SelectItem value=&quot;repair_needed&quot;>Needs Repair</SelectItem>
+            <SelectItem value="all">All Conditions</SelectItem>
+            <SelectItem value="excellent">Excellent</SelectItem>
+            <SelectItem value="good">Good</SelectItem>
+            <SelectItem value="fair">Fair</SelectItem>
+            <SelectItem value="repair_needed">Needs Repair</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className=&quot;flex gap-2 pt-4&quot;>
-        <Button variant=&quot;outline&quot; className=&quot;flex-1&quot; onClick={() => {
-          setSelectedTerritory(&quot;all&quot;);
-          setSelectedItemType(&quot;all&quot;);
-          setSelectedStatus(&quot;all&quot;);
-          setSelectedCondition(&quot;all&quot;);
+      <div className="flex gap-2 pt-4">
+        <Button variant="outline" className="flex-1" onClick={() => {
+          setSelectedTerritory("all");
+          setSelectedItemType("all");
+          setSelectedStatus("all");
+          setSelectedCondition("all");
         }}>
           Reset
         </Button>
-        <Button className=&quot;flex-1&quot; onClick={onClose}>
+        <Button className="flex-1" onClick={onClose}>
           Apply
         </Button>
       </div>
@@ -219,29 +219,29 @@ const StockFilterSheet = ({
 const StockItemCard = ({ item }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case &quot;assigned&quot;:
-        return &quot;bg-green-50 text-green-700 border-green-200&quot;;
-      case &quot;available&quot;:
-        return &quot;bg-purple-50 text-purple-700 border-purple-200&quot;;
-      case &quot;in_transit&quot;:
-        return &quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;;
-      case &quot;missing&quot;:
-        return &quot;bg-red-50 text-red-700 border-red-200&quot;;
+      case "assigned":
+        return "bg-green-50 text-green-700 border-green-200";
+      case "available":
+        return "bg-purple-50 text-purple-700 border-purple-200";
+      case "in_transit":
+        return "bg-yellow-50 text-yellow-700 border-yellow-200";
+      case "missing":
+        return "bg-red-50 text-red-700 border-red-200";
       default:
-        return &quot;bg-gray-50 text-gray-700 border-gray-200&quot;;
+        return "bg-gray-50 text-gray-700 border-gray-200";
     }
   };
 
   const getConditionIcon = (condition: string) => {
     switch (condition) {
-      case &quot;excellent&quot;:
-        return <CheckCircle className=&quot;w-3 h-3 text-green-600&quot; />;
-      case &quot;good&quot;:
-        return <CheckCircle className=&quot;w-3 h-3 text-purple-600&quot; />;
-      case &quot;fair&quot;:
-        return <AlertTriangle className=&quot;w-3 h-3 text-yellow-600&quot; />;
-      case &quot;repair_needed&quot;:
-        return <Wrench className=&quot;w-3 h-3 text-red-600&quot; />;
+      case "excellent":
+        return <CheckCircle className="w-3 h-3 text-green-600" />;
+      case "good":
+        return <CheckCircle className="w-3 h-3 text-purple-600" />;
+      case "fair":
+        return <AlertTriangle className="w-3 h-3 text-yellow-600" />;
+      case "repair_needed":
+        return <Wrench className="w-3 h-3 text-red-600" />;
       default:
         return null;
     }
@@ -251,50 +251,50 @@ const StockItemCard = ({ item }) => {
     const lastScan = new Date(item.lastScan);
     const now = new Date();
     const hours = Math.floor((now - lastScan) / (1000 * 60 * 60));
-    if (hours < 1) return &quot;Just now&quot;;
+    if (hours < 1) return "Just now";
     if (hours < 24) return `${hours}h ago`;
     const days = Math.floor(hours / 24);
     return `${days}d ago`;
   };
 
   return (
-    <Card className=&quot;hover:shadow-md transition-all cursor-pointer&quot;>
-      <CardContent className=&quot;p-3&quot;>
-        <div className=&quot;space-y-3&quot;>
+    <Card className="hover:shadow-md transition-all cursor-pointer">
+      <CardContent className="p-3">
+        <div className="space-y-3">
           {/* Header */}
-          <div className=&quot;flex items-start justify-between gap-2&quot;>
-            <div className=&quot;flex-1 min-w-0&quot;>
-              <div className=&quot;flex items-center gap-2&quot;>
-                <h3 className=&quot;font-semibold text-sm truncate&quot;>
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold text-sm truncate">
                   {item.itemType}
                 </h3>
                 {getConditionIcon(item.condition)}
               </div>
-              <p className=&quot;text-xs text-gray-600 font-mono&quot;>
+              <p className="text-xs text-gray-600 font-mono">
                 {item.serialNumber}
               </p>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant=&quot;ghost&quot; size=&quot;sm&quot; className=&quot;h-8 w-8 p-0&quot;>
-                  <MoreVertical className=&quot;h-4 w-4&quot; />
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <MoreVertical className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align=&quot;end&quot;>
+              <DropdownMenuContent align="end">
                 <DropdownMenuItem>
-                  <QrCode className=&quot;w-4 h-4 mr-2&quot; />
+                  <QrCode className="w-4 h-4 mr-2" />
                   Scan QR
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Edit className=&quot;w-4 h-4 mr-2&quot; />
+                  <Edit className="w-4 h-4 mr-2" />
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <UserCheck className=&quot;w-4 h-4 mr-2&quot; />
+                  <UserCheck className="w-4 h-4 mr-2" />
                   Reassign
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <MapPin className=&quot;w-4 h-4 mr-2&quot; />
+                  <MapPin className="w-4 h-4 mr-2" />
                   Track
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -302,32 +302,32 @@ const StockItemCard = ({ item }) => {
           </div>
 
           {/* Assignment info */}
-          <div className=&quot;space-y-1&quot;>
+          <div className="space-y-1">
             {item.assignedTo ? (
-              <div className=&quot;flex items-center gap-2 text-xs&quot;>
-                <Users className=&quot;w-3 h-3 text-gray-500&quot; />
-                <span className=&quot;font-medium&quot;>{item.assignedTo}</span>
-                <span className=&quot;text-gray-500&quot;>({item.agentId})</span>
+              <div className="flex items-center gap-2 text-xs">
+                <Users className="w-3 h-3 text-gray-500" />
+                <span className="font-medium">{item.assignedTo}</span>
+                <span className="text-gray-500">({item.agentId})</span>
               </div>
             ) : (
-              <div className=&quot;flex items-center gap-2 text-xs text-gray-500&quot;>
-                <Users className=&quot;w-3 h-3&quot; />
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <Users className="w-3 h-3" />
                 <span>Unassigned</span>
               </div>
             )}
-            <div className=&quot;flex items-center gap-2 text-xs&quot;>
-              <MapPin className=&quot;w-3 h-3 text-gray-500&quot; />
+            <div className="flex items-center gap-2 text-xs">
+              <MapPin className="w-3 h-3 text-gray-500" />
               <span>{item.territory} • {item.brand}</span>
             </div>
           </div>
 
           {/* Status and scan info */}
-          <div className=&quot;flex items-center justify-between pt-2 border-t&quot;>
+          <div className="flex items-center justify-between pt-2 border-t">
             <Badge className={`${getStatusColor(item.status)} border text-xs`}>
-              {item.status.replace(&quot;_&quot;, &quot; &quot;)}
+              {item.status.replace("_", " ")}
             </Badge>
-            <div className=&quot;flex items-center gap-1 text-xs text-gray-500&quot;>
-              <ScanLine className=&quot;w-3 h-3&quot; />
+            <div className="flex items-center gap-1 text-xs text-gray-500">
+              <ScanLine className="w-3 h-3" />
               <span>{timeSinceLastScan()}</span>
             </div>
           </div>
@@ -342,38 +342,38 @@ const TerritorySummaryCard = ({ territory }) => {
   const utilizationRate = Math.round((territory.items / (territory.agents * 15)) * 100);
   
   return (
-    <Card className=&quot;hover:shadow-md transition-all&quot;>
-      <CardContent className=&quot;p-4&quot;>
-        <div className=&quot;space-y-3&quot;>
-          <div className=&quot;flex items-start justify-between&quot;>
+    <Card className="hover:shadow-md transition-all">
+      <CardContent className="p-4">
+        <div className="space-y-3">
+          <div className="flex items-start justify-between">
             <div>
-              <h3 className=&quot;font-semibold text-sm&quot;>{territory.name}</h3>
-              <p className=&quot;text-xs text-gray-600&quot;>{territory.code}</p>
+              <h3 className="font-semibold text-sm">{territory.name}</h3>
+              <p className="text-xs text-gray-600">{territory.code}</p>
             </div>
-            <ChevronRight className=&quot;w-4 h-4 text-gray-400&quot; />
+            <ChevronRight className="w-4 h-4 text-gray-400" />
           </div>
 
-          <div className=&quot;grid grid-cols-2 gap-3&quot;>
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <p className=&quot;text-xs text-gray-600&quot;>Agents</p>
-              <p className=&quot;text-lg font-bold&quot;>{territory.agents}</p>
+              <p className="text-xs text-gray-600">Agents</p>
+              <p className="text-lg font-bold">{territory.agents}</p>
             </div>
             <div>
-              <p className=&quot;text-xs text-gray-600&quot;>Items</p>
-              <p className=&quot;text-lg font-bold&quot;>{territory.items}</p>
+              <p className="text-xs text-gray-600">Items</p>
+              <p className="text-lg font-bold">{territory.items}</p>
             </div>
           </div>
 
           <div>
-            <div className=&quot;flex items-center justify-between text-xs mb-1&quot;>
-              <span className=&quot;text-gray-600&quot;>Utilization</span>
-              <span className=&quot;font-medium&quot;>{utilizationRate}%</span>
+            <div className="flex items-center justify-between text-xs mb-1">
+              <span className="text-gray-600">Utilization</span>
+              <span className="font-medium">{utilizationRate}%</span>
             </div>
-            <div className=&quot;w-full bg-gray-200 rounded-full h-1.5&quot;>
+            <div className="w-full bg-gray-200 rounded-full h-1.5">
               <div
                 className={`h-1.5 rounded-full ${
-                  utilizationRate > 80 ? &quot;bg-green-500&quot; : 
-                  utilizationRate > 50 ? &quot;bg-yellow-500&quot; : &quot;bg-red-500&quot;
+                  utilizationRate > 80 ? "bg-green-500" : 
+                  utilizationRate > 50 ? "bg-yellow-500" : "bg-red-500"
                 }`}
                 style={{ width: `${utilizationRate}%` }}
               />
@@ -386,64 +386,64 @@ const TerritorySummaryCard = ({ territory }) => {
 };
 
 export default function StockManagementPage() {
-  const [searchQuery, setSearchQuery] = useState("&quot;);
-  const [activeTab, setActiveTab] = useState(&quot;items&quot;);
-  const [selectedTerritory, setSelectedTerritory] = useState(&quot;all&quot;);
-  const [selectedItemType, setSelectedItemType] = useState(&quot;all&quot;);
-  const [selectedStatus, setSelectedStatus] = useState(&quot;all&quot;);
-  const [selectedCondition, setSelectedCondition] = useState(&quot;all&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("items");
+  const [selectedTerritory, setSelectedTerritory] = useState("all");
+  const [selectedItemType, setSelectedItemType] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedCondition, setSelectedCondition] = useState("all");
   const [filterOpen, setFilterOpen] = useState(false);
   const { toast } = useToast();
 
   const activeFilters = [
-    selectedTerritory !== &quot;all&quot; && selectedTerritory,
-    selectedItemType !== &quot;all&quot; && selectedItemType,
-    selectedStatus !== &quot;all&quot; && selectedStatus,
-    selectedCondition !== &quot;all&quot; && selectedCondition,
+    selectedTerritory !== "all" && selectedTerritory,
+    selectedItemType !== "all" && selectedItemType,
+    selectedStatus !== "all" && selectedStatus,
+    selectedCondition !== "all" && selectedCondition,
   ].filter(Boolean).length;
 
   return (
-    <div className=&quot;min-h-screen bg-gray-50&quot;>
+    <div className="min-h-screen bg-gray-50">
       {/* Mobile-first sticky header */}
-      <div className=&quot;sticky top-0 z-20 bg-white border-b&quot;>
-        <div className=&quot;px-4 py-3&quot;>
-          <div className=&quot;flex items-center justify-between mb-3&quot;>
-            <h1 className=&quot;text-lg sm:text-xl font-bold&quot;>Stock Management</h1>
-            <div className=&quot;flex gap-2&quot;>
-              <Button size=&quot;sm&quot; variant=&quot;outline&quot; className=&quot;h-8&quot;>
-                <ScanLine className=&quot;w-4 h-4 sm:mr-2&quot; />
-                <span className=&quot;hidden sm:inline&quot;>Scan</span>
+      <div className="sticky top-0 z-20 bg-white border-b">
+        <div className="px-4 py-3">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-lg sm:text-xl font-bold">Stock Management</h1>
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" className="h-8">
+                <ScanLine className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Scan</span>
               </Button>
-              <Button size=&quot;sm&quot; className=&quot;h-8&quot;>
-                <Plus className=&quot;w-4 h-4 sm:mr-2&quot; />
-                <span className=&quot;hidden sm:inline&quot;>Add Item</span>
+              <Button size="sm" className="h-8">
+                <Plus className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Add Item</span>
               </Button>
             </div>
           </div>
 
           {/* Search and filter */}
-          <div className=&quot;flex gap-2&quot;>
-            <div className=&quot;relative flex-1&quot;>
-              <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4&quot; />
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
-                placeholder=&quot;Search serial, agent, territory...&quot;
+                placeholder="Search serial, agent, territory..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className=&quot;pl-9 pr-3 h-9&quot;
+                className="pl-9 pr-3 h-9"
               />
             </div>
             <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
               <SheetTrigger asChild>
-                <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;h-9 px-3 relative&quot;>
-                  <Filter className=&quot;w-4 h-4&quot; />
+                <Button variant="outline" size="sm" className="h-9 px-3 relative">
+                  <Filter className="w-4 h-4" />
                   {activeFilters > 0 && (
-                    <Badge className=&quot;absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600&quot;>
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600">
                       {activeFilters}
                     </Badge>
                   )}
                 </Button>
               </SheetTrigger>
-              <SheetContent side=&quot;right&quot; className=&quot;w-[300px] sm:w-[400px]&quot;>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader>
                   <SheetTitle>Filters</SheetTitle>
                   <SheetDescription>
@@ -467,40 +467,40 @@ export default function StockManagementPage() {
         </div>
 
         {/* Stats scroll */}
-        <div className=&quot;px-4 pb-3 overflow-x-auto&quot;>
-          <div className=&quot;flex gap-3 min-w-max&quot;>
-            <div className=&quot;bg-purple-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
-              <p className=&quot;text-xs text-purple-600&quot;>Total Items</p>
-              <p className=&quot;text-lg font-bold text-purple-900&quot;>{stockData.stats.totalItems.toLocaleString()}</p>
+        <div className="px-4 pb-3 overflow-x-auto">
+          <div className="flex gap-3 min-w-max">
+            <div className="bg-purple-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-purple-600">Total Items</p>
+              <p className="text-lg font-bold text-purple-900">{stockData.stats.totalItems.toLocaleString()}</p>
             </div>
-            <div className=&quot;bg-green-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
-              <p className=&quot;text-xs text-green-600&quot;>Assigned</p>
-              <p className=&quot;text-lg font-bold text-green-900&quot;>{stockData.stats.assignedItems.toLocaleString()}</p>
+            <div className="bg-green-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-green-600">Assigned</p>
+              <p className="text-lg font-bold text-green-900">{stockData.stats.assignedItems.toLocaleString()}</p>
             </div>
-            <div className=&quot;bg-yellow-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
-              <p className=&quot;text-xs text-yellow-600&quot;>Available</p>
-              <p className=&quot;text-lg font-bold text-yellow-900&quot;>{stockData.stats.availableItems}</p>
+            <div className="bg-yellow-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-yellow-600">Available</p>
+              <p className="text-lg font-bold text-yellow-900">{stockData.stats.availableItems}</p>
             </div>
-            <div className=&quot;bg-red-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
-              <p className=&quot;text-xs text-red-600&quot;>Critical</p>
-              <p className=&quot;text-lg font-bold text-red-900&quot;>{stockData.stats.criticalLowStock}</p>
+            <div className="bg-red-50 rounded-lg px-3 py-2 min-w-[100px]">
+              <p className="text-xs text-red-600">Critical</p>
+              <p className="text-lg font-bold text-red-900">{stockData.stats.criticalLowStock}</p>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className=&quot;w-full justify-start rounded-none border-t h-10 p-0&quot;>
-            <TabsTrigger value=&quot;items&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
+          <TabsList className="w-full justify-start rounded-none border-t h-10 p-0">
+            <TabsTrigger value="items" className="flex-1 rounded-none text-xs sm:text-sm">
               Items
             </TabsTrigger>
-            <TabsTrigger value=&quot;territories&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
+            <TabsTrigger value="territories" className="flex-1 rounded-none text-xs sm:text-sm">
               Territories
             </TabsTrigger>
-            <TabsTrigger value=&quot;agents&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
+            <TabsTrigger value="agents" className="flex-1 rounded-none text-xs sm:text-sm">
               Agents
             </TabsTrigger>
-            <TabsTrigger value=&quot;analytics&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
+            <TabsTrigger value="analytics" className="flex-1 rounded-none text-xs sm:text-sm">
               Analytics
             </TabsTrigger>
           </TabsList>
@@ -508,51 +508,51 @@ export default function StockManagementPage() {
       </div>
 
       {/* Content */}
-      <div className=&quot;p-4&quot;>
+      <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsContent value=&quot;items&quot; className=&quot;mt-0 space-y-3&quot;>
+          <TabsContent value="items" className="mt-0 space-y-3">
             {/* Quick actions */}
-            <div className=&quot;grid grid-cols-2 gap-2 sm:hidden&quot;>
-              <Button variant=&quot;outline&quot; className=&quot;h-auto py-3&quot;>
-                <Truck className=&quot;w-4 h-4 mb-1&quot; />
-                <span className=&quot;block text-xs&quot;>Bulk Assign</span>
+            <div className="grid grid-cols-2 gap-2 sm:hidden">
+              <Button variant="outline" className="h-auto py-3">
+                <Truck className="w-4 h-4 mb-1" />
+                <span className="block text-xs">Bulk Assign</span>
               </Button>
-              <Button variant=&quot;outline&quot; className=&quot;h-auto py-3&quot;>
-                <BarChart3 className=&quot;w-4 h-4 mb-1&quot; />
-                <span className=&quot;block text-xs&quot;>Export Report</span>
+              <Button variant="outline" className="h-auto py-3">
+                <BarChart3 className="w-4 h-4 mb-1" />
+                <span className="block text-xs">Export Report</span>
               </Button>
             </div>
 
             {/* Items grid */}
-            <div className=&quot;grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4&quot;>
+            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {stockData.stockItems.map((item) => (
                 <StockItemCard key={item.id} item={item} />
               ))}
             </div>
 
             {/* Load more */}
-            <div className=&quot;text-center pt-4&quot;>
-              <Button variant=&quot;outline&quot; className=&quot;w-full sm:w-auto&quot;>
+            <div className="text-center pt-4">
+              <Button variant="outline" className="w-full sm:w-auto">
                 Load More Items
               </Button>
             </div>
           </TabsContent>
 
-          <TabsContent value=&quot;territories&quot; className=&quot;mt-0 space-y-3&quot;>
-            <div className=&quot;grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3&quot;>
+          <TabsContent value="territories" className="mt-0 space-y-3">
+            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {stockData.territories.map((territory) => (
                 <TerritorySummaryCard key={territory.code} territory={territory} />
               ))}
             </div>
           </TabsContent>
 
-          <TabsContent value=&quot;agents&quot; className=&quot;mt-0&quot;>
+          <TabsContent value="agents" className="mt-0">
             <Card>
-              <CardContent className=&quot;p-4&quot;>
-                <div className=&quot;text-center py-8&quot;>
-                  <Users className=&quot;w-12 h-12 text-gray-400 mx-auto mb-3&quot; />
-                  <h3 className=&quot;font-semibold mb-2&quot;>Agent Management</h3>
-                  <p className=&quot;text-sm text-gray-600 mb-4&quot;>
+              <CardContent className="p-4">
+                <div className="text-center py-8">
+                  <Users className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <h3 className="font-semibold mb-2">Agent Management</h3>
+                  <p className="text-sm text-gray-600 mb-4">
                     Track items assigned to {stockData.stats.totalAgents} agents
                   </p>
                   <Button>View Agent Directory</Button>
@@ -561,30 +561,30 @@ export default function StockManagementPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value=&quot;analytics&quot; className=&quot;mt-0 space-y-4&quot;>
+          <TabsContent value="analytics" className="mt-0 space-y-4">
             {/* Item type distribution */}
             <Card>
-              <CardHeader className=&quot;pb-3&quot;>
-                <CardTitle className=&quot;text-base&quot;>Item Distribution</CardTitle>
-                <CardDescription className=&quot;text-xs&quot;>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Item Distribution</CardTitle>
+                <CardDescription className="text-xs">
                   Stock levels by item type
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;space-y-3&quot;>
+                <div className="space-y-3">
                   {stockData.itemTypes.map((type) => {
                     const percentage = Math.round((type.assigned / type.total) * 100);
                     return (
-                      <div key={type.type} className=&quot;space-y-1&quot;>
-                        <div className=&quot;flex items-center justify-between text-sm&quot;>
+                      <div key={type.type} className="space-y-1">
+                        <div className="flex items-center justify-between text-sm">
                           <span>{type.type}</span>
-                          <span className=&quot;text-xs text-gray-600&quot;>
+                          <span className="text-xs text-gray-600">
                             {type.assigned}/{type.total}
                           </span>
                         </div>
-                        <div className=&quot;w-full bg-gray-200 rounded-full h-2&quot;>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className=&quot;h-2 bg-purple-500 rounded-full"
+                            className="h-2 bg-purple-500 rounded-full"
                             style={{ width: `${percentage}%` }}
                           />
                         </div>

@@ -1,21 +1,21 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Expense Management API Routes - Event-Driven Microservice
  * Handles expense submission, approval workflows, and comprehensive expense tracking
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { ExpenseService } from &quot;../../services/expenses/ExpenseService&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { ExpenseService } from "../../services/expenses/ExpenseService";
 import {
   ExpenseSubmissionSchema,
   ExpenseUpdateSchema,
   ExpenseFiltersSchema,
-} from &quot;../../services/expenses/models&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
+} from "../../services/expenses/models";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 const expenseService = new ExpenseService();
 
@@ -25,23 +25,23 @@ export async function GET(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
 
     // Extract filter parameters
     const filters = {
-      organizationId: (session.user as any).organizationId || "&quot;,
-      ...((searchParams.get(&quot;agentId&quot;) || undefined) && { agentId: (searchParams.get(&quot;agentId&quot;) || undefined) }),
-      ...((searchParams.get(&quot;bookingId&quot;) || undefined) && { bookingId: (searchParams.get(&quot;bookingId&quot;) || undefined) }),
-      ...((searchParams.get(&quot;shiftId&quot;) || undefined) && { shiftId: (searchParams.get(&quot;shiftId&quot;) || undefined) }),
-      ...((searchParams.get(&quot;status&quot;) || undefined) && { status: (searchParams.get(&quot;status&quot;) || undefined) }),
-      ...((searchParams.get(&quot;expenseType&quot;) || undefined) && { expenseType: (searchParams.get(&quot;expenseType&quot;) || undefined) }),
-      ...((searchParams.get(&quot;startDate&quot;) || undefined) && { startDate: (searchParams.get(&quot;startDate&quot;) || undefined) }),
-      ...((searchParams.get(&quot;endDate&quot;) || undefined) && { endDate: (searchParams.get(&quot;endDate&quot;) || undefined) }),
-      page: parseInt((searchParams.get(&quot;page&quot;) || undefined) || &quot;1&quot;),
-      limit: parseInt((searchParams.get(&quot;limit&quot;) || undefined) || &quot;50&quot;),
+      organizationId: (session.user as any).organizationId || "",
+      ...((searchParams.get("agentId") || undefined) && { agentId: (searchParams.get("agentId") || undefined) }),
+      ...((searchParams.get("bookingId") || undefined) && { bookingId: (searchParams.get("bookingId") || undefined) }),
+      ...((searchParams.get("shiftId") || undefined) && { shiftId: (searchParams.get("shiftId") || undefined) }),
+      ...((searchParams.get("status") || undefined) && { status: (searchParams.get("status") || undefined) }),
+      ...((searchParams.get("expenseType") || undefined) && { expenseType: (searchParams.get("expenseType") || undefined) }),
+      ...((searchParams.get("startDate") || undefined) && { startDate: (searchParams.get("startDate") || undefined) }),
+      ...((searchParams.get("endDate") || undefined) && { endDate: (searchParams.get("endDate") || undefined) }),
+      page: parseInt((searchParams.get("page") || undefined) || "1"),
+      limit: parseInt((searchParams.get("limit") || undefined) || "50"),
     };
 
     // Validate filters
@@ -51,8 +51,8 @@ export async function GET(request: NextRequest) {
     const result = await expenseService.getExpenses(
       validatedFilters,
       (session.user as any).id,
-      (session.user as any).role || &quot;brand_agent&quot;,
-      (session.user as any).organizationId || &quot;&quot;,
+      (session.user as any).role || "brand_agent",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {
@@ -61,9 +61,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error(&quot;Error fetching expenses:&quot;, error);
+    console.error("Error fetching expenses:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
@@ -90,14 +90,14 @@ export async function POST(request: NextRequest) {
       result = await expenseService.saveDraft(
         validatedData,
         (session.user as any).id,
-        (session.user as any).organizationId || &quot;&quot;,
+        (session.user as any).organizationId || "",
       );
     } else {
       // Submit expense
       result = await expenseService.submitExpense(
         validatedData,
         (session.user as any).id,
-        (session.user as any).organizationId || &quot;&quot;,
+        (session.user as any).organizationId || "",
       );
     }
 
@@ -107,9 +107,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result.data, { status: 201 });
   } catch (error) {
-    console.error(&quot;Error creating expense:&quot;, error);
+    console.error("Error creating expense:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
@@ -121,7 +121,7 @@ export async function PUT(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
@@ -129,7 +129,7 @@ export async function PUT(request: NextRequest) {
 
     if (!id) {
       return NextResponse.json(
-        { error: &quot;Expense ID is required&quot; },
+        { error: "Expense ID is required" },
         { status: 400 },
       );
     }
@@ -141,22 +141,22 @@ export async function PUT(request: NextRequest) {
       id,
       validatedUpdates,
       (session.user as any).id,
-      (session.user as any).role || &quot;brand_agent&quot;,
-      (session.user as any).organizationId || &quot;&quot;,
+      (session.user as any).role || "brand_agent",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {
       return NextResponse.json(
         { error: result.error },
-        { status: result.code === &quot;ACCESS_DENIED&quot; ? 403 : 400 },
+        { status: result.code === "ACCESS_DENIED" ? 403 : 400 },
       );
     }
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error(&quot;Error updating expense:&quot;, error);
+    console.error("Error updating expense:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
@@ -168,15 +168,15 @@ export async function DELETE(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
-    const expenseId = (searchParams.get(&quot;id&quot;) || undefined);
+    const expenseId = (searchParams.get("id") || undefined);
 
     if (!expenseId) {
       return NextResponse.json(
-        { error: &quot;Expense ID is required&quot; },
+        { error: "Expense ID is required" },
         { status: 400 },
       );
     }
@@ -184,22 +184,22 @@ export async function DELETE(request: NextRequest) {
     const result = await expenseService.deleteExpense(
       expenseId,
       (session.user as any).id,
-      (session.user as any).role || &quot;brand_agent&quot;,
-      (session.user as any).organizationId || &quot;&quot;,
+      (session.user as any).role || "brand_agent",
+      (session.user as any).organizationId || "",
     );
 
     if (!result.success) {
       return NextResponse.json(
         { error: result.error },
-        { status: result.code === &quot;ACCESS_DENIED&quot; ? 403 : 400 },
+        { status: result.code === "ACCESS_DENIED" ? 403 : 400 },
       );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(&quot;Error deleting expense:&quot;, error);
+    console.error("Error deleting expense:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error" },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }

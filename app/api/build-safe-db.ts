@@ -3,7 +3,7 @@
  * Prevents database calls during Next.js static generation
  */
 
-import { db as originalDb } from &quot;./auth-service/db&quot;;
+import { db as originalDb } from "./auth-service/db";
 
 // Build-time safety wrapper
 export function createBuildSafeDb() {

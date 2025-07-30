@@ -1,9 +1,9 @@
 /**
  * RBAC Service - Core business logic for Role-Based Access Control
  */
-import { RBACRepository } from &quot;./repository&quot;;
-import { NextRequest } from &quot;next/server&quot;;
-import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { RBACRepository } from "./repository";
+import { NextRequest } from "next/server";
+import { getCurrentUser } from "@/lib/auth-server";
 import {
   Role,
   UserRole,
@@ -15,7 +15,7 @@ import {
   UpdateRoleParams,
   UserRoleParams,
   OrganizationPermissionParams,
-} from &quot;./models&quot;;
+} from "./models";
 
 /**
  * Middleware function to check if the current user has a specific permission
@@ -42,7 +42,7 @@ export async function checkPermission(
       organizationId
     });
   } catch (error) {
-    console.error(&quot;Error checking permission:&quot;, error);
+    console.error("Error checking permission:", error);
     return false;
   }
 }
@@ -165,7 +165,7 @@ export class RBACService {
     );
 
     // Extract the parts of the permission
-    const [action, resource, scope] = permission.split(&quot;:&quot;);
+    const [action, resource, scope] = permission.split(":");
 
     // Check for direct permission match
     if (userPermissions.includes(permission)) {
@@ -244,7 +244,7 @@ export class RBACService {
     );
 
     return permissions.every((permission) => {
-      const [action, resource] = permission.split(&quot;:&quot;);
+      const [action, resource] = permission.split(":");
 
       // Check for direct match
       if (userPermissions.includes(permission)) {
@@ -270,7 +270,7 @@ export class RBACService {
     );
 
     return permissions.some((permission) => {
-      const [action, resource] = permission.split(&quot;:&quot;);
+      const [action, resource] = permission.split(":");
 
       // Check for direct match
       if (userPermissions.includes(permission)) {

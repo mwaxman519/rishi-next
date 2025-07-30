@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { createContext, useContext, ReactNode } from &quot;react&quot;;
-import { RBACUser, Resource, Permission } from &quot;.&quot;;
-import { hasPermission } from &quot;./hasPermission&quot;;
+import React, { createContext, useContext, ReactNode } from "react";
+import { RBACUser, Resource, Permission } from ".";
+import { hasPermission } from "./hasPermission";
 
 interface RBACContextType {
   user: RBACUser | null;
@@ -49,7 +49,7 @@ export function useRBAC() {
   const context = useContext(RBACContext);
 
   if (context === undefined) {
-    throw new Error(&quot;useRBAC must be used within an RBACProvider&quot;);
+    throw new Error("useRBAC must be used within an RBACProvider");
   }
 
   return context;

@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 /**
  * PlaceAutocompleteAddressPicker Component
@@ -17,10 +17,10 @@
  * 4. Implements proper event listener 'gmp-placeselect' for the modern web component
  */
 
-import React, { useEffect, useRef, useState } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import React, { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Loader2, MapPin, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Augment Window interface to add Google Maps properties
 declare global {
@@ -46,9 +46,9 @@ interface PlaceAutocompleteAddressPickerProps {
 
 export default function PlaceAutocompleteAddressPicker({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: PlaceAutocompleteAddressPickerProps): React.JSX.Element {
-  const [inputValue, setInputValue] = useState(&quot;&quot;);
+  const [inputValue, setInputValue] = useState("");
   const [predictions, setPredictions] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -72,13 +72,13 @@ export default function PlaceAutocompleteAddressPicker({
   const initializeMap = (location: { lat: number; lng: number }) => {
     if (!mapRef.current || !window.google?.maps) {
       console.error(
-        &quot;PlaceAutocompleteAddressPicker: Map container or Google Maps not available&quot;,
+        "PlaceAutocompleteAddressPicker: Map container or Google Maps not available",
       );
       return;
     }
 
     console.log(
-      &quot;PlaceAutocompleteAddressPicker: Initializing map with location:&quot;,
+      "PlaceAutocompleteAddressPicker: Initializing map with location:",
       location,
     );
 
@@ -91,13 +91,13 @@ export default function PlaceAutocompleteAddressPicker({
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: false,
-        mapId: &quot;8f718a3abe8b23eb&quot;, // Using the same Map ID as the rest of the application
+        mapId: "8f718a3abe8b23eb", // Using the same Map ID as the rest of the application
       };
 
       // Create or reuse map
       if (!mapInstanceRef.current) {
         console.log(
-          &quot;PlaceAutocompleteAddressPicker: Creating new map instance&quot;,
+          "PlaceAutocompleteAddressPicker: Creating new map instance",
         );
         mapInstanceRef.current = new window.google.maps.Map(
           mapRef.current,
@@ -105,32 +105,32 @@ export default function PlaceAutocompleteAddressPicker({
         );
       } else {
         console.log(
-          &quot;PlaceAutocompleteAddressPicker: Reusing existing map instance&quot;,
+          "PlaceAutocompleteAddressPicker: Reusing existing map instance",
         );
         mapInstanceRef.current.setCenter(location);
       }
 
       // Create or reuse marker
       if (!markerRef.current) {
-        console.log(&quot;PlaceAutocompleteAddressPicker: Creating new marker&quot;);
+        console.log("PlaceAutocompleteAddressPicker: Creating new marker");
         markerRef.current = new window.google.maps.Marker({
           position: location,
           map: mapInstanceRef.current,
           animation: window.google.maps.Animation.DROP,
         });
       } else {
-        console.log(&quot;PlaceAutocompleteAddressPicker: Updating existing marker&quot;);
+        console.log("PlaceAutocompleteAddressPicker: Updating existing marker");
         markerRef.current.setPosition(location);
       }
     } catch (error) {
       console.error(
-        &quot;PlaceAutocompleteAddressPicker: Error initializing map:&quot;,
+        "PlaceAutocompleteAddressPicker: Error initializing map:",
         error,
       );
       toast({
-        title: &quot;Map Error&quot;,
-        description: &quot;Could not display the map&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Map Error",
+        description: "Could not display the map",
+        variant: "destructive",
       });
     }
   };
@@ -141,7 +141,7 @@ export default function PlaceAutocompleteAddressPicker({
     function initializeServices() {
       try {
         console.log(
-          &quot;PlaceAutocompleteAddressPicker: Initializing Google services...&quot;,
+          "PlaceAutocompleteAddressPicker: Initializing Google services...",
         );
 
         if (autocompleteContainerRef.current && window.google?.maps?.places) {
@@ -152,9 +152,9 @@ export default function PlaceAutocompleteAddressPicker({
             // Create configuration for the element - PlaceAutocompleteElement has different config options than Autocomplete
             const config = {
               // types parameter is valid for PlaceAutocompleteElement
-              types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
+              types: ["address", "establishment", "geocode"],
               // Component restrictions are still valid
-              componentRestrictions: { country: &quot;us&quot; },
+              componentRestrictions: { country: "us" },
               // Note: 'fields' is not supported by PlaceAutocompleteElement
               // We'll extract needed fields after place selection
             };
@@ -168,18 +168,18 @@ export default function PlaceAutocompleteAddressPicker({
 
             // Style the element to match the app's design
             const autocompleteInput =
-              autocompleteElement.querySelector(&quot;input&quot;);
+              autocompleteElement.querySelector("input");
             if (autocompleteInput) {
               autocompleteInput.className =
-                &quot;w-full h-10 px-3 py-2 pl-9 border rounded-md border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50&quot;;
-              autocompleteInput.placeholder = &quot;Search for a location&quot;;
+                "w-full h-10 px-3 py-2 pl-9 border rounded-md border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+              autocompleteInput.placeholder = "Search for a location";
             }
 
             // Add the search icon
-            const iconContainer = document.createElement(&quot;div&quot;);
+            const iconContainer = document.createElement("div");
             iconContainer.className =
-              &quot;absolute left-2.5 top-2.5 pointer-events-none&quot;;
-            iconContainer.innerHTML = `<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-search text-muted-foreground&quot;><circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;></circle><path d=&quot;m21 21-4.3-4.3&quot;></path></svg>`;
+              "absolute left-2.5 top-2.5 pointer-events-none";
+            iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search text-muted-foreground"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>`;
             autocompleteContainerRef.current.insertBefore(
               iconContainer,
               autocompleteElement,
@@ -187,7 +187,7 @@ export default function PlaceAutocompleteAddressPicker({
 
             // Handle place selection events
             autocompleteElement.addEventListener(
-              &quot;gmp-placeselect&quot;,
+              "gmp-placeselect",
               (event: any) => {
                 const place = event.place;
                 handlePlaceSelection(place);
@@ -195,34 +195,34 @@ export default function PlaceAutocompleteAddressPicker({
             );
 
             console.log(
-              &quot;PlaceAutocompleteAddressPicker: PlaceAutocompleteElement initialized&quot;,
+              "PlaceAutocompleteAddressPicker: PlaceAutocompleteElement initialized",
             );
           } else {
             console.error(
-              &quot;PlaceAutocompleteAddressPicker: PlaceAutocompleteElement not available&quot;,
+              "PlaceAutocompleteAddressPicker: PlaceAutocompleteElement not available",
             );
 
             toast({
-              title: &quot;API Error&quot;,
-              description: &quot;Latest Google Maps API components not available&quot;,
-              variant: &quot;destructive&quot;,
+              title: "API Error",
+              description: "Latest Google Maps API components not available",
+              variant: "destructive",
             });
           }
         }
 
         setGoogleInitialized(true);
         console.log(
-          &quot;PlaceAutocompleteAddressPicker: Google services initialized successfully&quot;,
+          "PlaceAutocompleteAddressPicker: Google services initialized successfully",
         );
       } catch (error) {
         console.error(
-          &quot;PlaceAutocompleteAddressPicker: Error initializing Google services:&quot;,
+          "PlaceAutocompleteAddressPicker: Error initializing Google services:",
           error,
         );
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to initialize location services&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to initialize location services",
+          variant: "destructive",
         });
       }
     }
@@ -230,7 +230,7 @@ export default function PlaceAutocompleteAddressPicker({
     // Set up callback for script loading
     window.initGoogleMaps = () => {
       console.log(
-        &quot;[PlaceAutocompleteAddressPicker] Google Maps initialized via callback&quot;,
+        "[PlaceAutocompleteAddressPicker] Google Maps initialized via callback",
       );
       initializeServices();
     };
@@ -238,7 +238,7 @@ export default function PlaceAutocompleteAddressPicker({
     // First check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.places) {
       console.log(
-        &quot;[PlaceAutocompleteAddressPicker] Google Maps already loaded, initializing services&quot;,
+        "[PlaceAutocompleteAddressPicker] Google Maps already loaded, initializing services",
       );
       initializeServices();
       return;
@@ -246,38 +246,38 @@ export default function PlaceAutocompleteAddressPicker({
 
     // Check if script is already in document but not fully loaded
     const existingScript = document.querySelector(
-      'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
+      'script[src*="maps.googleapis.com/maps/api"]',
     );
     if (existingScript) {
       console.log(
-        &quot;[PlaceAutocompleteAddressPicker] Google Maps script already exists, waiting for load&quot;,
+        "[PlaceAutocompleteAddressPicker] Google Maps script already exists, waiting for load",
       );
       return; // The callback will handle initialization
     }
 
     // Load the script
     console.log(
-      &quot;[PlaceAutocompleteAddressPicker] Loading Google Maps script...&quot;,
+      "[PlaceAutocompleteAddressPicker] Loading Google Maps script...",
     );
     // Use the consistent API key from the main application
-    const apiKey = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;;
+    const apiKey = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";
     // Add the Map ID for Advanced Markers
-    const mapId = &quot;8f718a3abe8b23eb&quot;;
+    const mapId = "8f718a3abe8b23eb";
     console.log(
-      &quot;[PlaceAutocompleteAddressPicker] Using Google Maps API Key:&quot;,
-      apiKey ? &quot;Key found&quot; : &quot;Key missing&quot;,
+      "[PlaceAutocompleteAddressPicker] Using Google Maps API Key:",
+      apiKey ? "Key found" : "Key missing",
     );
-    const script = document.createElement(&quot;script&quot;);
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async&v=beta&map_ids=${mapId}`;
     script.async = true;
     script.onerror = () => {
       console.error(
-        &quot;[PlaceAutocompleteAddressPicker] Failed to load Google Maps script&quot;,
+        "[PlaceAutocompleteAddressPicker] Failed to load Google Maps script",
       );
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to load Google Maps service&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to load Google Maps service",
+        variant: "destructive",
       });
     };
     document.head.appendChild(script);
@@ -299,12 +299,12 @@ export default function PlaceAutocompleteAddressPicker({
   const handlePlaceSelection = (place: any) => {
     if (!place || !place.geometry) {
       console.error(
-        &quot;PlaceAutocompleteAddressPicker: No place details returned&quot;,
+        "PlaceAutocompleteAddressPicker: No place details returned",
       );
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Could not get location details&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Could not get location details",
+        variant: "destructive",
       });
       return;
     }
@@ -312,19 +312,19 @@ export default function PlaceAutocompleteAddressPicker({
     setIsLoading(true);
 
     try {
-      console.log(&quot;PlaceAutocompleteAddressPicker: Place selected:&quot;, place);
+      console.log("PlaceAutocompleteAddressPicker: Place selected:", place);
 
       // Extract the location coordinates
       const location = place.geometry.location;
 
       // Get the latitude and longitude (these might be methods or properties)
       const latitude =
-        typeof location.lat === &quot;function&quot; ? location.lat() : location.lat;
+        typeof location.lat === "function" ? location.lat() : location.lat;
       const longitude =
-        typeof location.lng === &quot;function&quot; ? location.lng() : location.lng;
+        typeof location.lng === "function" ? location.lng() : location.lng;
 
       console.log(
-        &quot;PlaceAutocompleteAddressPicker: Location coordinates:&quot;,
+        "PlaceAutocompleteAddressPicker: Location coordinates:",
         latitude,
         longitude,
       );
@@ -340,12 +340,12 @@ export default function PlaceAutocompleteAddressPicker({
 
       // Prepare the address data
       const addressData: AddressData = {
-        formatted_address: place.formatted_address || &quot;&quot;,
+        formatted_address: place.formatted_address || "",
         address_components: place.address_components || [],
         latitude,
         longitude,
-        place_id: place.place_id || &quot;&quot;,
-        name: place.name || &quot;&quot;,
+        place_id: place.place_id || "",
+        name: place.name || "",
       };
 
       // Pass the data to the parent component
@@ -354,29 +354,29 @@ export default function PlaceAutocompleteAddressPicker({
       setIsLoading(false);
     } catch (error) {
       console.error(
-        &quot;PlaceAutocompleteAddressPicker: Error processing place data:&quot;,
+        "PlaceAutocompleteAddressPicker: Error processing place data:",
         error,
       );
       setIsLoading(false);
 
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to process location data&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to process location data",
+        variant: "destructive",
       });
     }
   };
 
   return (
     <div className={`${className} relative`}>
-      <div ref={autocompleteContainerRef} className=&quot;relative&quot;>
+      <div ref={autocompleteContainerRef} className="relative">
         {!googleInitialized && (
-          <div className=&quot;relative&quot;>
-            <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              type=&quot;text&quot;
-              placeholder=&quot;Loading location search...&quot;
-              className=&quot;pl-9&quot;
+              type="text"
+              placeholder="Loading location search..."
+              className="pl-9"
               disabled={true}
             />
           </div>
@@ -384,18 +384,18 @@ export default function PlaceAutocompleteAddressPicker({
       </div>
 
       {isLoading && (
-        <div className=&quot;absolute right-2.5 top-2.5 z-10&quot;>
-          <Loader2 className=&quot;h-4 w-4 animate-spin text-muted-foreground&quot; />
+        <div className="absolute right-2.5 top-2.5 z-10">
+          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         </div>
       )}
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className=&quot;mt-4&quot;>
+        <div className="mt-4">
           <div
             ref={mapRef}
-            className=&quot;w-full h-[250px] rounded-md border&quot;
-            aria-label=&quot;Map showing selected location"
+            className="w-full h-[250px] rounded-md border"
+            aria-label="Map showing selected location"
           />
         </div>
       )}

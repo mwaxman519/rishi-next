@@ -1,27 +1,27 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { ArrowLeft, User, Mail, Phone, MapPin, Briefcase } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, User, Mail, Phone, MapPin, Briefcase } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AddStaffMemberPage() {
   const router = useRouter();
@@ -35,31 +35,31 @@ export default function AddStaffMemberPage() {
     // Simulate form submission
     setTimeout(() => {
       toast({
-        title: &quot;Staff Member Added&quot;,
-        description: &quot;The new staff member has been successfully added to the system.&quot;,
+        title: "Staff Member Added",
+        description: "The new staff member has been successfully added to the system.",
       });
-      router.push(&quot;/staff&quot;);
+      router.push("/staff");
     }, 1500);
   };
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
-      <div className=&quot;flex items-center space-x-4&quot;>
+    <div className="container mx-auto py-6 space-y-6">
+      <div className="flex items-center space-x-4">
         <Button
-          variant=&quot;ghost&quot;
-          size=&quot;sm&quot;
+          variant="ghost"
+          size="sm"
           onClick={() => router.back()}
         >
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Staff
         </Button>
       </div>
 
-      <div className=&quot;max-w-2xl mx-auto&quot;>
+      <div className="max-w-2xl mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className=&quot;flex items-center&quot;>
-              <User className=&quot;h-5 w-5 mr-2&quot; />
+            <CardTitle className="flex items-center">
+              <User className="h-5 w-5 mr-2" />
               Add New Staff Member
             </CardTitle>
             <CardDescription>
@@ -67,44 +67,44 @@ export default function AddStaffMemberPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className=&quot;space-y-6&quot;>
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Personal Information */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium&quot;>Personal Information</h3>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Personal Information</h3>
                 
-                <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;firstName&quot;>First Name</Label>
-                    <Input id=&quot;firstName&quot; placeholder=&quot;Enter first name&quot; required />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input id="firstName" placeholder="Enter first name" required />
                   </div>
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;lastName&quot;>Last Name</Label>
-                    <Input id=&quot;lastName&quot; placeholder=&quot;Enter last name&quot; required />
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input id="lastName" placeholder="Enter last name" required />
                   </div>
                 </div>
 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;email&quot;>Email Address</Label>
-                  <div className=&quot;relative&quot;>
-                    <Mail className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address</Label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id=&quot;email&quot;
-                      type=&quot;email&quot;
-                      placeholder=&quot;Enter email address&quot;
-                      className=&quot;pl-10&quot;
+                      id="email"
+                      type="email"
+                      placeholder="Enter email address"
+                      className="pl-10"
                       required
                     />
                   </div>
                 </div>
 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;phone&quot;>Phone Number</Label>
-                  <div className=&quot;relative&quot;>
-                    <Phone className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id=&quot;phone&quot;
-                      placeholder=&quot;Enter phone number&quot;
-                      className=&quot;pl-10&quot;
+                      id="phone"
+                      placeholder="Enter phone number"
+                      className="pl-10"
                       required
                     />
                   </div>
@@ -112,79 +112,79 @@ export default function AddStaffMemberPage() {
               </div>
 
               {/* Role & Permissions */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium&quot;>Role & Permissions</h3>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Role & Permissions</h3>
                 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;role&quot;>Role</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="role">Role</Label>
                   <Select required>
                     <SelectTrigger>
-                      <SelectValue placeholder=&quot;Select role&quot; />
+                      <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=&quot;internal_field_manager&quot;>Field Manager</SelectItem>
-                      <SelectItem value=&quot;brand_agent&quot;>Brand Agent</SelectItem>
-                      <SelectItem value=&quot;internal_admin&quot;>Internal Admin</SelectItem>
+                      <SelectItem value="internal_field_manager">Field Manager</SelectItem>
+                      <SelectItem value="brand_agent">Brand Agent</SelectItem>
+                      <SelectItem value="internal_admin">Internal Admin</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;location&quot;>Primary Location</Label>
-                  <div className=&quot;relative&quot;>
-                    <MapPin className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+                <div className="space-y-2">
+                  <Label htmlFor="location">Primary Location</Label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id=&quot;location&quot;
-                      placeholder=&quot;Enter city, state&quot;
-                      className=&quot;pl-10&quot;
+                      id="location"
+                      placeholder="Enter city, state"
+                      className="pl-10"
                       required
                     />
                   </div>
                 </div>
 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;department&quot;>Department</Label>
-                  <div className=&quot;relative&quot;>
-                    <Briefcase className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+                <div className="space-y-2">
+                  <Label htmlFor="department">Department</Label>
+                  <div className="relative">
+                    <Briefcase className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id=&quot;department&quot;
-                      placeholder=&quot;e.g., Field Operations, Brand Management&quot;
-                      className=&quot;pl-10&quot;
+                      id="department"
+                      placeholder="e.g., Field Operations, Brand Management"
+                      className="pl-10"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Additional Information */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium&quot;>Additional Information</h3>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Additional Information</h3>
                 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;notes&quot;>Notes</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="notes">Notes</Label>
                   <Textarea
-                    id=&quot;notes&quot;
-                    placeholder=&quot;Additional notes about this staff member...&quot;
+                    id="notes"
+                    placeholder="Additional notes about this staff member..."
                     rows={3}
                   />
                 </div>
               </div>
 
               {/* Form Actions */}
-              <div className=&quot;flex gap-4 pt-6&quot;>
+              <div className="flex gap-4 pt-6">
                 <Button
-                  type=&quot;button&quot;
-                  variant=&quot;outline&quot;
-                  className=&quot;flex-1&quot;
+                  type="button"
+                  variant="outline"
+                  className="flex-1"
                   onClick={() => router.back()}
                 >
                   Cancel
                 </Button>
                 <Button
-                  type=&quot;submit&quot;
-                  className=&quot;flex-1&quot;
+                  type="submit"
+                  className="flex-1"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? &quot;Creating...&quot; : &quot;Create Staff Member&quot;}
+                  {isSubmitting ? "Creating..." : "Create Staff Member"}
                 </Button>
               </div>
             </form>

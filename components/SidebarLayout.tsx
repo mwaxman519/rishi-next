@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -105,7 +105,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   // Special case for documentation pages
   const isDocsPage = pathname?.startsWith("/docs");
 
-  const userRole = user?.role || "&quot;;
+  const userRole = user?.role || "";
 
   // Check if user is a super admin - defined early to use throughout the component
   const isSuperAdmin = user?.role === "super_admin";
@@ -113,10 +113,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   // For static generation during build, provide fallback behavior
   if (typeof window === "undefined" && !user) {
     console.log(
-      &quot;### SidebarLayout STATIC GENERATION ### Providing fallback layout&quot;,
+      "### SidebarLayout STATIC GENERATION ### Providing fallback layout",
     );
     return (
-      <div className=&quot;min-h-screen bg-gray-50 dark:bg-gray-900&quot;>{children}</div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>
     );
   }
 
@@ -131,11 +131,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   }
 
   console.log(
-    &quot;### SidebarLayout RENDERED ### isSuperAdmin =&quot;,
+    "### SidebarLayout RENDERED ### isSuperAdmin =",
     isSuperAdmin,
-    &quot;role =&quot;,
+    "role =",
     user?.role,
-    &quot;pathname =&quot;,
+    "pathname =",
     pathname,
   );
 
@@ -218,7 +218,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Team Availability
     {
       href: "/availability/team",
-      label: &quot;Team Calendar&quot;,
+      label: "Team Calendar",
       permission: null, // Temporarily removed permission for development
       icon: <Clock size={20} />,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -234,7 +234,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Client Management
     {
       href: "/client-management",
-      label: &quot;Client Management&quot;,
+      label: "Client Management",
       permission: null, // Temporarily removed permission for development
       icon: <Building size={20} />,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -249,14 +249,14 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     },
     {
       href: "/admin/rbac",
-      label: &quot;RBAC Dashboard&quot;,
+      label: "RBAC Dashboard",
       permission: "manage:roles" as Permission,
       icon: <Shield size={20} />,
       type: NAV_ITEM_TYPES.SECONDARY,
     },
     {
       href: "/admin/organization-permissions",
-      label: &quot;Org Permissions&quot;,
+      label: "Org Permissions",
       permission: "manage:permissions" as Permission,
       icon: <Lock size={20} />,
       type: NAV_ITEM_TYPES.SECONDARY,
@@ -270,7 +270,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     },
     {
       href: "/admin/test-data",
-      label: &quot;Test Data&quot;,
+      label: "Test Data",
       permission: "manage:roles" as Permission,
       icon: <Database size={20} />,
       type: NAV_ITEM_TYPES.SECONDARY,
@@ -289,7 +289,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   // Get consolidated navigation based on user role from our new unified structure
 
   // For user role-based navigation with proper information architecture
-  console.log(&quot;USER ROLE FOR NAV:&quot;, userRole);
+  console.log("USER ROLE FOR NAV:", userRole);
 
   // Get the appropriate navigation structure based on user role
   let roleBasedNavigation: any[] = [];
@@ -302,16 +302,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       roleBasedNavigation = getNavigationForRole(userRole);
     }
   } else {
-    console.log(&quot;No valid role found, no navigation will be loaded&quot;);
+    console.log("No valid role found, no navigation will be loaded");
     // NO FALLBACK NAVIGATION - User must have valid role
     roleBasedNavigation = [];
   }
 
   console.log(
-    &quot;ROLE-BASED NAVIGATION LOADED:&quot;,
+    "ROLE-BASED NAVIGATION LOADED:",
     Array.isArray(roleBasedNavigation)
       ? roleBasedNavigation.map((item) => item.label)
-      : &quot;No items&quot;,
+      : "No items",
   );
 
   // Ensure we have an array even if something went wrong
@@ -326,7 +326,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       item.path &&
       !item.path.includes("/admin") &&
       !item.label?.includes("Administration") &&
-      item.label !== &quot;Platform Administration&quot;,
+      item.label !== "Platform Administration",
   );
 
   // Get admin-specific navigation sections
@@ -335,7 +335,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       item &&
       ((item.path && item.path.includes("/admin")) ||
         (item.label && item.label.includes("Administration")) ||
-        item.label === &quot;Platform Administration&quot;) &&
+        item.label === "Platform Administration") &&
       item.label !== "Dashboard", // Don't include Dashboard in admin sections
   );
 
@@ -349,7 +349,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Personal Dashboard section
     {
       href: "/dashboard",
-      label: &quot;Personal Dashboard&quot;,
+      label: "Personal Dashboard",
       icon: <LayoutDashboard size={20} />,
       permission: "manage:agents" as Permission,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -357,7 +357,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // My Availability section
     {
       href: "/availability",
-      label: &quot;My Availability&quot;,
+      label: "My Availability",
       icon: <Clock size={20} />,
       permission: "manage:agents" as Permission,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -365,7 +365,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Profile Management section
     {
       href: "/profile",
-      label: &quot;Profile Management&quot;,
+      label: "Profile Management",
       icon: <User size={20} />,
       permission: "manage:agents" as Permission,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -389,7 +389,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Availability Management section
     {
       href: "/availability/team",
-      label: &quot;Team Calendar&quot;,
+      label: "Team Calendar",
       icon: <Clock size={20} />,
       permission: "manage:agents" as Permission,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -416,7 +416,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Booking Management
     {
       href: "/bookings",
-      label: &quot;Booking Management&quot;,
+      label: "Booking Management",
       icon: <ClipboardList size={20} />,
       permission: "manage:clients" as Permission,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -448,7 +448,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     // Time Tracking
     {
       href: "/timetracking",
-      label: &quot;Time Tracking&quot;,
+      label: "Time Tracking",
       icon: <Clock size={20} />,
       permission: "manage:clients" as Permission,
       type: NAV_ITEM_TYPES.PRIMARY,
@@ -478,7 +478,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get("unauthenticated") === "true") {
         console.log(
-          &quot;SidebarLayout: URL parameter indicates unauthenticated state&quot;,
+          "SidebarLayout: URL parameter indicates unauthenticated state",
         );
       }
     }
@@ -530,7 +530,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
   // For super admins, don't show regular links - only public links
   // For regular users, show public links plus regular links with permissions
-  // For super admins, don't add &quot;My Availability&quot; to the top-level
+  // For super admins, don't add "My Availability" to the top-level
   // Only show it in the Brand Agents section
 
   // Use our new unified navigation structure for primary links
@@ -584,8 +584,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   // Show loading spinner if authentication is still loading - AFTER all hooks are initialized
   if (loading) {
     return (
-      <div className=&quot;flex items-center justify-center h-screen&quot;>
-        <div className=&quot;animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full&quot;></div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full"></div>
       </div>
     );
   }
@@ -597,23 +597,23 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
   // Standard sidebar layout
   return (
-    <div className=&quot;flex h-screen overflow-hidden bg-[rgb(var(--background))]&quot;>
+    <div className="flex h-screen overflow-hidden bg-[rgb(var(--background))]">
       {/* Desktop Sidebar - hidden on mobile */}
       <aside
-        className={`hidden lg:flex sidebar h-screen flex-col transition-all duration-300 ${sidebarCollapsed ? &quot;w-20 sidebar-collapsed&quot; : &quot;w-64 sidebar-expanded&quot;}`}
+        className={`hidden lg:flex sidebar h-screen flex-col transition-all duration-300 ${sidebarCollapsed ? "w-20 sidebar-collapsed" : "w-64 sidebar-expanded"}`}
       >
         {/* Sidebar header */}
-        <div className=&quot;flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]&quot;>
+        <div className="flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]">
           {sidebarCollapsed ? (
-            <div className=&quot;w-full flex flex-col items-center&quot;>
-              <Link href="/" className=&quot;flex items-center justify-center mb-3&quot;>
-                <div className=&quot;w-8 h-8 relative flex-shrink-0&quot;>
+            <div className="w-full flex flex-col items-center">
+              <Link href="/" className="flex items-center justify-center mb-3">
+                <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
                     src="/favicon.ico"
-                    alt=&quot;Rishi Logo&quot;
+                    alt="Rishi Logo"
                     width={32}
                     height={32}
-                    className=&quot;object-contain w-auto h-auto&quot;
+                    className="object-contain w-auto h-auto"
                     style={{ objectFit: "contain" }}
                     priority
                     onError={(e) => {
@@ -627,22 +627,22 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               </Link>
               <button
                 onClick={toggleSidebar}
-                className=&quot;p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                aria-label=&quot;Expand sidebar&quot;
+                className="p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                aria-label="Expand sidebar"
               >
                 <ChevronRight size={20} />
               </button>
             </div>
           ) : (
             <>
-              <Link href="/" className=&quot;flex items-center overflow-hidden&quot;>
-                <div className=&quot;w-8 h-8 relative flex-shrink-0&quot;>
+              <Link href="/" className="flex items-center overflow-hidden">
+                <div className="w-8 h-8 relative flex-shrink-0">
                   <Image
                     src="/favicon.ico"
-                    alt=&quot;Rishi Logo&quot;
+                    alt="Rishi Logo"
                     width={32}
                     height={32}
-                    className=&quot;object-contain w-auto h-auto&quot;
+                    className="object-contain w-auto h-auto"
                     style={{ objectFit: "contain" }}
                     priority
                     onError={(e) => {
@@ -653,14 +653,14 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     }}
                   />
                 </div>
-                <span className=&quot;ml-2 text-xl font-bold text-[rgb(var(--primary))]&quot;>
+                <span className="ml-2 text-xl font-bold text-[rgb(var(--primary))]">
                   Rishi
                 </span>
               </Link>
               <button
                 onClick={toggleSidebar}
-                className=&quot;p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                aria-label=&quot;Collapse sidebar&quot;
+                className="p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                aria-label="Collapse sidebar"
               >
                 <ChevronLeft size={20} />
               </button>
@@ -670,18 +670,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
         {/* Organization Switcher */}
         {!sidebarCollapsed ? (
-          <div className=&quot;px-3 py-3 border-b border-[rgb(var(--sidebar-border))]&quot;>
-            <div className=&quot;mb-1 text-xs font-medium text-[rgb(var(--sidebar-muted-foreground))]&quot;>
+          <div className="px-3 py-3 border-b border-[rgb(var(--sidebar-border))]">
+            <div className="mb-1 text-xs font-medium text-[rgb(var(--sidebar-muted-foreground))]">
               Organization
             </div>
             <OrganizationSwitcher />
           </div>
         ) : (
-          <div className=&quot;flex justify-center py-3 border-b border-[rgb(var(--sidebar-border))]&quot;>
+          <div className="flex justify-center py-3 border-b border-[rgb(var(--sidebar-border))]">
             <button
               onClick={toggleSidebar}
-              className=&quot;p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-              title=&quot;Expand sidebar to switch organizations&quot;
+              className="p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+              title="Expand sidebar to switch organizations"
             >
               <Building
                 size={20}
@@ -692,7 +692,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         )}
 
         {/* Navigation links */}
-        <nav className=&quot;flex-grow px-2 py-4 overflow-y-auto&quot;>
+        <nav className="flex-grow px-2 py-4 overflow-y-auto">
           <ul className="space-y-1">
             {links.map((link) => {
               // Ensure we have a path by checking both href and path properties
@@ -706,12 +706,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 <li key={link.id || `nav-${linkPath}-${link.label}`}>
                   <Link
                     href={linkPath}
-                    className={`sidebar-item ${isActive ? "sidebar-item-active" : "sidebar-item-inactive"} ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                    title={sidebarCollapsed ? link.label : &quot;&quot;}
+                    className={`sidebar-item ${isActive ? "sidebar-item-active" : "sidebar-item-inactive"} ${sidebarCollapsed ? "justify-center" : ""}`}
+                    title={sidebarCollapsed ? link.label : ""}
                   >
                     <span className="flex-shrink-0">{link.icon}</span>
                     <span
-                      className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                      className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                     >
                       {link.label}
                     </span>
@@ -725,15 +725,15 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <li className="mt-4">
                 <button
                   onClick={toggleFieldManager}
-                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : &quot;&quot;} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
-                  title={sidebarCollapsed ? &quot;Field Manager View&quot; : &quot;&quot;}
+                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : ""} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
+                  title={sidebarCollapsed ? "Field Manager View" : ""}
                 >
                   <div
-                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : ""}`}
                   >
                     <Briefcase
                       size={20}
-                      className=&quot;flex-shrink-0 text-green-500&quot;
+                      className="flex-shrink-0 text-green-500"
                     />
                     <span
                       className={`ml-3 font-medium transition-opacity duration-300 ${sidebarCollapsed ? "hidden" : "opacity-100"}`}
@@ -750,9 +750,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${fieldManagerOpen ? &quot;max-h-[800px] opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${fieldManagerOpen ? "max-h-[800px] opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {(() => {
                       // Use the already imported getNavigationForRole function
                       const fieldManagerNav = getNavigationForRole(
@@ -770,10 +770,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
                           return (
                             <li key={sectionId} className="mt-2">
-                              <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                              <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                                 {item.label}
                               </div>
-                              <ul className=&quot;mt-1 space-y-1&quot;>
+                              <ul className="mt-1 space-y-1">
                                 {item.children.map((child, childIndex) => {
                                   // Ensure we have a path by checking both href and path properties
                                   const childPath =
@@ -792,18 +792,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                         href={childPath}
                                         className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                           isActive
-                                            ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                            : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                        } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                                            ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                            : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                        } ${sidebarCollapsed ? "justify-center" : ""}`}
                                         title={
-                                          sidebarCollapsed ? child.label : &quot;&quot;
+                                          sidebarCollapsed ? child.label : ""
                                         }
                                       >
                                         <span className="flex-shrink-0">
                                           {child.icon}
                                         </span>
                                         <span
-                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                         >
                                           {child.label}
                                         </span>
@@ -827,16 +827,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                 href={itemPath}
                                 className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                   isActive
-                                    ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                    : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                                title={sidebarCollapsed ? item.label : &quot;&quot;}
+                                    ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                    : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                } ${sidebarCollapsed ? "justify-center" : ""}`}
+                                title={sidebarCollapsed ? item.label : ""}
                               >
                                 <span className="flex-shrink-0">
                                   {item.icon}
                                 </span>
                                 <span
-                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                 >
                                   {item.label}
                                 </span>
@@ -856,13 +856,13 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <li className="mt-1">
                 <button
                   onClick={toggleBrandAgents}
-                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : &quot;&quot;} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
-                  title={sidebarCollapsed ? &quot;Brand Agent View&quot; : &quot;&quot;}
+                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : ""} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
+                  title={sidebarCollapsed ? "Brand Agent View" : ""}
                 >
                   <div
-                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : ""}`}
                   >
-                    <User size={20} className=&quot;flex-shrink-0 text-purple-500&quot; />
+                    <User size={20} className="flex-shrink-0 text-purple-500" />
                     <span
                       className={`ml-3 font-medium transition-opacity duration-300 ${sidebarCollapsed ? "hidden" : "opacity-100"}`}
                     >
@@ -878,9 +878,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${brandAgentsOpen ? &quot;max-h-[800px] opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${brandAgentsOpen ? "max-h-[800px] opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {(() => {
                       // Use the already imported getNavigationForRole function
                       const brandAgentNav = getNavigationForRole("brand_agent");
@@ -896,10 +896,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
                           return (
                             <li key={sectionId} className="mt-2">
-                              <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                              <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                                 {item.label}
                               </div>
-                              <ul className=&quot;mt-1 space-y-1&quot;>
+                              <ul className="mt-1 space-y-1">
                                 {item.children.map((child, childIndex) => {
                                   // Ensure we have a path by checking both href and path properties
                                   const childPath =
@@ -918,18 +918,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                         href={childPath}
                                         className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                           isActive
-                                            ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                            : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                        } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                                            ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                            : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                        } ${sidebarCollapsed ? "justify-center" : ""}`}
                                         title={
-                                          sidebarCollapsed ? child.label : &quot;&quot;
+                                          sidebarCollapsed ? child.label : ""
                                         }
                                       >
                                         <span className="flex-shrink-0">
                                           {child.icon}
                                         </span>
                                         <span
-                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                         >
                                           {child.label}
                                         </span>
@@ -953,16 +953,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                 href={itemPath}
                                 className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                   isActive
-                                    ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                    : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                                title={sidebarCollapsed ? item.label : &quot;&quot;}
+                                    ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                    : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                } ${sidebarCollapsed ? "justify-center" : ""}`}
+                                title={sidebarCollapsed ? item.label : ""}
                               >
                                 <span className="flex-shrink-0">
                                   {item.icon}
                                 </span>
                                 <span
-                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                 >
                                   {item.label}
                                 </span>
@@ -982,15 +982,15 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <li className="mt-1">
                 <button
                   onClick={toggleClientUsers}
-                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : &quot;&quot;} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
-                  title={sidebarCollapsed ? &quot;Client User View&quot; : &quot;&quot;}
+                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : ""} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
+                  title={sidebarCollapsed ? "Client User View" : ""}
                 >
                   <div
-                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : ""}`}
                   >
                     <Building
                       size={20}
-                      className=&quot;flex-shrink-0 text-orange-500&quot;
+                      className="flex-shrink-0 text-orange-500"
                     />
                     <span
                       className={`ml-3 font-medium transition-opacity duration-300 ${sidebarCollapsed ? "hidden" : "opacity-100"}`}
@@ -1007,9 +1007,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${clientUsersOpen ? &quot;max-h-[800px] opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${clientUsersOpen ? "max-h-[800px] opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {(() => {
                       // Use the already imported getNavigationForRole function
                       const clientUserNav = getNavigationForRole("client_user");
@@ -1025,10 +1025,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
                           return (
                             <li key={sectionId} className="mt-2">
-                              <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                              <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                                 {item.label}
                               </div>
-                              <ul className=&quot;mt-1 space-y-1&quot;>
+                              <ul className="mt-1 space-y-1">
                                 {item.children.map((child, childIndex) => {
                                   // Ensure we have a path by checking both href and path properties
                                   const childPath =
@@ -1047,18 +1047,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                         href={childPath}
                                         className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                           isActive
-                                            ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                            : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                        } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                                            ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                            : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                        } ${sidebarCollapsed ? "justify-center" : ""}`}
                                         title={
-                                          sidebarCollapsed ? child.label : &quot;&quot;
+                                          sidebarCollapsed ? child.label : ""
                                         }
                                       >
                                         <span className="flex-shrink-0">
                                           {child.icon}
                                         </span>
                                         <span
-                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                         >
                                           {child.label}
                                         </span>
@@ -1083,16 +1083,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                 href={itemPath}
                                 className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                   isActive
-                                    ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                    : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                                title={sidebarCollapsed ? item.label : &quot;&quot;}
+                                    ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                    : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                } ${sidebarCollapsed ? "justify-center" : ""}`}
+                                title={sidebarCollapsed ? item.label : ""}
                               >
                                 <span className="flex-shrink-0">
                                   {item.icon}
                                 </span>
                                 <span
-                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                 >
                                   {item.label}
                                 </span>
@@ -1112,13 +1112,13 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <li className="mt-1">
                 <button
                   onClick={toggleInternalAdmin}
-                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : &quot;&quot;} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
-                  title={sidebarCollapsed ? &quot;Internal Admin View&quot; : &quot;&quot;}
+                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : ""} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
+                  title={sidebarCollapsed ? "Internal Admin View" : ""}
                 >
                   <div
-                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : ""}`}
                   >
-                    <UserCog size={20} className=&quot;flex-shrink-0 text-red-500&quot; />
+                    <UserCog size={20} className="flex-shrink-0 text-red-500" />
                     <span
                       className={`ml-3 font-medium transition-opacity duration-300 ${sidebarCollapsed ? "hidden" : "opacity-100"}`}
                     >
@@ -1134,9 +1134,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${internalAdminOpen ? &quot;max-h-[800px] opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${internalAdminOpen ? "max-h-[800px] opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {(() => {
                       // Use the already imported getNavigationForRole function
                       const internalAdminNav =
@@ -1153,10 +1153,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
                           return (
                             <li key={sectionId} className="mt-2">
-                              <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                              <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                                 {item.label}
                               </div>
-                              <ul className=&quot;mt-1 space-y-1&quot;>
+                              <ul className="mt-1 space-y-1">
                                 {item.children.map((child, childIndex) => {
                                   // Ensure we have a path by checking both href and path properties
                                   const childPath =
@@ -1175,18 +1175,18 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                         href={childPath}
                                         className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                           isActive
-                                            ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                            : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                        } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                                            ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                            : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                        } ${sidebarCollapsed ? "justify-center" : ""}`}
                                         title={
-                                          sidebarCollapsed ? child.label : &quot;&quot;
+                                          sidebarCollapsed ? child.label : ""
                                         }
                                       >
                                         <span className="flex-shrink-0">
                                           {child.icon}
                                         </span>
                                         <span
-                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                          className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                         >
                                           {child.label}
                                         </span>
@@ -1210,16 +1210,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                 href={itemPath}
                                 className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                   isActive
-                                    ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                    : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                                title={sidebarCollapsed ? item.label : &quot;&quot;}
+                                    ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                    : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                } ${sidebarCollapsed ? "justify-center" : ""}`}
+                                title={sidebarCollapsed ? item.label : ""}
                               >
                                 <span className="flex-shrink-0">
                                   {item.icon}
                                 </span>
                                 <span
-                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                  className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                 >
                                   {item.label}
                                 </span>
@@ -1242,13 +1242,13 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 {/* Admin Header */}
                 <button
                   onClick={toggleAdminPortal}
-                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : &quot;&quot;} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
-                  title={sidebarCollapsed ? "Administration" : &quot;&quot;}
+                  className={`w-full flex items-center justify-between ${sidebarCollapsed ? "justify-center" : ""} px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]`}
+                  title={sidebarCollapsed ? "Administration" : ""}
                 >
                   <div
-                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
+                    className={`flex items-center ${sidebarCollapsed ? "justify-center" : ""}`}
                   >
-                    <Shield size={20} className=&quot;flex-shrink-0 text-blue-500&quot; />
+                    <Shield size={20} className="flex-shrink-0 text-blue-500" />
                     <span
                       className={`ml-3 font-medium transition-opacity duration-300 ${sidebarCollapsed ? "hidden" : "opacity-100"}`}
                     >
@@ -1265,16 +1265,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
                 {/* Admin Submenu - Combined All Admin Sections */}
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${adminPortalOpen ? &quot;max-h-[1000px] opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${adminPortalOpen ? "max-h-[1000px] opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {/* Platform Admin Items (For Super Admins) */}
                     {isSuperAdmin && platformAdminNavItems.length > 0 && (
                       <li>
-                        <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                        <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                           System
                         </div>
-                        <ul className=&quot;mt-1 mb-4 space-y-1&quot;>
+                        <ul className="mt-1 mb-4 space-y-1">
                           {platformAdminNavItems.map((link) => {
                             // Ensure we have a path by checking both href and path properties
                             const linkPath = link.href || link.path || "/";
@@ -1293,16 +1293,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                   href={linkPath}
                                   className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                     isActive
-                                      ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                      : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                  } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                                  title={sidebarCollapsed ? link.label : &quot;&quot;}
+                                      ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                      : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                  } ${sidebarCollapsed ? "justify-center" : ""}`}
+                                  title={sidebarCollapsed ? link.label : ""}
                                 >
                                   <span className="flex-shrink-0">
                                     {link.icon}
                                   </span>
                                   <span
-                                    className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                    className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                   >
                                     {link.label}
                                   </span>
@@ -1319,16 +1319,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                       <li
                         key={`admin-section-${sectionIndex}-${section.label || section.path}`}
                       >
-                        <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                        <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                           {section.label}
                         </div>
-                        <ul className=&quot;mt-1 mb-4 space-y-1&quot;>
+                        <ul className="mt-1 mb-4 space-y-1">
                           {section.children?.map(
                             (link: any, linkIndex: number) => {
                               const isActive =
                                 pathname === (link.path || link.href) ||
                                 pathname?.startsWith(
-                                  link.path || link.href || &quot;&quot;,
+                                  link.path || link.href || "",
                                 );
                               return (
                                 <li
@@ -1338,16 +1338,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                     href={link.path || link.href || "#"}
                                     className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                       isActive
-                                        ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                        : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-                                    } ${sidebarCollapsed ? "justify-center" : &quot;&quot;}`}
-                                    title={sidebarCollapsed ? link.label : &quot;&quot;}
+                                        ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                        : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+                                    } ${sidebarCollapsed ? "justify-center" : ""}`}
+                                    title={sidebarCollapsed ? link.label : ""}
                                   >
                                     <span className="flex-shrink-0">
                                       {link.icon}
                                     </span>
                                     <span
-                                      className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                      className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                     >
                                       {link.label}
                                     </span>
@@ -1363,10 +1363,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     {/* Legacy Admin Links (if any) */}
                     {isSuperAdmin && adminLinks.length > 0 && (
                       <li>
-                        <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                        <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                           Admin Tools
                         </div>
-                        <ul className=&quot;mt-1 mb-4 space-y-1&quot;>
+                        <ul className="mt-1 mb-4 space-y-1">
                           {adminLinks
                             .filter((link) => {
                               // For super admins, show all Admin links regardless of permission
@@ -1396,15 +1396,15 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                     href={linkPath}
                                     className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                       isActive
-                                        ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                        : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                                        ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                        : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                                     }`}
                                   >
                                     <span className="flex-shrink-0">
                                       {link.icon}
                                     </span>
                                     <span
-                                      className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 hidden&quot; : "opacity-100"}`}
+                                      className={`ml-3 transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 hidden" : "opacity-100"}`}
                                     >
                                       {link.label}
                                     </span>
@@ -1425,11 +1425,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         </nav>
 
         {/* Footer with theme toggle and user info */}
-        <div className=&quot;mt-auto border-t border-[rgb(var(--sidebar-border))] pt-4 pb-2 px-2&quot;>
+        <div className="mt-auto border-t border-[rgb(var(--sidebar-border))] pt-4 pb-2 px-2">
           {/* Theme toggle */}
-          <div className=&quot;flex justify-between items-center mb-4 px-2&quot;>
+          <div className="flex justify-between items-center mb-4 px-2">
             <span
-              className={`text-sm text-[rgb(var(--muted-foreground))] transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 w-0&quot; : "opacity-100"}`}
+              className={`text-sm text-[rgb(var(--muted-foreground))] transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 w-0" : "opacity-100"}`}
             >
               Dark Mode
             </span>
@@ -1440,20 +1440,20 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           {user ? (
             <div className="px-2">
               <Link href="/profile" className="block">
-                <div className=&quot;flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer&quot;>
-                  <div className=&quot;w-10 h-10 rounded-full bg-[rgb(var(--primary))] flex items-center justify-center text-white flex-shrink-0 border-2 border-[rgb(var(--primary-light))]&quot;>
+                <div className="flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-[rgb(var(--primary))] flex items-center justify-center text-white flex-shrink-0 border-2 border-[rgb(var(--primary-light))]">
                     <User size={18} />
                   </div>
                   <div
-                    className={`ml-3 overflow-hidden transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 w-0&quot; : "opacity-100"}`}
+                    className={`ml-3 overflow-hidden transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 w-0" : "opacity-100"}`}
                   >
-                    <p className=&quot;text-sm font-medium truncate&quot;>
+                    <p className="text-sm font-medium truncate">
                       {user.username}
                     </p>
-                    <div className=&quot;flex items-center&quot;>
-                      <span className=&quot;inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))]&quot;>
+                    <div className="flex items-center">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))]">
                         {(user.role || "client_user")
-                          .replace(/_/g, &quot; &quot;)
+                          .replace(/_/g, " ")
                           .replace(/\b\w/g, (l) => l.toUpperCase())}
                       </span>
                     </div>
@@ -1468,14 +1468,14 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                   size="sm"
                   disabled={loading}
                   onClick={logout}
-                  className=&quot;w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white&quot;
+                  className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
                 >
                   <LogOut
                     size={16}
-                    className={sidebarCollapsed ? &quot;&quot; : "mr-2"}
+                    className={sidebarCollapsed ? "" : "mr-2"}
                   />
                   {!sidebarCollapsed &&
-                    (loading ? &quot;Logging out...&quot; : "Logout")}
+                    (loading ? "Logging out..." : "Logout")}
                 </Button>
               </div>
             </div>
@@ -1483,15 +1483,15 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
             <div className="px-2">
               {/* User profile section - shown when user authentication is available */}
               <SafeLink href="/auth/login" className="block">
-                <div className=&quot;flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer&quot;>
-                  <div className=&quot;w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 flex-shrink-0&quot;>
+                <div className="flex items-center mb-3 p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 flex-shrink-0">
                     <User size={18} />
                   </div>
                   <div
-                    className={`ml-3 overflow-hidden transition-opacity duration-300 ${sidebarCollapsed ? &quot;opacity-0 w-0&quot; : "opacity-100"}`}
+                    className={`ml-3 overflow-hidden transition-opacity duration-300 ${sidebarCollapsed ? "opacity-0 w-0" : "opacity-100"}`}
                   >
-                    <p className=&quot;text-sm font-medium truncate&quot;>Guest User</p>
-                    <p className=&quot;text-xs text-[rgb(var(--muted-foreground))] truncate&quot;>
+                    <p className="text-sm font-medium truncate">Guest User</p>
+                    <p className="text-xs text-[rgb(var(--muted-foreground))] truncate">
                       Login to access your account
                     </p>
                   </div>
@@ -1504,11 +1504,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                   <Button
                     variant="default"
                     size="sm"
-                    className=&quot;w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white&quot;
+                    className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
                   >
                     <User
                       size={16}
-                      className={sidebarCollapsed ? &quot;&quot; : "mr-2"}
+                      className={sidebarCollapsed ? "" : "mr-2"}
                     />
                     {!sidebarCollapsed && "Login"}
                   </Button>
@@ -1524,7 +1524,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       {/* Mobile Menu Overlay - Only shown when mobile menu is open */}
       {mobileMenuOpen && (
         <div
-          className=&quot;fixed inset-0 bg-black/50 z-40 lg:hidden&quot;
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setMobileMenuOpen(false)}
         ></div>
       )}
@@ -1537,15 +1537,15 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       `}
       >
         {/* Mobile menu header */}
-        <div className=&quot;flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]&quot;>
-          <Link href="/" className=&quot;flex items-center overflow-hidden&quot;>
-            <div className=&quot;w-8 h-8 relative flex-shrink-0&quot;>
+        <div className="flex items-center justify-between p-4 border-b border-[rgb(var(--sidebar-border))]">
+          <Link href="/" className="flex items-center overflow-hidden">
+            <div className="w-8 h-8 relative flex-shrink-0">
               <Image
                 src="/favicon.ico"
-                alt=&quot;Rishi Logo&quot;
+                alt="Rishi Logo"
                 width={32}
                 height={32}
-                className=&quot;object-contain w-auto h-auto&quot;
+                className="object-contain w-auto h-auto"
                 style={{ objectFit: "contain" }}
                 priority
                 onError={(e) => {
@@ -1556,29 +1556,29 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 }}
               />
             </div>
-            <span className=&quot;ml-2 text-xl font-bold text-[rgb(var(--primary))]&quot;>
+            <span className="ml-2 text-xl font-bold text-[rgb(var(--primary))]">
               Rishi
             </span>
           </Link>
           <button
             onClick={() => setMobileMenuOpen(false)}
-            className=&quot;p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
-            aria-label=&quot;Close menu&quot;
+            className="p-1 rounded-md text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
+            aria-label="Close menu"
           >
             <X size={20} />
           </button>
         </div>
 
         {/* Organization Switcher - Mobile */}
-        <div className=&quot;px-3 py-3 border-b border-[rgb(var(--sidebar-border))]&quot;>
-          <div className=&quot;mb-1 text-xs font-medium text-[rgb(var(--sidebar-muted-foreground))]&quot;>
+        <div className="px-3 py-3 border-b border-[rgb(var(--sidebar-border))]">
+          <div className="mb-1 text-xs font-medium text-[rgb(var(--sidebar-muted-foreground))]">
             Organization
           </div>
           <OrganizationSwitcher />
         </div>
 
         {/* Mobile Navigation links */}
-        <nav className=&quot;px-2 py-4 overflow-y-auto max-h-[calc(100vh-200px)]&quot;>
+        <nav className="px-2 py-4 overflow-y-auto max-h-[calc(100vh-200px)]">
           <ul className="space-y-1">
             {links.map((link) => {
               // Ensure we have a path by checking both href and path properties
@@ -1594,8 +1594,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     href={linkPath}
                     className={`flex items-center px-4 py-3 rounded-md transition-colors ${
                       isActive
-                        ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                        : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                        ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                        : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -1614,11 +1614,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 {/* Admin Header */}
                 <button
                   onClick={toggleAdminPortal}
-                  className=&quot;w-full flex items-center justify-between px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                 >
-                  <div className=&quot;flex items-center&quot;>
-                    <Shield size={20} className=&quot;flex-shrink-0 text-blue-500&quot; />
-                    <span className=&quot;ml-3 font-medium&quot;>Administration</span>
+                  <div className="flex items-center">
+                    <Shield size={20} className="flex-shrink-0 text-blue-500" />
+                    <span className="ml-3 font-medium">Administration</span>
                   </div>
                   <ChevronDown
                     size={18}
@@ -1628,16 +1628,16 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
                 {/* Admin Submenu - Combined All Admin Sections */}
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${adminPortalOpen ? &quot;max-h-[1500px] opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${adminPortalOpen ? "max-h-[1500px] opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
                   <ul className="pl-4">
                     {/* Platform Admin Items (For Super Admins) */}
                     {isSuperAdmin && platformAdminNavItems.length > 0 && (
                       <li className="mb-3">
-                        <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                        <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                           System
                         </div>
-                        <ul className=&quot;space-y-1 mb-2&quot;>
+                        <ul className="space-y-1 mb-2">
                           {platformAdminNavItems.map((link) => {
                             // Ensure we have a path by checking both href and path properties
                             const linkPath = link.href || link.path || "/";
@@ -1656,8 +1656,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                   href={linkPath}
                                   className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                     isActive
-                                      ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                      : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                                      ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                      : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                                   }`}
                                   onClick={() => setMobileMenuOpen(false)}
                                 >
@@ -1678,10 +1678,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     {/* Legacy Admin Links (if any) */}
                     {isSuperAdmin && adminLinks.length > 0 && (
                       <li className="mb-3">
-                        <div className=&quot;px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider&quot;>
+                        <div className="px-4 py-2 text-xs font-semibold text-[rgb(var(--sidebar-muted-foreground))] uppercase tracking-wider">
                           Admin Tools
                         </div>
-                        <ul className=&quot;space-y-1 mb-2&quot;>
+                        <ul className="space-y-1 mb-2">
                           {adminLinks
                             .filter((link) => {
                               // For super admins, show all Admin links regardless of permission
@@ -1705,8 +1705,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                                     href={link.href}
                                     className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                       isActive
-                                        ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                        : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                                        ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                        : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                                     }`}
                                     onClick={() => setMobileMenuOpen(false)}
                                   >
@@ -1731,11 +1731,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <li className="mt-4">
                 <button
                   onClick={toggleBrandAgents}
-                  className=&quot;w-full flex items-center justify-between px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                 >
-                  <div className=&quot;flex items-center&quot;>
-                    <Users size={20} className=&quot;flex-shrink-0 text-green-500&quot; />
-                    <span className=&quot;ml-3 font-medium&quot;>Brand Agents</span>
+                  <div className="flex items-center">
+                    <Users size={20} className="flex-shrink-0 text-green-500" />
+                    <span className="ml-3 font-medium">Brand Agents</span>
                   </div>
                   <ChevronDown
                     size={18}
@@ -1744,9 +1744,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${brandAgentsOpen ? &quot;max-h-96 opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${brandAgentsOpen ? "max-h-96 opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {brandAgentLinks
                       .filter((link) => {
                         // For super admins, show all Brand Agent links regardless of permission
@@ -1768,8 +1768,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                               href={linkPath}
                               className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                 isActive
-                                  ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                  : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                                  ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                  : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                               }`}
                               onClick={() => setMobileMenuOpen(false)}
                             >
@@ -1789,14 +1789,14 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <li className="mt-4">
                 <button
                   onClick={toggleClientUsers}
-                  className=&quot;w-full flex items-center justify-between px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                  className="w-full flex items-center justify-between px-4 py-3 rounded-md transition-colors text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                 >
-                  <div className=&quot;flex items-center&quot;>
+                  <div className="flex items-center">
                     <Building
                       size={20}
-                      className=&quot;flex-shrink-0 text-amber-500&quot;
+                      className="flex-shrink-0 text-amber-500"
                     />
-                    <span className=&quot;ml-3 font-medium&quot;>Client Users</span>
+                    <span className="ml-3 font-medium">Client Users</span>
                   </div>
                   <ChevronDown
                     size={18}
@@ -1805,9 +1805,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-200 ${clientUsersOpen ? &quot;max-h-96 opacity-100 pt-2&quot; : &quot;max-h-0 opacity-0&quot;}`}
+                  className={`overflow-hidden transition-all duration-200 ${clientUsersOpen ? "max-h-96 opacity-100 pt-2" : "max-h-0 opacity-0"}`}
                 >
-                  <ul className=&quot;pl-4 space-y-1&quot;>
+                  <ul className="pl-4 space-y-1">
                     {clientUserLinks
                       .filter((link) => {
                         // For super admins, show all Client User links regardless of permission
@@ -1829,8 +1829,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                               href={linkPath}
                               className={`flex items-center px-4 py-2 rounded-md transition-colors ${
                                 isActive
-                                  ? &quot;bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium&quot;
-                                  : &quot;text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]&quot;
+                                  ? "bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))] font-medium"
+                                  : "text-[rgb(var(--sidebar-foreground))] hover:bg-[rgba(var(--sidebar-accent),0.5)]"
                               }`}
                               onClick={() => setMobileMenuOpen(false)}
                             >
@@ -1848,10 +1848,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         </nav>
 
         {/* Mobile menu footer */}
-        <div className=&quot;absolute bottom-0 left-0 right-0 border-t border-[rgb(var(--sidebar-border))] pt-4 pb-6 px-4&quot;>
+        <div className="absolute bottom-0 left-0 right-0 border-t border-[rgb(var(--sidebar-border))] pt-4 pb-6 px-4">
           {/* Theme toggle */}
-          <div className=&quot;flex justify-between items-center mb-4&quot;>
-            <span className=&quot;text-sm text-[rgb(var(--muted-foreground))]&quot;>
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-sm text-[rgb(var(--muted-foreground))]">
               Dark Mode
             </span>
             <ThemeToggle />
@@ -1861,19 +1861,19 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           {user ? (
             <>
               {/* User profile card */}
-              <Link href="/profile" className=&quot;block mb-3&quot;>
-                <div className=&quot;flex items-center p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors&quot;>
-                  <div className=&quot;w-10 h-10 rounded-full bg-[rgb(var(--primary))] flex items-center justify-center text-white flex-shrink-0 border-2 border-[rgb(var(--primary-light))]&quot;>
+              <Link href="/profile" className="block mb-3">
+                <div className="flex items-center p-2 rounded-md hover:bg-[rgba(var(--sidebar-accent),0.5)] transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-[rgb(var(--primary))] flex items-center justify-center text-white flex-shrink-0 border-2 border-[rgb(var(--primary-light))]">
                     <User size={18} />
                   </div>
                   <div className="ml-3">
-                    <p className=&quot;text-sm font-medium truncate&quot;>
+                    <p className="text-sm font-medium truncate">
                       {user.username}
                     </p>
-                    <div className=&quot;flex items-center&quot;>
-                      <span className=&quot;inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))]&quot;>
+                    <div className="flex items-center">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[rgba(var(--primary),0.15)] text-[rgb(var(--primary))]">
                         {(user.role || "client_user")
-                          .replace(/_/g, &quot; &quot;)
+                          .replace(/_/g, " ")
                           .replace(/\b\w/g, (l) => l.toUpperCase())}
                       </span>
                     </div>
@@ -1891,10 +1891,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     await logout();
                   }
                 }}
-                className=&quot;w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white&quot;
+                className="w-full flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white"
               >
                 <LogOut size={16} className="mr-2" />
-                {loggingOut ? &quot;Logging out...&quot; : "Logout"}
+                {loggingOut ? "Logging out..." : "Logout"}
               </Button>
             </>
           ) : (
@@ -1902,7 +1902,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
               <Button
                 variant="default"
                 size="sm"
-                className=&quot;w-full bg-purple-600 hover:bg-purple-700 text-white&quot;
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
               >
                 Login
               </Button>
@@ -1912,8 +1912,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       </div>
 
       {/* Bottom mobile navigation bar - Only shown on mobile */}
-      <div className=&quot;fixed bottom-0 left-0 right-0 z-30 bg-[rgb(var(--sidebar-background))]/95 backdrop-blur-sm border-t border-[rgb(var(--sidebar-border))] lg:hidden&quot;>
-        <div className=&quot;flex items-center justify-around py-2&quot;>
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-[rgb(var(--sidebar-background))]/95 backdrop-blur-sm border-t border-[rgb(var(--sidebar-border))] lg:hidden">
+        <div className="flex items-center justify-around py-2">
           {/* For super admins, show first 2 links (Dashboard, Docs) plus Admin button */}
           {/* For others, show first 5 links */}
           {links
@@ -1935,7 +1935,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                   }`}
                 >
                   {link.icon}
-                  <span className=&quot;text-xs mt-1&quot;>{link.label}</span>
+                  <span className="text-xs mt-1">{link.label}</span>
                 </SafeLink>
               );
             })}
@@ -1946,10 +1946,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                 setMobileMenuOpen(true);
                 setSuperAdminOpen(true);
               }}
-              className=&quot;flex flex-col items-center p-2 text-purple-500&quot;
+              className="flex flex-col items-center p-2 text-purple-500"
             >
               <Shield size={20} />
-              <span className=&quot;text-xs mt-1&quot;>Admin</span>
+              <span className="text-xs mt-1">Admin</span>
             </button>
           )}
         </div>
@@ -1960,12 +1960,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         className={`flex-1 flex flex-col overflow-hidden pb-16 lg:pb-0 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"} transition-all duration-300`}
       >
         {/* Top navigation bar with mobile menu button and organization selector */}
-        <div className=&quot;sticky top-0 z-20 w-full&quot;>
+        <div className="sticky top-0 z-20 w-full">
           <TopBar openMobileMenu={() => setMobileMenuOpen(true)} />
         </div>
 
         {/* Main content area */}
-        <main className=&quot;flex-1 overflow-auto p-4">{children}</main>
+        <main className="flex-1 overflow-auto p-4">{children}</main>
       </div>
     </div>
   );

@@ -1,14 +1,14 @@
-import { AuthOptions } from &quot;next-auth&quot;;
-import CredentialsProvider from &quot;next-auth/providers/credentials&quot;;
+import { AuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 // Authentication options
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: &quot;Credentials&quot;,
+      name: "Credentials",
       credentials: {
-        email: { label: &quot;Email&quot;, type: &quot;email&quot; },
-        password: { label: &quot;Password&quot;, type: &quot;password&quot; },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -41,7 +41,7 @@ export const authOptions: AuthOptions = {
           
           return null;
         } catch (error) {
-          console.error(&quot;Authentication error:&quot;, error);
+          console.error("Authentication error:", error);
           return null;
         }
       },
@@ -68,17 +68,17 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn: &quot;/auth&quot;,
-    error: &quot;/auth&quot;,
+    signIn: "/auth",
+    error: "/auth",
   },
   session: {
-    strategy: &quot;jwt&quot;,
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: (() => {
     const secret = process.env.NEXTAUTH_SECRET;
     if (!secret) {
-      throw new Error(&quot;NEXTAUTH_SECRET environment variable is required&quot;);
+      throw new Error("NEXTAUTH_SECRET environment variable is required");
     }
     return secret;
   })(),

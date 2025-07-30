@@ -1,12 +1,12 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
 import {
   activities,
   activityTypes,
@@ -14,9 +14,9 @@ import {
   activityAssignments,
   users,
   bookings,
-} from &quot;@shared/schema&quot;;
-import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
+} from "@shared/schema";
+import { getCurrentUser } from "@/lib/auth-server";
+import { eq } from "drizzle-orm";
 
 // GET /api/activities/[id]
 export async function GET(
@@ -26,7 +26,7 @@ export async function GET(
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -45,7 +45,7 @@ export async function GET(
 
     if (!activityData) {
       return NextResponse.json(
-        { error: &quot;Activity not found&quot; },
+        { error: "Activity not found" },
         { status: 404 },
       );
     }
@@ -109,9 +109,9 @@ export async function GET(
       status: 200,
     });
   } catch (error) {
-    console.error(&quot;Error fetching activity:&quot;, error);
+    console.error("Error fetching activity:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch activity&quot; },
+      { error: "Failed to fetch activity" },
       { status: 500 },
     );
   }
@@ -125,7 +125,7 @@ export async function PUT(
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -143,18 +143,18 @@ export async function PUT(
 
     if (!existingActivity) {
       return NextResponse.json(
-        { error: &quot;Activity not found&quot; },
+        { error: "Activity not found" },
         { status: 404 },
       );
     }
 
     // Check organization authorization through parent booking
     const userRole = (user as any).role;
-    const isAdmin = [&quot;super_admin&quot;, &quot;internal_admin&quot;, &quot;internal_field_manager&quot;].includes(userRole);
+    const isAdmin = ["super_admin", "internal_admin", "internal_field_manager"].includes(userRole);
     
     if (!isAdmin && existingActivity.booking?.clientOrganizationId !== (user as any).organizationId) {
       return NextResponse.json(
-        { error: &quot;Not authorized to update this activity&quot; },
+        { error: "Not authorized to update this activity" },
         { status: 403 },
       );
     }
@@ -184,7 +184,7 @@ export async function PUT(
     // Check if activity data was found after update
     if (!activityData) {
       return NextResponse.json(
-        { error: &quot;Activity not found after update&quot; },
+        { error: "Activity not found after update" },
         { status: 404 },
       );
     }
@@ -219,12 +219,12 @@ export async function PUT(
     return NextResponse.json({
       data: formattedActivity,
       status: 200,
-      message: &quot;Activity updated successfully&quot;,
+      message: "Activity updated successfully",
     });
   } catch (error) {
-    console.error(&quot;Error updating activity:&quot;, error);
+    console.error("Error updating activity:", error);
     return NextResponse.json(
-      { error: &quot;Failed to update activity&quot; },
+      { error: "Failed to update activity" },
       { status: 500 },
     );
   }
@@ -238,7 +238,7 @@ export async function DELETE(
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -255,18 +255,18 @@ export async function DELETE(
 
     if (!existingActivity) {
       return NextResponse.json(
-        { error: &quot;Activity not found&quot; },
+        { error: "Activity not found" },
         { status: 404 },
       );
     }
 
     // Check organization authorization through parent booking
     const userRole = (user as any).role;
-    const isAdmin = [&quot;super_admin&quot;, &quot;internal_admin&quot;, &quot;internal_field_manager&quot;].includes(userRole);
+    const isAdmin = ["super_admin", "internal_admin", "internal_field_manager"].includes(userRole);
     
     if (!isAdmin && existingActivity.booking?.clientOrganizationId !== (user as any).organizationId) {
       return NextResponse.json(
-        { error: &quot;Not authorized to delete this activity&quot; },
+        { error: "Not authorized to delete this activity" },
         { status: 403 },
       );
     }
@@ -276,12 +276,12 @@ export async function DELETE(
 
     return NextResponse.json({
       status: 200,
-      message: &quot;Activity deleted successfully&quot;,
+      message: "Activity deleted successfully",
     });
   } catch (error) {
-    console.error(&quot;Error deleting activity:&quot;, error);
+    console.error("Error deleting activity:", error);
     return NextResponse.json(
-      { error: &quot;Failed to delete activity&quot; },
+      { error: "Failed to delete activity" },
       { status: 500 },
     );
   }

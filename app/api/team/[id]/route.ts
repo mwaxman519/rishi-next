@@ -1,14 +1,14 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;../../../../lib/db-connection&quot;;
-import { users, userOrganizations } from &quot;@shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "../../../../lib/db-connection";
+import { users, userOrganizations } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
+import { getServerSession } from "next-auth";
 // Mock auth for development
 const authOptions = {};
 
@@ -20,7 +20,7 @@ export async function GET(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -43,7 +43,7 @@ export async function GET(
 
     if (!teamMember) {
       return NextResponse.json(
-        { error: &quot;Team member not found&quot; },
+        { error: "Team member not found" },
         { status: 404 },
       );
     }
@@ -53,9 +53,9 @@ export async function GET(
       data: teamMember,
     });
   } catch (error) {
-    console.error(&quot;Error fetching team member:&quot;, error);
+    console.error("Error fetching team member:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
@@ -69,7 +69,7 @@ export async function PUT(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
@@ -104,11 +104,11 @@ export async function PUT(
     }
 
     // Publish event for microservices
-    await fetch(&quot;/api/events/publish&quot;, {
-      method: &quot;POST&quot;,
-      headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    await fetch("/api/events/publish", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        eventType: &quot;team.member.updated&quot;,
+        eventType: "team.member.updated",
         payload: {
           memberId: params.id,
           updatedData: body,
@@ -124,9 +124,9 @@ export async function PUT(
       data: updatedUser,
     });
   } catch (error) {
-    console.error(&quot;Error updating team member:&quot;, error);
+    console.error("Error updating team member:", error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }

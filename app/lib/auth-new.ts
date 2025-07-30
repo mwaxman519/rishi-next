@@ -3,17 +3,17 @@
  * This provides real database authentication for production use
  */
 
-import { db } from &quot;./db&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
-import * as schema from &quot;@shared/schema&quot;;
-import { cookies } from &quot;next/headers&quot;;
-import { verify } from &quot;jsonwebtoken&quot;;
+import { db } from "./db";
+import { eq } from "drizzle-orm";
+import * as schema from "@shared/schema";
+import { cookies } from "next/headers";
+import { verify } from "jsonwebtoken";
 
 // Get current user from JWT token in cookies
 export async function getCurrentUser() {
   try {
     const cookieStore = cookies();
-    const token = cookieStore.get(&quot;auth-token&quot;)?.value;
+    const token = cookieStore.get("auth-token")?.value;
     
     if (!token) {
       return null;
@@ -21,7 +21,7 @@ export async function getCurrentUser() {
 
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
+      throw new Error("JWT_SECRET environment variable is required");
     }
     const decoded = verify(token, jwtSecret) as any;
     
@@ -33,7 +33,7 @@ export async function getCurrentUser() {
 
     return user || null;
   } catch (error) {
-    console.error(&quot;Error getting current user:&quot;, error);
+    console.error("Error getting current user:", error);
     return null;
   }
 }
@@ -104,13 +104,13 @@ export async function getJwtPayload(token?: string) {
   try {
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
+      throw new Error("JWT_SECRET environment variable is required");
     }
     
     const decoded = verify(token, jwtSecret) as any;
     return decoded;
   } catch (error) {
-    console.error(&quot;Error verifying JWT token:&quot;, error);
+    console.error("Error verifying JWT token:", error);
     return null;
   }
 }

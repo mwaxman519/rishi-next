@@ -1,7 +1,7 @@
 /**
  * Client-side adapter for the Organization service API
  */
-import { apiRequest, queryClient } from &quot;@/lib/queryClient&quot;;
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import {
   Organization,
   OrganizationUser,
@@ -10,13 +10,13 @@ import {
   UpdateOrganizationParams,
   OrganizationUserParams,
   OrganizationFilters,
-} from &quot;@/services/organizations/models&quot;;
+} from "@/services/organizations/models";
 
 /**
  * Get all organizations
  */
 export async function getAllOrganizations(): Promise<Organization[]> {
-  const response = await apiRequest(&quot;GET&quot;, &quot;/api/organizations&quot;);
+  const response = await apiRequest("GET", "/api/organizations");
   return response.json();
 }
 
@@ -24,7 +24,7 @@ export async function getAllOrganizations(): Promise<Organization[]> {
  * Get organization by ID
  */
 export async function getOrganizationById(id: string): Promise<Organization> {
-  const response = await apiRequest(&quot;GET&quot;, `/api/organizations/${id}`);
+  const response = await apiRequest("GET", `/api/organizations/${id}`);
   return response.json();
 }
 
@@ -34,10 +34,10 @@ export async function getOrganizationById(id: string): Promise<Organization> {
 export async function createOrganization(
   data: CreateOrganizationParams,
 ): Promise<Organization> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/organizations&quot;, data);
+  const response = await apiRequest("POST", "/api/organizations", data);
 
   // Invalidate organizations cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
 
   return response.json();
 }
@@ -49,11 +49,11 @@ export async function updateOrganization(
   id: string,
   data: UpdateOrganizationParams,
 ): Promise<Organization> {
-  const response = await apiRequest(&quot;PATCH&quot;, `/api/organizations/${id}`, data);
+  const response = await apiRequest("PATCH", `/api/organizations/${id}`, data);
 
   // Invalidate specific organization cache and the list
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations&quot;, id] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations", id] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
 
   return response.json();
 }
@@ -62,10 +62,10 @@ export async function updateOrganization(
  * Delete an organization
  */
 export async function deleteOrganization(id: string): Promise<void> {
-  await apiRequest(&quot;DELETE&quot;, `/api/organizations/${id}`);
+  await apiRequest("DELETE", `/api/organizations/${id}`);
 
   // Invalidate organizations cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations"] });
 }
 
 /**
@@ -77,16 +77,16 @@ export async function searchOrganizations(
   // Convert filters to query params
   const params = new URLSearchParams();
 
-  if (filters.name) params.append(&quot;name&quot;, filters.name);
-  if (filters.type) params.append(&quot;type&quot;, filters.type);
-  if (filters.tier) params.append(&quot;tier&quot;, filters.tier);
+  if (filters.name) params.append("name", filters.name);
+  if (filters.type) params.append("type", filters.type);
+  if (filters.tier) params.append("tier", filters.tier);
   if (filters.isActive !== undefined)
-    params.append(&quot;isActive&quot;, String(filters.isActive));
+    params.append("isActive", String(filters.isActive));
   if (filters.parentOrganizationId)
-    params.append(&quot;parentOrganizationId&quot;, filters.parentOrganizationId);
+    params.append("parentOrganizationId", filters.parentOrganizationId);
 
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/organizations/search?${params.toString()}`,
   );
   return response.json();
@@ -98,13 +98,13 @@ export async function searchOrganizations(
 export async function addUserToOrganization(
   params: OrganizationUserParams,
 ): Promise<OrganizationUser> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/organizations/users&quot;, params);
+  const response = await apiRequest("POST", "/api/organizations/users", params);
 
   // Invalidate organization users cache
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/organizations&quot;, params.organizationId, &quot;users&quot;],
+    queryKey: ["/api/organizations", params.organizationId, "users"],
   });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations/user&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations/user"] });
 
   return response.json();
 }
@@ -118,16 +118,16 @@ export async function updateUserRole(
   roleId: string,
 ): Promise<OrganizationUser> {
   const response = await apiRequest(
-    &quot;PATCH&quot;,
+    "PATCH",
     `/api/organizations/${organizationId}/users/${userId}`,
     { roleId },
   );
 
   // Invalidate organization users cache
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/organizations&quot;, organizationId, &quot;users&quot;],
+    queryKey: ["/api/organizations", organizationId, "users"],
   });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations/user&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations/user"] });
 
   return response.json();
 }
@@ -140,22 +140,22 @@ export async function removeUserFromOrganization(
   userId: string,
 ): Promise<void> {
   await apiRequest(
-    &quot;DELETE&quot;,
+    "DELETE",
     `/api/organizations/${organizationId}/users/${userId}`,
   );
 
   // Invalidate organization users cache
   queryClient.invalidateQueries({
-    queryKey: [&quot;/api/organizations&quot;, organizationId, &quot;users&quot;],
+    queryKey: ["/api/organizations", organizationId, "users"],
   });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/organizations/user&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/organizations/user"] });
 }
 
 /**
  * Get all organizations for current user
  */
 export async function getUserOrganizations(): Promise<UserOrganization[]> {
-  const response = await apiRequest(&quot;GET&quot;, &quot;/api/organizations/user&quot;);
+  const response = await apiRequest("GET", "/api/organizations/user");
   return response.json();
 }
 
@@ -166,7 +166,7 @@ export async function getOrganizationUsers(
   organizationId: string,
 ): Promise<OrganizationUser[]> {
   const response = await apiRequest(
-    &quot;GET&quot;,
+    "GET",
     `/api/organizations/${organizationId}/users`,
   );
   return response.json();
@@ -178,13 +178,13 @@ export async function getOrganizationUsers(
 export async function switchOrganization(
   organizationId: string,
 ): Promise<UserOrganization> {
-  const response = await apiRequest(&quot;POST&quot;, &quot;/api/auth/switch-organization&quot;, {
+  const response = await apiRequest("POST", "/api/auth/switch-organization", {
     organizationId,
   });
 
   // Invalidate user and permissions cache
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/user&quot;] });
-  queryClient.invalidateQueries({ queryKey: [&quot;/api/auth/permissions&quot;] });
+  queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+  queryClient.invalidateQueries({ queryKey: ["/api/auth/permissions"] });
 
   return response.json();
 }

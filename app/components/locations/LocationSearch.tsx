@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useRef, useMemo } from &quot;react&quot;;
-import { Search, MapPin, Loader2, X } from &quot;lucide-react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Card, CardContent } from &quot;@/components/ui/card&quot;;
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Search, MapPin, Loader2, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Command,
   CommandEmpty,
@@ -12,14 +12,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from &quot;@/components/ui/command&quot;;
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from &quot;@/components/ui/popover&quot;;
-import { useGoogleMaps } from &quot;@/hooks/useGoogleMaps&quot;;
-import { cn } from &quot;@/lib/utils&quot;;
+} from "@/components/ui/popover";
+import { useGoogleMaps } from "@/hooks/useGoogleMaps";
+import { cn } from "@/lib/utils";
 
 export interface PlaceResult {
   placeId: string;
@@ -48,10 +48,10 @@ interface LocationSearchProps {
 
 export function LocationSearch({
   onPlaceSelect,
-  placeholder = &quot;Search for a location...&quot;,
+  placeholder = "Search for a location...",
   className,
   autoFocus = false,
-  initialValue = "&quot;,
+  initialValue = "",
   usePopover = true,
 }: LocationSearchProps) {
   const [searchQuery, setSearchQuery] = useState(initialValue);
@@ -81,8 +81,8 @@ export function LocationSearch({
         new window.google.maps.places.AutocompleteService();
 
       // Create an invisible div to attach the PlacesService
-      const placesDiv = document.createElement(&quot;div&quot;);
-      placesDiv.style.display = &quot;none&quot;;
+      const placesDiv = document.createElement("div");
+      placesDiv.style.display = "none";
       document.body.appendChild(placesDiv);
       placesService.current = new window.google.maps.places.PlacesService(
         placesDiv,
@@ -112,8 +112,8 @@ export function LocationSearch({
         const request: google.maps.places.AutocompletionRequest = {
           input: searchQuery,
           sessionToken: sessionToken.current,
-          types: [&quot;establishment&quot;, &quot;geocode&quot;],
-          componentRestrictions: { country: &quot;us&quot; }, // Restrict to US
+          types: ["establishment", "geocode"],
+          componentRestrictions: { country: "us" }, // Restrict to US
         };
 
         autocompleteService.current.getPlacePredictions(
@@ -134,7 +134,7 @@ export function LocationSearch({
           },
         );
       } catch (error) {
-        console.error(&quot;Error fetching place predictions:&quot;, error);
+        console.error("Error fetching place predictions:", error);
         setPredictions([]);
         setLoading(false);
       }
@@ -161,12 +161,12 @@ export function LocationSearch({
         {
           placeId: prediction.place_id,
           fields: [
-            &quot;name&quot;,
-            &quot;place_id&quot;,
-            &quot;formatted_address&quot;,
-            &quot;geometry.location&quot;,
-            &quot;address_components&quot;,
-            &quot;types&quot;,
+            "name",
+            "place_id",
+            "formatted_address",
+            "geometry.location",
+            "address_components",
+            "types",
           ],
           sessionToken: sessionToken.current,
         },
@@ -181,46 +181,46 @@ export function LocationSearch({
             place.geometry.location
           ) {
             // Extract address components
-            let city = &quot;&quot;;
-            let state = &quot;&quot;;
-            let postalCode = &quot;&quot;;
-            let country = &quot;&quot;;
+            let city = "";
+            let state = "";
+            let postalCode = "";
+            let country = "";
 
             place.address_components?.forEach((component) => {
-              if (component.types.includes(&quot;locality&quot;)) {
+              if (component.types.includes("locality")) {
                 city = component.long_name;
               } else if (
-                component.types.includes(&quot;administrative_area_level_1&quot;)
+                component.types.includes("administrative_area_level_1")
               ) {
                 state = component.short_name;
-              } else if (component.types.includes(&quot;postal_code&quot;)) {
+              } else if (component.types.includes("postal_code")) {
                 postalCode = component.long_name;
-              } else if (component.types.includes(&quot;country&quot;)) {
+              } else if (component.types.includes("country")) {
                 country = component.long_name;
               }
             });
 
             // Determine place type
-            let placeType = &quot;address&quot;;
+            let placeType = "address";
             if (place.types) {
-              if (place.types.includes(&quot;establishment&quot;)) {
-                placeType = &quot;business&quot;;
-              } else if (place.types.includes(&quot;park&quot;)) {
-                placeType = &quot;park&quot;;
-              } else if (place.types.includes(&quot;school&quot;)) {
-                placeType = &quot;school&quot;;
-              } else if (place.types.includes(&quot;stadium&quot;)) {
-                placeType = &quot;stadium&quot;;
+              if (place.types.includes("establishment")) {
+                placeType = "business";
+              } else if (place.types.includes("park")) {
+                placeType = "park";
+              } else if (place.types.includes("school")) {
+                placeType = "school";
+              } else if (place.types.includes("stadium")) {
+                placeType = "stadium";
               }
             }
 
             // Create place result
             const placeResult: PlaceResult = {
-              placeId: place.place_id || &quot;&quot;,
+              placeId: place.place_id || "",
               name:
-                place.name || prediction.structured_formatting?.main_text || &quot;&quot;,
-              address: place.formatted_address || prediction.description || &quot;&quot;,
-              formattedAddress: place.formatted_address || &quot;&quot;,
+                place.name || prediction.structured_formatting?.main_text || "",
+              address: place.formatted_address || prediction.description || "",
+              formattedAddress: place.formatted_address || "",
               location: {
                 lat: place.geometry.location.lat(),
                 lng: place.geometry.location.lng(),
@@ -250,14 +250,14 @@ export function LocationSearch({
         },
       );
     } catch (error) {
-      console.error(&quot;Error getting place details:&quot;, error);
+      console.error("Error getting place details:", error);
       setLoading(false);
     }
   };
 
   // Handle clearing the search input
   const handleClearSearch = () => {
-    setSearchQuery(&quot;&quot;);
+    setSearchQuery("");
     setPredictions([]);
     setFocused(true);
     if (inputRef.current) {
@@ -269,48 +269,48 @@ export function LocationSearch({
   const SearchComponent = useMemo(() => {
     // Basic input with dropdown of results
     const InputWithResults = (
-      <div className=&quot;relative w-full&quot;>
-        <div className=&quot;relative&quot;>
-          <MapPin className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+      <div className="relative w-full">
+        <div className="relative">
+          <MapPin className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             ref={inputRef}
-            type=&quot;text&quot;
+            type="text"
             placeholder={placeholder}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => setFocused(true)}
             autoFocus={autoFocus}
-            className={cn(&quot;pl-9 pr-8 w-full&quot;, className)}
+            className={cn("pl-9 pr-8 w-full", className)}
             disabled={!isLoaded || loading}
           />
           {searchQuery && (
             <Button
-              variant=&quot;ghost&quot;
-              size=&quot;sm&quot;
-              className=&quot;absolute right-0 top-0 h-9 w-9 p-0&quot;
+              variant="ghost"
+              size="sm"
+              className="absolute right-0 top-0 h-9 w-9 p-0"
               onClick={handleClearSearch}
               disabled={loading}
-              type=&quot;button&quot;
+              type="button"
             >
-              <X className=&quot;h-4 w-4&quot; />
-              <span className=&quot;sr-only&quot;>Clear search</span>
+              <X className="h-4 w-4" />
+              <span className="sr-only">Clear search</span>
             </Button>
           )}
           {loading && (
-            <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+            <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
           )}
         </div>
 
         {focused && (searchQuery || predictions.length > 0) && (
-          <Card className=&quot;absolute top-full left-0 right-0 mt-1 z-10 shadow-md overflow-hidden&quot;>
-            <CardContent className=&quot;p-0&quot;>
+          <Card className="absolute top-full left-0 right-0 mt-1 z-10 shadow-md overflow-hidden">
+            <CardContent className="p-0">
               <Command>
                 <CommandList>
                   {predictions.length === 0 ? (
                     <CommandEmpty>
                       {searchQuery
-                        ? &quot;No results found.&quot;
-                        : &quot;Start typing to search for locations.&quot;}
+                        ? "No results found."
+                        : "Start typing to search for locations."}
                     </CommandEmpty>
                   ) : (
                     <CommandGroup>
@@ -318,14 +318,14 @@ export function LocationSearch({
                         <CommandItem
                           key={prediction.place_id}
                           onSelect={() => handleSelectPlace(prediction)}
-                          className=&quot;flex flex-col items-start py-2&quot;
+                          className="flex flex-col items-start py-2"
                         >
-                          <div className=&quot;font-medium&quot;>
+                          <div className="font-medium">
                             {prediction.structured_formatting?.main_text ||
                               prediction.description}
                           </div>
                           {prediction.structured_formatting?.secondary_text && (
-                            <div className=&quot;text-sm text-muted-foreground&quot;>
+                            <div className="text-sm text-muted-foreground">
                               {prediction.structured_formatting.secondary_text}
                             </div>
                           )}
@@ -347,16 +347,16 @@ export function LocationSearch({
         <Popover open={openPopover && focused} onOpenChange={setOpenPopover}>
           <PopoverTrigger asChild>
             <div
-              className=&quot;relative w-full&quot;
+              className="relative w-full"
               onClick={() => {
                 setFocused(true);
                 setOpenPopover(true);
               }}
             >
-              <MapPin className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+              <MapPin className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 ref={inputRef}
-                type=&quot;text&quot;
+                type="text"
                 placeholder={placeholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -365,38 +365,38 @@ export function LocationSearch({
                   setOpenPopover(true);
                 }}
                 autoFocus={autoFocus}
-                className={cn(&quot;pl-9 pr-8 w-full&quot;, className)}
+                className={cn("pl-9 pr-8 w-full", className)}
                 disabled={!isLoaded || loading}
               />
               {searchQuery && (
                 <Button
-                  variant=&quot;ghost&quot;
-                  size=&quot;sm&quot;
-                  className=&quot;absolute right-0 top-0 h-9 w-9 p-0&quot;
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-0 top-0 h-9 w-9 p-0"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleClearSearch();
                   }}
                   disabled={loading}
-                  type=&quot;button&quot;
+                  type="button"
                 >
-                  <X className=&quot;h-4 w-4&quot; />
-                  <span className=&quot;sr-only&quot;>Clear search</span>
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Clear search</span>
                 </Button>
               )}
               {loading && (
-                <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+                <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
               )}
             </div>
           </PopoverTrigger>
-          <PopoverContent className=&quot;p-0 w-full min-w-[300px]&quot; align=&quot;start&quot;>
+          <PopoverContent className="p-0 w-full min-w-[300px]" align="start">
             <Command>
               <CommandList>
                 {predictions.length === 0 ? (
                   <CommandEmpty>
                     {searchQuery
-                      ? &quot;No results found.&quot;
-                      : &quot;Start typing to search for locations.&quot;}
+                      ? "No results found."
+                      : "Start typing to search for locations."}
                   </CommandEmpty>
                 ) : (
                   <CommandGroup>
@@ -404,14 +404,14 @@ export function LocationSearch({
                       <CommandItem
                         key={prediction.place_id}
                         onSelect={() => handleSelectPlace(prediction)}
-                        className=&quot;flex flex-col items-start py-2&quot;
+                        className="flex flex-col items-start py-2"
                       >
-                        <div className=&quot;font-medium&quot;>
+                        <div className="font-medium">
                           {prediction.structured_formatting?.main_text ||
                             prediction.description}
                         </div>
                         {prediction.structured_formatting?.secondary_text && (
-                          <div className=&quot;text-sm text-muted-foreground&quot;>
+                          <div className="text-sm text-muted-foreground">
                             {prediction.structured_formatting.secondary_text}
                           </div>
                         )}
@@ -443,13 +443,13 @@ export function LocationSearch({
   // If Google Maps is not loaded yet, show a loading state
   if (loadError) {
     return (
-      <div className={cn(&quot;relative w-full&quot;, className)}>
+      <div className={cn("relative w-full", className)}>
         <Input
           disabled
-          placeholder=&quot;Error loading Google Maps&quot;
-          className=&quot;pl-9 w-full&quot;
+          placeholder="Error loading Google Maps"
+          className="pl-9 w-full"
         />
-        <MapPin className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <MapPin className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
       </div>
     );
   }

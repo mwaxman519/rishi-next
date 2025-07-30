@@ -4,9 +4,9 @@
  * This module provides utilities for database connections with environment-specific settings.
  */
 
-import { neon } from &quot;@neondatabase/serverless&quot;;
-import { drizzle } from &quot;drizzle-orm/neon-http&quot;;
-import { getEnvironment } from &quot;./environment&quot;;
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { getEnvironment } from "./environment";
 
 /**
  * Get the database connection URL for the current environment
@@ -15,12 +15,12 @@ export function getDatabaseUrl(): string {
   const environment = getEnvironment();
 
   // Determine database URL based on environment
-  if (environment === &quot;development&quot;) {
-    return process.env.DATABASE_URL || "&quot;;
-  } else if (environment === &quot;staging&quot;) {
-    return process.env.STAGING_DATABASE_URL || process.env.DATABASE_URL || &quot;&quot;;
+  if (environment === "development") {
+    return process.env.DATABASE_URL || "";
+  } else if (environment === "staging") {
+    return process.env.STAGING_DATABASE_URL || process.env.DATABASE_URL || "";
   } else {
-    return process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL || &quot;";
+    return process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL || "";
   }
 }
 

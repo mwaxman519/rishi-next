@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import * as React from &quot;react&quot;;
-import { ToastContext, Toaster } from &quot;./toaster&quot;;
+import * as React from "react";
+import { ToastContext, Toaster } from "./toaster";
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (

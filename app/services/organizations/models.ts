@@ -2,24 +2,24 @@
  * Organization Service Models
  * These models define the core entities and types for organization management
  */
-import { z } from &quot;zod&quot;;
+import { z } from "zod";
 
 /**
  * Organization types
  */
 export enum OrganizationType {
-  INTERNAL = &quot;internal&quot;, // Rishi internal staff
-  CLIENT = &quot;client&quot;, // Client organizations
-  PARTNER = &quot;partner&quot;, // Partner organizations
+  INTERNAL = "internal", // Rishi internal staff
+  CLIENT = "client", // Client organizations
+  PARTNER = "partner", // Partner organizations
 }
 
 /**
  * Client organization tiers
  */
 export enum ClientTier {
-  TIER_1 = &quot;tier_1&quot;, // Staff leasing
-  TIER_2 = &quot;tier_2&quot;, // Full-service event staffing
-  TIER_3 = &quot;tier_3&quot;, // White-label
+  TIER_1 = "tier_1", // Staff leasing
+  TIER_2 = "tier_2", // Full-service event staffing
+  TIER_3 = "tier_3", // White-label
 }
 
 /**
@@ -74,7 +74,7 @@ export interface UserOrganization {
  * Organization creation parameters
  */
 export const createOrganizationSchema = z.object({
-  name: z.string().min(1, &quot;Organization name is required&quot;),
+  name: z.string().min(1, "Organization name is required"),
   type: z.nativeEnum(OrganizationType),
   tier: z.nativeEnum(ClientTier).optional(),
   description: z.string().optional(),
@@ -100,9 +100,9 @@ export const updateOrganizationSchema = createOrganizationSchema.partial();
  * Organization user association parameters
  */
 export const organizationUserSchema = z.object({
-  organizationId: z.string().min(1, &quot;Organization ID is required&quot;),
-  userId: z.string().min(1, &quot;User ID is required&quot;),
-  roleId: z.string().min(1, &quot;Role ID is required&quot;),
+  organizationId: z.string().min(1, "Organization ID is required"),
+  userId: z.string().min(1, "User ID is required"),
+  roleId: z.string().min(1, "Role ID is required"),
   isDefault: z.boolean().default(false),
 });
 

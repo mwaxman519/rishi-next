@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, use } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
+import { useState, use } from "react";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   UserPlus,
@@ -10,29 +10,29 @@ import {
   Clock,
   Search,
   Filter,
-} from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
-import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import Link from &quot;next/link&quot;;
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 interface AssignTeamMemberProps {
   params: Promise<{
@@ -41,16 +41,16 @@ interface AssignTeamMemberProps {
 }
 
 const ASSIGNMENT_EVENTS = {
-  MEMBER_ASSIGNED: &quot;team.member.assigned&quot;,
-  ASSIGNMENT_CREATED: &quot;assignment.created&quot;,
-  EVENT_STAFFING_UPDATED: &quot;event.staffing.updated&quot;,
+  MEMBER_ASSIGNED: "team.member.assigned",
+  ASSIGNMENT_CREATED: "assignment.created",
+  EVENT_STAFFING_UPDATED: "event.staffing.updated",
 } as const;
 
 const publishEvent = async (eventType: string, payload: any) => {
   try {
-    const response = await fetch(&quot;/api/events/publish&quot;, {
-      method: &quot;POST&quot;,
-      headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    const response = await fetch("/api/events/publish", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         eventType,
         payload,
@@ -59,53 +59,53 @@ const publishEvent = async (eventType: string, payload: any) => {
     });
 
     if (!response.ok) {
-      throw new Error(&quot;Failed to publish event&quot;);
+      throw new Error("Failed to publish event");
     }
 
     return await response.json();
   } catch (error) {
-    console.error(&quot;Event publishing failed:&quot;, error);
+    console.error("Event publishing failed:", error);
     throw error;
   }
 };
 
 const availableEvents = [
   {
-    id: &quot;evt-001&quot;,
-    name: &quot;Tech Conference 2024&quot;,
-    date: &quot;2024-06-25&quot;,
-    time: &quot;09:00 - 17:00&quot;,
-    location: &quot;San Francisco Convention Center&quot;,
-    type: &quot;Conference&quot;,
-    status: &quot;open&quot;,
-    requiredSkills: [&quot;Product Demo&quot;, &quot;Public Speaking&quot;],
+    id: "evt-001",
+    name: "Tech Conference 2024",
+    date: "2024-06-25",
+    time: "09:00 - 17:00",
+    location: "San Francisco Convention Center",
+    type: "Conference",
+    status: "open",
+    requiredSkills: ["Product Demo", "Public Speaking"],
     compensation: 350,
     description:
-      &quot;Major technology conference with product demonstrations and networking.&quot;,
+      "Major technology conference with product demonstrations and networking.",
   },
   {
-    id: &quot;evt-002&quot;,
-    name: &quot;Retail Product Launch&quot;,
-    date: &quot;2024-06-28&quot;,
-    time: &quot;10:00 - 18:00&quot;,
-    location: &quot;Union Square, SF&quot;,
-    type: &quot;Product Launch&quot;,
-    status: &quot;open&quot;,
-    requiredSkills: [&quot;Retail Activation&quot;, &quot;Customer Engagement&quot;],
+    id: "evt-002",
+    name: "Retail Product Launch",
+    date: "2024-06-28",
+    time: "10:00 - 18:00",
+    location: "Union Square, SF",
+    type: "Product Launch",
+    status: "open",
+    requiredSkills: ["Retail Activation", "Customer Engagement"],
     compensation: 280,
-    description: &quot;New product launch event at flagship retail location.&quot;,
+    description: "New product launch event at flagship retail location.",
   },
   {
-    id: &quot;evt-003&quot;,
-    name: &quot;Corporate Training Session&quot;,
-    date: &quot;2024-07-02&quot;,
-    time: &quot;13:00 - 16:00&quot;,
-    location: &quot;Downtown Office Building&quot;,
-    type: &quot;Training&quot;,
-    status: &quot;urgent&quot;,
-    requiredSkills: [&quot;Corporate Events&quot;, &quot;Training&quot;],
+    id: "evt-003",
+    name: "Corporate Training Session",
+    date: "2024-07-02",
+    time: "13:00 - 16:00",
+    location: "Downtown Office Building",
+    type: "Training",
+    status: "urgent",
+    requiredSkills: ["Corporate Events", "Training"],
     compensation: 200,
-    description: &quot;Employee training session for new product features.&quot;,
+    description: "Employee training session for new product features.",
   },
 ];
 
@@ -117,15 +117,15 @@ export default function AssignTeamMemberPage({
   const { toast } = useToast();
 
   const [selectedEvents, setSelectedEvents] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("&quot;);
-  const [filterType, setFilterType] = useState(&quot;all&quot;);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
   const [isAssigning, setIsAssigning] = useState(false);
 
   const filteredEvents = availableEvents.filter((event) => {
     const matchesSearch =
       event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = filterType === &quot;all&quot; || event.type === filterType;
+    const matchesType = filterType === "all" || event.type === filterType;
     return matchesSearch && matchesType;
   });
 
@@ -140,9 +140,9 @@ export default function AssignTeamMemberPage({
   const handleAssignment = async () => {
     if (selectedEvents.length === 0) {
       toast({
-        title: &quot;No Events Selected&quot;,
-        description: &quot;Please select at least one event to assign.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "No Events Selected",
+        description: "Please select at least one event to assign.",
+        variant: "destructive",
       });
       return;
     }
@@ -154,18 +154,18 @@ export default function AssignTeamMemberPage({
         memberId: params.id,
         eventId,
         assignedAt: new Date().toISOString(),
-        assignedBy: &quot;current-user-id&quot;,
-        status: &quot;assigned&quot;,
+        assignedBy: "current-user-id",
+        status: "assigned",
       }));
 
-      const response = await fetch(&quot;/api/assignments/bulk&quot;, {
-        method: &quot;POST&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+      const response = await fetch("/api/assignments/bulk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ assignments }),
       });
 
       if (!response.ok) {
-        throw new Error(&quot;Failed to create assignments&quot;);
+        throw new Error("Failed to create assignments");
       }
 
       // Publish events for each assignment
@@ -176,8 +176,8 @@ export default function AssignTeamMemberPage({
           memberId: id,
           eventId,
           eventName: event?.name,
-          assignedBy: &quot;current-user-id&quot;,
-          organizationId: &quot;current-org-id&quot;,
+          assignedBy: "current-user-id",
+          organizationId: "current-org-id",
           assignmentDetails: {
             compensation: event?.compensation,
             requiredSkills: event?.requiredSkills,
@@ -188,26 +188,26 @@ export default function AssignTeamMemberPage({
         await publishEvent(ASSIGNMENT_EVENTS.EVENT_STAFFING_UPDATED, {
           eventId,
           staffingChange: {
-            type: &quot;assignment_added&quot;,
+            type: "assignment_added",
             memberId: params.id,
             previousCount: 0, // Would come from API
             newCount: 1, // Would come from API
           },
-          updatedBy: &quot;current-user-id&quot;,
+          updatedBy: "current-user-id",
         });
       }
 
       toast({
-        title: &quot;Assignment Successful&quot;,
+        title: "Assignment Successful",
         description: `Team member assigned to ${selectedEvents.length} event(s).`,
       });
 
       router.push(`/team/${params.id}`);
     } catch (error) {
       toast({
-        title: &quot;Assignment Failed&quot;,
-        description: &quot;Failed to assign team member. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Assignment Failed",
+        description: "Failed to assign team member. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsAssigning(false);
@@ -215,34 +215,34 @@ export default function AssignTeamMemberPage({
   };
 
   return (
-    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
+    <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex items-center space-x-4&quot;>
-        <Button variant=&quot;outline&quot; size=&quot;sm&quot; asChild>
+      <div className="flex items-center space-x-4">
+        <Button variant="outline" size="sm" asChild>
           <Link href={`/team/${params.id}`}>
-            <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+            <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Profile
           </Link>
         </Button>
-        <div className=&quot;flex-1&quot;>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold tracking-tight">
             Assign to Events
           </h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <p className="text-muted-foreground">
             Select events to assign this team member
           </p>
         </div>
-        <div className=&quot;flex space-x-2&quot;>
-          <Button variant=&quot;outline&quot; onClick={() => router.back()}>
+        <div className="flex space-x-2">
+          <Button variant="outline" onClick={() => router.back()}>
             Cancel
           </Button>
           <Button
             onClick={handleAssignment}
             disabled={selectedEvents.length === 0 || isAssigning}
           >
-            <UserPlus className=&quot;h-4 w-4 mr-2&quot; />
+            <UserPlus className="h-4 w-4 mr-2" />
             {isAssigning
-              ? &quot;Assigning...&quot;
+              ? "Assigning..."
               : `Assign to ${selectedEvents.length} Event(s)`}
           </Button>
         </div>
@@ -257,62 +257,62 @@ export default function AssignTeamMemberPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className=&quot;flex flex-col sm:flex-row gap-4 mb-6&quot;>
-            <div className=&quot;flex-1&quot;>
-              <div className=&quot;relative&quot;>
-                <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4&quot; />
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
-                  placeholder=&quot;Search events...&quot;
+                  placeholder="Search events..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className=&quot;pl-10&quot;
+                  className="pl-10"
                 />
               </div>
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
-              <SelectTrigger className=&quot;w-[200px]&quot;>
-                <SelectValue placeholder=&quot;Filter by type&quot; />
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Filter by type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value=&quot;all&quot;>All Types</SelectItem>
-                <SelectItem value=&quot;Conference&quot;>Conference</SelectItem>
-                <SelectItem value=&quot;Product Launch&quot;>Product Launch</SelectItem>
-                <SelectItem value=&quot;Training&quot;>Training</SelectItem>
-                <SelectItem value=&quot;Trade Show&quot;>Trade Show</SelectItem>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="Conference">Conference</SelectItem>
+                <SelectItem value="Product Launch">Product Launch</SelectItem>
+                <SelectItem value="Training">Training</SelectItem>
+                <SelectItem value="Trade Show">Trade Show</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Events List */}
-          <div className=&quot;space-y-4&quot;>
+          <div className="space-y-4">
             {filteredEvents.map((event) => (
               <div
                 key={event.id}
-                className=&quot;flex items-start space-x-4 p-4 border rounded-lg hover:bg-accent/50&quot;
+                className="flex items-start space-x-4 p-4 border rounded-lg hover:bg-accent/50"
               >
                 <Checkbox
                   checked={selectedEvents.includes(event.id)}
                   onCheckedChange={() => handleEventToggle(event.id)}
-                  className=&quot;mt-1&quot;
+                  className="mt-1"
                 />
 
-                <div className=&quot;flex-1 space-y-2&quot;>
-                  <div className=&quot;flex items-start justify-between&quot;>
+                <div className="flex-1 space-y-2">
+                  <div className="flex items-start justify-between">
                     <div>
-                      <h3 className=&quot;font-semibold text-lg&quot;>{event.name}</h3>
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
+                      <h3 className="font-semibold text-lg">{event.name}</h3>
+                      <p className="text-sm text-muted-foreground">
                         {event.description}
                       </p>
                     </div>
-                    <div className=&quot;text-right&quot;>
-                      <div className=&quot;text-lg font-bold text-green-600&quot;>
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-green-600">
                         ${event.compensation}
                       </div>
                       <Badge
                         variant={
-                          event.status === &quot;urgent&quot;
-                            ? &quot;destructive&quot;
-                            : &quot;secondary&quot;
+                          event.status === "urgent"
+                            ? "destructive"
+                            : "secondary"
                         }
                       >
                         {event.status}
@@ -320,31 +320,31 @@ export default function AssignTeamMemberPage({
                     </div>
                   </div>
 
-                  <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-4 text-sm&quot;>
-                    <div className=&quot;flex items-center space-x-2&quot;>
-                      <Calendar className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
                       <span>{new Date(event.date).toLocaleDateString()}</span>
                     </div>
-                    <div className=&quot;flex items-center space-x-2&quot;>
-                      <Clock className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
                       <span>{event.time}</span>
                     </div>
-                    <div className=&quot;flex items-center space-x-2&quot;>
-                      <MapPin className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
                       <span>{event.location}</span>
                     </div>
                   </div>
 
-                  <div className=&quot;flex items-center space-x-2&quot;>
-                    <span className=&quot;text-sm text-muted-foreground&quot;>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-muted-foreground">
                       Required Skills:
                     </span>
-                    <div className=&quot;flex flex-wrap gap-1&quot;>
+                    <div className="flex flex-wrap gap-1">
                       {event.requiredSkills.map((skill, index) => (
                         <Badge
                           key={index}
-                          variant=&quot;outline&quot;
-                          className=&quot;text-xs&quot;
+                          variant="outline"
+                          className="text-xs"
                         >
                           {skill}
                         </Badge>
@@ -356,7 +356,7 @@ export default function AssignTeamMemberPage({
             ))}
 
             {filteredEvents.length === 0 && (
-              <div className=&quot;text-center py-8 text-muted-foreground&quot;>
+              <div className="text-center py-8 text-muted-foreground">
                 No events found matching your criteria.
               </div>
             )}
@@ -374,29 +374,29 @@ export default function AssignTeamMemberPage({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className=&quot;space-y-2&quot;>
-              <p className=&quot;font-medium&quot;>
+            <div className="space-y-2">
+              <p className="font-medium">
                 Selected Events: {selectedEvents.length}
               </p>
-              <p className=&quot;text-sm text-muted-foreground&quot;>
+              <p className="text-sm text-muted-foreground">
                 Total Compensation: $
                 {selectedEvents.reduce((total, eventId) => {
                   const event = availableEvents.find((e) => e.id === eventId);
                   return total + (event?.compensation || 0);
                 }, 0)}
               </p>
-              <div className=&quot;mt-4&quot;>
-                <p className=&quot;text-sm font-medium mb-2&quot;>Events:</p>
-                <ul className=&quot;space-y-1&quot;>
+              <div className="mt-4">
+                <p className="text-sm font-medium mb-2">Events:</p>
+                <ul className="space-y-1">
                   {selectedEvents.map((eventId) => {
                     const event = availableEvents.find((e) => e.id === eventId);
                     return (
                       <li
                         key={eventId}
-                        className=&quot;text-sm flex justify-between&quot;
+                        className="text-sm flex justify-between"
                       >
                         <span>{event?.name}</span>
-                        <span className=&quot;text-muted-foreground">
+                        <span className="text-muted-foreground">
                           {event?.date}
                         </span>
                       </li>

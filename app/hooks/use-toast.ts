@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 // Re-export toast hook from the UI component to maintain API compatibility
-export { useToast, toast } from &quot;../components/ui/toast-context&quot;;
+export { useToast, toast } from "../components/ui/toast-context";

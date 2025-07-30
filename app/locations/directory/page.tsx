@@ -1,26 +1,26 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import { MapPin, Plus, Loader2, XCircle } from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { MapPin, Plus, Loader2, XCircle } from "lucide-react";
+import Link from "next/link";
 
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   LocationList,
   type Location,
-} from &quot;@/components/locations/LocationList&quot;;
-import LocationMap from &quot;@/components/locations/LocationMap&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/locations/LocationList";
+import LocationMap from "@/components/locations/LocationMap";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LocationsDirectoryPage() {
   const { toast } = useToast();
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
     null,
   );
-  const [activeView, setActiveView] = useState<string>(&quot;list&quot;);
+  const [activeView, setActiveView] = useState<string>("list");
 
   // Fetch locations from the API
   const {
@@ -28,11 +28,11 @@ export default function LocationsDirectoryPage() {
     isLoading: isLocationsLoading,
     error: locationsError,
   } = useQuery<{ locations: Location[] }>({
-    queryKey: [&quot;/api/locations&quot;],
+    queryKey: ["/api/locations"],
     queryFn: async () => {
-      const res = await fetch(&quot;/api/locations&quot;);
+      const res = await fetch("/api/locations");
       if (!res.ok) {
-        throw new Error(&quot;Failed to fetch locations&quot;);
+        throw new Error("Failed to fetch locations");
       }
       return res.json();
     },
@@ -40,11 +40,11 @@ export default function LocationsDirectoryPage() {
 
   // Fetch location metadata for filtering
   const { data: metadataData, isLoading: isMetadataLoading } = useQuery({
-    queryKey: [&quot;/api/locations/metadata&quot;],
+    queryKey: ["/api/locations/metadata"],
     queryFn: async () => {
-      const res = await fetch(&quot;/api/locations/metadata&quot;);
+      const res = await fetch("/api/locations/metadata");
       if (!res.ok) {
-        throw new Error(&quot;Failed to fetch location metadata&quot;);
+        throw new Error("Failed to fetch location metadata");
       }
       return res.json();
     },
@@ -55,34 +55,34 @@ export default function LocationsDirectoryPage() {
     setSelectedLocationId(location.id);
   };
 
-  // Show error toast if there&apos;s an API error
+  // Show error toast if there's an API error
   useEffect(() => {
     if (locationsError) {
       toast({
-        title: &quot;Error loading locations&quot;,
+        title: "Error loading locations",
         description:
           locationsError instanceof Error
             ? locationsError.message
-            : &quot;Something went wrong while loading locations&quot;,
-        variant: &quot;destructive&quot;,
+            : "Something went wrong while loading locations",
+        variant: "destructive",
       });
     }
   }, [locationsError, toast]);
 
   return (
-    <div className=&quot;container mx-auto py-8 space-y-8&quot;>
-      <div className=&quot;flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4&quot;>
+    <div className="container mx-auto py-8 space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">
             Location Directory
           </h1>
-          <p className=&quot;text-muted-foreground mt-1&quot;>
+          <p className="text-muted-foreground mt-1">
             Browse and search all available locations
           </p>
         </div>
         <Button asChild>
-          <Link href=&quot;/locations/add&quot;>
-            <Plus className=&quot;mr-2 h-4 w-4&quot; />
+          <Link href="/locations/add">
+            <Plus className="mr-2 h-4 w-4" />
             Add Location
           </Link>
         </Button>
@@ -90,33 +90,33 @@ export default function LocationsDirectoryPage() {
 
       {/* Stats cards */}
       {metadataData && (
-        <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
-            <CardHeader className=&quot;pb-2&quot;>
-              <CardTitle className=&quot;text-base&quot;>Total Locations</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Total Locations</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=&quot;text-3xl font-bold&quot;>
+              <div className="text-3xl font-bold">
                 {metadataData.stats.total}
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className=&quot;pb-2&quot;>
-              <CardTitle className=&quot;text-base&quot;>Active Locations</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Active Locations</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=&quot;text-3xl font-bold&quot;>
+              <div className="text-3xl font-bold">
                 {metadataData.stats.active}
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className=&quot;pb-2&quot;>
-              <CardTitle className=&quot;text-base&quot;>Available States</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Available States</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=&quot;text-3xl font-bold&quot;>
+              <div className="text-3xl font-bold">
                 {metadataData.metadata.states.length}
               </div>
             </CardContent>
@@ -126,32 +126,32 @@ export default function LocationsDirectoryPage() {
 
       {/* Main content - Tabs for List and Map views */}
       <Tabs
-        defaultValue=&quot;list&quot;
+        defaultValue="list"
         value={activeView}
         onValueChange={setActiveView}
-        className=&quot;space-y-4&quot;
+        className="space-y-4"
       >
         <TabsList>
-          <TabsTrigger value=&quot;list&quot;>List View</TabsTrigger>
-          <TabsTrigger value=&quot;map&quot;>Map View</TabsTrigger>
+          <TabsTrigger value="list">List View</TabsTrigger>
+          <TabsTrigger value="map">Map View</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;list&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="list" className="space-y-4">
           {isLocationsLoading ? (
-            <div className=&quot;flex justify-center items-center h-64&quot;>
-              <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
-              <span className=&quot;ml-2 text-muted-foreground&quot;>
+            <div className="flex justify-center items-center h-64">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-2 text-muted-foreground">
                 Loading locations...
               </span>
             </div>
           ) : locationsError ? (
-            <div className=&quot;flex flex-col items-center justify-center h-64 text-center&quot;>
-              <XCircle className=&quot;h-8 w-8 text-destructive mb-2&quot; />
-              <h3 className=&quot;font-semibold&quot;>Error loading locations</h3>
-              <p className=&quot;text-sm text-muted-foreground mt-1 max-w-md&quot;>
+            <div className="flex flex-col items-center justify-center h-64 text-center">
+              <XCircle className="h-8 w-8 text-destructive mb-2" />
+              <h3 className="font-semibold">Error loading locations</h3>
+              <p className="text-sm text-muted-foreground mt-1 max-w-md">
                 {locationsError instanceof Error
                   ? locationsError.message
-                  : &quot;Something went wrong while loading locations&quot;}
+                  : "Something went wrong while loading locations"}
               </p>
             </div>
           ) : (
@@ -165,40 +165,40 @@ export default function LocationsDirectoryPage() {
               showStatus={false}
               showFilters={true}
               showActions={true}
-              baseUrl=&quot;/locations&quot;
+              baseUrl="/locations"
               availableStates={metadataData?.metadata.states}
               availableCities={metadataData?.metadata.cities}
-              initialView=&quot;grid&quot;
+              initialView="grid"
             />
           )}
         </TabsContent>
 
-        <TabsContent value=&quot;map&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="map" className="space-y-4">
           {isLocationsLoading ? (
-            <div className=&quot;flex justify-center items-center h-64&quot;>
-              <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
-              <span className=&quot;ml-2 text-muted-foreground&quot;>
+            <div className="flex justify-center items-center h-64">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-2 text-muted-foreground">
                 Loading locations map...
               </span>
             </div>
           ) : locationsError ? (
-            <div className=&quot;flex flex-col items-center justify-center h-64 text-center&quot;>
-              <XCircle className=&quot;h-8 w-8 text-destructive mb-2&quot; />
-              <h3 className=&quot;font-semibold&quot;>Error loading map</h3>
-              <p className=&quot;text-sm text-muted-foreground mt-1 max-w-md&quot;>
+            <div className="flex flex-col items-center justify-center h-64 text-center">
+              <XCircle className="h-8 w-8 text-destructive mb-2" />
+              <h3 className="font-semibold">Error loading map</h3>
+              <p className="text-sm text-muted-foreground mt-1 max-w-md">
                 {locationsError instanceof Error
                   ? locationsError.message
-                  : &quot;Something went wrong while loading location data&quot;}
+                  : "Something went wrong while loading location data"}
               </p>
             </div>
           ) : (
-            <div className=&quot;rounded-md border overflow-hidden h-[600px]&quot;>
+            <div className="rounded-md border overflow-hidden h-[600px]">
               <LocationMap
                 locations={locationsData?.locations || []}
                 selectedLocationId={selectedLocationId}
                 onSelectLocation={handleSelectLocation}
-                height=&quot;100%&quot;
-                width=&quot;100%&quot;
+                height="100%"
+                width="100%"
                 showInfoWindow={true}
                 clusterMarkers={true}
               />

@@ -16,13 +16,13 @@ import {
   isSameDay,
   parseISO,
   format,
-} from &quot;date-fns&quot;;
+} from "date-fns";
 
 // Recurrence frequency types
 export enum RecurrenceFrequency {
-  DAILY = &quot;daily&quot;,
-  WEEKLY = &quot;weekly&quot;,
-  MONTHLY = &quot;monthly&quot;,
+  DAILY = "daily",
+  WEEKLY = "weekly",
+  MONTHLY = "monthly",
 }
 
 // Recurrence pattern definition
@@ -52,13 +52,13 @@ interface MemoCache {
 // Specialized for WebKit/Blink/Firefox Support:
 // Ensures date serialization is consistent across browsers
 function serializeDate(date: Date): string {
-  return format(date, &quot;yyyy-MM-dd&quot;);
+  return format(date, "yyyy-MM-dd");
 }
 
 function createCacheKey(pattern: RecurrencePattern): string {
   return `${pattern.frequency}_${pattern.occurrences}_${serializeDate(pattern.startDate)}_${
-    pattern.endDate ? serializeDate(pattern.endDate) : &quot;noend&quot;
-  }_${pattern.exceptions?.map(serializeDate).join(&quot;_&quot;) || &quot;noexceptions&quot;}`;
+    pattern.endDate ? serializeDate(pattern.endDate) : "noend"
+  }_${pattern.exceptions?.map(serializeDate).join("_") || "noexceptions"}`;
 }
 
 // Initialize memoization cache
@@ -85,9 +85,9 @@ export const recurrenceEngine = {
     let currentDate = new Date(pattern.startDate);
     let count = 0;
 
-    // Parse exceptions to Date objects if they&apos;re strings
+    // Parse exceptions to Date objects if they're strings
     const exceptions = (pattern.exceptions || []).map((exc) =>
-      typeof exc === &quot;string&quot; ? parseISO(exc) : exc,
+      typeof exc === "string" ? parseISO(exc) : exc,
     );
 
     // Generate dates until we reach the required number of occurrences
@@ -216,11 +216,11 @@ export const recurrenceEngine = {
   getPatternDescription(pattern: RecurrencePattern): string {
     const frequency =
       pattern.frequency.charAt(0).toUpperCase() + pattern.frequency.slice(1);
-    const startDateStr = format(pattern.startDate, &quot;PPP&quot;);
+    const startDateStr = format(pattern.startDate, "PPP");
     const occurrences = pattern.occurrences;
 
     if (pattern.endDate) {
-      const endDateStr = format(pattern.endDate, &quot;PPP&quot;);
+      const endDateStr = format(pattern.endDate, "PPP");
       return `${frequency}, ${occurrences} times from ${startDateStr} to ${endDateStr}`;
     }
 

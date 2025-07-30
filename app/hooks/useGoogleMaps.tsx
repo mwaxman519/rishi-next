@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useContext } from &quot;react&quot;;
-import { GoogleMapsContext } from &quot;../components/maps/GoogleMapsContext&quot;;
+import { useState, useEffect, useContext } from "react";
+import { GoogleMapsContext } from "../components/maps/GoogleMapsContext";
 
 interface UseGoogleMapsReturn {
   isLoaded: boolean;
@@ -12,7 +12,7 @@ export function useGoogleMaps(): UseGoogleMapsReturn {
   const context = useContext(GoogleMapsContext);
 
   if (context === undefined) {
-    throw new Error(&quot;useGoogleMaps must be used within a GoogleMapsProvider&quot;);
+    throw new Error("useGoogleMaps must be used within a GoogleMapsProvider");
   }
 
   return {

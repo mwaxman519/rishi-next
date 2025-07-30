@@ -6,21 +6,21 @@
 
 export const AUTH_CONFIG = {
   // Service information
-  SERVICE_NAME: &quot;auth-service&quot;,
-  SERVICE_VERSION: &quot;1.0.0&quot;,
+  SERVICE_NAME: "auth-service",
+  SERVICE_VERSION: "1.0.0",
 
   // Authentication settings
-  TOKEN_EXPIRY: &quot;1d&quot;,
-  REFRESH_TOKEN_EXPIRY: &quot;7d&quot;,
-  COOKIE_NAME: &quot;auth_token&quot;,
-  REFRESH_COOKIE_NAME: &quot;refresh_token&quot;,
+  TOKEN_EXPIRY: "1d",
+  REFRESH_TOKEN_EXPIRY: "7d",
+  COOKIE_NAME: "auth_token",
+  REFRESH_COOKIE_NAME: "refresh_token",
   COOKIE_MAX_AGE: 86400, // 1 day in seconds
 
   // Development mode
-  DEV_MODE: process.env.NODE_ENV === &quot;development&quot;,
+  DEV_MODE: process.env.NODE_ENV === "development",
 
   // Default secret for development only
-  DEFAULT_JWT_SECRET: &quot;dev_jwt_secret_replace_in_production&quot;,
+  DEFAULT_JWT_SECRET: "dev_jwt_secret_replace_in_production",
 
   // Password settings
   SALT_ROUNDS: 10,
@@ -31,11 +31,11 @@ export const AUTH_CONFIG = {
   LOGIN_TIMEOUT: 15 * 60 * 1000, // 15 minutes
 
   // Admin and internal authentication
-  ADMIN_AUTH_TOKEN: process.env.ADMIN_AUTH_TOKEN || &quot;admin_dev_token&quot;,
-  INTERNAL_AUTH_TOKEN: process.env.INTERNAL_AUTH_TOKEN || &quot;internal_dev_token&quot;,
+  ADMIN_AUTH_TOKEN: process.env.ADMIN_AUTH_TOKEN || "admin_dev_token",
+  INTERNAL_AUTH_TOKEN: process.env.INTERNAL_AUTH_TOKEN || "internal_dev_token",
 
   // Registration settings
-  ALLOW_SELF_REGISTRATION: process.env.ALLOW_SELF_REGISTRATION === &quot;true&quot;,
-  ALLOW_ORG_CREATION: process.env.ALLOW_ORG_CREATION === &quot;true&quot; || false,
-  REGISTRATION_PASSCODE: process.env.REGISTRATION_PASSCODE || &quot;mattmikeryan&quot;,
+  ALLOW_SELF_REGISTRATION: process.env.ALLOW_SELF_REGISTRATION === "true",
+  ALLOW_ORG_CREATION: process.env.ALLOW_ORG_CREATION === "true" || false,
+  REGISTRATION_PASSCODE: process.env.REGISTRATION_PASSCODE || "mattmikeryan",
 };

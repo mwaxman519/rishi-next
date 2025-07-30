@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
-import { MapPin } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { LocationData } from &quot;./types&quot;;
-import { DirectAutocomplete } from &quot;./DirectAutocomplete&quot;;
-import { GoogleMap, Marker } from &quot;@react-google-maps/api&quot;;
-import { useGoogleMaps } from &quot;./GoogleMapsProvider&quot;;
+import React, { useState } from "react";
+import { MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { LocationData } from "./types";
+import { DirectAutocomplete } from "./DirectAutocomplete";
+import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useGoogleMaps } from "./GoogleMapsProvider";
 
 interface LocationPickerProps {
   onLocationSelect: (data: LocationData) => void;
@@ -21,9 +21,9 @@ const defaultCenter = {
 
 // Default map styles
 const mapContainerStyle = {
-  width: &quot;100%&quot;,
-  height: &quot;350px&quot;,
-  borderRadius: &quot;0.375rem&quot;, // Matches the rounded-md Tailwind class
+  width: "100%",
+  height: "350px",
+  borderRadius: "0.375rem", // Matches the rounded-md Tailwind class
 };
 
 /**
@@ -34,12 +34,12 @@ const mapContainerStyle = {
  */
 export function NewLocationPicker({
   onLocationSelect,
-  className = "&quot;,
+  className = "",
 }: LocationPickerProps) {
   const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(
     null,
   );
-  const [showTestButton] = useState(process.env.NODE_ENV === &quot;development&quot;);
+  const [showTestButton] = useState(process.env.NODE_ENV === "development");
   const { isLoaded } = useGoogleMaps();
 
   // Handle place selection from the autocomplete
@@ -51,34 +51,34 @@ export function NewLocationPicker({
   // Handle test location (for development)
   const handleTestLocation = () => {
     const testLocation: LocationData = {
-      id: &quot;development-mode-place-id&quot;,
-      formattedAddress: &quot;123 Main St, San Francisco, CA 94105, USA&quot;,
+      id: "development-mode-place-id",
+      formattedAddress: "123 Main St, San Francisco, CA 94105, USA",
       latitude: 37.7918936,
       longitude: -122.3978187,
-      displayName: &quot;Development Mode Location&quot;,
+      displayName: "Development Mode Location",
       addressComponents: [
-        { longText: &quot;123&quot;, shortText: &quot;123&quot;, types: [&quot;street_number&quot;] },
-        { longText: &quot;Main St&quot;, shortText: &quot;Main St&quot;, types: [&quot;route&quot;] },
+        { longText: "123", shortText: "123", types: ["street_number"] },
+        { longText: "Main St", shortText: "Main St", types: ["route"] },
         {
-          longText: &quot;Financial District&quot;,
-          shortText: &quot;Financial District&quot;,
-          types: [&quot;neighborhood&quot;],
+          longText: "Financial District",
+          shortText: "Financial District",
+          types: ["neighborhood"],
         },
-        { longText: &quot;San Francisco&quot;, shortText: &quot;SF&quot;, types: [&quot;locality&quot;] },
+        { longText: "San Francisco", shortText: "SF", types: ["locality"] },
         {
-          longText: &quot;San Francisco County&quot;,
-          shortText: &quot;San Francisco County&quot;,
-          types: [&quot;administrative_area_level_2&quot;],
+          longText: "San Francisco County",
+          shortText: "San Francisco County",
+          types: ["administrative_area_level_2"],
         },
         {
-          longText: &quot;California&quot;,
-          shortText: &quot;CA&quot;,
-          types: [&quot;administrative_area_level_1&quot;],
+          longText: "California",
+          shortText: "CA",
+          types: ["administrative_area_level_1"],
         },
-        { longText: &quot;United States&quot;, shortText: &quot;US&quot;, types: [&quot;country&quot;] },
-        { longText: &quot;94105&quot;, shortText: &quot;94105&quot;, types: [&quot;postal_code&quot;] },
+        { longText: "United States", shortText: "US", types: ["country"] },
+        { longText: "94105", shortText: "94105", types: ["postal_code"] },
       ],
-      types: [&quot;street_address&quot;],
+      types: ["street_address"],
     };
 
     setSelectedLocation(testLocation);
@@ -96,26 +96,26 @@ export function NewLocationPicker({
   return (
     <div className={className}>
       {/* Success banner */}
-      <div className=&quot;mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md text-yellow-800 text-sm&quot;>
+      <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md text-yellow-800 text-sm">
         <strong>Important Update:</strong> Our location search now uses Google's
         new Web Components (March 2025). We've implemented a simplified direct
         approach that properly displays dropdown suggestions.
       </div>
 
       {/* Search input */}
-      <div className=&quot;mb-4 max-w-md relative&quot;>
+      <div className="mb-4 max-w-md relative">
         <DirectAutocomplete
           onPlaceSelected={handlePlaceSelected}
-          placeholder=&quot;Search for addresses, businesses, or places...&quot;
+          placeholder="Search for addresses, businesses, or places..."
         />
 
         {/* Test location button - only show in development */}
         {showTestButton && (
           <Button
-            variant=&quot;default&quot;
-            size=&quot;sm&quot;
-            type=&quot;button&quot;
-            className=&quot;absolute right-0 mt-1 text-xs py-1 px-2&quot;
+            variant="default"
+            size="sm"
+            type="button"
+            className="absolute right-0 mt-1 text-xs py-1 px-2"
             onClick={handleTestLocation}
           >
             Use Test Location
@@ -125,8 +125,8 @@ export function NewLocationPicker({
 
       {/* Map */}
       <div
-        className=&quot;relative border border-input bg-muted/20 rounded-md overflow-hidden&quot;
-        style={{ height: &quot;350px&quot; }}
+        className="relative border border-input bg-muted/20 rounded-md overflow-hidden"
+        style={{ height: "350px" }}
       >
         {isLoaded && (
           <GoogleMap
@@ -156,11 +156,11 @@ export function NewLocationPicker({
 
         {/* Empty state message */}
         {!selectedLocation && (
-          <div className=&quot;absolute inset-0 flex items-center justify-center z-10 pointer-events-none&quot;>
-            <div className=&quot;text-center text-muted-foreground flex flex-col items-center&quot;>
-              <MapPin className=&quot;h-12 w-12 mb-3 text-muted-foreground/60&quot; />
-              <p className=&quot;text-lg&quot;>Search for a location to see the map</p>
-              <p className=&quot;text-sm text-muted-foreground/80 mt-1 max-w-xs">
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <div className="text-center text-muted-foreground flex flex-col items-center">
+              <MapPin className="h-12 w-12 mb-3 text-muted-foreground/60" />
+              <p className="text-lg">Search for a location to see the map</p>
+              <p className="text-sm text-muted-foreground/80 mt-1 max-w-xs">
                 Try searching for businesses, landmarks, or addresses
               </p>
             </div>

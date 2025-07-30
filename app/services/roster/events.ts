@@ -12,12 +12,12 @@
  * Roster management event types
  */
 export const RosterEvents = {
-  AGENT_ASSIGNED_TO_BRAND: &quot;roster.agent.assigned.brand&quot;,
-  AGENT_REMOVED_FROM_BRAND: &quot;roster.agent.removed.brand&quot;,
-  AGENT_SKILLS_UPDATED: &quot;roster.agent.skills.updated&quot;,
-  ROSTER_UPDATED: &quot;roster.updated&quot;,
-  ROSTER_OPTIMIZED: &quot;roster.optimized&quot;,
-  COVERAGE_ANALYSIS_COMPLETED: &quot;roster.coverage.analyzed&quot;,
+  AGENT_ASSIGNED_TO_BRAND: "roster.agent.assigned.brand",
+  AGENT_REMOVED_FROM_BRAND: "roster.agent.removed.brand",
+  AGENT_SKILLS_UPDATED: "roster.agent.skills.updated",
+  ROSTER_UPDATED: "roster.updated",
+  ROSTER_OPTIMIZED: "roster.optimized",
+  COVERAGE_ANALYSIS_COMPLETED: "roster.coverage.analyzed",
 } as const;
 
 /**
@@ -33,7 +33,7 @@ export interface AgentAssignedToBrandEvent {
   territoryIds?: string[];
   assignedBy: string;
   timestamp: string;
-  action?: &quot;assigned&quot; | &quot;removed&quot;;
+  action?: "assigned" | "removed";
 }
 
 /**
@@ -67,7 +67,7 @@ export interface AgentSkillsUpdatedEvent {
 export interface RosterUpdatedEvent {
   agentId?: string;
   brandId?: string;
-  updateType: &quot;assignment&quot; | &quot;skills&quot; | &quot;territory&quot; | &quot;status&quot;;
+  updateType: "assignment" | "skills" | "territory" | "status";
   details?: Record<string, any>;
   updatedBy: string;
   timestamp: string;
@@ -78,10 +78,10 @@ export interface RosterUpdatedEvent {
  */
 export interface RosterOptimizedEvent {
   organizationId: string;
-  optimizationType: &quot;coverage&quot; | &quot;skills&quot; | &quot;territory&quot; | &quot;workload&quot;;
+  optimizationType: "coverage" | "skills" | "territory" | "workload";
   recommendations: Array<{
     type: string;
-    priority: &quot;high&quot; | &quot;medium&quot; | &quot;low&quot;;
+    priority: "high" | "medium" | "low";
     description: string;
     affectedAgents: string[];
   }>;
@@ -95,7 +95,7 @@ export interface RosterOptimizedEvent {
  */
 export interface CoverageAnalysisEvent {
   organizationId: string;
-  analysisType: &quot;territory&quot; | &quot;skills&quot; | &quot;time&quot; | &quot;comprehensive&quot;;
+  analysisType: "territory" | "skills" | "time" | "comprehensive";
   coverageMetrics: {
     overallCoverage: number;
     criticalGaps: number;
@@ -112,14 +112,14 @@ export interface CoverageAnalysisEvent {
   }>;
   skillAnalysis: Array<{
     skillName: string;
-    demandLevel: &quot;high&quot; | &quot;medium&quot; | &quot;low&quot;;
+    demandLevel: "high" | "medium" | "low";
     availableAgents: number;
     requiredAgents: number;
     gapPercentage: number;
   }>;
   recommendations: Array<{
     type: string;
-    priority: &quot;high&quot; | &quot;medium&quot; | &quot;low&quot;;
+    priority: "high" | "medium" | "low";
     description: string;
     estimatedImpact: string;
   }>;

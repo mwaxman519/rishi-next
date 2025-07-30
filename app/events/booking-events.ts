@@ -12,23 +12,23 @@
  * 4. Discoverability of available events
  */
 
-import { eventBus } from &quot;./event-bus&quot;;
+import { eventBus } from "./event-bus";
 
 // Event name constants to prevent typos and enable refactoring
 export const BookingEventTypes = {
-  BOOKING_CREATED: &quot;booking.created&quot;,
-  BOOKING_UPDATED: &quot;booking.updated&quot;,
-  BOOKING_DELETED: &quot;booking.deleted&quot;,
-  BOOKING_STATUS_CHANGED: &quot;booking.status.changed&quot;,
-  BOOKING_APPROVED: &quot;booking.approved&quot;,
-  BOOKING_REJECTED: &quot;booking.rejected&quot;,
-  BOOKING_CANCELED: &quot;booking.canceled&quot;,
-  LOCATION_REQUESTED: &quot;booking.location.requested&quot;,
-  ACTIVITY_ADDED: &quot;booking.activity.added&quot;,
-  ACTIVITY_UPDATED: &quot;booking.activity.updated&quot;,
-  ACTIVITY_REMOVED: &quot;booking.activity.removed&quot;,
-  RECURRING_PATTERN_CHANGED: &quot;booking.recurring.changed&quot;,
-  BOOKING_ERROR: &quot;booking.error&quot;,
+  BOOKING_CREATED: "booking.created",
+  BOOKING_UPDATED: "booking.updated",
+  BOOKING_DELETED: "booking.deleted",
+  BOOKING_STATUS_CHANGED: "booking.status.changed",
+  BOOKING_APPROVED: "booking.approved",
+  BOOKING_REJECTED: "booking.rejected",
+  BOOKING_CANCELED: "booking.canceled",
+  LOCATION_REQUESTED: "booking.location.requested",
+  ACTIVITY_ADDED: "booking.activity.added",
+  ACTIVITY_UPDATED: "booking.activity.updated",
+  ACTIVITY_REMOVED: "booking.activity.removed",
+  RECURRING_PATTERN_CHANGED: "booking.recurring.changed",
+  BOOKING_ERROR: "booking.error",
 } as const;
 
 // Type definitions for event payloads
@@ -100,13 +100,13 @@ export const bookingEvents = {
 
     // Also publish to the specific status event
     switch (data.newStatus) {
-      case &quot;approved&quot;:
+      case "approved":
         eventBus.emit(BookingEventTypes.BOOKING_APPROVED, data);
         break;
-      case &quot;rejected&quot;:
+      case "rejected":
         eventBus.emit(BookingEventTypes.BOOKING_REJECTED, data);
         break;
-      case &quot;canceled&quot;:
+      case "canceled":
         eventBus.emit(BookingEventTypes.BOOKING_CANCELED, data);
         break;
     }

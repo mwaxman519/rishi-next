@@ -1,13 +1,13 @@
-&quot;use server&quot;;
+"use server";
 
-import { hashPassword } from &quot;../../lib/auth-server&quot;;
-import { USER_ROLES, UserRole } from &quot;../../../shared/rbac/roles&quot;;
-import { eventBus } from &quot;../../../shared/events&quot;;
+import { hashPassword } from "../../lib/auth-server";
+import { USER_ROLES, UserRole } from "../../../shared/rbac/roles";
+import { eventBus } from "../../../shared/events";
 import {
   mapDatabaseUserToCredentials,
   mapDatabaseUserToProfile,
-} from &quot;../../lib/user-repository-helpers&quot;;
-import { userRepository } from &quot;./repository&quot;;
+} from "../../lib/user-repository-helpers";
+import { userRepository } from "./repository";
 import {
   CreateUserRequest,
   UpdateUserRequest,
@@ -16,14 +16,14 @@ import {
   ServiceResponse,
   UserResponse,
   UsersResponse,
-} from &quot;./models&quot;;
+} from "./models";
 
 /**
  * Get all users
  */
 export async function getAllUsers(): Promise<UsersResponse> {
   try {
-    console.log(&quot;[userService] Getting all users&quot;);
+    console.log("[userService] Getting all users");
     const users = await userRepository.getAllUsers();
     console.log(`[userService] Found ${users?.length || 0} users`);
     
@@ -36,10 +36,10 @@ export async function getAllUsers(): Promise<UsersResponse> {
     
     return { success: true, data: userProfiles };
   } catch (error) {
-    console.error(&quot;Error in getAllUsers:&quot;, error);
+    console.error("Error in getAllUsers:", error);
     return {
       success: false,
-      error: &quot;Failed to fetch users&quot;,
+      error: "Failed to fetch users",
     };
   }
 }
@@ -54,7 +54,7 @@ export async function getUserById(id: string): Promise<UserResponse> {
     if (!user) {
       return {
         success: false,
-        error: &quot;User not found&quot;,
+        error: "User not found",
       };
     }
 
@@ -66,7 +66,7 @@ export async function getUserById(id: string): Promise<UserResponse> {
     console.error(`Error in getUserById(${id}):`, error);
     return {
       success: false,
-      error: &quot;Failed to fetch user&quot;,
+      error: "Failed to fetch user",
     };
   }
 }
@@ -83,7 +83,7 @@ export async function getUserByUsername(
     if (!user) {
       return {
         success: false,
-        error: &quot;User not found&quot;,
+        error: "User not found",
       };
     }
 
@@ -95,7 +95,7 @@ export async function getUserByUsername(
     console.error(`Error in getUserByUsername(${username}):`, error);
     return {
       success: false,
-      error: &quot;Failed to fetch user&quot;,
+      error: "Failed to fetch user",
     };
   }
 }
@@ -108,41 +108,41 @@ export async function createUser(
 ): Promise<UserResponse> {
   try {
     console.log(
-      &quot;[userService] createUser - Starting with username:&quot;,
+      "[userService] createUser - Starting with username:",
       userData.username,
     );
 
     // Check if username already exists
-    console.log(&quot;[userService] Checking if username already exists&quot;);
+    console.log("[userService] Checking if username already exists");
     const existingUser = await userRepository.findByUsername(userData.username);
 
     if (existingUser) {
-      console.log(&quot;[userService] Username already exists:&quot;, userData.username);
+      console.log("[userService] Username already exists:", userData.username);
       return {
         success: false,
-        error: &quot;Username already exists&quot;,
+        error: "Username already exists",
       };
     }
 
     // Check if email already exists (if provided)
     if (userData.email) {
-      console.log(&quot;[userService] Checking if email already exists&quot;);
+      console.log("[userService] Checking if email already exists");
       const existingEmailUser = await userRepository.findByEmail(userData.email);
 
       if (existingEmailUser) {
-        console.log(&quot;[userService] Email already exists:&quot;, userData.email);
+        console.log("[userService] Email already exists:", userData.email);
         return {
           success: false,
-          error: &quot;Email already exists&quot;,
+          error: "Email already exists",
         };
       }
     }
 
     // Hash password
-    console.log(&quot;[userService] Hashing password&quot;);
+    console.log("[userService] Hashing password");
     try {
       const hashedPassword = await hashPassword(userData.password);
-      console.log(&quot;[userService] Password hashed successfully&quot;);
+      console.log("[userService] Password hashed successfully");
 
       // Prepare user data for database
       const userDataForDb = {
@@ -154,37 +154,37 @@ export async function createUser(
         role: userData.role || USER_ROLES.BRAND_AGENT,
         profileImage: userData.profileImage ?? undefined,
       };
-      console.log(&quot;[userService] Prepared user data for database:&quot;, {
+      console.log("[userService] Prepared user data for database:", {
         ...userDataForDb,
-        password: &quot;[REDACTED]&quot;,
+        password: "[REDACTED]",
       });
 
       // Create user with hashed password
-      console.log(&quot;[userService] Calling repository.create&quot;);
+      console.log("[userService] Calling repository.create");
       const newUser = await userRepository.create(userDataForDb);
 
       if (!newUser) {
         return {
           success: false,
-          error: &quot;Failed to create user - database error&quot;,
+          error: "Failed to create user - database error",
         };
       }
 
-      console.log(&quot;[userService] User created successfully:&quot;, {
+      console.log("[userService] User created successfully:", {
         id: newUser.id,
         username: newUser.username,
       });
 
       // Emit user created event
-      console.log(&quot;[userService] Emitting user.created event&quot;);
+      console.log("[userService] Emitting user.created event");
       try {
-        eventBus.emit(&quot;user.created&quot;, {
+        eventBus.emit("user.created", {
           id: newUser.id,
           username: newUser.username,
           role: newUser.role,
         });
       } catch (eventError) {
-        console.warn(&quot;Failed to emit user.created event:&quot;, eventError);
+        console.warn("Failed to emit user.created event:", eventError);
         // Continue with the operation even if event emission fails
       }
 
@@ -193,26 +193,26 @@ export async function createUser(
 
       return { success: true, data: userProfile };
     } catch (hashError) {
-      console.error(&quot;[userService] Error hashing password:&quot;, hashError);
+      console.error("[userService] Error hashing password:", hashError);
       return {
         success: false,
-        error: `Failed to hash password: ${hashError instanceof Error ? hashError.message : &quot;Unknown error&quot;}`,
+        error: `Failed to hash password: ${hashError instanceof Error ? hashError.message : "Unknown error"}`,
       };
     }
   } catch (error) {
-    console.error(&quot;[userService] Error in createUser:&quot;, error);
+    console.error("[userService] Error in createUser:", error);
     const errorMessage =
       error instanceof Error
-        ? `${error.name}: ${error.message}${error.stack ? &quot;\n&quot; + error.stack : "&quot;}`
-        : &quot;Unknown error&quot;;
-    console.error(&quot;[userService] Detailed error:&quot;, errorMessage);
+        ? `${error.name}: ${error.message}${error.stack ? "\n" + error.stack : ""}`
+        : "Unknown error";
+    console.error("[userService] Detailed error:", errorMessage);
 
     return {
       success: false,
       error:
         error instanceof Error
           ? `Failed to create user: ${error.message}`
-          : &quot;Failed to create user&quot;,
+          : "Failed to create user",
     };
   }
 }
@@ -231,7 +231,7 @@ export async function updateUser(
     if (!existingUser) {
       return {
         success: false,
-        error: &quot;User not found&quot;,
+        error: "User not found",
       };
     }
 
@@ -243,7 +243,7 @@ export async function updateUser(
       profileImage: userData.profileImage ?? undefined,
     };
 
-    // Only include active and role fields if they&apos;re provided
+    // Only include active and role fields if they're provided
     if (userData.active !== undefined) {
       updateData.active = userData.active;
     }
@@ -258,18 +258,18 @@ export async function updateUser(
     if (!updatedUser) {
       return {
         success: false,
-        error: &quot;Failed to update user&quot;,
+        error: "Failed to update user",
       };
     }
 
     // Emit user updated event
     try {
-      eventBus.emit(&quot;user.updated&quot;, {
+      eventBus.emit("user.updated", {
         id: updatedUser.id,
         changes: userData,
       });
     } catch (eventError) {
-      console.warn(&quot;Failed to emit user.updated event:&quot;, eventError);
+      console.warn("Failed to emit user.updated event:", eventError);
       // Continue with the operation even if event emission fails
     }
 
@@ -281,7 +281,7 @@ export async function updateUser(
     console.error(`Error in updateUser(${id}):`, error);
     return {
       success: false,
-      error: &quot;Failed to update user&quot;,
+      error: "Failed to update user",
     };
   }
 }
@@ -299,7 +299,7 @@ export async function deleteUser(
     if (!existingUser) {
       return {
         success: false,
-        error: &quot;User not found&quot;,
+        error: "User not found",
       };
     }
 
@@ -309,15 +309,15 @@ export async function deleteUser(
     if (!deleted) {
       return {
         success: false,
-        error: &quot;Failed to delete user&quot;,
+        error: "Failed to delete user",
       };
     }
 
     // Emit user deleted event
     try {
-      eventBus.emit(&quot;user.deleted&quot;, { id });
+      eventBus.emit("user.deleted", { id });
     } catch (eventError) {
-      console.warn(&quot;Failed to emit user.deleted event:&quot;, eventError);
+      console.warn("Failed to emit user.deleted event:", eventError);
       // Continue with the operation even if event emission fails
     }
 
@@ -326,7 +326,7 @@ export async function deleteUser(
     console.error(`Error in deleteUser(${id}):`, error);
     return {
       success: false,
-      error: &quot;Failed to delete user&quot;,
+      error: "Failed to delete user",
     };
   }
 }
@@ -342,33 +342,33 @@ export async function getUsersByRole(role: UserRole): Promise<UsersResponse> {
     // In production, this would call the repository methods to get actual users
     const workers = [
       {
-        id: &quot;1&quot;,
-        username: &quot;field_agent1&quot;,
-        email: &quot;field1@rishi.com&quot;,
-        fullName: &quot;Field Agent One&quot;,
+        id: "1",
+        username: "field_agent1",
+        email: "field1@rishi.com",
+        fullName: "Field Agent One",
         role: USER_ROLES.BRAND_AGENT,
         profileImage: null,
-        phone: &quot;555-123-4567&quot;,
+        phone: "555-123-4567",
         active: true,
       },
       {
-        id: &quot;2&quot;,
-        username: &quot;field_agent2&quot;,
-        email: &quot;field2@rishi.com&quot;,
-        fullName: &quot;Field Agent Two&quot;,
+        id: "2",
+        username: "field_agent2",
+        email: "field2@rishi.com",
+        fullName: "Field Agent Two",
         role: USER_ROLES.BRAND_AGENT,
         profileImage: null,
-        phone: &quot;555-234-5678&quot;,
+        phone: "555-234-5678",
         active: true,
       },
       {
-        id: &quot;3&quot;,
-        username: &quot;field_manager1&quot;,
-        email: &quot;manager1@rishi.com&quot;,
-        fullName: &quot;Field Manager One&quot;,
+        id: "3",
+        username: "field_manager1",
+        email: "manager1@rishi.com",
+        fullName: "Field Manager One",
         role: USER_ROLES.INTERNAL_FIELD_MANAGER,
         profileImage: null,
-        phone: &quot;555-345-6789&quot;,
+        phone: "555-345-6789",
         active: true,
       },
     ] as UserProfile[];
@@ -386,7 +386,7 @@ export async function getUsersByRole(role: UserRole): Promise<UsersResponse> {
     console.error(`Error in getUsersByRole(${role}):`, error);
     return {
       success: false,
-      error: &quot;Failed to fetch users by role&quot;,
+      error: "Failed to fetch users by role",
     };
   }
 }
@@ -404,7 +404,7 @@ export async function getUserWithCredentials(
     if (!user) {
       return {
         success: false,
-        error: &quot;User not found&quot;,
+        error: "User not found",
       };
     }
 
@@ -416,7 +416,7 @@ export async function getUserWithCredentials(
     console.error(`Error in getUserWithCredentials(${username}):`, error);
     return {
       success: false,
-      error: &quot;Failed to fetch user credentials",
+      error: "Failed to fetch user credentials",
     };
   }
 }

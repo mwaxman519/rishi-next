@@ -1,7 +1,7 @@
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import { useOrganization } from &quot;../contexts/OrganizationProvider&quot;;
-import { useAuth } from &quot;./useAuth&quot;;
-import { queryClient } from &quot;../lib/queryClient&quot;;
+import { useQuery } from "@tanstack/react-query";
+import { useOrganization } from "../contexts/OrganizationProvider";
+import { useAuth } from "./useAuth";
+import { queryClient } from "../lib/queryClient";
 
 // Type definition for organization permissions
 type OrganizationPermissionsResponse = {
@@ -20,11 +20,11 @@ export function useOrganizationPermissions(permissions?: string[]) {
   const { currentOrganization } = useOrganization();
 
   const organizationId = currentOrganization?.id;
-  const permissionsParam = permissions?.join(&quot;,&quot;);
+  const permissionsParam = permissions?.join(",");
 
   // Construct query key with organization ID and permissions
   const queryKey = [
-    &quot;/api/rbac/organization-permissions&quot;,
+    "/api/rbac/organization-permissions",
     { organizationId, permissions: permissionsParam },
   ];
 
@@ -32,28 +32,28 @@ export function useOrganizationPermissions(permissions?: string[]) {
   const query = useQuery<OrganizationPermissionsResponse>({
     queryKey,
     queryFn: async () => {
-      if (!organizationId) throw new Error(&quot;Organization ID is required&quot;);
+      if (!organizationId) throw new Error("Organization ID is required");
 
       const url = new URL(
-        &quot;/api/rbac/organization-permissions&quot;,
+        "/api/rbac/organization-permissions",
         window.location.origin,
       );
-      url.searchParams.append(&quot;organizationId&quot;, organizationId.toString());
+      url.searchParams.append("organizationId", organizationId.toString());
       if (permissionsParam) {
-        url.searchParams.append(&quot;permissions&quot;, permissionsParam);
+        url.searchParams.append("permissions", permissionsParam);
       }
 
       const res = await fetch(url.toString(), {
-        credentials: &quot;include&quot;,
+        credentials: "include",
       });
 
       if (res.status === 401) {
-        throw new Error(&quot;Unauthorized&quot;);
+        throw new Error("Unauthorized");
       }
 
       if (!res.ok) {
         const error = await res.text();
-        throw new Error(error || &quot;Failed to fetch organization permissions&quot;);
+        throw new Error(error || "Failed to fetch organization permissions");
       }
 
       return await res.json();
@@ -82,7 +82,7 @@ export function useOrganizationPermissions(permissions?: string[]) {
   // Helper to invalidate permissions (used after updating permissions)
   const invalidatePermissions = () => {
     queryClient.invalidateQueries({
-      queryKey: [&quot;/api/rbac/organization-permissions&quot;],
+      queryKey: ["/api/rbac/organization-permissions"],
     });
   };
 

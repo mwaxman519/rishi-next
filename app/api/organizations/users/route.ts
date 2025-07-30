@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getCurrentAuthUser } from &quot;@/lib/auth-server&quot;;
-import { db } from &quot;../../../../lib/db-connection&quot;;
-import { users, userOrganizations } from &quot;@shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { hasPermission } from &quot;@/lib/rbac&quot;;
+import { getCurrentAuthUser } from "@/lib/auth-server";
+import { db } from "../../../../lib/db-connection";
+import { users, userOrganizations } from "@shared/schema";
+import { eq, and } from "drizzle-orm";
+import { hasPermission } from "@/lib/rbac";
 
 /**
  * GET /api/organizations/users
@@ -24,23 +24,23 @@ export async function GET(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get organizationId from query params
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: &quot;Organization ID is required&quot; },
+        { error: "Organization ID is required" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to view organization users
     // Ensure the user belongs to this organization or is a super admin
-    if (user.role !== &quot;super_admin&quot;) {
+    if (user.role !== "super_admin") {
       const userOrg = await db.query.userOrganizations.findFirst({
         where: (userOrg, { and, eq }) =>
           and(
@@ -49,20 +49,20 @@ export async function GET(request: NextRequest) {
           ),
       });
 
-      if (!userOrg && !hasPermission(&quot;read:organizations&quot;, user.role)) {
+      if (!userOrg && !hasPermission("read:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to view users for this organization&quot;,
+              "You do not have permission to view users for this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions
-      if (!hasPermission(&quot;read:users&quot;, user.role)) {
+      if (!hasPermission("read:users", user.role)) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to view users&quot; },
+          { error: "You do not have permission to view users" },
           { status: 403 },
         );
       }
@@ -84,9 +84,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ users: organizationUsers });
   } catch (error) {
-    console.error(&quot;Error fetching organization users:&quot;, error);
+    console.error("Error fetching organization users:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch organization users&quot; },
+      { error: "Failed to fetch organization users" },
       { status: 500 },
     );
   }
@@ -108,23 +108,23 @@ export async function DELETE(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get userId and organizationId from query params
     const { searchParams } = new URL(request.url);
-    const userId = (searchParams.get(&quot;userId&quot;) || undefined);
-    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined);
+    const userId = (searchParams.get("userId") || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
 
     if (!userId || !organizationId) {
       return NextResponse.json(
-        { error: &quot;User ID and Organization ID are required&quot; },
+        { error: "User ID and Organization ID are required" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to remove users from organization
-    if (user.role !== &quot;super_admin&quot;) {
+    if (user.role !== "super_admin") {
       const userOrg = await db.query.userOrganizations.findFirst({
         where: (userOrg, { and, eq }) =>
           and(
@@ -134,20 +134,20 @@ export async function DELETE(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission(&quot;update:organizations&quot;, user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to remove users from this organization&quot;,
+              "You do not have permission to remove users from this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission(&quot;update:users&quot;, user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to manage users&quot; },
+          { error: "You do not have permission to manage users" },
           { status: 403 },
         );
       }
@@ -156,7 +156,7 @@ export async function DELETE(request: NextRequest) {
     // Prevent users from removing themselves
     if (userId === user.id) {
       return NextResponse.json(
-        { error: &quot;You cannot remove yourself from an organization&quot; },
+        { error: "You cannot remove yourself from an organization" },
         { status: 400 },
       );
     }
@@ -172,7 +172,7 @@ export async function DELETE(request: NextRequest) {
 
     if (!userOrgToRemove) {
       return NextResponse.json(
-        { error: &quot;User is not a member of this organization&quot; },
+        { error: "User is not a member of this organization" },
         { status: 404 },
       );
     }
@@ -180,13 +180,13 @@ export async function DELETE(request: NextRequest) {
     // If this is the user's primary organization, prevent removal
     if (userOrgToRemove.isPrimary) {
       return NextResponse.json(
-        { error: &quot;Cannot remove a user from their primary organization&quot; },
+        { error: "Cannot remove a user from their primary organization" },
         { status: 400 },
       );
     }
 
     // For development mode, return success without actual deletion
-    if (process.env.NODE_ENV !== &quot;production&quot;) {
+    if (process.env.NODE_ENV !== "production") {
       console.log(
         `DEVELOPMENT MODE: Would remove user ${userId} from organization ${organizationId}`,
       );
@@ -206,16 +206,16 @@ export async function DELETE(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: &quot;User removed from organization successfully&quot;,
+        message: "User removed from organization successfully",
       });
     } catch (dbError) {
-      console.error(&quot;Database error removing user from organization:&quot;, dbError);
+      console.error("Database error removing user from organization:", dbError);
       throw dbError;
     }
   } catch (error) {
-    console.error(&quot;Error removing user from organization:&quot;, error);
+    console.error("Error removing user from organization:", error);
     return NextResponse.json(
-      { error: &quot;Failed to remove user from organization&quot; },
+      { error: "Failed to remove user from organization" },
       { status: 500 },
     );
   }
@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get request body
@@ -248,13 +248,13 @@ export async function POST(request: NextRequest) {
 
     if (!userId || !organizationId || !role) {
       return NextResponse.json(
-        { error: &quot;User ID, Organization ID and Role are required&quot; },
+        { error: "User ID, Organization ID and Role are required" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to add users to organization
-    if (user.role !== &quot;super_admin&quot;) {
+    if (user.role !== "super_admin") {
       const userOrg = await db.query.userOrganizations.findFirst({
         where: (userOrg, { and, eq }) =>
           and(
@@ -264,20 +264,20 @@ export async function POST(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission(&quot;update:organizations&quot;, user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to add users to this organization&quot;,
+              "You do not have permission to add users to this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission(&quot;update:users&quot;, user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to manage users&quot; },
+          { error: "You do not have permission to manage users" },
           { status: 403 },
         );
       }
@@ -289,7 +289,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!userExists) {
-      return NextResponse.json({ error: &quot;User not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Check if the user is already a member of this organization
@@ -303,7 +303,7 @@ export async function POST(request: NextRequest) {
 
     if (existingUserOrg) {
       return NextResponse.json(
-        { error: &quot;User is already a member of this organization&quot; },
+        { error: "User is already a member of this organization" },
         { status: 400 },
       );
     }
@@ -311,7 +311,7 @@ export async function POST(request: NextRequest) {
     // If setting as primary, we need to update all other organizations for this user
     if (isPrimary) {
       // For development mode, just log this operation
-      if (process.env.NODE_ENV !== &quot;production&quot;) {
+      if (process.env.NODE_ENV !== "production") {
         console.log(
           `DEVELOPMENT MODE: Would update all other organizations for user ${userId} to non-primary`,
         );
@@ -325,7 +325,7 @@ export async function POST(request: NextRequest) {
     }
 
     // For development mode, return success without actual insertion
-    if (process.env.NODE_ENV !== &quot;production&quot;) {
+    if (process.env.NODE_ENV !== "production") {
       console.log(
         `DEVELOPMENT MODE: Would add user ${userId} to organization ${organizationId} with role ${role}`,
       );
@@ -365,13 +365,13 @@ export async function POST(request: NextRequest) {
         userOrganization: createdUserOrg,
       });
     } catch (dbError) {
-      console.error(&quot;Database error adding user to organization:&quot;, dbError);
+      console.error("Database error adding user to organization:", dbError);
       throw dbError;
     }
   } catch (error) {
-    console.error(&quot;Error adding user to organization:&quot;, error);
+    console.error("Error adding user to organization:", error);
     return NextResponse.json(
-      { error: &quot;Failed to add user to organization&quot; },
+      { error: "Failed to add user to organization" },
       { status: 500 },
     );
   }
@@ -394,7 +394,7 @@ export async function PATCH(request: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Get request body
@@ -408,13 +408,13 @@ export async function PATCH(request: NextRequest) {
       Object.keys(updates).length === 0
     ) {
       return NextResponse.json(
-        { error: &quot;User ID, Organization ID and updates are required&quot; },
+        { error: "User ID, Organization ID and updates are required" },
         { status: 400 },
       );
     }
 
     // Check if the user has permission to update users in organization
-    if (user.role !== &quot;super_admin&quot;) {
+    if (user.role !== "super_admin") {
       const userOrg = await db.query.userOrganizations.findFirst({
         where: (userOrg, { and, eq }) =>
           and(
@@ -424,20 +424,20 @@ export async function PATCH(request: NextRequest) {
       });
 
       // User must belong to the organization or be a super admin
-      if (!userOrg && !hasPermission(&quot;update:organizations&quot;, user.role)) {
+      if (!userOrg && !hasPermission("update:organizations", user.role)) {
         return NextResponse.json(
           {
             error:
-              &quot;You do not have permission to update users in this organization&quot;,
+              "You do not have permission to update users in this organization",
           },
           { status: 403 },
         );
       }
 
       // Check role-based permissions for user management
-      if (!hasPermission(&quot;update:users&quot;, user.role)) {
+      if (!hasPermission("update:users", user.role)) {
         return NextResponse.json(
-          { error: &quot;You do not have permission to manage users&quot; },
+          { error: "You do not have permission to manage users" },
           { status: 403 },
         );
       }
@@ -454,7 +454,7 @@ export async function PATCH(request: NextRequest) {
 
     if (!existingUserOrg) {
       return NextResponse.json(
-        { error: &quot;User is not a member of this organization&quot; },
+        { error: "User is not a member of this organization" },
         { status: 404 },
       );
     }
@@ -462,7 +462,7 @@ export async function PATCH(request: NextRequest) {
     // If updating to primary, we need to update all other organizations for this user
     if (updates.isPrimary) {
       // For development mode, just log this operation
-      if (process.env.NODE_ENV !== &quot;production&quot;) {
+      if (process.env.NODE_ENV !== "production") {
         console.log(
           `DEVELOPMENT MODE: Would update all other organizations for user ${userId} to non-primary`,
         );
@@ -476,7 +476,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     // For development mode, return success without actual update
-    if (process.env.NODE_ENV !== &quot;production&quot;) {
+    if (process.env.NODE_ENV !== "production") {
       console.log(
         `DEVELOPMENT MODE: Would update user ${userId} in organization ${organizationId} with:`,
         updates,
@@ -515,13 +515,13 @@ export async function PATCH(request: NextRequest) {
         userOrganization: updatedUserOrg,
       });
     } catch (dbError) {
-      console.error(&quot;Database error updating user in organization:&quot;, dbError);
+      console.error("Database error updating user in organization:", dbError);
       throw dbError;
     }
   } catch (error) {
-    console.error(&quot;Error updating user in organization:&quot;, error);
+    console.error("Error updating user in organization:", error);
     return NextResponse.json(
-      { error: &quot;Failed to update user in organization&quot; },
+      { error: "Failed to update user in organization" },
       { status: 500 },
     );
   }

@@ -4,7 +4,7 @@
  * Service layer for managing US states, territories, and regions.
  */
 
-import { StatesRepository } from &quot;./repository&quot;;
+import { StatesRepository } from "./repository";
 import {
   State,
   Region,
@@ -12,7 +12,7 @@ import {
   UpdateStateDto,
   CreateRegionDto,
   UpdateRegionDto,
-} from &quot;./models&quot;;
+} from "./models";
 
 /**
  * Service for states and regions operations
@@ -34,23 +34,23 @@ export class StatesService {
             active: true,
           },
           {
-            id: &quot;4&quot;,
-            name: &quot;Florida&quot;,
-            code: &quot;FL&quot;,
-            regionId: &quot;2&quot;, // Southeast
-            capital: &quot;Tallahassee&quot;,
+            id: "4",
+            name: "Florida",
+            code: "FL",
+            regionId: "2", // Southeast
+            capital: "Tallahassee",
             isTerritory: false,
-            timezone: &quot;Eastern&quot;,
+            timezone: "Eastern",
             active: true,
           },
           {
-            id: &quot;5&quot;,
-            name: &quot;Illinois&quot;,
-            code: &quot;IL&quot;,
-            regionId: &quot;3&quot;, // Midwest
-            capital: &quot;Springfield&quot;,
+            id: "5",
+            name: "Illinois",
+            code: "IL",
+            regionId: "3", // Midwest
+            capital: "Springfield",
             isTerritory: false,
-            timezone: &quot;Central&quot;,
+            timezone: "Central",
             active: true,
           },
         ];
@@ -59,8 +59,8 @@ export class StatesService {
       // In staging/production environments, use the actual repository
       return this.repository.getAllStates();
     } catch (error) {
-      console.error(&quot;Error getting states:&quot;, error);
-      throw new Error(&quot;Failed to get states data&quot;);
+      console.error("Error getting states:", error);
+      throw new Error("Failed to get states data");
     }
   }
 
@@ -69,9 +69,9 @@ export class StatesService {
    */
   async getActiveStates(): Promise<State[]> {
     try {
-      if (process.env.NODE_ENV === &quot;development&quot;) {
+      if (process.env.NODE_ENV === "development") {
         console.log(
-          &quot;DEVELOPMENT MODE: Using mock active states data for testing&quot;,
+          "DEVELOPMENT MODE: Using mock active states data for testing",
         );
         // Simply return the same mock data as getAllStates() but filtered for active states
         const allStates = await this.getAllStates();
@@ -81,8 +81,8 @@ export class StatesService {
       // In staging/production, use the repository
       return this.repository.getActiveStates();
     } catch (error) {
-      console.error(&quot;Error getting active states:&quot;, error);
-      throw new Error(&quot;Failed to get active states data&quot;);
+      console.error("Error getting active states:", error);
+      throw new Error("Failed to get active states data");
     }
   }
 
@@ -91,9 +91,9 @@ export class StatesService {
    */
   async getStateById(id: string): Promise<State | null> {
     try {
-      if (process.env.NODE_ENV === &quot;development&quot;) {
+      if (process.env.NODE_ENV === "development") {
         console.log(
-          &quot;DEVELOPMENT MODE: Using mock state by ID data for testing&quot;,
+          "DEVELOPMENT MODE: Using mock state by ID data for testing",
         );
 
         // Return a specific state from mock data
@@ -114,9 +114,9 @@ export class StatesService {
    */
   async getStateByCode(code: string): Promise<State | null> {
     try {
-      if (process.env.NODE_ENV === &quot;development&quot;) {
+      if (process.env.NODE_ENV === "development") {
         console.log(
-          &quot;DEVELOPMENT MODE: Using mock state by code data for testing&quot;,
+          "DEVELOPMENT MODE: Using mock state by code data for testing",
         );
 
         // Return a specific state from mock data
@@ -165,51 +165,51 @@ export class StatesService {
    */
   async getAllRegions(): Promise<Region[]> {
     try {
-      if (process.env.NODE_ENV === &quot;development&quot;) {
-        console.log(&quot;DEVELOPMENT MODE: Using mock regions data for testing&quot;);
+      if (process.env.NODE_ENV === "development") {
+        console.log("DEVELOPMENT MODE: Using mock regions data for testing");
 
         // Mock US regions data for development
         const regions: Region[] = [
           {
-            id: &quot;1&quot;,
-            name: &quot;Northeast&quot;,
-            code: &quot;NE&quot;,
-            description: &quot;Northeastern United States&quot;,
+            id: "1",
+            name: "Northeast",
+            code: "NE",
+            description: "Northeastern United States",
             states: [],
           },
           {
-            id: &quot;2&quot;,
-            name: &quot;Southeast&quot;,
-            code: &quot;SE&quot;,
-            description: &quot;Southeastern United States&quot;,
+            id: "2",
+            name: "Southeast",
+            code: "SE",
+            description: "Southeastern United States",
             states: [],
           },
           {
-            id: &quot;3&quot;,
-            name: &quot;Midwest&quot;,
-            code: &quot;MW&quot;,
-            description: &quot;Midwestern United States&quot;,
+            id: "3",
+            name: "Midwest",
+            code: "MW",
+            description: "Midwestern United States",
             states: [],
           },
           {
-            id: &quot;4&quot;,
-            name: &quot;Southwest&quot;,
-            code: &quot;SW&quot;,
-            description: &quot;Southwestern United States&quot;,
+            id: "4",
+            name: "Southwest",
+            code: "SW",
+            description: "Southwestern United States",
             states: [],
           },
           {
-            id: &quot;5&quot;,
-            name: &quot;West&quot;,
-            code: &quot;W&quot;,
-            description: &quot;Western United States&quot;,
+            id: "5",
+            name: "West",
+            code: "W",
+            description: "Western United States",
             states: [],
           },
           {
-            id: &quot;6&quot;,
-            name: &quot;Territories&quot;,
-            code: &quot;TERR&quot;,
-            description: &quot;United States Territories&quot;,
+            id: "6",
+            name: "Territories",
+            code: "TERR",
+            description: "United States Territories",
             states: [],
           },
         ];
@@ -229,8 +229,8 @@ export class StatesService {
       // For staging/production, use real data from the repository
       return this.repository.getAllRegions();
     } catch (error) {
-      console.error(&quot;Error getting regions:&quot;, error);
-      throw new Error(&quot;Failed to get regions data&quot;);
+      console.error("Error getting regions:", error);
+      throw new Error("Failed to get regions data");
     }
   }
 
@@ -275,37 +275,37 @@ export class StatesService {
 
       // Skip initialization if states already exist
       if (existingStates.length > 0) {
-        console.log(&quot;States data already exists, skipping initialization.&quot;);
+        console.log("States data already exists, skipping initialization.");
         return;
       }
 
       // Create regions
       const regions = [
         {
-          name: &quot;Northeast&quot;,
-          code: &quot;NE&quot;,
-          description: &quot;Northeastern United States&quot;,
+          name: "Northeast",
+          code: "NE",
+          description: "Northeastern United States",
         },
         {
-          name: &quot;Southeast&quot;,
-          code: &quot;SE&quot;,
-          description: &quot;Southeastern United States&quot;,
+          name: "Southeast",
+          code: "SE",
+          description: "Southeastern United States",
         },
         {
-          name: &quot;Midwest&quot;,
-          code: &quot;MW&quot;,
-          description: &quot;Midwestern United States&quot;,
+          name: "Midwest",
+          code: "MW",
+          description: "Midwestern United States",
         },
         {
-          name: &quot;Southwest&quot;,
-          code: &quot;SW&quot;,
-          description: &quot;Southwestern United States&quot;,
+          name: "Southwest",
+          code: "SW",
+          description: "Southwestern United States",
         },
-        { name: &quot;West&quot;, code: &quot;W&quot;, description: &quot;Western United States&quot; },
+        { name: "West", code: "W", description: "Western United States" },
         {
-          name: &quot;Territories&quot;,
-          code: &quot;TERR&quot;,
-          description: &quot;United States Territories&quot;,
+          name: "Territories",
+          code: "TERR",
+          description: "United States Territories",
         },
       ];
 
@@ -320,10 +320,10 @@ export class StatesService {
       // This would include creating all 50 states, DC, and territories
       // We'd need to fetch accurate data from a reliable source
 
-      console.log(&quot;States and regions data initialized successfully.&quot;);
+      console.log("States and regions data initialized successfully.");
     } catch (error) {
-      console.error(&quot;Error initializing states data:&quot;, error);
-      throw new Error(&quot;Failed to initialize states data&quot;);
+      console.error("Error initializing states data:", error);
+      throw new Error("Failed to initialize states data");
     }
   }
 }

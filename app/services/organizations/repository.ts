@@ -1,9 +1,9 @@
 /**
  * Organization Repository for data access operations
  */
-import { db } from &quot;../../../lib/db-connection&quot;;
-import { organizations, organizationUsers } from &quot;../../../shared/schema&quot;;
-import { eq, and, like, inArray } from &quot;drizzle-orm&quot;;
+import { db } from "../../../lib/db-connection";
+import { organizations, organizationUsers } from "../../../shared/schema";
+import { eq, and, like, inArray } from "drizzle-orm";
 import {
   Organization,
   OrganizationUser,
@@ -14,7 +14,7 @@ import {
   OrganizationFilters,
   OrganizationType,
   ClientTier,
-} from &quot;./models&quot;;
+} from "./models";
 
 export class OrganizationRepository {
   /**
@@ -25,7 +25,7 @@ export class OrganizationRepository {
       const result = await db.select().from(organizations);
       return result.map(this.mapOrganizationToDTO);
     } catch (error) {
-      console.error(&quot;Error fetching organizations:&quot;, error);
+      console.error("Error fetching organizations:", error);
       throw new Error(
         `Failed to fetch organizations: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -85,7 +85,7 @@ export class OrganizationRepository {
 
       return this.mapOrganizationToDTO(result);
     } catch (error) {
-      console.error(&quot;Error creating organization:&quot;, error);
+      console.error("Error creating organization:", error);
       throw new Error(
         `Failed to create organization: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -139,7 +139,7 @@ export class OrganizationRepository {
 
       // Check if this is an internal organization
       if (organization.type === OrganizationType.INTERNAL) {
-        throw new Error(&quot;Cannot delete internal organizations&quot;);
+        throw new Error("Cannot delete internal organizations");
       }
 
       // Delete the organization
@@ -187,7 +187,7 @@ export class OrganizationRepository {
       const results = await query;
       return results.map(this.mapOrganizationToDTO);
     } catch (error) {
-      console.error(&quot;Error searching organizations:&quot;, error);
+      console.error("Error searching organizations:", error);
       throw new Error(
         `Failed to search organizations: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -239,7 +239,7 @@ export class OrganizationRepository {
 
       return this.mapOrganizationUserToDTO(result);
     } catch (error) {
-      console.error(&quot;Error adding user to organization:&quot;, error);
+      console.error("Error adding user to organization:", error);
       throw new Error(
         `Failed to add user to organization: ${error instanceof Error ? error.message : String(error)}`,
       );

@@ -1,21 +1,21 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { EventBusService } from &quot;../../../services/event-bus-service&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
-import { db } from &quot;../../../lib/db-connection&quot;;
-import { tasks } from &quot;@shared/schema&quot;;
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { EventBusService } from "../../../services/event-bus-service";
+import { v4 as uuidv4 } from "uuid";
+import { db } from "../../../lib/db-connection";
+import { tasks } from "@shared/schema";
 
 // POST /api/tasks - Create a new task
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     if (!assigneeId || !title) {
       return NextResponse.json(
-        { error: &quot;Missing required fields: assigneeId, title&quot; },
+        { error: "Missing required fields: assigneeId, title" },
         { status: 400 },
       );
     }
@@ -36,30 +36,30 @@ export async function POST(request: NextRequest) {
         assigneeId,
         assignerId: (session.user as any).id,
         title,
-        description: description || "&quot;,
+        description: description || "",
         dueDate: dueDate ? new Date(dueDate) : null,
-        priority: priority || &quot;medium&quot;,
-        type: type || &quot;general&quot;,
-        status: &quot;pending&quot;,
+        priority: priority || "medium",
+        type: type || "general",
+        status: "pending",
         createdAt: new Date(),
         updatedAt: new Date(),
       })
       .returning();
 
     // Publish task creation event
-    await fetch(&quot;/api/events/publish&quot;, {
-      method: &quot;POST&quot;,
-      headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+    await fetch("/api/events/publish", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        eventType: &quot;task.assigned&quot;,
+        eventType: "task.assigned",
         payload: {
           taskId: task?.id,
           assigneeId,
-          assignerId: &quot;mock-user-id&quot;,
+          assignerId: "mock-user-id",
           title,
           dueDate,
           priority,
-          organizationId: &quot;mock-org-id&quot;,
+          organizationId: "mock-org-id",
         },
         timestamp: new Date().toISOString(),
       }),
@@ -70,9 +70,9 @@ export async function POST(request: NextRequest) {
       data: task,
     });
   } catch (error) {
-    console.error(&quot;Error creating task:&quot;, error);
+    console.error("Error creating task:", error);
     return NextResponse.json(
-      { error: &quot;Failed to create task&quot; },
+      { error: "Failed to create task" },
       { status: 500 },
     );
   }
@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const tasksList = await db.select().from(tasks);
@@ -93,9 +93,9 @@ export async function GET(request: NextRequest) {
       data: tasksList,
     });
   } catch (error) {
-    console.error(&quot;Error fetching tasks:&quot;, error);
+    console.error("Error fetching tasks:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch tasks" },
+      { error: "Failed to fetch tasks" },
       { status: 500 },
     );
   }

@@ -12,30 +12,30 @@
  * - Memory-efficient date generation
  */
 
-import { useEffect, useMemo, useState } from &quot;react&quot;;
-import { format, addDays } from &quot;date-fns&quot;;
+import { useEffect, useMemo, useState } from "react";
+import { format, addDays } from "date-fns";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Info } from &quot;lucide-react&quot;;
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Info } from "lucide-react";
 import {
   recurrenceEngine,
   RecurrenceFrequency,
   RecurrencePattern,
-} from &quot;@/app/services/recurrence-engine&quot;;
+} from "@/app/services/recurrence-engine";
 
 interface RecurrenceSectionProps {
   isRecurring: boolean;
@@ -102,15 +102,15 @@ export default function RecurrenceSection({
   };
 
   return (
-    <Card className=&quot;border-dashed mt-4&quot;>
-      <CardHeader className=&quot;pb-2&quot;>
-        <CardTitle className=&quot;text-md&quot;>Recurrence Pattern</CardTitle>
+    <Card className="border-dashed mt-4">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-md">Recurrence Pattern</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className=&quot;space-y-4&quot;>
+      <CardContent className="space-y-4">
         {/* Frequency selection */}
-        <div className=&quot;grid grid-cols-2 gap-4&quot;>
-          <div className=&quot;space-y-2&quot;>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
             <Label>Frequency</Label>
             <Select
               value={pattern.frequency}
@@ -132,7 +132,7 @@ export default function RecurrenceSection({
           </div>
 
           {/* Occurrences selection */}
-          <div className=&quot;space-y-2&quot;>
+          <div className="space-y-2">
             <Label>Number of Events</Label>
             <Select
               value={pattern.occurrences.toString()}
@@ -142,52 +142,52 @@ export default function RecurrenceSection({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value=&quot;2&quot;>2 events</SelectItem>
-                <SelectItem value=&quot;3&quot;>3 events</SelectItem>
-                <SelectItem value=&quot;4&quot;>4 events</SelectItem>
-                <SelectItem value=&quot;5&quot;>5 events</SelectItem>
-                <SelectItem value=&quot;6&quot;>6 events</SelectItem>
-                <SelectItem value=&quot;8&quot;>8 events</SelectItem>
-                <SelectItem value=&quot;10&quot;>10 events</SelectItem>
-                <SelectItem value=&quot;12&quot;>12 events</SelectItem>
-                <SelectItem value=&quot;16&quot;>16 events</SelectItem>
-                <SelectItem value=&quot;20&quot;>20 events</SelectItem>
-                <SelectItem value=&quot;24&quot;>24 events</SelectItem>
-                <SelectItem value=&quot;30&quot;>30 events</SelectItem>
-                <SelectItem value=&quot;52&quot;>52 events</SelectItem>
+                <SelectItem value="2">2 events</SelectItem>
+                <SelectItem value="3">3 events</SelectItem>
+                <SelectItem value="4">4 events</SelectItem>
+                <SelectItem value="5">5 events</SelectItem>
+                <SelectItem value="6">6 events</SelectItem>
+                <SelectItem value="8">8 events</SelectItem>
+                <SelectItem value="10">10 events</SelectItem>
+                <SelectItem value="12">12 events</SelectItem>
+                <SelectItem value="16">16 events</SelectItem>
+                <SelectItem value="20">20 events</SelectItem>
+                <SelectItem value="24">24 events</SelectItem>
+                <SelectItem value="30">30 events</SelectItem>
+                <SelectItem value="52">52 events</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         {/* Preview of occurrences */}
-        <div className=&quot;mt-4&quot;>
-          <Label className=&quot;mb-2 block&quot;>Event Occurrences</Label>
-          <div className=&quot;flex flex-wrap gap-2&quot;>
+        <div className="mt-4">
+          <Label className="mb-2 block">Event Occurrences</Label>
+          <div className="flex flex-wrap gap-2">
             {occurrences.slice(0, 8).map((occurrence, index) => (
               <Badge
                 key={index}
                 variant={
                   occurrence.isException
-                    ? &quot;outline&quot;
+                    ? "outline"
                     : index === 0
-                      ? &quot;default&quot;
-                      : &quot;secondary&quot;
+                      ? "default"
+                      : "secondary"
                 }
                 className={
-                  occurrence.isException ? &quot;line-through opacity-70&quot; : "&quot;
+                  occurrence.isException ? "line-through opacity-70" : ""
                 }
               >
-                {format(occurrence.date, &quot;MMM d, yyyy&quot;)}
+                {format(occurrence.date, "MMM d, yyyy")}
               </Badge>
             ))}
             {occurrences.length > 8 && (
-              <Badge variant=&quot;outline&quot;>+{occurrences.length - 8} more</Badge>
+              <Badge variant="outline">+{occurrences.length - 8} more</Badge>
             )}
           </div>
 
-          <div className=&quot;flex items-start space-x-2 text-xs text-muted-foreground mt-3&quot;>
-            <Info className=&quot;h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+          <div className="flex items-start space-x-2 text-xs text-muted-foreground mt-3">
+            <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
             <p>
               This is a preview of your recurring pattern. The actual events
               will be created when you submit the booking form.

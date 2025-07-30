@@ -1,26 +1,26 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { z } from &quot;zod&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from &quot;@/components/ui/form&quot;;
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from &quot;@/components/ui/select&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import { Loader2, Save, X } from &quot;lucide-react&quot;;
-import ImageUpload from &quot;./ImageUpload&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2, Save, X } from "lucide-react";
+import ImageUpload from "./ImageUpload";
+import { useQuery } from "@tanstack/react-query";
 
 const kitTemplateSchema = z.object({
-  name: z.string().min(1, &quot;Name is required&quot;).max(255, &quot;Name must be less than 255 characters&quot;),
+  name: z.string().min(1, "Name is required").max(255, "Name must be less than 255 characters"),
   description: z.string().optional(),
-  organization_id: z.string().uuid(&quot;Please select an organization&quot;),
-  brand_id: z.string().uuid(&quot;Please select a brand&quot;).optional(),
+  organization_id: z.string().uuid("Please select an organization"),
+  brand_id: z.string().uuid("Please select a brand").optional(),
   image_url: z.string().optional(),
   thumbnail_url: z.string().optional(),
   image_alt_text: z.string().optional(),
@@ -64,55 +64,55 @@ export default function KitTemplateForm({
 }: KitTemplateFormProps) {
   const { toast } = useToast();
   const [selectedOrganization, setSelectedOrganization] = useState<string>(
-    initialData?.organization_id || "&quot;
+    initialData?.organization_id || ""
   );
 
   const form = useForm<KitTemplateFormData>({
     resolver: zodResolver(kitTemplateSchema),
     defaultValues: {
-      name: initialData?.name || &quot;&quot;,
-      description: initialData?.description || &quot;&quot;,
-      organization_id: initialData?.organization_id || &quot;&quot;,
-      brand_id: initialData?.brand_id || &quot;&quot;,
-      image_url: initialData?.image_url || &quot;&quot;,
-      thumbnail_url: initialData?.thumbnail_url || &quot;&quot;,
-      image_alt_text: initialData?.image_alt_text || &quot;&quot;,
+      name: initialData?.name || "",
+      description: initialData?.description || "",
+      organization_id: initialData?.organization_id || "",
+      brand_id: initialData?.brand_id || "",
+      image_url: initialData?.image_url || "",
+      thumbnail_url: initialData?.thumbnail_url || "",
+      image_alt_text: initialData?.image_alt_text || "",
       active: initialData?.active ?? true,
     },
   });
 
   // Fetch organizations
   const { data: organizations = [] } = useQuery<Organization[]>({
-    queryKey: [&quot;/api/user-organizations&quot;],
+    queryKey: ["/api/user-organizations"],
     queryFn: async () => {
-      const response = await fetch(&quot;/api/user-organizations&quot;);
-      if (!response.ok) throw new Error(&quot;Failed to fetch organizations&quot;);
+      const response = await fetch("/api/user-organizations");
+      if (!response.ok) throw new Error("Failed to fetch organizations");
       return response.json();
     },
   });
 
   // Fetch brands for selected organization
   const { data: brands = [] } = useQuery<Brand[]>({
-    queryKey: [&quot;/api/brands&quot;, { organizationId: selectedOrganization }],
+    queryKey: ["/api/brands", { organizationId: selectedOrganization }],
     queryFn: async () => {
       if (!selectedOrganization) return [];
       const params = new URLSearchParams();
-      params.append(&quot;organizationId&quot;, selectedOrganization);
+      params.append("organizationId", selectedOrganization);
       
       const response = await fetch(`/api/brands?${params}`);
-      if (!response.ok) throw new Error(&quot;Failed to fetch brands&quot;);
+      if (!response.ok) throw new Error("Failed to fetch brands");
       return response.json();
     },
     enabled: !!selectedOrganization,
   });
 
   const handleImageUpload = (imageUrl: string, thumbnailUrl: string) => {
-    form.setValue(&quot;image_url&quot;, imageUrl);
-    form.setValue(&quot;thumbnail_url&quot;, thumbnailUrl);
+    form.setValue("image_url", imageUrl);
+    form.setValue("thumbnail_url", thumbnailUrl);
     
     // Auto-generate alt text from template name if not provided
-    if (!form.getValues(&quot;image_alt_text&quot;) && form.getValues(&quot;name&quot;)) {
-      form.setValue(&quot;image_alt_text&quot;, `${form.getValues(&quot;name&quot;)} template image`);
+    if (!form.getValues("image_alt_text") && form.getValues("name")) {
+      form.setValue("image_alt_text", `${form.getValues("name")} template image`);
     }
   };
 
@@ -120,47 +120,47 @@ export default function KitTemplateForm({
     try {
       await onSubmit(data);
       toast({
-        title: &quot;Success&quot;,
-        description: `Kit template ${isEditing ? &quot;updated&quot; : &quot;created&quot;} successfully`,
+        title: "Success",
+        description: `Kit template ${isEditing ? "updated" : "created"} successfully`,
       });
     } catch (error) {
-      console.error(&quot;Form submission error:&quot;, error);
+      console.error("Form submission error:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: error instanceof Error ? error.message : &quot;Failed to save kit template&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to save kit template",
+        variant: "destructive",
       });
     }
   };
 
   const handleOrganizationChange = (organizationId: string) => {
     setSelectedOrganization(organizationId);
-    form.setValue(&quot;organization_id&quot;, organizationId);
-    form.setValue(&quot;brand_id&quot;, &quot;&quot;); // Reset brand selection
+    form.setValue("organization_id", organizationId);
+    form.setValue("brand_id", ""); // Reset brand selection
   };
 
   return (
-    <Card className=&quot;w-full max-w-2xl mx-auto&quot;>
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle className=&quot;flex items-center gap-2&quot;>
-          <Save className=&quot;h-5 w-5&quot; />
-          {isEditing ? &quot;Edit Kit Template&quot; : &quot;Create New Kit Template&quot;}
+        <CardTitle className="flex items-center gap-2">
+          <Save className="h-5 w-5" />
+          {isEditing ? "Edit Kit Template" : "Create New Kit Template"}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className=&quot;space-y-6&quot;>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
             {/* Basic Information */}
-            <div className=&quot;space-y-4&quot;>
+            <div className="space-y-4">
               <FormField
                 control={form.control}
-                name=&quot;name&quot;
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Template Name *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=&quot;Enter template name&quot;
+                        placeholder="Enter template name"
                         {...field}
                         disabled={isLoading}
                       />
@@ -172,13 +172,13 @@ export default function KitTemplateForm({
 
               <FormField
                 control={form.control}
-                name=&quot;description&quot;
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder=&quot;Enter template description&quot;
+                        placeholder="Enter template description"
                         rows={3}
                         {...field}
                         disabled={isLoading}
@@ -191,10 +191,10 @@ export default function KitTemplateForm({
             </div>
 
             {/* Organization and Brand Selection */}
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}
-                name=&quot;organization_id&quot;
+                name="organization_id"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Organization *</FormLabel>
@@ -205,7 +205,7 @@ export default function KitTemplateForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder=&quot;Select organization&quot; />
+                          <SelectValue placeholder="Select organization" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -223,7 +223,7 @@ export default function KitTemplateForm({
 
               <FormField
                 control={form.control}
-                name=&quot;brand_id&quot;
+                name="brand_id"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Brand</FormLabel>
@@ -234,11 +234,11 @@ export default function KitTemplateForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder=&quot;Select brand (optional)&quot; />
+                          <SelectValue placeholder="Select brand (optional)" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value=&quot;&quot;>No brand</SelectItem>
+                        <SelectItem value="">No brand</SelectItem>
                         {brands.map((brand) => (
                           <SelectItem key={brand.id} value={brand.id}>
                             {brand.name}
@@ -255,21 +255,21 @@ export default function KitTemplateForm({
             {/* Image Upload */}
             <ImageUpload
               onImageUpload={handleImageUpload}
-              currentImageUrl={form.getValues(&quot;image_url&quot;)}
-              currentThumbnailUrl={form.getValues(&quot;thumbnail_url&quot;)}
+              currentImageUrl={form.getValues("image_url")}
+              currentThumbnailUrl={form.getValues("thumbnail_url")}
               disabled={isLoading}
             />
 
             {/* Alt Text for Accessibility */}
             <FormField
               control={form.control}
-              name=&quot;image_alt_text&quot;
+              name="image_alt_text"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Image Description (for accessibility)</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder=&quot;Describe the image for screen readers&quot;
+                      placeholder="Describe the image for screen readers"
                       {...field}
                       disabled={isLoading}
                     />
@@ -280,26 +280,26 @@ export default function KitTemplateForm({
             />
 
             {/* Form Actions */}
-            <div className=&quot;flex gap-3 pt-4&quot;>
+            <div className="flex gap-3 pt-4">
               <Button
-                type=&quot;submit&quot;
+                type="submit"
                 disabled={isLoading}
-                className=&quot;flex-1&quot;
+                className="flex-1"
               >
                 {isLoading ? (
-                  <Loader2 className=&quot;h-4 w-4 animate-spin mr-2&quot; />
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
                 ) : (
-                  <Save className=&quot;h-4 w-4 mr-2&quot; />
+                  <Save className="h-4 w-4 mr-2" />
                 )}
-                {isEditing ? &quot;Update Template&quot; : &quot;Create Template&quot;}
+                {isEditing ? "Update Template" : "Create Template"}
               </Button>
               <Button
-                type=&quot;button&quot;
-                variant=&quot;outline&quot;
+                type="button"
+                variant="outline"
                 onClick={onCancel}
                 disabled={isLoading}
               >
-                <X className=&quot;h-4 w-4 mr-2" />
+                <X className="h-4 w-4 mr-2" />
                 Cancel
               </Button>
             </div>

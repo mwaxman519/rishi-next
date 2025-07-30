@@ -1,6 +1,6 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Main API Route for Auth Microservice
@@ -8,17 +8,17 @@ export const revalidate = false;
  * This is the entry point for the auth microservice that provides
  * information about the service and its capabilities.
  */
-import { NextRequest } from &quot;next/server&quot;;
-import { successResponse } from &quot;./utils/response&quot;;
-import { AUTH_CONFIG } from &quot;./config&quot;;
-import { testConnection } from &quot;./db&quot;;
+import { NextRequest } from "next/server";
+import { successResponse } from "./utils/response";
+import { AUTH_CONFIG } from "./config";
+import { testConnection } from "./db";
 
 /**
  * Handle GET /api/auth-service
  * Returns information about the auth microservice
  */
 export async function GET(request: NextRequest) {
-  console.log(&quot;[Auth Service] Service information request&quot;);
+  console.log("[Auth Service] Service information request");
 
   // Test database connection
   const dbStatus = await testConnection();
@@ -26,29 +26,29 @@ export async function GET(request: NextRequest) {
   return successResponse({
     service: AUTH_CONFIG.SERVICE_NAME,
     version: AUTH_CONFIG.SERVICE_VERSION,
-    status: &quot;active&quot;,
+    status: "active",
     environment: process.env.NODE_ENV,
     database: dbStatus,
     endpoints: [
       {
-        path: &quot;/api/auth-service/routes/login&quot;,
-        method: &quot;POST&quot;,
-        description: &quot;Authenticate a user and get a session token&quot;,
+        path: "/api/auth-service/routes/login",
+        method: "POST",
+        description: "Authenticate a user and get a session token",
       },
       {
-        path: &quot;/api/auth-service/routes/register&quot;,
-        method: &quot;POST&quot;,
-        description: &quot;Register a new user account&quot;,
+        path: "/api/auth-service/routes/register",
+        method: "POST",
+        description: "Register a new user account",
       },
       {
-        path: &quot;/api/auth-service/routes/logout&quot;,
-        method: &quot;POST&quot;,
-        description: &quot;End a user session&quot;,
+        path: "/api/auth-service/routes/logout",
+        method: "POST",
+        description: "End a user session",
       },
       {
-        path: &quot;/api/auth-service/routes/session&quot;,
-        method: &quot;GET&quot;,
-        description: &quot;Get information about the current user session&quot;,
+        path: "/api/auth-service/routes/session",
+        method: "GET",
+        description: "Get information about the current user session",
       },
     ],
   });

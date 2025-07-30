@@ -1,20 +1,20 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { USER_ROLES } from &quot;@shared/schema&quot;;
-import { UserRole } from &quot;@/lib/rbac&quot;;
+import { USER_ROLES } from "@shared/schema";
+import { UserRole } from "@/lib/rbac";
 
 export async function POST(request: NextRequest) {
   try {
     // Check if the request is from an authenticated super admin
-    const authHeader = request.headers.get(&quot;x-user-role&quot;);
+    const authHeader = request.headers.get("x-user-role");
 
     if (authHeader !== USER_ROLES.SUPER_ADMIN) {
       return NextResponse.json(
         {
-          error: &quot;Unauthorized access. Only super admins can create bulk users&quot;,
+          error: "Unauthorized access. Only super admins can create bulk users",
         },
         { status: 403 },
       );
@@ -22,14 +22,14 @@ export async function POST(request: NextRequest) {
 
     // Create a user for each role
     const roles = [
-      &quot;super_admin&quot;,
-      &quot;internal_admin&quot;,
-      &quot;internal_field_manager&quot;,
-      &quot;field_coordinator&quot;,
-      &quot;brand_agent&quot;,
-      &quot;internal_account_manager&quot;,
-      &quot;client_manager&quot;,
-      &quot;client_user&quot;,
+      "super_admin",
+      "internal_admin",
+      "internal_field_manager",
+      "field_coordinator",
+      "brand_agent",
+      "internal_account_manager",
+      "client_manager",
+      "client_user",
     ];
 
     const createdUsers = [];
@@ -37,15 +37,15 @@ export async function POST(request: NextRequest) {
     for (const role of roles) {
       const userData = {
         username: `${role}`,
-        password: &quot;password123&quot;,
+        password: "password123",
         fullName: `${role
-          .split(&quot;_&quot;)
+          .split("_")
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(&quot; &quot;)}`,
+          .join(" ")}`,
         email: `${role}@example.com`,
-        phone: &quot;555-123-4567&quot;,
+        phone: "555-123-4567",
         role: role as UserRole,
-        profileImage: "&quot;,
+        profileImage: "",
         active: true,
       };
 
@@ -58,15 +58,15 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      message: &quot;Test users created successfully&quot;,
+      message: "Test users created successfully",
       users: createdUsers,
     });
   } catch (error) {
-    console.error(&quot;Error creating test users:&quot;, error);
+    console.error("Error creating test users:", error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : &quot;An unknown error occurred",
+          error instanceof Error ? error.message : "An unknown error occurred",
       },
       { status: 500 },
     );

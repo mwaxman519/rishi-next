@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect, useCallback, useRef } from &quot;react&quot;;
-import FullCalendar from &quot;@fullcalendar/react&quot;;
-import dayGridPlugin from &quot;@fullcalendar/daygrid&quot;;
-import timeGridPlugin from &quot;@fullcalendar/timegrid&quot;;
-import interactionPlugin from &quot;@fullcalendar/interaction&quot;;
-import { DateSelectArg, EventClickArg } from &quot;@fullcalendar/core&quot;;
-import { format } from &quot;date-fns&quot;;
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { DateSelectArg, EventClickArg } from "@fullcalendar/core";
+import { format } from "date-fns";
 // CSS imported in layout.tsx to prevent webpack style-loader issues
 
 // Define availability block interface from API
@@ -19,7 +19,7 @@ interface ApiAvailabilityBlock {
   start_date?: string | Date; // Snake case alternative
   endDate: string | Date;
   end_date?: string | Date; // Snake case alternative
-  status: &quot;available&quot; | &quot;unavailable&quot;;
+  status: "available" | "unavailable";
   isRecurring: boolean;
   is_recurring?: boolean; // Snake case alternative
   recurring?: boolean; // Additional alternative
@@ -38,7 +38,7 @@ interface CalendarEvent {
   start: string | Date;
   end: string | Date;
   extendedProps: {
-    status: &quot;available&quot; | &quot;unavailable&quot;;
+    status: "available" | "unavailable";
     isRecurring?: boolean;
     recurrenceGroup?: string;
     originalId: number;
@@ -71,7 +71,7 @@ export default function BasicCalendar({
 
   // Helper function to format dates for API calls
   const formatDateParam = (date: Date): string => {
-    return format(date, &quot;yyyy-MM-dd&quot;);
+    return format(date, "yyyy-MM-dd");
   };
 
   // Status colors
@@ -79,19 +79,19 @@ export default function BasicCalendar({
     status: string,
   ): { bg: string; border: string; text: string } => {
     switch (status) {
-      case &quot;available&quot;:
-        return { bg: &quot;#00A8A8&quot;, border: &quot;#007777&quot;, text: &quot;#FFFFFF&quot; };
-      case &quot;unavailable&quot;:
-        return { bg: &quot;#E53E3E&quot;, border: &quot;#C53030&quot;, text: &quot;#FFFFFF&quot; };
+      case "available":
+        return { bg: "#00A8A8", border: "#007777", text: "#FFFFFF" };
+      case "unavailable":
+        return { bg: "#E53E3E", border: "#C53030", text: "#FFFFFF" };
       default:
-        return { bg: &quot;#718096&quot;, border: &quot;#4A5568&quot;, text: &quot;#FFFFFF&quot; };
+        return { bg: "#718096", border: "#4A5568", text: "#FFFFFF" };
     }
   };
 
   // Fetch availability data from API
   const fetchAvailability = useCallback(async () => {
     if (!userId) {
-      setError(&quot;No user ID provided&quot;);
+      setError("No user ID provided");
       setIsLoading(false);
       return;
     }
@@ -111,7 +111,7 @@ export default function BasicCalendar({
       // For demo purposes, create some sample calendar events directly
       // This will show the calendar UI while still allowing the API integration to be setup properly later
 
-      console.log(&quot;Creating sample availability data for demonstration&quot;);
+      console.log("Creating sample availability data for demonstration");
 
       // Sample data for next two weeks
       const sampleData: CalendarEvent[] = [];
@@ -138,16 +138,16 @@ export default function BasicCalendar({
         const afternoonEnd = new Date(date);
         afternoonEnd.setHours(17, 0, 0, 0);
 
-        const availableColors = getStatusColor(&quot;available&quot;);
+        const availableColors = getStatusColor("available");
 
         // Add morning availability
         sampleData.push({
           id: `morning-${i}`,
-          title: &quot;Available&quot;,
+          title: "Available",
           start: morningStart.toISOString(),
           end: morningEnd.toISOString(),
           extendedProps: {
-            status: &quot;available&quot;,
+            status: "available",
             isRecurring: false,
             originalId: 1000 + i,
           },
@@ -159,11 +159,11 @@ export default function BasicCalendar({
         // Add afternoon availability
         sampleData.push({
           id: `afternoon-${i}`,
-          title: &quot;Available&quot;,
+          title: "Available",
           start: afternoonStart.toISOString(),
           end: afternoonEnd.toISOString(),
           extendedProps: {
-            status: &quot;available&quot;,
+            status: "available",
             isRecurring: false,
             originalId: 2000 + i,
           },
@@ -181,15 +181,15 @@ export default function BasicCalendar({
       const unavailableEnd = new Date(unavailableDate);
       unavailableEnd.setHours(23, 59, 59, 999);
 
-      const unavailableColors = getStatusColor(&quot;unavailable&quot;);
+      const unavailableColors = getStatusColor("unavailable");
 
       sampleData.push({
-        id: &quot;unavailable-day&quot;,
-        title: &quot;Unavailable - Personal Day&quot;,
+        id: "unavailable-day",
+        title: "Unavailable - Personal Day",
         start: unavailableDate.toISOString(),
         end: unavailableEnd.toISOString(),
         extendedProps: {
-          status: &quot;unavailable&quot;,
+          status: "unavailable",
           isRecurring: false,
           originalId: 3000,
         },
@@ -201,7 +201,7 @@ export default function BasicCalendar({
       console.log(`Created ${sampleData.length} sample availability blocks`);
       setEvents(sampleData);
 
-      // Uncomment the following code to use the actual API once it&apos;s ready
+      // Uncomment the following code to use the actual API once it's ready
       /*
       // Make API call with a cache-busting parameter to prevent caching
       const cacheBuster = new Date().getTime();
@@ -267,8 +267,8 @@ export default function BasicCalendar({
       setEvents(calendarEvents);
       */
     } catch (err) {
-      console.error(&quot;Error fetching availability:&quot;, err);
-      setError(err instanceof Error ? err.message : &quot;Unknown error occurred&quot;);
+      console.error("Error fetching availability:", err);
+      setError(err instanceof Error ? err.message : "Unknown error occurred");
     } finally {
       setIsLoading(false);
     }
@@ -299,13 +299,13 @@ export default function BasicCalendar({
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectInfo, setSelectInfo] = useState<DateSelectArg | null>(null);
   const [createFormValues, setCreateFormValues] = useState({
-    title: "&quot;,
-    status: &quot;available&quot; as &quot;available&quot; | &quot;unavailable&quot;,
+    title: "",
+    status: "available" as "available" | "unavailable",
     isRecurring: false,
-    recurrencePattern: &quot;daily&quot;,
-    recurrenceEndType: &quot;never&quot; as &quot;never&quot; | &quot;count&quot; | &quot;date&quot;,
+    recurrencePattern: "daily",
+    recurrenceEndType: "never" as "never" | "count" | "date",
     recurrenceCount: 10,
-    recurrenceEndDate: &quot;&quot;,
+    recurrenceEndDate: "",
     dayOfWeek: 0, // Sunday
   });
 
@@ -321,7 +321,7 @@ export default function BasicCalendar({
       // Default the title based on time
       const startDate = new Date(selectInfo.start);
       const endDate = new Date(selectInfo.end);
-      const defaultTitle = `${format(startDate, &quot;h:mm a&quot;)} - ${format(endDate, &quot;h:mm a&quot;)}`;
+      const defaultTitle = `${format(startDate, "h:mm a")} - ${format(endDate, "h:mm a")}`;
 
       // Get day of week from the start date (0-6, where 0 is Sunday)
       const dayOfWeek = startDate.getDay();
@@ -332,12 +332,12 @@ export default function BasicCalendar({
 
       setCreateFormValues({
         title: defaultTitle,
-        status: &quot;available&quot;,
+        status: "available",
         isRecurring: false,
-        recurrencePattern: &quot;daily&quot;,
-        recurrenceEndType: &quot;count&quot;,
+        recurrencePattern: "daily",
+        recurrenceEndType: "count",
         recurrenceCount: 10,
-        recurrenceEndDate: format(defaultEndDate, &quot;yyyy-MM-dd&quot;),
+        recurrenceEndDate: format(defaultEndDate, "yyyy-MM-dd"),
         dayOfWeek,
       });
     },
@@ -396,7 +396,7 @@ export default function BasicCalendar({
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         extendedProps: {
-          status: status as &quot;available&quot; | &quot;unavailable&quot;,
+          status: status as "available" | "unavailable",
           isRecurring: isRecurring,
           originalId: Date.now(),
         },
@@ -420,7 +420,7 @@ export default function BasicCalendar({
       handleCreateModalClose();
 
       /* 
-      // The following code would call the API, but it&apos;s currently failing due to schema issues
+      // The following code would call the API, but it's currently failing due to schema issues
       // Create the availability block data
       const availabilityData: any = {
         userId,
@@ -469,8 +469,8 @@ export default function BasicCalendar({
       */
 
       // Block created successfully
-      const successMessage = `Successfully ${isRecurring ? &quot;created recurring&quot; : &quot;created&quot;} availability block${isRecurring ? &quot;s&quot; : &quot;&quot;}`;
-      console.log(&quot;Block created successfully in client state&quot;);
+      const successMessage = `Successfully ${isRecurring ? "created recurring" : "created"} availability block${isRecurring ? "s" : ""}`;
+      console.log("Block created successfully in client state");
       setSuccess(successMessage);
 
       // Auto-hide success message after 3 seconds
@@ -481,11 +481,11 @@ export default function BasicCalendar({
       // No need to refresh data since we added directly to state
       // await fetchAvailability();
     } catch (err) {
-      console.error(&quot;Error creating availability block:&quot;, err);
+      console.error("Error creating availability block:", err);
       setError(
         err instanceof Error
           ? err.message
-          : &quot;Failed to create availability block&quot;,
+          : "Failed to create availability block",
       );
     } finally {
       setIsLoading(false);
@@ -498,11 +498,11 @@ export default function BasicCalendar({
     deleteSeries: boolean = false,
   ) => {
     let confirmMessage =
-      &quot;Are you sure you want to delete this availability block?&quot;;
+      "Are you sure you want to delete this availability block?";
 
     if (deleteSeries) {
       confirmMessage =
-        &quot;Are you sure you want to delete this block and all future occurrences in this series?&quot;;
+        "Are you sure you want to delete this block and all future occurrences in this series?";
     }
 
     if (window.confirm(confirmMessage)) {
@@ -538,15 +538,15 @@ export default function BasicCalendar({
         // API call to delete
         let deleteUrl = `/api/availability/${numericId}`;
         if (deleteSeries) {
-          deleteUrl += &quot;?deleteSeries=true&quot;;
+          deleteUrl += "?deleteSeries=true";
         }
 
         const response = await fetch(deleteUrl, {
-          method: &quot;DELETE&quot;,
+          method: "DELETE",
         });
 
         if (!response.ok) {
-          throw new Error(&quot;Failed to delete block&quot;);
+          throw new Error("Failed to delete block");
         }
 
         // Close modal
@@ -554,7 +554,7 @@ export default function BasicCalendar({
 
         // Show success message
         setSuccess(
-          `Successfully deleted ${deleteSeries ? &quot;recurring series&quot; : &quot;availability block&quot;}`,
+          `Successfully deleted ${deleteSeries ? "recurring series" : "availability block"}`,
         );
 
         // Auto-hide success message after 3 seconds
@@ -565,8 +565,8 @@ export default function BasicCalendar({
         // Refresh data
         await fetchAvailability();
       } catch (err) {
-        console.error(&quot;Error deleting block:&quot;, err);
-        setError(err instanceof Error ? err.message : &quot;Failed to delete block&quot;);
+        console.error("Error deleting block:", err);
+        setError(err instanceof Error ? err.message : "Failed to delete block");
         // Revert optimistic update by fetching fresh data
         fetchAvailability();
       } finally {
@@ -577,36 +577,36 @@ export default function BasicCalendar({
 
   if (isLoading) {
     return (
-      <div className=&quot;flex justify-center items-center h-64&quot;>
-        <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500&quot;></div>
-        <span className=&quot;ml-3 text-gray-600&quot;>Loading calendar...</span>
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+        <span className="ml-3 text-gray-600">Loading calendar...</span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className=&quot;bg-red-50 border-l-4 border-red-400 p-4 rounded mb-4&quot;>
-        <div className=&quot;flex&quot;>
-          <div className=&quot;flex-shrink-0&quot;>
+      <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded mb-4">
+        <div className="flex">
+          <div className="flex-shrink-0">
             <svg
-              className=&quot;h-5 w-5 text-red-400&quot;
-              xmlns=&quot;http://www.w3.org/2000/svg&quot;
-              viewBox=&quot;0 0 20 20&quot;
-              fill=&quot;currentColor&quot;
+              className="h-5 w-5 text-red-400"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
               <path
-                fillRule=&quot;evenodd&quot;
-                d=&quot;M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z&quot;
-                clipRule=&quot;evenodd&quot;
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
               />
             </svg>
           </div>
-          <div className=&quot;ml-3&quot;>
-            <p className=&quot;text-sm text-red-700&quot;>{error}</p>
+          <div className="ml-3">
+            <p className="text-sm text-red-700">{error}</p>
             <button
               onClick={fetchAvailability}
-              className=&quot;mt-2 text-sm text-red-700 underline font-medium hover:text-red-600&quot;
+              className="mt-2 text-sm text-red-700 underline font-medium hover:text-red-600"
             >
               Try again
             </button>
@@ -617,26 +617,26 @@ export default function BasicCalendar({
   }
 
   return (
-    <div className=&quot;bg-white dark:bg-gray-800 shadow rounded-lg p-4&quot;>
+    <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
       {success && (
-        <div className=&quot;bg-green-50 dark:bg-green-900 border-l-4 border-green-400 p-4 rounded mb-4 transition-opacity duration-300&quot;>
-          <div className=&quot;flex&quot;>
-            <div className=&quot;flex-shrink-0&quot;>
+        <div className="bg-green-50 dark:bg-green-900 border-l-4 border-green-400 p-4 rounded mb-4 transition-opacity duration-300">
+          <div className="flex">
+            <div className="flex-shrink-0">
               <svg
-                className=&quot;h-5 w-5 text-green-400&quot;
-                xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                viewBox=&quot;0 0 20 20&quot;
-                fill=&quot;currentColor&quot;
+                className="h-5 w-5 text-green-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
                 <path
-                  fillRule=&quot;evenodd&quot;
-                  d=&quot;M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z&quot;
-                  clipRule=&quot;evenodd&quot;
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
                 />
               </svg>
             </div>
-            <div className=&quot;ml-3&quot;>
-              <p className=&quot;text-sm text-green-700 dark:text-green-200&quot;>
+            <div className="ml-3">
+              <p className="text-sm text-green-700 dark:text-green-200">
                 {success}
               </p>
             </div>
@@ -644,23 +644,23 @@ export default function BasicCalendar({
         </div>
       )}
 
-      <div className=&quot;fc fc-theme-standard dark:text-white&quot;>
+      <div className="fc fc-theme-standard dark:text-white">
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView=&quot;timeGridWeek&quot;
+          initialView="timeGridWeek"
           headerToolbar={{
-            left: &quot;prev,next today&quot;,
-            center: &quot;title&quot;,
-            right: &quot;dayGridMonth,timeGridWeek,timeGridDay&quot;,
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay",
           }}
           buttonText={{
-            today: &quot;Today&quot;,
-            month: &quot;Month&quot;,
-            week: &quot;Week&quot;,
-            day: &quot;Day&quot;,
-            prev: &quot;&quot;, // Empty text, using CSS for arrows
-            next: &quot;&quot;, // Empty text, using CSS for arrows
+            today: "Today",
+            month: "Month",
+            week: "Week",
+            day: "Day",
+            prev: "", // Empty text, using CSS for arrows
+            next: "", // Empty text, using CSS for arrows
           }}
           weekends={true}
           events={events}
@@ -669,25 +669,25 @@ export default function BasicCalendar({
           select={handleDateSelect}
           selectMirror={true}
           dayMaxEvents={true}
-          slotMinTime=&quot;07:00:00&quot;
-          slotMaxTime=&quot;24:00:00&quot;
-          slotDuration=&quot;00:30:00&quot;
-          snapDuration=&quot;00:15:00&quot;
+          slotMinTime="07:00:00"
+          slotMaxTime="24:00:00"
+          slotDuration="00:30:00"
+          snapDuration="00:15:00"
           allDaySlot={false}
-          height=&quot;auto&quot;
-          themeSystem=&quot;standard&quot;
+          height="auto"
+          themeSystem="standard"
         />
       </div>
 
       {/* Modal for block details */}
       {isModalOpen && selectedBlock && (
-        <div className=&quot;fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4&quot;>
-          <div className=&quot;bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6&quot;>
-            <h3 className=&quot;text-lg font-semibold mb-4&quot;>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold mb-4">
               Availability Block Details
             </h3>
 
-            <div className=&quot;mb-4&quot;>
+            <div className="mb-4">
               <p>
                 <strong>Title:</strong> {selectedBlock.title}
               </p>
@@ -695,12 +695,12 @@ export default function BasicCalendar({
                 <strong>Status:</strong> {selectedBlock.extendedProps.status}
               </p>
               <p>
-                <strong>Start:</strong>{&quot; &quot;}
-                {format(new Date(selectedBlock.start), &quot;PPpp&quot;)}
+                <strong>Start:</strong>{" "}
+                {format(new Date(selectedBlock.start), "PPpp")}
               </p>
               <p>
-                <strong>End:</strong>{&quot; &quot;}
-                {format(new Date(selectedBlock.end), &quot;PPpp&quot;)}
+                <strong>End:</strong>{" "}
+                {format(new Date(selectedBlock.end), "PPpp")}
               </p>
               {selectedBlock.extendedProps.isRecurring && (
                 <p>
@@ -709,18 +709,18 @@ export default function BasicCalendar({
               )}
             </div>
 
-            <div className=&quot;flex flex-col space-y-3&quot;>
+            <div className="flex flex-col space-y-3">
               {!viewOnly && selectedBlock.extendedProps.isRecurring && (
-                <div className=&quot;border-t border-gray-200 dark:border-gray-700 pt-3 mt-2&quot;>
-                  <h4 className=&quot;text-sm font-medium text-gray-700 dark:text-gray-300 mb-2&quot;>
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-3 mt-2">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Delete options:
                   </h4>
-                  <div className=&quot;flex space-x-2&quot;>
+                  <div className="flex space-x-2">
                     <button
                       onClick={() =>
                         selectedBlock && handleDelete(selectedBlock.id, false)
                       }
-                      className=&quot;px-3 py-1.5 bg-red-600 text-white text-sm rounded hover:bg-red-700&quot;
+                      className="px-3 py-1.5 bg-red-600 text-white text-sm rounded hover:bg-red-700"
                     >
                       Delete This Occurrence
                     </button>
@@ -728,7 +728,7 @@ export default function BasicCalendar({
                       onClick={() =>
                         selectedBlock && handleDelete(selectedBlock.id, true)
                       }
-                      className=&quot;px-3 py-1.5 bg-red-700 text-white text-sm rounded hover:bg-red-800&quot;
+                      className="px-3 py-1.5 bg-red-700 text-white text-sm rounded hover:bg-red-800"
                     >
                       Delete Entire Series
                     </button>
@@ -737,22 +737,22 @@ export default function BasicCalendar({
               )}
 
               {!viewOnly && !selectedBlock.extendedProps.isRecurring && (
-                <div className=&quot;flex justify-end space-x-2 mt-2&quot;>
+                <div className="flex justify-end space-x-2 mt-2">
                   <button
                     onClick={() =>
                       selectedBlock && handleDelete(selectedBlock.id)
                     }
-                    className=&quot;px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700&quot;
+                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
                   >
                     Delete
                   </button>
                 </div>
               )}
 
-              <div className=&quot;flex justify-end space-x-2 mt-2&quot;>
+              <div className="flex justify-end space-x-2 mt-2">
                 <button
                   onClick={handleCloseModal}
-                  className=&quot;px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600&quot;
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
                 >
                   Close
                 </button>
@@ -764,33 +764,33 @@ export default function BasicCalendar({
 
       {/* Modal for creating new availability block */}
       {isCreateModalOpen && selectInfo && (
-        <div className=&quot;fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4&quot;>
-          <div className=&quot;bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6&quot;>
-            <h3 className=&quot;text-lg font-semibold mb-4&quot;>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold mb-4">
               Create Availability Block
             </h3>
 
-            <div className=&quot;mb-6 space-y-4&quot;>
+            <div className="mb-6 space-y-4">
               <div>
-                <label className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Time Range
                 </label>
-                <p className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>
-                  {format(new Date(selectInfo.start), &quot;PPpp&quot;)} to{&quot; &quot;}
-                  {format(new Date(selectInfo.end), &quot;PPpp&quot;)}
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  {format(new Date(selectInfo.start), "PPpp")} to{" "}
+                  {format(new Date(selectInfo.end), "PPpp")}
                 </p>
               </div>
 
               <div>
                 <label
-                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
-                  htmlFor=&quot;title&quot;
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor="title"
                 >
                   Title
                 </label>
                 <input
-                  type=&quot;text&quot;
-                  id=&quot;title&quot;
+                  type="text"
+                  id="title"
                   value={createFormValues.title}
                   onChange={(e) =>
                     setCreateFormValues({
@@ -798,48 +798,48 @@ export default function BasicCalendar({
                       title: e.target.value,
                     })
                   }
-                  className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white&quot;
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Status
                 </label>
-                <div className=&quot;flex space-x-4&quot;>
-                  <label className=&quot;inline-flex items-center&quot;>
+                <div className="flex space-x-4">
+                  <label className="inline-flex items-center">
                     <input
-                      type=&quot;radio&quot;
-                      name=&quot;status&quot;
-                      value=&quot;available&quot;
-                      checked={createFormValues.status === &quot;available&quot;}
+                      type="radio"
+                      name="status"
+                      value="available"
+                      checked={createFormValues.status === "available"}
                       onChange={() =>
                         setCreateFormValues({
                           ...createFormValues,
-                          status: &quot;available&quot;,
+                          status: "available",
                         })
                       }
-                      className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300&quot;
+                      className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300"
                     />
-                    <span className=&quot;ml-2 text-gray-700 dark:text-gray-300&quot;>
+                    <span className="ml-2 text-gray-700 dark:text-gray-300">
                       Available
                     </span>
                   </label>
-                  <label className=&quot;inline-flex items-center&quot;>
+                  <label className="inline-flex items-center">
                     <input
-                      type=&quot;radio&quot;
-                      name=&quot;status&quot;
-                      value=&quot;unavailable&quot;
-                      checked={createFormValues.status === &quot;unavailable&quot;}
+                      type="radio"
+                      name="status"
+                      value="unavailable"
+                      checked={createFormValues.status === "unavailable"}
                       onChange={() =>
                         setCreateFormValues({
                           ...createFormValues,
-                          status: &quot;unavailable&quot;,
+                          status: "unavailable",
                         })
                       }
-                      className=&quot;h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300&quot;
+                      className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300"
                     />
-                    <span className=&quot;ml-2 text-gray-700 dark:text-gray-300&quot;>
+                    <span className="ml-2 text-gray-700 dark:text-gray-300">
                       Unavailable
                     </span>
                   </label>
@@ -847,11 +847,11 @@ export default function BasicCalendar({
               </div>
 
               {/* Recurring options */}
-              <div className=&quot;pt-4 border-t border-gray-200 dark:border-gray-700&quot;>
-                <div className=&quot;flex items-center mb-4&quot;>
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center mb-4">
                   <input
-                    type=&quot;checkbox&quot;
-                    id=&quot;isRecurring&quot;
+                    type="checkbox"
+                    id="isRecurring"
                     checked={createFormValues.isRecurring}
                     onChange={(e) =>
                       setCreateFormValues({
@@ -859,63 +859,63 @@ export default function BasicCalendar({
                         isRecurring: e.target.checked,
                       })
                     }
-                    className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded&quot;
+                    className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
                   />
                   <label
-                    htmlFor=&quot;isRecurring&quot;
-                    className=&quot;ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300&quot;
+                    htmlFor="isRecurring"
+                    className="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                   >
                     Make this a recurring block
                   </label>
                 </div>
 
                 {createFormValues.isRecurring && (
-                  <div className=&quot;pl-6 space-y-4&quot;>
+                  <div className="pl-6 space-y-4">
                     {/* Recurrence Pattern */}
                     <div>
-                      <label className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Recurrence Pattern
                       </label>
-                      <div className=&quot;flex flex-col space-y-2&quot;>
-                        <label className=&quot;inline-flex items-center&quot;>
+                      <div className="flex flex-col space-y-2">
+                        <label className="inline-flex items-center">
                           <input
-                            type=&quot;radio&quot;
-                            name=&quot;recurrencePattern&quot;
-                            value=&quot;daily&quot;
+                            type="radio"
+                            name="recurrencePattern"
+                            value="daily"
                             checked={
-                              createFormValues.recurrencePattern === &quot;daily&quot;
+                              createFormValues.recurrencePattern === "daily"
                             }
                             onChange={() =>
                               setCreateFormValues({
                                 ...createFormValues,
-                                recurrencePattern: &quot;daily&quot;,
+                                recurrencePattern: "daily",
                               })
                             }
-                            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300&quot;
+                            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300"
                           />
-                          <span className=&quot;ml-2 text-gray-700 dark:text-gray-300&quot;>
+                          <span className="ml-2 text-gray-700 dark:text-gray-300">
                             Daily (every day)
                           </span>
                         </label>
-                        <label className=&quot;inline-flex items-center&quot;>
+                        <label className="inline-flex items-center">
                           <input
-                            type=&quot;radio&quot;
-                            name=&quot;recurrencePattern&quot;
-                            value=&quot;weekly&quot;
+                            type="radio"
+                            name="recurrencePattern"
+                            value="weekly"
                             checked={
-                              createFormValues.recurrencePattern === &quot;weekly&quot;
+                              createFormValues.recurrencePattern === "weekly"
                             }
                             onChange={() =>
                               setCreateFormValues({
                                 ...createFormValues,
-                                recurrencePattern: &quot;weekly&quot;,
+                                recurrencePattern: "weekly",
                               })
                             }
-                            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300&quot;
+                            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300"
                           />
-                          <span className=&quot;ml-2 text-gray-700 dark:text-gray-300&quot;>
-                            Weekly (every{&quot; &quot;}
-                            {format(new Date(selectInfo.start), &quot;EEEE&quot;)})
+                          <span className="ml-2 text-gray-700 dark:text-gray-300">
+                            Weekly (every{" "}
+                            {format(new Date(selectInfo.start), "EEEE")})
                           </span>
                         </label>
                       </div>
@@ -923,105 +923,105 @@ export default function BasicCalendar({
 
                     {/* Recurrence End */}
                     <div>
-                      <label className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         End Recurrence
                       </label>
-                      <div className=&quot;space-y-3&quot;>
-                        <label className=&quot;inline-flex items-center&quot;>
+                      <div className="space-y-3">
+                        <label className="inline-flex items-center">
                           <input
-                            type=&quot;radio&quot;
-                            name=&quot;recurrenceEndType&quot;
-                            value=&quot;never&quot;
+                            type="radio"
+                            name="recurrenceEndType"
+                            value="never"
                             checked={
-                              createFormValues.recurrenceEndType === &quot;never&quot;
+                              createFormValues.recurrenceEndType === "never"
                             }
                             onChange={() =>
                               setCreateFormValues({
                                 ...createFormValues,
-                                recurrenceEndType: &quot;never&quot;,
+                                recurrenceEndType: "never",
                               })
                             }
-                            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300&quot;
+                            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300"
                           />
-                          <span className=&quot;ml-2 text-gray-700 dark:text-gray-300&quot;>
+                          <span className="ml-2 text-gray-700 dark:text-gray-300">
                             Never
                           </span>
                         </label>
 
-                        <div className=&quot;flex items-center&quot;>
+                        <div className="flex items-center">
                           <input
-                            type=&quot;radio&quot;
-                            name=&quot;recurrenceEndType&quot;
-                            value=&quot;count&quot;
+                            type="radio"
+                            name="recurrenceEndType"
+                            value="count"
                             checked={
-                              createFormValues.recurrenceEndType === &quot;count&quot;
+                              createFormValues.recurrenceEndType === "count"
                             }
                             onChange={() =>
                               setCreateFormValues({
                                 ...createFormValues,
-                                recurrenceEndType: &quot;count&quot;,
+                                recurrenceEndType: "count",
                               })
                             }
-                            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300&quot;
+                            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300"
                           />
-                          <span className=&quot;ml-2 text-gray-700 dark:text-gray-300 mr-2&quot;>
+                          <span className="ml-2 text-gray-700 dark:text-gray-300 mr-2">
                             After
                           </span>
                           <input
-                            type=&quot;number&quot;
-                            min=&quot;1&quot;
-                            max=&quot;100&quot;
+                            type="number"
+                            min="1"
+                            max="100"
                             value={createFormValues.recurrenceCount}
                             onChange={(e) =>
                               setCreateFormValues({
                                 ...createFormValues,
                                 recurrenceCount: parseInt(e.target.value),
-                                recurrenceEndType: &quot;count&quot;,
+                                recurrenceEndType: "count",
                               })
                             }
                             disabled={
-                              createFormValues.recurrenceEndType !== &quot;count&quot;
+                              createFormValues.recurrenceEndType !== "count"
                             }
-                            className=&quot;w-16 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white&quot;
+                            className="w-16 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                           />
-                          <span className=&quot;ml-2 text-gray-700 dark:text-gray-300&quot;>
+                          <span className="ml-2 text-gray-700 dark:text-gray-300">
                             occurrences
                           </span>
                         </div>
 
-                        <div className=&quot;flex items-center&quot;>
+                        <div className="flex items-center">
                           <input
-                            type=&quot;radio&quot;
-                            name=&quot;recurrenceEndType&quot;
-                            value=&quot;date&quot;
+                            type="radio"
+                            name="recurrenceEndType"
+                            value="date"
                             checked={
-                              createFormValues.recurrenceEndType === &quot;date&quot;
+                              createFormValues.recurrenceEndType === "date"
                             }
                             onChange={() =>
                               setCreateFormValues({
                                 ...createFormValues,
-                                recurrenceEndType: &quot;date&quot;,
+                                recurrenceEndType: "date",
                               })
                             }
-                            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300&quot;
+                            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300"
                           />
-                          <span className=&quot;ml-2 text-gray-700 dark:text-gray-300 mr-2&quot;>
+                          <span className="ml-2 text-gray-700 dark:text-gray-300 mr-2">
                             On
                           </span>
                           <input
-                            type=&quot;date&quot;
+                            type="date"
                             value={createFormValues.recurrenceEndDate}
                             onChange={(e) =>
                               setCreateFormValues({
                                 ...createFormValues,
                                 recurrenceEndDate: e.target.value,
-                                recurrenceEndType: &quot;date&quot;,
+                                recurrenceEndType: "date",
                               })
                             }
                             disabled={
-                              createFormValues.recurrenceEndType !== &quot;date&quot;
+                              createFormValues.recurrenceEndType !== "date"
                             }
-                            className=&quot;px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white&quot;
+                            className="px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                           />
                         </div>
                       </div>
@@ -1031,16 +1031,16 @@ export default function BasicCalendar({
               </div>
             </div>
 
-            <div className=&quot;flex justify-end space-x-2&quot;>
+            <div className="flex justify-end space-x-2">
               <button
                 onClick={handleCreateModalClose}
-                className=&quot;px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600&quot;
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreateBlock}
-                className=&quot;px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
+                className="px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
               >
                 Create
               </button>

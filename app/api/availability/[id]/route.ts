@@ -1,26 +1,26 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { availabilityService } from &quot;../../../services/availability/availabilityService&quot;;
-import { availabilityRepository } from &quot;../../../services/availability/repository&quot;;
-import { distributedEventBus } from &quot;../../../services/infrastructure/eventBus&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { availabilityService } from "../../../services/availability/availabilityService";
+import { availabilityRepository } from "../../../services/availability/repository";
+import { distributedEventBus } from "../../../services/infrastructure/eventBus";
 
 /**
  * Creates standard headers for API responses with no caching
  */
 function createNoCacheHeaders(): Headers {
   const headers = new Headers();
-  headers.set(&quot;Content-Type&quot;, &quot;application/json&quot;);
+  headers.set("Content-Type", "application/json");
   headers.set(
-    &quot;Cache-Control&quot;,
-    &quot;no-store, no-cache, must-revalidate, proxy-revalidate&quot;,
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate",
   );
-  headers.set(&quot;Pragma&quot;, &quot;no-cache&quot;);
-  headers.set(&quot;Expires&quot;, &quot;0&quot;);
+  headers.set("Pragma", "no-cache");
+  headers.set("Expires", "0");
   return headers;
 }
 
@@ -42,11 +42,11 @@ export async function GET(
     // Await params and validate that we have an ID parameter
     const params = await context.params;
     if (!params || !params.id) {
-      console.error(&quot;Missing ID parameter in request&quot;);
+      console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Missing ID parameter&quot;,
+          error: "Missing ID parameter",
           data: null,
         },
         { status: 400, headers },
@@ -62,7 +62,7 @@ export async function GET(
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid ID format&quot;,
+          error: "Invalid ID format",
           data: null,
         },
         { status: 400, headers },
@@ -79,7 +79,7 @@ export async function GET(
       return NextResponse.json(
         {
           success: false,
-          error: result?.error || &quot;Availability block not found&quot;,
+          error: result?.error || "Availability block not found",
           data: null,
         },
         { status: 404, headers },
@@ -103,7 +103,7 @@ export async function GET(
       {
         success: false,
         error:
-          error instanceof Error ? error.message : &quot;Unknown error occurred&quot;,
+          error instanceof Error ? error.message : "Unknown error occurred",
         data: null,
       },
       { status: 500, headers },
@@ -129,11 +129,11 @@ export async function PUT(
     // Await params and validate that we have an ID parameter
     const params = await context.params;
     if (!params || !params.id) {
-      console.error(&quot;Missing ID parameter in request&quot;);
+      console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Missing ID parameter&quot;,
+          error: "Missing ID parameter",
           data: null,
         },
         { status: 400, headers },
@@ -149,7 +149,7 @@ export async function PUT(
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid ID format&quot;,
+          error: "Invalid ID format",
           data: null,
         },
         { status: 400, headers },
@@ -161,11 +161,11 @@ export async function PUT(
     try {
       updateData = await req.json();
     } catch (parseError) {
-      console.error(&quot;Failed to parse request body:&quot;, parseError);
+      console.error("Failed to parse request body:", parseError);
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid request body format&quot;,
+          error: "Invalid request body format",
           data: null,
         },
         { status: 400, headers },
@@ -188,11 +188,11 @@ export async function PUT(
       return NextResponse.json(
         {
           success: false,
-          error: result?.error || &quot;Update failed&quot;,
+          error: result?.error || "Update failed",
           data: null,
         },
         {
-          status: result?.error === &quot;Availability block not found&quot; ? 404 : 400,
+          status: result?.error === "Availability block not found" ? 404 : 400,
           headers,
         },
       );
@@ -215,7 +215,7 @@ export async function PUT(
       {
         success: false,
         error:
-          error instanceof Error ? error.message : &quot;Unknown error occurred&quot;,
+          error instanceof Error ? error.message : "Unknown error occurred",
         data: null,
       },
       { status: 500, headers },
@@ -242,11 +242,11 @@ export async function DELETE(
     // Await params and validate that we have an ID parameter
     const params = await context.params;
     if (!params || !params.id) {
-      console.error(&quot;Missing ID parameter in request&quot;);
+      console.error("Missing ID parameter in request");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Missing ID parameter&quot;,
+          error: "Missing ID parameter",
           data: null,
         },
         { status: 400, headers },
@@ -262,7 +262,7 @@ export async function DELETE(
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid ID format&quot;,
+          error: "Invalid ID format",
           data: null,
         },
         { status: 400, headers },
@@ -273,9 +273,9 @@ export async function DELETE(
     let deleteSeries = false;
     try {
       const { searchParams } = new URL(req.url);
-      deleteSeries = (searchParams.get(&quot;deleteSeries&quot;) || undefined) === &quot;true&quot;;
+      deleteSeries = (searchParams.get("deleteSeries") || undefined) === "true";
     } catch (urlError) {
-      console.error(&quot;Error parsing URL for query parameters:&quot;, urlError);
+      console.error("Error parsing URL for query parameters:", urlError);
       // Continue with default deleteSeries=false
     }
 
@@ -294,11 +294,11 @@ export async function DELETE(
       return NextResponse.json(
         {
           success: false,
-          error: result?.error || &quot;Deletion failed&quot;,
+          error: result?.error || "Deletion failed",
           data: null,
         },
         {
-          status: result?.error === &quot;Availability block not found&quot; ? 404 : 400,
+          status: result?.error === "Availability block not found" ? 404 : 400,
           headers,
         },
       );
@@ -321,7 +321,7 @@ export async function DELETE(
       {
         success: false,
         error:
-          error instanceof Error ? error.message : &quot;Unknown error occurred&quot;,
+          error instanceof Error ? error.message : "Unknown error occurred",
         data: null,
       },
       { status: 500, headers },

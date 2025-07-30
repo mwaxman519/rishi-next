@@ -16,11 +16,11 @@ import {
   RejectKitTemplateParams,
   ApproveKitParams,
   RejectKitParams,
-} from &quot;@/services/kits&quot;;
+} from "@/services/kits";
 
 class KitsClientService {
   // Base URL for kit API
-  private apiUrl = &quot;/api/kits&quot;;
+  private apiUrl = "/api/kits";
 
   /**
    * Fetch all kit templates with optional filtering
@@ -35,12 +35,12 @@ class KitsClientService {
       }
     });
 
-    const query = queryParams.toString() ? `?${queryParams.toString()}` : "&quot;;
+    const query = queryParams.toString() ? `?${queryParams.toString()}` : "";
     const response = await fetch(`${this.apiUrl}/templates${query}`);
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || &quot;Failed to fetch kit templates&quot;);
+      throw new Error(error.message || "Failed to fetch kit templates");
     }
 
     return response.json();
@@ -67,16 +67,16 @@ class KitsClientService {
    */
   async createTemplate(data: CreateKitTemplateParams): Promise<KitTemplateDTO> {
     const response = await fetch(`${this.apiUrl}/templates`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || &quot;Failed to create kit template&quot;);
+      throw new Error(error.message || "Failed to create kit template");
     }
 
     return response.json();
@@ -90,9 +90,9 @@ class KitsClientService {
     data: UpdateKitTemplateParams,
   ): Promise<KitTemplateDTO> {
     const response = await fetch(`${this.apiUrl}/templates/${id}`, {
-      method: &quot;PATCH&quot;,
+      method: "PATCH",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -115,9 +115,9 @@ class KitsClientService {
   ): Promise<KitTemplateDTO> {
     const { id, notes } = params;
     const response = await fetch(`${this.apiUrl}/templates/${id}/approve`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ notes }),
     });
@@ -140,9 +140,9 @@ class KitsClientService {
   ): Promise<KitTemplateDTO> {
     const { id, reason } = params;
     const response = await fetch(`${this.apiUrl}/templates/${id}/reject`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ reason }),
     });
@@ -168,12 +168,12 @@ class KitsClientService {
       }
     });
 
-    const query = queryParams.toString() ? `?${queryParams.toString()}` : &quot;&quot;;
+    const query = queryParams.toString() ? `?${queryParams.toString()}` : "";
     const response = await fetch(`${this.apiUrl}/instances${query}`);
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || &quot;Failed to fetch kits&quot;);
+      throw new Error(error.message || "Failed to fetch kits");
     }
 
     return response.json();
@@ -198,16 +198,16 @@ class KitsClientService {
    */
   async createKit(data: CreateKitParams): Promise<KitDTO> {
     const response = await fetch(`${this.apiUrl}/instances`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || &quot;Failed to create kit&quot;);
+      throw new Error(error.message || "Failed to create kit");
     }
 
     return response.json();
@@ -218,9 +218,9 @@ class KitsClientService {
    */
   async updateKit(id: number, data: UpdateKitParams): Promise<KitDTO> {
     const response = await fetch(`${this.apiUrl}/instances/${id}`, {
-      method: &quot;PATCH&quot;,
+      method: "PATCH",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -239,9 +239,9 @@ class KitsClientService {
   async approveKit(params: ApproveKitParams): Promise<KitDTO> {
     const { id, notes } = params;
     const response = await fetch(`${this.apiUrl}/instances/${id}/approve`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ notes }),
     });
@@ -260,9 +260,9 @@ class KitsClientService {
   async rejectKit(params: RejectKitParams): Promise<KitDTO> {
     const { id, reason } = params;
     const response = await fetch(`${this.apiUrl}/instances/${id}/reject`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ reason }),
     });
@@ -288,13 +288,13 @@ class KitsClientService {
       }
     });
 
-    const query = queryParams.toString() ? `?${queryParams.toString()}` : &quot;&quot;;
+    const query = queryParams.toString() ? `?${queryParams.toString()}` : "";
     const response = await fetch(`${this.apiUrl}/activity-kits${query}`);
 
     if (!response.ok) {
       const error = await response.json();
       throw new Error(
-        error.message || &quot;Failed to fetch activity kit assignments&quot;,
+        error.message || "Failed to fetch activity kit assignments",
       );
     }
 
@@ -324,9 +324,9 @@ class KitsClientService {
     data: CreateActivityKitParams,
   ): Promise<ActivityKitDTO> {
     const response = await fetch(`${this.apiUrl}/activity-kits`, {
-      method: &quot;POST&quot;,
+      method: "POST",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -334,7 +334,7 @@ class KitsClientService {
     if (!response.ok) {
       const error = await response.json();
       throw new Error(
-        error.message || &quot;Failed to create activity kit assignment&quot;,
+        error.message || "Failed to create activity kit assignment",
       );
     }
 
@@ -349,9 +349,9 @@ class KitsClientService {
     data: UpdateActivityKitParams,
   ): Promise<ActivityKitDTO> {
     const response = await fetch(`${this.apiUrl}/activity-kits/${id}`, {
-      method: &quot;PATCH&quot;,
+      method: "PATCH",
       headers: {
-        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -371,7 +371,7 @@ class KitsClientService {
    */
   async deleteActivityKit(id: string): Promise<void> {
     const response = await fetch(`${this.apiUrl}/activity-kits/${id}`, {
-      method: &quot;DELETE",
+      method: "DELETE",
     });
 
     if (!response.ok) {

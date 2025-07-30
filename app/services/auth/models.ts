@@ -1,4 +1,4 @@
-import { UserRole } from &quot;../../../shared/schema&quot;;
+import { UserRole } from "../../../shared/schema";
 
 // Domain models
 export interface AuthUser {

@@ -9,7 +9,7 @@ import { getCurrentUser } from '../../../../lib/auth-server';
 import { hasPermission } from '../../../../lib/permissions';
 import { BaseEvent } from '../../../../services/infrastructure/messaging/eventTypes';
 
-export const dynamic = &quot;force-dynamic&quot;;
+export const dynamic = "force-dynamic";
 
 interface PublishEventRequest {
   type: string;

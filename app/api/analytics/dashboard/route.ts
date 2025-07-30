@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { authenticateRequest } from &quot;../../../server/auth-utils&quot;;
-import { EventBusService } from &quot;../../../services/EventBusService&quot;;
+import { authenticateRequest } from "../../../server/auth-utils";
+import { EventBusService } from "../../../services/EventBusService";
 
 export async function GET(request: NextRequest) {
   try {
     // Authenticate the request
     const user = await authenticateRequest(request);
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Analytics data for Rishi Platform
@@ -21,35 +21,35 @@ export async function GET(request: NextRequest) {
       monthlyRevenue: 145230,
       completionRate: 94.2,
       topLocations: [
-        { name: &quot;Los Angeles, CA&quot;, count: 45 },
-        { name: &quot;Denver, CO&quot;, count: 38 },
-        { name: &quot;Seattle, WA&quot;, count: 32 },
-        { name: &quot;Portland, OR&quot;, count: 28 },
-        { name: &quot;San Francisco, CA&quot;, count: 24 },
+        { name: "Los Angeles, CA", count: 45 },
+        { name: "Denver, CO", count: 38 },
+        { name: "Seattle, WA", count: 32 },
+        { name: "Portland, OR", count: 28 },
+        { name: "San Francisco, CA", count: 24 },
       ],
       recentActivity: [
-        { type: &quot;booking_created&quot;, count: 12, timeframe: &quot;last_24h&quot; },
-        { type: &quot;staff_assigned&quot;, count: 8, timeframe: &quot;last_24h&quot; },
-        { type: &quot;booking_completed&quot;, count: 15, timeframe: &quot;last_24h&quot; },
+        { type: "booking_created", count: 12, timeframe: "last_24h" },
+        { type: "staff_assigned", count: 8, timeframe: "last_24h" },
+        { type: "booking_completed", count: 15, timeframe: "last_24h" },
       ],
     };
 
     // Publish analytics access event
     EventBusService.publish({
-      type: &quot;analytics_dashboard_accessed&quot;,
+      type: "analytics_dashboard_accessed",
       userId: user.id,
       timestamp: new Date(),
       metadata: {
         userRole: user.role,
-        requestPath: &quot;/api/analytics/dashboard&quot;,
+        requestPath: "/api/analytics/dashboard",
       },
     });
 
     return NextResponse.json(analyticsData);
   } catch (error) {
-    console.error(&quot;Analytics dashboard error:&quot;, error);
+    console.error("Analytics dashboard error:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch analytics data&quot; },
+      { error: "Failed to fetch analytics data" },
       { status: 500 },
     );
   }

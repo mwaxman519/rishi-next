@@ -2,7 +2,7 @@
  * RBAC Service Models
  * These models define the core entities and types for the RBAC system
  */
-import { z } from &quot;zod&quot;;
+import { z } from "zod";
 
 /**
  * Permission string type - represents an action on a resource with optional scope
@@ -18,11 +18,11 @@ export type Permission = string;
  * Permission scope defines the visibility/access boundary
  */
 export enum PermissionScope {
-  ALL = &quot;all&quot;, // Access to all resources, regardless of ownership
-  ORGANIZATION = &quot;organization&quot;, // Access limited to current organization
-  OWNED = &quot;owned&quot;, // Access limited to resources owned by the user
-  ASSIGNED = &quot;assigned&quot;, // Access limited to resources assigned to the user
-  REGION = &quot;region&quot;, // Access limited to resources in the user's region
+  ALL = "all", // Access to all resources, regardless of ownership
+  ORGANIZATION = "organization", // Access limited to current organization
+  OWNED = "owned", // Access limited to resources owned by the user
+  ASSIGNED = "assigned", // Access limited to resources assigned to the user
+  REGION = "region", // Access limited to resources in the user's region
 }
 
 /**
@@ -76,14 +76,14 @@ export const permissionSchema = z
   .string()
   .regex(
     /^[a-z]+:[a-z\-]+(:[a-z]+)?$/,
-    &quot;Permission must be in format: action:resource[:scope]&quot;,
+    "Permission must be in format: action:resource[:scope]",
   );
 
 /**
  * Role creation schema
  */
 export const createRoleSchema = z.object({
-  name: z.string().min(1, &quot;Role name is required&quot;),
+  name: z.string().min(1, "Role name is required"),
   description: z.string().optional(),
   permissions: z.array(permissionSchema),
   isSystem: z.boolean().default(false),
@@ -99,8 +99,8 @@ export const updateRoleSchema = createRoleSchema.partial();
  * User role assignment schema
  */
 export const userRoleSchema = z.object({
-  userId: z.string().min(1, &quot;User ID is required&quot;),
-  roleId: z.string().min(1, &quot;Role ID is required&quot;),
+  userId: z.string().min(1, "User ID is required"),
+  roleId: z.string().min(1, "Role ID is required"),
   organizationId: z.string().optional(),
   isDefault: z.boolean().default(false),
 });
@@ -109,7 +109,7 @@ export const userRoleSchema = z.object({
  * Organization permission schema
  */
 export const organizationPermissionSchema = z.object({
-  organizationId: z.string().min(1, &quot;Organization ID is required&quot;),
+  organizationId: z.string().min(1, "Organization ID is required"),
   permission: permissionSchema,
   isGranted: z.boolean(),
 });

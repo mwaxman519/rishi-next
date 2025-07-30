@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useForm } from &quot;react-hook-form&quot;;
-import { z } from &quot;zod&quot;;
-import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
-import { useMutation } from &quot;@tanstack/react-query&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { Loader2, MapPin, Info, CheckCircle } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { Loader2, MapPin, Info, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -24,29 +24,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from &quot;@/components/ui/form&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { RadioGroup, RadioGroupItem } from &quot;@/components/ui/radio-group&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { useToast } from &quot;@/components/ui/use-toast&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
-import { useGoogleMaps } from &quot;@/contexts/GoogleMapsContext&quot;;
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useGoogleMaps } from "@/contexts/GoogleMapsContext";
 
 // Define the schema for location submission
 const locationFormSchema = z.object({
   name: z
     .string()
-    .min(3, { message: &quot;Location name must be at least 3 characters&quot; }),
+    .min(3, { message: "Location name must be at least 3 characters" }),
   address: z
     .string()
-    .min(5, { message: &quot;Address must be at least 5 characters&quot; }),
-  city: z.string().min(2, { message: &quot;City is required&quot; }),
-  state: z.string().min(2, { message: &quot;State is required&quot; }),
-  zipCode: z.string().min(5, { message: &quot;Zip code is required&quot; }),
+    .min(5, { message: "Address must be at least 5 characters" }),
+  city: z.string().min(2, { message: "City is required" }),
+  state: z.string().min(2, { message: "State is required" }),
+  zipCode: z.string().min(5, { message: "Zip code is required" }),
   latitude: z.number().or(z.string().transform((val) => parseFloat(val))),
   longitude: z.number().or(z.string().transform((val) => parseFloat(val))),
-  locationType: z.enum([&quot;venue&quot;, &quot;service_area&quot;], {
-    required_error: &quot;Please select a location type&quot;,
+  locationType: z.enum(["venue", "service_area"], {
+    required_error: "Please select a location type",
   }),
   notes: z.string().optional(),
 });
@@ -55,8 +55,8 @@ type LocationFormValues = z.infer<typeof locationFormSchema>;
 
 // Default values for the form
 const defaultValues: Partial<LocationFormValues> = {
-  locationType: &quot;venue&quot;,
-  notes: "&quot;,
+  locationType: "venue",
+  notes: "",
 };
 
 export default function AddLocationForm() {
@@ -78,23 +78,23 @@ export default function AddLocationForm() {
   });
 
   // Get latitude and longitude values from the form
-  const latitude = form.watch(&quot;latitude&quot;);
-  const longitude = form.watch(&quot;longitude&quot;);
+  const latitude = form.watch("latitude");
+  const longitude = form.watch("longitude");
 
   // Setup mutation for submitting the location
   const mutation = useMutation({
     mutationFn: async (data: LocationFormValues) => {
-      const response = await fetch(&quot;/api/locations&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/locations", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || &quot;Failed to submit location&quot;);
+        throw new Error(errorData.error || "Failed to submit location");
       }
 
       return response.json();
@@ -102,14 +102,14 @@ export default function AddLocationForm() {
     onSuccess: () => {
       setFormSubmitted(true);
       toast({
-        title: &quot;Location submitted successfully&quot;,
-        description: &quot;Your location has been submitted for approval.&quot;,
+        title: "Location submitted successfully",
+        description: "Your location has been submitted for approval.",
       });
     },
     onError: (error: Error) => {
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Submission failed&quot;,
+        variant: "destructive",
+        title: "Submission failed",
         description: error.message,
       });
     },
@@ -120,7 +120,7 @@ export default function AddLocationForm() {
     if (!isLoaded) return;
 
     // Create a map instance
-    const mapDiv = document.getElementById(&quot;location-map&quot;);
+    const mapDiv = document.getElementById("location-map");
     if (!mapDiv) return;
 
     const map = new google.maps.Map(mapDiv, {
@@ -140,7 +140,7 @@ export default function AddLocationForm() {
     });
 
     // Create a search box
-    const input = document.getElementById(&quot;pac-input&quot;) as HTMLInputElement;
+    const input = document.getElementById("pac-input") as HTMLInputElement;
     if (!input) return;
 
     const searchBoxInstance = new google.maps.places.SearchBox(input);
@@ -150,12 +150,12 @@ export default function AddLocationForm() {
     const geocoderInstance = new google.maps.Geocoder();
 
     // Set up map event listeners
-    map.addListener(&quot;bounds_changed&quot;, () => {
+    map.addListener("bounds_changed", () => {
       searchBoxInstance.setBounds(map.getBounds() as google.maps.LatLngBounds);
     });
 
     // Handle search box place selection
-    searchBoxInstance.addListener(&quot;places_changed&quot;, () => {
+    searchBoxInstance.addListener("places_changed", () => {
       const places = searchBoxInstance.getPlaces();
       if (!places || places.length === 0) return;
 
@@ -178,26 +178,26 @@ export default function AddLocationForm() {
       }
 
       // Update form with coordinates
-      form.setValue(&quot;latitude&quot;, place.geometry.location.lat());
-      form.setValue(&quot;longitude&quot;, place.geometry.location.lng());
+      form.setValue("latitude", place.geometry.location.lat());
+      form.setValue("longitude", place.geometry.location.lng());
     });
 
     // Handle marker drag events
-    newMarker.addListener(&quot;dragend&quot;, () => {
+    newMarker.addListener("dragend", () => {
       const position = newMarker.getPosition();
       if (!position) return;
 
       const lat = position.lat();
       const lng = position.lng();
 
-      form.setValue(&quot;latitude&quot;, lat);
-      form.setValue(&quot;longitude&quot;, lng);
+      form.setValue("latitude", lat);
+      form.setValue("longitude", lng);
 
       // Reverse geocode to get address details
       geocoderInstance.geocode(
         { location: { lat, lng } },
         (results, status) => {
-          if (status === &quot;OK&quot; && results && results[0]) {
+          if (status === "OK" && results && results[0]) {
             updateFormFromPlace(results[0]);
           }
         },
@@ -221,41 +221,41 @@ export default function AddLocationForm() {
   const updateFormFromPlace = (
     place: google.maps.places.PlaceResult | google.maps.GeocoderResult,
   ) => {
-    let street = &quot;&quot;;
-    let city = &quot;&quot;;
-    let state = &quot;&quot;;
-    let zipCode = &quot;&quot;;
+    let street = "";
+    let city = "";
+    let state = "";
+    let zipCode = "";
 
     // Extract address components
     if (place.address_components) {
       for (const component of place.address_components) {
         const types = component.types;
 
-        if (types.includes(&quot;street_number&quot;)) {
-          street = component.long_name + &quot; &quot; + street;
-        } else if (types.includes(&quot;route&quot;)) {
+        if (types.includes("street_number")) {
+          street = component.long_name + " " + street;
+        } else if (types.includes("route")) {
           street += component.long_name;
-        } else if (types.includes(&quot;locality&quot;)) {
+        } else if (types.includes("locality")) {
           city = component.long_name;
-        } else if (types.includes(&quot;administrative_area_level_1&quot;)) {
+        } else if (types.includes("administrative_area_level_1")) {
           state = component.short_name;
-        } else if (types.includes(&quot;postal_code&quot;)) {
+        } else if (types.includes("postal_code")) {
           zipCode = component.long_name;
         }
       }
     }
 
     // Update form values
-    if (street) form.setValue(&quot;address&quot;, street);
-    if (city) form.setValue(&quot;city&quot;, city);
-    if (state) form.setValue(&quot;state&quot;, state);
-    if (zipCode) form.setValue(&quot;zipCode&quot;, zipCode);
+    if (street) form.setValue("address", street);
+    if (city) form.setValue("city", city);
+    if (state) form.setValue("state", state);
+    if (zipCode) form.setValue("zipCode", zipCode);
 
     // Update location name with formatted address if empty
-    if (!form.getValues(&quot;name&quot;) && place.formatted_address) {
+    if (!form.getValues("name") && place.formatted_address) {
       form.setValue(
-        &quot;name&quot;,
-        place.name || place.formatted_address.split(&quot;,&quot;)[0],
+        "name",
+        place.name || place.formatted_address.split(",")[0],
       );
     }
   };
@@ -276,7 +276,7 @@ export default function AddLocationForm() {
 
   // Handle clicking back to locations list
   const handleBackToList = () => {
-    router.push(&quot;/locations&quot;);
+    router.push("/locations");
   };
 
   // Handle clicking submit another location
@@ -288,10 +288,10 @@ export default function AddLocationForm() {
   // If form was submitted successfully, show success message
   if (formSubmitted) {
     return (
-      <Card className=&quot;w-full&quot;>
+      <Card className="w-full">
         <CardHeader>
-          <CardTitle className=&quot;flex items-center&quot;>
-            <CheckCircle className=&quot;h-6 w-6 text-green-500 mr-2&quot; />
+          <CardTitle className="flex items-center">
+            <CheckCircle className="h-6 w-6 text-green-500 mr-2" />
             Location Submitted Successfully
           </CardTitle>
           <CardDescription>
@@ -300,49 +300,49 @@ export default function AddLocationForm() {
         </CardHeader>
         <CardContent>
           <Alert
-            variant=&quot;default&quot;
-            className=&quot;mb-4 bg-green-50 border-green-200&quot;
+            variant="default"
+            className="mb-4 bg-green-50 border-green-200"
           >
-            <CheckCircle className=&quot;h-4 w-4 text-green-600&quot; />
+            <CheckCircle className="h-4 w-4 text-green-600" />
             <AlertTitle>Submission successful</AlertTitle>
             <AlertDescription>
               Your location request has been submitted for review by an
-              administrator. You'll be notified when it&apos;s approved or if
+              administrator. You'll be notified when it's approved or if
               additional information is needed.
             </AlertDescription>
           </Alert>
 
-          <dl className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4 text-sm&quot;>
+          <dl className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
-              <dt className=&quot;font-medium&quot;>Location Name</dt>
-              <dd>{form.getValues(&quot;name&quot;)}</dd>
+              <dt className="font-medium">Location Name</dt>
+              <dd>{form.getValues("name")}</dd>
             </div>
             <div>
-              <dt className=&quot;font-medium&quot;>Address</dt>
-              <dd>{form.getValues(&quot;address&quot;)}</dd>
+              <dt className="font-medium">Address</dt>
+              <dd>{form.getValues("address")}</dd>
             </div>
             <div>
-              <dt className=&quot;font-medium&quot;>City</dt>
-              <dd>{form.getValues(&quot;city&quot;)}</dd>
+              <dt className="font-medium">City</dt>
+              <dd>{form.getValues("city")}</dd>
             </div>
             <div>
-              <dt className=&quot;font-medium&quot;>State</dt>
-              <dd>{form.getValues(&quot;state&quot;)}</dd>
+              <dt className="font-medium">State</dt>
+              <dd>{form.getValues("state")}</dd>
             </div>
             <div>
-              <dt className=&quot;font-medium&quot;>Zip Code</dt>
-              <dd>{form.getValues(&quot;zipCode&quot;)}</dd>
+              <dt className="font-medium">Zip Code</dt>
+              <dd>{form.getValues("zipCode")}</dd>
             </div>
             <div>
-              <dt className=&quot;font-medium&quot;>Location Type</dt>
-              <dd className=&quot;capitalize&quot;>
-                {form.getValues(&quot;locationType&quot;).replace(&quot;_&quot;, &quot; &quot;)}
+              <dt className="font-medium">Location Type</dt>
+              <dd className="capitalize">
+                {form.getValues("locationType").replace("_", " ")}
               </dd>
             </div>
           </dl>
         </CardContent>
-        <CardFooter className=&quot;flex flex-col sm:flex-row gap-3 sm:justify-end&quot;>
-          <Button variant=&quot;outline&quot; onClick={handleBackToList}>
+        <CardFooter className="flex flex-col sm:flex-row gap-3 sm:justify-end">
+          <Button variant="outline" onClick={handleBackToList}>
             Back to Locations
           </Button>
           <Button onClick={handleSubmitAnother}>Submit Another Location</Button>
@@ -352,11 +352,11 @@ export default function AddLocationForm() {
   }
 
   return (
-    <div className=&quot;space-y-6&quot;>
+    <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle className=&quot;flex items-center&quot;>
-            <MapPin className=&quot;mr-2 h-5 w-5&quot; />
+          <CardTitle className="flex items-center">
+            <MapPin className="mr-2 h-5 w-5" />
             Submit a New Location
           </CardTitle>
           <CardDescription>
@@ -365,9 +365,9 @@ export default function AddLocationForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className=&quot;mb-6&quot;>
-            <Alert variant=&quot;info&quot; className=&quot;mb-4&quot;>
-              <Info className=&quot;h-4 w-4&quot; />
+          <div className="mb-6">
+            <Alert variant="info" className="mb-4">
+              <Info className="h-4 w-4" />
               <AlertTitle>How location approval works</AlertTitle>
               <AlertDescription>
                 Submitted locations require approval before they can be used in
@@ -378,29 +378,29 @@ export default function AddLocationForm() {
           </div>
 
           {!isLoaded ? (
-            <div className=&quot;flex items-center justify-center py-10&quot;>
-              <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
-              <span className=&quot;ml-3&quot;>Loading map...</span>
+            <div className="flex items-center justify-center py-10">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <span className="ml-3">Loading map...</span>
             </div>
           ) : (
-            <div className=&quot;space-y-8&quot;>
+            <div className="space-y-8">
               <div>
-                <div className=&quot;rounded-lg overflow-hidden&quot;>
-                  <div className=&quot;relative mb-4&quot;>
+                <div className="rounded-lg overflow-hidden">
+                  <div className="relative mb-4">
                     <input
-                      id=&quot;pac-input&quot;
-                      className=&quot;w-full h-10 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary z-10 relative bg-white&quot;
-                      type=&quot;text&quot;
-                      placeholder=&quot;Search for a location...&quot;
+                      id="pac-input"
+                      className="w-full h-10 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary z-10 relative bg-white"
+                      type="text"
+                      placeholder="Search for a location..."
                     />
                   </div>
                   <div
-                    id=&quot;location-map&quot;
-                    className=&quot;w-full h-[400px] rounded-lg border&quot;
+                    id="location-map"
+                    className="w-full h-[400px] rounded-lg border"
                   ></div>
                 </div>
 
-                <p className=&quot;text-sm text-muted-foreground mt-2&quot;>
+                <p className="text-sm text-muted-foreground mt-2">
                   Search for a location or drag the pin to position it
                   precisely.
                 </p>
@@ -409,18 +409,18 @@ export default function AddLocationForm() {
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className=&quot;space-y-6&quot;
+                  className="space-y-6"
                 >
-                  <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
-                      name=&quot;name&quot;
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Location Name</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder=&quot;Enter location name&quot;
+                              placeholder="Enter location name"
                               {...field}
                             />
                           </FormControl>
@@ -434,29 +434,29 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;locationType&quot;
+                      name="locationType"
                       render={({ field }) => (
-                        <FormItem className=&quot;space-y-3&quot;>
+                        <FormItem className="space-y-3">
                           <FormLabel>Location Type</FormLabel>
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}
                               defaultValue={field.value}
-                              className=&quot;flex flex-col space-y-1&quot;
+                              className="flex flex-col space-y-1"
                             >
-                              <FormItem className=&quot;flex items-center space-x-3 space-y-0&quot;>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
                                 <FormControl>
-                                  <RadioGroupItem value=&quot;venue&quot; />
+                                  <RadioGroupItem value="venue" />
                                 </FormControl>
-                                <FormLabel className=&quot;font-normal&quot;>
+                                <FormLabel className="font-normal">
                                   Venue (Physical Location)
                                 </FormLabel>
                               </FormItem>
-                              <FormItem className=&quot;flex items-center space-x-3 space-y-0&quot;>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
                                 <FormControl>
-                                  <RadioGroupItem value=&quot;service_area&quot; />
+                                  <RadioGroupItem value="service_area" />
                                 </FormControl>
-                                <FormLabel className=&quot;font-normal&quot;>
+                                <FormLabel className="font-normal">
                                   Service Area
                                 </FormLabel>
                               </FormItem>
@@ -469,13 +469,13 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;address&quot;
+                      name="address"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Address</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder=&quot;Enter street address&quot;
+                              placeholder="Enter street address"
                               {...field}
                             />
                           </FormControl>
@@ -486,12 +486,12 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;city&quot;
+                      name="city"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>City</FormLabel>
                           <FormControl>
-                            <Input placeholder=&quot;Enter city&quot; {...field} />
+                            <Input placeholder="Enter city" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -500,12 +500,12 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;state&quot;
+                      name="state"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>State</FormLabel>
                           <FormControl>
-                            <Input placeholder=&quot;Enter state&quot; {...field} />
+                            <Input placeholder="Enter state" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -514,12 +514,12 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;zipCode&quot;
+                      name="zipCode"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Zip Code</FormLabel>
                           <FormControl>
-                            <Input placeholder=&quot;Enter zip code&quot; {...field} />
+                            <Input placeholder="Enter zip code" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -528,13 +528,13 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;latitude&quot;
+                      name="latitude"
                       render={({ field: { onChange, ...rest } }) => (
                         <FormItem>
                           <FormLabel>Latitude</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder=&quot;Latitude (set by map)&quot;
+                              placeholder="Latitude (set by map)"
                               {...rest}
                               onChange={(e) => {
                                 const value = parseFloat(e.target.value);
@@ -554,13 +554,13 @@ export default function AddLocationForm() {
 
                     <FormField
                       control={form.control}
-                      name=&quot;longitude&quot;
+                      name="longitude"
                       render={({ field: { onChange, ...rest } }) => (
                         <FormItem>
                           <FormLabel>Longitude</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder=&quot;Longitude (set by map)&quot;
+                              placeholder="Longitude (set by map)"
                               {...rest}
                               onChange={(e) => {
                                 const value = parseFloat(e.target.value);
@@ -581,14 +581,14 @@ export default function AddLocationForm() {
 
                   <FormField
                     control={form.control}
-                    name=&quot;notes&quot;
+                    name="notes"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Additional Notes</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder=&quot;Add any additional details about this location&quot;
-                            className=&quot;min-h-[120px]&quot;
+                            placeholder="Add any additional details about this location"
+                            className="min-h-[120px]"
                             {...field}
                           />
                         </FormControl>
@@ -601,17 +601,17 @@ export default function AddLocationForm() {
                     )}
                   />
 
-                  <div className=&quot;flex justify-end space-x-4&quot;>
+                  <div className="flex justify-end space-x-4">
                     <Button
-                      type=&quot;button&quot;
-                      variant=&quot;outline&quot;
+                      type="button"
+                      variant="outline"
                       onClick={handleBackToList}
                     >
                       Cancel
                     </Button>
-                    <Button type=&quot;submit&quot; disabled={mutation.isPending}>
+                    <Button type="submit" disabled={mutation.isPending}>
                       {mutation.isPending && (
-                        <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin" />
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       )}
                       Submit Location
                     </Button>

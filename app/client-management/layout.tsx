@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import Link from &quot;next/link&quot;;
-import { usePathname } from &quot;next/navigation&quot;;
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Building,
   MapPin,
@@ -10,10 +10,10 @@ import {
   UserCog,
   CreditCard,
   ChevronRight,
-} from &quot;lucide-react&quot;;
-import { cn } from &quot;../lib/utils&quot;;
-import { useAuthorization } from &quot;../hooks/useAuthorization&quot;;
-import { Toaster } from &quot;../components/ui/toaster&quot;;
+} from "lucide-react";
+import { cn } from "../lib/utils";
+import { useAuthorization } from "../hooks/useAuthorization";
+import { Toaster } from "../components/ui/toaster";
 
 interface NavItem {
   title: string;
@@ -24,46 +24,46 @@ interface NavItem {
 
 const clientNavItems: NavItem[] = [
   {
-    title: &quot;Dashboard&quot;,
-    href: &quot;/client-management&quot;,
-    icon: <Building className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:client-management&quot;,
+    title: "Dashboard",
+    href: "/client-management",
+    icon: <Building className="h-5 w-5" />,
+    permission: "view:client-management",
   },
   {
-    title: &quot;Client Accounts&quot;,
-    href: &quot;/client-management/accounts&quot;,
-    icon: <Building className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:client-accounts&quot;,
+    title: "Client Accounts",
+    href: "/client-management/accounts",
+    icon: <Building className="h-5 w-5" />,
+    permission: "view:client-accounts",
   },
   {
-    title: &quot;Locations&quot;,
-    href: &quot;/client-management/locations&quot;,
-    icon: <MapPin className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:locations&quot;,
+    title: "Locations",
+    href: "/client-management/locations",
+    icon: <MapPin className="h-5 w-5" />,
+    permission: "view:locations",
   },
   {
-    title: &quot;Kits&quot;,
-    href: &quot;/client-management/kits&quot;,
-    icon: <Package2 className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:kits&quot;,
+    title: "Kits",
+    href: "/client-management/kits",
+    icon: <Package2 className="h-5 w-5" />,
+    permission: "view:kits",
   },
   {
-    title: &quot;Staff&quot;,
-    href: &quot;/client-management/staff&quot;,
-    icon: <Users className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:staff&quot;,
+    title: "Staff",
+    href: "/client-management/staff",
+    icon: <Users className="h-5 w-5" />,
+    permission: "view:staff",
   },
   {
-    title: &quot;Client Users&quot;,
-    href: &quot;/client-management/users&quot;,
-    icon: <UserCog className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:client-users&quot;,
+    title: "Client Users",
+    href: "/client-management/users",
+    icon: <UserCog className="h-5 w-5" />,
+    permission: "view:client-users",
   },
   {
-    title: &quot;Billing&quot;,
-    href: &quot;/client-management/billing&quot;,
-    icon: <CreditCard className=&quot;h-5 w-5&quot; />,
-    permission: &quot;view:invoices&quot;,
+    title: "Billing",
+    href: "/client-management/billing",
+    icon: <CreditCard className="h-5 w-5" />,
+    permission: "view:invoices",
   },
 ];
 
@@ -81,28 +81,28 @@ export default function ClientManagementLayout({
   );
 
   return (
-    <div className=&quot;container mx-auto px-4&quot;>
-      <div className=&quot;flex items-center py-4 mb-2&quot;>
-        <div className=&quot;flex-1&quot;>
-          <nav className=&quot;flex space-x-1&quot; aria-label=&quot;Breadcrumb&quot;>
-            <div className=&quot;flex items-center text-sm&quot;>
+    <div className="container mx-auto px-4">
+      <div className="flex items-center py-4 mb-2">
+        <div className="flex-1">
+          <nav className="flex space-x-1" aria-label="Breadcrumb">
+            <div className="flex items-center text-sm">
               <Link
-                href=&quot;/&quot;
-                className=&quot;text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200&quot;
+                href="/"
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
               >
                 Home
               </Link>
-              <ChevronRight className=&quot;h-4 w-4 mx-1 text-gray-400&quot; />
-              <span className=&quot;text-gray-900 dark:text-gray-200 font-medium&quot;>
+              <ChevronRight className="h-4 w-4 mx-1 text-gray-400" />
+              <span className="text-gray-900 dark:text-gray-200 font-medium">
                 Client Management
               </span>
-              {pathname !== &quot;/client-management&quot; && (
+              {pathname !== "/client-management" && (
                 <>
-                  <ChevronRight className=&quot;h-4 w-4 mx-1 text-gray-400&quot; />
-                  <span className=&quot;text-gray-900 dark:text-gray-200 font-medium&quot;>
+                  <ChevronRight className="h-4 w-4 mx-1 text-gray-400" />
+                  <span className="text-gray-900 dark:text-gray-200 font-medium">
                     {allowedNavItems.find((item) =>
                       pathname.startsWith(item.href),
-                    )?.title || &quot;Details&quot;}
+                    )?.title || "Details"}
                   </span>
                 </>
               )}
@@ -111,21 +111,21 @@ export default function ClientManagementLayout({
         </div>
       </div>
 
-      <div className=&quot;flex flex-wrap border-b border-gray-200 dark:border-gray-700 mb-6&quot;>
+      <div className="flex flex-wrap border-b border-gray-200 dark:border-gray-700 mb-6">
         {allowedNavItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className={cn(
-              &quot;flex items-center px-4 py-3 text-sm font-medium rounded-t-lg relative -mb-px -mr-px&quot;,
+              "flex items-center px-4 py-3 text-sm font-medium rounded-t-lg relative -mb-px -mr-px",
               pathname === item.href ||
-                (item.href !== &quot;/client-management&quot; &&
+                (item.href !== "/client-management" &&
                   pathname.startsWith(item.href))
-                ? &quot;bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 border border-gray-200 dark:border-gray-700 border-b-white dark:border-b-gray-800&quot;
-                : &quot;text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700&quot;,
+                ? "bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 border border-gray-200 dark:border-gray-700 border-b-white dark:border-b-gray-800"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700",
             )}
           >
-            <span className=&quot;mr-2&quot;>{item.icon}</span>
+            <span className="mr-2">{item.icon}</span>
             {item.title}
           </Link>
         ))}

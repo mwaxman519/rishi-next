@@ -1,21 +1,21 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Mileage Calculation API Routes - Phase 4 Implementation
  * Handles mileage expense calculation for workforce operations
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { simpleExpenseService } from &quot;../../../services/expenses/SimpleExpenseService&quot;;
-import { z } from &quot;zod&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { simpleExpenseService } from "../../../services/expenses/SimpleExpenseService";
+import { z } from "zod";
 
 const mileageCalculationSchema = z.object({
-  startLocation: z.string().min(1, &quot;Start location is required&quot;),
-  endLocation: z.string().min(1, &quot;End location is required&quot;),
+  startLocation: z.string().min(1, "Start location is required"),
+  endLocation: z.string().min(1, "End location is required"),
   rate: z.number().positive().optional(),
 });
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     // Get authenticated user from session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const user = session.user as any;
 
@@ -41,24 +41,24 @@ export async function POST(request: NextRequest) {
 
     if (!mileageCalculation.success) {
       return NextResponse.json(
-        { error: mileageCalculation.error || &quot;Failed to calculate mileage&quot; },
+        { error: mileageCalculation.error || "Failed to calculate mileage" },
         { status: 500 },
       );
     }
 
     return NextResponse.json(mileageCalculation.data);
   } catch (error) {
-    console.error(&quot;Error calculating mileage:&quot;, error);
+    console.error("Error calculating mileage:", error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: &quot;Invalid mileage data&quot;, details: error.errors },
+        { error: "Invalid mileage data", details: error.errors },
         { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: &quot;Failed to calculate mileage&quot; },
+      { error: "Failed to calculate mileage" },
       { status: 500 },
     );
   }

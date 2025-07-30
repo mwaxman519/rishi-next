@@ -1,52 +1,52 @@
-import Link from &quot;next/link&quot;;
-import { getItems } from &quot;../actions/item-actions&quot;;
+import Link from "next/link";
+import { getItems } from "../actions/item-actions";
 
 // Add export configuration to force dynamic rendering
 // This prevents Next.js from attempting to statically generate this page during build
-export const dynamic = &quot;force-dynamic&quot;;
-export const runtime = &quot;nodejs&quot;;
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function ItemsPage() {
   const itemsList = await getItems();
 
   return (
-    <div className=&quot;flex flex-col min-h-screen&quot;>
-      <header className=&quot;py-6&quot;>
-        <nav className=&quot;flex justify-between items-center&quot;>
-          <h1 className=&quot;text-2xl font-bold&quot;>Items Management</h1>
-          <div className=&quot;flex space-x-4&quot;>
-            <Link href=&quot;/&quot; className=&quot;hover:underline&quot;>
+    <div className="flex flex-col min-h-screen">
+      <header className="py-6">
+        <nav className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Items Management</h1>
+          <div className="flex space-x-4">
+            <Link href="/" className="hover:underline">
               Home
             </Link>
-            <Link href=&quot;/items&quot; className=&quot;hover:underline&quot;>
+            <Link href="/items" className="hover:underline">
               Items
             </Link>
-            <Link href=&quot;/users&quot; className=&quot;hover:underline&quot;>
+            <Link href="/users" className="hover:underline">
               Users
             </Link>
-            <Link href=&quot;/docs&quot; className=&quot;hover:underline&quot;>
+            <Link href="/docs" className="hover:underline">
               Documentation
             </Link>
           </div>
         </nav>
       </header>
 
-      <main className=&quot;flex-grow py-8&quot;>
-        <div className=&quot;mb-8 flex justify-between items-center&quot;>
-          <h2 className=&quot;text-3xl font-bold&quot;>All Items</h2>
-          <Link href=&quot;/items/new&quot; className=&quot;btn btn-primary&quot;>
+      <main className="flex-grow py-8">
+        <div className="mb-8 flex justify-between items-center">
+          <h2 className="text-3xl font-bold">All Items</h2>
+          <Link href="/items/new" className="btn btn-primary">
             Add New Item
           </Link>
         </div>
 
         {itemsList.length === 0 ? (
-          <div className=&quot;text-center py-12&quot;>
-            <p className=&quot;text-gray-500 text-xl&quot;>
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-xl">
               No items found. Create your first item!
             </p>
           </div>
         ) : (
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {itemsList.map(
               (item: {
                 id: number;
@@ -54,18 +54,18 @@ export default async function ItemsPage() {
                 description: string | null;
                 created_at: Date;
               }) => (
-                <div key={item.id} className=&quot;card&quot;>
-                  <h3 className=&quot;text-xl font-semibold mb-2&quot;>{item.name}</h3>
-                  <p className=&quot;text-gray-600 mb-4&quot;>
+                <div key={item.id} className="card">
+                  <h3 className="text-xl font-semibold mb-2">{item.name}</h3>
+                  <p className="text-gray-600 mb-4">
                     {item.description || null}
                   </p>
-                  <div className=&quot;flex justify-between items-center mt-4&quot;>
-                    <span className=&quot;text-sm text-gray-500&quot;>
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-sm text-gray-500">
                       {new Date(item.created_at).toLocaleDateString()}
                     </span>
                     <Link
                       href={`/items/${item.id}`}
-                      className=&quot;text-blue-600 hover:underline&quot;
+                      className="text-blue-600 hover:underline"
                     >
                       View Details
                     </Link>
@@ -77,8 +77,8 @@ export default async function ItemsPage() {
         )}
       </main>
 
-      <footer className=&quot;py-8 border-t border-gray-200&quot;>
-        <div className=&quot;max-w-6xl mx-auto text-center text-gray-500&quot;>
+      <footer className="py-8 border-t border-gray-200">
+        <div className="max-w-6xl mx-auto text-center text-gray-500">
           <p>
             © {new Date().getFullYear()} Modern Next.js Application. All rights
             reserved.

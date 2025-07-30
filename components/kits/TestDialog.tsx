@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import * as React from &quot;react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import * as React from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from &quot;@/components/ui/dialog&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function TestDialog({
   open,
@@ -22,23 +22,23 @@ export default function TestDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className=&quot;sm:max-w-[425px]&quot;>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Test Dialog</DialogTitle>
           <DialogDescription>
             This is a test dialog to verify that dialogs are working correctly.
           </DialogDescription>
         </DialogHeader>
-        <div className=&quot;grid gap-4 py-4&quot;>
-          <div className=&quot;grid grid-cols-4 items-center gap-4&quot;>
-            <Label htmlFor=&quot;name&quot; className=&quot;text-right&quot;>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
               Name
             </Label>
-            <Input id=&quot;name&quot; value=&quot;Test User&quot; className=&quot;col-span-3&quot; />
+            <Input id="name" value="Test User" className="col-span-3" />
           </div>
         </div>
         <DialogFooter>
-          <Button type=&quot;submit&quot; onClick={() => onOpenChange(false)}>
+          <Button type="submit" onClick={() => onOpenChange(false)}>
             Save changes
           </Button>
         </DialogFooter>

@@ -5,41 +5,41 @@
  * related to the audit logging service.
  */
 
-import { z } from &quot;zod&quot;;
+import { z } from "zod";
 
 /**
  * Audit event types
  */
 export enum AuditEventType {
-  CREATE = &quot;create&quot;,
-  READ = &quot;read&quot;,
-  UPDATE = &quot;update&quot;,
-  DELETE = &quot;delete&quot;,
-  LOGIN = &quot;login&quot;,
-  LOGOUT = &quot;logout&quot;,
-  PERMISSION_CHANGE = &quot;permission_change&quot;,
-  STATUS_CHANGE = &quot;status_change&quot;,
-  ORG_CHANGE = &quot;organization_change&quot;,
-  SYSTEM = &quot;system&quot;,
-  OTHER = &quot;other&quot;,
+  CREATE = "create",
+  READ = "read",
+  UPDATE = "update",
+  DELETE = "delete",
+  LOGIN = "login",
+  LOGOUT = "logout",
+  PERMISSION_CHANGE = "permission_change",
+  STATUS_CHANGE = "status_change",
+  ORG_CHANGE = "organization_change",
+  SYSTEM = "system",
+  OTHER = "other",
 }
 
 /**
  * Audit event resource types
  */
 export enum AuditResourceType {
-  USER = &quot;user&quot;,
-  ORGANIZATION = &quot;organization&quot;,
-  LOCATION = &quot;location&quot;,
-  EVENT = &quot;event&quot;,
-  STAFF = &quot;staff&quot;,
-  SCHEDULE = &quot;schedule&quot;,
-  ROLE = &quot;role&quot;,
-  PERMISSION = &quot;permission&quot;,
-  SETTING = &quot;setting&quot;,
-  ITEM = &quot;item&quot;,
-  KIT = &quot;kit&quot;,
-  OTHER = &quot;other&quot;,
+  USER = "user",
+  ORGANIZATION = "organization",
+  LOCATION = "location",
+  EVENT = "event",
+  STAFF = "staff",
+  SCHEDULE = "schedule",
+  ROLE = "role",
+  PERMISSION = "permission",
+  SETTING = "setting",
+  ITEM = "item",
+  KIT = "kit",
+  OTHER = "other",
 }
 
 /**

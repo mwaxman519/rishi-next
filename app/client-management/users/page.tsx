@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
+import { useState, useEffect } from "react";
 import {
   User,
   UserCog,
@@ -14,7 +14,7 @@ import {
   UserX,
   RefreshCw,
   Trash2,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -22,9 +22,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;../../components/ui/card&quot;;
-import { Button } from &quot;../../components/ui/button&quot;;
-import { Input } from &quot;../../components/ui/input&quot;;
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,7 +32,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from &quot;../../components/ui/dropdown-menu&quot;;
+} from "../../components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -41,14 +41,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from &quot;../../components/ui/table&quot;;
-import { Badge } from &quot;../../components/ui/badge&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+} from "../../components/ui/table";
+import { Badge } from "../../components/ui/badge";
+import { useAuthorization } from "@/hooks/useAuthorization";
 
 // Mock data for client users
 
 export default function ClientUsersPage() {
-  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
   const { checkPermission } = useAuthorization();
 
   // Filter users based on search query
@@ -85,150 +85,150 @@ export default function ClientUsersPage() {
   // Function to get status badge color
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case &quot;active&quot;:
+      case "active":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-green-50 text-green-700 border-green-200&quot;
+            variant="outline"
+            className="bg-green-50 text-green-700 border-green-200"
           >
             Active
           </Badge>
         );
-      case &quot;inactive&quot;:
+      case "inactive":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-gray-50 text-gray-700 border-gray-200&quot;
+            variant="outline"
+            className="bg-gray-50 text-gray-700 border-gray-200"
           >
             Inactive
           </Badge>
         );
-      case &quot;pending&quot;:
+      case "pending":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;
+            variant="outline"
+            className="bg-yellow-50 text-yellow-700 border-yellow-200"
           >
             Pending
           </Badge>
         );
-      case &quot;locked&quot;:
+      case "locked":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-red-50 text-red-700 border-red-200&quot;
+            variant="outline"
+            className="bg-red-50 text-red-700 border-red-200"
           >
             Locked
           </Badge>
         );
       default:
-        return <Badge variant=&quot;outline&quot;>{status}</Badge>;
+        return <Badge variant="outline">{status}</Badge>;
     }
   };
 
   // Function to get role badge color
   const getRoleBadge = (role: string) => {
     switch (role.toLowerCase()) {
-      case &quot;admin&quot;:
+      case "admin":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-purple-50 text-purple-700 border-purple-200&quot;
+            variant="outline"
+            className="bg-purple-50 text-purple-700 border-purple-200"
           >
             Admin
           </Badge>
         );
-      case &quot;manager&quot;:
+      case "manager":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-teal-50 text-teal-700 border-teal-200&quot;
+            variant="outline"
+            className="bg-teal-50 text-teal-700 border-teal-200"
           >
             Manager
           </Badge>
         );
-      case &quot;inventory manager&quot;:
+      case "inventory manager":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-teal-50 text-teal-700 border-teal-200&quot;
+            variant="outline"
+            className="bg-teal-50 text-teal-700 border-teal-200"
           >
             Inventory Manager
           </Badge>
         );
-      case &quot;reporting&quot;:
+      case "reporting":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-purple-50 text-purple-700 border-purple-200&quot;
+            variant="outline"
+            className="bg-purple-50 text-purple-700 border-purple-200"
           >
             Reporting
           </Badge>
         );
       default:
-        return <Badge variant=&quot;outline&quot;>{role}</Badge>;
+        return <Badge variant="outline">{role}</Badge>;
     }
   };
 
   return (
-    <div className=&quot;container mx-auto px-4 py-8&quot;>
-      <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4&quot;>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <div>
-          <h1 className=&quot;text-3xl font-bold text-gray-900 dark:text-white&quot;>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Client Users
           </h1>
-          <p className=&quot;mt-1 text-gray-600 dark:text-gray-400&quot;>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">
             Manage client user accounts and access control
           </p>
         </div>
 
-        <div className=&quot;flex flex-col sm:flex-row gap-3&quot;>
-          <div className=&quot;relative&quot;>
-            <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
-              type=&quot;search&quot;
-              placeholder=&quot;Search users...&quot;
-              className=&quot;pl-8 w-full sm:w-[250px]&quot;
+              type="search"
+              placeholder="Search users..."
+              className="pl-8 w-full sm:w-[250px]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           <Button
-            className=&quot;flex items-center gap-1&quot;
-            disabled={!checkPermission(&quot;create:client-users&quot;)}
+            className="flex items-center gap-1"
+            disabled={!checkPermission("create:client-users")}
           >
-            <Plus className=&quot;h-4 w-4&quot; /> Add User
+            <Plus className="h-4 w-4" /> Add User
           </Button>
         </div>
       </div>
 
       <Card>
-        <CardContent className=&quot;p-0&quot;>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className=&quot;w-[250px]&quot;>User</TableHead>
+                <TableHead className="w-[250px]">User</TableHead>
                 <TableHead>Client</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Last Login</TableHead>
                 <TableHead>Created</TableHead>
-                <TableHead className=&quot;text-right&quot;>Actions</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredUsers.length > 0 ? (
                 filteredUsers.map((user) => (
                   <TableRow key={user.id}>
-                    <TableCell className=&quot;font-medium&quot;>
-                      <div className=&quot;flex items-center&quot;>
-                        <div className=&quot;flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-3&quot;>
-                          <User className=&quot;h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
+                    <TableCell className="font-medium">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-3">
+                          <User className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                         </div>
                         <div>
                           <div>{user.name}</div>
-                          <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
                             {user.email}
                           </div>
                         </div>
@@ -239,60 +239,60 @@ export default function ClientUsersPage() {
                     <TableCell>{getStatusBadge(user.status)}</TableCell>
                     <TableCell>{user.lastLogin}</TableCell>
                     <TableCell>{user.dateCreated}</TableCell>
-                    <TableCell className=&quot;text-right&quot;>
+                    <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant=&quot;ghost&quot; size=&quot;icon&quot;>
-                            <MoreVertical className=&quot;h-4 w-4&quot; />
-                            <span className=&quot;sr-only&quot;>Actions</span>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical className="h-4 w-4" />
+                            <span className="sr-only">Actions</span>
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align=&quot;end&quot;>
+                        <DropdownMenuContent align="end">
                           <DropdownMenuLabel>User Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer&quot;
-                            disabled={!checkPermission(&quot;edit:client-users&quot;)}
+                            className="cursor-pointer"
+                            disabled={!checkPermission("edit:client-users")}
                           >
-                            <Edit className=&quot;h-4 w-4 mr-2&quot; /> Edit User
+                            <Edit className="h-4 w-4 mr-2" /> Edit User
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer&quot;
-                            disabled={!checkPermission(&quot;manage:permissions&quot;)}
+                            className="cursor-pointer"
+                            disabled={!checkPermission("manage:permissions")}
                           >
-                            <Shield className=&quot;h-4 w-4 mr-2&quot; /> Manage
+                            <Shield className="h-4 w-4 mr-2" /> Manage
                             Permissions
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer&quot;
-                            disabled={!checkPermission(&quot;reset:passwords&quot;)}
+                            className="cursor-pointer"
+                            disabled={!checkPermission("reset:passwords")}
                           >
-                            <Key className=&quot;h-4 w-4 mr-2&quot; /> Reset Password
+                            <Key className="h-4 w-4 mr-2" /> Reset Password
                           </DropdownMenuItem>
-                          <DropdownMenuItem className=&quot;cursor-pointer&quot;>
-                            <Mail className=&quot;h-4 w-4 mr-2&quot; /> Send Message
+                          <DropdownMenuItem className="cursor-pointer">
+                            <Mail className="h-4 w-4 mr-2" /> Send Message
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          {user.status === &quot;Active&quot; ? (
+                          {user.status === "Active" ? (
                             <DropdownMenuItem
-                              className=&quot;cursor-pointer text-yellow-600&quot;
-                              disabled={!checkPermission(&quot;manage:client-users&quot;)}
+                              className="cursor-pointer text-yellow-600"
+                              disabled={!checkPermission("manage:client-users")}
                             >
-                              <UserX className=&quot;h-4 w-4 mr-2&quot; /> Deactivate
+                              <UserX className="h-4 w-4 mr-2" /> Deactivate
                             </DropdownMenuItem>
                           ) : (
                             <DropdownMenuItem
-                              className=&quot;cursor-pointer text-green-600&quot;
-                              disabled={!checkPermission(&quot;manage:client-users&quot;)}
+                              className="cursor-pointer text-green-600"
+                              disabled={!checkPermission("manage:client-users")}
                             >
-                              <RefreshCw className=&quot;h-4 w-4 mr-2&quot; /> Activate
+                              <RefreshCw className="h-4 w-4 mr-2" /> Activate
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem
-                            className=&quot;cursor-pointer text-red-600&quot;
-                            disabled={!checkPermission(&quot;delete:client-users&quot;)}
+                            className="cursor-pointer text-red-600"
+                            disabled={!checkPermission("delete:client-users")}
                           >
-                            <Trash2 className=&quot;h-4 w-4 mr-2&quot; /> Delete User
+                            <Trash2 className="h-4 w-4 mr-2" /> Delete User
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -303,7 +303,7 @@ export default function ClientUsersPage() {
                 <TableRow>
                   <TableCell
                     colSpan={7}
-                    className=&quot;text-center py-8 text-gray-500 dark:text-gray-400"
+                    className="text-center py-8 text-gray-500 dark:text-gray-400"
                   >
                     No client users found
                   </TableCell>

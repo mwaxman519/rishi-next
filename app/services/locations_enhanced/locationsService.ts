@@ -6,9 +6,9 @@
  * - Circuit breaker pattern for resilience
  * - Distributed event tracking
  */
-import { LocationsService as BaseLocationsService } from &quot;../locations_core/locationsService&quot;;
-import { LocationRepository } from &quot;./repository&quot;;
-import { GeocodingService } from &quot;../maps/geocodingService&quot;;
+import { LocationsService as BaseLocationsService } from "../locations_core/locationsService";
+import { LocationRepository } from "./repository";
+import { GeocodingService } from "../maps/geocodingService";
 import {
   LocationDTO,
   CreateLocationParams,
@@ -16,9 +16,9 @@ import {
   LocationStatus,
   ApproveLocationParams,
   RejectLocationParams,
-} from &quot;./models&quot;;
-import { locationCircuitBreaker } from &quot;./locationCircuitBreaker&quot;;
-import { locationEventPublisher } from &quot;./locationEventPublisher&quot;;
+} from "./models";
+import { locationCircuitBreaker } from "./locationCircuitBreaker";
+import { locationEventPublisher } from "./locationEventPublisher";
 
 export class EnhancedLocationsService extends BaseLocationsService {
   private geocodingService: GeocodingService;
@@ -49,7 +49,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
 
           if (!isValid) {
             throw new Error(
-              &quot;Invalid address: Could not geocode the provided address&quot;,
+              "Invalid address: Could not geocode the provided address",
             );
           }
 
@@ -104,7 +104,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
           name: createdLocation.name,
           address: fullAddress,
           organizationId: organizationId,
-          createdBy: requesterId || &quot;system&quot;,
+          createdBy: requesterId || "system",
           status: createdLocation.status,
         },
         {
@@ -114,7 +114,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
 
       return createdLocation;
     } catch (error) {
-      console.error(&quot;EnhancedLocationsService.createLocation error:&quot;, error);
+      console.error("EnhancedLocationsService.createLocation error:", error);
       throw error;
     }
   }
@@ -162,7 +162,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
 
           if (!isValid) {
             throw new Error(
-              &quot;Invalid address: Could not geocode the provided address&quot;,
+              "Invalid address: Could not geocode the provided address",
             );
           }
 
@@ -205,7 +205,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
         {
           id: updatedLocation.id,
           changes: this.getChangesRecord(data),
-          updatedBy: requesterId || &quot;system&quot;,
+          updatedBy: requesterId || "system",
         },
         {
           correlationId,
@@ -250,7 +250,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
     // Prepare update with coordinates and formatted address
     const updateData: Pick<
       UpdateLocationParams,
-      &quot;latitude&quot; | &quot;longitude&quot; | &quot;address1&quot;
+      "latitude" | "longitude" | "address1"
     > = {
       latitude: geocodeResult.lat,
       longitude: geocodeResult.lng,
@@ -260,7 +260,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
     if (geocodeResult.formattedAddress) {
       // Parse formatted address into components (simplified)
       // In a real implementation, would parse the address into components more intelligently
-      updateData.address1 = geocodeResult.formattedAddress.split(&quot;,&quot;)[0];
+      updateData.address1 = geocodeResult.formattedAddress.split(",")[0];
     }
 
     // Update location with geocoded coordinates
@@ -272,7 +272,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
     await this.locationRepository.updateGeocodingMetadata(id, {
       placeId: geocodeResult.placeId || null,
       formattedAddress: geocodeResult.formattedAddress || null,
-      geocodingAccuracy: &quot;rooftop&quot;, // Example, would come from actual API in a real implementation
+      geocodingAccuracy: "rooftop", // Example, would come from actual API in a real implementation
     });
   }
 
@@ -328,10 +328,10 @@ export class EnhancedLocationsService extends BaseLocationsService {
     }
 
     parts.push(
-      `${address.city}, ${address.stateId || "&quot;} ${address.zipcode || &quot;&quot;}`,
+      `${address.city}, ${address.stateId || ""} ${address.zipcode || ""}`,
     );
 
-    return parts.join(&quot;, &quot;);
+    return parts.join(", ");
   }
 
   /**
@@ -452,7 +452,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
         {
           id: approvedLocation.id,
           name: approvedLocation.name,
-          approvedBy: params.requesterId || &quot;system&quot;,
+          approvedBy: params.requesterId || "system",
           previousStatus: existingLocation.status,
         },
         {
@@ -499,8 +499,8 @@ export class EnhancedLocationsService extends BaseLocationsService {
         {
           id: rejectedLocation.id,
           name: rejectedLocation.name,
-          rejectedBy: params.requesterId || &quot;system&quot;,
-          reason: params.reason || &quot;No reason provided&quot;,
+          rejectedBy: params.requesterId || "system",
+          reason: params.reason || "No reason provided",
           previousStatus: existingLocation.status,
         },
         {
@@ -561,7 +561,7 @@ export class EnhancedLocationsService extends BaseLocationsService {
         {
           id: locationDetails.id,
           name: locationDetails.name,
-          deletedBy: requesterId || &quot;system",
+          deletedBy: requesterId || "system",
         },
         {
           correlationId,

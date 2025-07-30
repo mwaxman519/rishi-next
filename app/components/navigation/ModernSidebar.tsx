@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect, useMemo, memo } from &quot;react&quot;;
-import Link from &quot;next/link&quot;;
-import { usePathname } from &quot;next/navigation&quot;;
+import React, { useState, useEffect, useMemo, memo } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
@@ -35,14 +35,14 @@ import {
   Bell,
   HelpCircle,
   Cog,
-} from &quot;lucide-react&quot;;
-import { cn } from &quot;@/lib/utils&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
-import { ThemeToggle } from &quot;@/components/ui/theme-toggle&quot;;
-import { OrganizationSwitcher } from &quot;@/components/layout/OrganizationSwitcher&quot;;
-import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
-import { AnimatePresence, motion } from &quot;framer-motion&quot;;
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { OrganizationSwitcher } from "@/components/layout/OrganizationSwitcher";
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
+import { AnimatePresence, motion } from "framer-motion";
 
 // Helper function to get the icon component from an icon name
 const getIcon = (iconName: string | React.ReactNode, size: number = 20) => {
@@ -79,7 +79,7 @@ const getIcon = (iconName: string | React.ReactNode, size: number = 20) => {
     Cog: <Cog size={size} />,
   };
 
-  return iconName && typeof iconName === &quot;string&quot; ? (
+  return iconName && typeof iconName === "string" ? (
     icons[iconName] || <ChevronRight size={size} />
   ) : (
     <ChevronRight size={size} />
@@ -109,14 +109,14 @@ export default function ModernSidebar({
     setMounted(true);
 
     // Check for stored sidebar state
-    const storedState = localStorage.getItem(&quot;sidebarCollapsed&quot;);
+    const storedState = localStorage.getItem("sidebarCollapsed");
     if (storedState) {
-      setSidebarCollapsed(storedState === &quot;true&quot;);
+      setSidebarCollapsed(storedState === "true");
     }
 
     // Dispatch a custom event that our calendar component can listen for
-    if (typeof window !== &quot;undefined&quot;) {
-      const event = new CustomEvent(&quot;sidebarStateChange&quot;, {
+    if (typeof window !== "undefined") {
+      const event = new CustomEvent("sidebarStateChange", {
         detail: { collapsed: sidebarCollapsed },
       });
       window.dispatchEvent(event);
@@ -127,7 +127,7 @@ export default function ModernSidebar({
   const toggleSidebar = () => {
     const newState = !sidebarCollapsed;
     setSidebarCollapsed(newState);
-    localStorage.setItem(&quot;sidebarCollapsed&quot;, String(newState));
+    localStorage.setItem("sidebarCollapsed", String(newState));
   };
 
   // Toggle section expanded/collapsed
@@ -149,8 +149,8 @@ export default function ModernSidebar({
   // Show loading state if authentication is still loading
   if (loading) {
     return (
-      <div className=&quot;flex items-center justify-center h-screen&quot;>
-        <div className=&quot;h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent&quot;></div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
       </div>
     );
   }
@@ -160,199 +160,199 @@ export default function ModernSidebar({
     // If external navItems are provided, use them
     if (navItems) return navItems;
 
-    const userRole = user?.role || "&quot;;
+    const userRole = user?.role || "";
 
     // Default navigation items that most roles should see
     let baseItems: NavItem[] = [
       {
-        label: &quot;Dashboard&quot;,
-        path: &quot;/dashboard&quot;,
+        label: "Dashboard",
+        path: "/dashboard",
         icon: <LayoutDashboard size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Documentation&quot;,
-        path: &quot;/docs&quot;,
+        label: "Documentation",
+        path: "/docs",
         icon: <FileText size={20} />,
         type: NAV_ITEM_TYPES.SECONDARY,
       },
       {
-        label: &quot;Infrastructure&quot;,
-        path: &quot;/infrastructure&quot;,
+        label: "Infrastructure",
+        path: "/infrastructure",
         icon: <Database size={20} />,
         type: NAV_ITEM_TYPES.SECONDARY,
       },
     ];
 
     // Add role-specific items
-    if (userRole === &quot;brand_agent&quot;) {
+    if (userRole === "brand_agent") {
       baseItems = [
         ...baseItems,
         {
-          label: &quot;My Schedule&quot;,
-          path: &quot;#&quot;,
+          label: "My Schedule",
+          path: "#",
           icon: <Calendar size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;My Availability&quot;,
-              path: &quot;/availability&quot;,
+              label: "My Availability",
+              path: "/availability",
               icon: <Clock size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Events&quot;,
-              path: &quot;/events&quot;,
+              label: "Events",
+              path: "/events",
               icon: <Calendar size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Requests&quot;,
-              path: &quot;/requests&quot;,
+              label: "Requests",
+              path: "/requests",
               icon: <CheckSquare size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
           ],
         },
         {
-          label: &quot;Locations&quot;,
-          path: &quot;/locations&quot;,
+          label: "Locations",
+          path: "/locations",
           icon: <MapPin size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
         {
-          label: &quot;Team Calendar&quot;,
-          path: &quot;/availability/team&quot;,
+          label: "Team Calendar",
+          path: "/availability/team",
           icon: <Users size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
         {
-          label: &quot;Resources&quot;,
-          path: &quot;/resources&quot;,
+          label: "Resources",
+          path: "/resources",
           icon: <GraduationCap size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
       ];
     }
 
-    if (userRole === &quot;client_user&quot; || userRole === &quot;client_manager&quot;) {
+    if (userRole === "client_user" || userRole === "client_manager") {
       baseItems = [
         ...baseItems,
         {
-          label: &quot;Staff&quot;,
-          path: &quot;/staff&quot;,
+          label: "Staff",
+          path: "/staff",
           icon: <Users size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
         {
-          label: &quot;Events&quot;,
-          path: &quot;/events&quot;,
+          label: "Events",
+          path: "/events",
           icon: <Calendar size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
         {
-          label: &quot;Locations&quot;,
-          path: &quot;/locations&quot;,
+          label: "Locations",
+          path: "/locations",
           icon: <MapPin size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
         {
-          label: &quot;Kits&quot;,
-          path: &quot;/kits&quot;,
+          label: "Kits",
+          path: "/kits",
           icon: <Package size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         },
       ];
 
       // Add management section for client managers
-      if (userRole === &quot;client_manager&quot;) {
+      if (userRole === "client_manager") {
         baseItems.push({
-          label: &quot;Organization&quot;,
-          path: &quot;/profile&quot;,
+          label: "Organization",
+          path: "/profile",
           icon: <Building size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
         });
       }
     }
 
-    if (userRole === &quot;internal_field_manager&quot;) {
+    if (userRole === "internal_field_manager") {
       baseItems = [
         ...baseItems,
         {
-          label: &quot;Field Operations&quot;,
-          path: &quot;#&quot;,
+          label: "Field Operations",
+          path: "#",
           icon: <Briefcase size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;Team Dashboard&quot;,
-              path: &quot;/admin/field-operations/dashboard&quot;,
+              label: "Team Dashboard",
+              path: "/admin/field-operations/dashboard",
               icon: <LayoutDashboard size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Assignment Calendar&quot;,
-              path: &quot;/admin/field-operations/calendar&quot;,
+              label: "Assignment Calendar",
+              path: "/admin/field-operations/calendar",
               icon: <Calendar size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
           ],
         },
         {
-          label: &quot;Location Management&quot;,
-          path: &quot;/admin/locations&quot;,
+          label: "Location Management",
+          path: "/admin/locations",
           icon: <MapPin size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;Location Directory&quot;,
-              path: &quot;/admin/locations&quot;,
+              label: "Location Directory",
+              path: "/admin/locations",
               icon: <MapPin size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Approval Queue&quot;,
-              path: &quot;/admin/locations/approval-queue&quot;,
+              label: "Approval Queue",
+              path: "/admin/locations/approval-queue",
               icon: <CheckSquare size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
           ],
         },
         {
-          label: &quot;Team Management&quot;,
-          path: &quot;/admin/users&quot;,
+          label: "Team Management",
+          path: "/admin/users",
           icon: <Users size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;Agent Directory&quot;,
-              path: &quot;/admin/users&quot;,
+              label: "Agent Directory",
+              path: "/admin/users",
               icon: <Users size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Performance Reports&quot;,
-              path: &quot;/admin/users/performance&quot;,
+              label: "Performance Reports",
+              path: "/admin/users/performance",
               icon: <BarChart size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
           ],
         },
         {
-          label: &quot;My Schedule&quot;,
-          path: &quot;#&quot;,
+          label: "My Schedule",
+          path: "#",
           icon: <Clock size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;My Availability&quot;,
-              path: &quot;/availability&quot;,
+              label: "My Availability",
+              path: "/availability",
               icon: <Clock size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;My Requests&quot;,
-              path: &quot;/requests&quot;,
+              label: "My Requests",
+              path: "/requests",
               icon: <ClipboardList size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
@@ -361,70 +361,70 @@ export default function ModernSidebar({
       ];
     }
 
-    if (userRole === &quot;internal_admin&quot; || userRole === &quot;super_admin&quot;) {
+    if (userRole === "internal_admin" || userRole === "super_admin") {
       baseItems = [
         ...baseItems,
         {
-          label: &quot;Organization Management&quot;,
-          path: &quot;/admin/organizations&quot;,
+          label: "Organization Management",
+          path: "/admin/organizations",
           icon: <Building size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;Organization Directory&quot;,
-              path: &quot;/admin/organizations&quot;,
+              label: "Organization Directory",
+              path: "/admin/organizations",
               icon: <Building size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Organization Settings&quot;,
-              path: &quot;/admin/organizations/settings&quot;,
+              label: "Organization Settings",
+              path: "/admin/organizations/settings",
               icon: <Settings size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
           ],
         },
         {
-          label: &quot;User Management&quot;,
-          path: &quot;/admin/users&quot;,
+          label: "User Management",
+          path: "/admin/users",
           icon: <Users size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;User Directory&quot;,
-              path: &quot;/admin/users&quot;,
+              label: "User Directory",
+              path: "/admin/users",
               icon: <Users size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Role Assignments&quot;,
-              path: &quot;/admin/users/permissions&quot;,
+              label: "Role Assignments",
+              path: "/admin/users/permissions",
               icon: <Lock size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
           ],
         },
         {
-          label: &quot;Location Management&quot;,
-          path: &quot;/admin/locations&quot;,
+          label: "Location Management",
+          path: "/admin/locations",
           icon: <MapPin size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;Location Directory&quot;,
-              path: &quot;/admin/locations&quot;,
+              label: "Location Directory",
+              path: "/admin/locations",
               icon: <MapPin size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Approval Queue&quot;,
-              path: &quot;/admin/locations/approval-queue&quot;,
+              label: "Approval Queue",
+              path: "/admin/locations/approval-queue",
               icon: <CheckSquare size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Location Analytics&quot;,
-              path: &quot;/admin/locations/analytics&quot;,
+              label: "Location Analytics",
+              path: "/admin/locations/analytics",
               icon: <BarChart size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
@@ -433,34 +433,34 @@ export default function ModernSidebar({
       ];
 
       // Add platform administration for super admins
-      if (userRole === &quot;super_admin&quot;) {
+      if (userRole === "super_admin") {
         baseItems.push({
-          label: &quot;Platform Administration&quot;,
-          path: &quot;/admin/platform&quot;,
+          label: "Platform Administration",
+          path: "/admin/platform",
           icon: <Cog size={20} />,
           type: NAV_ITEM_TYPES.PRIMARY,
           children: [
             {
-              label: &quot;Access Control&quot;,
-              path: &quot;/admin/rbac&quot;,
+              label: "Access Control",
+              path: "/admin/rbac",
               icon: <Lock size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Feature Management&quot;,
-              path: &quot;/admin/features&quot;,
+              label: "Feature Management",
+              path: "/admin/features",
               icon: <Cog size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;System Settings&quot;,
-              path: &quot;/admin/settings&quot;,
+              label: "System Settings",
+              path: "/admin/settings",
               icon: <Settings size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
             {
-              label: &quot;Organization Permissions&quot;,
-              path: &quot;/admin/organization-permissions&quot;,
+              label: "Organization Permissions",
+              path: "/admin/organization-permissions",
               icon: <Shield size={20} />,
               type: NAV_ITEM_TYPES.PRIMARY,
             },
@@ -496,7 +496,7 @@ export default function ModernSidebar({
     // Check exact match first
     if (itemPath === pathname) return true;
 
-    // For parent navigation items with children, only highlight if we&apos;re on an exact child path
+    // For parent navigation items with children, only highlight if we're on an exact child path
     // This prevents multiple tabs from highlighting due to startsWith() overlap
     if (item.children && item.children.length > 0) {
       return item.children.some((child: NavItem) => {
@@ -507,16 +507,16 @@ export default function ModernSidebar({
 
     // For items without children, use more precise matching
     // Only match if the current path is a direct child (separated by exactly one more path segment)
-    if (itemPath !== &quot;/&quot; && pathname.startsWith(itemPath + &quot;/&quot;)) {
-      // Count path segments to ensure we&apos;re only one level deep
+    if (itemPath !== "/" && pathname.startsWith(itemPath + "/")) {
+      // Count path segments to ensure we're only one level deep
       const itemSegments = itemPath
-        .split(&quot;/&quot;)
+        .split("/")
         .filter((s) => s.length > 0).length;
       const currentSegments = pathname
-        .split(&quot;/&quot;)
+        .split("/")
         .filter((s) => s.length > 0).length;
 
-      // Only highlight if we&apos;re exactly one level deeper or on a direct child route
+      // Only highlight if we're exactly one level deeper or on a direct child route
       return currentSegments <= itemSegments + 1;
     }
 
@@ -527,105 +527,105 @@ export default function ModernSidebar({
   const renderSidebarNavigation = () => (
     <div
       className={cn(
-        &quot;fixed inset-y-0 left-0 z-30 w-64 transform transition-all duration-300 ease-in-out&quot;,
-        &quot;bg-background border-r border-border flex flex-col&quot;,
-        sidebarCollapsed ? &quot;w-[78px]&quot; : &quot;w-64&quot;,
+        "fixed inset-y-0 left-0 z-30 w-64 transform transition-all duration-300 ease-in-out",
+        "bg-background border-r border-border flex flex-col",
+        sidebarCollapsed ? "w-[78px]" : "w-64",
       )}
     >
       {/* Logo and collapse button */}
       <div
         className={cn(
-          &quot;flex h-16 items-center px-4 border-b border-border&quot;,
-          sidebarCollapsed ? &quot;justify-center&quot; : &quot;justify-between&quot;,
+          "flex h-16 items-center px-4 border-b border-border",
+          sidebarCollapsed ? "justify-center" : "justify-between",
         )}
       >
         {!sidebarCollapsed ? (
-          <Link href=&quot;/&quot; className=&quot;flex items-center gap-2&quot;>
-            <div className=&quot;flex items-center justify-center w-8 h-8 rounded-md bg-primary text-primary-foreground&quot;>
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary text-primary-foreground">
               <svg
-                width=&quot;20&quot;
-                height=&quot;20&quot;
-                viewBox=&quot;0 0 32 32&quot;
-                fill=&quot;none&quot;
-                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d=&quot;M16 2C8.268 2 2 8.268 2 16C2 23.732 8.268 30 16 30C23.732 30 30 23.732 30 16C30 8.268 23.732 2 16 2Z&quot;
-                  fill=&quot;currentColor&quot;
+                  d="M16 2C8.268 2 2 8.268 2 16C2 23.732 8.268 30 16 30C23.732 30 30 23.732 30 16C30 8.268 23.732 2 16 2Z"
+                  fill="currentColor"
                 />
                 <path
-                  d=&quot;M21 12H11C10.448 12 10 12.448 10 13V19C10 19.552 10.448 20 11 20H21C21.552 20 22 19.552 22 19V13C22 12.448 21.552 12 21 12Z&quot;
-                  fill=&quot;white&quot;
+                  d="M21 12H11C10.448 12 10 12.448 10 13V19C10 19.552 10.448 20 11 20H21C21.552 20 22 19.552 22 19V13C22 12.448 21.552 12 21 12Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M12 9C12 8.448 11.552 8 11 8C10.448 8 10 8.448 10 9V11C10 11.552 10.448 12 11 12C11.552 12 12 11.552 12 11V9Z&quot;
-                  fill=&quot;white&quot;
+                  d="M12 9C12 8.448 11.552 8 11 8C10.448 8 10 8.448 10 9V11C10 11.552 10.448 12 11 12C11.552 12 12 11.552 12 11V9Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M16 9C16 8.448 15.552 8 15 8C14.448 8 14 8.448 14 9V11C14 11.552 14.448 12 15 12C15.552 12 16 11.552 16 11V9Z&quot;
-                  fill=&quot;white&quot;
+                  d="M16 9C16 8.448 15.552 8 15 8C14.448 8 14 8.448 14 9V11C14 11.552 14.448 12 15 12C15.552 12 16 11.552 16 11V9Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M20 9C20 8.448 19.552 8 19 8C18.448 8 18 8.448 18 9V11C18 11.552 18.448 12 19 12C19.552 12 20 11.552 20 11V9Z&quot;
-                  fill=&quot;white&quot;
+                  d="M20 9C20 8.448 19.552 8 19 8C18.448 8 18 8.448 18 9V11C18 11.552 18.448 12 19 12C19.552 12 20 11.552 20 11V9Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M12 21C12 20.448 11.552 20 11 20C10.448 20 10 20.448 10 21V23C10 23.552 10.448 24 11 24C11.552 24 12 23.552 12 23V21Z&quot;
-                  fill=&quot;white&quot;
+                  d="M12 21C12 20.448 11.552 20 11 20C10.448 20 10 20.448 10 21V23C10 23.552 10.448 24 11 24C11.552 24 12 23.552 12 23V21Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M16 21C16 20.448 15.552 20 15 20C14.448 20 14 20.448 14 21V23C14 23.552 14.448 24 15 24C15.552 24 16 23.552 16 23V21Z&quot;
-                  fill=&quot;white&quot;
+                  d="M16 21C16 20.448 15.552 20 15 20C14.448 20 14 20.448 14 21V23C14 23.552 14.448 24 15 24C15.552 24 16 23.552 16 23V21Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M20 21C20 20.448 19.552 20 19 20C18.448 20 18 20.448 18 21V23C18 23.552 18.448 24 19 24C19.552 24 20 23.552 20 23V21Z&quot;
-                  fill=&quot;white&quot;
+                  d="M20 21C20 20.448 19.552 20 19 20C18.448 20 18 20.448 18 21V23C18 23.552 18.448 24 19 24C19.552 24 20 23.552 20 23V21Z"
+                  fill="white"
                 />
               </svg>
             </div>
-            <span className=&quot;text-lg font-semibold&quot;>Rishi</span>
+            <span className="text-lg font-semibold">Rishi</span>
           </Link>
         ) : (
-          <Link href=&quot;/&quot; className=&quot;flex items-center justify-center&quot;>
-            <div className=&quot;flex items-center justify-center w-8 h-8 rounded-md bg-primary text-primary-foreground&quot;>
+          <Link href="/" className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary text-primary-foreground">
               <svg
-                width=&quot;20&quot;
-                height=&quot;20&quot;
-                viewBox=&quot;0 0 32 32&quot;
-                fill=&quot;none&quot;
-                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d=&quot;M16 2C8.268 2 2 8.268 2 16C2 23.732 8.268 30 16 30C23.732 30 30 23.732 30 16C30 8.268 23.732 2 16 2Z&quot;
-                  fill=&quot;currentColor&quot;
+                  d="M16 2C8.268 2 2 8.268 2 16C2 23.732 8.268 30 16 30C23.732 30 30 23.732 30 16C30 8.268 23.732 2 16 2Z"
+                  fill="currentColor"
                 />
                 <path
-                  d=&quot;M21 12H11C10.448 12 10 12.448 10 13V19C10 19.552 10.448 20 11 20H21C21.552 20 22 19.552 22 19V13C22 12.448 21.552 12 21 12Z&quot;
-                  fill=&quot;white&quot;
+                  d="M21 12H11C10.448 12 10 12.448 10 13V19C10 19.552 10.448 20 11 20H21C21.552 20 22 19.552 22 19V13C22 12.448 21.552 12 21 12Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M12 9C12 8.448 11.552 8 11 8C10.448 8 10 8.448 10 9V11C10 11.552 10.448 12 11 12C11.552 12 12 11.552 12 11V9Z&quot;
-                  fill=&quot;white&quot;
+                  d="M12 9C12 8.448 11.552 8 11 8C10.448 8 10 8.448 10 9V11C10 11.552 10.448 12 11 12C11.552 12 12 11.552 12 11V9Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M16 9C16 8.448 15.552 8 15 8C14.448 8 14 8.448 14 9V11C14 11.552 14.448 12 15 12C15.552 12 16 11.552 16 11V9Z&quot;
-                  fill=&quot;white&quot;
+                  d="M16 9C16 8.448 15.552 8 15 8C14.448 8 14 8.448 14 9V11C14 11.552 14.448 12 15 12C15.552 12 16 11.552 16 11V9Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M20 9C20 8.448 19.552 8 19 8C18.448 8 18 8.448 18 9V11C18 11.552 18.448 12 19 12C19.552 12 20 11.552 20 11V9Z&quot;
-                  fill=&quot;white&quot;
+                  d="M20 9C20 8.448 19.552 8 19 8C18.448 8 18 8.448 18 9V11C18 11.552 18.448 12 19 12C19.552 12 20 11.552 20 11V9Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M12 21C12 20.448 11.552 20 11 20C10.448 20 10 20.448 10 21V23C10 23.552 10.448 24 11 24C11.552 24 12 23.552 12 23V21Z&quot;
-                  fill=&quot;white&quot;
+                  d="M12 21C12 20.448 11.552 20 11 20C10.448 20 10 20.448 10 21V23C10 23.552 10.448 24 11 24C11.552 24 12 23.552 12 23V21Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M16 21C16 20.448 15.552 20 15 20C14.448 20 14 20.448 14 21V23C14 23.552 14.448 24 15 24C15.552 24 16 23.552 16 23V21Z&quot;
-                  fill=&quot;white&quot;
+                  d="M16 21C16 20.448 15.552 20 15 20C14.448 20 14 20.448 14 21V23C14 23.552 14.448 24 15 24C15.552 24 16 23.552 16 23V21Z"
+                  fill="white"
                 />
                 <path
-                  d=&quot;M20 21C20 20.448 19.552 20 19 20C18.448 20 18 20.448 18 21V23C18 23.552 18.448 24 19 24C19.552 24 20 23.552 20 23V21Z&quot;
-                  fill=&quot;white&quot;
+                  d="M20 21C20 20.448 19.552 20 19 20C18.448 20 18 20.448 18 21V23C18 23.552 18.448 24 19 24C19.552 24 20 23.552 20 23V21Z"
+                  fill="white"
                 />
               </svg>
             </div>
@@ -635,10 +635,10 @@ export default function ModernSidebar({
         <button
           onClick={toggleSidebar}
           className={cn(
-            &quot;rounded-full p-2 hover:bg-muted transition-colors&quot;,
-            sidebarCollapsed ? &quot;rotate-180&quot; : &quot;&quot;,
+            "rounded-full p-2 hover:bg-muted transition-colors",
+            sidebarCollapsed ? "rotate-180" : "",
           )}
-          aria-label={sidebarCollapsed ? &quot;Expand sidebar&quot; : &quot;Collapse sidebar&quot;}
+          aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           <ChevronLeft size={18} />
         </button>
@@ -646,14 +646,14 @@ export default function ModernSidebar({
 
       {/* Organization Switcher */}
       {!sidebarCollapsed && (
-        <div className=&quot;px-3 py-3 border-b border-border&quot;>
+        <div className="px-3 py-3 border-b border-border">
           <OrganizationSwitcher />
         </div>
       )}
 
       {/* Navigation Links */}
-      <div className=&quot;flex-1 overflow-y-auto py-4 px-3&quot;>
-        <ul className=&quot;space-y-1&quot;>
+      <div className="flex-1 overflow-y-auto py-4 px-3">
+        <ul className="space-y-1">
           {processedNavItems.map((item) => {
             // Skip certain types if sidebar is collapsed
             if (sidebarCollapsed && item.type === NAV_ITEM_TYPES.SECONDARY)
@@ -661,49 +661,49 @@ export default function ModernSidebar({
 
             const isActive = isActiveLink(item);
             const hasChildren = item.children && item.children.length > 0;
-            const sectionKey = item.label.toLowerCase().replace(/\s+/g, &quot;-&quot;);
+            const sectionKey = item.label.toLowerCase().replace(/\s+/g, "-");
 
             if (hasChildren) {
               const isExpanded = isSectionExpanded(sectionKey);
 
               return (
-                <li key={item.id} className=&quot;mb-2&quot;>
+                <li key={item.id} className="mb-2">
                   <button
-                    type=&quot;button&quot;
+                    type="button"
                     onClick={() =>
                       !sidebarCollapsed && toggleSection(sectionKey)
                     }
                     className={cn(
-                      &quot;flex items-center w-full rounded-md p-2&quot;,
+                      "flex items-center w-full rounded-md p-2",
                       isActive
-                        ? &quot;bg-primary/10 text-primary&quot;
-                        : &quot;hover:bg-muted&quot;,
-                      sidebarCollapsed ? &quot;justify-center&quot; : &quot;justify-between&quot;,
+                        ? "bg-primary/10 text-primary"
+                        : "hover:bg-muted",
+                      sidebarCollapsed ? "justify-center" : "justify-between",
                     )}
                     aria-expanded={isExpanded}
                   >
-                    <div className=&quot;flex items-center&quot;>
+                    <div className="flex items-center">
                       <span
                         className={cn(
-                          &quot;text-primary&quot;,
+                          "text-primary",
                           sidebarCollapsed &&
-                            &quot;w-6 h-6 flex items-center justify-center&quot;,
+                            "w-6 h-6 flex items-center justify-center",
                         )}
                       >
-                        {typeof item.icon === &quot;string&quot;
+                        {typeof item.icon === "string"
                           ? getIcon(item.icon)
                           : item.icon}
                       </span>
                       {!sidebarCollapsed && (
-                        <span className=&quot;ml-3 font-medium&quot;>{item.label}</span>
+                        <span className="ml-3 font-medium">{item.label}</span>
                       )}
                     </div>
                     {!sidebarCollapsed && hasChildren && (
                       <ChevronDown
                         size={16}
                         className={cn(
-                          &quot;transition-transform duration-200&quot;,
-                          isExpanded ? &quot;transform rotate-180&quot; : &quot;&quot;,
+                          "transition-transform duration-200",
+                          isExpanded ? "transform rotate-180" : "",
                         )}
                       />
                     )}
@@ -715,10 +715,10 @@ export default function ModernSidebar({
                       {isExpanded && (
                         <motion.ul
                           initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: &quot;auto&quot;, opacity: 1 }}
+                          animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
-                          className=&quot;mt-1 pl-4 space-y-1 overflow-hidden&quot;
+                          className="mt-1 pl-4 space-y-1 overflow-hidden"
                         >
                           {item.children &&
                             item.children.map((child: NavItem) => {
@@ -729,20 +729,20 @@ export default function ModernSidebar({
                                   key={`${item.id}-${child.id || child.label}`}
                                 >
                                   <Link
-                                    href={child.path || child.href || &quot;#&quot;}
+                                    href={child.path || child.href || "#"}
                                     className={cn(
-                                      &quot;flex items-center rounded-md p-2&quot;,
+                                      "flex items-center rounded-md p-2",
                                       childIsActive
-                                        ? &quot;bg-primary/10 text-primary&quot;
-                                        : &quot;hover:bg-muted text-muted-foreground&quot;,
+                                        ? "bg-primary/10 text-primary"
+                                        : "hover:bg-muted text-muted-foreground",
                                     )}
                                   >
-                                    <span className=&quot;text-primary&quot;>
-                                      {typeof child.icon === &quot;string&quot;
+                                    <span className="text-primary">
+                                      {typeof child.icon === "string"
                                         ? getIcon(child.icon)
                                         : child.icon}
                                     </span>
-                                    <span className=&quot;ml-3 text-sm&quot;>
+                                    <span className="ml-3 text-sm">
                                       {child.label}
                                     </span>
                                   </Link>
@@ -761,29 +761,29 @@ export default function ModernSidebar({
             return (
               <li key={item.id}>
                 <Link
-                  href={item.path || item.href || &quot;#&quot;}
+                  href={item.path || item.href || "#"}
                   className={cn(
-                    &quot;flex items-center rounded-md p-2&quot;,
+                    "flex items-center rounded-md p-2",
                     isActive
-                      ? &quot;bg-primary/10 text-primary&quot;
-                      : &quot;hover:bg-muted text-muted-foreground&quot;,
-                    sidebarCollapsed && &quot;justify-center&quot;,
+                      ? "bg-primary/10 text-primary"
+                      : "hover:bg-muted text-muted-foreground",
+                    sidebarCollapsed && "justify-center",
                   )}
                   title={sidebarCollapsed ? item.label : undefined}
                 >
                   <span
                     className={cn(
-                      &quot;text-primary&quot;,
+                      "text-primary",
                       sidebarCollapsed &&
-                        &quot;w-6 h-6 flex items-center justify-center&quot;,
+                        "w-6 h-6 flex items-center justify-center",
                     )}
                   >
-                    {typeof item.icon === &quot;string&quot;
+                    {typeof item.icon === "string"
                       ? getIcon(item.icon)
                       : item.icon}
                   </span>
                   {!sidebarCollapsed && (
-                    <span className=&quot;ml-3 font-medium&quot;>{item.label}</span>
+                    <span className="ml-3 font-medium">{item.label}</span>
                   )}
                 </Link>
               </li>
@@ -795,23 +795,23 @@ export default function ModernSidebar({
       {/* User section */}
       <div
         className={cn(
-          &quot;border-t border-border py-3 px-3&quot;,
-          sidebarCollapsed ? &quot;flex flex-col items-center&quot; : &quot;&quot;,
+          "border-t border-border py-3 px-3",
+          sidebarCollapsed ? "flex flex-col items-center" : "",
         )}
       >
         {!sidebarCollapsed && (
-          <div className=&quot;flex items-center p-2 rounded-lg bg-muted/50 mb-3&quot;>
-            <div className=&quot;w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary&quot;>
+          <div className="flex items-center p-2 rounded-lg bg-muted/50 mb-3">
+            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
               <User size={18} />
             </div>
-            <div className=&quot;ml-3 overflow-hidden&quot;>
-              <p className=&quot;font-medium truncate&quot;>
-                {user?.email?.split(&quot;@&quot;)[0] || &quot;User&quot;}
+            <div className="ml-3 overflow-hidden">
+              <p className="font-medium truncate">
+                {user?.email?.split("@")[0] || "User"}
               </p>
-              <p className=&quot;text-xs text-muted-foreground truncate&quot;>
+              <p className="text-xs text-muted-foreground truncate">
                 {user?.role
-                  ?.replace(/_/g, &quot; &quot;)
-                  .replace(/\b\w/g, (c: string) => c.toUpperCase()) || &quot;User&quot;}
+                  ?.replace(/_/g, " ")
+                  .replace(/\b\w/g, (c: string) => c.toUpperCase()) || "User"}
               </p>
             </div>
           </div>
@@ -819,8 +819,8 @@ export default function ModernSidebar({
 
         <div
           className={cn(
-            &quot;flex gap-2&quot;,
-            sidebarCollapsed ? &quot;flex-col&quot; : &quot;items-center justify-between&quot;,
+            "flex gap-2",
+            sidebarCollapsed ? "flex-col" : "items-center justify-between",
           )}
         >
           <ThemeToggle />
@@ -828,17 +828,17 @@ export default function ModernSidebar({
           {sidebarCollapsed ? (
             <button
               onClick={() => logout && logout()}
-              className=&quot;p-2 rounded-md hover:bg-muted text-muted-foreground&quot;
-              aria-label=&quot;Logout&quot;
+              className="p-2 rounded-md hover:bg-muted text-muted-foreground"
+              aria-label="Logout"
             >
               <LogOut size={18} />
             </button>
           ) : (
             <button
               onClick={() => logout && logout()}
-              className=&quot;flex items-center p-2 rounded-md hover:bg-muted text-muted-foreground&quot;
+              className="flex items-center p-2 rounded-md hover:bg-muted text-muted-foreground"
             >
-              <LogOut size={18} className=&quot;mr-2&quot; />
+              <LogOut size={18} className="mr-2" />
               <span>Logout</span>
             </button>
           )}
@@ -849,18 +849,18 @@ export default function ModernSidebar({
 
   // Main content area with appropriate padding based on sidebar state
   return (
-    <div className=&quot;flex h-screen overflow-hidden&quot;>
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar for desktop */}
       {renderSidebarNavigation()}
 
       {/* Main content */}
       <main
         className={cn(
-          &quot;flex-1 overflow-y-auto transition-all duration-300 ease-in-out&quot;,
-          sidebarCollapsed ? &quot;ml-[78px]&quot; : &quot;ml-64&quot;,
+          "flex-1 overflow-y-auto transition-all duration-300 ease-in-out",
+          sidebarCollapsed ? "ml-[78px]" : "ml-64",
         )}
       >
-        <div className=&quot;px-4 py-6 md:px-6 lg:px-8">{children}</div>
+        <div className="px-4 py-6 md:px-6 lg:px-8">{children}</div>
       </main>
     </div>
   );

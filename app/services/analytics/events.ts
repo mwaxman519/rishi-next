@@ -9,10 +9,10 @@
  * @since Phase 7 Implementation
  */
 
-import { EventBus } from &quot;../core/EventBus&quot;;
+import { EventBus } from "../core/EventBus";
 
 const eventBus = new EventBus();
-import { Dashboard, GeneratedReport, UpdateDashboardInput } from &quot;./models&quot;;
+import { Dashboard, GeneratedReport, UpdateDashboardInput } from "./models";
 
 class AnalyticsEventPublisher {
   /**
@@ -24,7 +24,7 @@ class AnalyticsEventPublisher {
     createdBy: string,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.dashboard.created&quot;, {
+    await eventBus.publish("analytics.dashboard.created", {
       dashboard,
       createdBy,
       organizationId,
@@ -38,7 +38,7 @@ class AnalyticsEventPublisher {
     changes: UpdateDashboardInput,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.dashboard.updated&quot;, {
+    await eventBus.publish("analytics.dashboard.updated", {
       dashboard,
       updatedBy,
       changes,
@@ -52,7 +52,7 @@ class AnalyticsEventPublisher {
     deletedBy: string,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.dashboard.deleted&quot;, {
+    await eventBus.publish("analytics.dashboard.deleted", {
       dashboardId,
       deletedBy,
       organizationId,
@@ -65,7 +65,7 @@ class AnalyticsEventPublisher {
     viewedBy: string,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.dashboard.viewed&quot;, {
+    await eventBus.publish("analytics.dashboard.viewed", {
       dashboardId,
       viewedBy,
       organizationId,
@@ -82,7 +82,7 @@ class AnalyticsEventPublisher {
     generatedBy: string,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.report.generated&quot;, {
+    await eventBus.publish("analytics.report.generated", {
       report,
       generatedBy,
       organizationId,
@@ -95,7 +95,7 @@ class AnalyticsEventPublisher {
     downloadedBy: string,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.report.downloaded&quot;, {
+    await eventBus.publish("analytics.report.downloaded", {
       reportId,
       downloadedBy,
       organizationId,
@@ -113,7 +113,7 @@ class AnalyticsEventPublisher {
     threshold: number,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.metric.threshold_exceeded&quot;, {
+    await eventBus.publish("analytics.metric.threshold_exceeded", {
       metricId,
       currentValue,
       threshold,
@@ -128,7 +128,7 @@ class AnalyticsEventPublisher {
     exportedBy: string,
     organizationId: string,
   ): Promise<void> {
-    await eventBus.publish(&quot;analytics.data.exported&quot;, {
+    await eventBus.publish("analytics.data.exported", {
       format,
       recordCount,
       exportedBy,

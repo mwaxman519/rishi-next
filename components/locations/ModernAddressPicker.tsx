@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useEffect, useRef, useState } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import React, { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Loader2, MapPin, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Augment Window interface to add Google Maps properties
 declare global {
@@ -29,9 +29,9 @@ interface ModernAddressPickerProps {
 
 export default function ModernAddressPicker({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: ModernAddressPickerProps): React.JSX.Element {
-  const [inputValue, setInputValue] = useState(&quot;&quot;);
+  const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [googleInitialized, setGoogleInitialized] = useState(false);
   const [showMap, setShowMap] = useState(false);
@@ -52,13 +52,13 @@ export default function ModernAddressPicker({
   const initializeMap = (location: { lat: number; lng: number }) => {
     if (!mapRef.current || !window.google?.maps) {
       console.error(
-        &quot;ModernAddressPicker: Map container or Google Maps not available&quot;,
+        "ModernAddressPicker: Map container or Google Maps not available",
       );
       return;
     }
 
     console.log(
-      &quot;ModernAddressPicker: Initializing map with location:&quot;,
+      "ModernAddressPicker: Initializing map with location:",
       location,
     );
 
@@ -75,34 +75,34 @@ export default function ModernAddressPicker({
 
       // Create or reuse map
       if (!mapInstanceRef.current) {
-        console.log(&quot;ModernAddressPicker: Creating new map instance&quot;);
+        console.log("ModernAddressPicker: Creating new map instance");
         mapInstanceRef.current = new window.google.maps.Map(
           mapRef.current,
           mapOptions,
         );
       } else {
-        console.log(&quot;ModernAddressPicker: Reusing existing map instance&quot;);
+        console.log("ModernAddressPicker: Reusing existing map instance");
         mapInstanceRef.current.setCenter(location);
       }
 
       // Create or reuse marker
       if (!markerRef.current) {
-        console.log(&quot;ModernAddressPicker: Creating new marker&quot;);
+        console.log("ModernAddressPicker: Creating new marker");
         markerRef.current = new window.google.maps.Marker({
           position: location,
           map: mapInstanceRef.current,
           animation: window.google.maps.Animation.DROP,
         });
       } else {
-        console.log(&quot;ModernAddressPicker: Updating existing marker&quot;);
+        console.log("ModernAddressPicker: Updating existing marker");
         markerRef.current.setPosition(location);
       }
     } catch (error) {
-      console.error(&quot;ModernAddressPicker: Error initializing map:&quot;, error);
+      console.error("ModernAddressPicker: Error initializing map:", error);
       toast({
-        title: &quot;Map Error&quot;,
-        description: &quot;Could not display the map&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Map Error",
+        description: "Could not display the map",
+        variant: "destructive",
       });
     }
   };
@@ -112,7 +112,7 @@ export default function ModernAddressPicker({
     // Define the initialization function
     function initializeServices() {
       try {
-        console.log(&quot;ModernAddressPicker: Initializing Google services...&quot;);
+        console.log("ModernAddressPicker: Initializing Google services...");
 
         if (inputRef.current && window.google?.maps?.places) {
           // Create a new Autocomplete instance directly on the input field
@@ -120,56 +120,56 @@ export default function ModernAddressPicker({
           autocompleteRef.current = new window.google.maps.places.Autocomplete(
             inputRef.current,
             {
-              types: [&quot;geocode&quot;, &quot;establishment&quot;],
-              componentRestrictions: { country: &quot;us&quot; },
+              types: ["geocode", "establishment"],
+              componentRestrictions: { country: "us" },
               fields: [
-                &quot;place_id&quot;,
-                &quot;geometry&quot;,
-                &quot;name&quot;,
-                &quot;formatted_address&quot;,
-                &quot;address_components&quot;,
+                "place_id",
+                "geometry",
+                "name",
+                "formatted_address",
+                "address_components",
               ],
             },
           );
 
           // Add listener for place changes
-          autocompleteRef.current.addListener(&quot;place_changed&quot;, () => {
+          autocompleteRef.current.addListener("place_changed", () => {
             const place = autocompleteRef.current.getPlace();
             handlePlaceSelection(place);
           });
 
           console.log(
-            &quot;ModernAddressPicker: Autocomplete initialized on input element&quot;,
+            "ModernAddressPicker: Autocomplete initialized on input element",
           );
         }
 
         setGoogleInitialized(true);
         console.log(
-          &quot;ModernAddressPicker: Google services initialized successfully&quot;,
+          "ModernAddressPicker: Google services initialized successfully",
         );
       } catch (error) {
         console.error(
-          &quot;ModernAddressPicker: Error initializing Google services:&quot;,
+          "ModernAddressPicker: Error initializing Google services:",
           error,
         );
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to initialize location services&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to initialize location services",
+          variant: "destructive",
         });
       }
     }
 
     // Set up callback for script loading
     window.initGoogleMaps = () => {
-      console.log(&quot;[ModernAddressPicker] Google Maps initialized via callback&quot;);
+      console.log("[ModernAddressPicker] Google Maps initialized via callback");
       initializeServices();
     };
 
     // First check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.places) {
       console.log(
-        &quot;[ModernAddressPicker] Google Maps already loaded, initializing services&quot;,
+        "[ModernAddressPicker] Google Maps already loaded, initializing services",
       );
       initializeServices();
       return;
@@ -177,33 +177,33 @@ export default function ModernAddressPicker({
 
     // Check if script is already in document but not fully loaded
     const existingScript = document.querySelector(
-      'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
+      'script[src*="maps.googleapis.com/maps/api"]',
     );
     if (existingScript) {
       console.log(
-        &quot;[ModernAddressPicker] Google Maps script already exists, waiting for load&quot;,
+        "[ModernAddressPicker] Google Maps script already exists, waiting for load",
       );
       return; // The callback will handle initialization
     }
 
     // Load the script
-    console.log(&quot;[ModernAddressPicker] Loading Google Maps script...&quot;);
+    console.log("[ModernAddressPicker] Loading Google Maps script...");
     const apiKey =
       process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
-      &quot;AIzaSyB3BcM_Y6ASCfnr5Nm9V7-ZGf2oSCjgDww&quot;;
+      "AIzaSyB3BcM_Y6ASCfnr5Nm9V7-ZGf2oSCjgDww";
     console.log(
-      &quot;[ModernAddressPicker] Using Google Maps API Key:&quot;,
-      apiKey ? &quot;Key found&quot; : &quot;Key missing&quot;,
+      "[ModernAddressPicker] Using Google Maps API Key:",
+      apiKey ? "Key found" : "Key missing",
     );
-    const script = document.createElement(&quot;script&quot;);
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async`;
     script.async = true;
     script.onerror = () => {
-      console.error(&quot;[ModernAddressPicker] Failed to load Google Maps script&quot;);
+      console.error("[ModernAddressPicker] Failed to load Google Maps script");
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to load Google Maps service&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to load Google Maps service",
+        variant: "destructive",
       });
     };
     document.head.appendChild(script);
@@ -226,11 +226,11 @@ export default function ModernAddressPicker({
   // Handle place selection from the autocomplete widget
   const handlePlaceSelection = (place: any) => {
     if (!place || !place.geometry) {
-      console.error(&quot;ModernAddressPicker: No place details returned&quot;);
+      console.error("ModernAddressPicker: No place details returned");
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Could not get location details&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Could not get location details",
+        variant: "destructive",
       });
       return;
     }
@@ -238,19 +238,19 @@ export default function ModernAddressPicker({
     setIsLoading(true);
 
     try {
-      console.log(&quot;ModernAddressPicker: Place selected:&quot;, place);
+      console.log("ModernAddressPicker: Place selected:", place);
 
       // Extract the location coordinates
       const location = place.geometry.location;
 
       // Get the latitude and longitude (these might be methods or properties)
       const latitude =
-        typeof location.lat === &quot;function&quot; ? location.lat() : location.lat;
+        typeof location.lat === "function" ? location.lat() : location.lat;
       const longitude =
-        typeof location.lng === &quot;function&quot; ? location.lng() : location.lng;
+        typeof location.lng === "function" ? location.lng() : location.lng;
 
       console.log(
-        &quot;ModernAddressPicker: Location coordinates:&quot;,
+        "ModernAddressPicker: Location coordinates:",
         latitude,
         longitude,
       );
@@ -266,12 +266,12 @@ export default function ModernAddressPicker({
 
       // Prepare the address data
       const addressData: AddressData = {
-        formatted_address: place.formatted_address || &quot;&quot;,
+        formatted_address: place.formatted_address || "",
         address_components: place.address_components || [],
         latitude,
         longitude,
-        place_id: place.place_id || &quot;&quot;,
-        name: place.name || &quot;&quot;,
+        place_id: place.place_id || "",
+        name: place.name || "",
       };
 
       // Pass the data to the parent component
@@ -279,42 +279,42 @@ export default function ModernAddressPicker({
 
       setIsLoading(false);
     } catch (error) {
-      console.error(&quot;ModernAddressPicker: Error processing place data:&quot;, error);
+      console.error("ModernAddressPicker: Error processing place data:", error);
       setIsLoading(false);
 
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to process location data&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to process location data",
+        variant: "destructive",
       });
     }
   };
 
   return (
     <div className={`${className} relative`}>
-      <div className=&quot;relative&quot;>
-        <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           ref={inputRef}
-          type=&quot;text&quot;
-          placeholder=&quot;Search for a location&quot;
+          type="text"
+          placeholder="Search for a location"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          className=&quot;pl-9&quot;
+          className="pl-9"
           disabled={!googleInitialized}
         />
         {isLoading && (
-          <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+          <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
         )}
       </div>
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className=&quot;mt-4&quot;>
+        <div className="mt-4">
           <div
             ref={mapRef}
-            className=&quot;w-full h-[250px] rounded-md border&quot;
-            aria-label=&quot;Map showing selected location"
+            className="w-full h-[250px] rounded-md border"
+            aria-label="Map showing selected location"
           />
         </div>
       )}

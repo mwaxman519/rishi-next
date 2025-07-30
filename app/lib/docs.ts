@@ -1,12 +1,12 @@
-import fs from &quot;fs&quot;;
-import path from &quot;path&quot;;
-import { compileMDX } from &quot;next-mdx-remote/rsc&quot;;
-import remarkGfm from &quot;remark-gfm&quot;;
-import rehypeSlug from &quot;rehype-slug&quot;;
-import rehypeHighlight from &quot;rehype-highlight&quot;;
-import { mdxComponents } from &quot;../components/docs/mdx-components&quot;;
-import matter from &quot;gray-matter&quot;;
-import crypto from &quot;crypto&quot;;
+import fs from "fs";
+import path from "path";
+import { compileMDX } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeHighlight from "rehype-highlight";
+import { mdxComponents } from "../components/docs/mdx-components";
+import matter from "gray-matter";
+import crypto from "crypto";
 
 // Simple approach to provide fallbacks for MDX compilation errors
 // This allows for safer deployment in cases where MDX files have issues
@@ -14,13 +14,13 @@ import crypto from &quot;crypto&quot;;
 // Base directories for documentation
 // Use root Docs directory for development, public/Docs for production
 export const DOCS_DIRECTORY = process.env.VERCEL_ENV === 'production' 
-  ? path.join(process.cwd(), &quot;public&quot;, &quot;Docs&quot;)
-  : path.join(process.cwd(), &quot;Docs&quot;);
+  ? path.join(process.cwd(), "public", "Docs")
+  : path.join(process.cwd(), "Docs");
 
 // Disable filesystem operations during static generation
 const isStaticGeneration = process.env.NEXT_PHASE === 'phase-production-build' || 
                           process.env.BUILD_PHASE === 'static-generation';
-const MARKDOWN_EXTENSIONS = [&quot;.md&quot;, &quot;.mdx&quot;];
+const MARKDOWN_EXTENSIONS = [".md", ".mdx"];
 
 // Cache configuration
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -29,8 +29,8 @@ const CONTENT_CACHE_TTL = 12 * 60 * 60 * 1000; // 12 hours for content cache
 // Debug logging utility
 function debugLog(message: string, ...args: any[]) {
   if (
-    process.env.NODE_ENV !== &quot;production&quot; ||
-    process.env.DEBUG_DOCS === &quot;true&quot;
+    process.env.NODE_ENV !== "production" ||
+    process.env.DEBUG_DOCS === "true"
   ) {
     console.log(message, ...args);
   }
@@ -61,7 +61,7 @@ export interface DocContent {
 // Tree cache
 let cachedDocTree: DocTree | null = null;
 let cacheTimestamp: number = 0;
-let lastContentHash: string = "&quot;;
+let lastContentHash: string = "";
 
 /**
  * Calculate a hash of directory contents to detect changes
@@ -69,7 +69,7 @@ let lastContentHash: string = "&quot;;
 function calculateDirectoryHash(dir: string): string {
   // Allow hash calculation for production runtime
   if (!fs.existsSync(dir)) {
-    return &quot;directory-not-found&quot;;
+    return "directory-not-found";
   }
   
   const hashContent: string[] = [];
@@ -80,7 +80,7 @@ function calculateDirectoryHash(dir: string): string {
 
       for (const entry of entries) {
         // Skip hidden files
-        if (entry.name.startsWith(&quot;.&quot;)) continue;
+        if (entry.name.startsWith(".")) continue;
 
         const fullPath = path.join(currentDir, entry.name);
 
@@ -103,8 +103,8 @@ function calculateDirectoryHash(dir: string): string {
   processDirectory(dir);
 
   // Generate a hash from the file information
-  const contentStr = hashContent.sort().join(&quot;|&quot;);
-  return crypto.createHash(&quot;md5&quot;).update(contentStr).digest(&quot;hex&quot;);
+  const contentStr = hashContent.sort().join("|");
+  return crypto.createHash("md5").update(contentStr).digest("hex");
 }
 
 /**
@@ -112,7 +112,7 @@ function calculateDirectoryHash(dir: string): string {
  */
 export async function getDocTree(): Promise<DocTree> {
   // Skip static generation check for production runtime - we need docs to work
-  debugLog(&quot;[DOCS] Attempting to build document tree from filesystem&quot;);
+  debugLog("[DOCS] Attempting to build document tree from filesystem");
   
   // Check if docs directory exists
   if (!fs.existsSync(DOCS_DIRECTORY)) {
@@ -120,7 +120,7 @@ export async function getDocTree(): Promise<DocTree> {
     
     // During production builds, return empty tree instead of throwing
     if (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') {
-      debugLog(&quot;[DOCS] Production build - returning empty tree for missing directory&quot;);
+      debugLog("[DOCS] Production build - returning empty tree for missing directory");
       return {};
     }
     
@@ -132,25 +132,25 @@ export async function getDocTree(): Promise<DocTree> {
   // Check if cache is valid and not expired
   if (cachedDocTree && currentTime - cacheTimestamp < CACHE_TTL) {
     // Only recalculate hash in development or when explicitly requested
-    if (process.env.NODE_ENV === &quot;production&quot; && !process.env.DEBUG_DOCS) {
-      debugLog(&quot;[DOCS] Using cached document tree (production mode)&quot;);
+    if (process.env.NODE_ENV === "production" && !process.env.DEBUG_DOCS) {
+      debugLog("[DOCS] Using cached document tree (production mode)");
       return cachedDocTree;
     }
 
     // In development, check if content has changed
     const newHash = calculateDirectoryHash(DOCS_DIRECTORY);
     if (newHash === lastContentHash) {
-      debugLog(&quot;[DOCS] Using cached document tree (hash unchanged)&quot;);
+      debugLog("[DOCS] Using cached document tree (hash unchanged)");
       return cachedDocTree;
     }
 
-    debugLog(&quot;[DOCS] Content hash changed, rebuilding tree&quot;);
+    debugLog("[DOCS] Content hash changed, rebuilding tree");
     lastContentHash = newHash;
   } else {
-    debugLog(&quot;[DOCS] Cache expired or empty, rebuilding tree&quot;);
+    debugLog("[DOCS] Cache expired or empty, rebuilding tree");
 
     // Update hash for future comparisons
-    if (process.env.NODE_ENV !== &quot;production&quot; || process.env.DEBUG_DOCS) {
+    if (process.env.NODE_ENV !== "production" || process.env.DEBUG_DOCS) {
       lastContentHash = calculateDirectoryHash(DOCS_DIRECTORY);
     }
   }
@@ -161,22 +161,22 @@ export async function getDocTree(): Promise<DocTree> {
 
     // Verify the tree has content
     if (!tree || Object.keys(tree).length === 0) {
-      throw new Error(&quot;Generated empty document tree&quot;);
+      throw new Error("Generated empty document tree");
     }
 
     // Update cache
     cachedDocTree = tree;
     cacheTimestamp = currentTime;
 
-    debugLog(&quot;[DOCS] Successfully built document tree from filesystem&quot;);
+    debugLog("[DOCS] Successfully built document tree from filesystem");
     debugLog(`[DOCS] Tree contains ${Object.keys(tree).length} root items`);
     return tree;
   } catch (error) {
-    console.error(&quot;Error building document tree:&quot;, error);
+    console.error("Error building document tree:", error);
 
     // If we have a cached version, return it as fallback
     if (cachedDocTree) {
-      console.log(&quot;[DOCS] Returning cached tree as fallback after error&quot;);
+      console.log("[DOCS] Returning cached tree as fallback after error");
       return cachedDocTree;
     }
 
@@ -203,7 +203,7 @@ function buildDocTree(dir: string, baseDir: string = DOCS_DIRECTORY): DocTree {
   // Process directories first (alphabetically)
   for (const entry of directories) {
     // Skip hidden directories
-    if (entry.name.startsWith(&quot;.&quot;)) continue;
+    if (entry.name.startsWith(".")) continue;
 
     const fullPath = path.join(dir, entry.name);
     tree[entry.name] = buildDocTree(fullPath, baseDir);
@@ -212,7 +212,7 @@ function buildDocTree(dir: string, baseDir: string = DOCS_DIRECTORY): DocTree {
   // Then process files (alphabetically)
   for (const entry of files) {
     // Skip hidden files and non-markdown files
-    if (entry.name.startsWith(&quot;.&quot;)) continue;
+    if (entry.name.startsWith(".")) continue;
     if (!MARKDOWN_EXTENSIONS.includes(path.extname(entry.name).toLowerCase()))
       continue;
 
@@ -245,7 +245,7 @@ export async function getRecentDocuments(
 
     return limitedDocs;
   } catch (error) {
-    console.error(&quot;Error getting recent documents:&quot;, error);
+    console.error("Error getting recent documents:", error);
     throw error;
   }
 }
@@ -255,7 +255,7 @@ export async function getRecentDocuments(
  */
 function getAllDocsFromDirectory(
   dir: string,
-  basePath: string = &quot;&quot;,
+  basePath: string = "",
 ): DocInfo[] {
   const results: DocInfo[] = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -266,13 +266,13 @@ function getAllDocsFromDirectory(
 
     if (entry.isDirectory()) {
       // Skip hidden directories
-      if (entry.name.startsWith(&quot;.&quot;)) continue;
+      if (entry.name.startsWith(".")) continue;
 
       // Recursively scan directories
       results.push(...getAllDocsFromDirectory(fullPath, relativePath));
     } else if (entry.isFile()) {
       // Skip hidden files and non-markdown files
-      if (entry.name.startsWith(&quot;.&quot;)) continue;
+      if (entry.name.startsWith(".")) continue;
       if (!MARKDOWN_EXTENSIONS.includes(path.extname(entry.name).toLowerCase()))
         continue;
 
@@ -281,7 +281,7 @@ function getAllDocsFromDirectory(
         const stats = fs.statSync(fullPath);
 
         // Read the file to get title and excerpt
-        const content = fs.readFileSync(fullPath, &quot;utf-8&quot;);
+        const content = fs.readFileSync(fullPath, "utf-8");
         const { title, excerpt } = extractDocInfo(content, entry.name);
 
         // Create doc info object
@@ -293,7 +293,7 @@ function getAllDocsFromDirectory(
         });
       } catch (error) {
         console.error(`Error processing document ${fullPath}:`, error);
-        // Skip this file if there&apos;s an error
+        // Skip this file if there's an error
       }
     }
   }
@@ -316,7 +316,7 @@ function extractDocInfo(
   if (!title) {
     // Look for first heading
     const titleMatch = markdownContent.match(/^#\s+(.+)$/m);
-    if (titleMatch && titleMatch[1] && typeof titleMatch[1] === &quot;string&quot;) {
+    if (titleMatch && titleMatch[1] && typeof titleMatch[1] === "string") {
       title = titleMatch[1].trim();
     } else {
       // Fallback to filename
@@ -325,24 +325,24 @@ function extractDocInfo(
   }
 
   // Get excerpt from frontmatter or first paragraph
-  let excerpt = (data.description || data.excerpt || &quot;&quot;).toString();
+  let excerpt = (data.description || data.excerpt || "").toString();
   if (!excerpt) {
     // Look for first paragraph after headings and blank lines
     const excerptMatch = markdownContent
-      .replace(/^#.*$/gm, &quot;&quot;) // Remove headings
+      .replace(/^#.*$/gm, "") // Remove headings
       .match(/^\s*([^#\s].+?)\s*$/m); // Find first non-empty paragraph
 
     if (
       excerptMatch &&
       excerptMatch[1] &&
-      typeof excerptMatch[1] === &quot;string&quot;
+      typeof excerptMatch[1] === "string"
     ) {
       excerpt = excerptMatch[1].substring(0, 150);
       if (excerptMatch[1].length > 150) {
-        excerpt += &quot;...&quot;;
+        excerpt += "...";
       }
     } else {
-      excerpt = &quot;&quot;;
+      excerpt = "";
     }
   }
 
@@ -364,7 +364,7 @@ const contentCache: Record<string, CachedDocument> = {};
  * Gets a document by its path from the filesystem and compiles the MDX content
  */
 // Import redirects from centralized file
-import { DOC_PATH_REDIRECTS } from &quot;./doc-redirects&quot;;
+import { DOC_PATH_REDIRECTS } from "./doc-redirects";
 
 // Use the imported redirects
 const PATH_REDIRECTS = DOC_PATH_REDIRECTS;
@@ -374,17 +374,17 @@ export async function getDocumentByPath(
 ): Promise<DocContent | null> {
   // Return null during static generation to prevent filesystem access
   if (isStaticGeneration) {
-    debugLog(&quot;[DOCS] Static generation mode - returning null for document&quot;);
+    debugLog("[DOCS] Static generation mode - returning null for document");
     return null;
   }
   
   try {
     // First, clean up any existing extensions from the path
     // This ensures we never have double extensions in paths
-    let cleanPath = docPath.replace(/\.(md|mdx)$/i, &quot;&quot;);
+    let cleanPath = docPath.replace(/\.(md|mdx)$/i, "");
 
     // Normalize the path to handle various inputs, trimming slashes
-    const normalizedPath = cleanPath.replace(/^\/+|\/+$/g, &quot;&quot;);
+    const normalizedPath = cleanPath.replace(/^\/+|\/+$/g, "");
 
     // Log the input for debugging purposes
     console.log(
@@ -428,7 +428,7 @@ export async function getDocumentByPath(
       currentTime - contentCache[cacheKey].timestamp < CONTENT_CACHE_TTL
     ) {
       // In production, just use the cache
-      if (process.env.NODE_ENV === &quot;production&quot; && !process.env.DEBUG_DOCS) {
+      if (process.env.NODE_ENV === "production" && !process.env.DEBUG_DOCS) {
         debugLog(
           `[DOCS FETCH] Using cached content for ${normalizedPath} (production mode)`,
         );
@@ -443,7 +443,7 @@ export async function getDocumentByPath(
         const cachedFilePath = contentCache[cacheKey].filePath;
         const stats = fs.statSync(cachedFilePath);
 
-        // If file hasn&apos;t been modified since caching, use the cache
+        // If file hasn't been modified since caching, use the cache
         if (stats.mtime.getTime() === contentCache[cacheKey].mtime) {
           debugLog(
             `[DOCS FETCH] Using cached content for ${normalizedPath} (unchanged)`,
@@ -484,7 +484,7 @@ export async function getDocumentByPath(
       }
     }
 
-    // If we didn&apos;t find a file with extensions, try as directory index
+    // If we didn't find a file with extensions, try as directory index
     if (!filePath) {
       for (const ext of MARKDOWN_EXTENSIONS) {
         const indexPath = path.join(
@@ -501,7 +501,7 @@ export async function getDocumentByPath(
       }
     }
 
-    // If we didn&apos;t find a file with one of the extensions or as an index, try as README
+    // If we didn't find a file with one of the extensions or as an index, try as README
     if (!filePath) {
       for (const ext of MARKDOWN_EXTENSIONS) {
         const readmePath = path.join(
@@ -518,17 +518,17 @@ export async function getDocumentByPath(
       }
     }
 
-    // If we still don&apos;t have a file path, the document doesn&apos;t exist
+    // If we still don't have a file path, the document doesn't exist
     if (!filePath) {
       console.error(`[DOCS FETCH] Document not found: ${docPath}`);
       console.error(
-        `[DOCS FETCH] Tried these paths: ${pathVariations.join(&quot;, &quot;)}`,
+        `[DOCS FETCH] Tried these paths: ${pathVariations.join(", ")}`,
       );
       return null;
     }
 
     // Read the file content
-    const source = fs.readFileSync(filePath, &quot;utf-8&quot;);
+    const source = fs.readFileSync(filePath, "utf-8");
 
     // Get file stats for metadata
     const stats = fs.statSync(filePath);
@@ -540,7 +540,7 @@ export async function getDocumentByPath(
     let title = data.title || null;
     if (!title) {
       const titleMatch = content.match(/^#\s+(.+)$/m);
-      if (titleMatch && titleMatch[1] && typeof titleMatch[1] === &quot;string&quot;) {
+      if (titleMatch && titleMatch[1] && typeof titleMatch[1] === "string") {
         title = titleMatch[1].trim();
       } else {
         // Fallback to filename
@@ -554,8 +554,8 @@ export async function getDocumentByPath(
     if (data.tags) {
       if (Array.isArray(data.tags)) {
         tags = data.tags;
-      } else if (typeof data.tags === &quot;string&quot;) {
-        tags = data.tags.split(&quot;,&quot;).map((tag: string) => tag.trim());
+      } else if (typeof data.tags === "string") {
+        tags = data.tags.split(",").map((tag: string) => tag.trim());
       }
     }
 
@@ -574,8 +574,8 @@ export async function getDocumentByPath(
       // Apply basic sanitization to the source content
       const sanitizedSource = source
         // Replace problematic characters that could be confused with JSX
-        .replace(/</g, &quot;&lt;&quot;)
-        .replace(/>/g, &quot;&gt;&quot;);
+        .replace(/</g, "<")
+        .replace(/>/g, ">");
 
       const { content: compiledContent } = await compileMDX({
         source: sanitizedSource,
@@ -612,17 +612,17 @@ export async function getDocumentByPath(
       // Use simple string concatenation to build the HTML
       // This avoids JSX compilation issues during the build process
       const errorContent = `
-        <div class=&quot;doc-content-error&quot;>
-          <div class=&quot;bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 mb-6&quot;>
-            <p class=&quot;text-red-700 dark:text-red-400 font-medium&quot;>
+        <div class="doc-content-error">
+          <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 mb-6">
+            <p class="text-red-700 dark:text-red-400 font-medium">
               There was an error rendering this document. Showing plain content instead.
             </p>
-            <p class=&quot;text-sm text-red-600 dark:text-red-300 mt-1&quot;>
+            <p class="text-sm text-red-600 dark:text-red-300 mt-1">
               Error: ${mdxError instanceof Error ? mdxError.message : String(mdxError)}
             </p>
           </div>
-          <div class=&quot;markdown-body&quot;>
-            <pre class=&quot;whitespace-pre-wrap&quot;>${content.replace(/</g, &quot;&lt;&quot;).replace(/>/g, &quot;&gt;&quot;)}</pre>
+          <div class="markdown-body">
+            <pre class="whitespace-pre-wrap">${content.replace(/</g, "<").replace(/>/g, ">")}</pre>
           </div>
         </div>
       `;
@@ -661,7 +661,7 @@ export async function getDocumentByPath(
 export async function searchDocuments(query: string): Promise<DocInfo[]> {
   // Return empty array during static generation
   if (isStaticGeneration) {
-    debugLog(&quot;[DOCS] Static generation mode - returning empty search results&quot;);
+    debugLog("[DOCS] Static generation mode - returning empty search results");
     return [];
   }
   
@@ -670,7 +670,7 @@ export async function searchDocuments(query: string): Promise<DocInfo[]> {
   }
 
   try {
-    debugLog(`[DOCS] Searching for documents matching: &quot;${query}&quot;`);
+    debugLog(`[DOCS] Searching for documents matching: "${query}"`);
     const allDocs = await getAllDocs(); // Use cached document list
     const normalizedQuery = query.toLowerCase();
 
@@ -683,10 +683,10 @@ export async function searchDocuments(query: string): Promise<DocInfo[]> {
       );
     });
 
-    debugLog(`[DOCS] Found ${results.length} documents matching: &quot;${query}&quot;`);
+    debugLog(`[DOCS] Found ${results.length} documents matching: "${query}"`);
     return results;
   } catch (error) {
-    console.error(&quot;Error searching documents:&quot;, error);
+    console.error("Error searching documents:", error);
     throw error;
   }
 }
@@ -694,7 +694,7 @@ export async function searchDocuments(query: string): Promise<DocInfo[]> {
 // Cache for all documents
 let cachedAllDocs: DocInfo[] | null = null;
 let allDocsTimestamp: number = 0;
-let allDocsDirectoryHash: string = &quot;&quot;;
+let allDocsDirectoryHash: string = "";
 
 /**
  * Gets all documents with caching
@@ -702,7 +702,7 @@ let allDocsDirectoryHash: string = &quot;&quot;;
 export async function getAllDocs(): Promise<DocInfo[]> {
   // Return empty array during static generation
   if (isStaticGeneration) {
-    debugLog(&quot;[DOCS] Static generation mode - returning empty document list&quot;);
+    debugLog("[DOCS] Static generation mode - returning empty document list");
     return [];
   }
   
@@ -712,31 +712,31 @@ export async function getAllDocs(): Promise<DocInfo[]> {
     // Check if cache is valid and not expired
     if (cachedAllDocs && currentTime - allDocsTimestamp < CACHE_TTL) {
       // In production, just use the cache
-      if (process.env.NODE_ENV === &quot;production&quot; && !process.env.DEBUG_DOCS) {
-        debugLog(&quot;[DOCS] Using cached document list (production mode)&quot;);
+      if (process.env.NODE_ENV === "production" && !process.env.DEBUG_DOCS) {
+        debugLog("[DOCS] Using cached document list (production mode)");
         return cachedAllDocs;
       }
 
       // In development, check if content has changed
       const newHash = calculateDirectoryHash(DOCS_DIRECTORY);
       if (newHash === allDocsDirectoryHash) {
-        debugLog(&quot;[DOCS] Using cached document list (hash unchanged)&quot;);
+        debugLog("[DOCS] Using cached document list (hash unchanged)");
         return cachedAllDocs;
       }
 
-      debugLog(&quot;[DOCS] Document hash changed, rebuilding list&quot;);
+      debugLog("[DOCS] Document hash changed, rebuilding list");
       allDocsDirectoryHash = newHash;
     } else {
-      debugLog(&quot;[DOCS] Cache expired or empty, rebuilding document list&quot;);
+      debugLog("[DOCS] Cache expired or empty, rebuilding document list");
 
       // Update hash for future comparisons
-      if (process.env.NODE_ENV !== &quot;production&quot; || process.env.DEBUG_DOCS) {
+      if (process.env.NODE_ENV !== "production" || process.env.DEBUG_DOCS) {
         allDocsDirectoryHash = calculateDirectoryHash(DOCS_DIRECTORY);
       }
     }
 
     // Get all documents by scanning the filesystem
-    debugLog(&quot;[DOCS] Getting all documents from filesystem&quot;);
+    debugLog("[DOCS] Getting all documents from filesystem");
     const allDocs = getAllDocsFromDirectory(DOCS_DIRECTORY);
 
     // Update cache
@@ -746,11 +746,11 @@ export async function getAllDocs(): Promise<DocInfo[]> {
     debugLog(`[DOCS] Found ${allDocs.length} total documents`);
     return allDocs;
   } catch (error) {
-    console.error(&quot;Error getting all documents:&quot;, error);
+    console.error("Error getting all documents:", error);
 
     // If we have a cached version, return it as fallback
     if (cachedAllDocs) {
-      console.log(&quot;[DOCS] Returning cached documents as fallback after error&quot;);
+      console.log("[DOCS] Returning cached documents as fallback after error");
       return cachedAllDocs;
     }
 
@@ -767,7 +767,7 @@ const tagCache: Record<string, { docs: DocInfo[]; timestamp: number }> = {};
 export async function getDocumentsByTag(tag: string): Promise<DocInfo[]> {
   // Return empty array during static generation
   if (isStaticGeneration) {
-    debugLog(&quot;[DOCS] Static generation mode - returning empty tag results&quot;);
+    debugLog("[DOCS] Static generation mode - returning empty tag results");
     return [];
   }
   
@@ -779,31 +779,31 @@ export async function getDocumentsByTag(tag: string): Promise<DocInfo[]> {
     tagCache[normalizedTag] &&
     currentTime - tagCache[normalizedTag].timestamp < CACHE_TTL
   ) {
-    debugLog(`[DOCS] Using cached results for tag: &quot;${normalizedTag}&quot;`);
+    debugLog(`[DOCS] Using cached results for tag: "${normalizedTag}"`);
     return tagCache[normalizedTag].docs;
   }
 
   try {
-    debugLog(`[DOCS] Getting documents with tag: &quot;${normalizedTag}&quot;`);
+    debugLog(`[DOCS] Getting documents with tag: "${normalizedTag}"`);
     const allDocs = await getAllDocs(); // Use cached document list
     const results: DocInfo[] = [];
 
     // For each document, check if it has the requested tag
     // This could involve reading the actual files to parse frontmatter
-    // which could still be slow, but we&apos;re using the cached doc list at least
+    // which could still be slow, but we're using the cached doc list at least
     for (const doc of allDocs) {
       try {
         const filePath = findFilePath(path.join(DOCS_DIRECTORY, doc.path));
         if (!filePath) continue;
 
-        const content = fs.readFileSync(filePath, &quot;utf-8&quot;);
+        const content = fs.readFileSync(filePath, "utf-8");
         const { data } = matter(content);
 
         // Check if document has the requested tag
         if (data.tags) {
           const docTags = Array.isArray(data.tags)
             ? data.tags
-            : data.tags.split(&quot;,&quot;).map((t: string) => t.trim());
+            : data.tags.split(",").map((t: string) => t.trim());
 
           if (docTags.some((t: string) => t.toLowerCase() === normalizedTag)) {
             results.push(doc);
@@ -814,7 +814,7 @@ export async function getDocumentsByTag(tag: string): Promise<DocInfo[]> {
           `[DOCS] Error processing document ${doc.path} for tags:`,
           error,
         );
-        // Skip this document if there&apos;s an error
+        // Skip this document if there's an error
       }
     }
 
@@ -825,7 +825,7 @@ export async function getDocumentsByTag(tag: string): Promise<DocInfo[]> {
     };
 
     debugLog(
-      `[DOCS] Found ${results.length} documents with tag: &quot;${normalizedTag}&quot;`,
+      `[DOCS] Found ${results.length} documents with tag: "${normalizedTag}"`,
     );
     return results;
   } catch (error) {
@@ -834,7 +834,7 @@ export async function getDocumentsByTag(tag: string): Promise<DocInfo[]> {
     // If we have a cached version, return it as fallback
     if (tagCache[normalizedTag]) {
       console.log(
-        `[DOCS] Returning cached tag results as fallback after error for &quot;${normalizedTag}&quot;`,
+        `[DOCS] Returning cached tag results as fallback after error for "${normalizedTag}"`,
       );
       return tagCache[normalizedTag].docs;
     }
@@ -889,11 +889,11 @@ export function docPathToUrlPath(docPath: string): string {
   let urlPath = path.join(parsedPath.dir, parsedPath.name);
 
   // Remove index and README from the end
-  urlPath = urlPath.replace(/\/(index|README)$/i, &quot;/&quot;);
+  urlPath = urlPath.replace(/\/(index|README)$/i, "/");
 
   // Ensure it starts with a slash
-  if (!urlPath.startsWith(&quot;/&quot;)) {
-    urlPath = &quot;/&quot; + urlPath;
+  if (!urlPath.startsWith("/")) {
+    urlPath = "/" + urlPath;
   }
 
   return urlPath;
@@ -903,18 +903,18 @@ export function docPathToUrlPath(docPath: string): string {
  * Helper function to format a JSON error for more detailed logging/reporting
  */
 function formatErrorDetails(error: any): string {
-  if (!error) return &quot;Unknown error&quot;;
+  if (!error) return "Unknown error";
 
   try {
-    // Check if it&apos;s a fetch Response object
+    // Check if it's a fetch Response object
     if (error.status && error.statusText) {
       return `Status: ${error.status} ${error.statusText}`;
     }
 
     // For regular errors
-    let details = (error instanceof Error ? error.message : 'Unknown error') || &quot;No error details available&quot;;
+    let details = (error instanceof Error ? error.message : 'Unknown error') || "No error details available";
     if (error instanceof Error && error.stack) {
-      details += `\nStack: ${error.stack.split(&quot;\n&quot;)[0]}`;
+      details += `\nStack: ${error.stack.split("\n")[0]}`;
     }
 
     return details;
@@ -933,8 +933,8 @@ export function traceDocumentPath(docPath: string): string[] {
 
     // Normalize the path
     const normalizedPath = docPath
-      .replace(/^\/+|\/+$/g, &quot;&quot;)
-      .replace(/\.(md|mdx)$/i, &quot;&quot;);
+      .replace(/^\/+|\/+$/g, "")
+      .replace(/\.(md|mdx)$/i, "");
     traces.push(`Normalized path: ${normalizedPath}`);
 
     // Check if path is in redirects
@@ -991,7 +991,7 @@ export function traceDocumentPath(docPath: string): string[] {
     // If no file was found
     if (!pathVariations.some((p) => fs.existsSync(p))) {
       traces.push(
-        `No matching file found. Tried: ${pathVariations.join(&quot;, ")}`,
+        `No matching file found. Tried: ${pathVariations.join(", ")}`,
       );
     }
 

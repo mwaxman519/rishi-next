@@ -1,15 +1,15 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { brandLocations, brands } from &quot;@/shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
-import { z } from &quot;zod&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { brandLocations, brands } from "@/shared/schema";
+import { eq, and } from "drizzle-orm";
+import { getCurrentUser } from "@/lib/auth";
+import { z } from "zod";
 
 // Schema for updating a brand location
 const updateBrandLocationSchema = z.object({
@@ -25,7 +25,7 @@ export async function PATCH(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { brandId, locationId } = await params;
@@ -39,7 +39,7 @@ export async function PATCH(
       .limit(1);
 
     if (brandExists.length === 0) {
-      return NextResponse.json({ error: &quot;Brand not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Brand not found" }, { status: 404 });
     }
 
     // Check if the brand location exists and belongs to the specified brand
@@ -56,7 +56,7 @@ export async function PATCH(
 
     if (existingBrandLocation.length === 0) {
       return NextResponse.json(
-        { error: &quot;Brand location not found&quot; },
+        { error: "Brand location not found" },
         { status: 404 },
       );
     }
@@ -68,7 +68,7 @@ export async function PATCH(
     if (!validationResult.success) {
       return NextResponse.json(
         {
-          error: &quot;Invalid request data&quot;,
+          error: "Invalid request data",
           details: validationResult.error.format(),
         },
         { status: 400 },
@@ -89,13 +89,13 @@ export async function PATCH(
       );
 
     return NextResponse.json({
-      message: &quot;Brand location updated successfully&quot;,
+      message: "Brand location updated successfully",
       active,
     });
   } catch (error) {
     console.error(`Error updating brand location:`, error);
     return NextResponse.json(
-      { error: &quot;Failed to update brand location&quot; },
+      { error: "Failed to update brand location" },
       { status: 500 },
     );
   }
@@ -110,7 +110,7 @@ export async function DELETE(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { brandId, locationId } = await params;
@@ -124,7 +124,7 @@ export async function DELETE(
       .limit(1);
 
     if (brandExists.length === 0) {
-      return NextResponse.json({ error: &quot;Brand not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Brand not found" }, { status: 404 });
     }
 
     // Check if the brand location exists and belongs to the specified brand
@@ -141,7 +141,7 @@ export async function DELETE(
 
     if (existingBrandLocation.length === 0) {
       return NextResponse.json(
-        { error: &quot;Brand location not found&quot; },
+        { error: "Brand location not found" },
         { status: 404 },
       );
     }
@@ -157,12 +157,12 @@ export async function DELETE(
       );
 
     return NextResponse.json({
-      message: &quot;Location removed from brand successfully&quot;,
+      message: "Location removed from brand successfully",
     });
   } catch (error) {
     console.error(`Error removing location from brand:`, error);
     return NextResponse.json(
-      { error: &quot;Failed to remove location from brand&quot; },
+      { error: "Failed to remove location from brand" },
       { status: 500 },
     );
   }

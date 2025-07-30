@@ -10,31 +10,31 @@
  */
 export enum AppEvent {
   // Location events
-  LOCATION_CREATED = &quot;location.created&quot;,
-  LOCATION_UPDATED = &quot;location.updated&quot;,
-  LOCATION_DELETED = &quot;location.deleted&quot;,
-  LOCATION_APPROVED = &quot;location.approved&quot;,
-  LOCATION_REJECTED = &quot;location.rejected&quot;,
+  LOCATION_CREATED = "location.created",
+  LOCATION_UPDATED = "location.updated",
+  LOCATION_DELETED = "location.deleted",
+  LOCATION_APPROVED = "location.approved",
+  LOCATION_REJECTED = "location.rejected",
 
   // Organization events
-  ORGANIZATION_CREATED = &quot;organization.created&quot;,
-  ORGANIZATION_UPDATED = &quot;organization.updated&quot;,
-  ORGANIZATION_DELETED = &quot;organization.deleted&quot;,
+  ORGANIZATION_CREATED = "organization.created",
+  ORGANIZATION_UPDATED = "organization.updated",
+  ORGANIZATION_DELETED = "organization.deleted",
 
   // User events
-  USER_CREATED = &quot;user.created&quot;,
-  USER_UPDATED = &quot;user.updated&quot;,
-  USER_DELETED = &quot;user.deleted&quot;,
-  USER_PERMISSION_CHANGED = &quot;user.permission_changed&quot;,
+  USER_CREATED = "user.created",
+  USER_UPDATED = "user.updated",
+  USER_DELETED = "user.deleted",
+  USER_PERMISSION_CHANGED = "user.permission_changed",
 
   // System events
-  SYSTEM_STARTED = &quot;system.started&quot;,
-  SYSTEM_ERROR = &quot;system.error&quot;,
+  SYSTEM_STARTED = "system.started",
+  SYSTEM_ERROR = "system.error",
 
   // Infrastructure events
-  CIRCUIT_BREAKER_OPENED = &quot;infrastructure.circuit_breaker_opened&quot;,
-  CIRCUIT_BREAKER_CLOSED = &quot;infrastructure.circuit_breaker_closed&quot;,
-  CIRCUIT_BREAKER_HALF_OPEN = &quot;infrastructure.circuit_breaker_half_open&quot;,
+  CIRCUIT_BREAKER_OPENED = "infrastructure.circuit_breaker_opened",
+  CIRCUIT_BREAKER_CLOSED = "infrastructure.circuit_breaker_closed",
+  CIRCUIT_BREAKER_HALF_OPEN = "infrastructure.circuit_breaker_half_open",
 }
 
 /**
@@ -43,7 +43,7 @@ export enum AppEvent {
 export interface EventMetadata {
   eventId: string;
   timestamp: string;
-  priority: &quot;low&quot; | &quot;normal&quot; | &quot;high&quot;;
+  priority: "low" | "normal" | "high";
   source?: string;
   correlationId?: string;
   userId?: string;
@@ -61,7 +61,7 @@ export interface LocationCreatedPayload {
   longitude: number;
   organizationId: string;
   createdBy: string;
-  status: &quot;pending&quot; | &quot;approved&quot; | &quot;rejected&quot;;
+  status: "pending" | "approved" | "rejected";
 }
 
 export interface LocationUpdatedPayload {

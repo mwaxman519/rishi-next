@@ -1,11 +1,11 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useEffect, useState } from &quot;react&quot;;
-import { initializeNavigation } from &quot;./NavigationItems&quot;;
+import React, { useEffect, useState } from "react";
+import { initializeNavigation } from "./NavigationItems";
 import {
   superAdminNavigation,
   fieldManagerNavigation,
-} from &quot;@shared/navigation-structure&quot;;
+} from "@shared/navigation-structure";
 
 interface NavigationProviderProps {
   children: React.ReactNode;
@@ -22,31 +22,31 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
     // Initialize navigation structure on client-side only
     if (!initialized) {
       try {
-        console.log(&quot;Initializing navigation structure...&quot;);
+        console.log("Initializing navigation structure...");
         initializeNavigation();
         console.log(
-          &quot;Navigation initialized successfully:&quot;,
-          &quot;Super Admin Navigation Items:&quot;,
+          "Navigation initialized successfully:",
+          "Super Admin Navigation Items:",
           superAdminNavigation.length,
-          &quot;Field Manager Navigation Items:&quot;,
+          "Field Manager Navigation Items:",
           fieldManagerNavigation.length,
         );
 
         // Inspect some items for debugging
         if (superAdminNavigation && superAdminNavigation.length > 0) {
           console.log(
-            &quot;First Super Admin item:&quot;,
-            superAdminNavigation[0]?.label || &quot;No label&quot;,
+            "First Super Admin item:",
+            superAdminNavigation[0]?.label || "No label",
           );
         }
         if (fieldManagerNavigation && fieldManagerNavigation.length > 0) {
           console.log(
-            &quot;First Field Manager item:&quot;,
-            fieldManagerNavigation[0]?.label || &quot;No label&quot;,
+            "First Field Manager item:",
+            fieldManagerNavigation[0]?.label || "No label",
           );
         }
       } catch (error) {
-        console.error(&quot;Error initializing navigation:&quot;, error);
+        console.error("Error initializing navigation:", error);
       }
       setInitialized(true);
     }

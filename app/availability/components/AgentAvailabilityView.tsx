@@ -1,22 +1,22 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, Suspense } from &quot;react&quot;;
-import { AvailabilityDTO } from &quot;../../models/availability&quot;;
-import { format } from &quot;date-fns&quot;;
-import { ThemeToggle } from &quot;../../components/ui/theme-toggle&quot;;
-import { useTheme } from &quot;@/hooks/useTheme&quot;;
-import { useSidebarState } from &quot;@/hooks/useSidebarState&quot;;
-import { Sun, Moon } from &quot;lucide-react&quot;;
-import { memo } from &quot;react&quot;;
+import { useState, useEffect, Suspense } from "react";
+import { AvailabilityDTO } from "../../models/availability";
+import { format } from "date-fns";
+import { ThemeToggle } from "../../components/ui/theme-toggle";
+import { useTheme } from "@/hooks/useTheme";
+import { useSidebarState } from "@/hooks/useSidebarState";
+import { Sun, Moon } from "lucide-react";
+import { memo } from "react";
 
-import ErrorBoundary from &quot;../../components/ErrorBoundary&quot;;
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 // Import only what we need for the list view directly
-import AvailabilityForm from &quot;../../components/agent-calendar/AvailabilityForm&quot;;
-import EditAvailabilityForm from &quot;../../components/agent-calendar/EditAvailabilityForm&quot;;
+import AvailabilityForm from "../../components/agent-calendar/AvailabilityForm";
+import EditAvailabilityForm from "../../components/agent-calendar/EditAvailabilityForm";
 
 // Import the calendar provider
-import { CalendarProvider } from &quot;../../components/agent-calendar/CalendarProvider&quot;;
+import { CalendarProvider } from "../../components/agent-calendar/CalendarProvider";
 
 interface AgentAvailabilityViewProps {
   userId: number;
@@ -28,23 +28,23 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
   userId,
   availabilityBlocks: initialBlocks,
 }: AgentAvailabilityViewProps) {
-  const [activeTab, setActiveTab] = useState<&quot;calendar&quot; | &quot;list&quot;>(&quot;calendar&quot;);
+  const [activeTab, setActiveTab] = useState<"calendar" | "list">("calendar");
   const [refreshKey, setRefreshKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [blocks, setBlocks] = useState<AvailabilityDTO[]>(initialBlocks);
   const [editingBlock, setEditingBlock] = useState<AvailabilityDTO | null>(
     null,
   );
-  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<
-    &quot;all&quot; | &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;
-  >(&quot;all&quot;);
+    "all" | "available" | "unavailable" | "tentative"
+  >("all");
   const { theme, toggleTheme } = useTheme();
   const { sidebarCollapsed } = useSidebarState();
 
   // Refresh blocks when initial data changes or after operations
   useEffect(() => {
-    // Only update if there&apos;s a meaningful difference to avoid unnecessary renders
+    // Only update if there's a meaningful difference to avoid unnecessary renders
     if (JSON.stringify(initialBlocks) !== JSON.stringify(blocks)) {
       setBlocks(initialBlocks);
       setIsLoading(false);
@@ -84,7 +84,7 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
 
   const handleDeleteBlock = async (blockId: number) => {
     if (
-      window.confirm(&quot;Are you sure you want to delete this availability block?&quot;)
+      window.confirm("Are you sure you want to delete this availability block?")
     ) {
       try {
         // Optimistically update UI by removing the block immediately
@@ -95,21 +95,21 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
 
         // Then actually delete the block on the server
         const response = await fetch(`/api/availability/${blockId}`, {
-          method: &quot;DELETE&quot;,
+          method: "DELETE",
         });
 
         if (!response.ok) {
           // If the API call fails, restore the original block list
           // by triggering a refresh from the parent
-          throw new Error(&quot;Failed to delete availability block&quot;);
+          throw new Error("Failed to delete availability block");
         }
 
         // After successful API call, refresh calendar view and any other data
         // The list will already show the block as deleted
         handleAvailabilitySuccess();
       } catch (err) {
-        console.error(&quot;Error deleting availability block:&quot;, err);
-        alert(&quot;Error deleting availability block. Please try again.&quot;);
+        console.error("Error deleting availability block:", err);
+        alert("Error deleting availability block. Please try again.");
 
         // Refresh the data to ensure consistency after an error
         fetchAvailabilityBlocks();
@@ -121,15 +121,15 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
   const filteredBlocks = blocks.filter((block) => {
     // Filter by search query
     const matchesSearch =
-      searchQuery === &quot;&quot; ||
+      searchQuery === "" ||
       block.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      format(new Date(block.startDate), &quot;MMM dd, yyyy&quot;)
+      format(new Date(block.startDate), "MMM dd, yyyy")
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
 
     // Filter by status
     const matchesStatus =
-      statusFilter === &quot;all&quot; || block.status === statusFilter;
+      statusFilter === "all" || block.status === statusFilter;
 
     return matchesSearch && matchesStatus;
   });
@@ -137,17 +137,17 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
   return (
     <div>
       {/* Tab navigation */}
-      <div className=&quot;mb-6 border-b&quot;>
-        <div className=&quot;flex space-x-4&quot;>
+      <div className="mb-6 border-b">
+        <div className="flex space-x-4">
           <button
-            className={`pb-2 px-2 ${activeTab === &quot;calendar&quot; ? &quot;border-b-2 border-teal-600 font-semibold text-teal-600&quot; : &quot;text-gray-500&quot;}`}
-            onClick={() => setActiveTab(&quot;calendar&quot;)}
+            className={`pb-2 px-2 ${activeTab === "calendar" ? "border-b-2 border-teal-600 font-semibold text-teal-600" : "text-gray-500"}`}
+            onClick={() => setActiveTab("calendar")}
           >
             Calendar View
           </button>
           <button
-            className={`pb-2 px-2 ${activeTab === &quot;list&quot; ? &quot;border-b-2 border-teal-600 font-semibold text-teal-600&quot; : &quot;text-gray-500&quot;}`}
-            onClick={() => setActiveTab(&quot;list&quot;)}
+            className={`pb-2 px-2 ${activeTab === "list" ? "border-b-2 border-teal-600 font-semibold text-teal-600" : "text-gray-500"}`}
+            onClick={() => setActiveTab("list")}
           >
             List View
           </button>
@@ -155,22 +155,22 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
       </div>
 
       {/* Calendar view */}
-      {activeTab === &quot;calendar&quot; && (
-        <div className=&quot;mb-6&quot;>
-          <div className=&quot;mb-6&quot;>
-            <div style={{ height: &quot;700px&quot; }} className=&quot;w-full&quot;>
+      {activeTab === "calendar" && (
+        <div className="mb-6">
+          <div className="mb-6">
+            <div style={{ height: "700px" }} className="w-full">
               {/* Using our wrapper to prevent infinite re-renders */}
               <ErrorBoundary
                 errorComponent={(error, reset) => (
-                  <div className=&quot;p-4 border border-red-300 rounded bg-red-50 text-red-700&quot;>
-                    <h3 className=&quot;font-bold mb-2&quot;>Calendar Error</h3>
-                    <p className=&quot;mb-2&quot;>
+                  <div className="p-4 border border-red-300 rounded bg-red-50 text-red-700">
+                    <h3 className="font-bold mb-2">Calendar Error</h3>
+                    <p className="mb-2">
                       {error.message ||
-                        &quot;An error occurred while loading the calendar&quot;}
+                        "An error occurred while loading the calendar"}
                     </p>
                     <button
                       onClick={reset}
-                      className=&quot;px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700&quot;
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                     >
                       Try Again
                     </button>
@@ -179,7 +179,7 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
               >
                 <CalendarProvider userId={userId}>
                   {/* Placeholder for calendar - component has been removed */}
-                  <div className=&quot;bg-gray-100 dark:bg-gray-800 rounded p-4 text-center&quot;>
+                  <div className="bg-gray-100 dark:bg-gray-800 rounded p-4 text-center">
                     <p>
                       Calendar view has been migrated to the main availability
                       page.
@@ -193,29 +193,29 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
       )}
 
       {/* List view */}
-      {activeTab === &quot;list&quot; && (
+      {activeTab === "list" && (
         <div>
           {/* Show edit form if editing a block */}
           {editingBlock ? (
-            <div className=&quot;mb-6&quot;>
+            <div className="mb-6">
               <ErrorBoundary
                 errorComponent={(error, reset) => (
-                  <div className=&quot;p-4 border border-red-300 rounded bg-red-50 text-red-700&quot;>
-                    <h3 className=&quot;font-bold mb-2&quot;>Form Error</h3>
-                    <p className=&quot;mb-2&quot;>
+                  <div className="p-4 border border-red-300 rounded bg-red-50 text-red-700">
+                    <h3 className="font-bold mb-2">Form Error</h3>
+                    <p className="mb-2">
                       {error.message ||
-                        &quot;An error occurred while loading the edit form&quot;}
+                        "An error occurred while loading the edit form"}
                     </p>
-                    <div className=&quot;flex space-x-3&quot;>
+                    <div className="flex space-x-3">
                       <button
                         onClick={reset}
-                        className=&quot;px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700&quot;
+                        className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                       >
                         Try Again
                       </button>
                       <button
                         onClick={handleEditCancel}
-                        className=&quot;px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700&quot;
+                        className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
                       >
                         Cancel Edit
                       </button>
@@ -231,19 +231,19 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
               </ErrorBoundary>
             </div>
           ) : (
-            <div className=&quot;mb-6&quot;>
-              <h2 className=&quot;text-lg font-semibold mb-4&quot;>Add Availability</h2>
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-4">Add Availability</h2>
               <ErrorBoundary
                 errorComponent={(error, reset) => (
-                  <div className=&quot;p-4 border border-red-300 rounded bg-red-50 text-red-700&quot;>
-                    <h3 className=&quot;font-bold mb-2&quot;>Form Error</h3>
-                    <p className=&quot;mb-2&quot;>
+                  <div className="p-4 border border-red-300 rounded bg-red-50 text-red-700">
+                    <h3 className="font-bold mb-2">Form Error</h3>
+                    <p className="mb-2">
                       {error.message ||
-                        &quot;An error occurred while loading the availability form&quot;}
+                        "An error occurred while loading the availability form"}
                     </p>
                     <button
                       onClick={reset}
-                      className=&quot;px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700&quot;
+                      className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
                     >
                       Try Again
                     </button>
@@ -253,50 +253,50 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
                 <AvailabilityForm
                   userId={userId}
                   onSuccess={handleAvailabilitySuccess}
-                  className=&quot;mb-8&quot;
+                  className="mb-8"
                 />
               </ErrorBoundary>
             </div>
           )}
 
           <div>
-            <div className=&quot;flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4&quot;>
-              <div className=&quot;flex items-center&quot;>
-                <h2 className=&quot;text-lg font-semibold&quot;>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+              <div className="flex items-center">
+                <h2 className="text-lg font-semibold">
                   My Availability Blocks
                 </h2>
-                <div className=&quot;ml-4&quot;>
+                <div className="ml-4">
                   <ThemeToggle />
                 </div>
               </div>
 
-              <div className=&quot;mt-2 sm:mt-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto&quot;>
+              <div className="mt-2 sm:mt-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                 {/* Search input */}
-                <div className=&quot;relative&quot;>
+                <div className="relative">
                   <input
-                    type=&quot;text&quot;
-                    placeholder=&quot;Search availability...&quot;
+                    type="text"
+                    placeholder="Search availability..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className=&quot;w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white&quot;
+                    className="w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                   />
                   {searchQuery && (
                     <button
-                      onClick={() => setSearchQuery(&quot;&quot;)}
-                      className=&quot;absolute right-2 top-2.5 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100&quot;
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-2 top-2.5 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
                     >
                       <svg
-                        xmlns=&quot;http://www.w3.org/2000/svg&quot;
-                        className=&quot;h-4 w-4&quot;
-                        fill=&quot;none&quot;
-                        viewBox=&quot;0 0 24 24&quot;
-                        stroke=&quot;currentColor&quot;
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
                       >
                         <path
-                          strokeLinecap=&quot;round&quot;
-                          strokeLinejoin=&quot;round&quot;
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           strokeWidth={2}
-                          d=&quot;M6 18L18 6M6 6l12 12&quot;
+                          d="M6 18L18 6M6 6l12 12"
                         />
                       </svg>
                     </button>
@@ -307,42 +307,42 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className=&quot;px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white&quot;
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 >
-                  <option value=&quot;all&quot;>All Statuses</option>
-                  <option value=&quot;available&quot;>Available</option>
-                  <option value=&quot;unavailable&quot;>Unavailable</option>
-                  <option value=&quot;tentative&quot;>Tentative</option>
+                  <option value="all">All Statuses</option>
+                  <option value="available">Available</option>
+                  <option value="unavailable">Unavailable</option>
+                  <option value="tentative">Tentative</option>
                 </select>
               </div>
             </div>
 
             {/* Blocks table */}
             {isLoading ? (
-              <div className=&quot;flex justify-center items-center h-20&quot;>
-                <div className=&quot;animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-teal-500&quot;></div>
+              <div className="flex justify-center items-center h-20">
+                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-teal-500"></div>
               </div>
             ) : filteredBlocks.length > 0 ? (
-              <div className=&quot;overflow-x-auto&quot;>
-                <table className=&quot;w-full border-collapse dark:border-gray-700&quot;>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse dark:border-gray-700">
                   <thead>
-                    <tr className=&quot;bg-gray-100 dark:bg-gray-800&quot;>
-                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
+                    <tr className="bg-gray-100 dark:bg-gray-800">
+                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
                         Title
                       </th>
-                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
+                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
                         Start Date
                       </th>
-                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
+                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
                         End Date
                       </th>
-                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
+                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
                         Status
                       </th>
-                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
+                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
                         Recurring
                       </th>
-                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
+                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
                         Actions
                       </th>
                     </tr>
@@ -351,61 +351,61 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
                     {filteredBlocks.map((block) => (
                       <tr
                         key={block.id}
-                        className=&quot;border-b hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-white&quot;
+                        className="border-b hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-white"
                       >
-                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
-                          {block.title || &quot;Untitled&quot;}
+                        <td className="p-2 border dark:border-gray-700">
+                          {block.title || "Untitled"}
                         </td>
-                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
+                        <td className="p-2 border dark:border-gray-700">
                           {block.startDate instanceof Date
-                            ? format(block.startDate, &quot;MMM dd, yyyy h:mm a&quot;)
+                            ? format(block.startDate, "MMM dd, yyyy h:mm a")
                             : format(
                                 new Date(block.startDate),
-                                &quot;MMM dd, yyyy h:mm a&quot;,
+                                "MMM dd, yyyy h:mm a",
                               )}
                         </td>
-                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
+                        <td className="p-2 border dark:border-gray-700">
                           {block.endDate instanceof Date
-                            ? format(block.endDate, &quot;MMM dd, yyyy h:mm a&quot;)
+                            ? format(block.endDate, "MMM dd, yyyy h:mm a")
                             : format(
                                 new Date(block.endDate),
-                                &quot;MMM dd, yyyy h:mm a&quot;,
+                                "MMM dd, yyyy h:mm a",
                               )}
                         </td>
-                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
+                        <td className="p-2 border dark:border-gray-700">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             ${
-                              block.status === &quot;available&quot;
-                                ? &quot;bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100&quot;
-                                : block.status === &quot;unavailable&quot;
-                                  ? &quot;bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100&quot;
-                                  : &quot;bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100&quot;
+                              block.status === "available"
+                                ? "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
+                                : block.status === "unavailable"
+                                  ? "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100"
+                                  : "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100"
                             }`}
                           >
                             {block.status.charAt(0).toUpperCase() +
                               block.status.slice(1)}
                           </span>
                         </td>
-                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
+                        <td className="p-2 border dark:border-gray-700">
                           {block.isRecurring ? (
-                            <span className=&quot;inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100&quot;>
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
                               Weekly
                             </span>
                           ) : (
-                            &quot;No&quot;
+                            "No"
                           )}
                         </td>
-                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
-                          <div className=&quot;flex space-x-2&quot;>
+                        <td className="p-2 border dark:border-gray-700">
+                          <div className="flex space-x-2">
                             <button
-                              className=&quot;text-blue-500 hover:text-blue-700 font-medium dark:text-blue-400 dark:hover:text-blue-300&quot;
+                              className="text-blue-500 hover:text-blue-700 font-medium dark:text-blue-400 dark:hover:text-blue-300"
                               onClick={() => handleEditClick(block)}
                             >
                               Edit
                             </button>
                             <button
-                              className=&quot;text-red-500 hover:text-red-700 font-medium dark:text-red-400 dark:hover:text-red-300&quot;
+                              className="text-red-500 hover:text-red-700 font-medium dark:text-red-400 dark:hover:text-red-300"
                               onClick={() => handleDeleteBlock(block.id)}
                             >
                               Delete
@@ -418,36 +418,36 @@ const AgentAvailabilityView = memo(function AgentAvailabilityView({
                 </table>
               </div>
             ) : (
-              <div className=&quot;text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700&quot;>
+              <div className="text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <svg
-                  className=&quot;mx-auto h-12 w-12 text-gray-400 dark:text-gray-500&quot;
-                  fill=&quot;none&quot;
-                  stroke=&quot;currentColor&quot;
-                  viewBox=&quot;0 0 24 24&quot;
-                  xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                  className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    strokeLinecap=&quot;round&quot;
-                    strokeLinejoin=&quot;round&quot;
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     strokeWidth={2}
-                    d=&quot;M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z&quot;
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <h3 className=&quot;mt-2 text-sm font-medium text-gray-900 dark:text-white&quot;>
+                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
                   No availability blocks found
                 </h3>
-                <p className=&quot;mt-1 text-sm text-gray-500 dark:text-gray-400&quot;>
-                  {searchQuery || statusFilter !== &quot;all&quot;
-                    ? &quot;Try adjusting your search or filter criteria.&quot;
-                    : &quot;Add some using the form above.&quot;}
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  {searchQuery || statusFilter !== "all"
+                    ? "Try adjusting your search or filter criteria."
+                    : "Add some using the form above."}
                 </p>
-                {(searchQuery || statusFilter !== &quot;all&quot;) && (
+                {(searchQuery || statusFilter !== "all") && (
                   <button
                     onClick={() => {
-                      setSearchQuery(&quot;&quot;);
-                      setStatusFilter(&quot;all&quot;);
+                      setSearchQuery("");
+                      setStatusFilter("all");
                     }}
-                    className=&quot;mt-3 text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
+                    className="mt-3 text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
                   >
                     Clear filters
                   </button>

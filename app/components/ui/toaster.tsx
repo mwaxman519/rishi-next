@@ -1,15 +1,15 @@
-&quot;use client&quot;;
+"use client";
 
-import * as React from &quot;react&quot;;
-import { X } from &quot;lucide-react&quot;;
-import { cn } from &quot;../../lib/utils&quot;;
+import * as React from "react";
+import { X } from "lucide-react";
+import { cn } from "../../lib/utils";
 
 // Create the toast context outside the component
 export const ToastContext = React.createContext<{
   toast: (props: {
     title?: string;
     description?: React.ReactNode;
-    variant?: &quot;default&quot; | &quot;destructive&quot;;
+    variant?: "default" | "destructive";
   }) => void;
   dismiss: (id: string) => void;
 } | null>(null);
@@ -21,7 +21,7 @@ export function Toaster() {
       id: string;
       title?: string;
       description?: React.ReactNode;
-      variant?: &quot;default&quot; | &quot;destructive&quot;;
+      variant?: "default" | "destructive";
       open: boolean;
     }>
   >([]);
@@ -32,7 +32,7 @@ export function Toaster() {
       toast: (props: {
         title?: string;
         description?: React.ReactNode;
-        variant?: &quot;default&quot; | &quot;destructive&quot;;
+        variant?: "default" | "destructive";
       }) => {
         const id = Math.random().toString(36).substring(2, 9);
         setToasts((prev) => [...prev, { id, ...props, open: true }]);
@@ -60,36 +60,36 @@ export function Toaster() {
 
   // Set in global for access
   React.useEffect(() => {
-    if (typeof window !== &quot;undefined&quot;) {
+    if (typeof window !== "undefined") {
       (window as any).__toast = toastActions;
     }
   }, [toastActions]);
 
   return (
     <ToastContext.Provider value={toastActions}>
-      <div className=&quot;fixed top-0 right-0 z-50 flex flex-col gap-2 px-4 py-6 sm:gap-4 md:max-w-[420px]&quot;>
+      <div className="fixed top-0 right-0 z-50 flex flex-col gap-2 px-4 py-6 sm:gap-4 md:max-w-[420px]">
         {toasts.map(({ id, title, description, variant, open }) => (
           <div
             key={id}
             className={cn(
-              &quot;group pointer-events-auto relative flex w-full items-center justify-between overflow-hidden rounded-md border p-4 pr-8 shadow-lg transition-all&quot;,
-              open ? &quot;translate-x-0 opacity-100&quot; : &quot;translate-x-full opacity-0&quot;,
-              variant === &quot;destructive&quot;
-                ? &quot;border-red-600 bg-red-600 text-white&quot;
-                : &quot;border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800&quot;,
+              "group pointer-events-auto relative flex w-full items-center justify-between overflow-hidden rounded-md border p-4 pr-8 shadow-lg transition-all",
+              open ? "translate-x-0 opacity-100" : "translate-x-full opacity-0",
+              variant === "destructive"
+                ? "border-red-600 bg-red-600 text-white"
+                : "border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800",
             )}
           >
-            <div className=&quot;grid gap-1&quot;>
-              {title && <div className=&quot;text-sm font-semibold&quot;>{title}</div>}
+            <div className="grid gap-1">
+              {title && <div className="text-sm font-semibold">{title}</div>}
               {description && (
-                <div className=&quot;text-sm opacity-90&quot;>{description}</div>
+                <div className="text-sm opacity-90">{description}</div>
               )}
             </div>
             <button
-              className=&quot;absolute right-2 top-2 rounded-md p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-900 focus:opacity-100 focus:outline-none group-hover:opacity-100 dark:text-gray-400 dark:hover:text-gray-100&quot;
+              className="absolute right-2 top-2 rounded-md p-1 text-gray-500 opacity-0 transition-opacity hover:text-gray-900 focus:opacity-100 focus:outline-none group-hover:opacity-100 dark:text-gray-400 dark:hover:text-gray-100"
               onClick={() => toastActions.dismiss(id)}
             >
-              <X className=&quot;h-4 w-4&quot; />
+              <X className="h-4 w-4" />
             </button>
           </div>
         ))}

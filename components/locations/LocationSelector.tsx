@@ -1,32 +1,32 @@
-&quot;use client&quot;;
+"use client";
 
-import * as React from &quot;react&quot;;
-import { useState } from &quot;react&quot;;
-import { Search, MapPin } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
+import * as React from "react";
+import { useState } from "react";
+import { Search, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from &quot;@/components/ui/dialog&quot;;
-import { NewLocationRequestDialog } from &quot;./NewLocationRequestDialog&quot;;
+} from "@/components/ui/dialog";
+import { NewLocationRequestDialog } from "./NewLocationRequestDialog";
 
 // Importing the location types from the booking form
 // In a real implementation, these would be imported from a shared schema
 enum LocationType {
-  VENUE = &quot;VENUE&quot;,
-  OFFICE = &quot;OFFICE&quot;,
-  STORAGE = &quot;STORAGE&quot;,
-  OTHER = &quot;OTHER&quot;,
+  VENUE = "VENUE",
+  OFFICE = "OFFICE",
+  STORAGE = "STORAGE",
+  OTHER = "OTHER",
 }
 
 enum LocationStatus {
-  PENDING = &quot;PENDING&quot;,
-  APPROVED = &quot;APPROVED&quot;,
-  REJECTED = &quot;REJECTED&quot;,
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
 }
 
 interface LocationDTO {
@@ -46,46 +46,46 @@ interface LocationDTO {
 // Mock data for demonstration
 const mockLocations: LocationDTO[] = [
   {
-    id: &quot;loc-1&quot;,
-    name: &quot;Downtown Office&quot;,
-    address1: &quot;123 Main St&quot;,
-    city: &quot;San Francisco&quot;,
-    stateId: &quot;CA&quot;,
-    zipcode: &quot;94105&quot;,
+    id: "loc-1",
+    name: "Downtown Office",
+    address1: "123 Main St",
+    city: "San Francisco",
+    stateId: "CA",
+    zipcode: "94105",
     status: LocationStatus.APPROVED,
     type: LocationType.OFFICE,
   },
   {
-    id: &quot;loc-2&quot;,
-    name: &quot;Westside Venue&quot;,
-    address1: &quot;456 Market St&quot;,
-    address2: &quot;Suite 300&quot;,
-    city: &quot;San Francisco&quot;,
-    stateId: &quot;CA&quot;,
-    zipcode: &quot;94103&quot;,
+    id: "loc-2",
+    name: "Westside Venue",
+    address1: "456 Market St",
+    address2: "Suite 300",
+    city: "San Francisco",
+    stateId: "CA",
+    zipcode: "94103",
     status: LocationStatus.APPROVED,
     type: LocationType.VENUE,
   },
   {
-    id: &quot;loc-3&quot;,
-    name: &quot;North Beach Storage&quot;,
-    address1: &quot;789 Beach Ave&quot;,
-    city: &quot;San Francisco&quot;,
-    stateId: &quot;CA&quot;,
-    zipcode: &quot;94111&quot;,
+    id: "loc-3",
+    name: "North Beach Storage",
+    address1: "789 Beach Ave",
+    city: "San Francisco",
+    stateId: "CA",
+    zipcode: "94111",
     status: LocationStatus.PENDING,
     type: LocationType.STORAGE,
   },
   {
-    id: &quot;loc-4&quot;,
-    name: &quot;Rejected Location&quot;,
-    address1: &quot;999 Problem St&quot;,
-    city: &quot;San Francisco&quot;,
-    stateId: &quot;CA&quot;,
-    zipcode: &quot;94110&quot;,
+    id: "loc-4",
+    name: "Rejected Location",
+    address1: "999 Problem St",
+    city: "San Francisco",
+    stateId: "CA",
+    zipcode: "94110",
     status: LocationStatus.REJECTED,
     type: LocationType.OTHER,
-    rejectionReason: &quot;Building is no longer available for events&quot;,
+    rejectionReason: "Building is no longer available for events",
   },
 ];
 
@@ -109,7 +109,7 @@ export function LocationSelector({
   onChange,
   onCreateLocation,
 }: LocationSelectorProps) {
-  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isNewLocationDialogOpen, setIsNewLocationDialogOpen] = useState(false);
 
@@ -125,69 +125,69 @@ export function LocationSelector({
   const selectedLocation = mockLocations.find((loc) => loc.id === value);
 
   return (
-    <div className=&quot;space-y-2&quot;>
-      <div className=&quot;flex items-center gap-2&quot;>
+    <div className="space-y-2">
+      <div className="flex items-center gap-2">
         <Button
-          variant=&quot;outline&quot;
-          className=&quot;w-full justify-start text-left font-normal&quot;
+          variant="outline"
+          className="w-full justify-start text-left font-normal"
           onClick={() => setIsDialogOpen(true)}
         >
-          <MapPin className=&quot;mr-2 h-4 w-4&quot; />
+          <MapPin className="mr-2 h-4 w-4" />
           {selectedLocation
             ? `${selectedLocation.name}, ${selectedLocation.city}`
-            : &quot;Select a location&quot;}
+            : "Select a location"}
         </Button>
       </div>
 
       {/* Location Selection Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className=&quot;sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-background dark:bg-gray-900 border dark:border-gray-800&quot;>
+        <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto bg-background dark:bg-gray-900 border dark:border-gray-800">
           <DialogHeader>
             <DialogTitle>Select a Location</DialogTitle>
           </DialogHeader>
 
-          <div className=&quot;relative&quot;>
-            <Search className=&quot;absolute left-2 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+          <div className="relative">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder=&quot;Search locations...&quot;
-              className=&quot;pl-8&quot;
+              placeholder="Search locations..."
+              className="pl-8"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
-          <div className=&quot;mt-4 space-y-2&quot;>
+          <div className="mt-4 space-y-2">
             {filteredLocations.length > 0 ? (
               filteredLocations.map((location) => (
                 <div
                   key={location.id}
                   className={`p-3 rounded-md border cursor-pointer hover:bg-muted transition-colors
-                    ${value === location.id ? &quot;border-primary bg-primary/5&quot; : &quot;border-border&quot;}
-                    ${location.status === LocationStatus.PENDING ? &quot;border-yellow-500/50 bg-yellow-50 dark:bg-yellow-950/20&quot; : &quot;&quot;}
-                    ${location.status === LocationStatus.REJECTED ? &quot;border-red-500/50 bg-red-50 dark:bg-red-950/20&quot; : &quot;&quot;}
+                    ${value === location.id ? "border-primary bg-primary/5" : "border-border"}
+                    ${location.status === LocationStatus.PENDING ? "border-yellow-500/50 bg-yellow-50 dark:bg-yellow-950/20" : ""}
+                    ${location.status === LocationStatus.REJECTED ? "border-red-500/50 bg-red-50 dark:bg-red-950/20" : ""}
                   `}
                   onClick={() => {
                     onChange(location.id, location);
                     setIsDialogOpen(false);
                   }}
                 >
-                  <div className=&quot;flex justify-between items-start&quot;>
+                  <div className="flex justify-between items-start">
                     <div>
-                      <h4 className=&quot;font-medium&quot;>{location.name}</h4>
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
+                      <h4 className="font-medium">{location.name}</h4>
+                      <p className="text-sm text-muted-foreground">
                         {location.address1}
                         {location.address2 && `, ${location.address2}`}
                       </p>
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
+                      <p className="text-sm text-muted-foreground">
                         {location.city}, {location.stateId} {location.zipcode}
                       </p>
                     </div>
                     <div>
                       <span
                         className={`text-xs px-2 py-1 rounded-full
-                        ${location.status === LocationStatus.APPROVED ? &quot;bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400&quot; : &quot;&quot;}
-                        ${location.status === LocationStatus.PENDING ? &quot;bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400&quot; : &quot;&quot;}
-                        ${location.status === LocationStatus.REJECTED ? &quot;bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400&quot; : &quot;&quot;}
+                        ${location.status === LocationStatus.APPROVED ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : ""}
+                        ${location.status === LocationStatus.PENDING ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400" : ""}
+                        ${location.status === LocationStatus.REJECTED ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" : ""}
                       `}
                       >
                         {location.status}
@@ -197,12 +197,12 @@ export function LocationSelector({
                 </div>
               ))
             ) : (
-              <div className=&quot;text-center py-4&quot;>
-                <p className=&quot;text-muted-foreground&quot;>No locations found</p>
+              <div className="text-center py-4">
+                <p className="text-muted-foreground">No locations found</p>
                 {onCreateLocation && (
                   <Button
-                    variant=&quot;outline&quot;
-                    className=&quot;mt-2&quot;
+                    variant="outline"
+                    className="mt-2"
                     onClick={() => {
                       setIsDialogOpen(false);
                       setIsNewLocationDialogOpen(true);
@@ -215,10 +215,10 @@ export function LocationSelector({
             )}
           </div>
 
-          <DialogFooter className=&quot;flex-col sm:flex-row gap-2&quot;>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
             {onCreateLocation && (
               <Button
-                variant=&quot;outline&quot;
+                variant="outline"
                 onClick={() => {
                   setIsDialogOpen(false);
                   setIsNewLocationDialogOpen(true);
@@ -244,7 +244,7 @@ export function LocationSelector({
               setIsNewLocationDialogOpen(false);
               return true;
             } catch (error) {
-              console.error(&quot;Failed to create location:", error);
+              console.error("Failed to create location:", error);
               return false;
             }
           }}

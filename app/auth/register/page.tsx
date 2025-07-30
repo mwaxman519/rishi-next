@@ -1,56 +1,56 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
-import { Button } from &quot;../../components/ui/button&quot;;
-import { Loader2, AlertCircle } from &quot;lucide-react&quot;;
-import { SafeLink } from &quot;../../components/ui/safe-link&quot;;
-import { LabeledInput } from &quot;../../components/ui/labeled-input&quot;;
-import Image from &quot;next/image&quot;;
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "../../components/ui/button";
+import { Loader2, AlertCircle } from "lucide-react";
+import { SafeLink } from "../../components/ui/safe-link";
+import { LabeledInput } from "../../components/ui/labeled-input";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const router = useRouter();
   const { user, loading, register } = useAuth();
-  const [error, setError] = useState("&quot;);
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   // Form state
-  const [email, setEmail] = useState(&quot;&quot;);
-  const [password, setPassword] = useState(&quot;&quot;);
-  const [confirmPassword, setConfirmPassword] = useState(&quot;&quot;);
-  const [firstName, setFirstName] = useState(&quot;&quot;);
-  const [lastName, setLastName] = useState(&quot;&quot;);
-  const [registrationPasscode, setRegistrationPasscode] = useState(&quot;&quot;);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [registrationPasscode, setRegistrationPasscode] = useState("");
 
   // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
-      router.push(&quot;/dashboard&quot;);
+      router.push("/dashboard");
     }
   }, [user, router]);
 
   // Handle register form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(&quot;&quot;);
+    setError("");
     setIsLoading(true);
 
     // Basic validation
     if (!email || !password || !confirmPassword || !firstName || !lastName || !registrationPasscode) {
-      setError(&quot;Please fill in all required fields&quot;);
+      setError("Please fill in all required fields");
       setIsLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError(&quot;Passwords don&apos;t match&quot;);
+      setError("Passwords don't match");
       setIsLoading(false);
       return;
     }
 
     if (password.length < 6) {
-      setError(&quot;Password must be at least 6 characters&quot;);
+      setError("Password must be at least 6 characters");
       setIsLoading(false);
       return;
     }
@@ -60,16 +60,16 @@ export default function RegisterPage() {
         email,
         password,
         confirmPassword,
-        &quot;brand_agent&quot;,
+        "brand_agent",
         registrationPasscode,
       );
 
       if (result.success) {
-        router.push(&quot;/dashboard&quot;);
+        router.push("/dashboard");
       }
     } catch (error) {
-      console.error(&quot;Registration error:&quot;, error);
-      setError(&quot;Registration failed. Please check your information and try again.&quot;);
+      console.error("Registration error:", error);
+      setError("Registration failed. Please check your information and try again.");
     } finally {
       setIsLoading(false);
     }
@@ -78,150 +78,150 @@ export default function RegisterPage() {
   // Show loading while checking auth status
   if (loading) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-        <Loader2 className=&quot;h-8 w-8 animate-spin text-purple-600&quot; />
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
       </div>
     );
   }
 
   return (
-    <div className=&quot;min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-gray-900 dark:to-gray-800&quot;>
-      <div className=&quot;max-w-lg w-full mx-4&quot;>
-        <div className=&quot;bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700&quot;>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="max-w-lg w-full mx-4">
+        <div className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8 border border-gray-200 dark:border-gray-700">
           {/* Logo and Title */}
-          <div className=&quot;text-center mb-8&quot;>
-            <div className=&quot;flex justify-center mb-4&quot;>
+          <div className="text-center mb-8">
+            <div className="flex justify-center mb-4">
               <Image
-                src=&quot;/favicon.ico&quot;
-                alt=&quot;Rishi Platform&quot;
+                src="/favicon.ico"
+                alt="Rishi Platform"
                 width={48}
                 height={48}
-                className=&quot;h-12 w-12&quot;
+                className="h-12 w-12"
               />
             </div>
-            <h1 className=&quot;text-3xl font-bold text-gray-900 dark:text-white&quot;>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               Rishi Platform
             </h1>
-            <p className=&quot;text-gray-600 dark:text-gray-400 mt-2&quot;>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
               Create your account
             </p>
           </div>
 
           {/* Registration Form */}
-          <form onSubmit={handleSubmit} className=&quot;space-y-6&quot;>
-            <div className=&quot;grid grid-cols-2 gap-4&quot;>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
               <LabeledInput
-                label=&quot;First Name&quot;
-                type=&quot;text&quot;
+                label="First Name"
+                type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                placeholder=&quot;First name&quot;
-                className=&quot;w-full&quot;
+                placeholder="First name"
+                className="w-full"
               />
               
               <LabeledInput
-                label=&quot;Last Name&quot;
-                type=&quot;text&quot;
+                label="Last Name"
+                type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                placeholder=&quot;Last name&quot;
-                className=&quot;w-full&quot;
+                placeholder="Last name"
+                className="w-full"
               />
             </div>
 
             <LabeledInput
-              label=&quot;Email Address&quot;
-              type=&quot;email&quot;
+              label="Email Address"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder=&quot;Enter your email address&quot;
-              className=&quot;w-full&quot;
+              placeholder="Enter your email address"
+              className="w-full"
             />
 
             <LabeledInput
-              label=&quot;Registration Passcode&quot;
-              type=&quot;password&quot;
+              label="Registration Passcode"
+              type="password"
               value={registrationPasscode}
               onChange={(e) => setRegistrationPasscode(e.target.value)}
               required
-              placeholder=&quot;Enter registration passcode&quot;
-              className=&quot;w-full&quot;
+              placeholder="Enter registration passcode"
+              className="w-full"
             />
 
             <LabeledInput
-              label=&quot;Password&quot;
-              type=&quot;password&quot;
+              label="Password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              placeholder=&quot;Create a password&quot;
-              className=&quot;w-full&quot;
+              placeholder="Create a password"
+              className="w-full"
             />
 
             <LabeledInput
-              label=&quot;Confirm Password&quot;
-              type=&quot;password&quot;
+              label="Confirm Password"
+              type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              placeholder=&quot;Confirm your password&quot;
-              className=&quot;w-full&quot;
+              placeholder="Confirm your password"
+              className="w-full"
             />
 
             {error && (
-              <div className=&quot;bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3&quot;>
-                <p className=&quot;text-sm text-red-800 dark:text-red-400&quot;>{error}</p>
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+                <p className="text-sm text-red-800 dark:text-red-400">{error}</p>
               </div>
             )}
 
             <Button
-              type=&quot;submit&quot;
+              type="submit"
               disabled={isLoading}
-              className=&quot;w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200&quot;
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
             >
               {isLoading ? (
                 <>
-                  <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Creating account...
                 </>
               ) : (
-                &quot;Create Account&quot;
+                "Create Account"
               )}
             </Button>
           </form>
 
           {/* Additional Links */}
-          <div className=&quot;mt-6 text-center space-y-3&quot;>
-            <p className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>
-              Already have an account?{&quot; &quot;}
+          <div className="mt-6 text-center space-y-3">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Already have an account?{" "}
               <SafeLink
-                href=&quot;/auth/login&quot;
-                className=&quot;text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium&quot;
+                href="/auth/login"
+                className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
               >
                 Sign in
               </SafeLink>
             </p>
             
-            <div className=&quot;flex items-center justify-center space-x-2 text-xs text-gray-500 dark:text-gray-400&quot;>
-              <AlertCircle className=&quot;h-3 w-3&quot; />
+            <div className="flex items-center justify-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+              <AlertCircle className="h-3 w-3" />
               <span>Registration passcode required from administrator</span>
             </div>
             
-            <p className=&quot;text-xs text-gray-500 dark:text-gray-500&quot;>
-              By creating an account, you agree to our{&quot; &quot;}
+            <p className="text-xs text-gray-500 dark:text-gray-500">
+              By creating an account, you agree to our{" "}
               <SafeLink
-                href=&quot;/terms&quot;
-                className=&quot;text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300&quot;
+                href="/terms"
+                className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
               >
                 Terms of Service
-              </SafeLink>{&quot; &quot;}
-              and{&quot; &quot;}
+              </SafeLink>{" "}
+              and{" "}
               <SafeLink
-                href=&quot;/privacy&quot;
-                className=&quot;text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300&quot;
+                href="/privacy"
+                className="text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
               >
                 Privacy Policy
               </SafeLink>
@@ -230,8 +230,8 @@ export default function RegisterPage() {
         </div>
 
         {/* Footer */}
-        <div className=&quot;text-center mt-8&quot;>
-          <p className=&quot;text-xs text-gray-500 dark:text-gray-400">
+        <div className="text-center mt-8">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             © 2025 Rishi Platform. All rights reserved.
           </p>
         </div>

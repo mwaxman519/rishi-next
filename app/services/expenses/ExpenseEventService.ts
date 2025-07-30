@@ -3,16 +3,16 @@
  * Event-driven expense management with proper service boundaries
  */
 
-import { EventEmitter } from &quot;events&quot;;
+import { EventEmitter } from "events";
 
 export interface ExpenseEvent {
   id: string;
   type:
-    | &quot;expense.submitted&quot;
-    | &quot;expense.approved&quot;
-    | &quot;expense.rejected&quot;
-    | &quot;expense.updated&quot;
-    | &quot;expense.deleted&quot;;
+    | "expense.submitted"
+    | "expense.approved"
+    | "expense.rejected"
+    | "expense.updated"
+    | "expense.deleted";
   payload: any;
   timestamp: Date;
   userId: string;
@@ -20,7 +20,7 @@ export interface ExpenseEvent {
 }
 
 export interface ExpenseSubmittedEvent extends ExpenseEvent {
-  type: &quot;expense.submitted&quot;;
+  type: "expense.submitted";
   payload: {
     expenseId: string;
     agentId: string;
@@ -32,7 +32,7 @@ export interface ExpenseSubmittedEvent extends ExpenseEvent {
 }
 
 export interface ExpenseApprovedEvent extends ExpenseEvent {
-  type: &quot;expense.approved&quot;;
+  type: "expense.approved";
   payload: {
     expenseId: string;
     approvedBy: string;
@@ -42,7 +42,7 @@ export interface ExpenseApprovedEvent extends ExpenseEvent {
 }
 
 export interface ExpenseRejectedEvent extends ExpenseEvent {
-  type: &quot;expense.rejected&quot;;
+  type: "expense.rejected";
   payload: {
     expenseId: string;
     rejectedBy: string;
@@ -82,15 +82,15 @@ class ExpenseEventService extends EventEmitter {
 
   private async notifyDownstreamServices(event: ExpenseEvent): Promise<void> {
     switch (event.type) {
-      case &quot;expense.submitted&quot;:
+      case "expense.submitted":
         await this.notifyApprovalService(event as ExpenseSubmittedEvent);
         await this.notifyNotificationService(event);
         break;
-      case &quot;expense.approved&quot;:
+      case "expense.approved":
         await this.notifyPayrollService(event as ExpenseApprovedEvent);
         await this.notifyNotificationService(event);
         break;
-      case &quot;expense.rejected&quot;:
+      case "expense.rejected":
         await this.notifyNotificationService(event);
         break;
     }
@@ -121,9 +121,9 @@ class ExpenseEventService extends EventEmitter {
 
   // Event listeners for cross-service communication
   setupEventListeners(): void {
-    this.on(&quot;expense.submitted&quot;, this.handleExpenseSubmitted.bind(this));
-    this.on(&quot;expense.approved&quot;, this.handleExpenseApproved.bind(this));
-    this.on(&quot;expense.rejected&quot;, this.handleExpenseRejected.bind(this));
+    this.on("expense.submitted", this.handleExpenseSubmitted.bind(this));
+    this.on("expense.approved", this.handleExpenseApproved.bind(this));
+    this.on("expense.rejected", this.handleExpenseRejected.bind(this));
   }
 
   private async handleExpenseSubmitted(

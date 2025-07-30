@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const query = (searchParams.get(&quot;query&quot;) || undefined);
+    const query = (searchParams.get("query") || undefined);
 
     if (!query) {
       return NextResponse.json(
-        { error: &quot;Query parameter is required&quot; },
+        { error: "Query parameter is required" },
         { status: 400 },
       );
     }
@@ -23,9 +23,9 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     if (!apiKey) {
-      console.error(&quot;Places API key not found in environment variables&quot;);
+      console.error("Places API key not found in environment variables");
       return NextResponse.json(
-        { error: &quot;API key configuration error&quot; },
+        { error: "API key configuration error" },
         { status: 500 },
       );
     }
@@ -43,13 +43,13 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
 
     // Check for Google API errors
-    if (data.status !== &quot;OK&quot;) {
-      console.error(&quot;Places API error:&quot;, data.error_message || data.status);
+    if (data.status !== "OK") {
+      console.error("Places API error:", data.error_message || data.status);
       return NextResponse.json(
         {
-          error: &quot;Places API error&quot;,
+          error: "Places API error",
           status: data.status,
-          message: data.error_message || &quot;Failed to get place predictions&quot;,
+          message: data.error_message || "Failed to get place predictions",
         },
         { status: 400 },
       );
@@ -58,11 +58,11 @@ export async function GET(request: NextRequest) {
     // Return the successful result
     return NextResponse.json(data);
   } catch (error) {
-    console.error(&quot;Error in Places API route:&quot;, error);
+    console.error("Error in Places API route:", error);
     return NextResponse.json(
       {
-        error: &quot;Internal server error&quot;,
-        message: error instanceof Error ? error.message : &quot;Unknown error&quot;,
+        error: "Internal server error",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );

@@ -1,31 +1,31 @@
-import { getRolePermissions } from &quot;./permissions&quot;;
-import { createRBACProvider, useRBAC } from &quot;./provider&quot;;
+import { getRolePermissions } from "./permissions";
+import { createRBACProvider, useRBAC } from "./provider";
 
 // Define types for RBAC
 export type UserRole =
-  | &quot;super_admin&quot;
-  | &quot;admin&quot;
-  | &quot;manager&quot;
-  | &quot;staff&quot;
-  | &quot;client&quot;
-  | &quot;user&quot;;
+  | "super_admin"
+  | "admin"
+  | "manager"
+  | "staff"
+  | "client"
+  | "user";
 
 export type Resource =
-  | &quot;locations&quot;
-  | &quot;bookings&quot;
-  | &quot;organizations&quot;
-  | &quot;users&quot;
-  | &quot;reports&quot;;
+  | "locations"
+  | "bookings"
+  | "organizations"
+  | "users"
+  | "reports";
 
 export type Permission =
-  | &quot;create&quot;
-  | &quot;read&quot;
-  | &quot;update&quot;
-  | &quot;delete&quot;
-  | &quot;approve&quot;
-  | &quot;reject&quot;
-  | &quot;manage&quot;
-  | &quot;export&quot;;
+  | "create"
+  | "read"
+  | "update"
+  | "delete"
+  | "approve"
+  | "reject"
+  | "manage"
+  | "export";
 
 export type PermissionMap = Record<Resource, Permission[]>;
 
@@ -56,13 +56,13 @@ export const routePermissions: Record<
   string,
   { resource: Resource; permission: Permission }
 > = {
-  &quot;/admin&quot;: { resource: &quot;users&quot;, permission: &quot;manage&quot; },
-  &quot;/admin/users&quot;: { resource: &quot;users&quot;, permission: &quot;read&quot; },
-  &quot;/admin/roles&quot;: { resource: &quot;users&quot;, permission: &quot;manage&quot; },
-  &quot;/admin/organizations&quot;: { resource: &quot;organizations&quot;, permission: &quot;read&quot; },
-  &quot;/locations&quot;: { resource: &quot;locations&quot;, permission: &quot;read&quot; },
-  &quot;/bookings&quot;: { resource: &quot;bookings&quot;, permission: &quot;read&quot; },
-  &quot;/reports&quot;: { resource: &quot;reports&quot;, permission: &quot;read&quot; },
+  "/admin": { resource: "users", permission: "manage" },
+  "/admin/users": { resource: "users", permission: "read" },
+  "/admin/roles": { resource: "users", permission: "manage" },
+  "/admin/organizations": { resource: "organizations", permission: "read" },
+  "/locations": { resource: "locations", permission: "read" },
+  "/bookings": { resource: "bookings", permission: "read" },
+  "/reports": { resource: "reports", permission: "read" },
 };
 
 // Check route-specific permissions

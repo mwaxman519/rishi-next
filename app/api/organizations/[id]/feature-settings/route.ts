@@ -1,14 +1,14 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { db } from &quot;../../../auth-service/db&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { organizationSettings } from &quot;@shared/schema&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { db } from "../../../auth-service/db";
+import { eq, and } from "drizzle-orm";
+import { organizationSettings } from "@shared/schema";
 
 export async function GET(
   request: NextRequest,
@@ -17,7 +17,7 @@ export async function GET(
   try {
     const session = await getServerSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: organizationId } = await params;
@@ -32,7 +32,7 @@ export async function GET(
       .where(
         and(
           eq(organizationSettings.organization_id, organizationId),
-          eq(organizationSettings.category, &quot;rbac_features&quot;),
+          eq(organizationSettings.category, "rbac_features"),
         ),
       );
 
@@ -40,7 +40,7 @@ export async function GET(
     const settingsObject: Record<string, boolean> = {};
     settings.forEach((setting) => {
       if (setting.settingKey && setting.settingValue !== null) {
-        settingsObject[setting.settingKey] = setting.settingValue === &quot;true&quot;;
+        settingsObject[setting.settingKey] = setting.settingValue === "true";
       }
     });
 
@@ -57,9 +57,9 @@ export async function GET(
 
     return NextResponse.json(finalSettings);
   } catch (error) {
-    console.error(&quot;Error fetching organization feature settings:&quot;, error);
+    console.error("Error fetching organization feature settings:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch feature settings&quot; },
+      { error: "Failed to fetch feature settings" },
       { status: 500 },
     );
   }
@@ -72,7 +72,7 @@ export async function PUT(
   try {
     const session = await getServerSession();
     if (!session?.user?.id) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: organizationId } = await params;
@@ -84,7 +84,7 @@ export async function PUT(
         .insert(organizationSettings)
         .values({
           organization_id: organizationId,
-          category: &quot;rbac_features&quot;,
+          category: "rbac_features",
           setting_key: key,
           setting_value: String(value),
           updated_by: (session.user as any).id,
@@ -104,9 +104,9 @@ export async function PUT(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(&quot;Error updating organization feature settings:&quot;, error);
+    console.error("Error updating organization feature settings:", error);
     return NextResponse.json(
-      { error: &quot;Failed to update feature settings&quot; },
+      { error: "Failed to update feature settings" },
       { status: 500 },
     );
   }

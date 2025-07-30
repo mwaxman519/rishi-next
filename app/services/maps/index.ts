@@ -1,4 +1,4 @@
 /**
  * Maps service public API
  */
-export * from &quot;./geocodingService&quot;;
+export * from "./geocodingService";

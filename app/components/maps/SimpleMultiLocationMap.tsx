@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useRef } from &quot;react&quot;;
-import { GoogleMap, InfoWindow } from &quot;@react-google-maps/api&quot;;
-import { useGoogleMaps } from &quot;./GoogleMapsContext&quot;;
+import { useState, useEffect, useRef } from "react";
+import { GoogleMap, InfoWindow } from "@react-google-maps/api";
+import { useGoogleMaps } from "./GoogleMapsContext";
 
 // Separate component that only handles the marker effect
 interface MarkersEffectComponentProps {
@@ -27,8 +27,8 @@ function MarkersEffectComponent({
   // Helper to validate coordinates
   const isValidCoordinate = (lat?: number, lng?: number): boolean => {
     return (
-      typeof lat === &quot;number&quot; &&
-      typeof lng === &quot;number&quot; &&
+      typeof lat === "number" &&
+      typeof lng === "number" &&
       !isNaN(lat) &&
       !isNaN(lng) &&
       lat >= -90 &&
@@ -46,7 +46,7 @@ function MarkersEffectComponent({
     // Make sure AdvancedMarkerElement is available
     const markerClass = window.google.maps.marker?.AdvancedMarkerElement;
     if (!markerClass) {
-      console.error(&quot;AdvancedMarkerElement is not available&quot;);
+      console.error("AdvancedMarkerElement is not available");
       return;
     }
 
@@ -62,24 +62,24 @@ function MarkersEffectComponent({
       if (!isValidCoordinate(location.latitude, location.longitude)) return;
 
       // Create pin element
-      const pinElement = document.createElement(&quot;div&quot;);
-      pinElement.className = &quot;location-marker&quot;;
-      pinElement.style.width = &quot;24px&quot;;
-      pinElement.style.height = &quot;24px&quot;;
-      pinElement.style.borderRadius = &quot;50%&quot;;
+      const pinElement = document.createElement("div");
+      pinElement.className = "location-marker";
+      pinElement.style.width = "24px";
+      pinElement.style.height = "24px";
+      pinElement.style.borderRadius = "50%";
       pinElement.style.backgroundColor = getMarkerColor(location);
-      pinElement.style.border = &quot;2px solid white&quot;;
-      pinElement.style.boxShadow = &quot;0 2px 6px rgba(0,0,0,0.3)&quot;;
-      pinElement.style.cursor = &quot;pointer&quot;;
+      pinElement.style.border = "2px solid white";
+      pinElement.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+      pinElement.style.cursor = "pointer";
       pinElement.title = location.name;
 
       // Add animation for selected marker
       if (selectedLocationId === location.id) {
         pinElement.animate(
           [
-            { transform: &quot;translateY(0)&quot; },
-            { transform: &quot;translateY(-8px)&quot; },
-            { transform: &quot;translateY(0)&quot; },
+            { transform: "translateY(0)" },
+            { transform: "translateY(-8px)" },
+            { transform: "translateY(0)" },
           ],
           {
             duration: 1000,
@@ -100,7 +100,7 @@ function MarkersEffectComponent({
       });
 
       // Add click handler
-      advancedMarker.addListener(&quot;click&quot;, () => {
+      advancedMarker.addListener("click", () => {
         handleMarkerClick(location.id);
       });
 
@@ -118,7 +118,7 @@ function MarkersEffectComponent({
     // Remove 'markers' from dependencies to avoid infinite loop
   }, [map, locations, selectedLocationId, getMarkerColor, handleMarkerClick]);
 
-  return null; // This component doesn&apos;t render anything
+  return null; // This component doesn't render anything
 }
 
 export interface MapLocation {
@@ -150,7 +150,7 @@ export function SimpleMultiLocationMap({
   onMarkerClick,
   height = 500,
   zoom = 10,
-  apiKey = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;, // Default API key
+  apiKey = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg", // Default API key
 }: SimpleMultiLocationMapProps) {
   // Get Google Maps context first to maintain hook order
   const { isLoaded, loadError, mapId } = useGoogleMaps();
@@ -160,15 +160,15 @@ export function SimpleMultiLocationMap({
 
   // Container style
   const containerStyle = {
-    width: &quot;100%&quot;,
+    width: "100%",
     height: `${height}px`,
   };
 
   // Helper to validate coordinates
   const isValidCoordinate = (lat?: number, lng?: number): boolean => {
     return (
-      typeof lat === &quot;number&quot; &&
-      typeof lng === &quot;number&quot; &&
+      typeof lat === "number" &&
+      typeof lng === "number" &&
       !isNaN(lat) &&
       !isNaN(lng) &&
       lat >= -90 &&
@@ -230,7 +230,7 @@ export function SimpleMultiLocationMap({
 
   // Handle map load - using void return type to match expected signature
   const onLoad = (mapInstance: google.maps.Map): void => {
-    console.log(&quot;Map loaded&quot;);
+    console.log("Map loaded");
     setMap(mapInstance);
 
     // If we have a selected location on initial load, zoom to it
@@ -275,7 +275,7 @@ export function SimpleMultiLocationMap({
       mapInstance.fitBounds(bounds);
 
       // Add a little padding
-      google.maps.event.addListenerOnce(mapInstance, &quot;bounds_changed&quot;, () => {
+      google.maps.event.addListenerOnce(mapInstance, "bounds_changed", () => {
         const zoom = mapInstance.getZoom();
         if (zoom && zoom > 15) {
           mapInstance.setZoom(15);
@@ -295,31 +295,31 @@ export function SimpleMultiLocationMap({
 
   // Get marker color based on location state or type
   const getMarkerColor = (location: MapLocation): string => {
-    if (!location.state && !location.locationType) return &quot;#3b82f6&quot;; // Default blue
+    if (!location.state && !location.locationType) return "#3b82f6"; // Default blue
 
     // Color by state
     const stateColors: { [key: string]: string } = {
-      CA: &quot;#ef4444&quot;, // Red
-      NY: &quot;#3b82f6&quot;, // Blue
-      TX: &quot;#22c55e&quot;, // Green
-      FL: &quot;#f59e0b&quot;, // Amber
-      IL: &quot;#8b5cf6&quot;, // Purple
-      PA: &quot;#ec4899&quot;, // Pink
-      OH: &quot;#06b6d4&quot;, // Cyan
-      GA: &quot;#f97316&quot;, // Orange
-      NC: &quot;#8b5cf6&quot;, // Purple
-      MI: &quot;#06b6d4&quot;, // Cyan
+      CA: "#ef4444", // Red
+      NY: "#3b82f6", // Blue
+      TX: "#22c55e", // Green
+      FL: "#f59e0b", // Amber
+      IL: "#8b5cf6", // Purple
+      PA: "#ec4899", // Pink
+      OH: "#06b6d4", // Cyan
+      GA: "#f97316", // Orange
+      NC: "#8b5cf6", // Purple
+      MI: "#06b6d4", // Cyan
     };
 
     // Color by location type
     const typeColors: { [key: string]: string } = {
-      business: &quot;#3b82f6&quot;, // Blue
-      venue: &quot;#8b5cf6&quot;, // Purple
-      office: &quot;#22c55e&quot;, // Green
-      warehouse: &quot;#f59e0b&quot;, // Amber
-      retail: &quot;#ec4899&quot;, // Pink
-      restaurant: &quot;#06b6d4&quot;, // Cyan
-      landmark: &quot;#f97316&quot;, // Orange
+      business: "#3b82f6", // Blue
+      venue: "#8b5cf6", // Purple
+      office: "#22c55e", // Green
+      warehouse: "#f59e0b", // Amber
+      retail: "#ec4899", // Pink
+      restaurant: "#06b6d4", // Cyan
+      landmark: "#f97316", // Orange
     };
 
     // Prioritize state colors
@@ -329,20 +329,20 @@ export function SimpleMultiLocationMap({
 
     // Fall back to type colors
     if (location.locationType) {
-      const type = location.locationType.toLowerCase().replace(&quot;_&quot;, "&quot;);
+      const type = location.locationType.toLowerCase().replace("_", "");
       if (typeColors[type]) {
         return typeColors[type];
       }
     }
 
-    return &quot;#3b82f6&quot;; // Default blue
+    return "#3b82f6"; // Default blue
   };
 
   // Update center when selected location changes
   useEffect(() => {
     if (!map) return;
 
-    // If there&apos;s a selected location, center on it
+    // If there's a selected location, center on it
     if (selectedLocationId) {
       const selectedLocation = locations.find(
         (loc) => loc.id === selectedLocationId,
@@ -352,7 +352,7 @@ export function SimpleMultiLocationMap({
         selectedLocation &&
         isValidCoordinate(selectedLocation.latitude, selectedLocation.longitude)
       ) {
-        console.log(&quot;Centering map on:&quot;, selectedLocation.name);
+        console.log("Centering map on:", selectedLocation.name);
 
         // Important: Use setCenter directly instead of panTo for more reliable positioning
         map.setCenter({
@@ -374,7 +374,7 @@ export function SimpleMultiLocationMap({
   // Handle error state
   if (loadError) {
     return (
-      <div className=&quot;p-4 text-red-500&quot;>
+      <div className="p-4 text-red-500">
         Error loading Google Maps: {loadError.message}
       </div>
     );
@@ -383,7 +383,7 @@ export function SimpleMultiLocationMap({
   // Handle loading state
   if (!isLoaded) {
     return (
-      <div className=&quot;flex items-center justify-center h-full&quot;>
+      <div className="flex items-center justify-center h-full">
         Loading Google Maps...
       </div>
     );
@@ -402,9 +402,9 @@ export function SimpleMultiLocationMap({
         mapId: mapId,
         styles: [
           {
-            featureType: &quot;poi&quot;,
-            elementType: &quot;labels&quot;,
-            stylers: [{ visibility: &quot;off&quot; }],
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
           },
         ],
       }}
@@ -431,9 +431,9 @@ export function SimpleMultiLocationMap({
                 }}
                 onCloseClick={() => setActiveInfoWindow(null)}
               >
-                <div className=&quot;p-1 max-w-[250px]&quot;>
-                  <h3 className=&quot;font-medium text-sm&quot;>{location.name}</h3>
-                  <p className=&quot;text-xs text-gray-600">{location.address}</p>
+                <div className="p-1 max-w-[250px]">
+                  <h3 className="font-medium text-sm">{location.name}</h3>
+                  <p className="text-xs text-gray-600">{location.address}</p>
                 </div>
               </InfoWindow>
             )}

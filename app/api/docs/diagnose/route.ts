@@ -1,10 +1,10 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import path from &quot;path&quot;;
-import { promises as fs, existsSync, statSync, readdirSync } from &quot;fs&quot;;
+import path from "path";
+import { promises as fs, existsSync, statSync, readdirSync } from "fs";
 
 /**
  * GET handler for docs diagnosis API
@@ -12,11 +12,11 @@ import { promises as fs, existsSync, statSync, readdirSync } from &quot;fs&quot;
  * the documentation system and file locations
  */
 export async function GET() {
-  console.log(&quot;[DOCS DIAGNOSE] Starting documentation system diagnosis&quot;);
+  console.log("[DOCS DIAGNOSE] Starting documentation system diagnosis");
 
-  const isProduction = process.env.NODE_ENV === &quot;production&quot;;
+  const isProduction = process.env.NODE_ENV === "production";
   const results: any = {
-    environment: isProduction ? &quot;production&quot; : &quot;development&quot;,
+    environment: isProduction ? "production" : "development",
     timestamp: new Date().toISOString(),
     directories: {},
     files: {},
@@ -25,17 +25,17 @@ export async function GET() {
 
   // Check possible documentation directories
   const directoriesToCheck = [
-    path.join(process.cwd(), &quot;Docs&quot;),
-    path.join(process.cwd(), &quot;public&quot;, &quot;Docs&quot;),
-    path.join(process.cwd(), &quot;.next&quot;, &quot;standalone&quot;, &quot;Docs&quot;),
-    path.join(process.cwd(), &quot;.next&quot;, &quot;server&quot;, &quot;Docs&quot;),
-    path.join(process.cwd(), &quot;.next&quot;, &quot;static&quot;, &quot;Docs&quot;),
-    path.join(process.cwd(), &quot;docs-new&quot;),
-    path.join(process.cwd(), &quot;../Docs&quot;),
-    path.join(process.cwd(), &quot;Docs_old&quot;),
-    &quot;/home/runner/workspace/Docs&quot;,
-    &quot;/home/runner/Docs&quot;,
-    path.join(process.cwd(), &quot;app&quot;, &quot;docs&quot;),
+    path.join(process.cwd(), "Docs"),
+    path.join(process.cwd(), "public", "Docs"),
+    path.join(process.cwd(), ".next", "standalone", "Docs"),
+    path.join(process.cwd(), ".next", "server", "Docs"),
+    path.join(process.cwd(), ".next", "static", "Docs"),
+    path.join(process.cwd(), "docs-new"),
+    path.join(process.cwd(), "../Docs"),
+    path.join(process.cwd(), "Docs_old"),
+    "/home/runner/workspace/Docs",
+    "/home/runner/Docs",
+    path.join(process.cwd(), "app", "docs"),
   ];
 
   // Check each directory
@@ -68,34 +68,34 @@ export async function GET() {
 
   // Check for specific test document
   const testDocumentPaths = [
-    path.join(process.cwd(), &quot;Docs&quot;, &quot;test-folder&quot;, &quot;production-test-doc.md&quot;),
+    path.join(process.cwd(), "Docs", "test-folder", "production-test-doc.md"),
     path.join(
       process.cwd(),
-      &quot;public&quot;,
-      &quot;Docs&quot;,
-      &quot;test-folder&quot;,
-      &quot;production-test-doc.md&quot;,
+      "public",
+      "Docs",
+      "test-folder",
+      "production-test-doc.md",
     ),
     path.join(
       process.cwd(),
-      &quot;.next&quot;,
-      &quot;standalone&quot;,
-      &quot;Docs&quot;,
-      &quot;test-folder&quot;,
-      &quot;production-test-doc.md&quot;,
+      ".next",
+      "standalone",
+      "Docs",
+      "test-folder",
+      "production-test-doc.md",
     ),
-    path.join(process.cwd(), &quot;Docs&quot;, &quot;README.md&quot;),
-    path.join(process.cwd(), &quot;public&quot;, &quot;Docs&quot;, &quot;README.md&quot;),
-    path.join(process.cwd(), &quot;docs-new&quot;, &quot;README.md&quot;),
-    path.join(process.cwd(), &quot;Docs_old&quot;, &quot;README.md&quot;),
-    &quot;/home/runner/workspace/Docs/README.md&quot;,
+    path.join(process.cwd(), "Docs", "README.md"),
+    path.join(process.cwd(), "public", "Docs", "README.md"),
+    path.join(process.cwd(), "docs-new", "README.md"),
+    path.join(process.cwd(), "Docs_old", "README.md"),
+    "/home/runner/workspace/Docs/README.md",
   ];
 
   for (const filePath of testDocumentPaths) {
     try {
       const exists = existsSync(filePath);
       const content = exists
-        ? (await fs.readFile(filePath, &quot;utf-8&quot;)).substring(0, 100) + &quot;...&quot;
+        ? (await fs.readFile(filePath, "utf-8")).substring(0, 100) + "..."
         : null;
       const stats = exists
         ? {
@@ -116,13 +116,13 @@ export async function GET() {
 
   // Check for documentation copy scripts
   const documentationScripts = [
-    path.join(process.cwd(), &quot;copy-docs.js&quot;),
-    path.join(process.cwd(), &quot;docs-copy-production.js&quot;),
-    path.join(process.cwd(), &quot;docs-deploy-test.js&quot;),
-    path.join(process.cwd(), &quot;docs-deploy.sh&quot;),
-    path.join(process.cwd(), &quot;preserve-docs-for-deployment.js&quot;),
-    path.join(process.cwd(), &quot;DOCS-DEPLOYMENT.md&quot;),
-    path.join(process.cwd(), &quot;verify-docs.js&quot;),
+    path.join(process.cwd(), "copy-docs.js"),
+    path.join(process.cwd(), "docs-copy-production.js"),
+    path.join(process.cwd(), "docs-deploy-test.js"),
+    path.join(process.cwd(), "docs-deploy.sh"),
+    path.join(process.cwd(), "preserve-docs-for-deployment.js"),
+    path.join(process.cwd(), "DOCS-DEPLOYMENT.md"),
+    path.join(process.cwd(), "verify-docs.js"),
   ];
 
   results.documentationScripts = {};
@@ -150,17 +150,17 @@ export async function GET() {
 
   // Check API functionality
   const apiEndpoints = [
-    &quot;/api/docs/tree&quot;,
-    &quot;/api/docs/content?path=README&quot;,
-    &quot;/api/docs/recent&quot;,
-    &quot;/api/docs/search?q=api&quot;,
-    &quot;/api/docs/init&quot;,
-    &quot;/api/docs/init?force=true&quot;,
+    "/api/docs/tree",
+    "/api/docs/content?path=README",
+    "/api/docs/recent",
+    "/api/docs/search?q=api",
+    "/api/docs/init",
+    "/api/docs/init?force=true",
   ];
 
   results.apiStatus = {
     endpoints: apiEndpoints,
-    message: &quot;These endpoints should be checked separately via browser or curl&quot;,
+    message: "These endpoints should be checked separately via browser or curl",
   };
 
   // Add environment information
@@ -170,8 +170,8 @@ export async function GET() {
     VERCEL: process.env.VERCEL,
     AZURE_STATIC_WEB_APPS: process.env.AZURE_STATIC_WEB_APPS,
     DATABASE_URL: process.env.DATABASE_URL
-      ? &quot;Exists (not displayed for security)&quot;
-      : &quot;Not set&quot;,
+      ? "Exists (not displayed for security)"
+      : "Not set",
   };
 
   // Add running process information
@@ -182,6 +182,6 @@ export async function GET() {
     uptime: process.uptime(),
   };
 
-  console.log(&quot;[DOCS DIAGNOSE] Diagnosis complete&quot;);
+  console.log("[DOCS DIAGNOSE] Diagnosis complete");
   return NextResponse.json(results);
 }

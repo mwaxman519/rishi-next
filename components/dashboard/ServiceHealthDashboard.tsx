@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
+import React, { useState, useEffect } from "react";
 import {
   CheckCircle,
   AlertCircle,
@@ -9,7 +9,7 @@ import {
   RefreshCw,
   Clock,
   Activity,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -17,17 +17,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Progress } from &quot;@/components/ui/progress&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
 import {
   serviceHealthMonitor,
   HealthStatus,
   ServiceHealth,
-} from &quot;@/services/infrastructure/circuit-breaker/serviceHealthMonitor&quot;;
-import { CircuitState } from &quot;@/services/infrastructure/circuit-breaker/circuitBreaker&quot;;
+} from "@/services/infrastructure/circuit-breaker/serviceHealthMonitor";
+import { CircuitState } from "@/services/infrastructure/circuit-breaker/circuitBreaker";
 
 // This would be populated with real services from the ServiceHealthMonitor
 // API endpoint in production
@@ -44,7 +44,7 @@ const useServiceHealth = () => {
       const servicesHealth = serviceHealthMonitor.getAllServicesHealth();
       setHealth(servicesHealth);
     } catch (error) {
-      console.error(&quot;Failed to fetch service health:&quot;, error);
+      console.error("Failed to fetch service health:", error);
     } finally {
       setLoading(false);
       setLastRefresh(new Date());
@@ -67,13 +67,13 @@ const useServiceHealth = () => {
 const StatusIcon = ({ status }: { status: HealthStatus }) => {
   switch (status) {
     case HealthStatus.HEALTHY:
-      return <CheckCircle className=&quot;h-5 w-5 text-green-500&quot; />;
+      return <CheckCircle className="h-5 w-5 text-green-500" />;
     case HealthStatus.DEGRADED:
-      return <AlertTriangle className=&quot;h-5 w-5 text-amber-500&quot; />;
+      return <AlertTriangle className="h-5 w-5 text-amber-500" />;
     case HealthStatus.UNHEALTHY:
-      return <AlertCircle className=&quot;h-5 w-5 text-red-500&quot; />;
+      return <AlertCircle className="h-5 w-5 text-red-500" />;
     default:
-      return <HelpCircle className=&quot;h-5 w-5 text-gray-400&quot; />;
+      return <HelpCircle className="h-5 w-5 text-gray-400" />;
   }
 };
 
@@ -90,13 +90,13 @@ const ServiceHealthCard = ({
   const getStatusColor = (status: HealthStatus) => {
     switch (status) {
       case HealthStatus.HEALTHY:
-        return &quot;bg-green-50 border-green-200&quot;;
+        return "bg-green-50 border-green-200";
       case HealthStatus.DEGRADED:
-        return &quot;bg-amber-50 border-amber-200&quot;;
+        return "bg-amber-50 border-amber-200";
       case HealthStatus.UNHEALTHY:
-        return &quot;bg-red-50 border-red-200&quot;;
+        return "bg-red-50 border-red-200";
       default:
-        return &quot;bg-gray-50 border-gray-200&quot;;
+        return "bg-gray-50 border-gray-200";
     }
   };
 
@@ -107,8 +107,8 @@ const ServiceHealthCard = ({
       case CircuitState.CLOSED:
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-green-100 text-green-800 border-green-200&quot;
+            variant="outline"
+            className="bg-green-100 text-green-800 border-green-200"
           >
             Closed
           </Badge>
@@ -116,8 +116,8 @@ const ServiceHealthCard = ({
       case CircuitState.HALF_OPEN:
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-amber-100 text-amber-800 border-amber-200&quot;
+            variant="outline"
+            className="bg-amber-100 text-amber-800 border-amber-200"
           >
             Half-Open
           </Badge>
@@ -125,8 +125,8 @@ const ServiceHealthCard = ({
       case CircuitState.OPEN:
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-red-100 text-red-800 border-red-200&quot;
+            variant="outline"
+            className="bg-red-100 text-red-800 border-red-200"
           >
             Open
           </Badge>
@@ -143,7 +143,7 @@ const ServiceHealthCard = ({
   };
 
   const timeAgo = (date: Date | undefined) => {
-    if (!date) return &quot;Never&quot;;
+    if (!date) return "Never";
 
     const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
@@ -155,67 +155,67 @@ const ServiceHealthCard = ({
 
   return (
     <Card className={`border-2 ${getStatusColor(health.status)}`}>
-      <CardHeader className=&quot;pb-2&quot;>
-        <div className=&quot;flex justify-between items-start&quot;>
+      <CardHeader className="pb-2">
+        <div className="flex justify-between items-start">
           <div>
-            <CardTitle className=&quot;text-lg flex items-center gap-2&quot;>
+            <CardTitle className="text-lg flex items-center gap-2">
               <StatusIcon status={health.status} />
               {serviceId}
             </CardTitle>
             <CardDescription>
               {health.message ||
                 (health.status === HealthStatus.HEALTHY
-                  ? &quot;Service is operating normally&quot;
+                  ? "Service is operating normally"
                   : health.status === HealthStatus.DEGRADED
-                    ? &quot;Service is experiencing issues&quot;
+                    ? "Service is experiencing issues"
                     : health.status === HealthStatus.UNHEALTHY
-                      ? &quot;Service is unavailable&quot;
-                      : &quot;Service health is unknown&quot;)}
+                      ? "Service is unavailable"
+                      : "Service health is unknown")}
             </CardDescription>
           </div>
           {getCircuitStateLabel(health.circuitState)}
         </div>
       </CardHeader>
-      <CardContent className=&quot;pb-0&quot;>
-        <div className=&quot;grid grid-cols-2 gap-4 text-sm&quot;>
+      <CardContent className="pb-0">
+        <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <p className=&quot;text-muted-foreground&quot;>Uptime</p>
-            <div className=&quot;mt-1&quot;>
-              <Progress value={health.uptime} className=&quot;h-2&quot; />
-              <p className=&quot;mt-1 font-medium&quot;>{health.uptime.toFixed(1)}%</p>
+            <p className="text-muted-foreground">Uptime</p>
+            <div className="mt-1">
+              <Progress value={health.uptime} className="h-2" />
+              <p className="mt-1 font-medium">{health.uptime.toFixed(1)}%</p>
             </div>
           </div>
           <div>
-            <p className=&quot;text-muted-foreground&quot;>Response Time</p>
-            <p className=&quot;font-medium&quot;>
+            <p className="text-muted-foreground">Response Time</p>
+            <p className="font-medium">
               {health.responseTime
                 ? formatDuration(health.responseTime)
-                : &quot;N/A&quot;}
+                : "N/A"}
             </p>
           </div>
           <div>
-            <p className=&quot;text-muted-foreground&quot;>Last Checked</p>
-            <p className=&quot;font-medium flex items-center gap-1&quot;>
-              <Clock className=&quot;h-3.5 w-3.5 text-muted-foreground&quot; />
-              {health.lastChecked ? timeAgo(health.lastChecked) : &quot;Never&quot;}
+            <p className="text-muted-foreground">Last Checked</p>
+            <p className="font-medium flex items-center gap-1">
+              <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+              {health.lastChecked ? timeAgo(health.lastChecked) : "Never"}
             </p>
           </div>
           <div>
-            <p className=&quot;text-muted-foreground&quot;>Last Healthy</p>
-            <p className=&quot;font-medium flex items-center gap-1&quot;>
-              <Activity className=&quot;h-3.5 w-3.5 text-muted-foreground&quot; />
-              {health.lastHealthy ? timeAgo(health.lastHealthy) : &quot;Never&quot;}
+            <p className="text-muted-foreground">Last Healthy</p>
+            <p className="font-medium flex items-center gap-1">
+              <Activity className="h-3.5 w-3.5 text-muted-foreground" />
+              {health.lastHealthy ? timeAgo(health.lastHealthy) : "Never"}
             </p>
           </div>
         </div>
       </CardContent>
-      <CardFooter className=&quot;pt-4&quot;>
+      <CardFooter className="pt-4">
         {health.circuitState === CircuitState.OPEN && (
           <Button
-            variant=&quot;outline&quot;
-            size=&quot;sm&quot;
+            variant="outline"
+            size="sm"
             onClick={() => onResetCircuit(serviceId)}
-            className=&quot;w-full&quot;
+            className="w-full"
           >
             Reset Circuit
           </Button>
@@ -259,45 +259,45 @@ const SystemHealthSummary = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className=&quot;flex items-center gap-2&quot;>
+        <CardTitle className="flex items-center gap-2">
           <StatusIcon status={overallStatus} />
           System Health
         </CardTitle>
         <CardDescription>
           {overallStatus === HealthStatus.HEALTHY
-            ? &quot;All systems operational&quot;
+            ? "All systems operational"
             : overallStatus === HealthStatus.DEGRADED
-              ? &quot;Some services are experiencing issues&quot;
+              ? "Some services are experiencing issues"
               : overallStatus === HealthStatus.UNHEALTHY
-                ? &quot;Critical services are unavailable&quot;
-                : &quot;Service health is unknown&quot;}
+                ? "Critical services are unavailable"
+                : "Service health is unknown"}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className=&quot;grid grid-cols-4 gap-4&quot;>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-3xl font-bold text-green-500&quot;>
+        <div className="grid grid-cols-4 gap-4">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-green-500">
               {healthyCount}
             </div>
-            <div className=&quot;text-sm text-muted-foreground&quot;>Healthy</div>
+            <div className="text-sm text-muted-foreground">Healthy</div>
           </div>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-3xl font-bold text-amber-500&quot;>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-amber-500">
               {degradedCount}
             </div>
-            <div className=&quot;text-sm text-muted-foreground&quot;>Degraded</div>
+            <div className="text-sm text-muted-foreground">Degraded</div>
           </div>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-3xl font-bold text-red-500&quot;>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-red-500">
               {unhealthyCount}
             </div>
-            <div className=&quot;text-sm text-muted-foreground&quot;>Unhealthy</div>
+            <div className="text-sm text-muted-foreground">Unhealthy</div>
           </div>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-3xl font-bold text-gray-400&quot;>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gray-400">
               {unknownCount}
             </div>
-            <div className=&quot;text-sm text-muted-foreground&quot;>Unknown</div>
+            <div className="text-sm text-muted-foreground">Unknown</div>
           </div>
         </div>
       </CardContent>
@@ -312,16 +312,16 @@ const SystemHealthSummary = ({
  */
 export function ServiceHealthDashboard() {
   const { health, loading, lastRefresh, refreshHealth } = useServiceHealth();
-  const [activeTab, setActiveTab] = useState(&quot;all&quot;);
+  const [activeTab, setActiveTab] = useState("all");
 
   const filteredServices = Object.entries(health).filter(
     ([_, serviceHealth]) => {
-      if (activeTab === &quot;all&quot;) return true;
-      if (activeTab === &quot;healthy&quot;)
+      if (activeTab === "all") return true;
+      if (activeTab === "healthy")
         return serviceHealth.status === HealthStatus.HEALTHY;
-      if (activeTab === &quot;degraded&quot;)
+      if (activeTab === "degraded")
         return serviceHealth.status === HealthStatus.DEGRADED;
-      if (activeTab === &quot;unhealthy&quot;)
+      if (activeTab === "unhealthy")
         return serviceHealth.status === HealthStatus.UNHEALTHY;
       return true;
     },
@@ -333,21 +333,21 @@ export function ServiceHealthDashboard() {
   };
 
   return (
-    <div className=&quot;space-y-6&quot;>
-      <div className=&quot;flex justify-between items-center&quot;>
-        <h2 className=&quot;text-3xl font-bold tracking-tight&quot;>Service Health</h2>
-        <div className=&quot;flex items-center gap-2&quot;>
-          <span className=&quot;text-sm text-muted-foreground&quot;>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl font-bold tracking-tight">Service Health</h2>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">
             Last updated: {lastRefresh.toLocaleTimeString()}
           </span>
           <Button
-            variant=&quot;outline&quot;
-            size=&quot;sm&quot;
+            variant="outline"
+            size="sm"
             onClick={refreshHealth}
             disabled={loading}
           >
             <RefreshCw
-              className={`h-4 w-4 mr-2 ${loading ? &quot;animate-spin&quot; : "&quot;}`}
+              className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`}
             />
             Refresh
           </Button>
@@ -356,29 +356,29 @@ export function ServiceHealthDashboard() {
 
       <SystemHealthSummary healthData={health} />
 
-      <Tabs defaultValue=&quot;all&quot; value={activeTab} onValueChange={setActiveTab}>
+      <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
-          <TabsTrigger value=&quot;all&quot;>All Services</TabsTrigger>
-          <TabsTrigger value=&quot;healthy&quot;>Healthy</TabsTrigger>
-          <TabsTrigger value=&quot;degraded&quot;>Degraded</TabsTrigger>
-          <TabsTrigger value=&quot;unhealthy&quot;>Unhealthy</TabsTrigger>
+          <TabsTrigger value="all">All Services</TabsTrigger>
+          <TabsTrigger value="healthy">Healthy</TabsTrigger>
+          <TabsTrigger value="degraded">Degraded</TabsTrigger>
+          <TabsTrigger value="unhealthy">Unhealthy</TabsTrigger>
         </TabsList>
-        <TabsContent value=&quot;all&quot; className=&quot;mt-6&quot;>
+        <TabsContent value="all" className="mt-6">
           {loading && Object.keys(health).length === 0 ? (
-            <div className=&quot;text-center py-8&quot;>
-              <RefreshCw className=&quot;h-8 w-8 mx-auto animate-spin text-muted-foreground&quot; />
-              <p className=&quot;mt-2 text-muted-foreground&quot;>
+            <div className="text-center py-8">
+              <RefreshCw className="h-8 w-8 mx-auto animate-spin text-muted-foreground" />
+              <p className="mt-2 text-muted-foreground">
                 Loading service health data...
               </p>
             </div>
           ) : filteredServices.length === 0 ? (
-            <div className=&quot;text-center py-8&quot;>
-              <p className=&quot;text-muted-foreground&quot;>
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">
                 No services registered for monitoring
               </p>
             </div>
           ) : (
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredServices.map(([serviceId, serviceHealth]) => (
                 <ServiceHealthCard
                   key={serviceId}
@@ -390,8 +390,8 @@ export function ServiceHealthDashboard() {
             </div>
           )}
         </TabsContent>
-        <TabsContent value=&quot;healthy&quot; className=&quot;mt-6&quot;>
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+        <TabsContent value="healthy" className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredServices.map(([serviceId, serviceHealth]) => (
               <ServiceHealthCard
                 key={serviceId}
@@ -402,8 +402,8 @@ export function ServiceHealthDashboard() {
             ))}
           </div>
         </TabsContent>
-        <TabsContent value=&quot;degraded&quot; className=&quot;mt-6&quot;>
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+        <TabsContent value="degraded" className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredServices.map(([serviceId, serviceHealth]) => (
               <ServiceHealthCard
                 key={serviceId}
@@ -414,8 +414,8 @@ export function ServiceHealthDashboard() {
             ))}
           </div>
         </TabsContent>
-        <TabsContent value=&quot;unhealthy&quot; className=&quot;mt-6&quot;>
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <TabsContent value="unhealthy" className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredServices.map(([serviceId, serviceHealth]) => (
               <ServiceHealthCard
                 key={serviceId}

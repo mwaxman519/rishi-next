@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { getCurrentUser } from "@/lib/auth-server";
 
 export async function GET(req: NextRequest) {
   try {
     const user = await getCurrentUser(req);
     
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     return NextResponse.json({
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
       isActive: user.active,
     });
   } catch (error) {
-    console.error(&quot;Error fetching user:&quot;, error);
-    return NextResponse.json({ error: &quot;Internal server error&quot; }, { status: 500 });
+    console.error("Error fetching user:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

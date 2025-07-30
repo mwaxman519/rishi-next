@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 /**
  * Organization Permissions Admin Page
@@ -10,22 +10,22 @@
  * 3. A way to add/remove/edit permission overrides for each organization
  */
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useToast } from &quot;@/components/ui/use-toast&quot;;
+import { useState, useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -33,20 +33,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from &quot;@/components/ui/table&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { PermissionGuard } from &quot;@/components/rbac/PermissionGuard&quot;;
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PermissionGuard } from "@/components/rbac/PermissionGuard";
 
 // Define types for the component
 interface Organization {
   id: number;
   name: string;
-  type: &quot;internal&quot; | &quot;client&quot; | &quot;partner&quot;;
-  tier?: &quot;tier_1&quot; | &quot;tier_2&quot; | &quot;tier_3&quot;;
+  type: "internal" | "client" | "partner";
+  tier?: "tier_1" | "tier_2" | "tier_3";
 }
 
 interface Permission {
@@ -63,13 +63,13 @@ export default function OrganizationPermissionsPage() {
   // State for organizations and permissions
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [selectedOrgId, setSelectedOrgId] = useState<string>("&quot;);
+  const [selectedOrgId, setSelectedOrgId] = useState<string>("");
   const [orgPermissions, setOrgPermissions] = useState<
     OrganizationPermission[]
   >([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [newPermissionName, setNewPermissionName] = useState(&quot;&quot;);
+  const [newPermissionName, setNewPermissionName] = useState("");
 
   // Get toast hook for notifications
   const { toast } = useToast();
@@ -78,19 +78,19 @@ export default function OrganizationPermissionsPage() {
   useEffect(() => {
     async function fetchOrganizations() {
       try {
-        const response = await fetch(&quot;/api/organizations&quot;);
+        const response = await fetch("/api/organizations");
         if (!response.ok) {
-          throw new Error(&quot;Failed to fetch organizations&quot;);
+          throw new Error("Failed to fetch organizations");
         }
         const data = await response.json();
         setOrganizations(data);
         setLoading(false);
       } catch (error) {
-        console.error(&quot;Error fetching organizations:&quot;, error);
+        console.error("Error fetching organizations:", error);
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to load organizations. Please try again.&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to load organizations. Please try again.",
+          variant: "destructive",
         });
         setLoading(false);
       }
@@ -98,19 +98,19 @@ export default function OrganizationPermissionsPage() {
 
     async function fetchAvailablePermissions() {
       try {
-        const response = await fetch(&quot;/api/rbac/permissions&quot;);
+        const response = await fetch("/api/rbac/permissions");
         if (!response.ok) {
-          throw new Error(&quot;Failed to fetch permissions&quot;);
+          throw new Error("Failed to fetch permissions");
         }
         const data = await response.json();
         setPermissions(data);
       } catch (error) {
-        console.error(&quot;Error fetching permissions:&quot;, error);
+        console.error("Error fetching permissions:", error);
         toast({
-          title: &quot;Error&quot;,
+          title: "Error",
           description:
-            &quot;Failed to load available permissions. Please try again.&quot;,
-          variant: &quot;destructive&quot;,
+            "Failed to load available permissions. Please try again.",
+          variant: "destructive",
         });
       }
     }
@@ -130,7 +130,7 @@ export default function OrganizationPermissionsPage() {
           `/api/rbac/organization-permissions?organizationId=${selectedOrgId}`,
         );
         if (!response.ok) {
-          throw new Error(&quot;Failed to fetch organization permissions&quot;);
+          throw new Error("Failed to fetch organization permissions");
         }
         const allowedPermissions = await response.json();
 
@@ -143,12 +143,12 @@ export default function OrganizationPermissionsPage() {
         setOrgPermissions(formattedPermissions);
         setLoading(false);
       } catch (error) {
-        console.error(&quot;Error fetching organization permissions:&quot;, error);
+        console.error("Error fetching organization permissions:", error);
         toast({
-          title: &quot;Error&quot;,
+          title: "Error",
           description:
-            &quot;Failed to load organization permissions. Please try again.&quot;,
-          variant: &quot;destructive&quot;,
+            "Failed to load organization permissions. Please try again.",
+          variant: "destructive",
         });
         setLoading(false);
       }
@@ -164,10 +164,10 @@ export default function OrganizationPermissionsPage() {
     try {
       setSaving(true);
 
-      const response = await fetch(&quot;/api/rbac/organization-permissions&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/rbac/organization-permissions", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           organizationId: parseInt(selectedOrgId),
@@ -176,20 +176,20 @@ export default function OrganizationPermissionsPage() {
       });
 
       if (!response.ok) {
-        throw new Error(&quot;Failed to save permissions&quot;);
+        throw new Error("Failed to save permissions");
       }
 
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Organization permissions have been updated.&quot;,
-        variant: &quot;default&quot;,
+        title: "Success",
+        description: "Organization permissions have been updated.",
+        variant: "default",
       });
     } catch (error) {
-      console.error(&quot;Error saving permissions:&quot;, error);
+      console.error("Error saving permissions:", error);
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to save permissions. Please try again.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to save permissions. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setSaving(false);
@@ -209,9 +209,9 @@ export default function OrganizationPermissionsPage() {
   const addCustomPermission = () => {
     if (!newPermissionName.trim()) {
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Please enter a permission name.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Please enter a permission name.",
+        variant: "destructive",
       });
       return;
     }
@@ -219,9 +219,9 @@ export default function OrganizationPermissionsPage() {
     // Check if permission already exists
     if (orgPermissions.some((p) => p.name === newPermissionName)) {
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;This permission already exists.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "This permission already exists.",
+        variant: "destructive",
       });
       return;
     }
@@ -231,24 +231,24 @@ export default function OrganizationPermissionsPage() {
       { name: newPermissionName, allowed: true },
     ]);
 
-    setNewPermissionName(&quot;&quot;);
+    setNewPermissionName("");
 
     toast({
-      title: &quot;Success&quot;,
+      title: "Success",
       description:
-        &quot;Custom permission added. Don't forget to save your changes.&quot;,
-      variant: &quot;default&quot;,
+        "Custom permission added. Don't forget to save your changes.",
+      variant: "default",
     });
   };
 
   return (
-    <PermissionGuard permission=&quot;admin:permissions&quot;>
-      <div className=&quot;container mx-auto py-8&quot;>
-        <h1 className=&quot;text-3xl font-bold mb-8&quot;>
+    <PermissionGuard permission="admin:permissions">
+      <div className="container mx-auto py-8">
+        <h1 className="text-3xl font-bold mb-8">
           Organization Permissions Management
         </h1>
 
-        <Card className=&quot;mb-8&quot;>
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle>Organization Selection</CardTitle>
             <CardDescription>
@@ -256,21 +256,21 @@ export default function OrganizationPermissionsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className=&quot;grid w-full items-center gap-4&quot;>
-              <div className=&quot;flex flex-col space-y-1.5&quot;>
-                <Label htmlFor=&quot;organization&quot;>Organization</Label>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="organization">Organization</Label>
                 <Select
                   value={selectedOrgId}
                   onValueChange={setSelectedOrgId}
                   disabled={loading || organizations.length === 0}
                 >
-                  <SelectTrigger id=&quot;organization&quot;>
-                    <SelectValue placeholder=&quot;Select an organization&quot; />
+                  <SelectTrigger id="organization">
+                    <SelectValue placeholder="Select an organization" />
                   </SelectTrigger>
-                  <SelectContent position=&quot;popper&quot;>
+                  <SelectContent position="popper">
                     {organizations.map((org) => (
                       <SelectItem key={org.id} value={org.id.toString()}>
-                        {org.name} ({org.type} {org.tier ? `- ${org.tier}` : &quot;&quot;}
+                        {org.name} ({org.type} {org.tier ? `- ${org.tier}` : ""}
                         )
                       </SelectItem>
                     ))}
@@ -285,7 +285,7 @@ export default function OrganizationPermissionsPage() {
           <Card>
             <CardHeader>
               <CardTitle>
-                Permission Management for{&quot; &quot;}
+                Permission Management for{" "}
                 {
                   organizations.find((o) => o.id.toString() === selectedOrgId)
                     ?.name
@@ -296,22 +296,22 @@ export default function OrganizationPermissionsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue=&quot;standard&quot;>
-                <TabsList className=&quot;mb-4&quot;>
-                  <TabsTrigger value=&quot;standard&quot;>
+              <Tabs defaultValue="standard">
+                <TabsList className="mb-4">
+                  <TabsTrigger value="standard">
                     Standard Permissions
                   </TabsTrigger>
-                  <TabsTrigger value=&quot;custom&quot;>Custom Permissions</TabsTrigger>
+                  <TabsTrigger value="custom">Custom Permissions</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value=&quot;standard&quot;>
-                  <div className=&quot;border rounded-md&quot;>
+                <TabsContent value="standard">
+                  <div className="border rounded-md">
                     <Table>
                       <TableHeader>
                         <TableRow>
                           <TableHead>Permission</TableHead>
                           <TableHead>Description</TableHead>
-                          <TableHead className=&quot;w-[150px] text-center&quot;>
+                          <TableHead className="w-[150px] text-center">
                             Allowed
                           </TableHead>
                         </TableRow>
@@ -319,13 +319,13 @@ export default function OrganizationPermissionsPage() {
                       <TableBody>
                         {loading ? (
                           <TableRow>
-                            <TableCell colSpan={3} className=&quot;text-center py-4&quot;>
+                            <TableCell colSpan={3} className="text-center py-4">
                               Loading permissions...
                             </TableCell>
                           </TableRow>
                         ) : orgPermissions.length === 0 ? (
                           <TableRow>
-                            <TableCell colSpan={3} className=&quot;text-center py-4&quot;>
+                            <TableCell colSpan={3} className="text-center py-4">
                               No permissions found for this organization.
                             </TableCell>
                           </TableRow>
@@ -340,11 +340,11 @@ export default function OrganizationPermissionsPage() {
 
                             return (
                               <TableRow key={perm.name}>
-                                <TableCell className=&quot;font-medium&quot;>
+                                <TableCell className="font-medium">
                                   {perm.name}
                                 </TableCell>
                                 <TableCell>{permDetails.description}</TableCell>
-                                <TableCell className=&quot;text-center&quot;>
+                                <TableCell className="text-center">
                                   <Switch
                                     checked={perm.allowed}
                                     onCheckedChange={(checked) =>
@@ -361,16 +361,16 @@ export default function OrganizationPermissionsPage() {
                   </div>
                 </TabsContent>
 
-                <TabsContent value=&quot;custom&quot;>
-                  <div className=&quot;space-y-6&quot;>
-                    <div className=&quot;flex items-end gap-2&quot;>
-                      <div className=&quot;flex-1 space-y-1.5&quot;>
-                        <Label htmlFor=&quot;new-permission&quot;>
+                <TabsContent value="custom">
+                  <div className="space-y-6">
+                    <div className="flex items-end gap-2">
+                      <div className="flex-1 space-y-1.5">
+                        <Label htmlFor="new-permission">
                           Add Custom Permission
                         </Label>
                         <Input
-                          id=&quot;new-permission&quot;
-                          placeholder=&quot;e.g., view:custom-resource&quot;
+                          id="new-permission"
+                          placeholder="e.g., view:custom-resource"
                           value={newPermissionName}
                           onChange={(e) => setNewPermissionName(e.target.value)}
                         />
@@ -378,12 +378,12 @@ export default function OrganizationPermissionsPage() {
                       <Button onClick={addCustomPermission}>Add</Button>
                     </div>
 
-                    <div className=&quot;border rounded-md&quot;>
+                    <div className="border rounded-md">
                       <Table>
                         <TableHeader>
                           <TableRow>
                             <TableHead>Custom Permission</TableHead>
-                            <TableHead className=&quot;w-[150px] text-center&quot;>
+                            <TableHead className="w-[150px] text-center">
                               Allowed
                             </TableHead>
                           </TableRow>
@@ -393,7 +393,7 @@ export default function OrganizationPermissionsPage() {
                             <TableRow>
                               <TableCell
                                 colSpan={2}
-                                className=&quot;text-center py-4&quot;
+                                className="text-center py-4"
                               >
                                 Loading custom permissions...
                               </TableCell>
@@ -408,10 +408,10 @@ export default function OrganizationPermissionsPage() {
                               )
                               .map((perm) => (
                                 <TableRow key={perm.name}>
-                                  <TableCell className=&quot;font-medium&quot;>
+                                  <TableCell className="font-medium">
                                     {perm.name}
                                   </TableCell>
-                                  <TableCell className=&quot;text-center&quot;>
+                                  <TableCell className="text-center">
                                     <Switch
                                       checked={perm.allowed}
                                       onCheckedChange={(checked) =>
@@ -433,7 +433,7 @@ export default function OrganizationPermissionsPage() {
                               <TableRow>
                                 <TableCell
                                   colSpan={2}
-                                  className=&quot;text-center py-4&quot;
+                                  className="text-center py-4"
                                 >
                                   No custom permissions added yet.
                                 </TableCell>
@@ -446,12 +446,12 @@ export default function OrganizationPermissionsPage() {
                 </TabsContent>
               </Tabs>
 
-              <div className=&quot;mt-6 flex justify-end&quot;>
+              <div className="mt-6 flex justify-end">
                 <Button
                   onClick={savePermissions}
                   disabled={saving || !selectedOrgId}
                 >
-                  {saving ? &quot;Saving...&quot; : &quot;Save Changes"}
+                  {saving ? "Saving..." : "Save Changes"}
                 </Button>
               </div>
             </CardContent>

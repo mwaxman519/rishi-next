@@ -1,16 +1,16 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import {
   Search,
   Package,
@@ -23,252 +23,252 @@ import {
   CheckCircle,
   AlertCircle,
   Star,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 
 // Authentic kit templates data with UUID format following architectural guidelines
 const kitTemplatesData = [
   {
-    id: &quot;aa0e8400-e29b-41d4-a716-446655440001&quot;,
-    name: &quot;Product Demo Standard Kit&quot;,
+    id: "aa0e8400-e29b-41d4-a716-446655440001",
+    name: "Product Demo Standard Kit",
     description:
-      &quot;Standard equipment set for product demonstrations at retail locations&quot;,
-    category: &quot;Product Demo&quot;,
-    type: &quot;standard&quot;,
-    status: &quot;active&quot;,
+      "Standard equipment set for product demonstrations at retail locations",
+    category: "Product Demo",
+    type: "standard",
+    status: "active",
     itemCount: 12,
     estimatedValue: 485.5,
-    lastUpdated: &quot;2025-06-15T14:30:00Z&quot;,
+    lastUpdated: "2025-06-15T14:30:00Z",
     usageCount: 28,
     rating: 4.6,
     items: [
       {
-        id: &quot;item-001&quot;,
-        name: &quot;Demo Table (Portable)&quot;,
+        id: "item-001",
+        name: "Demo Table (Portable)",
         quantity: 1,
         unitCost: 125.0,
       },
       {
-        id: &quot;item-002&quot;,
-        name: &quot;Product Display Stand&quot;,
+        id: "item-002",
+        name: "Product Display Stand",
         quantity: 2,
         unitCost: 45.0,
       },
       {
-        id: &quot;item-003&quot;,
-        name: &quot;Branded Tablecloth&quot;,
+        id: "item-003",
+        name: "Branded Tablecloth",
         quantity: 1,
         unitCost: 25.0,
       },
       {
-        id: &quot;item-004&quot;,
-        name: &quot;Tablet with Presentation Software&quot;,
+        id: "item-004",
+        name: "Tablet with Presentation Software",
         quantity: 1,
         unitCost: 180.0,
       },
       {
-        id: &quot;item-005&quot;,
-        name: &quot;Promotional Brochures&quot;,
+        id: "item-005",
+        name: "Promotional Brochures",
         quantity: 100,
         unitCost: 0.5,
       },
       {
-        id: &quot;item-006&quot;,
-        name: &quot;Business Card Holder&quot;,
+        id: "item-006",
+        name: "Business Card Holder",
         quantity: 1,
         unitCost: 15.0,
       },
     ],
-    tags: [&quot;Retail&quot;, &quot;Demo&quot;, &quot;Standard&quot;, &quot;Popular&quot;],
-    createdBy: &quot;Sarah Johnson&quot;,
-    approvalStatus: &quot;approved&quot;,
+    tags: ["Retail", "Demo", "Standard", "Popular"],
+    createdBy: "Sarah Johnson",
+    approvalStatus: "approved",
   },
   {
-    id: &quot;aa0e8400-e29b-41d4-a716-446655440002&quot;,
-    name: &quot;Trade Show Premium Setup&quot;,
+    id: "aa0e8400-e29b-41d4-a716-446655440002",
+    name: "Trade Show Premium Setup",
     description:
-      &quot;Comprehensive kit for large trade show exhibitions and corporate events&quot;,
-    category: &quot;Trade Show&quot;,
-    type: &quot;premium&quot;,
-    status: &quot;active&quot;,
+      "Comprehensive kit for large trade show exhibitions and corporate events",
+    category: "Trade Show",
+    type: "premium",
+    status: "active",
     itemCount: 25,
     estimatedValue: 1250.75,
-    lastUpdated: &quot;2025-06-12T09:20:00Z&quot;,
+    lastUpdated: "2025-06-12T09:20:00Z",
     usageCount: 8,
     rating: 4.9,
     items: [
       {
-        id: &quot;item-007&quot;,
-        name: &quot;Modular Display System&quot;,
+        id: "item-007",
+        name: "Modular Display System",
         quantity: 1,
         unitCost: 450.0,
       },
       {
-        id: &quot;item-008&quot;,
-        name: 'LED Display Panel (55&quot;)',
+        id: "item-008",
+        name: 'LED Display Panel (55")',
         quantity: 2,
         unitCost: 280.0,
       },
       {
-        id: &quot;item-009&quot;,
-        name: &quot;Professional Sound System&quot;,
+        id: "item-009",
+        name: "Professional Sound System",
         quantity: 1,
         unitCost: 350.0,
       },
       {
-        id: &quot;item-010&quot;,
-        name: &quot;Branded Booth Banners&quot;,
+        id: "item-010",
+        name: "Branded Booth Banners",
         quantity: 4,
         unitCost: 35.0,
       },
       {
-        id: &quot;item-011&quot;,
-        name: &quot;Presentation Podium&quot;,
+        id: "item-011",
+        name: "Presentation Podium",
         quantity: 1,
         unitCost: 175.0,
       },
     ],
-    tags: [&quot;Trade Show&quot;, &quot;Premium&quot;, &quot;Corporate&quot;, &quot;High Value&quot;],
-    createdBy: &quot;Michael Chen&quot;,
-    approvalStatus: &quot;approved&quot;,
+    tags: ["Trade Show", "Premium", "Corporate", "High Value"],
+    createdBy: "Michael Chen",
+    approvalStatus: "approved",
   },
   {
-    id: &quot;aa0e8400-e29b-41d4-a716-446655440003&quot;,
-    name: &quot;Street Team Activation Kit&quot;,
+    id: "aa0e8400-e29b-41d4-a716-446655440003",
+    name: "Street Team Activation Kit",
     description:
-      &quot;Mobile kit for street marketing and brand activation campaigns&quot;,
-    category: &quot;Street Marketing&quot;,
-    type: &quot;mobile&quot;,
-    status: &quot;active&quot;,
+      "Mobile kit for street marketing and brand activation campaigns",
+    category: "Street Marketing",
+    type: "mobile",
+    status: "active",
     itemCount: 8,
     estimatedValue: 320.25,
-    lastUpdated: &quot;2025-06-10T16:45:00Z&quot;,
+    lastUpdated: "2025-06-10T16:45:00Z",
     usageCount: 15,
     rating: 4.3,
     items: [
       {
-        id: &quot;item-012&quot;,
-        name: &quot;Portable Canopy Tent&quot;,
+        id: "item-012",
+        name: "Portable Canopy Tent",
         quantity: 1,
         unitCost: 120.0,
       },
-      { id: &quot;item-013&quot;, name: &quot;Folding Table&quot;, quantity: 1, unitCost: 65.0 },
+      { id: "item-013", name: "Folding Table", quantity: 1, unitCost: 65.0 },
       {
-        id: &quot;item-014&quot;,
-        name: &quot;Brand Ambassador T-Shirts&quot;,
+        id: "item-014",
+        name: "Brand Ambassador T-Shirts",
         quantity: 5,
         unitCost: 15.0,
       },
       {
-        id: &quot;item-015&quot;,
-        name: &quot;Sample Distribution Bags&quot;,
+        id: "item-015",
+        name: "Sample Distribution Bags",
         quantity: 200,
         unitCost: 0.75,
       },
       {
-        id: &quot;item-016&quot;,
-        name: &quot;Mobile Speaker System&quot;,
+        id: "item-016",
+        name: "Mobile Speaker System",
         quantity: 1,
         unitCost: 85.0,
       },
     ],
-    tags: [&quot;Street Marketing&quot;, &quot;Mobile&quot;, &quot;Sampling&quot;, &quot;Outdoor&quot;],
-    createdBy: &quot;Lisa Rodriguez&quot;,
-    approvalStatus: &quot;approved&quot;,
+    tags: ["Street Marketing", "Mobile", "Sampling", "Outdoor"],
+    createdBy: "Lisa Rodriguez",
+    approvalStatus: "approved",
   },
   {
-    id: &quot;aa0e8400-e29b-41d4-a716-446655440004&quot;,
-    name: &quot;Luxury Event Package&quot;,
+    id: "aa0e8400-e29b-41d4-a716-446655440004",
+    name: "Luxury Event Package",
     description:
-      &quot;High-end equipment package for premium client events and VIP experiences&quot;,
-    category: &quot;Luxury Events&quot;,
-    type: &quot;luxury&quot;,
-    status: &quot;active&quot;,
+      "High-end equipment package for premium client events and VIP experiences",
+    category: "Luxury Events",
+    type: "luxury",
+    status: "active",
     itemCount: 18,
     estimatedValue: 2150.0,
-    lastUpdated: &quot;2025-06-08T11:30:00Z&quot;,
+    lastUpdated: "2025-06-08T11:30:00Z",
     usageCount: 4,
     rating: 5.0,
     items: [
       {
-        id: &quot;item-017&quot;,
-        name: &quot;Premium Display Cabinet&quot;,
+        id: "item-017",
+        name: "Premium Display Cabinet",
         quantity: 2,
         unitCost: 400.0,
       },
       {
-        id: &quot;item-018&quot;,
-        name: &quot;Crystal Product Stands&quot;,
+        id: "item-018",
+        name: "Crystal Product Stands",
         quantity: 6,
         unitCost: 85.0,
       },
       {
-        id: &quot;item-019&quot;,
-        name: &quot;LED Accent Lighting&quot;,
+        id: "item-019",
+        name: "LED Accent Lighting",
         quantity: 8,
         unitCost: 45.0,
       },
       {
-        id: &quot;item-020&quot;,
-        name: &quot;Velvet Rope Barriers&quot;,
+        id: "item-020",
+        name: "Velvet Rope Barriers",
         quantity: 4,
         unitCost: 25.0,
       },
       {
-        id: &quot;item-021&quot;,
-        name: &quot;White Glove Service Kit&quot;,
+        id: "item-021",
+        name: "White Glove Service Kit",
         quantity: 1,
         unitCost: 150.0,
       },
     ],
-    tags: [&quot;Luxury&quot;, &quot;Premium&quot;, &quot;VIP&quot;, &quot;High-End&quot;],
-    createdBy: &quot;Alexandra Sterling&quot;,
-    approvalStatus: &quot;approved&quot;,
+    tags: ["Luxury", "Premium", "VIP", "High-End"],
+    createdBy: "Alexandra Sterling",
+    approvalStatus: "approved",
   },
   {
-    id: &quot;aa0e8400-e29b-41d4-a716-446655440005&quot;,
-    name: &quot;Basic Retail Support Kit&quot;,
+    id: "aa0e8400-e29b-41d4-a716-446655440005",
+    name: "Basic Retail Support Kit",
     description:
-      &quot;Essential items for standard retail support and in-store promotions&quot;,
-    category: &quot;Retail Support&quot;,
-    type: &quot;basic&quot;,
-    status: &quot;draft&quot;,
+      "Essential items for standard retail support and in-store promotions",
+    category: "Retail Support",
+    type: "basic",
+    status: "draft",
     itemCount: 6,
     estimatedValue: 185.0,
-    lastUpdated: &quot;2025-06-17T08:15:00Z&quot;,
+    lastUpdated: "2025-06-17T08:15:00Z",
     usageCount: 0,
     rating: 0,
     items: [
       {
-        id: &quot;item-022&quot;,
-        name: &quot;Folding Banner Stand&quot;,
+        id: "item-022",
+        name: "Folding Banner Stand",
         quantity: 1,
         unitCost: 75.0,
       },
       {
-        id: &quot;item-023&quot;,
-        name: &quot;Product Information Cards&quot;,
+        id: "item-023",
+        name: "Product Information Cards",
         quantity: 50,
         unitCost: 1.0,
       },
       {
-        id: &quot;item-024&quot;,
-        name: &quot;Clipboard with Forms&quot;,
+        id: "item-024",
+        name: "Clipboard with Forms",
         quantity: 2,
         unitCost: 12.0,
       },
-      { id: &quot;item-025&quot;, name: &quot;Name Badge Kit&quot;, quantity: 1, unitCost: 18.0 },
+      { id: "item-025", name: "Name Badge Kit", quantity: 1, unitCost: 18.0 },
     ],
-    tags: [&quot;Retail&quot;, &quot;Basic&quot;, &quot;In-Store&quot;, &quot;Promotion&quot;],
-    createdBy: &quot;David Park&quot;,
-    approvalStatus: &quot;pending&quot;,
+    tags: ["Retail", "Basic", "In-Store", "Promotion"],
+    createdBy: "David Park",
+    approvalStatus: "pending",
   },
 ];
 
@@ -304,55 +304,55 @@ const KitTemplateCard = ({
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case &quot;active&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
-      case &quot;draft&quot;:
-        return &quot;bg-yellow-100 text-yellow-800 border-yellow-200&quot;;
-      case &quot;archived&quot;:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+      case "active":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "draft":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "archived":
+        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case &quot;standard&quot;:
-        return &quot;bg-blue-100 text-blue-800 border-blue-200&quot;;
-      case &quot;premium&quot;:
-        return &quot;bg-purple-100 text-purple-800 border-purple-200&quot;;
-      case &quot;luxury&quot;:
-        return &quot;bg-amber-100 text-amber-800 border-amber-200&quot;;
-      case &quot;mobile&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
-      case &quot;basic&quot;:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+      case "standard":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "premium":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "luxury":
+        return "bg-amber-100 text-amber-800 border-amber-200";
+      case "mobile":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "basic":
+        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getApprovalColor = (status: string) => {
     switch (status) {
-      case &quot;approved&quot;:
-        return &quot;text-green-600&quot;;
-      case &quot;pending&quot;:
-        return &quot;text-yellow-600&quot;;
-      case &quot;rejected&quot;:
-        return &quot;text-red-600&quot;;
+      case "approved":
+        return "text-green-600";
+      case "pending":
+        return "text-yellow-600";
+      case "rejected":
+        return "text-red-600";
       default:
-        return &quot;text-gray-600&quot;;
+        return "text-gray-600";
     }
   };
 
   const getApprovalIcon = (status: string) => {
     switch (status) {
-      case &quot;approved&quot;:
-        return <CheckCircle className=&quot;h-4 w-4&quot; />;
-      case &quot;pending&quot;:
-        return <AlertCircle className=&quot;h-4 w-4&quot; />;
+      case "approved":
+        return <CheckCircle className="h-4 w-4" />;
+      case "pending":
+        return <AlertCircle className="h-4 w-4" />;
       default:
-        return <AlertCircle className=&quot;h-4 w-4&quot; />;
+        return <AlertCircle className="h-4 w-4" />;
     }
   };
 
@@ -362,23 +362,23 @@ const KitTemplateCard = ({
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 1) return &quot;Yesterday&quot;;
+    if (diffDays === 1) return "Yesterday";
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
     return `${Math.ceil(diffDays / 30)} months ago`;
   };
 
   return (
-    <Card className=&quot;hover:shadow-lg transition-all duration-200&quot;>
-      <CardHeader className=&quot;pb-4&quot;>
-        <div className=&quot;flex items-start justify-between&quot;>
-          <div className=&quot;flex-1&quot;>
-            <CardTitle className=&quot;text-lg&quot;>{template.name}</CardTitle>
-            <CardDescription className=&quot;mt-2&quot;>
+    <Card className="hover:shadow-lg transition-all duration-200">
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <CardTitle className="text-lg">{template.name}</CardTitle>
+            <CardDescription className="mt-2">
               {template.description}
             </CardDescription>
           </div>
-          <div className=&quot;flex flex-col items-end space-y-1&quot;>
+          <div className="flex flex-col items-end space-y-1">
             <Badge
               className={`${getStatusColor(template.status)} border text-xs`}
             >
@@ -391,63 +391,63 @@ const KitTemplateCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className=&quot;space-y-4&quot;>
+      <CardContent className="space-y-4">
         {/* Kit Metrics */}
-        <div className=&quot;grid grid-cols-3 gap-4&quot;>
-          <div className=&quot;text-center bg-blue-50 rounded-lg p-3&quot;>
-            <div className=&quot;text-lg font-bold text-blue-600&quot;>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center bg-blue-50 rounded-lg p-3">
+            <div className="text-lg font-bold text-blue-600">
               {template.itemCount}
             </div>
-            <div className=&quot;text-xs text-blue-700&quot;>Items</div>
+            <div className="text-xs text-blue-700">Items</div>
           </div>
-          <div className=&quot;text-center bg-green-50 rounded-lg p-3&quot;>
-            <div className=&quot;text-lg font-bold text-green-600&quot;>
+          <div className="text-center bg-green-50 rounded-lg p-3">
+            <div className="text-lg font-bold text-green-600">
               ${template.estimatedValue.toFixed(0)}
             </div>
-            <div className=&quot;text-xs text-green-700&quot;>Value</div>
+            <div className="text-xs text-green-700">Value</div>
           </div>
-          <div className=&quot;text-center bg-purple-50 rounded-lg p-3&quot;>
-            <div className=&quot;text-lg font-bold text-purple-600&quot;>
+          <div className="text-center bg-purple-50 rounded-lg p-3">
+            <div className="text-lg font-bold text-purple-600">
               {template.usageCount}
             </div>
-            <div className=&quot;text-xs text-purple-700&quot;>Uses</div>
+            <div className="text-xs text-purple-700">Uses</div>
           </div>
         </div>
 
         {/* Rating & Approval */}
-        <div className=&quot;flex items-center justify-between bg-gray-50 rounded-lg p-3&quot;>
-          <div className=&quot;flex items-center space-x-2&quot;>
+        <div className="flex items-center justify-between bg-gray-50 rounded-lg p-3">
+          <div className="flex items-center space-x-2">
             <div
               className={`flex items-center ${getApprovalColor(template.approvalStatus)}`}
             >
               {getApprovalIcon(template.approvalStatus)}
-              <span className=&quot;text-sm font-medium ml-1&quot;>
+              <span className="text-sm font-medium ml-1">
                 {template.approvalStatus.charAt(0).toUpperCase() +
                   template.approvalStatus.slice(1)}
               </span>
             </div>
           </div>
           {template.rating > 0 && (
-            <div className=&quot;flex items-center&quot;>
-              <Star className=&quot;h-4 w-4 text-yellow-500 fill-current mr-1&quot; />
-              <span className=&quot;text-sm font-semibold&quot;>{template.rating}</span>
+            <div className="flex items-center">
+              <Star className="h-4 w-4 text-yellow-500 fill-current mr-1" />
+              <span className="text-sm font-semibold">{template.rating}</span>
             </div>
           )}
         </div>
 
         {/* Category & Creator */}
-        <div className=&quot;space-y-2&quot;>
-          <div className=&quot;flex items-center justify-between text-sm&quot;>
-            <span className=&quot;text-muted-foreground&quot;>Category:</span>
-            <span className=&quot;font-medium&quot;>{template.category}</span>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Category:</span>
+            <span className="font-medium">{template.category}</span>
           </div>
-          <div className=&quot;flex items-center justify-between text-sm&quot;>
-            <span className=&quot;text-muted-foreground&quot;>Created by:</span>
-            <span className=&quot;font-medium&quot;>{template.createdBy}</span>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Created by:</span>
+            <span className="font-medium">{template.createdBy}</span>
           </div>
-          <div className=&quot;flex items-center justify-between text-sm&quot;>
-            <span className=&quot;text-muted-foreground&quot;>Updated:</span>
-            <span className=&quot;font-medium&quot;>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Updated:</span>
+            <span className="font-medium">
               {formatLastUpdated(template.lastUpdated)}
             </span>
           </div>
@@ -455,15 +455,15 @@ const KitTemplateCard = ({
 
         {/* Tags */}
         <div>
-          <div className=&quot;text-sm font-medium mb-2&quot;>Tags</div>
-          <div className=&quot;flex flex-wrap gap-1&quot;>
+          <div className="text-sm font-medium mb-2">Tags</div>
+          <div className="flex flex-wrap gap-1">
             {template.tags.slice(0, 3).map((tag, index) => (
-              <Badge key={index} variant=&quot;outline&quot; className=&quot;text-xs&quot;>
+              <Badge key={index} variant="outline" className="text-xs">
                 {tag}
               </Badge>
             ))}
             {template.tags.length > 3 && (
-              <Badge variant=&quot;outline&quot; className=&quot;text-xs&quot;>
+              <Badge variant="outline" className="text-xs">
                 +{template.tags.length - 3} more
               </Badge>
             )}
@@ -471,44 +471,44 @@ const KitTemplateCard = ({
         </div>
 
         {/* Action Buttons */}
-        <div className=&quot;flex space-x-2 pt-2 border-t&quot;>
+        <div className="flex space-x-2 pt-2 border-t">
           <Button
-            size=&quot;sm&quot;
-            className=&quot;flex-1&quot;
-            onClick={() => onAction(&quot;view&quot;, template.id)}
+            size="sm"
+            className="flex-1"
+            onClick={() => onAction("view", template.id)}
           >
-            <Eye className=&quot;h-4 w-4 mr-1&quot; />
+            <Eye className="h-4 w-4 mr-1" />
             View
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;edit&quot;, template.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("edit", template.id)}
           >
-            <Edit className=&quot;h-4 w-4&quot; />
+            <Edit className="h-4 w-4" />
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;copy&quot;, template.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("copy", template.id)}
           >
-            <Copy className=&quot;h-4 w-4&quot; />
+            <Copy className="h-4 w-4" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                <MoreVertical className=&quot;h-4 w-4&quot; />
+              <Button variant="outline" size="sm">
+                <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onAction(&quot;usage&quot;, template.id)}>
+              <DropdownMenuItem onClick={() => onAction("usage", template.id)}>
                 View Usage History
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction(&quot;export&quot;, template.id)}>
+              <DropdownMenuItem onClick={() => onAction("export", template.id)}>
                 Export Template
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => onAction(&quot;archive&quot;, template.id)}
+                onClick={() => onAction("archive", template.id)}
               >
                 Archive Template
               </DropdownMenuItem>
@@ -521,9 +521,9 @@ const KitTemplateCard = ({
 };
 
 export default function KitTemplatesPage() {
-  const [searchQuery, setSearchQuery] = useState(&quot;&quot;);
-  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
-  const [categoryFilter, setCategoryFilter] = useState(&quot;all&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const { toast } = useToast();
 
   const filteredTemplates = kitTemplatesData.filter((template) => {
@@ -535,9 +535,9 @@ export default function KitTemplatesPage() {
         tag.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     const matchesStatus =
-      statusFilter === &quot;all&quot; || template.status === statusFilter;
+      statusFilter === "all" || template.status === statusFilter;
     const matchesCategory =
-      categoryFilter === &quot;all&quot; || template.category === categoryFilter;
+      categoryFilter === "all" || template.category === categoryFilter;
     return matchesSearch && matchesStatus && matchesCategory;
   });
 
@@ -550,7 +550,7 @@ export default function KitTemplatesPage() {
       timestamp: new Date().toISOString(),
       templateId,
       templateName: template?.name,
-      initiatedBy: &quot;internal_admin&quot;,
+      initiatedBy: "internal_admin",
       metadata: {
         templateType: template?.type,
         category: template?.category,
@@ -561,42 +561,42 @@ export default function KitTemplatesPage() {
     };
 
     // In real implementation, this would publish to event bus
-    console.log(&quot;Publishing kit template event:&quot;, eventPayload);
+    console.log("Publishing kit template event:", eventPayload);
 
     switch (action) {
-      case &quot;view&quot;:
+      case "view":
         toast({
-          title: &quot;Template Details&quot;,
+          title: "Template Details",
           description: `Opening detailed view for ${template?.name}`,
         });
         break;
-      case &quot;edit&quot;:
+      case "edit":
         toast({
-          title: &quot;Edit Template&quot;,
+          title: "Edit Template",
           description: `Opening editor for ${template?.name}`,
         });
         break;
-      case &quot;copy&quot;:
+      case "copy":
         toast({
-          title: &quot;Template Copied&quot;,
+          title: "Template Copied",
           description: `Creating copy of ${template?.name}`,
         });
         break;
-      case &quot;usage&quot;:
+      case "usage":
         toast({
-          title: &quot;Usage History&quot;,
+          title: "Usage History",
           description: `Loading usage history for ${template?.name}`,
         });
         break;
-      case &quot;export&quot;:
+      case "export":
         toast({
-          title: &quot;Export Template&quot;,
+          title: "Export Template",
           description: `Exporting ${template?.name} template`,
         });
         break;
-      case &quot;archive&quot;:
+      case "archive":
         toast({
-          title: &quot;Archive Template&quot;,
+          title: "Archive Template",
           description: `Archiving ${template?.name}`,
         });
         break;
@@ -605,10 +605,10 @@ export default function KitTemplatesPage() {
 
   const totalTemplates = kitTemplatesData.length;
   const activeTemplates = kitTemplatesData.filter(
-    (t) => t.status === &quot;active&quot;,
+    (t) => t.status === "active",
   ).length;
   const draftTemplates = kitTemplatesData.filter(
-    (t) => t.status === &quot;draft&quot;,
+    (t) => t.status === "draft",
   ).length;
   const totalValue = kitTemplatesData.reduce(
     (sum, t) => sum + t.estimatedValue,
@@ -620,117 +620,117 @@ export default function KitTemplatesPage() {
   ];
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+    <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Kit Templates</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">Kit Templates</h1>
+          <p className="text-muted-foreground">
             Manage standardized equipment and material kits for events and
             activations
           </p>
         </div>
         <Button>
-          <Plus className=&quot;mr-2 h-4 w-4&quot; />
+          <Plus className="mr-2 h-4 w-4" />
           Create Template
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Total Templates
                 </p>
-                <p className=&quot;text-2xl font-bold&quot;>{totalTemplates}</p>
+                <p className="text-2xl font-bold">{totalTemplates}</p>
               </div>
-              <Package className=&quot;h-8 w-8 text-indigo-600&quot; />
+              <Package className="h-8 w-8 text-indigo-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Active
                 </p>
-                <p className=&quot;text-2xl font-bold text-green-600&quot;>
+                <p className="text-2xl font-bold text-green-600">
                   {activeTemplates}
                 </p>
               </div>
-              <CheckCircle className=&quot;h-8 w-8 text-green-600&quot; />
+              <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Draft
                 </p>
-                <p className=&quot;text-2xl font-bold text-yellow-600&quot;>
+                <p className="text-2xl font-bold text-yellow-600">
                   {draftTemplates}
                 </p>
               </div>
-              <Edit className=&quot;h-8 w-8 text-yellow-600&quot; />
+              <Edit className="h-8 w-8 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Total Value
                 </p>
-                <p className=&quot;text-2xl font-bold text-emerald-600&quot;>
+                <p className="text-2xl font-bold text-emerald-600">
                   ${totalValue.toFixed(0)}
                 </p>
               </div>
-              <Star className=&quot;h-8 w-8 text-emerald-600&quot; />
+              <Star className="h-8 w-8 text-emerald-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Search and Filters */}
-      <div className=&quot;flex flex-col lg:flex-row gap-4&quot;>
-        <div className=&quot;relative flex-1&quot;>
-          <Search className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder=&quot;Search templates by name, description, category, or tags...&quot;
+            placeholder="Search templates by name, description, category, or tags..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className=&quot;pl-10&quot;
+            className="pl-10"
           />
         </div>
-        <div className=&quot;flex gap-2&quot;>
+        <div className="flex gap-2">
           <Button
-            variant={statusFilter === &quot;all&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;all&quot;)}
-            size=&quot;sm&quot;
+            variant={statusFilter === "all" ? "default" : "outline"}
+            onClick={() => setStatusFilter("all")}
+            size="sm"
           >
             All Status
           </Button>
           <Button
-            variant={statusFilter === &quot;active&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;active&quot;)}
-            size=&quot;sm&quot;
+            variant={statusFilter === "active" ? "default" : "outline"}
+            onClick={() => setStatusFilter("active")}
+            size="sm"
           >
             Active
           </Button>
           <Button
-            variant={statusFilter === &quot;draft&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;draft&quot;)}
-            size=&quot;sm&quot;
+            variant={statusFilter === "draft" ? "default" : "outline"}
+            onClick={() => setStatusFilter("draft")}
+            size="sm"
           >
             Draft
           </Button>
@@ -738,14 +738,14 @@ export default function KitTemplatesPage() {
       </div>
 
       {/* Templates Grid */}
-      <Tabs value=&quot;grid&quot; className=&quot;w-full&quot;>
+      <Tabs value="grid" className="w-full">
         <TabsList>
-          <TabsTrigger value=&quot;grid&quot;>Grid View</TabsTrigger>
-          <TabsTrigger value=&quot;list&quot;>List View</TabsTrigger>
+          <TabsTrigger value="grid">Grid View</TabsTrigger>
+          <TabsTrigger value="list">List View</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;grid&quot; className=&quot;mt-6&quot;>
-          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6&quot;>
+        <TabsContent value="grid" className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredTemplates.map((template) => (
               <KitTemplateCard
                 key={template.id}
@@ -756,8 +756,8 @@ export default function KitTemplatesPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;list&quot; className=&quot;mt-6&quot;>
-          <div className=&quot;space-y-4&quot;>
+        <TabsContent value="list" className="mt-6">
+          <div className="space-y-4">
             {filteredTemplates.map((template) => (
               <KitTemplateCard
                 key={template.id}
@@ -770,10 +770,10 @@ export default function KitTemplatesPage() {
       </Tabs>
 
       {filteredTemplates.length === 0 && (
-        <div className=&quot;text-center py-12&quot;>
-          <Package className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
-          <h3 className=&quot;mt-4 text-lg font-medium&quot;>No kit templates found</h3>
-          <p className=&quot;mt-2 text-muted-foreground">
+        <div className="text-center py-12">
+          <Package className="h-12 w-12 mx-auto text-muted-foreground/50" />
+          <h3 className="mt-4 text-lg font-medium">No kit templates found</h3>
+          <p className="mt-2 text-muted-foreground">
             Try adjusting your search criteria or create a new template.
           </p>
         </div>

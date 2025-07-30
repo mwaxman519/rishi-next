@@ -1,9 +1,9 @@
 /**
  * RBAC Repository for data access operations
  */
-import { db } from &quot;../../../lib/db-connection&quot;;
-import { roles, organizationPermissions } from &quot;../../../shared/schema&quot;;
-import { eq, and, or, inArray } from &quot;drizzle-orm&quot;;
+import { db } from "../../../lib/db-connection";
+import { roles, organizationPermissions } from "../../../shared/schema";
+import { eq, and, or, inArray } from "drizzle-orm";
 import {
   Role,
   UserRole,
@@ -12,7 +12,7 @@ import {
   UpdateRoleParams,
   UserRoleParams,
   OrganizationPermissionParams,
-} from &quot;./models&quot;;
+} from "./models";
 
 export class RBACRepository {
   /**
@@ -24,7 +24,7 @@ export class RBACRepository {
       const result = await db.select().from(roles);
       return result.map(this.mapRoleToDTO);
     } catch (error) {
-      console.error(&quot;Error fetching roles:&quot;, error);
+      console.error("Error fetching roles:", error);
       throw new Error(
         `Failed to fetch roles: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -60,7 +60,7 @@ export class RBACRepository {
         .insert(roles)
         .values({
           name: data.name,
-          description: data.description || "&quot;,
+          description: data.description || "",
           permissions: data.permissions,
           isSystem: data.isSystem,
           isDefault: data.isDefault,
@@ -69,7 +69,7 @@ export class RBACRepository {
 
       return this.mapRoleToDTO(result);
     } catch (error) {
-      console.error(&quot;Error creating role:&quot;, error);
+      console.error("Error creating role:", error);
       throw new Error(
         `Failed to create role: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -138,14 +138,14 @@ export class RBACRepository {
     organizationId?: string,
   ): Promise<UserRole[]> {
     try {
-      console.log(&quot;DEVELOPMENT MODE: Using mock user roles for testing&quot;);
+      console.log("DEVELOPMENT MODE: Using mock user roles for testing");
 
       // In development mode, return mock data instead of querying the database
       // This is a temporary solution until we have the userRoles table properly set up
       return [
         {
           userId: userId,
-          roleId: &quot;1&quot;, // admin role
+          roleId: "1", // admin role
           organizationId: organizationId,
           isDefault: true,
         },
@@ -182,7 +182,7 @@ export class RBACRepository {
   async assignRoleToUser(params: UserRoleParams): Promise<UserRole> {
     try {
       console.log(
-        &quot;DEVELOPMENT MODE: Using mock user role assignment for testing&quot;,
+        "DEVELOPMENT MODE: Using mock user role assignment for testing",
       );
 
       // Check if the role exists
@@ -227,7 +227,7 @@ export class RBACRepository {
       return this.mapUserRoleToDTO(result);
       */
     } catch (error) {
-      console.error(&quot;Error assigning role to user:&quot;, error);
+      console.error("Error assigning role to user:", error);
       throw new Error(
         `Failed to assign role: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -243,11 +243,11 @@ export class RBACRepository {
     organizationId?: string,
   ): Promise<void> {
     try {
-      console.log(&quot;DEVELOPMENT MODE: Using mock user role removal for testing&quot;);
+      console.log("DEVELOPMENT MODE: Using mock user role removal for testing");
 
       // In development mode, just log the removal intention
       console.log(
-        `Mock removing role ${roleId} from user ${userId} ${organizationId ? &quot;in organization &quot; + organizationId : &quot;globally&quot;}`,
+        `Mock removing role ${roleId} from user ${userId} ${organizationId ? "in organization " + organizationId : "globally"}`,
       );
 
       // Production implementation using proper database schema
@@ -352,7 +352,7 @@ export class RBACRepository {
         return this.mapOrganizationPermissionToDTO(result);
       }
     } catch (error) {
-      console.error(&quot;Error setting organization permission:&quot;, error);
+      console.error("Error setting organization permission:", error);
       throw new Error(
         `Failed to set organization permission: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -393,7 +393,7 @@ export class RBACRepository {
     return {
       id: role.id,
       name: role.name,
-      description: role.description || &quot;",
+      description: role.description || "",
       permissions: role.permissions || [],
       isSystem: role.isSystem || false,
       isDefault: role.isDefault || false,

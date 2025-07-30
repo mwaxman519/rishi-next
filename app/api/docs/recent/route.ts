@@ -1,11 +1,11 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import fs from &quot;fs/promises&quot;;
-import path from &quot;path&quot;;
-import { extractFirstParagraph, getDocsDirectory } from &quot;@/lib/utils&quot;;
+import fs from "fs/promises";
+import path from "path";
+import { extractFirstParagraph, getDocsDirectory } from "@/lib/utils";
 
 // Type definitions
 interface DocInfo {
@@ -22,14 +22,14 @@ interface DocInfo {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt((searchParams.get(&quot;limit&quot;) || undefined) || &quot;5&quot;, 10);
+    const limit = parseInt((searchParams.get("limit") || undefined) || "5", 10);
 
     const recentDocs = await getRecentDocuments(limit);
     return NextResponse.json(recentDocs);
   } catch (error) {
-    console.error(&quot;Error getting recent documents:&quot;, error);
+    console.error("Error getting recent documents:", error);
     return NextResponse.json(
-      { error: &quot;Failed to retrieve recent documents&quot; },
+      { error: "Failed to retrieve recent documents" },
       { status: 500 },
     );
   }
@@ -56,11 +56,11 @@ async function getAllDocs(): Promise<DocInfo[]> {
   // Get the docs directory path
   const DOCS_DIRECTORY = await getDocsDirectory();
 
-  async function traverseDir(dirPath: string, relativePath: string = "&quot;) {
+  async function traverseDir(dirPath: string, relativePath: string = "") {
     const entries = await fs.readdir(dirPath, { withFileTypes: true });
 
     for (const entry of entries) {
-      if (entry.name.startsWith(&quot;.&quot;)) continue;
+      if (entry.name.startsWith(".")) continue;
 
       const fullPath = path.join(dirPath, entry.name);
       const docRelativePath = relativePath
@@ -71,25 +71,25 @@ async function getAllDocs(): Promise<DocInfo[]> {
         await traverseDir(fullPath, docRelativePath);
       } else if (
         entry.isFile() &&
-        (entry.name.endsWith(&quot;.md&quot;) || entry.name.endsWith(&quot;.mdx&quot;))
+        (entry.name.endsWith(".md") || entry.name.endsWith(".mdx"))
       ) {
         try {
-          const content = await fs.readFile(fullPath, &quot;utf-8&quot;);
+          const content = await fs.readFile(fullPath, "utf-8");
           const stat = await fs.stat(fullPath);
 
           // Extract title from content or use filename
           const title =
             getDocTitle(content) ||
-            entry.name.replace(/\.(md|mdx)$/, &quot;&quot;).replace(/-/g, &quot; &quot;);
+            entry.name.replace(/\.(md|mdx)$/, "").replace(/-/g, " ");
 
           // Extract description from content
           const excerpt = extractFirstParagraph(content);
 
           docs.push({
-            path: docRelativePath.replace(/\.(md|mdx)$/, &quot;&quot;),
-            title: typeof title === &quot;string&quot; ? title : entry.name,
+            path: docRelativePath.replace(/\.(md|mdx)$/, ""),
+            title: typeof title === "string" ? title : entry.name,
             lastModified: stat.mtime,
-            excerpt: excerpt || &quot;No description available",
+            excerpt: excerpt || "No description available",
           });
         } catch (error) {
           console.error(`Error processing document ${fullPath}:`, error);

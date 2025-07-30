@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { ReactNode } from &quot;react&quot;;
-import { useAuthorization } from &quot;@/components/../hooks/useAuthorization&quot;;
-import { Permission } from &quot;@/components/../lib/rbac&quot;;
+import { ReactNode } from "react";
+import { useAuthorization } from "@/components/../hooks/useAuthorization";
+import { Permission } from "@/components/../lib/rbac";
 
 interface PermissionGuardProps {
   /**

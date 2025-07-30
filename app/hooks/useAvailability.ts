@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from &quot;react&quot;;
-import debounce from &quot;lodash/debounce&quot;;
-import { AvailabilityDTO } from &quot;../models/availability&quot;;
+import { useState, useEffect, useCallback, useRef } from "react";
+import debounce from "lodash/debounce";
+import { AvailabilityDTO } from "../models/availability";
 
 export function useAvailability(
   userId: number,
@@ -39,9 +39,9 @@ export function useAvailability(
         const response = await fetch(
           `/api/availability?userId=${userId}&startDate=${startDate}&endDate=${endDate}`,
           {
-            headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+            headers: { "Content-Type": "application/json" },
             // Disable caching during development
-            cache: &quot;no-store&quot;,
+            cache: "no-store",
           },
         );
 
@@ -77,11 +77,11 @@ export function useAvailability(
         // Skip updating error state if component unmounted
         if (!isMounted.current) return;
 
-        console.error(&quot;useAvailability hook error:&quot;, err);
+        console.error("useAvailability hook error:", err);
         setError(
           err instanceof Error
             ? err.message
-            : &quot;Unknown error fetching availability&quot;,
+            : "Unknown error fetching availability",
         );
         setAvailability([]);
       } finally {

@@ -1,14 +1,14 @@
-&quot;use client&quot;;
+"use client";
 
-import React from &quot;react&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Calendar,
   CalendarClock,
@@ -17,11 +17,11 @@ import {
   ClipboardList,
   Loader2,
   XCircle,
-} from &quot;lucide-react&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
-import Link from &quot;next/link&quot;;
-import { cn } from &quot;@/lib/utils&quot;;
-import { BOOKING_STATUS } from &quot;@shared/schema&quot;;
+} from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { BOOKING_STATUS } from "@shared/schema";
 
 interface BookingStats {
   total: number;
@@ -42,11 +42,11 @@ interface BookingsStatsProps {
 
 export default function BookingsStats({ className }: BookingsStatsProps) {
   const { data, isLoading, isError } = useQuery<BookingStats>({
-    queryKey: [&quot;/api/bookings/stats&quot;],
+    queryKey: ["/api/bookings/stats"],
     queryFn: async () => {
-      const response = await fetch(&quot;/api/bookings/stats&quot;);
+      const response = await fetch("/api/bookings/stats");
       if (!response.ok) {
-        throw new Error(&quot;Failed to fetch booking statistics&quot;);
+        throw new Error("Failed to fetch booking statistics");
       }
       return response.json();
     },
@@ -56,21 +56,21 @@ export default function BookingsStats({ className }: BookingsStatsProps) {
     return (
       <div
         className={cn(
-          &quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4&quot;,
+          "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
           className,
         )}
       >
         {Array.from({ length: 4 }).map((_, i) => (
           <Card key={i}>
-            <CardHeader className=&quot;flex flex-row items-center justify-between pb-2 space-y-0&quot;>
-              <CardTitle className=&quot;text-sm font-medium&quot;>
-                <Skeleton className=&quot;h-4 w-24&quot; />
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">
+                <Skeleton className="h-4 w-24" />
               </CardTitle>
-              <Skeleton className=&quot;h-4 w-4 rounded-full&quot; />
+              <Skeleton className="h-4 w-4 rounded-full" />
             </CardHeader>
             <CardContent>
-              <Skeleton className=&quot;h-8 w-16&quot; />
-              <Skeleton className=&quot;h-4 w-32 mt-2&quot; />
+              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-4 w-32 mt-2" />
             </CardContent>
           </Card>
         ))}
@@ -82,12 +82,12 @@ export default function BookingsStats({ className }: BookingsStatsProps) {
     return (
       <Card className={className}>
         <CardHeader>
-          <CardTitle className=&quot;text-sm font-medium&quot;>Error</CardTitle>
+          <CardTitle className="text-sm font-medium">Error</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className=&quot;flex items-center&quot;>
-            <XCircle className=&quot;h-5 w-5 text-destructive mr-2&quot; />
-            <p className=&quot;text-muted-foreground text-sm&quot;>
+          <div className="flex items-center">
+            <XCircle className="h-5 w-5 text-destructive mr-2" />
+            <p className="text-muted-foreground text-sm">
               Failed to load booking statistics
             </p>
           </div>
@@ -98,31 +98,31 @@ export default function BookingsStats({ className }: BookingsStatsProps) {
 
   const statCards = [
     {
-      title: &quot;Total Bookings&quot;,
+      title: "Total Bookings",
       value: data.total,
-      description: &quot;All bookings in the system&quot;,
-      icon: <ClipboardList className=&quot;h-5 w-5 text-muted-foreground&quot; />,
-      href: &quot;/bookings&quot;,
+      description: "All bookings in the system",
+      icon: <ClipboardList className="h-5 w-5 text-muted-foreground" />,
+      href: "/bookings",
     },
     {
-      title: &quot;Pending Approval&quot;,
+      title: "Pending Approval",
       value: data.byStatus.pending,
-      description: &quot;Awaiting review&quot;,
-      icon: <ClipboardCheck className=&quot;h-5 w-5 text-amber-500&quot; />,
+      description: "Awaiting review",
+      icon: <ClipboardCheck className="h-5 w-5 text-amber-500" />,
       href: `/bookings?status=${BOOKING_STATUS.PENDING}`,
     },
     {
-      title: &quot;Upcoming Bookings&quot;,
+      title: "Upcoming Bookings",
       value: data.upcoming,
-      description: &quot;Next 30 days&quot;,
-      icon: <Calendar className=&quot;h-5 w-5 text-blue-500&quot; />,
-      href: &quot;/bookings&quot;,
+      description: "Next 30 days",
+      icon: <Calendar className="h-5 w-5 text-blue-500" />,
+      href: "/bookings",
     },
     {
-      title: &quot;Completed&quot;,
+      title: "Completed",
       value: data.byStatus.completed,
-      description: &quot;Successfully finished&quot;,
-      icon: <CheckCircle2 className=&quot;h-5 w-5 text-green-500&quot; />,
+      description: "Successfully finished",
+      icon: <CheckCircle2 className="h-5 w-5 text-green-500" />,
       href: `/bookings?status=${BOOKING_STATUS.COMPLETED}`,
     },
   ];
@@ -130,22 +130,22 @@ export default function BookingsStats({ className }: BookingsStatsProps) {
   return (
     <div
       className={cn(
-        &quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4&quot;,
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
         className,
       )}
     >
       {statCards.map((card, index) => (
-        <Card key={index} className=&quot;transition-all hover:shadow-md&quot;>
-          <Link href={card.href} className=&quot;block h-full&quot;>
-            <CardHeader className=&quot;flex flex-row items-center justify-between pb-2 space-y-0&quot;>
-              <CardTitle className=&quot;text-sm font-medium&quot;>
+        <Card key={index} className="transition-all hover:shadow-md">
+          <Link href={card.href} className="block h-full">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+              <CardTitle className="text-sm font-medium">
                 {card.title}
               </CardTitle>
               {card.icon}
             </CardHeader>
             <CardContent>
-              <div className=&quot;text-2xl font-bold&quot;>{card.value}</div>
-              <p className=&quot;text-xs text-muted-foreground mt-1&quot;>
+              <div className="text-2xl font-bold">{card.value}</div>
+              <p className="text-xs text-muted-foreground mt-1">
                 {card.description}
               </p>
             </CardContent>

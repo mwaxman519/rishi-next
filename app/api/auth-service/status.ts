@@ -5,7 +5,7 @@
  * for the auth service.
  */
 
-import { testConnection } from &quot;./db&quot;;
+import { testConnection } from "./db";
 
 /**
  * Check database connection status
@@ -18,7 +18,7 @@ export async function checkDatabaseStatus() {
     return status;
   } catch (error) {
     // Log and return error status
-    console.error(&quot;Error checking database status:&quot;, error);
+    console.error("Error checking database status:", error);
 
     return {
       connected: false,

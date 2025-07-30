@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useTheme } from &quot;@/hooks/useTheme&quot;;
-import { Sun, Moon } from &quot;lucide-react&quot;;
-import { useEffect, useState } from &quot;react&quot;;
+import { useTheme } from "@/hooks/useTheme";
+import { Sun, Moon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -14,22 +14,22 @@ export function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return <div className=&quot;w-10 h-10&quot;></div>; // Placeholder with same dimensions
+    return <div className="w-10 h-10"></div>; // Placeholder with same dimensions
   }
 
   return (
     <button
       onClick={toggleTheme}
-      className=&quot;p-2 rounded-md bg-[rgba(var(--primary),0.1)] text-[rgb(var(--primary))] hover:bg-[rgba(var(--primary),0.2)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))] cursor-pointer select-none&quot;
-      aria-label={`Switch to ${theme === &quot;light&quot; ? &quot;dark&quot; : &quot;light&quot;} mode`}
+      className="p-2 rounded-md bg-[rgba(var(--primary),0.1)] text-[rgb(var(--primary))] hover:bg-[rgba(var(--primary),0.2)] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))] cursor-pointer select-none"
+      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
-      {theme === &quot;light&quot; ? (
+      {theme === "light" ? (
         <Moon
           size={20}
-          className=&quot;text-[rgb(var(--purple-primary))] pointer-events-none&quot;
+          className="text-[rgb(var(--purple-primary))] pointer-events-none"
         />
       ) : (
-        <Sun size={20} className=&quot;text-yellow-300 pointer-events-none&quot; />
+        <Sun size={20} className="text-yellow-300 pointer-events-none" />
       )}
     </button>
   );

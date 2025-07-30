@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useCallback } from &quot;react&quot;;
-import { useAuth } from &quot;./useAuth&quot;;
-import { UserRole } from &quot;@shared/rbac-roles&quot;;
+import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "./useAuth";
+import { UserRole } from "@shared/rbac-roles";
 import {
   hasOrganizationalPermission,
   loadOrganizationSettings,
   getDefaultOrganizationSettings,
-} from &quot;@/lib/rbac/organizational-permissions&quot;;
+} from "@/lib/rbac/organizational-permissions";
 
 export function useOrganizationalRBAC(organizationId?: string) {
   const { user } = useAuth();
@@ -32,7 +32,7 @@ export function useOrganizationalRBAC(organizationId?: string) {
       const settings = await loadOrganizationSettings(orgId);
       setOrganizationSettings(settings);
     } catch (error) {
-      console.error(&quot;Error loading organization settings:&quot;, error);
+      console.error("Error loading organization settings:", error);
       setOrganizationSettings(getDefaultOrganizationSettings());
     } finally {
       setIsLoading(false);
@@ -46,7 +46,7 @@ export function useOrganizationalRBAC(organizationId?: string) {
       const targetOrgId = orgId || organizationId;
       if (!targetOrgId) {
         // For non-organizational permissions, use basic role checking
-        return user.role === &quot;super_admin&quot;;
+        return user.role === "super_admin";
       }
 
       return hasOrganizationalPermission({
@@ -60,11 +60,11 @@ export function useOrganizationalRBAC(organizationId?: string) {
   );
 
   const canBrandAgentsViewOrgEvents = useCallback((): boolean => {
-    return organizationSettings[&quot;brand_agents_view_org_events&quot;] === true;
+    return organizationSettings["brand_agents_view_org_events"] === true;
   }, [organizationSettings]);
 
   const canBrandAgentsManageAvailability = useCallback((): boolean => {
-    return organizationSettings[&quot;brand_agents_manage_availability&quot;] !== false;
+    return organizationSettings["brand_agents_manage_availability"] !== false;
   }, [organizationSettings]);
 
   const refreshSettings = useCallback(async () => {

@@ -1,4 +1,4 @@
-import { Metadata } from &quot;next&quot;;
+import { Metadata } from "next";
 import {
   GraduationCap,
   Play,
@@ -8,53 +8,53 @@ import {
   Award,
   Star,
   Download,
-} from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Progress } from &quot;@/components/ui/progress&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const metadata: Metadata = {
-  title: &quot;Training | Rishi Workforce Management&quot;,
-  description: &quot;Access training materials and track your learning progress&quot;,
+  title: "Training | Rishi Workforce Management",
+  description: "Access training materials and track your learning progress",
 };
 
 const requiredTraining = [
   {
     id: 1,
-    title: &quot;Brand Guidelines Fundamentals&quot;,
-    description: &quot;Learn the core brand guidelines and representation standards&quot;,
-    duration: &quot;45 min&quot;,
+    title: "Brand Guidelines Fundamentals",
+    description: "Learn the core brand guidelines and representation standards",
+    duration: "45 min",
     progress: 100,
-    status: &quot;completed&quot;,
-    dueDate: &quot;2025-06-20&quot;,
+    status: "completed",
+    dueDate: "2025-06-20",
     certificate: true,
   },
   {
     id: 2,
-    title: &quot;Product Knowledge Training&quot;,
-    description: &quot;Comprehensive training on TechHub Events product lineup&quot;,
-    duration: &quot;60 min&quot;,
+    title: "Product Knowledge Training",
+    description: "Comprehensive training on TechHub Events product lineup",
+    duration: "60 min",
     progress: 65,
-    status: &quot;in_progress&quot;,
-    dueDate: &quot;2025-06-18&quot;,
+    status: "in_progress",
+    dueDate: "2025-06-18",
     certificate: false,
   },
   {
     id: 3,
-    title: &quot;Safety & Compliance&quot;,
-    description: &quot;Workplace safety and compliance requirements&quot;,
-    duration: &quot;30 min&quot;,
+    title: "Safety & Compliance",
+    description: "Workplace safety and compliance requirements",
+    duration: "30 min",
     progress: 0,
-    status: &quot;not_started&quot;,
-    dueDate: &quot;2025-06-25&quot;,
+    status: "not_started",
+    dueDate: "2025-06-25",
     certificate: true,
   },
 ];
@@ -62,54 +62,54 @@ const requiredTraining = [
 const optionalTraining = [
   {
     id: 4,
-    title: &quot;Advanced Customer Engagement&quot;,
-    description: &quot;Master advanced techniques for customer interaction&quot;,
-    duration: &quot;90 min&quot;,
+    title: "Advanced Customer Engagement",
+    description: "Master advanced techniques for customer interaction",
+    duration: "90 min",
     progress: 0,
-    status: &quot;available&quot;,
-    category: &quot;soft_skills&quot;,
+    status: "available",
+    category: "soft_skills",
   },
   {
     id: 5,
-    title: &quot;Event Setup & Logistics&quot;,
-    description: &quot;Learn efficient event setup and breakdown procedures&quot;,
-    duration: &quot;75 min&quot;,
+    title: "Event Setup & Logistics",
+    description: "Learn efficient event setup and breakdown procedures",
+    duration: "75 min",
     progress: 30,
-    status: &quot;in_progress&quot;,
-    category: &quot;technical&quot;,
+    status: "in_progress",
+    category: "technical",
   },
   {
     id: 6,
-    title: &quot;Social Media Best Practices&quot;,
-    description: &quot;Guidelines for representing brands on social platforms&quot;,
-    duration: &quot;40 min&quot;,
+    title: "Social Media Best Practices",
+    description: "Guidelines for representing brands on social platforms",
+    duration: "40 min",
     progress: 100,
-    status: &quot;completed&quot;,
-    category: &quot;digital&quot;,
+    status: "completed",
+    category: "digital",
   },
 ];
 
 const certifications = [
   {
     id: 1,
-    name: &quot;Brand Ambassador Certification&quot;,
-    earnedDate: &quot;2025-06-15&quot;,
-    expiryDate: &quot;2026-06-15&quot;,
-    status: &quot;active&quot;,
+    name: "Brand Ambassador Certification",
+    earnedDate: "2025-06-15",
+    expiryDate: "2026-06-15",
+    status: "active",
   },
   {
     id: 2,
-    name: &quot;Product Specialist Certification&quot;,
+    name: "Product Specialist Certification",
     earnedDate: null,
     expiryDate: null,
-    status: &quot;pending&quot;,
-    requirements: &quot;Complete Product Knowledge Training&quot;,
+    status: "pending",
+    requirements: "Complete Product Knowledge Training",
   },
 ];
 
 export default function TrainingPage() {
   const completedTraining = [...requiredTraining, ...optionalTraining].filter(
-    (t) => t.status === &quot;completed&quot;,
+    (t) => t.status === "completed",
   );
   const overallProgress = Math.round(
     (completedTraining.length /
@@ -118,154 +118,154 @@ export default function TrainingPage() {
   );
 
   return (
-    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
+    <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Training</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">Training</h1>
+          <p className="text-muted-foreground">
             Access training materials and track your learning progress
           </p>
         </div>
         <Button>
-          <BookOpen className=&quot;h-4 w-4 mr-2&quot; />
+          <BookOpen className="h-4 w-4 mr-2" />
           Browse Catalog
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
               Overall Progress
             </CardTitle>
-            <GraduationCap className=&quot;h-4 w-4 text-muted-foreground&quot; />
+            <GraduationCap className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>{overallProgress}%</div>
-            <Progress value={overallProgress} className=&quot;mt-2&quot; />
+            <div className="text-2xl font-bold">{overallProgress}%</div>
+            <Progress value={overallProgress} className="mt-2" />
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>Completed</CardTitle>
-            <CheckCircle className=&quot;h-4 w-4 text-muted-foreground&quot; />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Completed</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>{completedTraining.length}</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>Training modules</p>
+            <div className="text-2xl font-bold">{completedTraining.length}</div>
+            <p className="text-xs text-muted-foreground">Training modules</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>Due Soon</CardTitle>
-            <Clock className=&quot;h-4 w-4 text-muted-foreground&quot; />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Due Soon</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>1</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>
+            <div className="text-2xl font-bold">1</div>
+            <p className="text-xs text-muted-foreground">
               Training due this week
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
               Certifications
             </CardTitle>
-            <Award className=&quot;h-4 w-4 text-muted-foreground&quot; />
+            <Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>1</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>
+            <div className="text-2xl font-bold">1</div>
+            <p className="text-xs text-muted-foreground">
               Active certifications
             </p>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs defaultValue=&quot;required&quot; className=&quot;space-y-4&quot;>
+      <Tabs defaultValue="required" className="space-y-4">
         <TabsList>
-          <TabsTrigger value=&quot;required&quot;>Required Training</TabsTrigger>
-          <TabsTrigger value=&quot;optional&quot;>Optional Training</TabsTrigger>
-          <TabsTrigger value=&quot;certifications&quot;>Certifications</TabsTrigger>
+          <TabsTrigger value="required">Required Training</TabsTrigger>
+          <TabsTrigger value="optional">Optional Training</TabsTrigger>
+          <TabsTrigger value="certifications">Certifications</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;required&quot; className=&quot;space-y-4&quot;>
-          <h2 className=&quot;text-xl font-semibold&quot;>Required Training</h2>
-          <div className=&quot;grid gap-4&quot;>
+        <TabsContent value="required" className="space-y-4">
+          <h2 className="text-xl font-semibold">Required Training</h2>
+          <div className="grid gap-4">
             {requiredTraining.map((training) => (
               <Card
                 key={training.id}
-                className=&quot;hover:shadow-md transition-shadow&quot;
+                className="hover:shadow-md transition-shadow"
               >
-                <CardContent className=&quot;p-6&quot;>
-                  <div className=&quot;flex items-start justify-between&quot;>
-                    <div className=&quot;flex-1 space-y-3&quot;>
-                      <div className=&quot;flex items-center justify-between&quot;>
-                        <h3 className=&quot;font-semibold&quot;>{training.title}</h3>
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-semibold">{training.title}</h3>
                         <Badge
                           variant={
-                            training.status === &quot;completed&quot;
-                              ? &quot;default&quot;
-                              : training.status === &quot;in_progress&quot;
-                                ? &quot;secondary&quot;
-                                : &quot;outline&quot;
+                            training.status === "completed"
+                              ? "default"
+                              : training.status === "in_progress"
+                                ? "secondary"
+                                : "outline"
                           }
                         >
-                          {training.status.replace(&quot;_&quot;, &quot; &quot;)}
+                          {training.status.replace("_", " ")}
                         </Badge>
                       </div>
 
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
+                      <p className="text-sm text-muted-foreground">
                         {training.description}
                       </p>
 
-                      <div className=&quot;flex items-center space-x-4 text-sm text-muted-foreground&quot;>
-                        <div className=&quot;flex items-center&quot;>
-                          <Clock className=&quot;h-4 w-4 mr-1&quot; />
+                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                        <div className="flex items-center">
+                          <Clock className="h-4 w-4 mr-1" />
                           {training.duration}
                         </div>
                         <div>Due: {training.dueDate}</div>
                         {training.certificate && (
-                          <div className=&quot;flex items-center&quot;>
-                            <Award className=&quot;h-4 w-4 mr-1&quot; />
+                          <div className="flex items-center">
+                            <Award className="h-4 w-4 mr-1" />
                             Certificate available
                           </div>
                         )}
                       </div>
 
-                      <div className=&quot;space-y-2&quot;>
-                        <div className=&quot;flex justify-between text-sm&quot;>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
                           <span>Progress</span>
                           <span>{training.progress}%</span>
                         </div>
                         <Progress value={training.progress} />
                       </div>
 
-                      <div className=&quot;flex gap-2 pt-2&quot;>
-                        {training.status === &quot;completed&quot; ? (
+                      <div className="flex gap-2 pt-2">
+                        {training.status === "completed" ? (
                           <>
-                            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                              <CheckCircle className=&quot;h-4 w-4 mr-2&quot; />
+                            <Button variant="outline" size="sm">
+                              <CheckCircle className="h-4 w-4 mr-2" />
                               Completed
                             </Button>
                             {training.certificate && (
-                              <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                                <Download className=&quot;h-4 w-4 mr-2&quot; />
+                              <Button variant="outline" size="sm">
+                                <Download className="h-4 w-4 mr-2" />
                                 Certificate
                               </Button>
                             )}
                           </>
-                        ) : training.status === &quot;in_progress&quot; ? (
-                          <Button size=&quot;sm&quot;>
-                            <Play className=&quot;h-4 w-4 mr-2&quot; />
+                        ) : training.status === "in_progress" ? (
+                          <Button size="sm">
+                            <Play className="h-4 w-4 mr-2" />
                             Continue
                           </Button>
                         ) : (
-                          <Button size=&quot;sm&quot;>
-                            <Play className=&quot;h-4 w-4 mr-2&quot; />
+                          <Button size="sm">
+                            <Play className="h-4 w-4 mr-2" />
                             Start Training
                           </Button>
                         )}
@@ -278,51 +278,51 @@ export default function TrainingPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;optional&quot; className=&quot;space-y-4&quot;>
-          <h2 className=&quot;text-xl font-semibold&quot;>Optional Training</h2>
-          <div className=&quot;grid gap-4&quot;>
+        <TabsContent value="optional" className="space-y-4">
+          <h2 className="text-xl font-semibold">Optional Training</h2>
+          <div className="grid gap-4">
             {optionalTraining.map((training) => (
               <Card
                 key={training.id}
-                className=&quot;hover:shadow-md transition-shadow&quot;
+                className="hover:shadow-md transition-shadow"
               >
-                <CardContent className=&quot;p-6&quot;>
-                  <div className=&quot;flex items-start justify-between&quot;>
-                    <div className=&quot;flex-1 space-y-3&quot;>
-                      <div className=&quot;flex items-center justify-between&quot;>
-                        <h3 className=&quot;font-semibold&quot;>{training.title}</h3>
-                        <div className=&quot;flex items-center space-x-2&quot;>
-                          <Badge variant=&quot;outline&quot;>
-                            {training.category?.replace(&quot;_&quot;, &quot; &quot;)}
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-semibold">{training.title}</h3>
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="outline">
+                            {training.category?.replace("_", " ")}
                           </Badge>
                           <Badge
                             variant={
-                              training.status === &quot;completed&quot;
-                                ? &quot;default&quot;
-                                : training.status === &quot;in_progress&quot;
-                                  ? &quot;secondary&quot;
-                                  : &quot;outline&quot;
+                              training.status === "completed"
+                                ? "default"
+                                : training.status === "in_progress"
+                                  ? "secondary"
+                                  : "outline"
                             }
                           >
-                            {training.status.replace(&quot;_&quot;, &quot; &quot;)}
+                            {training.status.replace("_", " ")}
                           </Badge>
                         </div>
                       </div>
 
-                      <p className=&quot;text-sm text-muted-foreground&quot;>
+                      <p className="text-sm text-muted-foreground">
                         {training.description}
                       </p>
 
-                      <div className=&quot;flex items-center space-x-4 text-sm text-muted-foreground&quot;>
-                        <div className=&quot;flex items-center&quot;>
-                          <Clock className=&quot;h-4 w-4 mr-1&quot; />
+                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                        <div className="flex items-center">
+                          <Clock className="h-4 w-4 mr-1" />
                           {training.duration}
                         </div>
                       </div>
 
                       {training.progress > 0 && (
-                        <div className=&quot;space-y-2&quot;>
-                          <div className=&quot;flex justify-between text-sm&quot;>
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
                             <span>Progress</span>
                             <span>{training.progress}%</span>
                           </div>
@@ -330,20 +330,20 @@ export default function TrainingPage() {
                         </div>
                       )}
 
-                      <div className=&quot;flex gap-2 pt-2&quot;>
-                        {training.status === &quot;completed&quot; ? (
-                          <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                            <CheckCircle className=&quot;h-4 w-4 mr-2&quot; />
+                      <div className="flex gap-2 pt-2">
+                        {training.status === "completed" ? (
+                          <Button variant="outline" size="sm">
+                            <CheckCircle className="h-4 w-4 mr-2" />
                             Completed
                           </Button>
-                        ) : training.status === &quot;in_progress&quot; ? (
-                          <Button size=&quot;sm&quot;>
-                            <Play className=&quot;h-4 w-4 mr-2&quot; />
+                        ) : training.status === "in_progress" ? (
+                          <Button size="sm">
+                            <Play className="h-4 w-4 mr-2" />
                             Continue
                           </Button>
                         ) : (
-                          <Button size=&quot;sm&quot;>
-                            <Play className=&quot;h-4 w-4 mr-2&quot; />
+                          <Button size="sm">
+                            <Play className="h-4 w-4 mr-2" />
                             Start Training
                           </Button>
                         )}
@@ -356,40 +356,40 @@ export default function TrainingPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;certifications&quot; className=&quot;space-y-4&quot;>
-          <h2 className=&quot;text-xl font-semibold&quot;>Certifications</h2>
-          <div className=&quot;grid gap-4&quot;>
+        <TabsContent value="certifications" className="space-y-4">
+          <h2 className="text-xl font-semibold">Certifications</h2>
+          <div className="grid gap-4">
             {certifications.map((cert) => (
               <Card key={cert.id}>
-                <CardContent className=&quot;p-6&quot;>
-                  <div className=&quot;flex items-center justify-between&quot;>
-                    <div className=&quot;flex items-center space-x-4&quot;>
-                      <Award className=&quot;h-8 w-8 text-yellow-500&quot; />
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <Award className="h-8 w-8 text-yellow-500" />
                       <div>
-                        <h3 className=&quot;font-semibold&quot;>{cert.name}</h3>
-                        {cert.status === &quot;active&quot; ? (
-                          <div className=&quot;text-sm text-muted-foreground&quot;>
-                            Earned: {cert.earnedDate} • Expires:{&quot; &quot;}
+                        <h3 className="font-semibold">{cert.name}</h3>
+                        {cert.status === "active" ? (
+                          <div className="text-sm text-muted-foreground">
+                            Earned: {cert.earnedDate} • Expires:{" "}
                             {cert.expiryDate}
                           </div>
                         ) : (
-                          <div className=&quot;text-sm text-muted-foreground&quot;>
+                          <div className="text-sm text-muted-foreground">
                             Requirements: {cert.requirements}
                           </div>
                         )}
                       </div>
                     </div>
-                    <div className=&quot;flex items-center space-x-2&quot;>
+                    <div className="flex items-center space-x-2">
                       <Badge
                         variant={
-                          cert.status === &quot;active&quot; ? &quot;default&quot; : &quot;secondary&quot;
+                          cert.status === "active" ? "default" : "secondary"
                         }
                       >
                         {cert.status}
                       </Badge>
-                      {cert.status === &quot;active&quot; && (
-                        <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                          <Download className=&quot;h-4 w-4 mr-2&quot; />
+                      {cert.status === "active" && (
+                        <Button variant="outline" size="sm">
+                          <Download className="h-4 w-4 mr-2" />
                           Download
                         </Button>
                       )}

@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useState } from &quot;react&quot;;
-import { usePathname } from &quot;next/navigation&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 interface CachedDocumentLoaderProps {
   children: React.ReactNode;
@@ -24,9 +24,9 @@ export function CachedDocumentLoader({
         const response = await fetch(
           `/api/docs/cached?path=${encodeURIComponent(path)}`,
           {
-            method: &quot;GET&quot;,
+            method: "GET",
             headers: {
-              Accept: &quot;application/json&quot;,
+              Accept: "application/json",
             },
           },
         );
@@ -46,8 +46,8 @@ export function CachedDocumentLoader({
   // Preload effect - can be extended with other caching hints
   useEffect(() => {
     // Add link prefetch hints to head
-    const linkElement = document.createElement(&quot;link&quot;);
-    linkElement.rel = &quot;prefetch&quot;;
+    const linkElement = document.createElement("link");
+    linkElement.rel = "prefetch";
     linkElement.href = `/docs/${path}`;
     document.head.appendChild(linkElement);
 

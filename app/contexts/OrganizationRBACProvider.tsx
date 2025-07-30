@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { ReactNode } from &quot;react&quot;;
-import { OrganizationProvider } from &quot;./OrganizationProvider&quot;;
-import { RBACProvider } from &quot;./RBACProvider&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import { getUserPermissions } from &quot;@/client/services/rbac&quot;;
-import { useOrganization } from &quot;./OrganizationProvider&quot;;
-import type { Permission } from &quot;../services/rbac/models&quot;;
+import React, { ReactNode } from "react";
+import { OrganizationProvider } from "./OrganizationProvider";
+import { RBACProvider } from "./RBACProvider";
+import { useQuery } from "@tanstack/react-query";
+import { getUserPermissions } from "@/client/services/rbac";
+import { useOrganization } from "./OrganizationProvider";
+import type { Permission } from "../services/rbac/models";
 
 /**
  * Combined Organization and RBAC Provider Component
@@ -32,9 +32,9 @@ function RBACProviderWithOrganization({ children }: { children: ReactNode }) {
 
   // Fetch permissions based on the current organization
   const { data: permissions = [], isLoading: isLoadingPerms } = useQuery<Permission[]>({
-    queryKey: [&quot;/api/auth/permissions&quot;, organizationId],
+    queryKey: ["/api/auth/permissions", organizationId],
     queryFn: () => getUserPermissions(organizationId),
-    // Don't fetch if we&apos;re still loading the organization
+    // Don't fetch if we're still loading the organization
     enabled: !isLoadingOrg && !!organizationId,
     // Keep cache for 5 minutes
     staleTime: 5 * 60 * 1000,

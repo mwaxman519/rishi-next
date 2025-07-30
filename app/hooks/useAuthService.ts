@@ -3,9 +3,9 @@
  *
  * This hook provides a client for interacting with the auth microservice.
  */
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
+import { useState } from "react";
 
 // Response type definitions
 interface AuthResponse<T> {
@@ -86,7 +86,7 @@ export function useAuthService(): AuthServiceClient {
    */
   async function authRequest<T>(
     endpoint: string,
-    method: &quot;GET&quot; | &quot;POST&quot; = &quot;GET&quot;,
+    method: "GET" | "POST" = "GET",
     data?: any,
   ): Promise<T> {
     try {
@@ -96,9 +96,9 @@ export function useAuthService(): AuthServiceClient {
       const options: RequestInit = {
         method,
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
-        credentials: &quot;include&quot;, // Important for cookies
+        credentials: "include", // Important for cookies
       };
 
       if (data) {
@@ -122,7 +122,7 @@ export function useAuthService(): AuthServiceClient {
 
         // Log structured error details if available
         if (errorDetails) {
-          console.error(&quot;Error details:&quot;, errorDetails);
+          console.error("Error details:", errorDetails);
         }
 
         throw new Error(errorMessage);
@@ -147,13 +147,13 @@ export function useAuthService(): AuthServiceClient {
 
       // Always use real authentication - no fallback mode
       const userData = await authRequest<UserSession>(
-        &quot;login&quot;,
-        &quot;POST&quot;,
+        "login",
+        "POST",
         credentials,
       );
       return userData;
     } catch (err) {
-      console.error(&quot;Login error:&quot;, err);
+      console.error("Login error:", err);
       throw err;
     }
   }
@@ -165,7 +165,7 @@ export function useAuthService(): AuthServiceClient {
     try {
       // Password confirmation check
       if (data.password !== data.confirmPassword) {
-        throw new Error(&quot;Passwords don&apos;t match&quot;);
+        throw new Error("Passwords don't match");
       }
 
       // Transform the data to match the expected format if firstName/lastName provided
@@ -184,14 +184,14 @@ export function useAuthService(): AuthServiceClient {
         firstName: data.firstName,
         lastName: data.lastName,
         fullName: data.fullName,
-        role: data.role || &quot;brand_agent&quot;,
+        role: data.role || "brand_agent",
       };
 
       // Check database status endpoint
       // Our updated endpoint will always return success with diagnostic info
       try {
-        const statusResponse = await fetch(&quot;/api/auth-service/status&quot;, {
-          method: &quot;GET&quot;,
+        const statusResponse = await fetch("/api/auth-service/status", {
+          method: "GET",
           signal: new AbortController().signal,
         });
 
@@ -199,29 +199,29 @@ export function useAuthService(): AuthServiceClient {
         // based on status check alone (we'll let the registration API handle errors)
         if (statusResponse.ok) {
           const statusData = await statusResponse.json();
-          console.log(&quot;Auth service status check result:&quot;, statusData);
+          console.log("Auth service status check result:", statusData);
         }
       } catch (statusError) {
         // Only log this error, never fail the registration based on status check
         console.warn(
-          &quot;Status check failed, proceeding with registration anyway&quot;,
+          "Status check failed, proceeding with registration anyway",
         );
       }
 
-      // No need to add hardcoded passcode since it&apos;s now coming from the form
+      // No need to add hardcoded passcode since it's now coming from the form
 
       // Create safe data object for logging
       const safeData = { ...registrationData };
 
       // Redact sensitive information
-      if (&quot;password&quot; in safeData) safeData.password = &quot;[REDACTED]&quot;;
-      if (&quot;confirmPassword&quot; in safeData)
-        safeData.confirmPassword = &quot;[REDACTED]&quot;;
-      if (&quot;registrationPasscode&quot; in safeData)
-        (safeData as any).registrationPasscode = &quot;[REDACTED]&quot;;
+      if ("password" in safeData) safeData.password = "[REDACTED]";
+      if ("confirmPassword" in safeData)
+        safeData.confirmPassword = "[REDACTED]";
+      if ("registrationPasscode" in safeData)
+        (safeData as any).registrationPasscode = "[REDACTED]";
 
       // Send the registration request with appropriate logging
-      console.log(&quot;Sending registration request:&quot;, safeData);
+      console.log("Sending registration request:", safeData);
 
       // Add timeout to avoid hanging requests
       const controller = new AbortController();
@@ -230,9 +230,9 @@ export function useAuthService(): AuthServiceClient {
       try {
         // Make the request with custom error handling for production issues
         const response = await fetch(`/api/auth-service/routes/register`, {
-          method: &quot;POST&quot;,
+          method: "POST",
           headers: {
-            &quot;Content-Type&quot;: &quot;application/json&quot;,
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(registrationData),
           signal: controller.signal,
@@ -243,17 +243,17 @@ export function useAuthService(): AuthServiceClient {
         // Handle non-success status codes
         if (!response.ok) {
           // Try to get the error message from the response
-          let errorMessage = &quot;Registration failed&quot;;
+          let errorMessage = "Registration failed";
           let errorData: any = null;
 
           try {
             errorData = await response.json();
-            console.error(&quot;Auth service register error response:&quot;, errorData);
+            console.error("Auth service register error response:", errorData);
 
             // Extract error message from response
             if (errorData.error) {
               if (
-                typeof errorData.error === &quot;object&quot; &&
+                typeof errorData.error === "object" &&
                 errorData.error.message
               ) {
                 errorMessage = errorData.error.message;
@@ -266,17 +266,17 @@ export function useAuthService(): AuthServiceClient {
           } catch (parseError) {
             // Handle JSON parsing errors (e.g., when no valid JSON is returned)
             console.error(
-              &quot;Auth service register error: Failed to parse response&quot;,
+              "Auth service register error: Failed to parse response",
               parseError,
             );
 
-            // Use status code for error message if we can&apos;t parse JSON
+            // Use status code for error message if we can't parse JSON
             if (response.status === 502) {
               errorMessage =
-                &quot;Registration service is unavailable (Bad Gateway). Please try again later.&quot;;
+                "Registration service is unavailable (Bad Gateway). Please try again later.";
             } else if (response.status === 500) {
               errorMessage =
-                &quot;Registration service encountered an error. Please try again later.&quot;;
+                "Registration service encountered an error. Please try again later.";
             } else {
               errorMessage = `Registration failed with status: ${response.status} ${response.statusText}`;
             }
@@ -284,13 +284,13 @@ export function useAuthService(): AuthServiceClient {
 
           // Specific error handling for database issues we've seen in production
           if (
-            errorMessage.includes(&quot;database&quot;) ||
-            errorMessage.includes(&quot;Database&quot;) ||
-            errorMessage.includes(&quot;connection&quot;) ||
-            errorMessage.includes(&quot;not been initialized&quot;)
+            errorMessage.includes("database") ||
+            errorMessage.includes("Database") ||
+            errorMessage.includes("connection") ||
+            errorMessage.includes("not been initialized")
           ) {
             throw new Error(
-              &quot;Database error: The registration service is experiencing database issues. Please try again later.&quot;,
+              "Database error: The registration service is experiencing database issues. Please try again later.",
             );
           }
 
@@ -299,7 +299,7 @@ export function useAuthService(): AuthServiceClient {
 
         // Parse successful response
         const userData = await response.json();
-        console.log(&quot;Registration successful, user data:&quot;, {
+        console.log("Registration successful, user data:", {
           ...userData,
           // Don't log sensitive data
           password: undefined,
@@ -310,9 +310,9 @@ export function useAuthService(): AuthServiceClient {
         clearTimeout(timeoutId);
 
         // Handle request errors with clear messages
-        if (requestError.name === &quot;AbortError&quot;) {
+        if (requestError.name === "AbortError") {
           throw new Error(
-            &quot;Registration request timed out. Please try again later.&quot;,
+            "Registration request timed out. Please try again later.",
           );
         }
 
@@ -321,9 +321,9 @@ export function useAuthService(): AuthServiceClient {
       }
 
       // This line should never be reached due to try/catch
-      throw new Error(&quot;Unexpected error in registration&quot;);
+      throw new Error("Unexpected error in registration");
     } catch (err) {
-      console.error(&quot;Registration error:&quot;, err);
+      console.error("Registration error:", err);
       throw err;
     }
   }
@@ -333,20 +333,20 @@ export function useAuthService(): AuthServiceClient {
    */
   async function logout(): Promise<void> {
     try {
-      console.log(&quot;Attempting logout&quot;);
+      console.log("Attempting logout");
       // Always use real authentication - no fallback mode
-      await authRequest<void>(&quot;logout&quot;, &quot;POST&quot;);
-      console.log(&quot;Logout successful&quot;);
+      await authRequest<void>("logout", "POST");
+      console.log("Logout successful");
 
       // Force page reload to clear all client-side state
-      if (typeof window !== &quot;undefined&quot;) {
-        window.location.href = &quot;/auth/login&quot;;
+      if (typeof window !== "undefined") {
+        window.location.href = "/auth/login";
       }
     } catch (err) {
-      console.error(&quot;Logout error:&quot;, err);
+      console.error("Logout error:", err);
       // Even if logout fails, redirect to login page
-      if (typeof window !== &quot;undefined&quot;) {
-        window.location.href = &quot;/auth/login&quot;;
+      if (typeof window !== "undefined") {
+        window.location.href = "/auth/login";
       }
       throw err;
     }
@@ -358,9 +358,9 @@ export function useAuthService(): AuthServiceClient {
   async function getSession(): Promise<SessionInfo> {
     try {
       // Always use real authentication - no fallback mode
-      return await authRequest<SessionInfo>(&quot;session&quot;);
+      return await authRequest<SessionInfo>("session");
     } catch (err) {
-      console.error(&quot;Get session error:&quot;, err);
+      console.error("Get session error:", err);
       return { user: null };
     }
   }

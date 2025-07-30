@@ -5,8 +5,8 @@
  * This allows for real-time updates to be pushed to clients when certain events occur
  */
 
-import { EventSubscriber } from &quot;./distributedEventBus&quot;;
-import { AppEvent, Event } from &quot;./eventTypes&quot;;
+import { EventSubscriber } from "./distributedEventBus";
+import { AppEvent, Event } from "./eventTypes";
 
 // Simple in-memory structure to track WebSocket connections for this subscriber
 interface WebSocketClient {
@@ -21,7 +21,7 @@ export class WebSocketEventSubscriber implements EventSubscriber {
   private clients: Map<string, WebSocketClient> = new Map();
 
   constructor() {
-    console.log(&quot;[WebSocketEventSubscriber] Initializing&quot;);
+    console.log("[WebSocketEventSubscriber] Initializing");
   }
 
   /**
@@ -70,7 +70,7 @@ export class WebSocketEventSubscriber implements EventSubscriber {
           try {
             client.send(
               JSON.stringify({
-                type: &quot;event&quot;,
+                type: "event",
                 data: broadcastEvent,
               }),
             );
@@ -201,13 +201,13 @@ export class WebSocketEventSubscriber implements EventSubscriber {
 
     // Remove fields that should not be broadcast
     const sensitiveFields = [
-      &quot;password&quot;,
-      &quot;token&quot;,
-      &quot;secret&quot;,
-      &quot;authorization&quot;,
-      &quot;privateKey&quot;,
-      &quot;accessToken&quot;,
-      &quot;refreshToken&quot;,
+      "password",
+      "token",
+      "secret",
+      "authorization",
+      "privateKey",
+      "accessToken",
+      "refreshToken",
     ];
 
     sensitiveFields.forEach((field) => {

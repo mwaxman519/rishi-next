@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
+import { useState } from "react";
 import {
   Calendar,
   Clock,
@@ -9,196 +9,196 @@ import {
   User,
   CheckCircle,
   AlertCircle,
-} from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRouter } from "next/navigation";
 
 const upcomingEvents = [
   {
     id: 1,
-    title: &quot;Product Launch Demo&quot;,
-    client: &quot;TechHub Events&quot;,
-    date: &quot;2025-06-17&quot;,
-    time: &quot;10:00 AM - 6:00 PM&quot;,
-    location: &quot;Downtown Mall, Floor 2&quot;,
-    status: &quot;confirmed&quot;,
-    role: &quot;Lead Brand Ambassador&quot;,
+    title: "Product Launch Demo",
+    client: "TechHub Events",
+    date: "2025-06-17",
+    time: "10:00 AM - 6:00 PM",
+    location: "Downtown Mall, Floor 2",
+    status: "confirmed",
+    role: "Lead Brand Ambassador",
   },
   {
     id: 2,
-    title: &quot;Summer Activation&quot;,
-    client: &quot;Premium Events Ltd&quot;,
-    date: &quot;2025-06-19&quot;,
-    time: &quot;12:00 PM - 8:00 PM&quot;,
-    location: &quot;Central Park Plaza&quot;,
-    status: &quot;pending&quot;,
-    role: &quot;Product Specialist&quot;,
+    title: "Summer Activation",
+    client: "Premium Events Ltd",
+    date: "2025-06-19",
+    time: "12:00 PM - 8:00 PM",
+    location: "Central Park Plaza",
+    status: "pending",
+    role: "Product Specialist",
   },
   {
     id: 3,
-    title: &quot;Trade Show Setup&quot;,
-    client: &quot;Acme Corp&quot;,
-    date: &quot;2025-06-22&quot;,
-    time: &quot;8:00 AM - 10:00 AM&quot;,
-    location: &quot;Convention Center Hall A&quot;,
-    status: &quot;confirmed&quot;,
-    role: &quot;Setup Assistant&quot;,
+    title: "Trade Show Setup",
+    client: "Acme Corp",
+    date: "2025-06-22",
+    time: "8:00 AM - 10:00 AM",
+    location: "Convention Center Hall A",
+    status: "confirmed",
+    role: "Setup Assistant",
   },
 ];
 
 export default function SchedulePage() {
-  const [activeTab, setActiveTab] = useState(&quot;schedule&quot;);
+  const [activeTab, setActiveTab] = useState("schedule");
   const router = useRouter();
 
   const handleUpdateAvailability = () => {
-    router.push(&quot;/availability&quot;);
+    router.push("/availability");
   };
 
   return (
-    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
+    <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>My Schedule</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">My Schedule</h1>
+          <p className="text-muted-foreground">
             View your upcoming events and manage availability
           </p>
         </div>
         <Button onClick={handleUpdateAvailability}>
-          <Plus className=&quot;h-4 w-4 mr-2&quot; />
+          <Plus className="h-4 w-4 mr-2" />
           Update Availability
         </Button>
       </div>
 
       {/* Quick Stats */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>This Week</CardTitle>
-            <Calendar className=&quot;h-4 w-4 text-muted-foreground&quot; />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">This Week</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>3</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>Scheduled events</p>
+            <div className="text-2xl font-bold">3</div>
+            <p className="text-xs text-muted-foreground">Scheduled events</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>Total Hours</CardTitle>
-            <Clock className=&quot;h-4 w-4 text-muted-foreground&quot; />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Hours</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>24</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>
+            <div className="text-2xl font-bold">24</div>
+            <p className="text-xs text-muted-foreground">
               Working hours this week
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>Availability</CardTitle>
-            <CheckCircle className=&quot;h-4 w-4 text-muted-foreground&quot; />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Availability</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>4/7</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>Days available</p>
+            <div className="text-2xl font-bold">4/7</div>
+            <p className="text-xs text-muted-foreground">Days available</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-            <CardTitle className=&quot;text-sm font-medium&quot;>Next Event</CardTitle>
-            <AlertCircle className=&quot;h-4 w-4 text-muted-foreground&quot; />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Next Event</CardTitle>
+            <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-2xl font-bold&quot;>Tomorrow</div>
-            <p className=&quot;text-xs text-muted-foreground&quot;>10:00 AM start</p>
+            <div className="text-2xl font-bold">Tomorrow</div>
+            <p className="text-xs text-muted-foreground">10:00 AM start</p>
           </CardContent>
         </Card>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className=&quot;space-y-4&quot;>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
-          <TabsTrigger value=&quot;schedule&quot;>Upcoming Events</TabsTrigger>
-          <TabsTrigger value=&quot;history&quot;>Event History</TabsTrigger>
+          <TabsTrigger value="schedule">Upcoming Events</TabsTrigger>
+          <TabsTrigger value="history">Event History</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;schedule&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="schedule" className="space-y-4">
           {/* Upcoming Events */}
-          <div className=&quot;space-y-4&quot;>
+          <div className="space-y-4">
             {upcomingEvents.map((event) => (
               <Card
                 key={event.id}
-                className=&quot;hover:shadow-md transition-shadow&quot;
+                className="hover:shadow-md transition-shadow"
               >
-                <CardContent className=&quot;p-6&quot;>
-                  <div className=&quot;flex justify-between items-start&quot;>
-                    <div className=&quot;space-y-3 flex-1&quot;>
-                      <div className=&quot;flex items-center justify-between&quot;>
-                        <h3 className=&quot;text-lg font-semibold&quot;>{event.title}</h3>
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-3 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold">{event.title}</h3>
                         <Badge
                           variant={
-                            event.status === &quot;confirmed&quot;
-                              ? &quot;default&quot;
-                              : &quot;secondary&quot;
+                            event.status === "confirmed"
+                              ? "default"
+                              : "secondary"
                           }
                         >
                           {event.status}
                         </Badge>
                       </div>
 
-                      <div className=&quot;grid md:grid-cols-2 gap-4 text-sm&quot;>
-                        <div className=&quot;flex items-center text-muted-foreground&quot;>
-                          <User className=&quot;h-4 w-4 mr-2&quot; />
-                          <span className=&quot;font-medium text-foreground&quot;>
+                      <div className="grid md:grid-cols-2 gap-4 text-sm">
+                        <div className="flex items-center text-muted-foreground">
+                          <User className="h-4 w-4 mr-2" />
+                          <span className="font-medium text-foreground">
                             {event.client}
                           </span>
                         </div>
-                        <div className=&quot;flex items-center text-muted-foreground&quot;>
-                          <Calendar className=&quot;h-4 w-4 mr-2&quot; />
-                          <span className=&quot;font-medium text-foreground&quot;>
+                        <div className="flex items-center text-muted-foreground">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span className="font-medium text-foreground">
                             {event.date}
                           </span>
                         </div>
-                        <div className=&quot;flex items-center text-muted-foreground&quot;>
-                          <Clock className=&quot;h-4 w-4 mr-2&quot; />
-                          <span className=&quot;font-medium text-foreground&quot;>
+                        <div className="flex items-center text-muted-foreground">
+                          <Clock className="h-4 w-4 mr-2" />
+                          <span className="font-medium text-foreground">
                             {event.time}
                           </span>
                         </div>
-                        <div className=&quot;flex items-center text-muted-foreground&quot;>
-                          <MapPin className=&quot;h-4 w-4 mr-2&quot; />
-                          <span className=&quot;font-medium text-foreground&quot;>
+                        <div className="flex items-center text-muted-foreground">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          <span className="font-medium text-foreground">
                             {event.location}
                           </span>
                         </div>
                       </div>
 
-                      <div className=&quot;flex items-center justify-between pt-2 border-t&quot;>
-                        <span className=&quot;text-sm text-muted-foreground&quot;>
-                          Role:{&quot; &quot;}
-                          <span className=&quot;font-medium text-foreground&quot;>
+                      <div className="flex items-center justify-between pt-2 border-t">
+                        <span className="text-sm text-muted-foreground">
+                          Role:{" "}
+                          <span className="font-medium text-foreground">
                             {event.role}
                           </span>
                         </span>
-                        <div className=&quot;space-x-2&quot;>
-                          <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+                        <div className="space-x-2">
+                          <Button variant="outline" size="sm">
                             View Details
                           </Button>
-                          {event.status === &quot;pending&quot; && (
+                          {event.status === "pending" && (
                             <>
-                              <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+                              <Button variant="outline" size="sm">
                                 Accept
                               </Button>
-                              <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+                              <Button variant="outline" size="sm">
                                 Decline
                               </Button>
                             </>
@@ -213,7 +213,7 @@ export default function SchedulePage() {
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;history&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="history" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Event History</CardTitle>
@@ -222,10 +222,10 @@ export default function SchedulePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className=&quot;text-center py-8&quot;>
-                <Calendar className=&quot;h-12 w-12 mx-auto text-muted-foreground mb-4&quot; />
-                <h3 className=&quot;text-lg font-medium mb-2&quot;>Event History</h3>
-                <p className=&quot;text-muted-foreground&quot;>
+              <div className="text-center py-8">
+                <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-lg font-medium mb-2">Event History</h3>
+                <p className="text-muted-foreground">
                   Your completed events and performance history will be
                   displayed here
                 </p>

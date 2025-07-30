@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useState } from &quot;react&quot;;
-import { useAuth } from &quot;../../../hooks/useAuth&quot;;
-import { useAuthorization } from &quot;../../../hooks/useAuthorization&quot;;
-import { USER_ROLES } from &quot;../../../../shared/rbac/roles&quot;;
-import Link from &quot;next/link&quot;;
-import * as userService from &quot;../../../services/users/userService&quot;;
-import { UserProfile } from &quot;../../../services/users/models&quot;;
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import { useAuthorization } from "../../../hooks/useAuthorization";
+import { USER_ROLES } from "../../../../shared/rbac/roles";
+import Link from "next/link";
+import * as userService from "../../../services/users/userService";
+import { UserProfile } from "../../../services/users/models";
 
 export default function TeamCalendarPage() {
   const { user } = useAuth();
@@ -42,7 +42,7 @@ export default function TeamCalendarPage() {
 
         setTeamMembers(allTeamMembers);
       } catch (error) {
-        console.error(&quot;Failed to load team members:&quot;, error);
+        console.error("Failed to load team members:", error);
       } finally {
         setIsLoading(false);
       }
@@ -54,13 +54,13 @@ export default function TeamCalendarPage() {
   }, [user, isAtLeastRole]);
 
   // Check if user has permission to view this page
-  if (!user || !checkPermission(&quot;view:users&quot;)) {
+  if (!user || !checkPermission("view:users")) {
     return (
-      <div className=&quot;p-6&quot;>
-        <h1 className=&quot;text-2xl font-bold mb-6&quot;>Team Calendar</h1>
-        <div className=&quot;bg-red-50 border border-red-200 p-4 rounded&quot;>
-          <p className=&quot;text-red-700&quot;>
-            You don&apos;t have permission to view this page. Please contact your
+      <div className="p-6">
+        <h1 className="text-2xl font-bold mb-6">Team Calendar</h1>
+        <div className="bg-red-50 border border-red-200 p-4 rounded">
+          <p className="text-red-700">
+            You don't have permission to view this page. Please contact your
             administrator.
           </p>
         </div>
@@ -69,13 +69,13 @@ export default function TeamCalendarPage() {
   }
 
   return (
-    <div className=&quot;p-6&quot;>
-      <div className=&quot;flex justify-between items-center mb-6&quot;>
-        <h1 className=&quot;text-2xl font-bold&quot;>Team Calendar</h1>
-        <div className=&quot;flex space-x-3&quot;>
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Team Calendar</h1>
+        <div className="flex space-x-3">
           <Link
-            href=&quot;/availability/team&quot;
-            className=&quot;px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition&quot;
+            href="/availability/team"
+            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition"
           >
             Back to Team List
           </Link>
@@ -83,44 +83,44 @@ export default function TeamCalendarPage() {
       </div>
 
       {isLoading ? (
-        <div className=&quot;flex justify-center items-center h-64&quot;>
-          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
         </div>
       ) : (
         <>
           {/* Team calendar interface will go here */}
-          <div className=&quot;bg-white border rounded-lg p-6 mb-6&quot;>
-            <h2 className=&quot;text-lg font-semibold mb-4&quot;>Team Calendar View</h2>
-            <p className=&quot;text-gray-500 mb-4&quot;>
+          <div className="bg-white border rounded-lg p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4">Team Calendar View</h2>
+            <p className="text-gray-500 mb-4">
               This calendar shows all team members' availability in a
               consolidated view.
             </p>
 
             {/* Calendar placeholder - would be replaced with actual calendar component */}
-            <div className=&quot;border rounded-lg h-96 flex items-center justify-center bg-gray-50&quot;>
-              <p className=&quot;text-gray-400&quot;>
+            <div className="border rounded-lg h-96 flex items-center justify-center bg-gray-50">
+              <p className="text-gray-400">
                 Calendar view will be implemented here.
               </p>
             </div>
           </div>
 
           {/* Team members legend */}
-          <div className=&quot;bg-white border rounded-lg p-6&quot;>
-            <h2 className=&quot;text-lg font-semibold mb-4&quot;>Team Members</h2>
+          <div className="bg-white border rounded-lg p-6">
+            <h2 className="text-lg font-semibold mb-4">Team Members</h2>
 
             {teamMembers.length > 0 ? (
-              <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3&quot;>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {teamMembers.map((member) => (
                   <div
                     key={member.id}
-                    className=&quot;flex items-center p-2 border rounded&quot;
+                    className="flex items-center p-2 border rounded"
                   >
-                    <div className=&quot;w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 mr-3&quot;>
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 mr-3">
                       {member.profileImage ? (
                         <img
                           src={member.profileImage}
                           alt={member.fullName || member.username}
-                          className=&quot;w-full h-full rounded-full object-cover&quot;
+                          className="w-full h-full rounded-full object-cover"
                         />
                       ) : (
                         <span>
@@ -131,20 +131,20 @@ export default function TeamCalendarPage() {
                       )}
                     </div>
                     <div>
-                      <div className=&quot;font-medium&quot;>
+                      <div className="font-medium">
                         {member.fullName || member.username}
                       </div>
-                      <div className=&quot;text-xs text-gray-500&quot;>
+                      <div className="text-xs text-gray-500">
                         {member.role === USER_ROLES.BRAND_AGENT
-                          ? &quot;Agent&quot;
-                          : &quot;Manager&quot;}
+                          ? "Agent"
+                          : "Manager"}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className=&quot;text-gray-500&quot;>No team members found.</p>
+              <p className="text-gray-500">No team members found.</p>
             )}
           </div>
         </>

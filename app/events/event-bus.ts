@@ -3,7 +3,7 @@
  * This is used to publish and subscribe to events across the application
  * It uses an adapter pattern to support both local development and serverless environments
  */
-import { createEventBusAdapter, EventBusAdapter } from &quot;./event-bus-adapter&quot;;
+import { createEventBusAdapter, EventBusAdapter } from "./event-bus-adapter";
 
 /**
  * EventBus class that wraps the adapter implementation

@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { ReactNode } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import Link from &quot;next/link&quot;;
+import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface SafeLinkProps {
   href: string;
@@ -14,12 +14,12 @@ interface SafeLinkProps {
 
 /**
  * A simpler, more reliable version of Link that uses direct navigation
- * to prevent &quot;Failed to fetch&quot; errors from crashing the application
+ * to prevent "Failed to fetch" errors from crashing the application
  */
 export function SafeLink({
   href,
   children,
-  className = "&quot;,
+  className = "",
   prefetch = false,
   onClick,
 }: SafeLinkProps) {
@@ -38,13 +38,13 @@ export function SafeLink({
     try {
       router.push(href);
     } catch (error) {
-      console.error(&quot;Navigation error with router:&quot;, error);
+      console.error("Navigation error with router:", error);
 
       // Fall back to window.location if router fails
       try {
         window.location.href = href;
       } catch (locationError) {
-        console.error(&quot;Navigation error with location:", locationError);
+        console.error("Navigation error with location:", locationError);
       }
     }
   };

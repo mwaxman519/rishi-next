@@ -6,9 +6,9 @@
  */
 
 export enum CircuitState {
-  CLOSED = &quot;closed&quot;, // Normal operation, requests pass through
-  OPEN = &quot;open&quot;, // Circuit is open, requests fail fast
-  HALF_OPEN = &quot;half-open&quot;, // Testing if service has recovered
+  CLOSED = "closed", // Normal operation, requests pass through
+  OPEN = "open", // Circuit is open, requests fail fast
+  HALF_OPEN = "half-open", // Testing if service has recovered
 }
 
 export interface CircuitBreakerOptions {
@@ -65,7 +65,7 @@ export class CircuitBreaker {
       const timeSinceLastStateChange =
         new Date().getTime() - this.lastStateChange.getTime();
 
-      // Check if it&apos;s time to try recovery
+      // Check if it's time to try recovery
       if (timeSinceLastStateChange >= this.options.resetTimeout) {
         this.transitionToHalfOpen();
       } else {

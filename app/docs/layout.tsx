@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import React from &quot;react&quot;;
+import React from "react";
 
 /**
  * Layout wrapper for all documentation pages
@@ -12,9 +12,9 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <React.Fragment key=&quot;docs-layout&quot;>
+    <React.Fragment key="docs-layout">
       {/* Always render children */}
-      <div key=&quot;docs-content&quot;>{children}</div>
+      <div key="docs-content">{children}</div>
     </React.Fragment>
   );
 }

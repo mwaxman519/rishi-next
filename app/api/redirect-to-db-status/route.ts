@@ -1,10 +1,10 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-dynamic&quot;;
-export const runtime = &quot;nodejs&quot;;
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET() {
   return NextResponse.redirect(
-    new URL(&quot;/debug/db-status&quot;, &quot;http://localhost:5000&quot;),
+    new URL("/debug/db-status", "http://localhost:5000"),
   );
 }

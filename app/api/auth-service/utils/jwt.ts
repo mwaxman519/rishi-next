@@ -3,15 +3,15 @@
  *
  * Functions for creating, validating, and working with JWT tokens.
  */
-import { SignJWT, jwtVerify } from &quot;jose&quot;;
-import { nanoid } from &quot;nanoid&quot;;
-import { AUTH_CONFIG } from &quot;../config&quot;;
+import { SignJWT, jwtVerify } from "jose";
+import { nanoid } from "nanoid";
+import { AUTH_CONFIG } from "../config";
 
 // Create a secret key from the environment variable
 const getSecretKey = () => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
-    throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
+    throw new Error("JWT_SECRET environment variable is required");
   }
   return new TextEncoder().encode(secret);
 };
@@ -19,9 +19,9 @@ const getSecretKey = () => {
 /**
  * Create a JWT token for a user
  */
-export async function createToken(id: string, expiresIn: string = &quot;1d&quot;) {
+export async function createToken(id: string, expiresIn: string = "1d") {
   try {
-    const alg = &quot;HS256&quot;;
+    const alg = "HS256";
     const secretKey = getSecretKey();
 
     return await new SignJWT({ sub: id })
@@ -31,8 +31,8 @@ export async function createToken(id: string, expiresIn: string = &quot;1d&quot;
       .setExpirationTime(expiresIn)
       .sign(secretKey);
   } catch (error) {
-    console.error(&quot;Error creating JWT token:&quot;, error);
-    throw new Error(&quot;Failed to create authentication token&quot;);
+    console.error("Error creating JWT token:", error);
+    throw new Error("Failed to create authentication token");
   }
 }
 
@@ -45,19 +45,19 @@ export async function verifyToken(token: string) {
     const { payload } = await jwtVerify(token, secretKey);
     return payload;
   } catch (error) {
-    console.error(&quot;Error verifying JWT token:&quot;, error);
-    throw new Error(&quot;Invalid or expired token&quot;);
+    console.error("Error verifying JWT token:", error);
+    throw new Error("Invalid or expired token");
   }
 }
 
 /**
  * Extract a token from the Authorization header
- * Expected format: &quot;Bearer <token>&quot;
+ * Expected format: "Bearer <token>"
  */
 export function extractTokenFromHeader(authHeader: string | null | undefined) {
-  if (!authHeader || !authHeader.startsWith(&quot;Bearer &quot;)) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return undefined;
   }
 
-  return authHeader.split(&quot; &quot;)[1];
+  return authHeader.split(" ")[1];
 }

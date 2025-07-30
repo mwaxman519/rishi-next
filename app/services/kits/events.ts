@@ -3,25 +3,25 @@
  * Event definitions for microservice communication
  */
 
-import { EventBus } from &quot;../core/EventBus&quot;;
+import { EventBus } from "../core/EventBus";
 
 // Event Bus Instance
 export const kitEventBus = new EventBus();
 
 // Event Types
 export const KIT_EVENTS = {
-  CREATED: &quot;kit.created&quot;,
-  UPDATED: &quot;kit.updated&quot;,
-  ASSIGNED: &quot;kit.assigned&quot;,
-  UNASSIGNED: &quot;kit.unassigned&quot;,
-  CHECKED_OUT: &quot;kit.checked.out&quot;,
-  CHECKED_IN: &quot;kit.checked.in&quot;,
-  DAMAGED: &quot;kit.damaged&quot;,
-  REPAIRED: &quot;kit.repaired&quot;,
-  RETIRED: &quot;kit.retired&quot;,
-  COMPONENT_ADDED: &quot;kit.component.added&quot;,
-  COMPONENT_REMOVED: &quot;kit.component.removed&quot;,
-  COMPONENT_UPDATED: &quot;kit.component.updated&quot;,
+  CREATED: "kit.created",
+  UPDATED: "kit.updated",
+  ASSIGNED: "kit.assigned",
+  UNASSIGNED: "kit.unassigned",
+  CHECKED_OUT: "kit.checked.out",
+  CHECKED_IN: "kit.checked.in",
+  DAMAGED: "kit.damaged",
+  REPAIRED: "kit.repaired",
+  RETIRED: "kit.retired",
+  COMPONENT_ADDED: "kit.component.added",
+  COMPONENT_REMOVED: "kit.component.removed",
+  COMPONENT_UPDATED: "kit.component.updated",
 } as const;
 
 // Event Interfaces
@@ -244,8 +244,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -269,8 +269,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -298,8 +298,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -323,8 +323,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -352,8 +352,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -381,8 +381,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -408,8 +408,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -435,8 +435,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -460,8 +460,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -485,8 +485,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -510,8 +510,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 
@@ -537,8 +537,8 @@ export class KitEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;kit-service&quot;,
+        version: "1.0",
+        source: "kit-service",
       },
     };
 

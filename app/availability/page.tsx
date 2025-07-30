@@ -1,59 +1,59 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { ArrowLeft, Calendar, Clock, CheckCircle } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState } from "react";
+import { ArrowLeft, Calendar, Clock, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import AgentCalendar from &quot;@/components/agent-calendar/AgentCalendar&quot;;
+} from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import AgentCalendar from "@/components/agent-calendar/AgentCalendar";
 
 export default function AvailabilityPage() {
   const router = useRouter();
 
   const handleBack = () => {
-    router.push(&quot;/schedule&quot;);
+    router.push("/schedule");
   };
 
   return (
-    <div className=&quot;min-h-screen bg-background&quot;>
+    <div className="min-h-screen bg-background">
       {/* Collapsed header */}
-      <div className=&quot;sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b&quot;>
-        <div className=&quot;flex items-center p-2&quot;>
+      <div className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+        <div className="flex items-center p-2">
           <Button
-            variant=&quot;ghost&quot;
-            size=&quot;sm&quot;
+            variant="ghost"
+            size="sm"
             onClick={handleBack}
-            className=&quot;p-2 mr-2&quot;
+            className="p-2 mr-2"
           >
-            <ArrowLeft className=&quot;h-4 w-4&quot; />
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className=&quot;text-lg font-semibold&quot;>Availability</h1>
+          <h1 className="text-lg font-semibold">Availability</h1>
         </div>
       </div>
 
       {/* Instructions */}
-      <div className=&quot;p-4 border-b bg-muted/50&quot;>
-        <div className=&quot;text-sm text-muted-foreground&quot;>
-          <p className=&quot;mb-2&quot;>
+      <div className="p-4 border-b bg-muted/50">
+        <div className="text-sm text-muted-foreground">
+          <p className="mb-2">
             <strong>How to use:</strong> Click and drag on the calendar to set your availability.
           </p>
-          <div className=&quot;flex items-center space-x-4 text-xs&quot;>
-            <div className=&quot;flex items-center space-x-1&quot;>
-              <div className=&quot;w-3 h-3 bg-green-500 rounded-sm&quot;></div>
+          <div className="flex items-center space-x-4 text-xs">
+            <div className="flex items-center space-x-1">
+              <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
               <span>Available</span>
             </div>
-            <div className=&quot;flex items-center space-x-1&quot;>
-              <div className=&quot;w-3 h-3 bg-red-500 rounded-sm&quot;></div>
+            <div className="flex items-center space-x-1">
+              <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
               <span>Unavailable</span>
             </div>
-            <div className=&quot;flex items-center space-x-1&quot;>
-              <div className=&quot;w-3 h-3 bg-blue-500 rounded-sm&quot;></div>
+            <div className="flex items-center space-x-1">
+              <div className="w-3 h-3 bg-blue-500 rounded-sm"></div>
               <span>Scheduled</span>
             </div>
           </div>
@@ -61,12 +61,12 @@ export default function AvailabilityPage() {
       </div>
 
       {/* Full-screen calendar */}
-      <div className=&quot;flex-1 p-2&quot;>
-        <Card className=&quot;h-full&quot;>
-          <CardContent className=&quot;p-0&quot;>
-            <div className=&quot;min-h-[calc(100vh-200px)] overflow-x-auto w-full&quot;>
+      <div className="flex-1 p-2">
+        <Card className="h-full">
+          <CardContent className="p-0">
+            <div className="min-h-[calc(100vh-200px)] overflow-x-auto w-full">
               <AgentCalendar
-                userId=&quot;00000000-0000-0000-0000-000000000001&quot;
+                userId="00000000-0000-0000-0000-000000000001"
                 viewOnly={false}
                 startDate={new Date()}
                 endDate={

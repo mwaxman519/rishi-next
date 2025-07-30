@@ -1,5 +1,5 @@
-import React from &quot;react&quot;;
-import { Button } from &quot;./button&quot;;
+import React from "react";
+import { Button } from "./button";
 
 interface SimpleAlertDialogProps {
   isOpen: boolean;
@@ -9,7 +9,7 @@ interface SimpleAlertDialogProps {
   confirmLabel?: string;
   cancelLabel?: string;
   onConfirm?: () => void;
-  variant?: &quot;info&quot; | &quot;warning&quot; | &quot;error&quot; | &quot;success&quot;;
+  variant?: "info" | "warning" | "error" | "success";
 }
 
 export const SimpleAlertDialog: React.FC<SimpleAlertDialogProps> = ({
@@ -17,10 +17,10 @@ export const SimpleAlertDialog: React.FC<SimpleAlertDialogProps> = ({
   onClose,
   title,
   message,
-  confirmLabel = &quot;OK&quot;,
-  cancelLabel = &quot;Cancel&quot;,
+  confirmLabel = "OK",
+  cancelLabel = "Cancel",
   onConfirm,
-  variant = &quot;info&quot;,
+  variant = "info",
 }) => {
   if (!isOpen) return null;
 
@@ -32,25 +32,25 @@ export const SimpleAlertDialog: React.FC<SimpleAlertDialogProps> = ({
   };
 
   // Determine the icon and color based on the variant
-  let icon = &quot;💬&quot;;
-  let bgColor = &quot;bg-blue-50 dark:bg-blue-900/30&quot;;
-  let textColor = &quot;text-blue-800 dark:text-blue-200&quot;;
+  let icon = "💬";
+  let bgColor = "bg-blue-50 dark:bg-blue-900/30";
+  let textColor = "text-blue-800 dark:text-blue-200";
 
   switch (variant) {
-    case &quot;warning&quot;:
-      icon = &quot;⚠️&quot;;
-      bgColor = &quot;bg-amber-50 dark:bg-amber-900/30&quot;;
-      textColor = &quot;text-amber-800 dark:text-amber-200&quot;;
+    case "warning":
+      icon = "⚠️";
+      bgColor = "bg-amber-50 dark:bg-amber-900/30";
+      textColor = "text-amber-800 dark:text-amber-200";
       break;
-    case &quot;error&quot;:
-      icon = &quot;❗&quot;;
-      bgColor = &quot;bg-red-50 dark:bg-red-900/30&quot;;
-      textColor = &quot;text-red-800 dark:text-red-200&quot;;
+    case "error":
+      icon = "❗";
+      bgColor = "bg-red-50 dark:bg-red-900/30";
+      textColor = "text-red-800 dark:text-red-200";
       break;
-    case &quot;success&quot;:
-      icon = &quot;✅&quot;;
-      bgColor = &quot;bg-green-50 dark:bg-green-900/30&quot;;
-      textColor = &quot;text-green-800 dark:text-green-200&quot;;
+    case "success":
+      icon = "✅";
+      bgColor = "bg-green-50 dark:bg-green-900/30";
+      textColor = "text-green-800 dark:text-green-200";
       break;
   }
 
@@ -58,38 +58,38 @@ export const SimpleAlertDialog: React.FC<SimpleAlertDialogProps> = ({
     <>
       {/* Backdrop */}
       <div
-        className=&quot;fixed inset-0 bg-black bg-opacity-25 z-50 flex items-center justify-center p-4&quot;
+        className="fixed inset-0 bg-black bg-opacity-25 z-50 flex items-center justify-center p-4"
         onClick={onClose}
       >
         {/* Dialog */}
         <div
-          className=&quot;bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full overflow-hidden&quot;
+          className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           <div
             className={`${bgColor} ${textColor} px-4 py-3 flex items-center`}
           >
-            <span className=&quot;text-xl mr-2&quot;>{icon}</span>
-            <h3 className=&quot;font-semibold text-lg&quot;>{title}</h3>
+            <span className="text-xl mr-2">{icon}</span>
+            <h3 className="font-semibold text-lg">{title}</h3>
           </div>
 
           {/* Content */}
-          <div className=&quot;p-4&quot;>
-            <p className=&quot;text-gray-700 dark:text-gray-300 whitespace-pre-line&quot;>
+          <div className="p-4">
+            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
               {message}
             </p>
           </div>
 
           {/* Footer */}
-          <div className=&quot;border-t border-gray-200 dark:border-gray-700 px-4 py-3 flex justify-end space-x-2&quot;>
+          <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-3 flex justify-end space-x-2">
             {onConfirm && (
-              <Button variant=&quot;outline&quot; onClick={onClose}>
+              <Button variant="outline" onClick={onClose}>
                 {cancelLabel}
               </Button>
             )}
             <Button
-              variant={variant === &quot;error&quot; ? &quot;destructive&quot; : &quot;default&quot;}
+              variant={variant === "error" ? "destructive" : "default"}
               onClick={handleConfirm}
             >
               {confirmLabel}

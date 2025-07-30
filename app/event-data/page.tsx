@@ -1,22 +1,22 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;../components/ui/card&quot;;
-import { Button } from &quot;../components/ui/button&quot;;
-import { Badge } from &quot;../components/ui/badge&quot;;
+} from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Badge } from "../components/ui/badge";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from &quot;../components/ui/tabs&quot;;
-import { Input } from &quot;../components/ui/input&quot;;
+} from "../components/ui/tabs";
+import { Input } from "../components/ui/input";
 import {
   FileText,
   Camera,
@@ -33,7 +33,7 @@ import {
   Calendar,
   MapPin,
   User,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 interface EventDataSubmission {
   id: string;
@@ -43,12 +43,12 @@ interface EventDataSubmission {
   location: string;
   agentName: string;
   status:
-    | &quot;pending&quot;
-    | &quot;submitted&quot;
-    | &quot;under_review&quot;
-    | &quot;approved&quot;
-    | &quot;rejected&quot;
-    | &quot;needs_revision&quot;;
+    | "pending"
+    | "submitted"
+    | "under_review"
+    | "approved"
+    | "rejected"
+    | "needs_revision";
   submittedAt?: string;
   reviewedAt?: string;
   reviewedBy?: string;
@@ -64,9 +64,9 @@ export default function EventDataPage() {
   const [filteredSubmissions, setFilteredSubmissions] = useState<
     EventDataSubmission[]
   >([]);
-  const [selectedTab, setSelectedTab] = useState(&quot;all&quot;);
-  const [searchTerm, setSearchTerm] = useState("&quot;);
-  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
+  const [selectedTab, setSelectedTab] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function EventDataPage() {
         // In production, this would fetch from /api/event-data/submissions
         setLoading(false);
       } catch (error) {
-        console.error(&quot;Error fetching event data submissions:&quot;, error);
+        console.error("Error fetching event data submissions:", error);
         setLoading(false);
       }
     };
@@ -88,15 +88,15 @@ export default function EventDataPage() {
   useEffect(() => {
     let filtered = submissions;
 
-    if (selectedTab !== &quot;all&quot;) {
+    if (selectedTab !== "all") {
       filtered = filtered.filter((sub) => {
         switch (selectedTab) {
-          case &quot;missing&quot;:
-            return sub.status === &quot;pending&quot;;
-          case &quot;submitted&quot;:
-            return [&quot;submitted&quot;, &quot;under_review&quot;].includes(sub.status);
-          case &quot;completed&quot;:
-            return [&quot;approved&quot;, &quot;rejected&quot;, &quot;needs_revision&quot;].includes(
+          case "missing":
+            return sub.status === "pending";
+          case "submitted":
+            return ["submitted", "under_review"].includes(sub.status);
+          case "completed":
+            return ["approved", "rejected", "needs_revision"].includes(
               sub.status,
             );
           default:
@@ -105,7 +105,7 @@ export default function EventDataPage() {
       });
     }
 
-    if (statusFilter !== &quot;all&quot;) {
+    if (statusFilter !== "all") {
       filtered = filtered.filter((sub) => sub.status === statusFilter);
     }
 
@@ -123,63 +123,63 @@ export default function EventDataPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case &quot;pending&quot;:
-        return &quot;bg-yellow-100 text-yellow-800 border-yellow-300&quot;;
-      case &quot;submitted&quot;:
-        return &quot;bg-blue-100 text-blue-800 border-blue-300&quot;;
-      case &quot;under_review&quot;:
-        return &quot;bg-purple-100 text-purple-800 border-purple-300&quot;;
-      case &quot;approved&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-300&quot;;
-      case &quot;rejected&quot;:
-        return &quot;bg-red-100 text-red-800 border-red-300&quot;;
-      case &quot;needs_revision&quot;:
-        return &quot;bg-orange-100 text-orange-800 border-orange-300&quot;;
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-300";
+      case "submitted":
+        return "bg-blue-100 text-blue-800 border-blue-300";
+      case "under_review":
+        return "bg-purple-100 text-purple-800 border-purple-300";
+      case "approved":
+        return "bg-green-100 text-green-800 border-green-300";
+      case "rejected":
+        return "bg-red-100 text-red-800 border-red-300";
+      case "needs_revision":
+        return "bg-orange-100 text-orange-800 border-orange-300";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-300&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-300";
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case &quot;pending&quot;:
-        return <Clock className=&quot;h-4 w-4&quot; />;
-      case &quot;submitted&quot;:
-      case &quot;under_review&quot;:
-        return <FileText className=&quot;h-4 w-4&quot; />;
-      case &quot;approved&quot;:
-        return <CheckCircle className=&quot;h-4 w-4&quot; />;
-      case &quot;rejected&quot;:
-        return <XCircle className=&quot;h-4 w-4&quot; />;
-      case &quot;needs_revision&quot;:
-        return <AlertTriangle className=&quot;h-4 w-4&quot; />;
+      case "pending":
+        return <Clock className="h-4 w-4" />;
+      case "submitted":
+      case "under_review":
+        return <FileText className="h-4 w-4" />;
+      case "approved":
+        return <CheckCircle className="h-4 w-4" />;
+      case "rejected":
+        return <XCircle className="h-4 w-4" />;
+      case "needs_revision":
+        return <AlertTriangle className="h-4 w-4" />;
       default:
-        return <FileText className=&quot;h-4 w-4&quot; />;
+        return <FileText className="h-4 w-4" />;
     }
   };
 
   const handleCreateSubmission = () => {
     // Open Jotform for new submission
-    window.open(&quot;https://form.jotform.com/event-data-submission&quot;, &quot;_blank&quot;);
+    window.open("https://form.jotform.com/event-data-submission", "_blank");
   };
 
   const handleViewSubmission = (submission: EventDataSubmission) => {
     // Open submission details modal or page
-    console.log(&quot;View submission:&quot;, submission);
+    console.log("View submission:", submission);
   };
 
   const isOverdue = (dueDate: string, status: string) => {
-    if (status === &quot;approved&quot;) return false;
+    if (status === "approved") return false;
     return new Date(dueDate) < new Date();
   };
 
   const getTabCounts = () => {
-    const missing = submissions.filter((s) => s.status === &quot;pending&quot;).length;
+    const missing = submissions.filter((s) => s.status === "pending").length;
     const submitted = submissions.filter((s) =>
-      [&quot;submitted&quot;, &quot;under_review&quot;].includes(s.status),
+      ["submitted", "under_review"].includes(s.status),
     ).length;
     const completed = submissions.filter((s) =>
-      [&quot;approved&quot;, &quot;rejected&quot;, &quot;needs_revision&quot;].includes(s.status),
+      ["approved", "rejected", "needs_revision"].includes(s.status),
     ).length;
 
     return { missing, submitted, completed };
@@ -189,10 +189,10 @@ export default function EventDataPage() {
 
   if (loading) {
     return (
-      <div className=&quot;flex items-center justify-center h-64&quot;>
-        <div className=&quot;text-center&quot;>
-          <div className=&quot;animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto&quot;></div>
-          <p className=&quot;mt-2 text-gray-600&quot;>
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-2 text-gray-600">
             Loading event data submissions...
           </p>
         </div>
@@ -201,14 +201,14 @@ export default function EventDataPage() {
   }
 
   return (
-    <div className=&quot;space-y-6&quot;>
+    <div className="space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-start&quot;>
+      <div className="flex justify-between items-start">
         <div>
-          <h1 className=&quot;text-3xl font-bold text-gray-900&quot;>
+          <h1 className="text-3xl font-bold text-gray-900">
             Event Data Submissions
           </h1>
-          <p className=&quot;text-gray-600 mt-1&quot;>
+          <p className="text-gray-600 mt-1">
             Submit qualitative and quantitative event surveys through Jotforms.
             Include demo table, shelf images, and additional photos for
             management review.
@@ -216,101 +216,101 @@ export default function EventDataPage() {
         </div>
         <Button
           onClick={handleCreateSubmission}
-          className=&quot;flex items-center gap-2&quot;
+          className="flex items-center gap-2"
         >
-          <Plus className=&quot;h-4 w-4&quot; />
+          <Plus className="h-4 w-4" />
           New Submission
         </Button>
       </div>
 
       {/* Summary Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className=&quot;p-4&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-gray-600&quot;>
+                <p className="text-sm font-medium text-gray-600">
                   Missing Data
                 </p>
-                <p className=&quot;text-2xl font-bold text-yellow-600&quot;>{missing}</p>
+                <p className="text-2xl font-bold text-yellow-600">{missing}</p>
               </div>
-              <Clock className=&quot;h-8 w-8 text-yellow-600&quot; />
+              <Clock className="h-8 w-8 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-4&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-gray-600&quot;>
+                <p className="text-sm font-medium text-gray-600">
                   Under Review
                 </p>
-                <p className=&quot;text-2xl font-bold text-blue-600&quot;>{submitted}</p>
+                <p className="text-2xl font-bold text-blue-600">{submitted}</p>
               </div>
-              <FileText className=&quot;h-8 w-8 text-blue-600&quot; />
+              <FileText className="h-8 w-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-4&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-gray-600&quot;>Completed</p>
-                <p className=&quot;text-2xl font-bold text-green-600&quot;>{completed}</p>
+                <p className="text-sm font-medium text-gray-600">Completed</p>
+                <p className="text-2xl font-bold text-green-600">{completed}</p>
               </div>
-              <CheckCircle className=&quot;h-8 w-8 text-green-600&quot; />
+              <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-4&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-gray-600&quot;>
+                <p className="text-sm font-medium text-gray-600">
                   Photos Submitted
                 </p>
-                <p className=&quot;text-2xl font-bold text-purple-600&quot;>
+                <p className="text-2xl font-bold text-purple-600">
                   {submissions.reduce((sum, s) => sum + s.photoCount, 0)}
                 </p>
               </div>
-              <Camera className=&quot;h-8 w-8 text-purple-600&quot; />
+              <Camera className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Filters and Search */}
-      <div className=&quot;flex flex-col sm:flex-row gap-4&quot;>
-        <div className=&quot;flex-1&quot;>
-          <div className=&quot;relative&quot;>
-            <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4&quot; />
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex-1">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
-              placeholder=&quot;Search events, locations, or agents...&quot;
+              placeholder="Search events, locations, or agents..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className=&quot;pl-10&quot;
+              className="pl-10"
             />
           </div>
         </div>
-        <div className=&quot;flex gap-2&quot;>
+        <div className="flex gap-2">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className=&quot;px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500&quot;
+            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value=&quot;all&quot;>All Status</option>
-            <option value=&quot;pending&quot;>Pending</option>
-            <option value=&quot;submitted&quot;>Submitted</option>
-            <option value=&quot;under_review&quot;>Under Review</option>
-            <option value=&quot;approved&quot;>Approved</option>
-            <option value=&quot;rejected&quot;>Rejected</option>
-            <option value=&quot;needs_revision&quot;>Needs Revision</option>
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="submitted">Submitted</option>
+            <option value="under_review">Under Review</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+            <option value="needs_revision">Needs Revision</option>
           </select>
-          <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-            <Filter className=&quot;h-4 w-4 mr-2&quot; />
+          <Button variant="outline" size="sm">
+            <Filter className="h-4 w-4 mr-2" />
             Filters
           </Button>
         </div>
@@ -318,25 +318,25 @@ export default function EventDataPage() {
 
       {/* Empty State */}
       <Card>
-        <CardContent className=&quot;p-12 text-center&quot;>
-          <div className=&quot;mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4&quot;>
-            <FileText className=&quot;h-12 w-12 text-gray-400&quot; />
+        <CardContent className="p-12 text-center">
+          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <FileText className="h-12 w-12 text-gray-400" />
           </div>
-          <h3 className=&quot;text-xl font-medium text-gray-900 mb-2&quot;>
+          <h3 className="text-xl font-medium text-gray-900 mb-2">
             No Event Data Found
           </h3>
-          <p className=&quot;text-gray-600 mb-6 max-w-md mx-auto&quot;>
+          <p className="text-gray-600 mb-6 max-w-md mx-auto">
             Connect with authentic data sources to display real event
             submissions. Event data will appear here once proper API integration
             is established.
           </p>
-          <div className=&quot;flex justify-center gap-4&quot;>
+          <div className="flex justify-center gap-4">
             <Button onClick={handleCreateSubmission}>
-              <Plus className=&quot;h-4 w-4 mr-2&quot; />
+              <Plus className="h-4 w-4 mr-2" />
               Create First Submission
             </Button>
-            <Button variant=&quot;outline&quot;>
-              <FileText className=&quot;h-4 w-4 mr-2" />
+            <Button variant="outline">
+              <FileText className="h-4 w-4 mr-2" />
               View Documentation
             </Button>
           </div>

@@ -45,11 +45,11 @@ export class GeocodingService {
 
   constructor() {
     // Get API key from environment
-    this.apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "&quot;;
+    this.apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
 
     if (!this.apiKey) {
       console.warn(
-        &quot;No Google Maps API key found. Geocoding features will be unavailable.&quot;,
+        "No Google Maps API key found. Geocoding features will be unavailable.",
       );
     }
   }
@@ -61,7 +61,7 @@ export class GeocodingService {
    */
   async geocodeAddress(address: string): Promise<GeocodingResult | null> {
     if (!this.apiKey) {
-      throw new Error(&quot;Google Maps API key is not configured&quot;);
+      throw new Error("Google Maps API key is not configured");
     }
 
     try {
@@ -72,8 +72,8 @@ export class GeocodingService {
       const response = await fetch(url);
       const data = await response.json();
 
-      if (data.status !== &quot;OK&quot;) {
-        console.error(&quot;Geocoding error:&quot;, data.status, data.error_message);
+      if (data.status !== "OK") {
+        console.error("Geocoding error:", data.status, data.error_message);
         return null;
       }
 
@@ -92,9 +92,9 @@ export class GeocodingService {
           })) || [];
 
         return {
-          id: result.place_id || &quot;&quot;,
+          id: result.place_id || "",
           displayName: this.extractLocationName(result),
-          formattedAddress: result.formatted_address || &quot;&quot;,
+          formattedAddress: result.formatted_address || "",
           addressComponents,
           types: result.types || [],
           geometry: {
@@ -108,7 +108,7 @@ export class GeocodingService {
 
       return { results: transformedResults };
     } catch (error) {
-      console.error(&quot;Error calling Google Maps Geocoding API:&quot;, error);
+      console.error("Error calling Google Maps Geocoding API:", error);
       return null;
     }
   }
@@ -120,16 +120,16 @@ export class GeocodingService {
    */
   private extractLocationName(result: any): string {
     // Try to find the most specific name component
-    // First check if there&apos;s a point of interest or establishment type
+    // First check if there's a point of interest or establishment type
     if (
       result.types &&
-      (result.types.includes(&quot;point_of_interest&quot;) ||
-        result.types.includes(&quot;establishment&quot;))
+      (result.types.includes("point_of_interest") ||
+        result.types.includes("establishment"))
     ) {
       // Try to find a component that might be a business name
       const premiseComponent = result.address_components?.find(
         (c: any) =>
-          c.types.includes(&quot;premise&quot;) || c.types.includes(&quot;point_of_interest&quot;),
+          c.types.includes("premise") || c.types.includes("point_of_interest"),
       );
 
       if (premiseComponent) {
@@ -139,17 +139,17 @@ export class GeocodingService {
 
     // If no business name found, use the first line of the formatted address
     if (result.formatted_address) {
-      const firstLine = result.formatted_address.split(&quot;,&quot;)[0];
+      const firstLine = result.formatted_address.split(",")[0];
       return firstLine;
     }
 
     // Fallback to street address if available
     const streetComponent = result.address_components?.find((c: any) =>
-      c.types.includes(&quot;route&quot;),
+      c.types.includes("route"),
     );
 
     const streetNumber = result.address_components?.find((c: any) =>
-      c.types.includes(&quot;street_number&quot;),
+      c.types.includes("street_number"),
     );
 
     if (streetComponent && streetNumber) {
@@ -159,7 +159,7 @@ export class GeocodingService {
     }
 
     // Last resort
-    return &quot;Unnamed Location&quot;;
+    return "Unnamed Location";
   }
 
   /**
@@ -173,7 +173,7 @@ export class GeocodingService {
     lng: number,
   ): Promise<GeocodingResult | null> {
     if (!this.apiKey) {
-      throw new Error(&quot;Google Maps API key is not configured&quot;);
+      throw new Error("Google Maps API key is not configured");
     }
 
     try {
@@ -182,9 +182,9 @@ export class GeocodingService {
       const response = await fetch(url);
       const data = await response.json();
 
-      if (data.status !== &quot;OK&quot;) {
+      if (data.status !== "OK") {
         console.error(
-          &quot;Reverse geocoding error:&quot;,
+          "Reverse geocoding error:",
           data.status,
           data.error_message,
         );
@@ -206,9 +206,9 @@ export class GeocodingService {
           })) || [];
 
         return {
-          id: result.place_id || &quot;&quot;,
+          id: result.place_id || "",
           displayName: this.extractLocationName(result),
-          formattedAddress: result.formatted_address || &quot;&quot;,
+          formattedAddress: result.formatted_address || "",
           addressComponents,
           types: result.types || [],
           geometry: {
@@ -222,7 +222,7 @@ export class GeocodingService {
 
       return { results: transformedResults };
     } catch (error) {
-      console.error(&quot;Error calling Google Maps Reverse Geocoding API:&quot;, error);
+      console.error("Error calling Google Maps Reverse Geocoding API:", error);
       return null;
     }
   }
@@ -276,8 +276,8 @@ export class GeocodingService {
     return {
       lat: firstResult.geometry?.location?.latitude || 0,
       lng: firstResult.geometry?.location?.longitude || 0,
-      formattedAddress: firstResult.formattedAddress || &quot;&quot;,
-      placeId: firstResult.id || &quot;",
+      formattedAddress: firstResult.formattedAddress || "",
+      placeId: firstResult.id || "",
     };
   }
 }

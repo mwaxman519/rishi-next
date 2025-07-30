@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getServerSession } from &quot;next-auth&quot;;
-import { z } from &quot;zod&quot;;
-import { EventBusService } from &quot;../../../services/event-bus-service&quot;;
-import { AvailabilityService } from &quot;../../../services/availability/availabilityService&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import * as schema from &quot;@shared/schema&quot;;
-import { eq, and, between } from &quot;drizzle-orm&quot;;
+import { getServerSession } from "next-auth";
+import { z } from "zod";
+import { EventBusService } from "../../../services/event-bus-service";
+import { AvailabilityService } from "../../../services/availability/availabilityService";
+import { v4 as uuidv4 } from "uuid";
+import { db } from "@/lib/db";
+import * as schema from "@shared/schema";
+import { eq, and, between } from "drizzle-orm";
 
 /**
  * AVAILABILITY API ROUTE
@@ -56,13 +56,13 @@ import { eq, and, between } from &quot;drizzle-orm&quot;;
  */
 function createNoCacheHeaders(): Headers {
   const headers = new Headers();
-  headers.set(&quot;Content-Type&quot;, &quot;application/json&quot;);
+  headers.set("Content-Type", "application/json");
   headers.set(
-    &quot;Cache-Control&quot;,
-    &quot;no-store, no-cache, must-revalidate, proxy-revalidate&quot;,
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate",
   );
-  headers.set(&quot;Pragma&quot;, &quot;no-cache&quot;);
-  headers.set(&quot;Expires&quot;, &quot;0&quot;);
+  headers.set("Pragma", "no-cache");
+  headers.set("Expires", "0");
   return headers;
 }
 
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   try {
     console.log(
-      &quot;GET /api/availability received with params:&quot;,
+      "GET /api/availability received with params:",
       request.nextUrl.search,
     );
 
@@ -81,12 +81,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // Check DATABASE_URL environment variable early on
     if (!process.env.DATABASE_URL) {
-      console.error(&quot;ERROR: DATABASE_URL environment variable is not set!&quot;);
+      console.error("ERROR: DATABASE_URL environment variable is not set!");
       // Still return 200 with empty data to prevent client-side errors
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Database connection not configured&quot;,
+          error: "Database connection not configured",
           data: [], // Empty array to prevent client-side errors
         },
         {
@@ -97,22 +97,22 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const searchParams = request.nextUrl.searchParams;
-    const userId = (searchParams.get(&quot;userId&quot;) || undefined) || undefined;
-    const startDate = (searchParams.get(&quot;startDate&quot;) || undefined) || undefined;
-    const endDate = (searchParams.get(&quot;endDate&quot;) || undefined) || undefined;
-    const status = (searchParams.get(&quot;status&quot;) || undefined) as
-      | &quot;available&quot;
-      | &quot;unavailable&quot;
-      | &quot;tentative&quot;
+    const userId = (searchParams.get("userId") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined) || undefined;
+    const endDate = (searchParams.get("endDate") || undefined) || undefined;
+    const status = (searchParams.get("status") || undefined) as
+      | "available"
+      | "unavailable"
+      | "tentative"
       | null;
 
     if (!userId) {
-      console.log(&quot;Error: Missing userId parameter&quot;);
+      console.log("Error: Missing userId parameter");
       // Still return 200 with proper response format
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Missing required userId parameter&quot;,
+          error: "Missing required userId parameter",
           data: [], // Empty array to prevent client-side errors
         },
         {
@@ -147,11 +147,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // If dates are provided but invalid, return error with proper response format
     if ((startDate && !startDateValid) || (endDate && !endDateValid)) {
-      console.error(&quot;Invalid date format provided&quot;);
+      console.error("Invalid date format provided");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid date format&quot;,
+          error: "Invalid date format",
           data: [], // Empty array to prevent client-side errors
         },
         {
@@ -163,7 +163,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     // Log options being passed to service
     console.log(
-      &quot;Query options:&quot;,
+      "Query options:",
       JSON.stringify(options, (key, value) =>
         value instanceof Date ? value.toISOString() : value,
       ),
@@ -171,10 +171,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     try {
       console.log(
-        &quot;➡️ Querying availabilityBlocks table with filters&quot;,
+        "➡️ Querying availabilityBlocks table with filters",
       );
 
-      // Build query filters - only add user_id filter if it&apos;s a valid UUID string
+      // Build query filters - only add user_id filter if it's a valid UUID string
       const filters = [];
       if (options.userId && typeof options.userId === 'string') {
         filters.push(eq(schema.availabilityBlocks.user_id, options.userId));
@@ -211,8 +211,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           userId: block.user_id,
           startTime: block.start_date,
           endTime: block.end_date,
-          isAvailable: block.status === &quot;available&quot;,
-          notes: block.title || "&quot;,
+          isAvailable: block.status === "available",
+          notes: block.title || "",
           status: block.status,
           isRecurring: block.is_recurring,
           dayOfWeek: block.day_of_week,
@@ -221,14 +221,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       if (!result || !result.success) {
         console.log(
-          &quot;⚠️ Service error:&quot;,
-          &quot;Unknown service error&quot;,
+          "⚠️ Service error:",
+          "Unknown service error",
         );
         // Return proper error response
         return NextResponse.json(
           {
             success: false,
-            error: &quot;Service error occurred&quot;,
+            error: "Service error occurred",
             data: [], // Empty array to prevent client-side errors
           },
           {
@@ -260,12 +260,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         headers: headers,
       });
     } catch (serviceError) {
-      console.error(&quot;❌ Error from availability service:&quot;, serviceError);
+      console.error("❌ Error from availability service:", serviceError);
       console.error(
-        &quot;Stack trace:&quot;,
+        "Stack trace:",
         serviceError instanceof Error
           ? serviceError.stack
-          : &quot;No stack trace available&quot;,
+          : "No stack trace available",
       );
 
       // Return standardized error response
@@ -274,7 +274,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         error:
           serviceError instanceof Error
             ? serviceError.message
-            : &quot;Error fetching availability data from service&quot;,
+            : "Error fetching availability data from service",
         data: [], // Include empty data array to prevent client-side errors
       };
 
@@ -284,10 +284,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       });
     }
   } catch (error) {
-    console.error(&quot;❌ Unhandled error in availability route:&quot;, error);
+    console.error("❌ Unhandled error in availability route:", error);
     console.error(
-      &quot;Stack trace:&quot;,
-      error instanceof Error ? error.stack : &quot;No stack trace available&quot;,
+      "Stack trace:",
+      error instanceof Error ? error.stack : "No stack trace available",
     );
 
     // Return standardized error response
@@ -296,7 +296,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       error:
         error instanceof Error
           ? error.message
-          : &quot;Unhandled error in availability route&quot;,
+          : "Unhandled error in availability route",
       data: [], // Include empty data array to prevent client-side errors
     };
 
@@ -317,7 +317,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  *   userId: number,           // Required: User ID the availability belongs to
  *   startDate: string,        // Required: ISO date string for start time
  *   endDate: string,          // Required: ISO date string for end time
- *   title?: string,           // Optional: Title of the availability block (default: &quot;Available&quot;)
+ *   title?: string,           // Optional: Title of the availability block (default: "Available")
  *   status?: string,          // Optional: 'available', 'unavailable', 'tentative' (default: 'available')
  *   isRecurring?: boolean,    // Optional: Whether this is a recurring block (default: false)
  *   recurrencePattern?: string, // Optional: 'weekly', 'biweekly', 'monthly'
@@ -348,20 +348,20 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    console.log(&quot;POST /api/availability received&quot;);
+    console.log("POST /api/availability received");
 
     // Add no-cache headers to response - use our helper function
     const headers = createNoCacheHeaders();
 
     // Check DATABASE_URL environment variable early on
     if (!process.env.DATABASE_URL) {
-      console.error(&quot;ERROR: DATABASE_URL environment variable is not set!&quot;);
+      console.error("ERROR: DATABASE_URL environment variable is not set!");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Database connection string is missing&quot;,
+          error: "Database connection string is missing",
           message:
-            &quot;The server is not properly configured to connect to the database.&quot;,
+            "The server is not properly configured to connect to the database.",
         },
         { status: 500, headers },
       );
@@ -372,15 +372,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
       body = await request.json();
       console.log(
-        &quot;Received availability creation request:&quot;,
+        "Received availability creation request:",
         JSON.stringify(body, null, 2),
       );
     } catch (parseError) {
-      console.error(&quot;Failed to parse request body:&quot;, parseError);
+      console.error("Failed to parse request body:", parseError);
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid request body format&quot;,
+          error: "Invalid request body format",
         },
         { status: 400, headers },
       );
@@ -388,33 +388,33 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Validate required fields
     if (!body.userId && !body.user_id) {
-      console.error(&quot;Missing required field: userId&quot;);
+      console.error("Missing required field: userId");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;userId is required&quot;,
+          error: "userId is required",
         },
         { status: 400, headers },
       );
     }
 
     if (!body.startDate && !body.start_date) {
-      console.error(&quot;Missing required field: startDate&quot;);
+      console.error("Missing required field: startDate");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;startDate is required&quot;,
+          error: "startDate is required",
         },
         { status: 400, headers },
       );
     }
 
     if (!body.endDate && !body.end_date) {
-      console.error(&quot;Missing required field: endDate&quot;);
+      console.error("Missing required field: endDate");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;endDate is required&quot;,
+          error: "endDate is required",
         },
         { status: 400, headers },
       );
@@ -426,24 +426,24 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     if (isNaN(startDate.getTime())) {
       console.error(
-        &quot;Invalid startDate format:&quot;,
+        "Invalid startDate format:",
         body.startDate || body.start_date,
       );
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid startDate format&quot;,
+          error: "Invalid startDate format",
         },
         { status: 400, headers },
       );
     }
 
     if (isNaN(endDate.getTime())) {
-      console.error(&quot;Invalid endDate format:&quot;, body.endDate || body.end_date);
+      console.error("Invalid endDate format:", body.endDate || body.end_date);
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Invalid endDate format&quot;,
+          error: "Invalid endDate format",
         },
         { status: 400, headers },
       );
@@ -451,11 +451,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Validate date logic
     if (startDate >= endDate) {
-      console.error(&quot;startDate must be before endDate&quot;);
+      console.error("startDate must be before endDate");
       return NextResponse.json(
         {
           success: false,
-          error: &quot;startDate must be before endDate&quot;,
+          error: "startDate must be before endDate",
         },
         { status: 400, headers },
       );
@@ -464,12 +464,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // Convert body to expected service format with defaults
     const createRequest = {
       userId: body.userId || body.user_id,
-      title: body.title || &quot;Available&quot;,
+      title: body.title || "Available",
       startDate: startDate,
       endDate: endDate,
       status:
-        (body.status as &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;) ||
-        &quot;available&quot;,
+        (body.status as "available" | "unavailable" | "tentative") ||
+        "available",
       isRecurring:
         body.isRecurring || body.is_recurring || body.recurring || false,
       recurrencePattern: body.recurrencePattern || body.recurrence_pattern,
@@ -482,7 +482,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     };
 
     console.log(
-      &quot;Processed request:&quot;,
+      "Processed request:",
       JSON.stringify(createRequest, (k, v) => {
         if (v instanceof Date) return v.toISOString();
         return v;
@@ -491,7 +491,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     try {
       console.log(
-        &quot;➡️ Calling availabilityService.createAvailabilityBlock with request&quot;,
+        "➡️ Calling availabilityService.createAvailabilityBlock with request",
       );
 
       // Use real availability service
@@ -503,7 +503,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       // Set timeout for service call (10 seconds)
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error(&quot;Service call timed out&quot;)), 10000);
+        setTimeout(() => reject(new Error("Service call timed out")), 10000);
       });
 
       // Race the service call against the timeout
@@ -514,20 +514,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       if (!result || !result.success) {
         console.error(
-          &quot;Service error when creating availability:&quot;,
+          "Service error when creating availability:",
           result?.error,
         );
         // Return standardized error response
         const errorResponse = {
           success: false,
-          error: result?.error || &quot;Failed to create availability block&quot;,
+          error: result?.error || "Failed to create availability block",
           timestamp: new Date().toISOString(),
         };
 
         return NextResponse.json(errorResponse, { status: 400, headers });
       }
 
-      console.log(&quot;✅ Successfully created availability block&quot;);
+      console.log("✅ Successfully created availability block");
 
       // Convert result back to the expected format for the client
       // Include both camelCase and snake_case properties for better compatibility
@@ -562,37 +562,37 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       return NextResponse.json(standardizedResponse, { status: 201, headers });
     } catch (serviceError) {
-      console.error(&quot;Error from availability service:&quot;, serviceError);
+      console.error("Error from availability service:", serviceError);
       // Return standardized error response
       const errorResponse = {
         success: false,
         error:
           serviceError instanceof Error
             ? serviceError.message
-            : &quot;Failed to create availability block&quot;,
+            : "Failed to create availability block",
         timestamp: new Date().toISOString(),
       };
 
       return NextResponse.json(errorResponse, { status: 500, headers });
     }
   } catch (error) {
-    console.error(&quot;Unhandled error creating availability block:&quot;, error);
+    console.error("Unhandled error creating availability block:", error);
     // Return standardized error response
     const errorResponse = {
       success: false,
-      error: &quot;An unexpected error occurred while creating availability block&quot;,
+      error: "An unexpected error occurred while creating availability block",
       timestamp: new Date().toISOString(),
     };
 
     // Create new headers for error response
     const errorHeaders = new Headers();
-    errorHeaders.set(&quot;Content-Type&quot;, &quot;application/json&quot;);
+    errorHeaders.set("Content-Type", "application/json");
     errorHeaders.set(
-      &quot;Cache-Control&quot;,
-      &quot;no-store, no-cache, must-revalidate, proxy-revalidate&quot;,
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate",
     );
-    errorHeaders.set(&quot;Pragma&quot;, &quot;no-cache&quot;);
-    errorHeaders.set(&quot;Expires&quot;, &quot;0");
+    errorHeaders.set("Pragma", "no-cache");
+    errorHeaders.set("Expires", "0");
 
     return NextResponse.json(errorResponse, {
       status: 500,

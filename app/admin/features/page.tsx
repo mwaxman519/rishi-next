@@ -1,8 +1,8 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useOrganization } from &quot;../../contexts/OrganizationProvider&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
+import { useState, useEffect } from "react";
+import { useOrganization } from "../../contexts/OrganizationProvider";
+import { Switch } from "@/components/ui/switch";
 import {
   Card,
   CardContent,
@@ -10,9 +10,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { useToast } from &quot;@/components/ui/use-toast&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+} from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,7 +23,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from &quot;@/components/ui/alert-dialog&quot;;
+} from "@/components/ui/alert-dialog";
 import {
   LucideIcon,
   Server,
@@ -31,8 +31,8 @@ import {
   Layers,
   AlertTriangle,
   RefreshCw,
-} from &quot;lucide-react&quot;;
-import { OrganizationTier } from &quot;../../../shared/tiers&quot;;
+} from "lucide-react";
+import { OrganizationTier } from "../../../shared/tiers";
 
 // Feature interface to match the feature modules on the server
 interface Feature {
@@ -49,7 +49,7 @@ interface Feature {
 // Map feature icon names to Lucide components
 const iconMap: Record<string, LucideIcon> = {
   server: Server,
-  &quot;bar-chart-2&quot;: BarChart2,
+  "bar-chart-2": BarChart2,
   layers: Layers,
   // Add more icons as needed
 };
@@ -80,12 +80,12 @@ export default function FeaturesAdminPage() {
         const data = await response.json();
         setFeatures(data.features || []);
       } catch (error) {
-        console.error(&quot;Error fetching features:&quot;, error);
+        console.error("Error fetching features:", error);
         toast({
-          variant: &quot;destructive&quot;,
-          title: &quot;Error loading features&quot;,
+          variant: "destructive",
+          title: "Error loading features",
           description:
-            &quot;There was a problem loading the feature list. Please try again.&quot;,
+            "There was a problem loading the feature list. Please try again.",
         });
       } finally {
         setLoadingFeatures(false);
@@ -103,10 +103,10 @@ export default function FeaturesAdminPage() {
     setSaving((prev) => ({ ...prev, [featureId]: true }));
 
     try {
-      const response = await fetch(&quot;/api/features/manage&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/features/manage", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           organizationId: currentOrganization.id,
@@ -125,16 +125,16 @@ export default function FeaturesAdminPage() {
       );
 
       toast({
-        title: `Feature ${enabled ? &quot;enabled&quot; : &quot;disabled&quot;}`,
-        description: `${featureId} has been ${enabled ? &quot;enabled&quot; : &quot;disabled&quot;} for ${currentOrganization.name}`,
+        title: `Feature ${enabled ? "enabled" : "disabled"}`,
+        description: `${featureId} has been ${enabled ? "enabled" : "disabled"} for ${currentOrganization.name}`,
       });
     } catch (error) {
-      console.error(&quot;Error updating feature:&quot;, error);
+      console.error("Error updating feature:", error);
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Error updating feature&quot;,
+        variant: "destructive",
+        title: "Error updating feature",
         description:
-          &quot;There was a problem updating the feature. Please try again.&quot;,
+          "There was a problem updating the feature. Please try again.",
       });
     } finally {
       setSaving((prev) => ({ ...prev, [featureId]: false }));
@@ -146,8 +146,8 @@ export default function FeaturesAdminPage() {
     try {
       setShowInitDialog(false);
 
-      const response = await fetch(&quot;/api/features/initialize&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/features/initialize", {
+        method: "POST",
       });
 
       if (!response.ok) {
@@ -157,7 +157,7 @@ export default function FeaturesAdminPage() {
       const data = await response.json();
 
       toast({
-        title: &quot;Features initialized&quot;,
+        title: "Features initialized",
         description: `Successfully initialized features for ${data.initializedOrganizationCount} organizations.`,
       });
 
@@ -172,12 +172,12 @@ export default function FeaturesAdminPage() {
         }
       }
     } catch (error) {
-      console.error(&quot;Error initializing features:&quot;, error);
+      console.error("Error initializing features:", error);
       toast({
-        variant: &quot;destructive&quot;,
-        title: &quot;Error initializing features&quot;,
+        variant: "destructive",
+        title: "Error initializing features",
         description:
-          &quot;There was a problem initializing the feature system. Please try again.&quot;,
+          "There was a problem initializing the feature system. Please try again.",
       });
     }
   };
@@ -185,13 +185,13 @@ export default function FeaturesAdminPage() {
   // Function to get feature tier availability
   const getFeatureTierLabel = (availableTiers: string[]) => {
     if (availableTiers.includes(OrganizationTier.TIER1)) {
-      return &quot;All tiers&quot;;
+      return "All tiers";
     } else if (availableTiers.includes(OrganizationTier.TIER2)) {
-      return &quot;Tier 2 & 3&quot;;
+      return "Tier 2 & 3";
     } else if (availableTiers.includes(OrganizationTier.TIER3)) {
-      return &quot;Tier 3 only&quot;;
+      return "Tier 3 only";
     }
-    return &quot;Custom&quot;;
+    return "Custom";
   };
 
   // Function to get icon for a feature
@@ -204,8 +204,8 @@ export default function FeaturesAdminPage() {
 
   if (isLoading || !currentOrganization) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-[50vh]&quot;>
-        <div className=&quot;animate-spin mr-2&quot;>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="animate-spin mr-2">
           <RefreshCw size={24} />
         </div>
         <p>Loading organization data...</p>
@@ -215,8 +215,8 @@ export default function FeaturesAdminPage() {
 
   if (loadingFeatures) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-[50vh]&quot;>
-        <div className=&quot;animate-spin mr-2&quot;>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="animate-spin mr-2">
           <RefreshCw size={24} />
         </div>
         <p>Loading features...</p>
@@ -225,22 +225,22 @@ export default function FeaturesAdminPage() {
   }
 
   return (
-    <div className=&quot;container mx-auto py-6&quot;>
-      <div className=&quot;flex justify-between items-center mb-6&quot;>
+    <div className="container mx-auto py-6">
+      <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">
             Feature Management
           </h1>
-          <p className=&quot;text-gray-500&quot;>
+          <p className="text-gray-500">
             Manage features for {currentOrganization.name}
             {currentOrganization.tier &&
-              ` (${currentOrganization.tier.replace(&quot;_&quot;, &quot; &quot;)})`}
+              ` (${currentOrganization.tier.replace("_", " ")})`}
           </p>
         </div>
 
         <AlertDialog open={showInitDialog} onOpenChange={setShowInitDialog}>
           <AlertDialogTrigger asChild>
-            <Button variant=&quot;outline&quot;>Initialize Feature System</Button>
+            <Button variant="outline">Initialize Feature System</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -261,30 +261,30 @@ export default function FeaturesAdminPage() {
       </div>
 
       {features.length === 0 ? (
-        <div className=&quot;text-center py-12 bg-gray-50 rounded-lg&quot;>
-          <h3 className=&quot;text-lg font-medium&quot;>No features available</h3>
-          <p className=&quot;text-gray-500 mt-2&quot;>
-            Either no features are registered or the feature list couldn&apos;t be
+        <div className="text-center py-12 bg-gray-50 rounded-lg">
+          <h3 className="text-lg font-medium">No features available</h3>
+          <p className="text-gray-500 mt-2">
+            Either no features are registered or the feature list couldn't be
             loaded.
           </p>
           <Button
-            variant=&quot;outline&quot;
-            className=&quot;mt-4&quot;
+            variant="outline"
+            className="mt-4"
             onClick={() => setShowInitDialog(true)}
           >
             Initialize Features
           </Button>
         </div>
       ) : (
-        <div className=&quot;grid gap-6 md:grid-cols-2 lg:grid-cols-3&quot;>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => {
             const FeatureIcon = getFeatureIcon(feature.icon);
             return (
               <Card key={feature.id}>
                 <CardHeader>
-                  <div className=&quot;flex items-start justify-between&quot;>
-                    <div className=&quot;flex items-center&quot;>
-                      <div className=&quot;mr-3 p-2 bg-primary/10 rounded-lg text-primary&quot;>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center">
+                      <div className="mr-3 p-2 bg-primary/10 rounded-lg text-primary">
                         <FeatureIcon size={20} />
                       </div>
                       <CardTitle>{feature.name}</CardTitle>
@@ -301,27 +301,27 @@ export default function FeaturesAdminPage() {
                       />
                     </div>
                   </div>
-                  <div className=&quot;flex items-center mt-1&quot;>
-                    <span className=&quot;text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5&quot;>
+                  <div className="flex items-center mt-1">
+                    <span className="text-xs bg-primary/10 text-primary rounded-full px-2 py-0.5">
                       {getFeatureTierLabel(feature.availableTiers)}
                     </span>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className=&quot;text-sm text-gray-600&quot;>
+                  <CardDescription className="text-sm text-gray-600">
                     {feature.description}
                   </CardDescription>
 
                   {feature.dependencies && feature.dependencies.length > 0 && (
-                    <div className=&quot;mt-4&quot;>
-                      <p className=&quot;text-xs text-gray-500 mb-1&quot;>
+                    <div className="mt-4">
+                      <p className="text-xs text-gray-500 mb-1">
                         Dependencies:
                       </p>
-                      <div className=&quot;flex flex-wrap gap-1&quot;>
+                      <div className="flex flex-wrap gap-1">
                         {feature.dependencies.map((dep) => (
                           <span
                             key={dep}
-                            className=&quot;text-xs bg-gray-100 rounded-full px-2 py-0.5&quot;
+                            className="text-xs bg-gray-100 rounded-full px-2 py-0.5"
                           >
                             {dep}
                           </span>
@@ -331,7 +331,7 @@ export default function FeaturesAdminPage() {
                   )}
                 </CardContent>
                 <CardFooter>
-                  <p className=&quot;text-xs text-gray-400&quot;>
+                  <p className="text-xs text-gray-400">
                     Feature ID: {feature.id}
                   </p>
                 </CardFooter>

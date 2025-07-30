@@ -1,6 +1,6 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
@@ -14,34 +14,34 @@ export const revalidate = false;
  * @route POST /api/admin/locations/[id]/approve
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
-import { checkPermission } from &quot;@/lib/rbac&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { locations } from &quot;@shared/schema&quot;;
-import { publishLocationApprovedEvent } from &quot;../../../../../services/locations/locationEventPublisher&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
+import { db } from "@/lib/db";
+import { locations } from "@shared/schema";
+import { publishLocationApprovedEvent } from "../../../../../services/locations/locationEventPublisher";
+import { eq } from "drizzle-orm";
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    // IMPORTANT: Always destructure params in Next.js 15+ to avoid the &quot;sync-dynamic-apis&quot; error
-    // Directly using params.id will cause &quot;Route used `params.id` without awaiting&quot; error
+    // IMPORTANT: Always destructure params in Next.js 15+ to avoid the "sync-dynamic-apis" error
+    // Directly using params.id will cause "Route used `params.id` without awaiting" error
     const { id: locationId } = await params;
 
     // Get user session
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user has permission to update locations
-    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
+    if (!(await checkPermission(req, "update:locations"))) {
       return NextResponse.json(
-        { error: &quot;Forbidden: Insufficient permissions&quot; },
+        { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
       );
     }
@@ -52,15 +52,15 @@ export async function POST(
 
       if (!location) {
         return NextResponse.json(
-          { error: &quot;Location not found&quot; },
+          { error: "Location not found" },
           { status: 404 },
         );
       }
 
-      if (location.status !== &quot;pending&quot;) {
+      if (location.status !== "pending") {
         return NextResponse.json(
           {
-            error: &quot;Location is not in pending status and cannot be approved&quot;,
+            error: "Location is not in pending status and cannot be approved",
           },
           { status: 400 },
         );
@@ -70,7 +70,7 @@ export async function POST(
       const [updatedLocation] = await db
         .update(locations)
         .set({
-          status: &quot;active&quot;,
+          status: "active",
           reviewed_by: user.id,
           review_date: new Date(),
         })
@@ -79,7 +79,7 @@ export async function POST(
 
       if (!updatedLocation) {
         return NextResponse.json(
-          { error: &quot;Failed to update location&quot; },
+          { error: "Failed to update location" },
           { status: 500 },
         );
       }
@@ -87,11 +87,11 @@ export async function POST(
       // Publish location approved event
       // Debug log to find where the issue might be
       console.log(
-        &quot;[approve/route] Updated location to publish:&quot;,
+        "[approve/route] Updated location to publish:",
         JSON.stringify(updatedLocation, null, 2),
       );
       console.log(
-        &quot;[approve/route] User approving location:&quot;,
+        "[approve/route] User approving location:",
         JSON.stringify(user, null, 2),
       );
 
@@ -99,21 +99,21 @@ export async function POST(
         // Make sure we have all the required fields and provide fallbacks for optional ones
         await publishLocationApprovedEvent({
           locationId: updatedLocation.id,
-          name: updatedLocation.name || &quot;Unknown location&quot;,
+          name: updatedLocation.name || "Unknown location",
           approvedById: user.id,
-          approvedByName: user.fullName || user.username || &quot;Unknown user&quot;,
+          approvedByName: user.fullName || user.username || "Unknown user",
           approvedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
           // This might be called requested_by instead of submittedById in our implementation
-          submittedById: updatedLocation.requested_by || &quot;unknown&quot;,
+          submittedById: updatedLocation.requested_by || "unknown",
         });
       } catch (eventError) {
-        console.error(&quot;Failed to publish location approved event:&quot;, eventError);
+        console.error("Failed to publish location approved event:", eventError);
         // We continue even if event publishing fails, but log the error
       }
 
       return NextResponse.json(updatedLocation);
     } catch (dbError) {
-      console.error(&quot;Database error:&quot;, dbError);
+      console.error("Database error:", dbError);
       return NextResponse.json(
         {
           error: `Database error: ${dbError instanceof Error ? dbError.message : String(dbError)}`,
@@ -122,11 +122,11 @@ export async function POST(
       );
     }
   } catch (error) {
-    console.error(&quot;Error approving location:&quot;, error);
+    console.error("Error approving location:", error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : &quot;Failed to approve location&quot;,
+          error instanceof Error ? error.message : "Failed to approve location",
       },
       { status: 500 },
     );

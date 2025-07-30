@@ -1,10 +1,10 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-import NextAuth from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
+import NextAuth from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
-export const dynamic = &quot;force-dynamic&quot;;
-export const runtime = &quot;nodejs&quot;;
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 // Export the NextAuth handler
 const handler = NextAuth(authOptions);

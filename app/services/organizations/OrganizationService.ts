@@ -4,15 +4,15 @@
  * Aligned with platform architecture patterns
  */
 
-import { OrganizationRepository } from &quot;./repository&quot;;
-import { organizationEventPublisher } from &quot;./events&quot;;
+import { OrganizationRepository } from "./repository";
+import { organizationEventPublisher } from "./events";
 import {
   OrganizationDTO,
   CreateOrganizationParams,
   UpdateOrganizationParams,
   createOrganizationSchema,
   updateOrganizationSchema,
-} from &quot;./models&quot;;
+} from "./models";
 
 export interface ServiceResponse<T> {
   success: boolean;
@@ -59,11 +59,11 @@ export class OrganizationService {
         data: organizations,
       };
     } catch (error) {
-      console.error(&quot;OrganizationService.getAllOrganizations error:&quot;, error);
+      console.error("OrganizationService.getAllOrganizations error:", error);
       return {
         success: false,
-        error: &quot;Failed to get organizations&quot;,
-        code: &quot;GET_ORGANIZATIONS_FAILED&quot;,
+        error: "Failed to get organizations",
+        code: "GET_ORGANIZATIONS_FAILED",
       };
     }
   }
@@ -82,8 +82,8 @@ export class OrganizationService {
       if (!organization) {
         return {
           success: false,
-          error: &quot;Organization not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Organization not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -93,8 +93,8 @@ export class OrganizationService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -109,8 +109,8 @@ export class OrganizationService {
       );
       return {
         success: false,
-        error: &quot;Failed to get organization&quot;,
-        code: &quot;GET_ORGANIZATION_FAILED&quot;,
+        error: "Failed to get organization",
+        code: "GET_ORGANIZATION_FAILED",
       };
     }
   }
@@ -140,11 +140,11 @@ export class OrganizationService {
         data: organization,
       };
     } catch (error) {
-      console.error(&quot;OrganizationService.createOrganization error:&quot;, error);
+      console.error("OrganizationService.createOrganization error:", error);
       return {
         success: false,
-        error: &quot;Failed to create organization&quot;,
-        code: &quot;CREATE_FAILED&quot;,
+        error: "Failed to create organization",
+        code: "CREATE_FAILED",
       };
     }
   }
@@ -164,8 +164,8 @@ export class OrganizationService {
       if (!existingOrganization) {
         return {
           success: false,
-          error: &quot;Organization not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Organization not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -175,8 +175,8 @@ export class OrganizationService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -207,8 +207,8 @@ export class OrganizationService {
       );
       return {
         success: false,
-        error: &quot;Failed to update organization&quot;,
-        code: &quot;UPDATE_FAILED&quot;,
+        error: "Failed to update organization",
+        code: "UPDATE_FAILED",
       };
     }
   }
@@ -227,8 +227,8 @@ export class OrganizationService {
       if (!existingOrganization) {
         return {
           success: false,
-          error: &quot;Organization not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Organization not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -238,8 +238,8 @@ export class OrganizationService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -263,8 +263,8 @@ export class OrganizationService {
       );
       return {
         success: false,
-        error: &quot;Failed to delete organization&quot;,
-        code: &quot;DELETE_FAILED&quot;,
+        error: "Failed to delete organization",
+        code: "DELETE_FAILED",
       };
     }
   }
@@ -282,8 +282,8 @@ export class OrganizationService {
       if (!this.hasActivationPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Insufficient permissions for activation&quot;,
-          code: &quot;ACTIVATION_PERMISSION_DENIED&quot;,
+          error: "Insufficient permissions for activation",
+          code: "ACTIVATION_PERMISSION_DENIED",
         };
       }
 
@@ -292,8 +292,8 @@ export class OrganizationService {
       if (!existingOrganization) {
         return {
           success: false,
-          error: &quot;Organization not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Organization not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -313,11 +313,11 @@ export class OrganizationService {
         data: activatedOrganization,
       };
     } catch (error) {
-      console.error(&quot;OrganizationService.activateOrganization error:&quot;, error);
+      console.error("OrganizationService.activateOrganization error:", error);
       return {
         success: false,
-        error: &quot;Failed to activate organization&quot;,
-        code: &quot;ACTIVATION_FAILED&quot;,
+        error: "Failed to activate organization",
+        code: "ACTIVATION_FAILED",
       };
     }
   }
@@ -336,8 +336,8 @@ export class OrganizationService {
       if (!this.hasActivationPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Insufficient permissions for deactivation&quot;,
-          code: &quot;DEACTIVATION_PERMISSION_DENIED&quot;,
+          error: "Insufficient permissions for deactivation",
+          code: "DEACTIVATION_PERMISSION_DENIED",
         };
       }
 
@@ -346,8 +346,8 @@ export class OrganizationService {
       if (!existingOrganization) {
         return {
           success: false,
-          error: &quot;Organization not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Organization not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -368,11 +368,11 @@ export class OrganizationService {
         data: deactivatedOrganization,
       };
     } catch (error) {
-      console.error(&quot;OrganizationService.deactivateOrganization error:&quot;, error);
+      console.error("OrganizationService.deactivateOrganization error:", error);
       return {
         success: false,
-        error: &quot;Failed to deactivate organization&quot;,
-        code: &quot;DEACTIVATION_FAILED&quot;,
+        error: "Failed to deactivate organization",
+        code: "DEACTIVATION_FAILED",
       };
     }
   }
@@ -386,21 +386,21 @@ export class OrganizationService {
     userRole: string,
   ): Record<string, any> {
     switch (userRole) {
-      case &quot;brand_agent&quot;:
-      case &quot;internal_field_manager&quot;:
-        // Non-admin users can only see active organizations they&apos;re part of
+      case "brand_agent":
+      case "internal_field_manager":
+        // Non-admin users can only see active organizations they're part of
         return {
           ...filters,
           isActive: true,
         };
 
-      case &quot;organization_admin&quot;:
+      case "organization_admin":
         // Org admins can see their organization and related ones
         return {
           ...filters,
         };
 
-      case &quot;super_admin&quot;:
+      case "super_admin":
         // Super admins can see all organizations
         return filters;
 
@@ -422,14 +422,14 @@ export class OrganizationService {
     userRole: string,
   ): boolean {
     switch (userRole) {
-      case &quot;super_admin&quot;:
+      case "super_admin":
         return true;
 
-      case &quot;organization_admin&quot;:
+      case "organization_admin":
         return true;
 
-      case &quot;brand_agent&quot;:
-      case &quot;internal_field_manager&quot;:
+      case "brand_agent":
+      case "internal_field_manager":
         return organization.isActive === true;
 
       default:
@@ -445,7 +445,7 @@ export class OrganizationService {
     updatedBy: string,
     userRole: string,
   ): boolean {
-    return [&quot;organization_admin&quot;, &quot;super_admin&quot;].includes(userRole);
+    return ["organization_admin", "super_admin"].includes(userRole);
   }
 
   /**
@@ -456,13 +456,13 @@ export class OrganizationService {
     deletedBy: string,
     userRole: string,
   ): boolean {
-    return userRole === &quot;super_admin&quot;;
+    return userRole === "super_admin";
   }
 
   /**
    * Check if user has activation permissions
    */
   private hasActivationPermissions(userRole: string): boolean {
-    return [&quot;organization_admin&quot;, &quot;super_admin&quot;].includes(userRole);
+    return ["organization_admin", "super_admin"].includes(userRole);
   }
 }

@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
-import { useToast } from &quot;./use-toast&quot;;
-import { locationsClient } from &quot;../client/services/locations&quot;;
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "./use-toast";
+import { locationsClient } from "../client/services/locations";
 import type {
   LocationDTO,
   CreateLocationParams,
   UpdateLocationParams,
-} from &quot;../services/locations&quot;;
+} from "../services/locations";
 
 interface LocationFilters {
   stateId?: string | undefined;
@@ -47,7 +47,7 @@ export function useLocations(filters: LocationFilters = {}): {
     error,
     refetch,
   } = useQuery({
-    queryKey: [&quot;/api/locations&quot;, filters],
+    queryKey: ["/api/locations", filters],
     queryFn: () => locationsClient.getAllLocations(filters),
   });
 
@@ -57,16 +57,16 @@ export function useLocations(filters: LocationFilters = {}): {
       locationsClient.createLocation(data),
     onSuccess: () => {
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Location created successfully&quot;,
+        title: "Success",
+        description: "Location created successfully",
       });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
     onError: (error: any) => {
       toast({
-        title: &quot;Error&quot;,
-        description: error.message || &quot;No error details available&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: error.message || "No error details available",
+        variant: "destructive",
       });
     },
   });
@@ -77,16 +77,16 @@ export function useLocations(filters: LocationFilters = {}): {
       locationsClient.updateLocation(id, data),
     onSuccess: () => {
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Location updated successfully&quot;,
+        title: "Success",
+        description: "Location updated successfully",
       });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
     onError: (error: any) => {
       toast({
-        title: &quot;Error&quot;,
-        description: error.message || &quot;No error details available&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: error.message || "No error details available",
+        variant: "destructive",
       });
     },
   });
@@ -96,16 +96,16 @@ export function useLocations(filters: LocationFilters = {}): {
     mutationFn: (id: string) => locationsClient.deleteLocation(id),
     onSuccess: () => {
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Location deleted successfully&quot;,
+        title: "Success",
+        description: "Location deleted successfully",
       });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
     onError: (error: any) => {
       toast({
-        title: &quot;Error&quot;,
-        description: error.message || &quot;No error details available&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: error.message || "No error details available",
+        variant: "destructive",
       });
     },
   });
@@ -115,16 +115,16 @@ export function useLocations(filters: LocationFilters = {}): {
     mutationFn: (id: string) => locationsClient.approveLocation(id),
     onSuccess: () => {
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Location approved successfully&quot;,
+        title: "Success",
+        description: "Location approved successfully",
       });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
     onError: (error: any) => {
       toast({
-        title: &quot;Error&quot;,
-        description: error.message || &quot;Failed to approve location&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: error.message || "Failed to approve location",
+        variant: "destructive",
       });
     },
   });
@@ -135,16 +135,16 @@ export function useLocations(filters: LocationFilters = {}): {
       locationsClient.rejectLocation({ id, reason }),
     onSuccess: () => {
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;Location rejected successfully&quot;,
+        title: "Success",
+        description: "Location rejected successfully",
       });
-      queryClient.invalidateQueries({ queryKey: [&quot;/api/locations&quot;] });
+      queryClient.invalidateQueries({ queryKey: ["/api/locations"] });
     },
     onError: (error: any) => {
       toast({
-        title: &quot;Error&quot;,
-        description: error.message || &quot;Failed to reject location&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: error.message || "Failed to reject location",
+        variant: "destructive",
       });
     },
   });
@@ -174,7 +174,7 @@ export function useLocation(id: string) {
     error,
     refetch,
   } = useQuery({
-    queryKey: [&quot;/api/locations&quot;, id],
+    queryKey: ["/api/locations", id],
     queryFn: () => locationsClient.getLocationById(id),
     enabled: !!id,
   });

@@ -1,16 +1,16 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
-import Link from &quot;next/link&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Calendar,
   Clock,
@@ -22,12 +22,12 @@ import {
   CalendarDays,
   CheckCircle2,
   Clock4,
-} from &quot;lucide-react&quot;;
-import { ScrollArea } from &quot;@/components/ui/scroll-area&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import BookingsFilter from &quot;./BookingsFilter&quot;;
-import BookingsCalendarView from &quot;./BookingsCalendarView&quot;;
+} from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import BookingsFilter from "./BookingsFilter";
+import BookingsCalendarView from "./BookingsCalendarView";
 
 // Production implementation - all data fetched from real APIs
 export default function BookingDashboard() {
@@ -54,91 +54,91 @@ export default function BookingDashboard() {
 
   if (loading) {
     return (
-      <div className=&quot;flex items-center justify-center h-96&quot;>
-        <div className=&quot;animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600&quot;></div>
+      <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   // Status badge mapper
   const activityStatusMapper: Record<string, string> = {
-    pending: &quot;bg-yellow-100 text-yellow-800&quot;,
-    approved: &quot;bg-green-100 text-green-800&quot;,
-    rejected: &quot;bg-red-100 text-red-800&quot;,
-    in_progress: &quot;bg-blue-100 text-blue-800&quot;,
-    completed: &quot;bg-purple-100 text-purple-800&quot;
+    pending: "bg-yellow-100 text-yellow-800",
+    approved: "bg-green-100 text-green-800",
+    rejected: "bg-red-100 text-red-800",
+    in_progress: "bg-blue-100 text-blue-800",
+    completed: "bg-purple-100 text-purple-800"
   };
 
   return (
-    <div className=&quot;flex h-screen flex-col&quot;>
-      <div className=&quot;flex-1 space-y-6 p-6&quot;>
-        <div className=&quot;flex items-center justify-between&quot;>
-          <h1 className=&quot;text-3xl font-bold&quot;>Bookings Dashboard</h1>
-          <div className=&quot;flex items-center space-x-4&quot;>
-            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-              <Filter className=&quot;h-4 w-4 mr-2&quot; />
+    <div className="flex h-screen flex-col">
+      <div className="flex-1 space-y-6 p-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">Bookings Dashboard</h1>
+          <div className="flex items-center space-x-4">
+            <Button variant="outline" size="sm">
+              <Filter className="h-4 w-4 mr-2" />
               Filter
             </Button>
             <Button>
-              <Plus className=&quot;h-4 w-4 mr-2&quot; />
+              <Plus className="h-4 w-4 mr-2" />
               New Booking
             </Button>
           </div>
         </div>
 
-        <Tabs defaultValue=&quot;dashboard&quot; className=&quot;w-full&quot;>
-          <TabsList className=&quot;grid w-full grid-cols-3&quot;>
-            <TabsTrigger value=&quot;dashboard&quot;>Dashboard</TabsTrigger>
-            <TabsTrigger value=&quot;list&quot;>List View</TabsTrigger>
-            <TabsTrigger value=&quot;calendar&quot;>Calendar</TabsTrigger>
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="list">List View</TabsTrigger>
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
           </TabsList>
           
-          <TabsContent value=&quot;dashboard&quot; className=&quot;space-y-4&quot;>
-            <div className=&quot;grid gap-4 md:grid-cols-2 lg:grid-cols-4&quot;>
+          <TabsContent value="dashboard" className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>Total Bookings</CardTitle>
-                  <CalendarDays className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Bookings</CardTitle>
+                  <CalendarDays className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold&quot;>{bookings.length}</div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>+12% from last month</p>
+                  <div className="text-2xl font-bold">{bookings.length}</div>
+                  <p className="text-xs text-muted-foreground">+12% from last month</p>
                 </CardContent>
               </Card>
               
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>Active Bookings</CardTitle>
-                  <CheckCircle2 className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Bookings</CardTitle>
+                  <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold&quot;>
+                  <div className="text-2xl font-bold">
                     {bookings.filter(b => b.status === 'active').length}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>Currently ongoing</p>
+                  <p className="text-xs text-muted-foreground">Currently ongoing</p>
                 </CardContent>
               </Card>
               
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>Pending Approval</CardTitle>
-                  <Clock4 className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Pending Approval</CardTitle>
+                  <Clock4 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold&quot;>
+                  <div className="text-2xl font-bold">
                     {bookings.filter(b => b.status === 'pending').length}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>Awaiting review</p>
+                  <p className="text-xs text-muted-foreground">Awaiting review</p>
                 </CardContent>
               </Card>
               
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>This Month</CardTitle>
-                  <Calendar className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">This Month</CardTitle>
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold&quot;>
+                  <div className="text-2xl font-bold">
                     {bookings.filter(b => {
                       const bookingDate = new Date(b.created_at);
                       const now = new Date();
@@ -146,45 +146,45 @@ export default function BookingDashboard() {
                              bookingDate.getFullYear() === now.getFullYear();
                     }).length}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>Recent bookings</p>
+                  <p className="text-xs text-muted-foreground">Recent bookings</p>
                 </CardContent>
               </Card>
             </div>
           </TabsContent>
           
-          <TabsContent value=&quot;list&quot; className=&quot;space-y-4&quot;>
-            <div className=&quot;grid gap-4&quot;>
+          <TabsContent value="list" className="space-y-4">
+            <div className="grid gap-4">
               {bookings.map((booking) => (
                 <Card key={booking.id}>
                   <CardHeader>
-                    <div className=&quot;flex items-center justify-between&quot;>
-                      <CardTitle className=&quot;text-lg&quot;>{booking.title}</CardTitle>
-                      <Badge className={activityStatusMapper[booking.status] || &quot;bg-gray-100 text-gray-800&quot;}>
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg">{booking.title}</CardTitle>
+                      <Badge className={activityStatusMapper[booking.status] || "bg-gray-100 text-gray-800"}>
                         {booking.status}
                       </Badge>
                     </div>
                     <CardDescription>
-                      <div className=&quot;flex items-center space-x-4 text-sm text-gray-600&quot;>
-                        <span className=&quot;flex items-center&quot;>
-                          <MapPin className=&quot;h-4 w-4 mr-1&quot; />
+                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <span className="flex items-center">
+                          <MapPin className="h-4 w-4 mr-1" />
                           {booking.location_name || 'Location TBD'}
                         </span>
-                        <span className=&quot;flex items-center&quot;>
-                          <Clock className=&quot;h-4 w-4 mr-1&quot; />
+                        <span className="flex items-center">
+                          <Clock className="h-4 w-4 mr-1" />
                           {new Date(booking.start_date).toLocaleDateString()}
                         </span>
                       </div>
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className=&quot;text-sm text-gray-700&quot;>{booking.description}</p>
+                    <p className="text-sm text-gray-700">{booking.description}</p>
                   </CardContent>
                 </Card>
               ))}
             </div>
           </TabsContent>
           
-          <TabsContent value=&quot;calendar&quot; className=&quot;space-y-4&quot;>
+          <TabsContent value="calendar" className="space-y-4">
             <BookingsCalendarView />
           </TabsContent>
         </Tabs>

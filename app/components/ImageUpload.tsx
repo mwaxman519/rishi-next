@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useCallback } from &quot;react&quot;;
-import { useDropzone } from &quot;react-dropzone&quot;;
-import { Upload, X, ImageIcon, Loader2 } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Card, CardContent } from &quot;@/components/ui/card&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import Image from &quot;next/image&quot;;
+import { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { Upload, X, ImageIcon, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 interface ImageUploadProps {
   onImageUpload: (imageUrl: string, thumbnailUrl: string) => void;
@@ -22,7 +22,7 @@ export default function ImageUpload({
   disabled = false,
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState(currentImageUrl || "&quot;);
+  const [previewUrl, setPreviewUrl] = useState(currentImageUrl || "");
   const { toast } = useToast();
 
   const onDrop = useCallback(
@@ -39,16 +39,16 @@ export default function ImageUpload({
 
         // Upload to server
         const formData = new FormData();
-        formData.append(&quot;image&quot;, file);
+        formData.append("image", file);
 
-        const response = await fetch(&quot;/api/upload/kit-template-image&quot;, {
-          method: &quot;POST&quot;,
+        const response = await fetch("/api/upload/kit-template-image", {
+          method: "POST",
           body: formData,
         });
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error || &quot;Upload failed&quot;);
+          throw new Error(errorData.error || "Upload failed");
         }
 
         const result = await response.json();
@@ -60,20 +60,20 @@ export default function ImageUpload({
         setPreviewUrl(result.imageUrl);
         
         toast({
-          title: &quot;Success&quot;,
+          title: "Success",
           description: `Image uploaded successfully using ${result.storage} storage`,
         });
 
       } catch (error) {
-        console.error(&quot;Upload error:&quot;, error);
+        console.error("Upload error:", error);
         toast({
-          title: &quot;Upload Failed&quot;,
-          description: error instanceof Error ? error.message : &quot;Failed to upload image&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Upload Failed",
+          description: error instanceof Error ? error.message : "Failed to upload image",
+          variant: "destructive",
         });
         
         // Reset preview on error
-        setPreviewUrl(currentImageUrl || &quot;&quot;);
+        setPreviewUrl(currentImageUrl || "");
       } finally {
         setUploading(false);
       }
@@ -92,42 +92,42 @@ export default function ImageUpload({
   });
 
   const clearImage = () => {
-    setPreviewUrl(&quot;&quot;);
-    onImageUpload(&quot;&quot;, &quot;&quot;);
+    setPreviewUrl("");
+    onImageUpload("", "");
   };
 
   return (
-    <div className=&quot;space-y-4&quot;>
-      <div className=&quot;flex items-center justify-between&quot;>
-        <label className=&quot;text-sm font-medium&quot;>Template Image</label>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-medium">Template Image</label>
         {previewUrl && (
           <Button
-            type=&quot;button&quot;
-            variant=&quot;ghost&quot;
-            size=&quot;sm&quot;
+            type="button"
+            variant="ghost"
+            size="sm"
             onClick={clearImage}
             disabled={disabled || uploading}
           >
-            <X className=&quot;h-4 w-4&quot; />
+            <X className="h-4 w-4" />
             Remove
           </Button>
         )}
       </div>
 
       {previewUrl ? (
-        <Card className=&quot;overflow-hidden&quot;>
-          <CardContent className=&quot;p-4&quot;>
-            <div className=&quot;relative aspect-video bg-gray-100 rounded-lg overflow-hidden&quot;>
+        <Card className="overflow-hidden">
+          <CardContent className="p-4">
+            <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
               <Image
                 src={previewUrl}
-                alt=&quot;Template preview&quot;
+                alt="Template preview"
                 fill
-                className=&quot;object-cover&quot;
+                className="object-cover"
                 unoptimized={previewUrl.startsWith('blob:')}
               />
               {uploading && (
-                <div className=&quot;absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center&quot;>
-                  <Loader2 className=&quot;h-8 w-8 animate-spin text-white&quot; />
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                  <Loader2 className="h-8 w-8 animate-spin text-white" />
                 </div>
               )}
             </div>
@@ -135,7 +135,7 @@ export default function ImageUpload({
         </Card>
       ) : (
         <Card>
-          <CardContent className=&quot;p-6&quot;>
+          <CardContent className="p-6">
             <div
               {...getRootProps()}
               className={`
@@ -149,24 +149,24 @@ export default function ImageUpload({
             >
               <input {...getInputProps()} />
               {uploading ? (
-                <div className=&quot;flex flex-col items-center space-y-2&quot;>
-                  <Loader2 className=&quot;h-12 w-12 animate-spin text-purple-600&quot; />
-                  <p className=&quot;text-sm text-gray-600&quot;>Uploading...</p>
+                <div className="flex flex-col items-center space-y-2">
+                  <Loader2 className="h-12 w-12 animate-spin text-purple-600" />
+                  <p className="text-sm text-gray-600">Uploading...</p>
                 </div>
               ) : (
-                <div className=&quot;flex flex-col items-center space-y-2&quot;>
-                  <div className=&quot;p-3 bg-gray-100 rounded-full&quot;>
+                <div className="flex flex-col items-center space-y-2">
+                  <div className="p-3 bg-gray-100 rounded-full">
                     {isDragActive ? (
-                      <Upload className=&quot;h-8 w-8 text-purple-600&quot; />
+                      <Upload className="h-8 w-8 text-purple-600" />
                     ) : (
-                      <ImageIcon className=&quot;h-8 w-8 text-gray-400&quot; />
+                      <ImageIcon className="h-8 w-8 text-gray-400" />
                     )}
                   </div>
                   <div>
-                    <p className=&quot;text-sm font-medium&quot;>
+                    <p className="text-sm font-medium">
                       {isDragActive ? 'Drop your image here' : 'Click to upload or drag and drop'}
                     </p>
-                    <p className=&quot;text-xs text-gray-500">
+                    <p className="text-xs text-gray-500">
                       PNG, JPG, WebP up to 5MB
                     </p>
                   </div>

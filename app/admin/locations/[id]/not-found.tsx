@@ -1,24 +1,24 @@
-import { Button } from &quot;@/components/ui/button&quot;;
-import { ArrowLeft, Shield } from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Shield } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminLocationNotFound() {
   return (
-    <div className=&quot;flex flex-col items-center justify-center min-h-[60vh] p-6&quot;>
-      <div className=&quot;text-center space-y-5 max-w-md&quot;>
-        <div className=&quot;flex items-center justify-center mb-4&quot;>
-          <Shield className=&quot;h-12 w-12 text-primary&quot; />
+    <div className="flex flex-col items-center justify-center min-h-[60vh] p-6">
+      <div className="text-center space-y-5 max-w-md">
+        <div className="flex items-center justify-center mb-4">
+          <Shield className="h-12 w-12 text-primary" />
         </div>
-        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+        <h1 className="text-3xl font-bold tracking-tight">
           Location Not Found
         </h1>
-        <p className=&quot;text-muted-foreground&quot;>
-          The location you are looking for doesn&apos;t exist or you may not have
+        <p className="text-muted-foreground">
+          The location you are looking for doesn't exist or you may not have
           permission to view it.
         </p>
         <Button asChild>
-          <Link href=&quot;/admin/locations&quot;>
-            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
+          <Link href="/admin/locations">
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Location Management
           </Link>
         </Button>

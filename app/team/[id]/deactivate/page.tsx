@@ -1,32 +1,32 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, use } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { ArrowLeft, AlertTriangle, UserX, Clock, FileText } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState, use } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, AlertTriangle, UserX, Clock, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
-import Link from &quot;next/link&quot;;
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/hooks/use-toast";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Link from "next/link";
 
 interface DeactivateTeamMemberProps {
   params: Promise<{
@@ -37,39 +37,39 @@ interface DeactivateTeamMemberProps {
 // Mock team member data
 const getTeamMemberById = (id: string) => {
   const members = {
-    &quot;1&quot;: {
-      id: &quot;1&quot;,
-      name: &quot;Sarah Johnson&quot;,
-      email: &quot;sarah.johnson@example.com&quot;,
-      role: &quot;Brand Agent&quot;,
-      status: &quot;active&quot;,
+    "1": {
+      id: "1",
+      name: "Sarah Johnson",
+      email: "sarah.johnson@example.com",
+      role: "Brand Agent",
+      status: "active",
       upcomingEvents: 3,
       activeAssignments: 2,
     },
-    &quot;2&quot;: {
-      id: &quot;2&quot;,
-      name: &quot;Michael Chen&quot;,
-      email: &quot;michael.chen@example.com&quot;,
-      role: &quot;Brand Agent&quot;,
-      status: &quot;active&quot;,
+    "2": {
+      id: "2",
+      name: "Michael Chen",
+      email: "michael.chen@example.com",
+      role: "Brand Agent",
+      status: "active",
       upcomingEvents: 1,
       activeAssignments: 1,
     },
-    &quot;3&quot;: {
-      id: &quot;3&quot;,
-      name: &quot;Emily Davis&quot;,
-      email: &quot;emily.davis@example.com&quot;,
-      role: &quot;Field Manager&quot;,
-      status: &quot;active&quot;,
+    "3": {
+      id: "3",
+      name: "Emily Davis",
+      email: "emily.davis@example.com",
+      role: "Field Manager",
+      status: "active",
       upcomingEvents: 0,
       activeAssignments: 0,
     },
-    &quot;4&quot;: {
-      id: &quot;4&quot;,
-      name: &quot;David Wilson&quot;,
-      email: &quot;david.wilson@example.com&quot;,
-      role: &quot;Brand Agent&quot;,
-      status: &quot;active&quot;,
+    "4": {
+      id: "4",
+      name: "David Wilson",
+      email: "david.wilson@example.com",
+      role: "Brand Agent",
+      status: "active",
       upcomingEvents: 2,
       activeAssignments: 1,
     },
@@ -87,15 +87,15 @@ export default function DeactivateTeamMemberPage({
   const member = getTeamMemberById(id);
 
   const [deactivationData, setDeactivationData] = useState({
-    reason: "&quot;,
-    customReason: &quot;&quot;,
-    effectiveDate: new Date().toISOString().split(&quot;T&quot;)[0],
+    reason: "",
+    customReason: "",
+    effectiveDate: new Date().toISOString().split("T")[0],
     notifyMember: true,
     transferAssignments: true,
-    transferTo: &quot;&quot;,
+    transferTo: "",
     finalPayroll: true,
     returnEquipment: false,
-    notes: &quot;&quot;,
+    notes: "",
     confirmDeactivation: false,
   });
 
@@ -103,14 +103,14 @@ export default function DeactivateTeamMemberPage({
 
   if (!member) {
     return (
-      <div className=&quot;container mx-auto p-6&quot;>
-        <div className=&quot;text-center&quot;>
-          <h1 className=&quot;text-2xl font-bold text-muted-foreground&quot;>
+      <div className="container mx-auto p-6">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-muted-foreground">
             Team Member Not Found
           </h1>
-          <Link href=&quot;/team&quot;>
-            <Button variant=&quot;outline&quot; className=&quot;mt-4&quot;>
-              <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+          <Link href="/team">
+            <Button variant="outline" className="mt-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Team
             </Button>
           </Link>
@@ -126,31 +126,31 @@ export default function DeactivateTeamMemberPage({
   const handleDeactivate = async () => {
     if (!deactivationData.reason) {
       toast({
-        title: &quot;Reason Required&quot;,
-        description: &quot;Please select a reason for deactivation.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Reason Required",
+        description: "Please select a reason for deactivation.",
+        variant: "destructive",
       });
       return;
     }
 
     if (
-      deactivationData.reason === &quot;other&quot; &&
+      deactivationData.reason === "other" &&
       !deactivationData.customReason.trim()
     ) {
       toast({
-        title: &quot;Custom Reason Required&quot;,
-        description: &quot;Please provide a custom reason for deactivation.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Custom Reason Required",
+        description: "Please provide a custom reason for deactivation.",
+        variant: "destructive",
       });
       return;
     }
 
     if (!deactivationData.confirmDeactivation) {
       toast({
-        title: &quot;Confirmation Required&quot;,
+        title: "Confirmation Required",
         description:
-          &quot;Please confirm that you want to deactivate this team member.&quot;,
-        variant: &quot;destructive&quot;,
+          "Please confirm that you want to deactivate this team member.",
+        variant: "destructive",
       });
       return;
     }
@@ -160,112 +160,112 @@ export default function DeactivateTeamMemberPage({
     try {
       // Deactivate team member
       const deactivateResponse = await fetch(`/api/team/${id}/deactivate`, {
-        method: &quot;POST&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           reason:
-            deactivationData.reason === &quot;other&quot;
+            deactivationData.reason === "other"
               ? deactivationData.customReason
               : deactivationData.reason,
           effectiveDate: deactivationData.effectiveDate,
           transferAssignments: deactivationData.transferAssignments,
           transferTo: deactivationData.transferTo,
           notes: deactivationData.notes,
-          deactivatedBy: &quot;current-user-id&quot;,
+          deactivatedBy: "current-user-id",
         }),
       });
 
       if (!deactivateResponse.ok) {
-        throw new Error(&quot;Failed to deactivate team member&quot;);
+        throw new Error("Failed to deactivate team member");
       }
 
       // Send notification to member if requested
       if (deactivationData.notifyMember) {
-        await fetch(&quot;/api/messages/send&quot;, {
-          method: &quot;POST&quot;,
-          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        await fetch("/api/messages/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             recipientId: id,
             recipientEmail: member.email,
-            subject: &quot;Account Deactivation Notice&quot;,
-            body: `Dear ${member.name},\n\nThis is to inform you that your account will be deactivated effective ${deactivationData.effectiveDate}.\n\nReason: ${deactivationData.reason === &quot;other&quot; ? deactivationData.customReason : deactivationData.reason}\n\nIf you have any questions, please contact your manager.\n\nBest regards,\nHR Team`,
-            priority: &quot;high&quot;,
-            deliveryMethod: &quot;email&quot;,
-            sentBy: &quot;current-user-id&quot;,
+            subject: "Account Deactivation Notice",
+            body: `Dear ${member.name},\n\nThis is to inform you that your account will be deactivated effective ${deactivationData.effectiveDate}.\n\nReason: ${deactivationData.reason === "other" ? deactivationData.customReason : deactivationData.reason}\n\nIf you have any questions, please contact your manager.\n\nBest regards,\nHR Team`,
+            priority: "high",
+            deliveryMethod: "email",
+            sentBy: "current-user-id",
           }),
         });
       }
 
       // Create final payroll task if needed
       if (deactivationData.finalPayroll) {
-        await fetch(&quot;/api/tasks&quot;, {
-          method: &quot;POST&quot;,
-          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        await fetch("/api/tasks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: `Process Final Payroll - ${member.name}`,
             description: `Process final payroll for deactivated team member: ${member.name}`,
-            type: &quot;payroll_processing&quot;,
-            assignedTo: &quot;hr-admin-id&quot;,
-            assignedBy: &quot;current-user-id&quot;,
+            type: "payroll_processing",
+            assignedTo: "hr-admin-id",
+            assignedBy: "current-user-id",
             dueDate: deactivationData.effectiveDate,
-            priority: &quot;high&quot;,
-            status: &quot;assigned&quot;,
+            priority: "high",
+            status: "assigned",
           }),
         });
       }
 
       // Create equipment return task if needed
       if (deactivationData.returnEquipment) {
-        await fetch(&quot;/api/tasks&quot;, {
-          method: &quot;POST&quot;,
-          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        await fetch("/api/tasks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: `Equipment Return - ${member.name}`,
             description: `Collect equipment from deactivated team member: ${member.name}`,
-            type: &quot;equipment_return&quot;,
-            assignedTo: &quot;it-admin-id&quot;,
-            assignedBy: &quot;current-user-id&quot;,
+            type: "equipment_return",
+            assignedTo: "it-admin-id",
+            assignedBy: "current-user-id",
             dueDate: deactivationData.effectiveDate,
-            priority: &quot;normal&quot;,
-            status: &quot;assigned&quot;,
+            priority: "normal",
+            status: "assigned",
           }),
         });
       }
 
       // Publish deactivation event
-      await fetch(&quot;/api/events/publish&quot;, {
-        method: &quot;POST&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+      await fetch("/api/events/publish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          eventType: &quot;team.member.deactivated&quot;,
+          eventType: "team.member.deactivated",
           payload: {
             memberId: id,
             memberName: member.name,
             reason:
-              deactivationData.reason === &quot;other&quot;
+              deactivationData.reason === "other"
                 ? deactivationData.customReason
                 : deactivationData.reason,
             effectiveDate: deactivationData.effectiveDate,
             transferAssignments: deactivationData.transferAssignments,
             transferTo: deactivationData.transferTo,
-            deactivatedBy: &quot;current-user-id&quot;,
-            organizationId: &quot;current-org-id&quot;,
+            deactivatedBy: "current-user-id",
+            organizationId: "current-org-id",
           },
           timestamp: new Date().toISOString(),
         }),
       });
 
       toast({
-        title: &quot;Team Member Deactivated&quot;,
+        title: "Team Member Deactivated",
         description: `${member.name} has been successfully deactivated.`,
       });
 
-      router.push(&quot;/team&quot;);
+      router.push("/team");
     } catch (error) {
       toast({
-        title: &quot;Deactivation Failed&quot;,
-        description: &quot;There was an error deactivating the team member.&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Deactivation Failed",
+        description: "There was an error deactivating the team member.",
+        variant: "destructive",
       });
     } finally {
       setIsDeactivating(false);
@@ -273,30 +273,30 @@ export default function DeactivateTeamMemberPage({
   };
 
   const reasonOptions = [
-    { value: &quot;resignation&quot;, label: &quot;Resignation&quot; },
-    { value: &quot;termination&quot;, label: &quot;Termination&quot; },
-    { value: &quot;layoff&quot;, label: &quot;Layoff&quot; },
-    { value: &quot;retirement&quot;, label: &quot;Retirement&quot; },
-    { value: &quot;contract_end&quot;, label: &quot;Contract End&quot; },
-    { value: &quot;performance&quot;, label: &quot;Performance Issues&quot; },
-    { value: &quot;misconduct&quot;, label: &quot;Misconduct&quot; },
-    { value: &quot;other&quot;, label: &quot;Other&quot; },
+    { value: "resignation", label: "Resignation" },
+    { value: "termination", label: "Termination" },
+    { value: "layoff", label: "Layoff" },
+    { value: "retirement", label: "Retirement" },
+    { value: "contract_end", label: "Contract End" },
+    { value: "performance", label: "Performance Issues" },
+    { value: "misconduct", label: "Misconduct" },
+    { value: "other", label: "Other" },
   ];
 
   return (
-    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
+    <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex items-center justify-between&quot;>
-        <div className=&quot;flex items-center space-x-4&quot;>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-4">
           <Link href={`/team/${id}`}>
-            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-              <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+            <Button variant="outline" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Profile
             </Button>
           </Link>
           <div>
-            <h1 className=&quot;text-3xl font-bold&quot;>Deactivate Team Member</h1>
-            <p className=&quot;text-muted-foreground&quot;>
+            <h1 className="text-3xl font-bold">Deactivate Team Member</h1>
+            <p className="text-muted-foreground">
               Deactivate {member.name}'s account
             </p>
           </div>
@@ -304,16 +304,16 @@ export default function DeactivateTeamMemberPage({
         <Button
           onClick={handleDeactivate}
           disabled={isDeactivating}
-          variant=&quot;destructive&quot;
+          variant="destructive"
         >
-          <UserX className=&quot;h-4 w-4 mr-2&quot; />
-          {isDeactivating ? &quot;Deactivating...&quot; : &quot;Deactivate Member&quot;}
+          <UserX className="h-4 w-4 mr-2" />
+          {isDeactivating ? "Deactivating..." : "Deactivate Member"}
         </Button>
       </div>
 
       {/* Warning Alert */}
-      <Alert variant=&quot;destructive&quot;>
-        <AlertTriangle className=&quot;h-4 w-4&quot; />
+      <Alert variant="destructive">
+        <AlertTriangle className="h-4 w-4" />
         <AlertTitle>Warning: This action cannot be undone</AlertTitle>
         <AlertDescription>
           Deactivating this team member will remove their access to the system
@@ -321,29 +321,29 @@ export default function DeactivateTeamMemberPage({
         </AlertDescription>
       </Alert>
 
-      <div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-6&quot;>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Deactivation Details */}
-        <div className=&quot;lg:col-span-2 space-y-6&quot;>
+        <div className="lg:col-span-2 space-y-6">
           {/* Reason for Deactivation */}
           <Card>
             <CardHeader>
-              <CardTitle className=&quot;flex items-center&quot;>
-                <FileText className=&quot;h-5 w-5 mr-2&quot; />
+              <CardTitle className="flex items-center">
+                <FileText className="h-5 w-5 mr-2" />
                 Reason for Deactivation
               </CardTitle>
               <CardDescription>
                 Provide the reason for deactivating this team member
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-4&quot;>
-              <div className=&quot;space-y-2&quot;>
-                <Label htmlFor=&quot;reason&quot;>Reason</Label>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="reason">Reason</Label>
                 <Select
                   value={deactivationData.reason}
-                  onValueChange={(value) => handleInputChange(&quot;reason&quot;, value)}
+                  onValueChange={(value) => handleInputChange("reason", value)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder=&quot;Select a reason&quot; />
+                    <SelectValue placeholder="Select a reason" />
                   </SelectTrigger>
                   <SelectContent>
                     {reasonOptions.map((option) => (
@@ -355,39 +355,39 @@ export default function DeactivateTeamMemberPage({
                 </Select>
               </div>
 
-              {deactivationData.reason === &quot;other&quot; && (
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;customReason&quot;>Custom Reason</Label>
+              {deactivationData.reason === "other" && (
+                <div className="space-y-2">
+                  <Label htmlFor="customReason">Custom Reason</Label>
                   <Input
-                    id=&quot;customReason&quot;
+                    id="customReason"
                     value={deactivationData.customReason}
                     onChange={(e) =>
-                      handleInputChange(&quot;customReason&quot;, e.target.value)
+                      handleInputChange("customReason", e.target.value)
                     }
-                    placeholder=&quot;Please specify the reason&quot;
+                    placeholder="Please specify the reason"
                   />
                 </div>
               )}
 
-              <div className=&quot;space-y-2&quot;>
-                <Label htmlFor=&quot;effectiveDate&quot;>Effective Date</Label>
+              <div className="space-y-2">
+                <Label htmlFor="effectiveDate">Effective Date</Label>
                 <Input
-                  id=&quot;effectiveDate&quot;
-                  type=&quot;date&quot;
+                  id="effectiveDate"
+                  type="date"
                   value={deactivationData.effectiveDate}
                   onChange={(e) =>
-                    handleInputChange(&quot;effectiveDate&quot;, e.target.value)
+                    handleInputChange("effectiveDate", e.target.value)
                   }
                 />
               </div>
 
-              <div className=&quot;space-y-2&quot;>
-                <Label htmlFor=&quot;notes&quot;>Additional Notes</Label>
+              <div className="space-y-2">
+                <Label htmlFor="notes">Additional Notes</Label>
                 <Textarea
-                  id=&quot;notes&quot;
+                  id="notes"
                   value={deactivationData.notes}
-                  onChange={(e) => handleInputChange(&quot;notes&quot;, e.target.value)}
-                  placeholder=&quot;Add any additional notes about this deactivation...&quot;
+                  onChange={(e) => handleInputChange("notes", e.target.value)}
+                  placeholder="Add any additional notes about this deactivation..."
                   rows={4}
                 />
               </div>
@@ -402,47 +402,47 @@ export default function DeactivateTeamMemberPage({
                 Manage existing assignments and responsibilities
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-4&quot;>
-              <div className=&quot;flex items-center space-x-2&quot;>
+            <CardContent className="space-y-4">
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id=&quot;transferAssignments&quot;
+                  id="transferAssignments"
                   checked={deactivationData.transferAssignments}
                   onCheckedChange={(checked) =>
-                    handleInputChange(&quot;transferAssignments&quot;, checked as boolean)
+                    handleInputChange("transferAssignments", checked as boolean)
                   }
                 />
-                <Label htmlFor=&quot;transferAssignments&quot;>
+                <Label htmlFor="transferAssignments">
                   Transfer assignments to another team member
                 </Label>
               </div>
 
               {deactivationData.transferAssignments && (
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;transferTo&quot;>Transfer To</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="transferTo">Transfer To</Label>
                   <Select
                     value={deactivationData.transferTo}
                     onValueChange={(value) =>
-                      handleInputChange(&quot;transferTo&quot;, value)
+                      handleInputChange("transferTo", value)
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder=&quot;Select team member&quot; />
+                      <SelectValue placeholder="Select team member" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=&quot;member-2&quot;>Michael Chen</SelectItem>
-                      <SelectItem value=&quot;member-3&quot;>Emily Davis</SelectItem>
-                      <SelectItem value=&quot;member-4&quot;>David Wilson</SelectItem>
+                      <SelectItem value="member-2">Michael Chen</SelectItem>
+                      <SelectItem value="member-3">Emily Davis</SelectItem>
+                      <SelectItem value="member-4">David Wilson</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
 
-              <div className=&quot;bg-yellow-50 border border-yellow-200 rounded-lg p-4&quot;>
-                <div className=&quot;flex items-center space-x-2 text-yellow-800&quot;>
-                  <AlertTriangle className=&quot;h-4 w-4&quot; />
-                  <span className=&quot;font-medium&quot;>Impact Assessment</span>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="flex items-center space-x-2 text-yellow-800">
+                  <AlertTriangle className="h-4 w-4" />
+                  <span className="font-medium">Impact Assessment</span>
                 </div>
-                <div className=&quot;mt-2 text-sm text-yellow-700&quot;>
+                <div className="mt-2 text-sm text-yellow-700">
                   <p>
                     • {member.upcomingEvents} upcoming events will be affected
                   </p>
@@ -463,40 +463,40 @@ export default function DeactivateTeamMemberPage({
                 Administrative actions to complete during deactivation
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-4&quot;>
-              <div className=&quot;flex items-center space-x-2&quot;>
+            <CardContent className="space-y-4">
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id=&quot;notifyMember&quot;
+                  id="notifyMember"
                   checked={deactivationData.notifyMember}
                   onCheckedChange={(checked) =>
-                    handleInputChange(&quot;notifyMember&quot;, checked as boolean)
+                    handleInputChange("notifyMember", checked as boolean)
                   }
                 />
-                <Label htmlFor=&quot;notifyMember&quot;>
+                <Label htmlFor="notifyMember">
                   Send deactivation notice to team member
                 </Label>
               </div>
 
-              <div className=&quot;flex items-center space-x-2&quot;>
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id=&quot;finalPayroll&quot;
+                  id="finalPayroll"
                   checked={deactivationData.finalPayroll}
                   onCheckedChange={(checked) =>
-                    handleInputChange(&quot;finalPayroll&quot;, checked as boolean)
+                    handleInputChange("finalPayroll", checked as boolean)
                   }
                 />
-                <Label htmlFor=&quot;finalPayroll&quot;>Process final payroll</Label>
+                <Label htmlFor="finalPayroll">Process final payroll</Label>
               </div>
 
-              <div className=&quot;flex items-center space-x-2&quot;>
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id=&quot;returnEquipment&quot;
+                  id="returnEquipment"
                   checked={deactivationData.returnEquipment}
                   onCheckedChange={(checked) =>
-                    handleInputChange(&quot;returnEquipment&quot;, checked as boolean)
+                    handleInputChange("returnEquipment", checked as boolean)
                   }
                 />
-                <Label htmlFor=&quot;returnEquipment&quot;>
+                <Label htmlFor="returnEquipment">
                   Collect company equipment
                 </Label>
               </div>
@@ -505,31 +505,31 @@ export default function DeactivateTeamMemberPage({
         </div>
 
         {/* Right Sidebar */}
-        <div className=&quot;space-y-6&quot;>
+        <div className="space-y-6">
           {/* Team Member Info */}
           <Card>
             <CardHeader>
               <CardTitle>Team Member</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=&quot;flex items-center space-x-3&quot;>
+              <div className="flex items-center space-x-3">
                 <Avatar>
                   <AvatarImage
-                    src={`/avatars/${member.name.toLowerCase().replace(&quot; &quot;, &quot;-&quot;)}.jpg`}
+                    src={`/avatars/${member.name.toLowerCase().replace(" ", "-")}.jpg`}
                   />
                   <AvatarFallback>
                     {member.name
-                      .split(&quot; &quot;)
+                      .split(" ")
                       .map((n) => n[0])
-                      .join(&quot;&quot;)}
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className=&quot;font-medium&quot;>{member.name}</p>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>{member.role}</p>
+                  <p className="font-medium">{member.name}</p>
+                  <p className="text-sm text-muted-foreground">{member.role}</p>
                   <Badge
                     variant={
-                      member.status === &quot;active&quot; ? &quot;default&quot; : &quot;secondary&quot;
+                      member.status === "active" ? "default" : "secondary"
                     }
                   >
                     {member.status}
@@ -547,18 +547,18 @@ export default function DeactivateTeamMemberPage({
                 Current assignments and commitments
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-4&quot;>
-              <div className=&quot;flex justify-between&quot;>
-                <span className=&quot;text-sm&quot;>Upcoming Events</span>
-                <span className=&quot;font-medium&quot;>{member.upcomingEvents}</span>
+            <CardContent className="space-y-4">
+              <div className="flex justify-between">
+                <span className="text-sm">Upcoming Events</span>
+                <span className="font-medium">{member.upcomingEvents}</span>
               </div>
-              <div className=&quot;flex justify-between&quot;>
-                <span className=&quot;text-sm&quot;>Active Assignments</span>
-                <span className=&quot;font-medium&quot;>{member.activeAssignments}</span>
+              <div className="flex justify-between">
+                <span className="text-sm">Active Assignments</span>
+                <span className="font-medium">{member.activeAssignments}</span>
               </div>
-              <div className=&quot;flex justify-between&quot;>
-                <span className=&quot;text-sm&quot;>Account Status</span>
-                <Badge variant=&quot;default&quot;>{member.status}</Badge>
+              <div className="flex justify-between">
+                <span className="text-sm">Account Status</span>
+                <Badge variant="default">{member.status}</Badge>
               </div>
             </CardContent>
           </Card>
@@ -566,21 +566,21 @@ export default function DeactivateTeamMemberPage({
           {/* Confirmation */}
           <Card>
             <CardHeader>
-              <CardTitle className=&quot;flex items-center text-red-600&quot;>
-                <AlertTriangle className=&quot;h-5 w-5 mr-2&quot; />
+              <CardTitle className="flex items-center text-red-600">
+                <AlertTriangle className="h-5 w-5 mr-2" />
                 Confirmation Required
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=&quot;flex items-center space-x-2&quot;>
+              <div className="flex items-center space-x-2">
                 <Checkbox
-                  id=&quot;confirmDeactivation&quot;
+                  id="confirmDeactivation"
                   checked={deactivationData.confirmDeactivation}
                   onCheckedChange={(checked) =>
-                    handleInputChange(&quot;confirmDeactivation&quot;, checked as boolean)
+                    handleInputChange("confirmDeactivation", checked as boolean)
                   }
                 />
-                <Label htmlFor=&quot;confirmDeactivation&quot; className=&quot;text-sm">
+                <Label htmlFor="confirmDeactivation" className="text-sm">
                   I understand this action cannot be undone and confirm I want
                   to deactivate this team member
                 </Label>

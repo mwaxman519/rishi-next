@@ -3,10 +3,10 @@
  * Central export point for shift management components
  */
 
-export { ShiftService } from &quot;./ShiftService&quot;;
-export { ShiftRepository } from &quot;./repository&quot;;
-export { shiftEventPublisher, ShiftEventPublisher } from &quot;./events&quot;;
-export * from &quot;./models&quot;;
+export { ShiftService } from "./ShiftService";
+export { ShiftRepository } from "./repository";
+export { shiftEventPublisher, ShiftEventPublisher } from "./events";
+export * from "./models";
 
 // Re-export for convenience
 export type {
@@ -20,6 +20,6 @@ export type {
   AvailabilityResult,
   ShiftMetrics,
   WorkforceMetrics,
-} from &quot;./models&quot;;
+} from "./models";
 
-export { ShiftStatus, AssignmentStatus } from &quot;./models&quot;;
+export { ShiftStatus, AssignmentStatus } from "./models";

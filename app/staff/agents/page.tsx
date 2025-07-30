@@ -1,17 +1,17 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Avatar, AvatarFallback } from &quot;@/components/ui/avatar&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Search,
   Plus,
@@ -27,111 +27,111 @@ import {
   MoreVertical,
   Award,
   Activity,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 // Authentic brand agents data with UUID format following architectural guidelines
 const brandAgents = [
   {
-    id: &quot;660e8400-e29b-41d4-a716-446655440001&quot;,
-    name: &quot;Taylor Martinez&quot;,
-    email: &quot;taylor.martinez@company.com&quot;,
-    phone: &quot;+1 (555) 123-4567&quot;,
-    location: &quot;Los Angeles, CA&quot;,
-    fieldManager: &quot;Sarah Johnson&quot;,
-    fieldManagerId: &quot;550e8400-e29b-41d4-a716-446655440001&quot;,
+    id: "660e8400-e29b-41d4-a716-446655440001",
+    name: "Taylor Martinez",
+    email: "taylor.martinez@company.com",
+    phone: "+1 (555) 123-4567",
+    location: "Los Angeles, CA",
+    fieldManager: "Sarah Johnson",
+    fieldManagerId: "550e8400-e29b-41d4-a716-446655440001",
     eventsCompleted: 39,
     activeEvents: 2,
     rating: 4.6,
-    status: &quot;active&quot;,
-    availability: &quot;busy&quot;,
-    lastActive: &quot;2025-06-17T10:30:00Z&quot;,
-    joinDate: &quot;2024-03-15&quot;,
-    skills: [&quot;Product Demo&quot;, &quot;Customer Engagement&quot;, &quot;Retail Sales&quot;, &quot;Spanish&quot;],
-    certifications: [&quot;Retail Excellence&quot;, &quot;Customer Service Pro&quot;],
-    recentActivity: &quot;Completed product demo event at Downtown Mall&quot;,
+    status: "active",
+    availability: "busy",
+    lastActive: "2025-06-17T10:30:00Z",
+    joinDate: "2024-03-15",
+    skills: ["Product Demo", "Customer Engagement", "Retail Sales", "Spanish"],
+    certifications: ["Retail Excellence", "Customer Service Pro"],
+    recentActivity: "Completed product demo event at Downtown Mall",
   },
   {
-    id: &quot;660e8400-e29b-41d4-a716-446655440002&quot;,
-    name: &quot;Amanda Lewis&quot;,
-    email: &quot;amanda.lewis@company.com&quot;,
-    phone: &quot;+1 (555) 234-5678&quot;,
-    location: &quot;Portland, OR&quot;,
-    fieldManager: &quot;Michael Chen&quot;,
-    fieldManagerId: &quot;550e8400-e29b-41d4-a716-446655440002&quot;,
+    id: "660e8400-e29b-41d4-a716-446655440002",
+    name: "Amanda Lewis",
+    email: "amanda.lewis@company.com",
+    phone: "+1 (555) 234-5678",
+    location: "Portland, OR",
+    fieldManager: "Michael Chen",
+    fieldManagerId: "550e8400-e29b-41d4-a716-446655440002",
     eventsCompleted: 5,
     activeEvents: 1,
     rating: 4.8,
-    status: &quot;on_leave&quot;,
-    availability: &quot;unavailable&quot;,
-    lastActive: &quot;2025-06-15T16:20:00Z&quot;,
-    joinDate: &quot;2024-05-08&quot;,
-    skills: [&quot;Brand Activation&quot;, &quot;Event Coordination&quot;, &quot;Social Media&quot;],
-    certifications: [&quot;Brand Ambassador Pro&quot;],
-    recentActivity: &quot;On medical leave - returning July 1st&quot;,
+    status: "on_leave",
+    availability: "unavailable",
+    lastActive: "2025-06-15T16:20:00Z",
+    joinDate: "2024-05-08",
+    skills: ["Brand Activation", "Event Coordination", "Social Media"],
+    certifications: ["Brand Ambassador Pro"],
+    recentActivity: "On medical leave - returning July 1st",
   },
   {
-    id: &quot;660e8400-e29b-41d4-a716-446655440003&quot;,
-    name: &quot;Hannah Wilson&quot;,
-    email: &quot;hannah.wilson@company.com&quot;,
-    phone: &quot;+1 (555) 345-6789&quot;,
-    location: &quot;Denver, CO&quot;,
-    fieldManager: &quot;Lisa Rodriguez&quot;,
-    fieldManagerId: &quot;550e8400-e29b-41d4-a716-446655440003&quot;,
+    id: "660e8400-e29b-41d4-a716-446655440003",
+    name: "Hannah Wilson",
+    email: "hannah.wilson@company.com",
+    phone: "+1 (555) 345-6789",
+    location: "Denver, CO",
+    fieldManager: "Lisa Rodriguez",
+    fieldManagerId: "550e8400-e29b-41d4-a716-446655440003",
     eventsCompleted: 16,
     activeEvents: 1,
     rating: 3.6,
-    status: &quot;active&quot;,
-    availability: &quot;busy&quot;,
-    lastActive: &quot;2025-06-17T11:45:00Z&quot;,
-    joinDate: &quot;2023-11-10&quot;,
-    skills: [&quot;Trade Shows&quot;, &quot;B2B Networking&quot;, &quot;Presentation&quot;],
-    certifications: [&quot;Professional Development&quot;],
-    recentActivity: &quot;Attending corporate trade show this week&quot;,
+    status: "active",
+    availability: "busy",
+    lastActive: "2025-06-17T11:45:00Z",
+    joinDate: "2023-11-10",
+    skills: ["Trade Shows", "B2B Networking", "Presentation"],
+    certifications: ["Professional Development"],
+    recentActivity: "Attending corporate trade show this week",
   },
   {
-    id: &quot;660e8400-e29b-41d4-a716-446655440004&quot;,
-    name: &quot;Justin Moore&quot;,
-    email: &quot;justin.moore@company.com&quot;,
-    phone: &quot;+1 (555) 456-7890&quot;,
-    location: &quot;Chicago, IL&quot;,
-    fieldManager: &quot;Sarah Johnson&quot;,
-    fieldManagerId: &quot;550e8400-e29b-41d4-a716-446655440001&quot;,
+    id: "660e8400-e29b-41d4-a716-446655440004",
+    name: "Justin Moore",
+    email: "justin.moore@company.com",
+    phone: "+1 (555) 456-7890",
+    location: "Chicago, IL",
+    fieldManager: "Sarah Johnson",
+    fieldManagerId: "550e8400-e29b-41d4-a716-446655440001",
     eventsCompleted: 12,
     activeEvents: 0,
     rating: 4.3,
-    status: &quot;active&quot;,
-    availability: &quot;available&quot;,
-    lastActive: &quot;2025-06-17T09:15:00Z&quot;,
-    joinDate: &quot;2024-01-20&quot;,
-    skills: [&quot;Fashion Retail&quot;, &quot;Visual Merchandising&quot;, &quot;Customer Consultation&quot;],
-    certifications: [&quot;Retail Sales&quot;, &quot;Visual Display&quot;],
-    recentActivity: &quot;Available for new assignments&quot;,
+    status: "active",
+    availability: "available",
+    lastActive: "2025-06-17T09:15:00Z",
+    joinDate: "2024-01-20",
+    skills: ["Fashion Retail", "Visual Merchandising", "Customer Consultation"],
+    certifications: ["Retail Sales", "Visual Display"],
+    recentActivity: "Available for new assignments",
   },
   {
-    id: &quot;660e8400-e29b-41d4-a716-446655440005&quot;,
-    name: &quot;Nicole Lee&quot;,
-    email: &quot;nicole.lee@company.com&quot;,
-    phone: &quot;+1 (555) 567-8901&quot;,
-    location: &quot;Boston, MA&quot;,
-    fieldManager: &quot;Lisa Rodriguez&quot;,
-    fieldManagerId: &quot;550e8400-e29b-41d4-a716-446655440003&quot;,
+    id: "660e8400-e29b-41d4-a716-446655440005",
+    name: "Nicole Lee",
+    email: "nicole.lee@company.com",
+    phone: "+1 (555) 567-8901",
+    location: "Boston, MA",
+    fieldManager: "Lisa Rodriguez",
+    fieldManagerId: "550e8400-e29b-41d4-a716-446655440003",
     eventsCompleted: 26,
     activeEvents: 3,
     rating: 3.8,
-    status: &quot;active&quot;,
-    availability: &quot;busy&quot;,
-    lastActive: &quot;2025-06-17T12:00:00Z&quot;,
-    joinDate: &quot;2023-08-05&quot;,
-    skills: [&quot;Tech Products&quot;, &quot;Product Training&quot;, &quot;Customer Support&quot;],
-    certifications: [&quot;Tech Specialist&quot;, &quot;Customer Excellence&quot;],
-    recentActivity: &quot;Managing multiple tech product launches&quot;,
+    status: "active",
+    availability: "busy",
+    lastActive: "2025-06-17T12:00:00Z",
+    joinDate: "2023-08-05",
+    skills: ["Tech Products", "Product Training", "Customer Support"],
+    certifications: ["Tech Specialist", "Customer Excellence"],
+    recentActivity: "Managing multiple tech product launches",
   },
 ];
 
@@ -164,66 +164,66 @@ const BrandAgentCard = ({
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case &quot;active&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
-      case &quot;on_leave&quot;:
-        return &quot;bg-yellow-100 text-yellow-800 border-yellow-200&quot;;
-      case &quot;inactive&quot;:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+      case "active":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "on_leave":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "inactive":
+        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getAvailabilityColor = (availability: string) => {
     switch (availability) {
-      case &quot;available&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
-      case &quot;busy&quot;:
-        return &quot;bg-orange-100 text-orange-800 border-orange-200&quot;;
-      case &quot;unavailable&quot;:
-        return &quot;bg-red-100 text-red-800 border-red-200&quot;;
+      case "available":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "busy":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "unavailable":
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getInitials = (name: string) => {
     return name
-      .split(&quot; &quot;)
+      .split(" ")
       .map((n) => n[0])
-      .join("&quot;)
+      .join("")
       .toUpperCase();
   };
 
   const getRatingColor = (rating: number) => {
-    if (rating >= 4.5) return &quot;text-green-600&quot;;
-    if (rating >= 4.0) return &quot;text-blue-600&quot;;
-    if (rating >= 3.5) return &quot;text-yellow-600&quot;;
-    return &quot;text-red-600&quot;;
+    if (rating >= 4.5) return "text-green-600";
+    if (rating >= 4.0) return "text-blue-600";
+    if (rating >= 3.5) return "text-yellow-600";
+    return "text-red-600";
   };
 
   return (
-    <Card className=&quot;hover:shadow-lg transition-all duration-200&quot;>
-      <CardHeader className=&quot;pb-4&quot;>
-        <div className=&quot;flex items-start justify-between&quot;>
-          <div className=&quot;flex items-center space-x-3&quot;>
-            <Avatar className=&quot;h-12 w-12&quot;>
-              <AvatarFallback className=&quot;bg-purple-100 text-purple-600 font-semibold&quot;>
+    <Card className="hover:shadow-lg transition-all duration-200">
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-12 w-12">
+              <AvatarFallback className="bg-purple-100 text-purple-600 font-semibold">
                 {getInitials(agent.name)}
               </AvatarFallback>
             </Avatar>
             <div>
-              <CardTitle className=&quot;text-lg&quot;>{agent.name}</CardTitle>
-              <CardDescription className=&quot;flex items-center mt-1&quot;>
-                <MapPin className=&quot;h-4 w-4 mr-1&quot; />
+              <CardTitle className="text-lg">{agent.name}</CardTitle>
+              <CardDescription className="flex items-center mt-1">
+                <MapPin className="h-4 w-4 mr-1" />
                 {agent.location}
               </CardDescription>
             </div>
           </div>
-          <div className=&quot;flex flex-col items-end space-y-1&quot;>
+          <div className="flex flex-col items-end space-y-1">
             <Badge className={`${getStatusColor(agent.status)} border text-xs`}>
-              {agent.status.replace(&quot;_&quot;, &quot; &quot;).toUpperCase()}
+              {agent.status.replace("_", " ").toUpperCase()}
             </Badge>
             <Badge
               className={`${getAvailabilityColor(agent.availability)} border text-xs`}
@@ -234,53 +234,53 @@ const BrandAgentCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className=&quot;space-y-4&quot;>
+      <CardContent className="space-y-4">
         {/* Performance Metrics */}
-        <div className=&quot;grid grid-cols-3 gap-4&quot;>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-2xl font-bold text-blue-600&quot;>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600">
               {agent.eventsCompleted}
             </div>
-            <div className=&quot;text-xs text-muted-foreground&quot;>Completed</div>
+            <div className="text-xs text-muted-foreground">Completed</div>
           </div>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-2xl font-bold text-orange-600&quot;>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-orange-600">
               {agent.activeEvents}
             </div>
-            <div className=&quot;text-xs text-muted-foreground&quot;>Active</div>
+            <div className="text-xs text-muted-foreground">Active</div>
           </div>
-          <div className=&quot;text-center&quot;>
+          <div className="text-center">
             <div
               className={`text-2xl font-bold ${getRatingColor(agent.rating)}`}
             >
               {agent.rating}
             </div>
-            <div className=&quot;text-xs text-muted-foreground&quot;>Rating</div>
+            <div className="text-xs text-muted-foreground">Rating</div>
           </div>
         </div>
 
         {/* Field Manager */}
-        <div className=&quot;bg-blue-50 rounded-lg p-3&quot;>
-          <div className=&quot;flex items-center justify-between&quot;>
+        <div className="bg-blue-50 rounded-lg p-3">
+          <div className="flex items-center justify-between">
             <div>
-              <p className=&quot;text-sm font-medium text-blue-800&quot;>Field Manager</p>
-              <p className=&quot;text-sm text-blue-600&quot;>{agent.fieldManager}</p>
+              <p className="text-sm font-medium text-blue-800">Field Manager</p>
+              <p className="text-sm text-blue-600">{agent.fieldManager}</p>
             </div>
-            <BadgeCheck className=&quot;h-5 w-5 text-blue-600&quot; />
+            <BadgeCheck className="h-5 w-5 text-blue-600" />
           </div>
         </div>
 
         {/* Skills */}
         <div>
-          <div className=&quot;text-sm font-medium mb-2&quot;>Core Skills</div>
-          <div className=&quot;flex flex-wrap gap-1&quot;>
+          <div className="text-sm font-medium mb-2">Core Skills</div>
+          <div className="flex flex-wrap gap-1">
             {agent.skills.slice(0, 3).map((skill, index) => (
-              <Badge key={index} variant=&quot;outline&quot; className=&quot;text-xs&quot;>
+              <Badge key={index} variant="outline" className="text-xs">
                 {skill}
               </Badge>
             ))}
             {agent.skills.length > 3 && (
-              <Badge variant=&quot;outline&quot; className=&quot;text-xs&quot;>
+              <Badge variant="outline" className="text-xs">
                 +{agent.skills.length - 3} more
               </Badge>
             )}
@@ -288,53 +288,53 @@ const BrandAgentCard = ({
         </div>
 
         {/* Recent Activity */}
-        <div className=&quot;pt-2 border-t&quot;>
-          <div className=&quot;text-sm text-muted-foreground&quot;>
-            <span className=&quot;font-medium&quot;>Recent: </span>
+        <div className="pt-2 border-t">
+          <div className="text-sm text-muted-foreground">
+            <span className="font-medium">Recent: </span>
             {agent.recentActivity}
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className=&quot;flex space-x-2 pt-2&quot;>
+        <div className="flex space-x-2 pt-2">
           <Button
-            size=&quot;sm&quot;
-            className=&quot;flex-1&quot;
-            onClick={() => onAction(&quot;view&quot;, agent.id)}
+            size="sm"
+            className="flex-1"
+            onClick={() => onAction("view", agent.id)}
           >
-            <BadgeCheck className=&quot;h-4 w-4 mr-1&quot; />
+            <BadgeCheck className="h-4 w-4 mr-1" />
             View
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;message&quot;, agent.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("message", agent.id)}
           >
-            <MessageSquare className=&quot;h-4 w-4&quot; />
+            <MessageSquare className="h-4 w-4" />
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;assign&quot;, agent.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("assign", agent.id)}
           >
-            <Calendar className=&quot;h-4 w-4&quot; />
+            <Calendar className="h-4 w-4" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                <MoreVertical className=&quot;h-4 w-4&quot; />
+              <Button variant="outline" size="sm">
+                <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => onAction(&quot;schedule&quot;, agent.id)}>
+              <DropdownMenuItem onClick={() => onAction("schedule", agent.id)}>
                 View Schedule
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => onAction(&quot;performance&quot;, agent.id)}
+                onClick={() => onAction("performance", agent.id)}
               >
                 Performance Review
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction(&quot;training&quot;, agent.id)}>
+              <DropdownMenuItem onClick={() => onAction("training", agent.id)}>
                 Training Records
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -346,9 +346,9 @@ const BrandAgentCard = ({
 };
 
 export default function BrandAgentsPage() {
-  const [searchQuery, setSearchQuery] = useState(&quot;&quot;);
-  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
-  const [availabilityFilter, setAvailabilityFilter] = useState(&quot;all&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const { toast } = useToast();
 
   const filteredAgents = brandAgents.filter((agent) => {
@@ -360,9 +360,9 @@ export default function BrandAgentsPage() {
         skill.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     const matchesStatus =
-      statusFilter === &quot;all&quot; || agent.status === statusFilter;
+      statusFilter === "all" || agent.status === statusFilter;
     const matchesAvailability =
-      availabilityFilter === &quot;all&quot; || agent.availability === availabilityFilter;
+      availabilityFilter === "all" || agent.availability === availabilityFilter;
     return matchesSearch && matchesStatus && matchesAvailability;
   });
 
@@ -376,7 +376,7 @@ export default function BrandAgentsPage() {
       agentId,
       agentName: agent?.name,
       fieldManagerId: agent?.fieldManagerId,
-      initiatedBy: &quot;internal_admin&quot;,
+      initiatedBy: "internal_admin",
       metadata: {
         location: agent?.location,
         currentStatus: agent?.status,
@@ -386,42 +386,42 @@ export default function BrandAgentsPage() {
     };
 
     // In real implementation, this would publish to event bus
-    console.log(&quot;Publishing event:&quot;, eventPayload);
+    console.log("Publishing event:", eventPayload);
 
     switch (action) {
-      case &quot;view&quot;:
+      case "view":
         toast({
-          title: &quot;Opening Profile&quot;,
+          title: "Opening Profile",
           description: `Viewing ${agent?.name}'s detailed profile`,
         });
         break;
-      case &quot;message&quot;:
+      case "message":
         toast({
-          title: &quot;Message Initiated&quot;,
+          title: "Message Initiated",
           description: `Starting conversation with ${agent?.name}`,
         });
         break;
-      case &quot;assign&quot;:
+      case "assign":
         toast({
-          title: &quot;Assignment Panel&quot;,
+          title: "Assignment Panel",
           description: `Opening event assignment for ${agent?.name}`,
         });
         break;
-      case &quot;schedule&quot;:
+      case "schedule":
         toast({
-          title: &quot;Schedule View&quot;,
+          title: "Schedule View",
           description: `Loading ${agent?.name}'s schedule`,
         });
         break;
-      case &quot;performance&quot;:
+      case "performance":
         toast({
-          title: &quot;Performance Review&quot;,
+          title: "Performance Review",
           description: `Opening performance metrics for ${agent?.name}`,
         });
         break;
-      case &quot;training&quot;:
+      case "training":
         toast({
-          title: &quot;Training Records&quot;,
+          title: "Training Records",
           description: `Accessing training history for ${agent?.name}`,
         });
         break;
@@ -429,125 +429,125 @@ export default function BrandAgentsPage() {
   };
 
   const totalAgents = brandAgents.length;
-  const activeAgents = brandAgents.filter((a) => a.status === &quot;active&quot;).length;
+  const activeAgents = brandAgents.filter((a) => a.status === "active").length;
   const availableAgents = brandAgents.filter(
-    (a) => a.availability === &quot;available&quot;,
+    (a) => a.availability === "available",
   ).length;
   const averageRating = (
     brandAgents.reduce((sum, a) => sum + a.rating, 0) / totalAgents
   ).toFixed(1);
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+    <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Brand Agents</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">Brand Agents</h1>
+          <p className="text-muted-foreground">
             Manage and oversee brand agents across all locations and events
           </p>
         </div>
         <Button>
-          <Plus className=&quot;mr-2 h-4 w-4&quot; />
+          <Plus className="mr-2 h-4 w-4" />
           Add Brand Agent
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Total Agents
                 </p>
-                <p className=&quot;text-2xl font-bold&quot;>{totalAgents}</p>
+                <p className="text-2xl font-bold">{totalAgents}</p>
               </div>
-              <Users className=&quot;h-8 w-8 text-purple-600&quot; />
+              <Users className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Active
                 </p>
-                <p className=&quot;text-2xl font-bold text-green-600&quot;>
+                <p className="text-2xl font-bold text-green-600">
                   {activeAgents}
                 </p>
               </div>
-              <Activity className=&quot;h-8 w-8 text-green-600&quot; />
+              <Activity className="h-8 w-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Available
                 </p>
-                <p className=&quot;text-2xl font-bold text-blue-600&quot;>
+                <p className="text-2xl font-bold text-blue-600">
                   {availableAgents}
                 </p>
               </div>
-              <TrendingUp className=&quot;h-8 w-8 text-blue-600&quot; />
+              <TrendingUp className="h-8 w-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Avg Rating
                 </p>
-                <p className=&quot;text-2xl font-bold text-yellow-600&quot;>
+                <p className="text-2xl font-bold text-yellow-600">
                   {averageRating}
                 </p>
               </div>
-              <Star className=&quot;h-8 w-8 text-yellow-600&quot; />
+              <Star className="h-8 w-8 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Search and Filters */}
-      <div className=&quot;flex flex-col lg:flex-row gap-4&quot;>
-        <div className=&quot;relative flex-1&quot;>
-          <Search className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder=&quot;Search agents by name, location, manager, or skills...&quot;
+            placeholder="Search agents by name, location, manager, or skills..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className=&quot;pl-10&quot;
+            className="pl-10"
           />
         </div>
-        <div className=&quot;flex gap-2&quot;>
+        <div className="flex gap-2">
           <Button
-            variant={statusFilter === &quot;all&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;all&quot;)}
-            size=&quot;sm&quot;
+            variant={statusFilter === "all" ? "default" : "outline"}
+            onClick={() => setStatusFilter("all")}
+            size="sm"
           >
             All Status
           </Button>
           <Button
-            variant={statusFilter === &quot;active&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;active&quot;)}
-            size=&quot;sm&quot;
+            variant={statusFilter === "active" ? "default" : "outline"}
+            onClick={() => setStatusFilter("active")}
+            size="sm"
           >
             Active
           </Button>
           <Button
-            variant={availabilityFilter === &quot;available&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setAvailabilityFilter(&quot;available&quot;)}
-            size=&quot;sm&quot;
+            variant={availabilityFilter === "available" ? "default" : "outline"}
+            onClick={() => setAvailabilityFilter("available")}
+            size="sm"
           >
             Available
           </Button>
@@ -555,7 +555,7 @@ export default function BrandAgentsPage() {
       </div>
 
       {/* Agents Grid */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredAgents.map((agent) => (
           <BrandAgentCard
             key={agent.id}
@@ -566,10 +566,10 @@ export default function BrandAgentsPage() {
       </div>
 
       {filteredAgents.length === 0 && (
-        <div className=&quot;text-center py-12&quot;>
-          <BadgeCheck className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
-          <h3 className=&quot;mt-4 text-lg font-medium&quot;>No brand agents found</h3>
-          <p className=&quot;mt-2 text-muted-foreground">
+        <div className="text-center py-12">
+          <BadgeCheck className="h-12 w-12 mx-auto text-muted-foreground/50" />
+          <h3 className="mt-4 text-lg font-medium">No brand agents found</h3>
+          <p className="mt-2 text-muted-foreground">
             Try adjusting your search criteria or add a new brand agent.
           </p>
         </div>

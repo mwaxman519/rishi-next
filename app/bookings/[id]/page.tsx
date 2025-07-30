@@ -1,15 +1,15 @@
-import { Suspense } from &quot;react&quot;;
-import { notFound } from &quot;next/navigation&quot;;
-import { db } from &quot;@/db&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { bookings, organizations, users } from &quot;@shared/schema&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { ArrowLeft } from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
-import BookingApproval from &quot;../../../components/bookings/BookingApproval&quot;;
-import BookingManagement from &quot;../../../components/bookings/BookingManagement&quot;;
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
+import { db } from "@/db";
+import { eq, and } from "drizzle-orm";
+import { bookings, organizations, users } from "@shared/schema";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import BookingApproval from "../../../components/bookings/BookingApproval";
+import BookingManagement from "../../../components/bookings/BookingManagement";
 
 interface BookingDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -44,7 +44,7 @@ async function getBookingData(bookingId: string) {
       username: users.username,
     })
     .from(users)
-    .where(eq(users.role, &quot;internal_field_manager&quot;));
+    .where(eq(users.role, "internal_field_manager"));
 
   return {
     ...bookingWithClient[0],
@@ -71,8 +71,8 @@ export default async function BookingDetailsPage({
   const bookingDetails = {
     id: booking.id,
     title: booking.title,
-    clientName: client?.name || &quot;Unknown Client&quot;,
-    location: &quot;Location Name&quot;, // This would come from a join with locations
+    clientName: client?.name || "Unknown Client",
+    location: "Location Name", // This would come from a join with locations
     startDate: booking.startDate.toISOString(),
     endDate: booking.endDate.toISOString(),
     isRecurring: booking.isRecurring,
@@ -82,34 +82,34 @@ export default async function BookingDetailsPage({
   };
 
   return (
-    <div className=&quot;container mx-auto py-4 space-y-6&quot;>
-      <div className=&quot;flex justify-between items-center&quot;>
-        <div className=&quot;flex items-center&quot;>
-          <Button variant=&quot;ghost&quot; size=&quot;icon&quot; asChild className=&quot;mr-2&quot;>
-            <Link href=&quot;/bookings&quot;>
-              <ArrowLeft className=&quot;h-5 w-5&quot; />
+    <div className="container mx-auto py-4 space-y-6">
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
+          <Button variant="ghost" size="icon" asChild className="mr-2">
+            <Link href="/bookings">
+              <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
-          <h1 className=&quot;text-2xl font-bold&quot;>{booking.title}</h1>
+          <h1 className="text-2xl font-bold">{booking.title}</h1>
         </div>
-        <div className=&quot;flex items-center gap-2&quot;>
-          <span className=&quot;text-sm px-2 py-1 bg-blue-100 text-blue-800 rounded-full&quot;>
+        <div className="flex items-center gap-2">
+          <span className="text-sm px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
             {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
           </span>
         </div>
       </div>
 
-      <Tabs defaultValue=&quot;details&quot; className=&quot;w-full&quot;>
+      <Tabs defaultValue="details" className="w-full">
         <TabsList>
-          <TabsTrigger value=&quot;details&quot;>Details</TabsTrigger>
-          <TabsTrigger value=&quot;events&quot;>Events</TabsTrigger>
-          <TabsTrigger value=&quot;comments&quot;>Comments</TabsTrigger>
-          <TabsTrigger value=&quot;history&quot;>History</TabsTrigger>
+          <TabsTrigger value="details">Details</TabsTrigger>
+          <TabsTrigger value="events">Events</TabsTrigger>
+          <TabsTrigger value="comments">Comments</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;details&quot; className=&quot;py-4&quot;>
-          {booking.status === &quot;pending&quot; && (
-            <div className=&quot;mb-6&quot;>
+        <TabsContent value="details" className="py-4">
+          {booking.status === "pending" && (
+            <div className="mb-6">
               <BookingApproval
                 booking={bookingDetails}
                 onApproved={() => {}} // This would refresh the page in a client component
@@ -118,20 +118,20 @@ export default async function BookingDetailsPage({
             </div>
           )}
 
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6 mt-6&quot;>
-            <div className=&quot;space-y-4&quot;>
-              <h2 className=&quot;text-xl font-semibold border-b pb-2&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold border-b pb-2">
                 Booking Information
               </h2>
-              <div className=&quot;grid grid-cols-2 gap-4&quot;>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <p className="text-sm font-medium text-muted-foreground">
                     Client
                   </p>
-                  <p>{client?.name || &quot;Unknown Client&quot;}</p>
+                  <p>{client?.name || "Unknown Client"}</p>
                 </div>
                 <div>
-                  <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <p className="text-sm font-medium text-muted-foreground">
                     Status
                   </p>
                   <p>
@@ -140,25 +140,25 @@ export default async function BookingDetailsPage({
                   </p>
                 </div>
                 <div>
-                  <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <p className="text-sm font-medium text-muted-foreground">
                     Start Date
                   </p>
                   <p>{booking.startDate.toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <p className="text-sm font-medium text-muted-foreground">
                     End Date
                   </p>
                   <p>{booking.endDate.toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <p className="text-sm font-medium text-muted-foreground">
                     Recurring
                   </p>
-                  <p>{booking.isRecurring ? &quot;Yes&quot; : &quot;No&quot;}</p>
+                  <p>{booking.isRecurring ? "Yes" : "No"}</p>
                 </div>
                 <div>
-                  <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                  <p className="text-sm font-medium text-muted-foreground">
                     Staff Count
                   </p>
                   <p>{booking.staffCount || 1}</p>
@@ -166,45 +166,45 @@ export default async function BookingDetailsPage({
               </div>
             </div>
 
-            <div className=&quot;space-y-4&quot;>
-              <h2 className=&quot;text-xl font-semibold border-b pb-2&quot;>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold border-b pb-2">
                 Additional Details
               </h2>
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Description
                 </p>
-                <p className=&quot;mt-1&quot;>
-                  {booking.description || &quot;No description provided.&quot;}
+                <p className="mt-1">
+                  {booking.description || "No description provided."}
                 </p>
               </div>
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Notes
                 </p>
-                <p className=&quot;mt-1&quot;>{booking.notes || &quot;No notes provided.&quot;}</p>
+                <p className="mt-1">{booking.notes || "No notes provided."}</p>
               </div>
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;events&quot; className=&quot;py-4&quot;>
-          <Suspense fallback={<Skeleton className=&quot;h-64 w-full&quot; />}>
+        <TabsContent value="events" className="py-4">
+          <Suspense fallback={<Skeleton className="h-64 w-full" />}>
             <BookingManagement bookingId={booking.id} managers={fieldManagers} />
           </Suspense>
         </TabsContent>
 
-        <TabsContent value=&quot;comments&quot; className=&quot;py-4&quot;>
-          <div className=&quot;text-center p-8 border rounded-md bg-muted/30&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="comments" className="py-4">
+          <div className="text-center p-8 border rounded-md bg-muted/30">
+            <p className="text-muted-foreground">
               No comments available for this booking.
             </p>
           </div>
         </TabsContent>
 
-        <TabsContent value=&quot;history&quot; className=&quot;py-4&quot;>
-          <div className=&quot;text-center p-8 border rounded-md bg-muted/30&quot;>
-            <p className=&quot;text-muted-foreground&quot;>
+        <TabsContent value="history" className="py-4">
+          <div className="text-center p-8 border rounded-md bg-muted/30">
+            <p className="text-muted-foreground">
               Booking history will be displayed here.
             </p>
           </div>

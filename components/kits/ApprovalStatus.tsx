@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { useState } from "react";
+import { useAuthorization } from "@/hooks/useAuthorization";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -13,14 +13,14 @@ import {
   DialogDescription,
   DialogFooter,
   DialogClose,
-} from &quot;@/components/ui/dialog&quot;;
-import { CheckCircle2, XCircle, Clock, AlertCircle } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import { ApprovalStatusUpdate } from &quot;@/hooks/useKits&quot;;
+} from "@/components/ui/dialog";
+import { CheckCircle2, XCircle, Clock, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { ApprovalStatusUpdate } from "@/hooks/useKits";
 
 interface ApprovalStatusProps {
   status: string;
-  itemType: &quot;kit&quot; | &quot;template&quot;;
+  itemType: "kit" | "template";
   itemId: number;
   onApprove: (data: ApprovalStatusUpdate) => void;
   isApproving?: boolean;
@@ -34,14 +34,14 @@ export default function ApprovalStatus({
   isApproving = false,
 }: ApprovalStatusProps) {
   const [showDialog, setShowDialog] = useState(false);
-  const [action, setAction] = useState<&quot;approve&quot; | &quot;reject&quot; | null>(null);
-  const [notes, setNotes] = useState("&quot;);
+  const [action, setAction] = useState<"approve" | "reject" | null>(null);
+  const [notes, setNotes] = useState("");
 
   const { toast } = useToast();
   const { checkPermission } = useAuthorization();
 
   const canApprove = checkPermission(
-    `approve:${itemType === &quot;kit&quot; ? &quot;kits&quot; : &quot;kit-templates&quot;}`,
+    `approve:${itemType === "kit" ? "kits" : "kit-templates"}`,
   );
 
   const handleSubmit = () => {
@@ -49,84 +49,84 @@ export default function ApprovalStatus({
 
     try {
       onApprove({
-        approvalStatus: action === &quot;approve&quot; ? &quot;approved&quot; : &quot;rejected&quot;,
+        approvalStatus: action === "approve" ? "approved" : "rejected",
         approvalNotes: notes,
       });
 
       toast({
-        title: `${itemType === &quot;kit&quot; ? &quot;Kit&quot; : &quot;Template&quot;} ${action === &quot;approve&quot; ? &quot;approved&quot; : &quot;rejected&quot;}`,
-        description: `The ${itemType} has been successfully ${action === &quot;approve&quot; ? &quot;approved&quot; : &quot;rejected&quot;}.`,
+        title: `${itemType === "kit" ? "Kit" : "Template"} ${action === "approve" ? "approved" : "rejected"}`,
+        description: `The ${itemType} has been successfully ${action === "approve" ? "approved" : "rejected"}.`,
       });
 
       setShowDialog(false);
-      setNotes(&quot;&quot;);
+      setNotes("");
     } catch (error) {
       toast({
-        title: &quot;Error&quot;,
+        title: "Error",
         description: `Failed to ${action} ${itemType}. Please try again.`,
-        variant: &quot;destructive&quot;,
+        variant: "destructive",
       });
     }
   };
 
-  const openDialog = (actionType: &quot;approve&quot; | &quot;reject&quot;) => {
+  const openDialog = (actionType: "approve" | "reject") => {
     setAction(actionType);
     setShowDialog(true);
   };
 
   const renderStatus = () => {
     switch (status) {
-      case &quot;approved&quot;:
+      case "approved":
         return (
-          <Badge className=&quot;bg-green-100 text-green-800 border-green-300 hover:bg-green-200&quot;>
-            <CheckCircle2 className=&quot;h-3.5 w-3.5 mr-1&quot; />
+          <Badge className="bg-green-100 text-green-800 border-green-300 hover:bg-green-200">
+            <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
             Approved
           </Badge>
         );
-      case &quot;rejected&quot;:
+      case "rejected":
         return (
-          <Badge className=&quot;bg-red-100 text-red-800 border-red-300 hover:bg-red-200&quot;>
-            <XCircle className=&quot;h-3.5 w-3.5 mr-1&quot; />
+          <Badge className="bg-red-100 text-red-800 border-red-300 hover:bg-red-200">
+            <XCircle className="h-3.5 w-3.5 mr-1" />
             Rejected
           </Badge>
         );
-      case &quot;pending&quot;:
+      case "pending":
         return (
-          <Badge className=&quot;bg-yellow-100 text-yellow-800 border-yellow-300 hover:bg-yellow-200&quot;>
-            <Clock className=&quot;h-3.5 w-3.5 mr-1&quot; />
+          <Badge className="bg-yellow-100 text-yellow-800 border-yellow-300 hover:bg-yellow-200">
+            <Clock className="h-3.5 w-3.5 mr-1" />
             Pending Approval
           </Badge>
         );
       default:
-        return <Badge variant=&quot;outline&quot;>{status}</Badge>;
+        return <Badge variant="outline">{status}</Badge>;
     }
   };
 
   return (
-    <div className=&quot;flex flex-wrap gap-2 items-center&quot;>
+    <div className="flex flex-wrap gap-2 items-center">
       {renderStatus()}
 
-      {status === &quot;pending&quot; && canApprove && (
-        <div className=&quot;flex space-x-2&quot;>
+      {status === "pending" && canApprove && (
+        <div className="flex space-x-2">
           <Button
-            variant=&quot;outline&quot;
-            size=&quot;sm&quot;
-            className=&quot;border-green-500 text-green-600 hover:bg-green-50&quot;
-            onClick={() => openDialog(&quot;approve&quot;)}
+            variant="outline"
+            size="sm"
+            className="border-green-500 text-green-600 hover:bg-green-50"
+            onClick={() => openDialog("approve")}
             disabled={isApproving}
           >
-            <CheckCircle2 className=&quot;h-4 w-4 mr-1&quot; />
+            <CheckCircle2 className="h-4 w-4 mr-1" />
             Approve
           </Button>
 
           <Button
-            variant=&quot;outline&quot;
-            size=&quot;sm&quot;
-            className=&quot;border-red-500 text-red-600 hover:bg-red-50&quot;
-            onClick={() => openDialog(&quot;reject&quot;)}
+            variant="outline"
+            size="sm"
+            className="border-red-500 text-red-600 hover:bg-red-50"
+            onClick={() => openDialog("reject")}
             disabled={isApproving}
           >
-            <XCircle className=&quot;h-4 w-4 mr-1&quot; />
+            <XCircle className="h-4 w-4 mr-1" />
             Reject
           </Button>
         </div>
@@ -136,49 +136,49 @@ export default function ApprovalStatus({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {action === &quot;approve&quot; ? &quot;Approve&quot; : &quot;Reject&quot;}{&quot; &quot;}
-              {itemType === &quot;kit&quot; ? &quot;Kit&quot; : &quot;Template&quot;}
+              {action === "approve" ? "Approve" : "Reject"}{" "}
+              {itemType === "kit" ? "Kit" : "Template"}
             </DialogTitle>
             <DialogDescription>
-              {action === &quot;approve&quot;
+              {action === "approve"
                 ? `This will approve the ${itemType} and make it available for use.`
                 : `This will reject the ${itemType} and prevent it from being used.`}
             </DialogDescription>
           </DialogHeader>
 
-          <div className=&quot;py-4&quot;>
+          <div className="py-4">
             <Textarea
-              placeholder={`Add notes about why you&apos;re ${action === &quot;approve&quot; ? &quot;approving&quot; : &quot;rejecting&quot;} this ${itemType} (optional)`}
+              placeholder={`Add notes about why you're ${action === "approve" ? "approving" : "rejecting"} this ${itemType} (optional)`}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={4}
             />
           </div>
 
-          <DialogFooter className=&quot;flex space-x-2 justify-end&quot;>
+          <DialogFooter className="flex space-x-2 justify-end">
             <DialogClose asChild>
-              <Button variant=&quot;outline&quot;>Cancel</Button>
+              <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button
               onClick={handleSubmit}
-              variant={action === &quot;approve&quot; ? &quot;default&quot; : &quot;destructive&quot;}
+              variant={action === "approve" ? "default" : "destructive"}
               disabled={isApproving}
             >
               {isApproving ? (
                 <>
-                  <span className=&quot;animate-spin mr-2&quot;>◌</span>
+                  <span className="animate-spin mr-2">◌</span>
                   Processing...
                 </>
               ) : (
                 <>
-                  {action === &quot;approve&quot; ? (
+                  {action === "approve" ? (
                     <>
-                      <CheckCircle2 className=&quot;h-4 w-4 mr-2&quot; />
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
                       Approve
                     </>
                   ) : (
                     <>
-                      <XCircle className=&quot;h-4 w-4 mr-2" />
+                      <XCircle className="h-4 w-4 mr-2" />
                       Reject
                     </>
                   )}

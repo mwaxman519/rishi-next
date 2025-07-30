@@ -1,22 +1,22 @@
-&quot;use client&quot;;
+"use client";
 
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
-import { useAuthService } from &quot;@/hooks/useAuthService&quot;;
-import { useState } from &quot;react&quot;;
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuthService } from "@/hooks/useAuthService";
+import { useState } from "react";
 
 export default function TestAuth() {
   const authService = useAuthService();
-  const [testResult, setTestResult] = useState<string>("&quot;);
+  const [testResult, setTestResult] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   const testLogin = async () => {
     setIsLoading(true);
-    setTestResult(&quot;&quot;);
+    setTestResult("");
     try {
       const result = await authService.login({
-        username: &quot;mike&quot;,
-        password: &quot;wrench519&quot;,
+        username: "mike",
+        password: "wrench519",
       });
       setTestResult(`Login successful: ${JSON.stringify(result, null, 2)}`);
     } catch (error) {
@@ -28,7 +28,7 @@ export default function TestAuth() {
 
   const testSession = async () => {
     setIsLoading(true);
-    setTestResult(&quot;&quot;);
+    setTestResult("");
     try {
       const result = await authService.getSession();
       setTestResult(`Session: ${JSON.stringify(result, null, 2)}`);
@@ -41,10 +41,10 @@ export default function TestAuth() {
 
   const testLogout = async () => {
     setIsLoading(true);
-    setTestResult(&quot;&quot;);
+    setTestResult("");
     try {
       await authService.logout();
-      setTestResult(&quot;Logout successful&quot;);
+      setTestResult("Logout successful");
     } catch (error) {
       setTestResult(`Logout failed: ${error}`);
     } finally {
@@ -53,13 +53,13 @@ export default function TestAuth() {
   };
 
   return (
-    <div className=&quot;container mx-auto py-6&quot;>
+    <div className="container mx-auto py-6">
       <Card>
         <CardHeader>
           <CardTitle>Authentication Test</CardTitle>
         </CardHeader>
-        <CardContent className=&quot;space-y-4&quot;>
-          <div className=&quot;flex gap-4&quot;>
+        <CardContent className="space-y-4">
+          <div className="flex gap-4">
             <Button onClick={testLogin} disabled={isLoading}>
               Test Login
             </Button>
@@ -71,7 +71,7 @@ export default function TestAuth() {
             </Button>
           </div>
           {testResult && (
-            <pre className=&quot;bg-gray-100 p-4 rounded text-sm overflow-auto">
+            <pre className="bg-gray-100 p-4 rounded text-sm overflow-auto">
               {testResult}
             </pre>
           )}

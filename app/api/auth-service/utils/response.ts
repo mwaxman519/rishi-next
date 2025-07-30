@@ -3,9 +3,9 @@
  *
  * These functions ensure consistent response format across all auth service endpoints.
  */
-import { NextResponse } from &quot;next/server&quot;;
-import { AUTH_CONFIG } from &quot;../config&quot;;
-import { cookies } from &quot;next/headers&quot;;
+import { NextResponse } from "next/server";
+import { AUTH_CONFIG } from "../config";
+import { cookies } from "next/headers";
 
 /**
  * Create a standard error response
@@ -13,7 +13,7 @@ import { cookies } from &quot;next/headers&quot;;
 export function errorResponse(
   message: string,
   status: number = 400,
-  code: string = &quot;ERROR&quot;,
+  code: string = "ERROR",
   details?: any,
 ) {
   return NextResponse.json(
@@ -66,8 +66,8 @@ export function responseWithAuthCookie(
 
   // Set the auth cookie
   // In staging/autoscale environment, we need secure cookies for HTTPS
-  const isSecureEnvironment = process.env.NODE_ENV === &quot;production&quot; || 
-                            process.env.REPLIT_DOMAINS?.includes(&quot;.replit.dev&quot;);
+  const isSecureEnvironment = process.env.NODE_ENV === "production" || 
+                            process.env.REPLIT_DOMAINS?.includes(".replit.dev");
   
   const cookieOptions = {
     name: AUTH_CONFIG.COOKIE_NAME,
@@ -75,16 +75,16 @@ export function responseWithAuthCookie(
     httpOnly: true,
     secure: isSecureEnvironment,
     maxAge: AUTH_CONFIG.COOKIE_MAX_AGE,
-    path: &quot;/&quot;,
-    sameSite: &quot;lax&quot; as const,
+    path: "/",
+    sameSite: "lax" as const,
   };
   
-  console.log(&quot;[Auth Service] Setting cookie:&quot;, cookieOptions.name, &quot;secure:&quot;, cookieOptions.secure, &quot;value length:&quot;, cookieOptions.value.length);
+  console.log("[Auth Service] Setting cookie:", cookieOptions.name, "secure:", cookieOptions.secure, "value length:", cookieOptions.value.length);
   response.cookies.set(cookieOptions);
   
   // Verify cookie was set
   const setCookieHeader = response.headers.get('set-cookie');
-  console.log(&quot;[Auth Service] Set-Cookie header:&quot;, setCookieHeader ? &quot;present&quot; : &quot;missing&quot;);
+  console.log("[Auth Service] Set-Cookie header:", setCookieHeader ? "present" : "missing");
 
   return response;
 }
@@ -105,17 +105,17 @@ export function responseWithClearAuthCookie(data: any, status: number = 200) {
 
   // Clear the auth cookie
   // In staging/autoscale environment, we need secure cookies for HTTPS
-  const isSecureEnvironment = process.env.NODE_ENV === &quot;production&quot; || 
-                            process.env.REPLIT_DOMAINS?.includes(&quot;.replit.dev&quot;);
+  const isSecureEnvironment = process.env.NODE_ENV === "production" || 
+                            process.env.REPLIT_DOMAINS?.includes(".replit.dev");
   
   response.cookies.set({
     name: AUTH_CONFIG.COOKIE_NAME,
-    value: "&quot;,
+    value: "",
     httpOnly: true,
     secure: isSecureEnvironment,
     maxAge: 0,
-    path: &quot;/&quot;,
-    sameSite: &quot;lax",
+    path: "/",
+    sameSite: "lax",
   });
 
   return response;

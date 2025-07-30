@@ -2,21 +2,21 @@
  * Utility function for making API requests with enhanced error handling
  */
 export async function apiRequest(
-  method: &quot;GET&quot; | &quot;POST&quot; | &quot;PUT&quot; | &quot;PATCH&quot; | &quot;DELETE&quot;,
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   url: string,
   data?: any,
 ) {
   const headers: HeadersInit = {
-    &quot;Content-Type&quot;: &quot;application/json&quot;,
+    "Content-Type": "application/json",
   };
 
   const options: RequestInit = {
     method,
     headers,
-    credentials: &quot;include&quot;,
+    credentials: "include",
   };
 
-  if (data && method !== &quot;GET&quot;) {
+  if (data && method !== "GET") {
     options.body = JSON.stringify(data);
   }
 
@@ -26,11 +26,11 @@ export async function apiRequest(
 
     // Check if response is valid
     if (!response) {
-      throw new Error(&quot;No response received from server&quot;);
+      throw new Error("No response received from server");
     }
   } catch (networkError) {
     console.error(`Network error fetching ${url}:`, networkError);
-    const errorMessage = networkError.message || &quot;Network error with no message&quot;;
+    const errorMessage = networkError.message || "Network error with no message";
     throw new Error(`Network error: ${errorMessage}`);
   }
 
@@ -38,7 +38,7 @@ export async function apiRequest(
     let errorMessage = `Request failed with status ${response.status}`;
 
     // Try to parse error JSON, but handle the case where json() might not be available
-    if (typeof response.json === &quot;function&quot;) {
+    if (typeof response.json === "function") {
       try {
         const errorData = await response.json();
         errorMessage = errorData.error || errorMessage;
@@ -51,11 +51,11 @@ export async function apiRequest(
           }
         } catch (textError) {
           // If even getting text fails, use the default error message
-          console.error(&quot;Failed to get error response text:&quot;, textError);
+          console.error("Failed to get error response text:", textError);
         }
       }
     } else {
-      console.error(&quot;Response does not have json method:&quot;, response);
+      console.error("Response does not have json method:", response);
       // Try to get response as text
       try {
         const textError = await response.text();
@@ -63,7 +63,7 @@ export async function apiRequest(
           errorMessage += `: ${textError}`;
         }
       } catch (textError) {
-        console.error(&quot;Failed to get error response text:&quot;, textError);
+        console.error("Failed to get error response text:", textError);
       }
     }
 
@@ -76,27 +76,27 @@ export async function apiRequest(
   }
 
   // Check if the response has content before trying to parse JSON
-  const contentLength = response.headers.get(&quot;content-length&quot;);
-  if (contentLength === &quot;0&quot;) {
+  const contentLength = response.headers.get("content-length");
+  if (contentLength === "0") {
     return response;
   }
 
   // Handle the case where json() might not be available
-  if (typeof response.json !== &quot;function&quot;) {
-    console.error(&quot;Response does not have json method:&quot;, response);
+  if (typeof response.json !== "function") {
+    console.error("Response does not have json method:", response);
 
     // Try to get response as text and parse it manually
     try {
       const text = await response.text();
       if (!text) {
-        console.warn(&quot;Empty response text&quot;);
+        console.warn("Empty response text");
         return response;
       }
 
       try {
         return JSON.parse(text);
       } catch (parseError) {
-        console.error(&quot;Failed to parse response text as JSON:&quot;, parseError);
+        console.error("Failed to parse response text as JSON:", parseError);
         // Return the raw text in a structured format
         return {
           _raw: text,
@@ -104,7 +104,7 @@ export async function apiRequest(
         };
       }
     } catch (textError) {
-      console.error(&quot;Failed to get response text:&quot;, textError);
+      console.error("Failed to get response text:", textError);
       return response;
     }
   }
@@ -118,7 +118,7 @@ export async function apiRequest(
     // Try to get the raw text as fallback
     try {
       const text = await response.text();
-      console.log(&quot;Response text when JSON parsing failed:&quot;, text);
+      console.log("Response text when JSON parsing failed:", text);
 
       // If the text is empty, return an empty object
       if (!text) {
@@ -136,7 +136,7 @@ export async function apiRequest(
         };
       }
     } catch (textError) {
-      console.error(&quot;Failed to get response text as fallback:&quot;, textError);
+      console.error("Failed to get response text as fallback:", textError);
       // Return the response object for inspection
       return {
         _response: {
@@ -157,27 +157,27 @@ export async function apiRequest(
  */
 export const api = {
   async get(url: string) {
-    const data = await apiRequest(&quot;GET&quot;, url);
+    const data = await apiRequest("GET", url);
     return { data };
   },
 
   async post(url: string, body?: any) {
-    const data = await apiRequest(&quot;POST&quot;, url, body);
+    const data = await apiRequest("POST", url, body);
     return { data };
   },
 
   async put(url: string, body?: any) {
-    const data = await apiRequest(&quot;PUT&quot;, url, body);
+    const data = await apiRequest("PUT", url, body);
     return { data };
   },
 
   async patch(url: string, body?: any) {
-    const data = await apiRequest(&quot;PATCH&quot;, url, body);
+    const data = await apiRequest("PATCH", url, body);
     return { data };
   },
 
   async delete(url: string) {
-    const data = await apiRequest(&quot;DELETE&quot;, url);
+    const data = await apiRequest("DELETE", url);
     return { data };
   },
 };

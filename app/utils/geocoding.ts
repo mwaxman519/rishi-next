@@ -5,7 +5,7 @@
  * It includes functions for forward geocoding (address to coordinates) and normalizing addresses.
  */
 
-import { LocationDTO } from &quot;@/types/locations&quot;;
+import { LocationDTO } from "@/types/locations";
 
 // Types for geocoding responses
 export interface GeocodeResult {
@@ -37,7 +37,7 @@ export class GeocodingError extends Error {
 
   constructor(message: string, status: string) {
     super(message);
-    this.name = &quot;GeocodingError&quot;;
+    this.name = "GeocodingError";
     this.status = status;
   }
 }
@@ -53,7 +53,7 @@ export async function geocodeAddress(
 ): Promise<GeocodeResult | null> {
   try {
     if (!address) {
-      throw new GeocodingError(&quot;Address is required&quot;, &quot;INVALID_REQUEST&quot;);
+      throw new GeocodingError("Address is required", "INVALID_REQUEST");
     }
 
     // Use the server-side API endpoint to protect the API key
@@ -64,15 +64,15 @@ export async function geocodeAddress(
     if (!response.ok) {
       const errorData = await response.json();
       throw new GeocodingError(
-        errorData.message || &quot;Failed to geocode address&quot;,
-        errorData.status || &quot;SERVER_ERROR&quot;,
+        errorData.message || "Failed to geocode address",
+        errorData.status || "SERVER_ERROR",
       );
     }
 
     const data: GeocodeResponse = await response.json();
 
     // Check for Google API status errors
-    if (data.status !== &quot;OK&quot;) {
+    if (data.status !== "OK") {
       throw new GeocodingError(
         `Geocoding API error: ${data.status}`,
         data.status,
@@ -92,8 +92,8 @@ export async function geocodeAddress(
     }
 
     throw new GeocodingError(
-      error instanceof Error ? error.message : &quot;Unknown geocoding error&quot;,
-      &quot;UNKNOWN_ERROR&quot;,
+      error instanceof Error ? error.message : "Unknown geocoding error",
+      "UNKNOWN_ERROR",
     );
 
     // This code is unreachable but satisfies TypeScript return type
@@ -117,17 +117,17 @@ export async function enhanceLocationWithGeocoding<
       location.address1,
       location.address2,
       location.city,
-      location.state?.abbreviation || "&quot;,
+      location.state?.abbreviation || "",
       location.zipcode,
     ].filter(Boolean);
 
-    const fullAddress = addressParts.join(&quot;, &quot;);
+    const fullAddress = addressParts.join(", ");
 
     // Geocode the address and validate result
     const result = await geocodeAddress(fullAddress);
 
     if (!result) {
-      console.error(&quot;Geocoding returned no results for address:&quot;, fullAddress);
+      console.error("Geocoding returned no results for address:", fullAddress);
       return location;
     }
 
@@ -143,11 +143,11 @@ export async function enhanceLocationWithGeocoding<
       // Street number and route (address line 1)
       const streetNumber = findAddressComponent(
         result.address_components,
-        &quot;street_number&quot;,
+        "street_number",
       )?.long_name;
       const route = findAddressComponent(
         result.address_components,
-        &quot;route&quot;,
+        "route",
       )?.long_name;
 
       if (streetNumber && route) {
@@ -157,7 +157,7 @@ export async function enhanceLocationWithGeocoding<
       // City
       const locality = findAddressComponent(
         result.address_components,
-        &quot;locality&quot;,
+        "locality",
       );
       if (locality) {
         updated.city = locality.long_name;
@@ -166,7 +166,7 @@ export async function enhanceLocationWithGeocoding<
       // State
       const administrativeArea = findAddressComponent(
         result.address_components,
-        &quot;administrative_area_level_1&quot;,
+        "administrative_area_level_1",
       );
       if (administrativeArea && updated.state) {
         updated.state = {
@@ -179,7 +179,7 @@ export async function enhanceLocationWithGeocoding<
       // Postal code
       const postalCode = findAddressComponent(
         result.address_components,
-        &quot;postal_code&quot;,
+        "postal_code",
       );
       if (postalCode) {
         updated.zipcode = postalCode.long_name;
@@ -188,7 +188,7 @@ export async function enhanceLocationWithGeocoding<
 
     return updated;
   } catch (error) {
-    console.error(&quot;Error enhancing location with geocoding:", error);
+    console.error("Error enhancing location with geocoding:", error);
     // Return original location without enhancements if geocoding fails
     return location;
   }

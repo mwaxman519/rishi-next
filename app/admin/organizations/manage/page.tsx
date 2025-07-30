@@ -1,21 +1,21 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, Suspense } from &quot;react&quot;;
-import { useSearchParams, useRouter } from &quot;next/navigation&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import {
   ArrowLeft,
   Loader2,
   Users,
   Settings as SettingsIcon,
   PaintBucket,
-} from &quot;lucide-react&quot;;
-import { toast } from &quot;@/hooks/use-toast&quot;;
-import { OrganizationUsers } from &quot;@/components/organizations/OrganizationUsers&quot;;
-import type { Organization } from &quot;@shared/schema&quot;;
+} from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { OrganizationUsers } from "@/components/organizations/OrganizationUsers";
+import type { Organization } from "@shared/schema";
 
 // Placeholder components for other tabs - will be implemented later
 const OrganizationSettings = () => (
@@ -30,8 +30,8 @@ export default function OrganizationManagePageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       }
     >
@@ -45,18 +45,18 @@ function OrganizationManagePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [organizationId, setOrganizationId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState(&quot;users&quot;);
+  const [activeTab, setActiveTab] = useState("users");
 
   // Extract organization ID from URL
   useEffect(() => {
-    const id = searchParams.get(&quot;organizationId&quot;);
+    const id = searchParams.get("organizationId");
     if (!id) {
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Organization ID is required&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Organization ID is required",
+        variant: "destructive",
       });
-      router.push(&quot;/admin/organizations&quot;);
+      router.push("/admin/organizations");
       return;
     }
     setOrganizationId(id);
@@ -70,8 +70,8 @@ function OrganizationManagePage() {
 
   if (isOrgLoading || !organizationId) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
-        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -79,58 +79,58 @@ function OrganizationManagePage() {
   const organization = orgData;
 
   return (
-    <div className=&quot;container mx-auto py-6&quot;>
-      <div className=&quot;flex items-center mb-6&quot;>
+    <div className="container mx-auto py-6">
+      <div className="flex items-center mb-6">
         <Button
-          variant=&quot;ghost&quot;
-          onClick={() => router.push(&quot;/admin/organizations&quot;)}
-          className=&quot;mr-4&quot;
+          variant="ghost"
+          onClick={() => router.push("/admin/organizations")}
+          className="mr-4"
         >
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Organizations
         </Button>
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">
             Manage Organization
           </h1>
-          <p className=&quot;text-muted-foreground&quot;>
-            {organization?.name || &quot;Organization&quot;} - Manage users, settings, and
+          <p className="text-muted-foreground">
+            {organization?.name || "Organization"} - Manage users, settings, and
             branding
           </p>
         </div>
       </div>
 
-      <Separator className=&quot;my-6&quot; />
+      <Separator className="my-6" />
 
       <Tabs
         value={activeTab}
         onValueChange={setActiveTab}
-        className=&quot;space-y-4&quot;
+        className="space-y-4"
       >
         <TabsList>
-          <TabsTrigger value=&quot;users&quot; className=&quot;flex items-center&quot;>
-            <Users className=&quot;h-4 w-4 mr-2&quot; />
+          <TabsTrigger value="users" className="flex items-center">
+            <Users className="h-4 w-4 mr-2" />
             Users
           </TabsTrigger>
-          <TabsTrigger value=&quot;settings&quot; className=&quot;flex items-center&quot;>
-            <SettingsIcon className=&quot;h-4 w-4 mr-2&quot; />
+          <TabsTrigger value="settings" className="flex items-center">
+            <SettingsIcon className="h-4 w-4 mr-2" />
             Settings
           </TabsTrigger>
-          <TabsTrigger value=&quot;branding&quot; className=&quot;flex items-center&quot;>
-            <PaintBucket className=&quot;h-4 w-4 mr-2&quot; />
+          <TabsTrigger value="branding" className="flex items-center">
+            <PaintBucket className="h-4 w-4 mr-2" />
             Branding
           </TabsTrigger>
         </TabsList>
-        <TabsContent value=&quot;users&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="users" className="space-y-4">
           <OrganizationUsers
             organizationId={organizationId}
-            organizationName={organization?.name || &quot;Organization&quot;}
+            organizationName={organization?.name || "Organization"}
           />
         </TabsContent>
-        <TabsContent value=&quot;settings&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="settings" className="space-y-4">
           <OrganizationSettings />
         </TabsContent>
-        <TabsContent value=&quot;branding&quot; className=&quot;space-y-4&quot;>
+        <TabsContent value="branding" className="space-y-4">
           <OrganizationBranding />
         </TabsContent>
       </Tabs>

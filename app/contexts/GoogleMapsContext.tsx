@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { createContext, useContext, useEffect, useState } from &quot;react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 // Define context types
 interface GoogleMapsContextValue {
@@ -17,7 +17,7 @@ const GoogleMapsContext = createContext<GoogleMapsContextValue>({
 });
 
 // Default Google Maps API key - should be overridden by environment variable
-const DEFAULT_API_KEY = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;;
+const DEFAULT_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";
 
 interface GoogleMapsProviderProps {
   children: React.ReactNode;
@@ -28,7 +28,7 @@ interface GoogleMapsProviderProps {
 export function GoogleMapsProvider({
   children,
   apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || DEFAULT_API_KEY,
-  libraries = [&quot;places&quot;],
+  libraries = ["places"],
 }: GoogleMapsProviderProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState<Error | null>(null);
@@ -43,34 +43,34 @@ export function GoogleMapsProvider({
       return;
     }
 
-    // Skip loading if we&apos;re server-side rendering or API key not available
-    if (typeof window === &quot;undefined&quot; || !apiKey) {
+    // Skip loading if we're server-side rendering or API key not available
+    if (typeof window === "undefined" || !apiKey) {
       return;
     }
 
     // Load the Google Maps script
     const loadGoogleMapsScript = () => {
-      const scriptId = &quot;google-maps-script&quot;;
+      const scriptId = "google-maps-script";
 
       // Don't load if script already exists
       if (document.getElementById(scriptId)) {
         return;
       }
 
-      const librariesStr = libraries.join(&quot;,&quot;);
-      const script = document.createElement(&quot;script&quot;);
+      const librariesStr = libraries.join(",");
+      const script = document.createElement("script");
       script.id = scriptId;
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=${librariesStr}&callback=initGoogleMaps&loading=async&v=beta`;
       script.async = true;
-      // Remove defer attribute as it&apos;s not needed with async and can cause issues
+      // Remove defer attribute as it's not needed with async and can cause issues
       script.onerror = () => {
-        const error = new Error(&quot;Failed to load Google Maps API script&quot;);
+        const error = new Error("Failed to load Google Maps API script");
         setLoadError(error);
         toast({
-          title: &quot;Error loading maps&quot;,
+          title: "Error loading maps",
           description:
-            &quot;Could not load Google Maps API. Some features may not work properly.&quot;,
-          variant: &quot;destructive&quot;,
+            "Could not load Google Maps API. Some features may not work properly.",
+          variant: "destructive",
         });
       };
 
@@ -78,7 +78,7 @@ export function GoogleMapsProvider({
       window.initGoogleMaps = () => {
         setIsLoaded(true);
         setGoogle(window.google);
-        console.log(&quot;Google Maps API loaded successfully&quot;);
+        console.log("Google Maps API loaded successfully");
       };
 
       document.head.appendChild(script);
@@ -88,7 +88,7 @@ export function GoogleMapsProvider({
 
     // Clean up
     return () => {
-      if (typeof window !== &quot;undefined&quot; && window.initGoogleMaps) {
+      if (typeof window !== "undefined" && window.initGoogleMaps) {
         // Use delete operator to completely remove the property
         delete window.initGoogleMaps;
       }
@@ -106,7 +106,7 @@ export function GoogleMapsProvider({
 export function useGoogleMaps() {
   const context = useContext(GoogleMapsContext);
   if (context === undefined) {
-    throw new Error(&quot;useGoogleMaps must be used within a GoogleMapsProvider&quot;);
+    throw new Error("useGoogleMaps must be used within a GoogleMapsProvider");
   }
   return context;
 }

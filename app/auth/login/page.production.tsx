@@ -48,63 +48,63 @@ export default function LoginPage() {
   };
 
   return (
-    <div className=&quot;min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 p-4&quot;>
-      <Card className=&quot;w-full max-w-md&quot;>
-        <CardHeader className=&quot;space-y-1&quot;>
-          <div className=&quot;flex items-center justify-center mb-4&quot;>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <div className="flex items-center justify-center mb-4">
             <img 
-              src=&quot;/favicon.ico&quot; 
-              alt=&quot;Rishi Platform&quot; 
-              className=&quot;w-8 h-8 mr-2&quot;
+              src="/favicon.ico" 
+              alt="Rishi Platform" 
+              className="w-8 h-8 mr-2"
             />
-            <CardTitle className=&quot;text-2xl font-bold text-purple-700 dark:text-purple-200&quot;>
+            <CardTitle className="text-2xl font-bold text-purple-700 dark:text-purple-200">
               Rishi Platform
             </CardTitle>
           </div>
-          <CardDescription className=&quot;text-center&quot;>
+          <CardDescription className="text-center">
             Sign in to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;username&quot;>Username</Label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
               <Input
-                id=&quot;username&quot;
-                type=&quot;text&quot;
+                id="username"
+                type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder=&quot;Enter your username&quot;
+                placeholder="Enter your username"
                 required
                 disabled={isLoading}
-                className=&quot;focus:ring-purple-500 focus:border-purple-500&quot;
+                className="focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
             
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;password&quot;>Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
               <Input
-                id=&quot;password&quot;
-                type=&quot;password&quot;
+                id="password"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder=&quot;Enter your password&quot;
+                placeholder="Enter your password"
                 required
                 disabled={isLoading}
-                className=&quot;focus:ring-purple-500 focus:border-purple-500&quot;
+                className="focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 
             {error && (
-              <Alert variant=&quot;destructive&quot;>
-                <AlertCircle className=&quot;h-4 w-4&quot; />
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
             <Button
-              type=&quot;submit&quot;
-              className=&quot;w-full bg-purple-600 hover:bg-purple-700 text-white&quot;
+              type="submit"
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white"
               disabled={isLoading}
             >
               {isLoading ? 'Signing in...' : 'Sign in'}

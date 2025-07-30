@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 import React, {
   createContext,
@@ -6,16 +6,16 @@ import React, {
   useCallback,
   useState,
   useEffect,
-} from &quot;react&quot;;
-import { UserRole } from &quot;@shared/schema&quot;;
-import { useAuth } from &quot;../hooks/useAuth&quot;;
+} from "react";
+import { UserRole } from "@shared/schema";
+import { useAuth } from "../hooks/useAuth";
 import {
   PermissionContext,
   hasEnhancedPermission,
   hasAllEnhancedPermissions,
   hasSomeEnhancedPermissions,
-} from &quot;../lib/rbac-enhanced&quot;;
-import { getAllPermissionsForRole } from &quot;../lib/rbac-enhanced&quot;;
+} from "../lib/rbac-enhanced";
+import { getAllPermissionsForRole } from "../lib/rbac-enhanced";
 
 /**
  * Enhanced RBAC Context for organization-aware permissions
@@ -74,7 +74,7 @@ export function EnhancedRBACProvider({
       setPermissions(allPermissions);
       setIsLoading(false);
     } else if (!authLoading) {
-      // If auth is not loading but we have no user, we&apos;re not authenticated
+      // If auth is not loading but we have no user, we're not authenticated
       setPermissions([]);
       setIsLoading(false);
     }
@@ -175,7 +175,7 @@ export function useEnhancedRBAC() {
 
   if (context === undefined) {
     throw new Error(
-      &quot;useEnhancedRBAC must be used within a EnhancedRBACProvider&quot;,
+      "useEnhancedRBAC must be used within a EnhancedRBACProvider",
     );
   }
 

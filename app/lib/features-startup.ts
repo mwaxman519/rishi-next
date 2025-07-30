@@ -2,7 +2,7 @@
  * Feature Module Initialization
  * Initializes all feature modules during application startup
  */
-import { registerFeatureModules } from &quot;../../shared/features&quot;;
+import { registerFeatureModules } from "../../shared/features";
 
 let featuresInitialized = false;
 
@@ -15,16 +15,16 @@ export function initializeFeatures() {
     return;
   }
 
-  console.log(&quot;Initializing feature modules...&quot;);
+  console.log("Initializing feature modules...");
 
   try {
     // Register all feature modules
     registerFeatureModules();
 
-    console.log(&quot;Feature modules initialized successfully&quot;);
+    console.log("Feature modules initialized successfully");
     featuresInitialized = true;
   } catch (error) {
-    console.error(&quot;Error initializing feature modules:&quot;, error);
+    console.error("Error initializing feature modules:", error);
   }
 }
 

@@ -29,7 +29,7 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
       
       const fromEmail = params.from || process.env.SENDGRID_FROM_EMAIL;
       if (!fromEmail) {
-        throw new Error(&quot;SENDGRID_FROM_EMAIL environment variable is required when from parameter is not provided&quot;);
+        throw new Error("SENDGRID_FROM_EMAIL environment variable is required when from parameter is not provided");
       }
 
       const msg = {
@@ -49,30 +49,30 @@ export async function sendEmail(params: SendEmailParams): Promise<boolean> {
     }
 
     // Fallback to logging in development or when no API key is configured
-    console.log(&quot;=== EMAIL SERVICE ===&quot;);
+    console.log("=== EMAIL SERVICE ===");
     console.log(`To: ${params.to}`);
     console.log(`Subject: ${params.subject}`);
     const fromEmail = params.from || process.env.SENDGRID_FROM_EMAIL;
     if (!fromEmail) {
-      throw new Error(&quot;SENDGRID_FROM_EMAIL environment variable is required when from parameter is not provided&quot;);
+      throw new Error("SENDGRID_FROM_EMAIL environment variable is required when from parameter is not provided");
     }
     console.log(`From: ${fromEmail}`);
     if (params.cc)
       console.log(
-        `CC: ${Array.isArray(params.cc) ? params.cc.join(&quot;, &quot;) : params.cc}`,
+        `CC: ${Array.isArray(params.cc) ? params.cc.join(", ") : params.cc}`,
       );
     if (params.bcc)
       console.log(
-        `BCC: ${Array.isArray(params.bcc) ? params.bcc.join(&quot;, &quot;) : params.bcc}`,
+        `BCC: ${Array.isArray(params.bcc) ? params.bcc.join(", ") : params.bcc}`,
       );
     if (params.replyTo) console.log(`Reply-To: ${params.replyTo}`);
-    console.log(&quot;HTML Content Preview:&quot;);
-    console.log(params.html.substring(0, 200) + &quot;...&quot;);
-    console.log(&quot;=== EMAIL READY ===&quot;);
+    console.log("HTML Content Preview:");
+    console.log(params.html.substring(0, 200) + "...");
+    console.log("=== EMAIL READY ===");
 
     return true;
   } catch (error) {
-    console.error(&quot;Error sending email:&quot;, error);
+    console.error("Error sending email:", error);
     return false;
   }
 }
@@ -104,13 +104,13 @@ export function generateEmailTemplate({
 }): string {
   return `
     <!DOCTYPE html>
-    <html lang=&quot;en&quot;>
+    <html lang="en">
     <head>
-      <meta charset=&quot;UTF-8&quot;>
-      <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
-      <meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>${title}</title>
-      <meta name=&quot;description&quot; content=&quot;${preheader}&quot;>
+      <meta name="description" content="${preheader}">
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -160,17 +160,17 @@ export function generateEmailTemplate({
       </style>
     </head>
     <body>
-      <div class=&quot;container&quot;>
-        <div class=&quot;header&quot;>
-          ${organizationLogo ? `<img class=&quot;logo&quot; src=&quot;${organizationLogo}&quot; alt=&quot;${organizationName || &quot;Organization&quot;} Logo&quot;>` : "&quot;}
+      <div class="container">
+        <div class="header">
+          ${organizationLogo ? `<img class="logo" src="${organizationLogo}" alt="${organizationName || "Organization"} Logo">` : ""}
           <h2>${title}</h2>
         </div>
-        <div class=&quot;content&quot;>
+        <div class="content">
           ${content}
-          ${buttonText && buttonUrl ? `<div style=&quot;text-align: center;&quot;><a href=&quot;${buttonUrl}&quot; class=&quot;button&quot;>${buttonText}</a></div>` : &quot;&quot;}
+          ${buttonText && buttonUrl ? `<div style="text-align: center;"><a href="${buttonUrl}" class="button">${buttonText}</a></div>` : ""}
         </div>
-        <div class=&quot;footer&quot;>
-          <p>${footerText || `&copy; ${new Date().getFullYear()} ${organizationName || &quot;Organization"} | All rights reserved.`}</p>
+        <div class="footer">
+          <p>${footerText || `&copy; ${new Date().getFullYear()} ${organizationName || "Organization"} | All rights reserved.`}</p>
           <p>If you received this email by mistake, please ignore or contact support.</p>
         </div>
       </div>

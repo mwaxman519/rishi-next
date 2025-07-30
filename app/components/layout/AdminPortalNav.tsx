@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
-import { USER_ROLES } from &quot;@shared/rbac-roles&quot;;
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
+import { USER_ROLES } from "@shared/rbac-roles";
 import {
   Settings,
   Shield,
@@ -36,7 +36,7 @@ import {
   PieChart,
   Table,
   PlusCircle,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 /**
  * IMPORTANT: We've removed the separate PLATFORM_ADMIN_NAV array and consolidated
@@ -45,7 +45,7 @@ import {
  */
 
 // Import the new Super Admin navigation structure
-import { SUPER_ADMIN_NAVIGATION } from &quot;../navigation/SuperAdminNavigation&quot;;
+import { SUPER_ADMIN_NAVIGATION } from "../navigation/SuperAdminNavigation";
 
 /**
  * Navigation items for Super Admin role - Admin Portal
@@ -58,66 +58,66 @@ export const SUPER_ADMIN_NAV: NavItem[] = SUPER_ADMIN_NAVIGATION;
  */
 export const INTERNAL_ADMIN_NAV: NavItem[] = [
   {
-    label: &quot;Organization Management&quot;,
-    path: &quot;/admin/organizations&quot;,
+    label: "Organization Management",
+    path: "/admin/organizations",
     icon: <Building size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: &quot;Client Directory&quot;,
-        path: &quot;/admin/organizations&quot;,
+        label: "Client Directory",
+        path: "/admin/organizations",
         icon: <Building size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Client Settings&quot;,
-        path: &quot;/admin/organizations/settings&quot;,
+        label: "Client Settings",
+        path: "/admin/organizations/settings",
         icon: <Settings size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: &quot;Staff Management&quot;,
-    path: &quot;/admin/users&quot;,
+    label: "Staff Management",
+    path: "/admin/users",
     icon: <Users size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: &quot;Staff Directory&quot;,
-        path: &quot;/admin/users&quot;,
+        label: "Staff Directory",
+        path: "/admin/users",
         icon: <UsersRound size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Add New Staff&quot;,
-        path: &quot;/users/new&quot;,
+        label: "Add New Staff",
+        path: "/users/new",
         icon: <UserPlus size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: &quot;Location Management&quot;,
-    path: &quot;/admin/locations&quot;,
+    label: "Location Management",
+    path: "/admin/locations",
     icon: <MapPin size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: &quot;Location Directory&quot;,
-        path: &quot;/admin/locations&quot;,
+        label: "Location Directory",
+        path: "/admin/locations",
         icon: <MapPin size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Add New Location&quot;,
-        path: &quot;/admin/locations/new&quot;,
+        label: "Add New Location",
+        path: "/admin/locations/new",
         icon: <PlusCircle size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Pending Approval&quot;,
-        path: &quot;/admin/locations/approval-queue&quot;,
+        label: "Pending Approval",
+        path: "/admin/locations/approval-queue",
         icon: <CheckSquare size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
@@ -130,66 +130,66 @@ export const INTERNAL_ADMIN_NAV: NavItem[] = [
  */
 export const FIELD_MANAGER_NAV: NavItem[] = [
   {
-    label: &quot;Field Operations&quot;,
-    path: &quot;/admin/field-operations&quot;,
+    label: "Field Operations",
+    path: "/admin/field-operations",
     icon: <Briefcase size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: &quot;Team Dashboard&quot;,
-        path: &quot;/admin/field-operations/dashboard&quot;,
+        label: "Team Dashboard",
+        path: "/admin/field-operations/dashboard",
         icon: <LayoutDashboard size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Assignment Calendar&quot;,
-        path: &quot;/admin/field-operations/calendar&quot;,
+        label: "Assignment Calendar",
+        path: "/admin/field-operations/calendar",
         icon: <Calendar size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: &quot;Location Management&quot;,
-    path: &quot;/admin/locations&quot;,
+    label: "Location Management",
+    path: "/admin/locations",
     icon: <MapPin size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: &quot;Location Directory&quot;,
-        path: &quot;/admin/locations&quot;,
+        label: "Location Directory",
+        path: "/admin/locations",
         icon: <MapPin size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Add New Location&quot;,
-        path: &quot;/admin/locations/new&quot;,
+        label: "Add New Location",
+        path: "/admin/locations/new",
         icon: <PlusCircle size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Pending Approval&quot;,
-        path: &quot;/admin/locations/approval-queue&quot;,
+        label: "Pending Approval",
+        path: "/admin/locations/approval-queue",
         icon: <CheckSquare size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: &quot;Team Management&quot;,
-    path: &quot;/admin/users&quot;,
+    label: "Team Management",
+    path: "/admin/users",
     icon: <Users size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: &quot;Agent Directory&quot;,
-        path: &quot;/admin/users&quot;,
+        label: "Agent Directory",
+        path: "/admin/users",
         icon: <UsersRound size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: &quot;Performance Reports&quot;,
-        path: &quot;/admin/users/performance&quot;,
+        label: "Performance Reports",
+        path: "/admin/users/performance",
         icon: <BarChart size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
@@ -220,6 +220,6 @@ export function getAdminNavForRole(role: string): NavItem[] {
 export function getPlatformAdminNav(): NavItem[] {
   // Return just the Platform Administration section from the SUPER_ADMIN_NAV to avoid duplication
   return SUPER_ADMIN_NAV.filter(
-    (item) => item.label === &quot;Platform Administration&quot;,
+    (item) => item.label === "Platform Administration",
   );
 }

@@ -1,4 +1,4 @@
-import { UserRole } from &quot;../../../shared/schema&quot;;
+import { UserRole } from "../../../shared/schema";
 
 // Domain models for the User service
 export interface UserProfile {
@@ -15,7 +15,7 @@ export interface UserProfile {
 
 // Used internally for authentication, extends UserProfile with password
 export interface UserWithCredentials
-  extends Omit<UserProfile, &quot;fullName&quot; | &quot;email&quot; | &quot;phone&quot; | &quot;profileImage&quot;> {
+  extends Omit<UserProfile, "fullName" | "email" | "phone" | "profileImage"> {
   password: string;
   fullName?: string | undefined;
   email?: string | undefined;

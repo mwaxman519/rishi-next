@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useState } from &quot;react&quot;;
-import { useParams, useRouter } from &quot;next/navigation&quot;;
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import {
   MapPin,
   Building2,
@@ -17,9 +17,9 @@ import {
   Loader2,
   Edit,
   MapIcon,
-} from &quot;lucide-react&quot;;
-import Link from &quot;next/link&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -27,13 +27,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { LocationMap } from &quot;@/components/locations/LocationMap&quot;;
-import { LoadingSpinner } from &quot;@/components/ui/spinner&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LocationMap } from "@/components/locations/LocationMap";
+import { LoadingSpinner } from "@/components/ui/spinner";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function LocationDetailPage() {
   const params = useParams();
@@ -52,18 +52,18 @@ export default function LocationDetailPage() {
 
         if (!response.ok) {
           if (response.status === 404) {
-            throw new Error(&quot;Location not found&quot;);
+            throw new Error("Location not found");
           }
-          throw new Error(&quot;Failed to fetch location details&quot;);
+          throw new Error("Failed to fetch location details");
         }
 
         const data = await response.json();
         setLocation(data);
         setError(null);
       } catch (err: any) {
-        console.error(&quot;Error fetching location details:&quot;, err);
+        console.error("Error fetching location details:", err);
         setError(
-          err.message || &quot;An error occurred while fetching location details&quot;,
+          err.message || "An error occurred while fetching location details",
         );
       } finally {
         setLoading(false);
@@ -78,38 +78,38 @@ export default function LocationDetailPage() {
   // Helper function to render the status badge
   function renderStatusBadge(status: string) {
     switch (status) {
-      case &quot;pending&quot;:
+      case "pending":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;
+            variant="outline"
+            className="bg-yellow-50 text-yellow-700 border-yellow-200"
           >
-            <Clock className=&quot;h-3 w-3 mr-1&quot; /> Pending
+            <Clock className="h-3 w-3 mr-1" /> Pending
           </Badge>
         );
-      case &quot;approved&quot;:
+      case "approved":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-green-50 text-green-700 border-green-200&quot;
+            variant="outline"
+            className="bg-green-50 text-green-700 border-green-200"
           >
-            <CheckCircle2 className=&quot;h-3 w-3 mr-1&quot; /> Approved
+            <CheckCircle2 className="h-3 w-3 mr-1" /> Approved
           </Badge>
         );
-      case &quot;rejected&quot;:
+      case "rejected":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-red-50 text-red-700 border-red-200&quot;
+            variant="outline"
+            className="bg-red-50 text-red-700 border-red-200"
           >
-            <XCircle className=&quot;h-3 w-3 mr-1&quot; /> Rejected
+            <XCircle className="h-3 w-3 mr-1" /> Rejected
           </Badge>
         );
       default:
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-slate-50 text-slate-700 border-slate-200&quot;
+            variant="outline"
+            className="bg-slate-50 text-slate-700 border-slate-200"
           >
             {status}
           </Badge>
@@ -120,40 +120,40 @@ export default function LocationDetailPage() {
   // Helper function to render the location type badge
   function renderLocationTypeBadge(type: string) {
     switch (type) {
-      case &quot;venue&quot;:
+      case "venue":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-blue-50 text-blue-700 border-blue-200&quot;
+            variant="outline"
+            className="bg-blue-50 text-blue-700 border-blue-200"
           >
-            <Building2 className=&quot;h-3 w-3 mr-1&quot; /> Venue
+            <Building2 className="h-3 w-3 mr-1" /> Venue
           </Badge>
         );
-      case &quot;office&quot;:
+      case "office":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-purple-50 text-purple-700 border-purple-200&quot;
+            variant="outline"
+            className="bg-purple-50 text-purple-700 border-purple-200"
           >
-            <Building2 className=&quot;h-3 w-3 mr-1&quot; /> Office
+            <Building2 className="h-3 w-3 mr-1" /> Office
           </Badge>
         );
-      case &quot;storage&quot;:
+      case "storage":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-amber-50 text-amber-700 border-amber-200&quot;
+            variant="outline"
+            className="bg-amber-50 text-amber-700 border-amber-200"
           >
-            <Building2 className=&quot;h-3 w-3 mr-1&quot; /> Storage
+            <Building2 className="h-3 w-3 mr-1" /> Storage
           </Badge>
         );
       default:
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-slate-50 text-slate-700 border-slate-200&quot;
+            variant="outline"
+            className="bg-slate-50 text-slate-700 border-slate-200"
           >
-            <Building2 className=&quot;h-3 w-3 mr-1&quot; /> {type}
+            <Building2 className="h-3 w-3 mr-1" /> {type}
           </Badge>
         );
     }
@@ -161,21 +161,21 @@ export default function LocationDetailPage() {
 
   if (loading) {
     return (
-      <div className=&quot;flex items-center justify-center min-h-[60vh]&quot;>
-        <LoadingSpinner size=&quot;lg&quot; />
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className=&quot;p-6&quot;>
-        <Button variant=&quot;ghost&quot; onClick={() => router.back()} className=&quot;mb-6&quot;>
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+      <div className="p-6">
+        <Button variant="ghost" onClick={() => router.back()} className="mb-6">
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
 
-        <Alert variant=&quot;destructive&quot;>
+        <Alert variant="destructive">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -185,16 +185,16 @@ export default function LocationDetailPage() {
 
   if (!location) {
     return (
-      <div className=&quot;p-6&quot;>
-        <Button variant=&quot;ghost&quot; onClick={() => router.back()} className=&quot;mb-6&quot;>
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+      <div className="p-6">
+        <Button variant="ghost" onClick={() => router.back()} className="mb-6">
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
 
         <Alert>
           <AlertTitle>Location Not Found</AlertTitle>
           <AlertDescription>
-            The requested location does not exist or you don&apos;t have permission
+            The requested location does not exist or you don't have permission
             to view it.
           </AlertDescription>
         </Alert>
@@ -203,25 +203,25 @@ export default function LocationDetailPage() {
   }
 
   return (
-    <div className=&quot;p-6&quot;>
+    <div className="p-6">
       {/* Back button and actions */}
-      <div className=&quot;flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4&quot;>
-        <div className=&quot;flex items-center&quot;>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+        <div className="flex items-center">
           <Button
-            variant=&quot;ghost&quot;
+            variant="ghost"
             onClick={() => router.back()}
-            className=&quot;mr-2&quot;
+            className="mr-2"
           >
-            <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+            <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
-          <h1 className=&quot;text-2xl font-bold&quot;>{location.name}</h1>
+          <h1 className="text-2xl font-bold">{location.name}</h1>
         </div>
 
-        <div className=&quot;flex items-center gap-2&quot;>
-          <Button variant=&quot;outline&quot; asChild>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" asChild>
             <Link href={`/locations/${locationId}/edit`}>
-              <Edit className=&quot;h-4 w-4 mr-2&quot; />
+              <Edit className="h-4 w-4 mr-2" />
               Edit
             </Link>
           </Button>
@@ -229,14 +229,14 @@ export default function LocationDetailPage() {
       </div>
 
       {/* Status and type badges */}
-      <div className=&quot;flex flex-wrap gap-2 mb-6&quot;>
+      <div className="flex flex-wrap gap-2 mb-6">
         {location.status && renderStatusBadge(location.status)}
         {location.type && renderLocationTypeBadge(location.type)}
       </div>
 
-      <div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-6&quot;>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Location details */}
-        <div className=&quot;lg:col-span-2 space-y-6&quot;>
+        <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Location Details</CardTitle>
@@ -244,40 +244,40 @@ export default function LocationDetailPage() {
                 Basic information about this location
               </CardDescription>
             </CardHeader>
-            <CardContent className=&quot;space-y-4&quot;>
-              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground mb-1&quot;>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     Address
                   </h3>
-                  <div className=&quot;space-y-1&quot;>
+                  <div className="space-y-1">
                     <p>{location.address1}</p>
                     {location.address2 && <p>{location.address2}</p>}
                     <p>
-                      {location.city}, {location.state?.name || location.state}{&quot; &quot;}
+                      {location.city}, {location.state?.name || location.state}{" "}
                       {location.zipcode}
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className=&quot;text-sm font-medium text-muted-foreground mb-1&quot;>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     Contact Information
                   </h3>
-                  <div className=&quot;space-y-2&quot;>
+                  <div className="space-y-2">
                     {location.phone && (
-                      <div className=&quot;flex items-center&quot;>
-                        <Phone className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                      <div className="flex items-center">
+                        <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
                         <span>{location.phone}</span>
                       </div>
                     )}
 
                     {location.email && (
-                      <div className=&quot;flex items-center&quot;>
-                        <Mail className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                      <div className="flex items-center">
+                        <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
                         <a
                           href={`mailto:${location.email}`}
-                          className=&quot;text-primary hover:underline&quot;
+                          className="text-primary hover:underline"
                         >
                           {location.email}
                         </a>
@@ -285,17 +285,17 @@ export default function LocationDetailPage() {
                     )}
 
                     {location.website && (
-                      <div className=&quot;flex items-center&quot;>
-                        <Globe className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                      <div className="flex items-center">
+                        <Globe className="h-4 w-4 mr-2 text-muted-foreground" />
                         <a
                           href={
-                            location.website.startsWith(&quot;http&quot;)
+                            location.website.startsWith("http")
                               ? location.website
                               : `https://${location.website}`
                           }
-                          target=&quot;_blank&quot;
-                          rel=&quot;noopener noreferrer&quot;
-                          className=&quot;text-primary hover:underline&quot;
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:underline"
                         >
                           {location.website}
                         </a>
@@ -308,23 +308,23 @@ export default function LocationDetailPage() {
               <Separator />
 
               <div>
-                <h3 className=&quot;text-sm font-medium text-muted-foreground mb-2&quot;>
+                <h3 className="text-sm font-medium text-muted-foreground mb-2">
                   Primary Contact
                 </h3>
-                <div className=&quot;space-y-2&quot;>
+                <div className="space-y-2">
                   {location.contactName && (
-                    <div className=&quot;flex items-center&quot;>
-                      <User className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-2 text-muted-foreground" />
                       <span>{location.contactName}</span>
                     </div>
                   )}
 
                   {location.contactEmail && (
-                    <div className=&quot;flex items-center&quot;>
-                      <Mail className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                    <div className="flex items-center">
+                      <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
                       <a
                         href={`mailto:${location.contactEmail}`}
-                        className=&quot;text-primary hover:underline&quot;
+                        className="text-primary hover:underline"
                       >
                         {location.contactEmail}
                       </a>
@@ -332,8 +332,8 @@ export default function LocationDetailPage() {
                   )}
 
                   {location.contactPhone && (
-                    <div className=&quot;flex items-center&quot;>
-                      <Phone className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                    <div className="flex items-center">
+                      <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
                       <span>{location.contactPhone}</span>
                     </div>
                   )}
@@ -344,10 +344,10 @@ export default function LocationDetailPage() {
                 <>
                   <Separator />
                   <div>
-                    <h3 className=&quot;text-sm font-medium text-muted-foreground mb-2&quot;>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-2">
                       Notes
                     </h3>
-                    <p className=&quot;whitespace-pre-line text-sm&quot;>
+                    <p className="whitespace-pre-line text-sm">
                       {location.notes}
                     </p>
                   </div>
@@ -361,16 +361,16 @@ export default function LocationDetailPage() {
               <CardHeader>
                 <CardTitle>Activity</CardTitle>
               </CardHeader>
-              <CardContent className=&quot;space-y-4&quot;>
+              <CardContent className="space-y-4">
                 {location.requestedBy && (
-                  <div className=&quot;flex items-center justify-between&quot;>
-                    <div className=&quot;flex items-center&quot;>
-                      <User className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-2 text-muted-foreground" />
                       <span>Requested by {location.requestedBy}</span>
                     </div>
                     {location.createdAt && (
-                      <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
-                        <Calendar className=&quot;h-3 w-3 mr-1&quot; />
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Calendar className="h-3 w-3 mr-1" />
                         {new Date(location.createdAt).toLocaleDateString()}
                       </div>
                     )}
@@ -378,14 +378,14 @@ export default function LocationDetailPage() {
                 )}
 
                 {location.reviewedBy && (
-                  <div className=&quot;flex items-center justify-between&quot;>
-                    <div className=&quot;flex items-center&quot;>
-                      <User className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-2 text-muted-foreground" />
                       <span>Reviewed by {location.reviewedBy}</span>
                     </div>
                     {location.reviewDate && (
-                      <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
-                        <Calendar className=&quot;h-3 w-3 mr-1&quot; />
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Calendar className="h-3 w-3 mr-1" />
                         {new Date(location.reviewDate).toLocaleDateString()}
                       </div>
                     )}
@@ -398,14 +398,14 @@ export default function LocationDetailPage() {
 
         {/* Map */}
         <div>
-          <Card className=&quot;h-full&quot;>
+          <Card className="h-full">
             <CardHeader>
-              <CardTitle className=&quot;flex items-center&quot;>
-                <MapIcon className=&quot;h-4 w-4 mr-2&quot; />
+              <CardTitle className="flex items-center">
+                <MapIcon className="h-4 w-4 mr-2" />
                 Location Map
               </CardTitle>
             </CardHeader>
-            <CardContent className=&quot;p-0 h-[400px]&quot;>
+            <CardContent className="p-0 h-[400px]">
               {location.latitude && location.longitude ? (
                 <LocationMap
                   locations={[
@@ -414,7 +414,7 @@ export default function LocationDetailPage() {
                       name: location.name,
                       address:
                         location.address ||
-                        `${location.address1 || "&quot;}, ${location.city || &quot;&quot;}, ${location.state?.name || location.state || &quot;&quot;} ${location.zipcode || &quot;&quot;}`,
+                        `${location.address1 || ""}, ${location.city || ""}, ${location.state?.name || location.state || ""} ${location.zipcode || ""}`,
                       latitude: parseFloat(location.latitude),
                       longitude: parseFloat(location.longitude),
                       status: location.status,
@@ -428,10 +428,10 @@ export default function LocationDetailPage() {
                   clickable={false}
                 />
               ) : (
-                <div className=&quot;flex items-center justify-center h-full bg-muted&quot;>
-                  <div className=&quot;text-center p-4&quot;>
-                    <MapPin className=&quot;h-10 w-10 mx-auto mb-2 text-muted-foreground&quot; />
-                    <p className=&quot;text-muted-foreground">
+                <div className="flex items-center justify-center h-full bg-muted">
+                  <div className="text-center p-4">
+                    <MapPin className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-muted-foreground">
                       No map coordinates available
                     </p>
                   </div>

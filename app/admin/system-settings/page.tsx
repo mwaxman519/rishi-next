@@ -1,27 +1,27 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Switch } from &quot;@/components/ui/switch&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import {
   Settings,
   Shield,
@@ -30,7 +30,7 @@ import {
   Mail,
   Globe,
   Save,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 interface SystemSettings {
   general: {
@@ -62,10 +62,10 @@ interface SystemSettings {
 
 const initialSettings: SystemSettings = {
   general: {
-    platformName: &quot;Rishi Workforce Management&quot;,
-    timezone: &quot;America/Denver&quot;,
-    dateFormat: &quot;MM/dd/yyyy&quot;,
-    defaultLanguage: &quot;en&quot;,
+    platformName: "Rishi Workforce Management",
+    timezone: "America/Denver",
+    dateFormat: "MM/dd/yyyy",
+    defaultLanguage: "en",
     maintenanceMode: false,
   },
   security: {
@@ -82,7 +82,7 @@ const initialSettings: SystemSettings = {
     systemAlerts: true,
   },
   database: {
-    backupFrequency: &quot;daily&quot;,
+    backupFrequency: "daily",
     retentionPeriod: 90,
     autoMaintenance: true,
   },
@@ -109,133 +109,133 @@ export default function SystemSettings() {
 
   const handleSave = () => {
     // Save settings to backend
-    console.log(&quot;Saving settings:&quot;, settings);
+    console.log("Saving settings:", settings);
     setHasChanges(false);
   };
 
   return (
-    <div className=&quot;space-y-6&quot;>
-      <div className=&quot;flex items-center justify-between&quot;>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className=&quot;text-3xl font-bold&quot;>System Settings</h1>
-          <p className=&quot;text-muted-foreground mt-2&quot;>
+          <h1 className="text-3xl font-bold">System Settings</h1>
+          <p className="text-muted-foreground mt-2">
             Configure global system parameters and preferences
           </p>
         </div>
         <Button onClick={handleSave} disabled={!hasChanges}>
-          <Save className=&quot;w-4 h-4 mr-2&quot; />
+          <Save className="w-4 h-4 mr-2" />
           Save Changes
         </Button>
       </div>
 
       {hasChanges && (
-        <div className=&quot;bg-yellow-50 border border-yellow-200 rounded-lg p-4&quot;>
-          <p className=&quot;text-sm text-yellow-800&quot;>
-            You have unsaved changes. Click &quot;Save Changes&quot; to apply them.
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <p className="text-sm text-yellow-800">
+            You have unsaved changes. Click "Save Changes" to apply them.
           </p>
         </div>
       )}
 
-      <div className=&quot;grid gap-6&quot;>
+      <div className="grid gap-6">
         {/* General Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className=&quot;flex items-center&quot;>
-              <Settings className=&quot;w-5 h-5 mr-2&quot; />
+            <CardTitle className="flex items-center">
+              <Settings className="w-5 h-5 mr-2" />
               General Settings
             </CardTitle>
             <CardDescription>
               Basic platform configuration and preferences
             </CardDescription>
           </CardHeader>
-          <CardContent className=&quot;space-y-4&quot;>
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor=&quot;platform-name&quot;>Platform Name</Label>
+                <Label htmlFor="platform-name">Platform Name</Label>
                 <Input
-                  id=&quot;platform-name&quot;
+                  id="platform-name"
                   value={settings.general.platformName}
                   onChange={(e) =>
-                    updateSetting(&quot;general&quot;, &quot;platformName&quot;, e.target.value)
+                    updateSetting("general", "platformName", e.target.value)
                   }
                 />
               </div>
               <div>
-                <Label htmlFor=&quot;timezone&quot;>Default Timezone</Label>
+                <Label htmlFor="timezone">Default Timezone</Label>
                 <Select
                   value={settings.general.timezone}
                   onValueChange={(value) =>
-                    updateSetting(&quot;general&quot;, &quot;timezone&quot;, value)
+                    updateSetting("general", "timezone", value)
                   }
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value=&quot;America/Denver&quot;>
+                    <SelectItem value="America/Denver">
                       Mountain Time
                     </SelectItem>
-                    <SelectItem value=&quot;America/Los_Angeles&quot;>
+                    <SelectItem value="America/Los_Angeles">
                       Pacific Time
                     </SelectItem>
-                    <SelectItem value=&quot;America/New_York&quot;>
+                    <SelectItem value="America/New_York">
                       Eastern Time
                     </SelectItem>
-                    <SelectItem value=&quot;America/Chicago&quot;>
+                    <SelectItem value="America/Chicago">
                       Central Time
                     </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor=&quot;date-format&quot;>Date Format</Label>
+                <Label htmlFor="date-format">Date Format</Label>
                 <Select
                   value={settings.general.dateFormat}
                   onValueChange={(value) =>
-                    updateSetting(&quot;general&quot;, &quot;dateFormat&quot;, value)
+                    updateSetting("general", "dateFormat", value)
                   }
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value=&quot;MM/dd/yyyy&quot;>MM/dd/yyyy</SelectItem>
-                    <SelectItem value=&quot;dd/MM/yyyy&quot;>dd/MM/yyyy</SelectItem>
-                    <SelectItem value=&quot;yyyy-MM-dd&quot;>yyyy-MM-dd</SelectItem>
+                    <SelectItem value="MM/dd/yyyy">MM/dd/yyyy</SelectItem>
+                    <SelectItem value="dd/MM/yyyy">dd/MM/yyyy</SelectItem>
+                    <SelectItem value="yyyy-MM-dd">yyyy-MM-dd</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor=&quot;language&quot;>Default Language</Label>
+                <Label htmlFor="language">Default Language</Label>
                 <Select
                   value={settings.general.defaultLanguage}
                   onValueChange={(value) =>
-                    updateSetting(&quot;general&quot;, &quot;defaultLanguage&quot;, value)
+                    updateSetting("general", "defaultLanguage", value)
                   }
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value=&quot;en&quot;>English</SelectItem>
-                    <SelectItem value=&quot;es&quot;>Spanish</SelectItem>
-                    <SelectItem value=&quot;fr&quot;>French</SelectItem>
+                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="es">Spanish</SelectItem>
+                    <SelectItem value="fr">French</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <Separator />
-            <div className=&quot;flex items-center justify-between&quot;>
+            <div className="flex items-center justify-between">
               <div>
                 <Label>Maintenance Mode</Label>
-                <p className=&quot;text-sm text-muted-foreground&quot;>
+                <p className="text-sm text-muted-foreground">
                   Temporarily disable access for system maintenance
                 </p>
               </div>
               <Switch
                 checked={settings.general.maintenanceMode}
                 onCheckedChange={(checked) =>
-                  updateSetting(&quot;general&quot;, &quot;maintenanceMode&quot;, checked)
+                  updateSetting("general", "maintenanceMode", checked)
                 }
               />
             </div>
@@ -245,58 +245,58 @@ export default function SystemSettings() {
         {/* Security Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className=&quot;flex items-center&quot;>
-              <Shield className=&quot;w-5 h-5 mr-2&quot; />
+            <CardTitle className="flex items-center">
+              <Shield className="w-5 h-5 mr-2" />
               Security Settings
             </CardTitle>
             <CardDescription>
               Configure security policies and authentication requirements
             </CardDescription>
           </CardHeader>
-          <CardContent className=&quot;space-y-4&quot;>
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor=&quot;session-timeout&quot;>
+                <Label htmlFor="session-timeout">
                   Session Timeout (minutes)
                 </Label>
                 <Input
-                  id=&quot;session-timeout&quot;
-                  type=&quot;number&quot;
+                  id="session-timeout"
+                  type="number"
                   value={settings.security.sessionTimeout}
                   onChange={(e) =>
                     updateSetting(
-                      &quot;security&quot;,
-                      &quot;sessionTimeout&quot;,
+                      "security",
+                      "sessionTimeout",
                       parseInt(e.target.value),
                     )
                   }
                 />
               </div>
               <div>
-                <Label htmlFor=&quot;password-length&quot;>Minimum Password Length</Label>
+                <Label htmlFor="password-length">Minimum Password Length</Label>
                 <Input
-                  id=&quot;password-length&quot;
-                  type=&quot;number&quot;
+                  id="password-length"
+                  type="number"
                   value={settings.security.passwordMinLength}
                   onChange={(e) =>
                     updateSetting(
-                      &quot;security&quot;,
-                      &quot;passwordMinLength&quot;,
+                      "security",
+                      "passwordMinLength",
                       parseInt(e.target.value),
                     )
                   }
                 />
               </div>
               <div>
-                <Label htmlFor=&quot;max-attempts&quot;>Max Login Attempts</Label>
+                <Label htmlFor="max-attempts">Max Login Attempts</Label>
                 <Input
-                  id=&quot;max-attempts&quot;
-                  type=&quot;number&quot;
+                  id="max-attempts"
+                  type="number"
                   value={settings.security.maxLoginAttempts}
                   onChange={(e) =>
                     updateSetting(
-                      &quot;security&quot;,
-                      &quot;maxLoginAttempts&quot;,
+                      "security",
+                      "maxLoginAttempts",
                       parseInt(e.target.value),
                     )
                   }
@@ -304,32 +304,32 @@ export default function SystemSettings() {
               </div>
             </div>
             <Separator />
-            <div className=&quot;space-y-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
                 <div>
                   <Label>Require Two-Factor Authentication</Label>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <p className="text-sm text-muted-foreground">
                     Mandate 2FA for all user accounts
                   </p>
                 </div>
                 <Switch
                   checked={settings.security.requireTwoFactor}
                   onCheckedChange={(checked) =>
-                    updateSetting(&quot;security&quot;, &quot;requireTwoFactor&quot;, checked)
+                    updateSetting("security", "requireTwoFactor", checked)
                   }
                 />
               </div>
-              <div className=&quot;flex items-center justify-between&quot;>
+              <div className="flex items-center justify-between">
                 <div>
                   <Label>IP Whitelisting</Label>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <p className="text-sm text-muted-foreground">
                     Restrict access to approved IP addresses only
                   </p>
                 </div>
                 <Switch
                   checked={settings.security.ipWhitelisting}
                   onCheckedChange={(checked) =>
-                    updateSetting(&quot;security&quot;, &quot;ipWhitelisting&quot;, checked)
+                    updateSetting("security", "ipWhitelisting", checked)
                   }
                 />
               </div>
@@ -340,20 +340,20 @@ export default function SystemSettings() {
         {/* Notification Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className=&quot;flex items-center&quot;>
-              <Bell className=&quot;w-5 h-5 mr-2&quot; />
+            <CardTitle className="flex items-center">
+              <Bell className="w-5 h-5 mr-2" />
               Notification Settings
             </CardTitle>
             <CardDescription>
               Configure system-wide notification preferences
             </CardDescription>
           </CardHeader>
-          <CardContent className=&quot;space-y-4&quot;>
-            <div className=&quot;space-y-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
                 <div>
                   <Label>Email Notifications</Label>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <p className="text-sm text-muted-foreground">
                     Send notifications via email
                   </p>
                 </div>
@@ -361,52 +361,52 @@ export default function SystemSettings() {
                   checked={settings.notifications.emailNotifications}
                   onCheckedChange={(checked) =>
                     updateSetting(
-                      &quot;notifications&quot;,
-                      &quot;emailNotifications&quot;,
+                      "notifications",
+                      "emailNotifications",
                       checked,
                     )
                   }
                 />
               </div>
-              <div className=&quot;flex items-center justify-between&quot;>
+              <div className="flex items-center justify-between">
                 <div>
                   <Label>SMS Notifications</Label>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <p className="text-sm text-muted-foreground">
                     Send notifications via SMS
                   </p>
                 </div>
                 <Switch
                   checked={settings.notifications.smsNotifications}
                   onCheckedChange={(checked) =>
-                    updateSetting(&quot;notifications&quot;, &quot;smsNotifications&quot;, checked)
+                    updateSetting("notifications", "smsNotifications", checked)
                   }
                 />
               </div>
-              <div className=&quot;flex items-center justify-between&quot;>
+              <div className="flex items-center justify-between">
                 <div>
                   <Label>Push Notifications</Label>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <p className="text-sm text-muted-foreground">
                     Send browser push notifications
                   </p>
                 </div>
                 <Switch
                   checked={settings.notifications.pushNotifications}
                   onCheckedChange={(checked) =>
-                    updateSetting(&quot;notifications&quot;, &quot;pushNotifications&quot;, checked)
+                    updateSetting("notifications", "pushNotifications", checked)
                   }
                 />
               </div>
-              <div className=&quot;flex items-center justify-between&quot;>
+              <div className="flex items-center justify-between">
                 <div>
                   <Label>System Alerts</Label>
-                  <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <p className="text-sm text-muted-foreground">
                     Critical system status notifications
                   </p>
                 </div>
                 <Switch
                   checked={settings.notifications.systemAlerts}
                   onCheckedChange={(checked) =>
-                    updateSetting(&quot;notifications&quot;, &quot;systemAlerts&quot;, checked)
+                    updateSetting("notifications", "systemAlerts", checked)
                   }
                 />
               </div>
@@ -417,46 +417,46 @@ export default function SystemSettings() {
         {/* Database Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className=&quot;flex items-center&quot;>
-              <Database className=&quot;w-5 h-5 mr-2&quot; />
+            <CardTitle className="flex items-center">
+              <Database className="w-5 h-5 mr-2" />
               Database Settings
             </CardTitle>
             <CardDescription>
               Configure database backup and maintenance options
             </CardDescription>
           </CardHeader>
-          <CardContent className=&quot;space-y-4&quot;>
-            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor=&quot;backup-frequency&quot;>Backup Frequency</Label>
+                <Label htmlFor="backup-frequency">Backup Frequency</Label>
                 <Select
                   value={settings.database.backupFrequency}
                   onValueChange={(value) =>
-                    updateSetting(&quot;database&quot;, &quot;backupFrequency&quot;, value)
+                    updateSetting("database", "backupFrequency", value)
                   }
                 >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value=&quot;hourly&quot;>Hourly</SelectItem>
-                    <SelectItem value=&quot;daily&quot;>Daily</SelectItem>
-                    <SelectItem value=&quot;weekly&quot;>Weekly</SelectItem>
+                    <SelectItem value="hourly">Hourly</SelectItem>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div>
-                <Label htmlFor=&quot;retention-period&quot;>
+                <Label htmlFor="retention-period">
                   Retention Period (days)
                 </Label>
                 <Input
-                  id=&quot;retention-period&quot;
-                  type=&quot;number&quot;
+                  id="retention-period"
+                  type="number"
                   value={settings.database.retentionPeriod}
                   onChange={(e) =>
                     updateSetting(
-                      &quot;database&quot;,
-                      &quot;retentionPeriod&quot;,
+                      "database",
+                      "retentionPeriod",
                       parseInt(e.target.value),
                     )
                   }
@@ -464,17 +464,17 @@ export default function SystemSettings() {
               </div>
             </div>
             <Separator />
-            <div className=&quot;flex items-center justify-between&quot;>
+            <div className="flex items-center justify-between">
               <div>
                 <Label>Automatic Maintenance</Label>
-                <p className=&quot;text-sm text-muted-foreground&quot;>
+                <p className="text-sm text-muted-foreground">
                   Enable automatic database optimization
                 </p>
               </div>
               <Switch
                 checked={settings.database.autoMaintenance}
                 onCheckedChange={(checked) =>
-                  updateSetting(&quot;database&quot;, &quot;autoMaintenance&quot;, checked)
+                  updateSetting("database", "autoMaintenance", checked)
                 }
               />
             </div>

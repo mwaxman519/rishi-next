@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
-import { checkPermission } from &quot;@/lib/rbac&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { locations } from &quot;@shared/schema&quot;;
+import { getCurrentUser } from "@/lib/auth";
+import { checkPermission } from "@/lib/rbac";
+import { db } from "@/lib/db";
+import { locations } from "@shared/schema";
 
 export async function GET(req: NextRequest) {
   try {
@@ -14,13 +14,13 @@ export async function GET(req: NextRequest) {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user has permission to view locations
-    if (!(await checkPermission(req, &quot;view:locations&quot;))) {
+    if (!(await checkPermission(req, "view:locations"))) {
       return NextResponse.json(
-        { error: &quot;Forbidden: Insufficient permissions&quot; },
+        { error: "Forbidden: Insufficient permissions" },
         { status: 403 },
       );
     }
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
       locationTypesArray.sort((a, b) => a.name.localeCompare(b.name));
 
       // Sort statuses in a specific order
-      const statusOrder = [&quot;active&quot;, &quot;pending&quot;, &quot;inactive&quot;, &quot;rejected&quot;];
+      const statusOrder = ["active", "pending", "inactive", "rejected"];
       statusesArray.sort((a, b) => {
         const indexA = statusOrder.indexOf(a.id);
         const indexB = statusOrder.indexOf(b.id);
@@ -83,10 +83,10 @@ export async function GET(req: NextRequest) {
       // Calculate location statistics
       const totalLocations = locations.length;
       const activeLocations = locations.filter(
-        (loc) => loc.status === &quot;active&quot;,
+        (loc) => loc.status === "active",
       ).length;
       const pendingLocations = locations.filter(
-        (loc) => loc.status === &quot;pending&quot;,
+        (loc) => loc.status === "pending",
       ).length;
 
       return NextResponse.json({
@@ -104,7 +104,7 @@ export async function GET(req: NextRequest) {
         },
       });
     } catch (dbError) {
-      console.error(&quot;Database error:&quot;, dbError);
+      console.error("Database error:", dbError);
       return NextResponse.json(
         {
           error: `Database error: ${dbError instanceof Error ? dbError.message : String(dbError)}`,
@@ -113,13 +113,13 @@ export async function GET(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.error(&quot;Error fetching location metadata:&quot;, error);
+    console.error("Error fetching location metadata:", error);
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to fetch location metadata&quot;,
+            : "Failed to fetch location metadata",
       },
       { status: 500 },
     );

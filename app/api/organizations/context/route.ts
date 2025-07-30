@@ -1,9 +1,9 @@
-import { NextResponse } from &quot;next/server&quot;;
+import { NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getOrganizationContext } from &quot;@/lib/organization-context&quot;;
+import { getOrganizationContext } from "@/lib/organization-context";
 
 /**
  * Get the current organization context
@@ -23,8 +23,8 @@ export async function GET() {
     if (!context) {
       return NextResponse.json(
         {
-          error: &quot;No organization context available&quot;,
-          note: &quot;You might need to switch to an organization first&quot;,
+          error: "No organization context available",
+          note: "You might need to switch to an organization first",
         },
         { status: 400 },
       );
@@ -36,9 +36,9 @@ export async function GET() {
       context,
     });
   } catch (error) {
-    console.error(&quot;Error getting organization context:&quot;, error);
+    console.error("Error getting organization context:", error);
     return NextResponse.json(
-      { error: &quot;Failed to get organization context&quot; },
+      { error: "Failed to get organization context" },
       { status: 500 },
     );
   }

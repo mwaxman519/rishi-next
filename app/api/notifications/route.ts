@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { EventBusService } from &quot;../../../services/event-bus-service&quot;;
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { EventBusService } from "../../../services/event-bus-service";
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,11 +13,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       notifications: [],
       connected: true,
-      status: &quot;ok&quot;,
+      status: "ok",
     });
   } catch (error) {
     return NextResponse.json(
-      { error: &quot;Failed to fetch notifications&quot; },
+      { error: "Failed to fetch notifications" },
       { status: 500 },
     );
   }
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     return NextResponse.json(
-      { error: &quot;Failed to subscribe to notifications&quot; },
+      { error: "Failed to subscribe to notifications" },
       { status: 500 },
     );
   }

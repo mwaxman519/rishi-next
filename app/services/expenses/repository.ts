@@ -3,15 +3,15 @@
  * Data access layer for expense management microservice
  */
 
-import { db } from &quot;../../db&quot;;
-import { systemEvents } from &quot;@shared/schema&quot;;
-import { eq, and, gte, lte, desc, sql, count, sum } from &quot;drizzle-orm&quot;;
+import { db } from "../../db";
+import { systemEvents } from "@shared/schema";
+import { eq, and, gte, lte, desc, sql, count, sum } from "drizzle-orm";
 import type {
   ExpenseData,
   ExpenseFilters,
   ExpenseSummary,
   ServiceResponse,
-} from &quot;./models&quot;;
+} from "./models";
 
 export class ExpenseRepository {
   /**
@@ -31,11 +31,11 @@ export class ExpenseRepository {
         data: fullExpense.data,
       };
     } catch (error) {
-      console.error(&quot;[ExpenseRepository] Error creating expense:&quot;, error);
+      console.error("[ExpenseRepository] Error creating expense:", error);
       return {
         success: false,
-        error: &quot;Failed to create expense&quot;,
-        code: &quot;CREATE_FAILED&quot;,
+        error: "Failed to create expense",
+        code: "CREATE_FAILED",
       };
     }
   }
@@ -89,8 +89,8 @@ export class ExpenseRepository {
       if (!expense) {
         return {
           success: false,
-          error: &quot;Expense not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Expense not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -99,11 +99,11 @@ export class ExpenseRepository {
         data: expense as ExpenseData,
       };
     } catch (error) {
-      console.error(&quot;[ExpenseRepository] Error finding expense by ID:&quot;, error);
+      console.error("[ExpenseRepository] Error finding expense by ID:", error);
       return {
         success: false,
-        error: &quot;Failed to find expense&quot;,
-        code: &quot;FIND_FAILED&quot;,
+        error: "Failed to find expense",
+        code: "FIND_FAILED",
       };
     }
   }
@@ -220,11 +220,11 @@ export class ExpenseRepository {
         },
       };
     } catch (error) {
-      console.error(&quot;[ExpenseRepository] Error finding expenses:&quot;, error);
+      console.error("[ExpenseRepository] Error finding expenses:", error);
       return {
         success: false,
-        error: &quot;Failed to find expenses&quot;,
-        code: &quot;FIND_MANY_FAILED&quot;,
+        error: "Failed to find expenses",
+        code: "FIND_MANY_FAILED",
       };
     }
   }
@@ -246,8 +246,8 @@ export class ExpenseRepository {
       if (!updatedExpense) {
         return {
           success: false,
-          error: &quot;Expense not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Expense not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -258,11 +258,11 @@ export class ExpenseRepository {
         data: fullExpense.data,
       };
     } catch (error) {
-      console.error(&quot;[ExpenseRepository] Error updating expense:&quot;, error);
+      console.error("[ExpenseRepository] Error updating expense:", error);
       return {
         success: false,
-        error: &quot;Failed to update expense&quot;,
-        code: &quot;UPDATE_FAILED&quot;,
+        error: "Failed to update expense",
+        code: "UPDATE_FAILED",
       };
     }
   }
@@ -279,11 +279,11 @@ export class ExpenseRepository {
         data: true,
       };
     } catch (error) {
-      console.error(&quot;[ExpenseRepository] Error deleting expense:&quot;, error);
+      console.error("[ExpenseRepository] Error deleting expense:", error);
       return {
         success: false,
-        error: &quot;Failed to delete expense&quot;,
-        code: &quot;DELETE_FAILED&quot;,
+        error: "Failed to delete expense",
+        code: "DELETE_FAILED",
       };
     }
   }
@@ -355,24 +355,24 @@ export class ExpenseRepository {
       statusSummary.forEach((item) => {
         byStatus[item.status] = {
           count: item.count,
-          amount: item.amount?.toString() || &quot;0&quot;,
+          amount: item.amount?.toString() || "0",
         };
       });
 
       categorySummary.forEach((item) => {
         byCategory[item.expenseType] = {
           count: item.count,
-          amount: item.amount?.toString() || &quot;0&quot;,
+          amount: item.amount?.toString() || "0",
         };
       });
 
       const summary: ExpenseSummary = {
         totalExpenses: overallSummary?.totalExpenses || 0,
-        totalAmount: overallSummary?.totalAmount?.toString() || &quot;0&quot;,
+        totalAmount: overallSummary?.totalAmount?.toString() || "0",
         pendingApproval: byStatus.submitted?.count || 0,
-        pendingAmount: byStatus.submitted?.amount || &quot;0&quot;,
-        approvedAmount: byStatus.approved?.amount || &quot;0&quot;,
-        rejectedAmount: byStatus.rejected?.amount || &quot;0&quot;,
+        pendingAmount: byStatus.submitted?.amount || "0",
+        approvedAmount: byStatus.approved?.amount || "0",
+        rejectedAmount: byStatus.rejected?.amount || "0",
         byCategory,
         byStatus,
       };
@@ -382,11 +382,11 @@ export class ExpenseRepository {
         data: summary,
       };
     } catch (error) {
-      console.error(&quot;[ExpenseRepository] Error getting summary:&quot;, error);
+      console.error("[ExpenseRepository] Error getting summary:", error);
       return {
         success: false,
-        error: &quot;Failed to get expense summary&quot;,
-        code: &quot;SUMMARY_FAILED&quot;,
+        error: "Failed to get expense summary",
+        code: "SUMMARY_FAILED",
       };
     }
   }
@@ -405,7 +405,7 @@ export class ExpenseRepository {
       return !!expense;
     } catch (error) {
       console.error(
-        &quot;[ExpenseRepository] Error checking expense existence:&quot;,
+        "[ExpenseRepository] Error checking expense existence:",
         error,
       );
       return false;

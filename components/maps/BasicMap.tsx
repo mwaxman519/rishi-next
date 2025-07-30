@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useRef } from &quot;react&quot;;
-import { LoadScript } from &quot;@react-google-maps/api&quot;;
+import { useEffect, useRef } from "react";
+import { LoadScript } from "@react-google-maps/api";
 
 export interface BasicMapLocation {
   id: string;
@@ -40,8 +40,8 @@ export function BasicMap({
   // Function to validate coordinates
   const isValidCoordinate = (lat?: number, lng?: number): boolean => {
     return (
-      typeof lat === &quot;number&quot; &&
-      typeof lng === &quot;number&quot; &&
+      typeof lat === "number" &&
+      typeof lng === "number" &&
       !isNaN(lat) &&
       !isNaN(lng) &&
       lat >= -90 &&
@@ -56,7 +56,7 @@ export function BasicMap({
     if (!mapRef.current || isInitializedRef.current) return;
 
     try {
-      console.log(&quot;Initializing map...&quot;);
+      console.log("Initializing map...");
 
       // Create map instance
       const map = new google.maps.Map(mapRef.current, {
@@ -67,9 +67,9 @@ export function BasicMap({
         fullscreenControl: true,
         styles: [
           {
-            featureType: &quot;poi&quot;,
-            elementType: &quot;labels&quot;,
-            stylers: [{ visibility: &quot;off&quot; }],
+            featureType: "poi",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }],
           },
         ],
       });
@@ -85,7 +85,7 @@ export function BasicMap({
       // Add markers for all locations
       addMarkers();
 
-      // If there&apos;s a selected location, center on it
+      // If there's a selected location, center on it
       if (selectedLocationId) {
         centerOnLocation(selectedLocationId);
       }
@@ -94,9 +94,9 @@ export function BasicMap({
         fitMapToBounds();
       }
 
-      console.log(&quot;Map initialized successfully&quot;);
+      console.log("Map initialized successfully");
     } catch (error) {
-      console.error(&quot;Error initializing map:&quot;, error);
+      console.error("Error initializing map:", error);
     }
   };
 
@@ -104,7 +104,7 @@ export function BasicMap({
   const addMarkers = () => {
     if (!mapInstanceRef.current) return;
 
-    console.log(&quot;Adding markers for&quot;, locations.length, &quot;locations&quot;);
+    console.log("Adding markers for", locations.length, "locations");
 
     // Clear existing markers
     Object.values(markersRef.current).forEach((marker) => {
@@ -116,7 +116,7 @@ export function BasicMap({
     locations.forEach((location) => {
       if (!isValidCoordinate(location.latitude, location.longitude)) {
         console.log(
-          &quot;Skipping location with invalid coordinates:&quot;,
+          "Skipping location with invalid coordinates:",
           location.name,
         );
         return;
@@ -135,7 +135,7 @@ export function BasicMap({
           path: google.maps.SymbolPath.CIRCLE,
           fillColor: markerColor,
           fillOpacity: 1,
-          strokeColor: &quot;#ffffff&quot;,
+          strokeColor: "#ffffff",
           strokeWeight: 2,
           scale: 10,
         },
@@ -146,7 +146,7 @@ export function BasicMap({
       });
 
       // Add click event
-      marker.addListener(&quot;click&quot;, () => {
+      marker.addListener("click", () => {
         if (onMarkerClick) {
           onMarkerClick(location.id);
         } else {
@@ -168,9 +168,9 @@ export function BasicMap({
 
     // Create content
     const content = `
-      <div class=&quot;p-2 max-w-[250px]&quot;>
-        <h3 class=&quot;font-medium text-sm&quot;>${location.name}</h3>
-        <p class=&quot;text-xs text-gray-600&quot;>${location.address}</p>
+      <div class="p-2 max-w-[250px]">
+        <h3 class="font-medium text-sm">${location.name}</h3>
+        <p class="text-xs text-gray-600">${location.address}</p>
       </div>
     `;
 
@@ -191,11 +191,11 @@ export function BasicMap({
       !location ||
       !isValidCoordinate(location.latitude, location.longitude)
     ) {
-      console.warn(&quot;Cannot center on location - invalid ID or coordinates&quot;);
+      console.warn("Cannot center on location - invalid ID or coordinates");
       return;
     }
 
-    console.log(&quot;Centering on location:&quot;, location.name);
+    console.log("Centering on location:", location.name);
 
     // Center and zoom
     mapInstanceRef.current.setCenter({
@@ -240,7 +240,7 @@ export function BasicMap({
       // Adjust zoom level to avoid excessive zooming
       google.maps.event.addListenerOnce(
         mapInstanceRef.current,
-        &quot;bounds_changed&quot;,
+        "bounds_changed",
         () => {
           if (mapInstanceRef.current) {
             const zoom = mapInstanceRef.current.getZoom();
@@ -255,31 +255,31 @@ export function BasicMap({
 
   // Get marker color based on location state or type
   const getMarkerColor = (location: BasicMapLocation): string => {
-    if (!location.state && !location.locationType) return &quot;#3b82f6&quot;; // Default blue
+    if (!location.state && !location.locationType) return "#3b82f6"; // Default blue
 
     // Color by state
     const stateColors: { [key: string]: string } = {
-      CA: &quot;#ef4444&quot;, // Red
-      NY: &quot;#3b82f6&quot;, // Blue
-      TX: &quot;#22c55e&quot;, // Green
-      FL: &quot;#f59e0b&quot;, // Amber
-      IL: &quot;#8b5cf6&quot;, // Purple
-      PA: &quot;#ec4899&quot;, // Pink
-      OH: &quot;#06b6d4&quot;, // Cyan
-      GA: &quot;#f97316&quot;, // Orange
-      NC: &quot;#8b5cf6&quot;, // Purple
-      MI: &quot;#06b6d4&quot;, // Cyan
+      CA: "#ef4444", // Red
+      NY: "#3b82f6", // Blue
+      TX: "#22c55e", // Green
+      FL: "#f59e0b", // Amber
+      IL: "#8b5cf6", // Purple
+      PA: "#ec4899", // Pink
+      OH: "#06b6d4", // Cyan
+      GA: "#f97316", // Orange
+      NC: "#8b5cf6", // Purple
+      MI: "#06b6d4", // Cyan
     };
 
     // Color by location type
     const typeColors: { [key: string]: string } = {
-      business: &quot;#3b82f6&quot;, // Blue
-      venue: &quot;#8b5cf6&quot;, // Purple
-      office: &quot;#22c55e&quot;, // Green
-      warehouse: &quot;#f59e0b&quot;, // Amber
-      retail: &quot;#ec4899&quot;, // Pink
-      restaurant: &quot;#06b6d4&quot;, // Cyan
-      landmark: &quot;#f97316&quot;, // Orange
+      business: "#3b82f6", // Blue
+      venue: "#8b5cf6", // Purple
+      office: "#22c55e", // Green
+      warehouse: "#f59e0b", // Amber
+      retail: "#ec4899", // Pink
+      restaurant: "#06b6d4", // Cyan
+      landmark: "#f97316", // Orange
     };
 
     // Prioritize state colors
@@ -289,13 +289,13 @@ export function BasicMap({
 
     // Fall back to type colors
     if (location.locationType) {
-      const type = location.locationType.toLowerCase().replace(&quot;_&quot;, "&quot;);
+      const type = location.locationType.toLowerCase().replace("_", "");
       if (typeColors[type]) {
         return typeColors[type];
       }
     }
 
-    return &quot;#3b82f6&quot;; // Default blue
+    return "#3b82f6"; // Default blue
   };
 
   // Initialize map when component mounts
@@ -304,7 +304,7 @@ export function BasicMap({
       if (window.google && window.google.maps) {
         initializeMap();
       } else {
-        console.log(&quot;Google Maps not yet loaded, waiting...&quot;);
+        console.log("Google Maps not yet loaded, waiting...");
         setTimeout(initializeOnLoad, 100);
       }
     };
@@ -324,7 +324,7 @@ export function BasicMap({
   // Update markers when locations change
   useEffect(() => {
     if (isInitializedRef.current) {
-      console.log(&quot;Locations changed, updating markers&quot;);
+      console.log("Locations changed, updating markers");
       addMarkers();
 
       if (selectedLocationId) {
@@ -338,7 +338,7 @@ export function BasicMap({
   // Update map when selected location changes
   useEffect(() => {
     if (isInitializedRef.current && selectedLocationId) {
-      console.log(&quot;Selected location changed to:&quot;, selectedLocationId);
+      console.log("Selected location changed to:", selectedLocationId);
       centerOnLocation(selectedLocationId);
     }
   }, [selectedLocationId]);
@@ -346,16 +346,16 @@ export function BasicMap({
   return (
     <LoadScript
       googleMapsApiKey={apiKey}
-      onLoad={() => console.log(&quot;Google Maps script loaded&quot;)}
+      onLoad={() => console.log("Google Maps script loaded")}
     >
       <div
         ref={mapRef}
         style={{
-          width: &quot;100%&quot;,
+          width: "100%",
           height: `${height}px`,
-          borderRadius: &quot;0.375rem&quot;, // rounded-md
+          borderRadius: "0.375rem", // rounded-md
         }}
-        className=&quot;relative bg-gray-900"
+        className="relative bg-gray-900"
       />
     </LoadScript>
   );

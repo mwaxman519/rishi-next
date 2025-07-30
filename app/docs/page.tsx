@@ -1,51 +1,51 @@
-import React from &quot;react&quot;;
-import Link from &quot;next/link&quot;;
-import { DocsHomePage } from &quot;../components/docs/DocsHomePage&quot;;
-import { DocsSidebar } from &quot;../components/docs/DocsSidebar&quot;;
-import { MobileDocsButton } from &quot;../components/docs/MobileDocsButton&quot;;
-import { AlertTriangle, Bug, ChevronLeft } from &quot;lucide-react&quot;;
-import { getDocTree, getRecentDocuments, DOCS_DIRECTORY } from &quot;../lib/docs&quot;;
+import React from "react";
+import Link from "next/link";
+import { DocsHomePage } from "../components/docs/DocsHomePage";
+import { DocsSidebar } from "../components/docs/DocsSidebar";
+import { MobileDocsButton } from "../components/docs/MobileDocsButton";
+import { AlertTriangle, Bug, ChevronLeft } from "lucide-react";
+import { getDocTree, getRecentDocuments, DOCS_DIRECTORY } from "../lib/docs";
 
 // Error UI component for detailed error display
 function ErrorDisplay({ error }: { error: Error }) {
   return (
-    <div className=&quot;p-8 max-w-4xl mx-auto&quot;>
-      <div className=&quot;bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6&quot;>
-        <div className=&quot;flex items-start gap-4&quot;>
-          <div className=&quot;text-red-600 dark:text-red-400&quot;>
-            <AlertTriangle className=&quot;h-6 w-6&quot; />
+    <div className="p-8 max-w-4xl mx-auto">
+      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+        <div className="flex items-start gap-4">
+          <div className="text-red-600 dark:text-red-400">
+            <AlertTriangle className="h-6 w-6" />
           </div>
           <div>
-            <h3 className=&quot;text-lg font-semibold text-red-700 dark:text-red-300 mb-2&quot;>
+            <h3 className="text-lg font-semibold text-red-700 dark:text-red-300 mb-2">
               Documentation System Error
             </h3>
-            <div className=&quot;text-sm text-red-600 dark:text-red-400 mb-4&quot;>
+            <div className="text-sm text-red-600 dark:text-red-400 mb-4">
               <p>An error occurred while loading the documentation system:</p>
-              <p className=&quot;font-mono bg-red-100 dark:bg-red-900/30 p-2 mt-2 rounded overflow-auto&quot;>
+              <p className="font-mono bg-red-100 dark:bg-red-900/30 p-2 mt-2 rounded overflow-auto">
                 {error.message}
               </p>
               {error.stack && (
-                <details className=&quot;mt-4&quot;>
-                  <summary className=&quot;cursor-pointer&quot;>Stack Trace</summary>
-                  <pre className=&quot;text-xs bg-red-100 dark:bg-red-900/30 p-2 mt-2 rounded overflow-auto&quot;>
+                <details className="mt-4">
+                  <summary className="cursor-pointer">Stack Trace</summary>
+                  <pre className="text-xs bg-red-100 dark:bg-red-900/30 p-2 mt-2 rounded overflow-auto">
                     {error.stack}
                   </pre>
                 </details>
               )}
             </div>
-            <div className=&quot;space-y-2&quot;>
+            <div className="space-y-2">
               <Link
-                href=&quot;/&quot;
-                className=&quot;flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline&quot;
+                href="/"
+                className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
               >
-                <ChevronLeft className=&quot;h-4 w-4&quot; />
+                <ChevronLeft className="h-4 w-4" />
                 Return to Home
               </Link>
               <Link
-                href=&quot;/simple-docs&quot;
-                className=&quot;flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline&quot;
+                href="/simple-docs"
+                className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
               >
-                <Bug className=&quot;h-4 w-4&quot; />
+                <Bug className="h-4 w-4" />
                 Try Simple Documentation Viewer
               </Link>
             </div>
@@ -63,7 +63,7 @@ export const revalidate = 0;
 
 export default async function DocsPage() {
   try {
-    console.log(&quot;[DOCS PAGE] Starting with direct filesystem access approach&quot;);
+    console.log("[DOCS PAGE] Starting with direct filesystem access approach");
 
 
 
@@ -75,14 +75,14 @@ export default async function DocsPage() {
       docTree = await getDocTree();
       recentDocuments = await getRecentDocuments(10); // Show up to 10 recent docs
     } catch (docError) {
-      console.error(&quot;[DOCS PAGE] Error loading documentation:&quot;, docError);
+      console.error("[DOCS PAGE] Error loading documentation:", docError);
       // Re-throw the error to properly handle it
       throw docError;
     }
 
-    // Documentation should always be available - if tree is empty, there&apos;s a technical issue
+    // Documentation should always be available - if tree is empty, there's a technical issue
     if (!docTree || Object.keys(docTree).length === 0) {
-      throw new Error(&quot;Documentation tree is empty - this indicates a technical issue that needs to be resolved&quot;);
+      throw new Error("Documentation tree is empty - this indicates a technical issue that needs to be resolved");
     }
 
     console.log(
@@ -94,14 +94,14 @@ export default async function DocsPage() {
 
     // Wrap data in a key to force complete re-render when data changes
     return (
-      <div className=&quot;flex&quot;>
+      <div className="flex">
         {/* Doc tree sidebar - only visible on desktop */}
         <DocsSidebar docTree={docTree} />
 
         {/* Main content */}
-        <div className=&quot;flex-1 min-w-0&quot;>
+        <div className="flex-1 min-w-0">
           <DocsHomePage
-            key=&quot;docs-home&quot;
+            key="docs-home"
             docTree={docTree}
             recentDocuments={recentDocuments}
           />
@@ -112,7 +112,7 @@ export default async function DocsPage() {
       </div>
     );
   } catch (error) {
-    console.error(&quot;[DOCS PAGE] Error rendering docs page:&quot;, error);
+    console.error("[DOCS PAGE] Error rendering docs page:", error);
 
     // Cast to Error type for proper display
     const typedError =

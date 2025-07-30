@@ -1,4 +1,4 @@
-&quot;use client&quot;;
+"use client";
 
 import React, {
   createContext,
@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useState,
   ReactNode,
-} from &quot;react&quot;;
+} from "react";
 
 type SidebarContextType = {
   sidebarCollapsed: boolean;
@@ -21,18 +21,18 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
 
   // Initialize sidebar state from localStorage if available
   useEffect(() => {
-    if (typeof window !== &quot;undefined&quot;) {
-      const savedState = localStorage.getItem(&quot;sidebarCollapsed&quot;);
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("sidebarCollapsed");
       if (savedState) {
-        setSidebarCollapsed(savedState === &quot;true&quot;);
+        setSidebarCollapsed(savedState === "true");
       }
     }
   }, []);
 
   // Save sidebar state to localStorage when it changes
   useEffect(() => {
-    if (typeof window !== &quot;undefined&quot;) {
-      localStorage.setItem(&quot;sidebarCollapsed&quot;, String(sidebarCollapsed));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("sidebarCollapsed", String(sidebarCollapsed));
     }
   }, [sidebarCollapsed]);
 
@@ -52,7 +52,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
 export function useSidebarState() {
   const context = useContext(SidebarContext);
   if (context === undefined) {
-    throw new Error(&quot;useSidebarState must be used within a SidebarProvider&quot;);
+    throw new Error("useSidebarState must be used within a SidebarProvider");
   }
   return context;
 }

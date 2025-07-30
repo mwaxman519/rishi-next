@@ -1,4 +1,4 @@
-import { config } from &quot;../config/environment&quot;;
+import { config } from "../config/environment";
 
 /**
  * Event Bus Adapter interface
@@ -26,7 +26,7 @@ export class InMemoryEventBusAdapter implements EventBusAdapter {
     const callbacks = this.systemEvents.get(eventName) || [];
 
     console.log(`Event published: ${eventName}`, {
-      details: typeof data === &quot;object&quot; ? JSON.stringify(data) : data,
+      details: typeof data === "object" ? JSON.stringify(data) : data,
       subscribers: callbacks.length,
     });
 
@@ -83,7 +83,7 @@ export class AzureServiceBusAdapter implements EventBusAdapter {
 
   async publish(eventName: string, data: any): Promise<void> {
     console.log(`[AZURE] Publishing event ${eventName} to Azure Service Bus`, {
-      details: typeof data === &quot;object&quot; ? JSON.stringify(data) : data,
+      details: typeof data === "object" ? JSON.stringify(data) : data,
     });
 
     // In production, this would publish the event to Azure Service Bus
@@ -152,17 +152,17 @@ export class AzureServiceBusAdapter implements EventBusAdapter {
 export function createEventBusAdapter(): EventBusAdapter {
   // Use the environment configuration to determine the event bus type
   switch (config.eventBusType) {
-    case &quot;azure&quot;:
-      console.log(&quot;Creating Azure Service Bus adapter for event bus&quot;);
+    case "azure":
+      console.log("Creating Azure Service Bus adapter for event bus");
       return new AzureServiceBusAdapter();
-    case &quot;aws&quot;:
+    case "aws":
       console.log(
-        &quot;AWS event bus adapter not yet implemented, falling back to in-memory&quot;,
+        "AWS event bus adapter not yet implemented, falling back to in-memory",
       );
       return new InMemoryEventBusAdapter();
-    case &quot;memory&quot;:
+    case "memory":
     default:
-      console.log(&quot;Creating in-memory adapter for event bus&quot;);
+      console.log("Creating in-memory adapter for event bus");
       return new InMemoryEventBusAdapter();
   }
 }

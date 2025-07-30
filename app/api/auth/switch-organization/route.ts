@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { cookies } from &quot;next/headers&quot;;
-import { getCurrentAuthUser } from &quot;@/lib/auth-server&quot;;
-import { SignJWT } from &quot;jose&quot;;
+import { cookies } from "next/headers";
+import { getCurrentAuthUser } from "@/lib/auth-server";
+import { SignJWT } from "jose";
 
 /**
  * Switch the current user's active organization
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: &quot;Organization ID is required&quot; },
+        { error: "Organization ID is required" },
         { status: 400 },
       );
     }
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     console.log(`Switching to organization ID: ${organizationId}`);
@@ -46,17 +46,17 @@ export async function POST(req: NextRequest) {
 
     // Cookie options for both organization ID and JWT token
     const cookieOptions = {
-      path: &quot;/&quot;,
+      path: "/",
       httpOnly: true, // Can't be accessed by client-side JavaScript
-      secure: (process.env.NODE_ENV as string) === &quot;production&quot;, // Only send over HTTPS in production
-      sameSite: &quot;lax&quot; as const, // Helps prevent CSRF attacks
+      secure: (process.env.NODE_ENV as string) === "production", // Only send over HTTPS in production
+      sameSite: "lax" as const, // Helps prevent CSRF attacks
       maxAge: 30 * 24 * 60 * 60, // 30 days
     };
 
     // Create a new JWT token with the updated organization context
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
+      throw new Error("JWT_SECRET environment variable is required");
     }
     const secretKey = new TextEncoder().encode(jwtSecret);
 
@@ -74,33 +74,33 @@ export async function POST(req: NextRequest) {
 
     // Sign the token
     const token = await new SignJWT(payload)
-      .setProtectedHeader({ alg: &quot;HS256&quot; })
+      .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
-      .setExpirationTime(&quot;24h&quot;)
+      .setExpirationTime("24h")
       .sign(secretKey);
 
     // Create response with cookies
     const response = NextResponse.json({
       success: true,
-      message: &quot;Organization switched successfully&quot;,
+      message: "Organization switched successfully",
       organizationId,
     });
 
     // Set the organization ID cookie
     response.cookies.set(
-      &quot;currentOrganizationId&quot;,
+      "currentOrganizationId",
       String(organizationId),
       cookieOptions,
     );
 
     // Set the new JWT token cookie
-    response.cookies.set(&quot;token&quot;, token, cookieOptions);
+    response.cookies.set("token", token, cookieOptions);
 
     return response;
   } catch (error) {
-    console.error(&quot;Error switching organization:&quot;, error);
+    console.error("Error switching organization:", error);
     return NextResponse.json(
-      { error: &quot;Failed to switch organization&quot; },
+      { error: "Failed to switch organization" },
       { status: 500 },
     );
   }

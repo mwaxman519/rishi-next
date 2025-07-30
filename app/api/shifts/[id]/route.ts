@@ -1,6 +1,6 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
@@ -9,10 +9,10 @@ export const revalidate = false;
  * RESTful endpoints for single shift operations
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { ShiftService } from &quot;../../../services/shifts/ShiftService&quot;;
-import { updateShiftSchema } from &quot;../../../services/shifts/models&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { ShiftService } from "../../../services/shifts/ShiftService";
+import { updateShiftSchema } from "../../../services/shifts/models";
 
 const shiftService = new ShiftService();
 
@@ -26,17 +26,17 @@ export async function GET(
   try {
     const session = await getServerSession();
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
 
     // Get user context from session
-    const userId = (session.user as any).id || &quot;mock-user-id&quot;;
-    const userRole = (session.user as any).role || &quot;brand_agent&quot;;
+    const userId = (session.user as any).id || "mock-user-id";
+    const userRole = (session.user as any).role || "brand_agent";
     const organizationId =
       (session.user as any).organizationId ||
-      &quot;00000000-0000-0000-0000-000000000001&quot;;
+      "00000000-0000-0000-0000-000000000001";
 
     const result = await shiftService.getShiftById(
       id,
@@ -46,7 +46,7 @@ export async function GET(
     );
 
     if (!result.success) {
-      const status = result.code === &quot;NOT_FOUND&quot; ? 404 : 400;
+      const status = result.code === "NOT_FOUND" ? 404 : 400;
       return NextResponse.json(
         { error: result.error, code: result.code },
         { status },
@@ -57,7 +57,7 @@ export async function GET(
   } catch (error) {
     console.error(`GET /api/shifts/${params.id} error:`, error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
@@ -73,18 +73,18 @@ export async function PUT(
   try {
     const session = await getServerSession();
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
     const body = await request.json();
 
     // Get user context from session
-    const userId = (session.user as any).id || &quot;mock-user-id&quot;;
-    const userRole = (session.user as any).role || &quot;internal_field_manager&quot;;
+    const userId = (session.user as any).id || "mock-user-id";
+    const userRole = (session.user as any).role || "internal_field_manager";
     const organizationId =
       (session.user as any).organizationId ||
-      &quot;00000000-0000-0000-0000-000000000001&quot;;
+      "00000000-0000-0000-0000-000000000001";
 
     // Validate request body
     const validatedData = updateShiftSchema.parse(body);
@@ -99,9 +99,9 @@ export async function PUT(
 
     if (!result.success) {
       const status =
-        result.code === &quot;NOT_FOUND&quot;
+        result.code === "NOT_FOUND"
           ? 404
-          : result.code === &quot;ACCESS_DENIED&quot;
+          : result.code === "ACCESS_DENIED"
             ? 403
             : 400;
       return NextResponse.json(
@@ -114,15 +114,15 @@ export async function PUT(
   } catch (error) {
     console.error(`PUT /api/shifts/${params.id} error:`, error);
 
-    if (error instanceof Error && error.name === &quot;ZodError&quot;) {
+    if (error instanceof Error && error.name === "ZodError") {
       return NextResponse.json(
-        { error: &quot;Invalid request data&quot;, details: error.message },
+        { error: "Invalid request data", details: error.message },
         { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }
@@ -138,17 +138,17 @@ export async function DELETE(
   try {
     const session = await getServerSession();
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id } = await params;
 
     // Get user context from session
-    const userId = (session.user as any).id || &quot;mock-user-id&quot;;
-    const userRole = (session.user as any).role || &quot;organization_admin&quot;;
+    const userId = (session.user as any).id || "mock-user-id";
+    const userRole = (session.user as any).role || "organization_admin";
     const organizationId =
       (session.user as any).organizationId ||
-      &quot;00000000-0000-0000-0000-000000000001&quot;;
+      "00000000-0000-0000-0000-000000000001";
 
     const result = await shiftService.deleteShift(
       id,
@@ -159,9 +159,9 @@ export async function DELETE(
 
     if (!result.success) {
       const status =
-        result.code === &quot;NOT_FOUND&quot;
+        result.code === "NOT_FOUND"
           ? 404
-          : result.code === &quot;ACCESS_DENIED&quot;
+          : result.code === "ACCESS_DENIED"
             ? 403
             : 400;
       return NextResponse.json(
@@ -170,11 +170,11 @@ export async function DELETE(
       );
     }
 
-    return NextResponse.json({ message: &quot;Shift deleted successfully&quot; });
+    return NextResponse.json({ message: "Shift deleted successfully" });
   } catch (error) {
     console.error(`DELETE /api/shifts/${params.id} error:`, error);
     return NextResponse.json(
-      { error: &quot;Internal server error&quot; },
+      { error: "Internal server error" },
       { status: 500 },
     );
   }

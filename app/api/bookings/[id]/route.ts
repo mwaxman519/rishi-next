@@ -1,6 +1,6 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
@@ -8,18 +8,18 @@ export const revalidate = false;
  * Individual Booking API
  * Handles single booking operations - get, update, delete
  */
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db } from "@/lib/db";
 import {
   bookings,
   activities,
   BOOKING_STATUS,
   insertBookingSchema,
-} from &quot;@shared/schema&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { z } from &quot;zod&quot;;
+} from "@shared/schema";
+import { getServerSession } from "next-auth";
+import { eq, and } from "drizzle-orm";
+import { authOptions } from "@/lib/auth-options";
+import { z } from "zod";
 
 // Define a schema for booking updates
 const updateBookingSchema = insertBookingSchema
@@ -36,7 +36,7 @@ export async function GET(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: bookingId } = await params;
@@ -46,12 +46,12 @@ export async function GET(
 
     // Add conditions based on user role
     const isAdmin = [
-      &quot;super_admin&quot;,
-      &quot;internal_admin&quot;,
-      &quot;internal_field_manager&quot;,
+      "super_admin",
+      "internal_admin",
+      "internal_field_manager",
     ].includes((session.user as any).role);
 
-    // Only allow users to see bookings from their organization if they&apos;re not an admin
+    // Only allow users to see bookings from their organization if they're not an admin
     if (!isAdmin && (session.user as any).organizationId) {
       conditions.push(
         eq(bookings.clientOrganizationId, (session.user as any).organizationId),
@@ -65,7 +65,7 @@ export async function GET(
       .where(and(...conditions));
 
     if (!booking) {
-      return NextResponse.json({ error: &quot;Booking not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
     }
 
     // Get related activities for this booking
@@ -79,9 +79,9 @@ export async function GET(
       activities: relatedActivities,
     });
   } catch (error) {
-    console.error(&quot;Error fetching booking:&quot;, error);
+    console.error("Error fetching booking:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch booking&quot; },
+      { error: "Failed to fetch booking" },
       { status: 500 },
     );
   }
@@ -98,7 +98,7 @@ export async function PATCH(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: bookingId } = await params;
@@ -112,12 +112,12 @@ export async function PATCH(
 
     // Add conditions based on user role
     const isAdmin = [
-      &quot;super_admin&quot;,
-      &quot;internal_admin&quot;,
-      &quot;internal_field_manager&quot;,
+      "super_admin",
+      "internal_admin",
+      "internal_field_manager",
     ].includes((session.user as any).role);
 
-    // Only allow users to update bookings from their organization if they&apos;re not an admin
+    // Only allow users to update bookings from their organization if they're not an admin
     if (!isAdmin && (session.user as any).organizationId) {
       conditions.push(
         eq(bookings.clientOrganizationId, (session.user as any).organizationId),
@@ -133,7 +133,7 @@ export async function PATCH(
     if (!existingBooking) {
       return NextResponse.json(
         {
-          error: &quot;Booking not found or you don&apos;t have permission to update it&quot;,
+          error: "Booking not found or you don't have permission to update it",
         },
         { status: 404 },
       );
@@ -148,7 +148,7 @@ export async function PATCH(
 
     if (!canEdit) {
       return NextResponse.json(
-        { error: &quot;Cannot edit booking in its current status&quot; },
+        { error: "Cannot edit booking in its current status" },
         { status: 403 },
       );
     }
@@ -165,9 +165,9 @@ export async function PATCH(
 
     return NextResponse.json(updatedBooking);
   } catch (error: any) {
-    console.error(&quot;Error updating booking:&quot;, error);
+    console.error("Error updating booking:", error);
     return NextResponse.json(
-      { error: error.message || &quot;Failed to update booking&quot; },
+      { error: error.message || "Failed to update booking" },
       { status: 400 },
     );
   }
@@ -175,7 +175,7 @@ export async function PATCH(
 
 /**
  * DELETE /api/bookings/[id]
- * Deletes a booking (only if it&apos;s a draft)
+ * Deletes a booking (only if it's a draft)
  */
 export async function DELETE(
   req: NextRequest,
@@ -184,7 +184,7 @@ export async function DELETE(
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { id: bookingId } = await params;
@@ -194,9 +194,9 @@ export async function DELETE(
 
     // Only allow users to delete bookings from their organization
     const isAdmin = [
-      &quot;super_admin&quot;,
-      &quot;internal_admin&quot;,
-      &quot;internal_field_manager&quot;,
+      "super_admin",
+      "internal_admin",
+      "internal_field_manager",
     ].includes((session.user as any).role);
 
     if (!isAdmin && (session.user as any).organizationId) {
@@ -214,7 +214,7 @@ export async function DELETE(
     if (!existingBooking) {
       return NextResponse.json(
         {
-          error: &quot;Booking not found or you don&apos;t have permission to delete it&quot;,
+          error: "Booking not found or you don't have permission to delete it",
         },
         { status: 404 },
       );
@@ -229,7 +229,7 @@ export async function DELETE(
 
     if (!canDelete) {
       return NextResponse.json(
-        { error: &quot;Cannot delete booking in its current status&quot; },
+        { error: "Cannot delete booking in its current status" },
         { status: 403 },
       );
     }
@@ -238,13 +238,13 @@ export async function DELETE(
     await db.delete(bookings).where(eq(bookings.id, bookingId));
 
     return NextResponse.json(
-      { message: &quot;Booking deleted successfully&quot; },
+      { message: "Booking deleted successfully" },
       { status: 200 },
     );
   } catch (error) {
-    console.error(&quot;Error deleting booking:&quot;, error);
+    console.error("Error deleting booking:", error);
     return NextResponse.json(
-      { error: &quot;Failed to delete booking&quot; },
+      { error: "Failed to delete booking" },
       { status: 500 },
     );
   }

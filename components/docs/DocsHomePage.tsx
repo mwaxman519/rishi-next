@@ -1,7 +1,7 @@
-&quot;use client&quot;;
+"use client";
 
-import Link from &quot;next/link&quot;;
-import { usePathname } from &quot;next/navigation&quot;;
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   BookOpen,
   Clock,
@@ -13,70 +13,70 @@ import {
   LayoutDashboard,
   Sparkles,
   ClipboardCheck,
-} from &quot;lucide-react&quot;;
-import { formatRelativeTime } from &quot;@/components/../lib/client-utils&quot;;
-import { DocInfo, DocTree } from &quot;@/components/../lib/docs&quot;;
+} from "lucide-react";
+import { formatRelativeTime } from "@/components/../lib/client-utils";
+import { DocInfo, DocTree } from "@/components/../lib/docs";
 
 // Categories reflecting the actual folder structure in Docs directory
 const featuredCategories = [
   {
-    title: &quot;Getting Started&quot;,
-    description: &quot;Essential guides to get up and running quickly&quot;,
-    path: &quot;/docs/getting-started&quot;,
+    title: "Getting Started",
+    description: "Essential guides to get up and running quickly",
+    path: "/docs/getting-started",
     icon: BookOpen,
   },
   {
-    title: &quot;API Reference&quot;,
-    description: &quot;Detailed API documentation and examples&quot;,
-    path: &quot;/docs/api&quot;,
+    title: "API Reference",
+    description: "Detailed API documentation and examples",
+    path: "/docs/api",
     icon: FileText,
   },
   {
-    title: &quot;Architecture&quot;,
-    description: &quot;System architecture and design patterns&quot;,
-    path: &quot;/docs/architecture&quot;,
+    title: "Architecture",
+    description: "System architecture and design patterns",
+    path: "/docs/architecture",
     icon: Folders,
   },
   {
-    title: &quot;Business&quot;,
-    description: &quot;Business strategy and roadmap&quot;,
-    path: &quot;/docs/business&quot;,
+    title: "Business",
+    description: "Business strategy and roadmap",
+    path: "/docs/business",
     icon: LayoutDashboard,
   },
   {
-    title: &quot;CSS&quot;,
-    description: &quot;Styling and CSS guidelines&quot;,
-    path: &quot;/docs/css&quot;,
+    title: "CSS",
+    description: "Styling and CSS guidelines",
+    path: "/docs/css",
     icon: Sparkles,
   },
   {
-    title: &quot;Deployment&quot;,
-    description: &quot;Deployment guides and procedures&quot;,
-    path: &quot;/docs/deployment&quot;,
+    title: "Deployment",
+    description: "Deployment guides and procedures",
+    path: "/docs/deployment",
     icon: LayoutDashboard,
   },
   {
-    title: &quot;Design&quot;,
-    description: &quot;Design guidelines and assets&quot;,
-    path: &quot;/docs/design&quot;,
+    title: "Design",
+    description: "Design guidelines and assets",
+    path: "/docs/design",
     icon: Sparkles,
   },
   {
-    title: &quot;Development Guides&quot;,
-    description: &quot;Development guides and best practices&quot;,
-    path: &quot;/docs/development-guides&quot;,
+    title: "Development Guides",
+    description: "Development guides and best practices",
+    path: "/docs/development-guides",
     icon: Package,
   },
   {
-    title: &quot;Features&quot;,
-    description: &quot;Detailed feature documentation&quot;,
-    path: &quot;/docs/features&quot;,
+    title: "Features",
+    description: "Detailed feature documentation",
+    path: "/docs/features",
     icon: Star,
   },
   {
-    title: &quot;Testing&quot;,
-    description: &quot;Testing methodologies and practices&quot;,
-    path: &quot;/docs/testing&quot;,
+    title: "Testing",
+    description: "Testing methodologies and practices",
+    path: "/docs/testing",
     icon: ClipboardCheck,
   },
 ];
@@ -90,50 +90,50 @@ export function DocsHomePage({ docTree, recentDocuments }: DocsHomePageProps) {
   const pathname = usePathname();
 
   return (
-    <div className=&quot;max-w-7xl mx-auto p-6&quot;>
-      <header className=&quot;mb-12&quot;>
-        <h1 className=&quot;text-3xl lg:text-4xl font-bold mb-4 text-[rgb(var(--foreground))]&quot;>
+    <div className="max-w-7xl mx-auto p-6">
+      <header className="mb-12">
+        <h1 className="text-3xl lg:text-4xl font-bold mb-4 text-[rgb(var(--foreground))]">
           Documentation Portal
         </h1>
-        <p className=&quot;text-lg text-[rgb(var(--muted-foreground))] max-w-3xl&quot;>
+        <p className="text-lg text-[rgb(var(--muted-foreground))] max-w-3xl">
           Comprehensive guides, API references, and resources for internal teams
         </p>
 
         {/* Search box */}
-        <div className=&quot;relative max-w-2xl mt-6&quot;>
-          <div className=&quot;absolute inset-y-0 left-0 flex items-center pl-3&quot;>
-            <Search className=&quot;h-5 w-5 text-[rgb(var(--muted-foreground))]&quot; />
+        <div className="relative max-w-2xl mt-6">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+            <Search className="h-5 w-5 text-[rgb(var(--muted-foreground))]" />
           </div>
           <input
-            type=&quot;text&quot;
-            placeholder=&quot;Search documentation...&quot;
-            className=&quot;w-full h-12 bg-[rgb(var(--background))] border border-[rgb(var(--input))] rounded-lg pl-10 pr-4 text-[rgb(var(--foreground))] placeholder-[rgb(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))]&quot;
+            type="text"
+            placeholder="Search documentation..."
+            className="w-full h-12 bg-[rgb(var(--background))] border border-[rgb(var(--input))] rounded-lg pl-10 pr-4 text-[rgb(var(--foreground))] placeholder-[rgb(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--ring))]"
           />
         </div>
       </header>
 
       {/* Featured Documentation Categories */}
-      <section className=&quot;mb-12&quot;>
-        <h2 className=&quot;text-2xl font-bold mb-6 text-[rgb(var(--foreground))]&quot;>
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold mb-6 text-[rgb(var(--foreground))]">
           Categories
         </h2>
-        <div className=&quot;grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredCategories.map((category, index) => (
             <Link
               key={index}
               href={category.path}
-              className=&quot;group flex items-start p-6 rounded-2xl transition-all duration-300 border border-[rgb(var(--border))] shadow-sm hover:shadow-md hover:border-[rgb(var(--primary))] hover:shadow-[rgba(var(--primary),0.05)]&quot;
+              className="group flex items-start p-6 rounded-2xl transition-all duration-300 border border-[rgb(var(--border))] shadow-sm hover:shadow-md hover:border-[rgb(var(--primary))] hover:shadow-[rgba(var(--primary),0.05)]"
             >
-              <div className=&quot;flex-shrink-0 mr-4 mt-1&quot;>
-                <div className=&quot;w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-r from-[rgba(var(--primary),0.1)] to-[rgba(var(--secondary),0.1)] text-[rgb(var(--primary))] group-hover:from-[rgba(var(--primary),0.15)] group-hover:to-[rgba(var(--secondary),0.15)]&quot;>
-                  <category.icon className=&quot;w-5 h-5&quot; />
+              <div className="flex-shrink-0 mr-4 mt-1">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-r from-[rgba(var(--primary),0.1)] to-[rgba(var(--secondary),0.1)] text-[rgb(var(--primary))] group-hover:from-[rgba(var(--primary),0.15)] group-hover:to-[rgba(var(--secondary),0.15)]">
+                  <category.icon className="w-5 h-5" />
                 </div>
               </div>
               <div>
-                <h3 className=&quot;text-lg font-semibold mb-1 text-[rgb(var(--foreground))] group-hover:text-[rgb(var(--primary))]&quot;>
+                <h3 className="text-lg font-semibold mb-1 text-[rgb(var(--foreground))] group-hover:text-[rgb(var(--primary))]">
                   {category.title}
                 </h3>
-                <p className=&quot;text-sm text-[rgb(var(--muted-foreground))]&quot;>
+                <p className="text-sm text-[rgb(var(--muted-foreground))]">
                   {category.description}
                 </p>
               </div>
@@ -143,36 +143,36 @@ export function DocsHomePage({ docTree, recentDocuments }: DocsHomePageProps) {
       </section>
 
       {/* Recent Documents */}
-      <section className=&quot;mb-12&quot;>
-        <div className=&quot;flex items-center justify-between mb-6&quot;>
-          <h2 className=&quot;text-2xl font-bold text-[rgb(var(--foreground))]&quot;>
+      <section className="mb-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-bold text-[rgb(var(--foreground))]">
             Recent Updates
           </h2>
           <Link
-            href=&quot;/docs/recent-changes&quot;
-            className=&quot;text-sm font-medium text-[rgb(var(--primary))] hover:underline&quot;
+            href="/docs/recent-changes"
+            className="text-sm font-medium text-[rgb(var(--primary))] hover:underline"
           >
             View all
           </Link>
         </div>
-        <div className=&quot;space-y-4&quot;>
+        <div className="space-y-4">
           {recentDocuments.map((doc, index) => (
             <Link
               key={index}
               href={`/docs/${doc.path}`}
-              className=&quot;block p-6 rounded-xl border border-[rgb(var(--border))] hover:border-[rgb(var(--primary))] transition-all duration-200 hover:shadow-sm&quot;
+              className="block p-6 rounded-xl border border-[rgb(var(--border))] hover:border-[rgb(var(--primary))] transition-all duration-200 hover:shadow-sm"
             >
-              <div className=&quot;flex items-start justify-between&quot;>
-                <div className=&quot;flex-1&quot;>
-                  <h3 className=&quot;text-lg font-semibold mb-2 text-[rgb(var(--foreground))] hover:text-[rgb(var(--primary))]&quot;>
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-2 text-[rgb(var(--foreground))] hover:text-[rgb(var(--primary))]">
                     {doc.title}
                   </h3>
-                  <p className=&quot;text-sm text-[rgb(var(--muted-foreground))] line-clamp-2&quot;>
+                  <p className="text-sm text-[rgb(var(--muted-foreground))] line-clamp-2">
                     {doc.excerpt}
                   </p>
                 </div>
-                <span className=&quot;flex items-center text-xs text-[rgb(var(--muted-foreground))] whitespace-nowrap ml-4&quot;>
-                  <Clock className=&quot;h-3 w-3 mr-1&quot; />
+                <span className="flex items-center text-xs text-[rgb(var(--muted-foreground))] whitespace-nowrap ml-4">
+                  <Clock className="h-3 w-3 mr-1" />
                   {formatRelativeTime(doc.lastModified)}
                 </span>
               </div>
@@ -182,32 +182,32 @@ export function DocsHomePage({ docTree, recentDocuments }: DocsHomePageProps) {
       </section>
 
       {/* Quick Links */}
-      <section className=&quot;mb-12&quot;>
-        <h2 className=&quot;text-2xl font-bold mb-6 text-[rgb(var(--foreground))]&quot;>
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold mb-6 text-[rgb(var(--foreground))]">
           Getting Started
         </h2>
-        <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link
-            href=&quot;/docs/getting-started&quot;
-            className=&quot;p-6 rounded-xl border border-[rgb(var(--border))] hover:border-[rgb(var(--primary))] transition-all duration-200 hover:shadow-sm&quot;
+            href="/docs/getting-started"
+            className="p-6 rounded-xl border border-[rgb(var(--border))] hover:border-[rgb(var(--primary))] transition-all duration-200 hover:shadow-sm"
           >
-            <h3 className=&quot;text-lg font-semibold mb-2 flex items-center text-[rgb(var(--foreground))] hover:text-[rgb(var(--primary))]&quot;>
-              <BookOpen className=&quot;h-5 w-5 mr-2 text-[rgb(var(--primary))]&quot; />
+            <h3 className="text-lg font-semibold mb-2 flex items-center text-[rgb(var(--foreground))] hover:text-[rgb(var(--primary))]">
+              <BookOpen className="h-5 w-5 mr-2 text-[rgb(var(--primary))]" />
               Quick Start Guide
             </h3>
-            <p className=&quot;text-sm text-[rgb(var(--muted-foreground))]&quot;>
+            <p className="text-sm text-[rgb(var(--muted-foreground))]">
               Get up and running quickly with our platform
             </p>
           </Link>
           <Link
-            href=&quot;/docs/api&quot;
-            className=&quot;p-6 rounded-xl border border-[rgb(var(--border))] hover:border-[rgb(var(--primary))] transition-all duration-200 hover:shadow-sm&quot;
+            href="/docs/api"
+            className="p-6 rounded-xl border border-[rgb(var(--border))] hover:border-[rgb(var(--primary))] transition-all duration-200 hover:shadow-sm"
           >
-            <h3 className=&quot;text-lg font-semibold mb-2 flex items-center text-[rgb(var(--foreground))] hover:text-[rgb(var(--primary))]&quot;>
-              <FileText className=&quot;h-5 w-5 mr-2 text-[rgb(var(--primary))]&quot; />
+            <h3 className="text-lg font-semibold mb-2 flex items-center text-[rgb(var(--foreground))] hover:text-[rgb(var(--primary))]">
+              <FileText className="h-5 w-5 mr-2 text-[rgb(var(--primary))]" />
               API Reference
             </h3>
-            <p className=&quot;text-sm text-[rgb(var(--muted-foreground))]&quot;>
+            <p className="text-sm text-[rgb(var(--muted-foreground))]">
               Explore our API documentation and endpoints
             </p>
           </Link>

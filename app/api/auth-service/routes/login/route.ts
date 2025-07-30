@@ -1,31 +1,31 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Login API for Auth Microservice
  *
  * Handles user authentication.
  */
-import { NextRequest } from &quot;next/server&quot;;
-import { z } from &quot;zod&quot;;
-import { createToken } from &quot;../../utils/jwt&quot;;
-import { comparePasswords } from &quot;../../utils/password&quot;;
+import { NextRequest } from "next/server";
+import { z } from "zod";
+import { createToken } from "../../utils/jwt";
+import { comparePasswords } from "../../utils/password";
 import {
   errorResponse,
   responseWithAuthCookie,
   successResponse,
-} from &quot;../../utils/response&quot;;
+} from "../../utils/response";
 import {
   getUserByUsername,
   getUserOrganizations,
-} from &quot;../../models/user-repository&quot;;
-import { AUTH_CONFIG } from &quot;../../config&quot;;
+} from "../../models/user-repository";
+import { AUTH_CONFIG } from "../../config";
 
 // Login request schema
 const loginSchema = z.object({
-  username: z.string().min(1, &quot;Username is required&quot;),
-  password: z.string().min(1, &quot;Password is required&quot;),
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
 });
 
 /**
@@ -34,42 +34,42 @@ const loginSchema = z.object({
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log(&quot;[Auth Service] Login attempt&quot;);
+    console.log("[Auth Service] Login attempt");
 
     // Development mode bypass
     if (AUTH_CONFIG.DEV_MODE) {
       const urlParams = new URL(request.url).searchParams;
-      if (urlParams.get(&quot;dev_mode&quot;) === &quot;true&quot;) {
+      if (urlParams.get("dev_mode") === "true") {
         console.log(
-          &quot;[Auth Service] DEVELOPMENT MODE: Simulating successful login&quot;,
+          "[Auth Service] DEVELOPMENT MODE: Simulating successful login",
         );
 
         // Create a token for the mock user
-        const token = await createToken(&quot;00000000-0000-0000-0000-000000000001&quot;);
+        const token = await createToken("00000000-0000-0000-0000-000000000001");
 
         return responseWithAuthCookie(
           {
             user: {
-              id: &quot;00000000-0000-0000-0000-000000000001&quot;,
-              username: &quot;admin&quot;,
-              email: &quot;admin@example.com&quot;,
-              fullName: &quot;Admin User&quot;,
-              role: &quot;super_admin&quot;,
-              roles: [&quot;SUPER_ADMIN&quot;],
+              id: "00000000-0000-0000-0000-000000000001",
+              username: "admin",
+              email: "admin@example.com",
+              fullName: "Admin User",
+              role: "super_admin",
+              roles: ["SUPER_ADMIN"],
               organizations: [
                 {
-                  orgId: &quot;00000000-0000-0000-0000-000000000001&quot;,
-                  orgName: &quot;Rishi Internal&quot;,
-                  orgType: &quot;internal&quot;,
-                  role: &quot;super_admin&quot;,
+                  orgId: "00000000-0000-0000-0000-000000000001",
+                  orgName: "Rishi Internal",
+                  orgType: "internal",
+                  role: "super_admin",
                   isDefault: true,
                 },
               ],
               currentOrganization: {
-                orgId: &quot;00000000-0000-0000-0000-000000000001&quot;,
-                orgName: &quot;Rishi Internal&quot;,
-                orgType: &quot;internal&quot;,
-                role: &quot;super_admin&quot;,
+                orgId: "00000000-0000-0000-0000-000000000001",
+                orgName: "Rishi Internal",
+                orgType: "internal",
+                role: "super_admin",
                 isDefault: true,
               },
             },
@@ -84,17 +84,17 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json();
     } catch (parseError) {
-      console.error(&quot;[Auth Service] JSON parse error:&quot;, parseError);
-      return errorResponse(&quot;Invalid request format&quot;, 400, &quot;VALIDATION_ERROR&quot;);
+      console.error("[Auth Service] JSON parse error:", parseError);
+      return errorResponse("Invalid request format", 400, "VALIDATION_ERROR");
     }
 
     // Validate login data
     const result = loginSchema.safeParse(body);
     if (!result.success) {
       return errorResponse(
-        &quot;Invalid login data&quot;,
+        "Invalid login data",
         400,
-        &quot;VALIDATION_ERROR&quot;,
+        "VALIDATION_ERROR",
         result.error.issues,
       );
     }
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     const user = await getUserByUsername(username);
 
     if (!user) {
-      return errorResponse(&quot;Invalid username or password&quot;, 401, &quot;AUTH_ERROR&quot;);
+      return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
     }
 
     // Verify password using bcrypt
@@ -125,16 +125,16 @@ export async function POST(request: NextRequest) {
         `[Auth Service] Password verification error for ${username}:`,
         passwordError,
       );
-      return errorResponse(&quot;Authentication error&quot;, 401, &quot;AUTH_ERROR&quot;);
+      return errorResponse("Authentication error", 401, "AUTH_ERROR");
     }
 
     if (!validPassword) {
-      return errorResponse(&quot;Invalid username or password&quot;, 401, &quot;AUTH_ERROR&quot;);
+      return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
     }
 
     // Check if user is active
     if (!user.active) {
-      return errorResponse(&quot;Account is disabled&quot;, 403, &quot;ACCOUNT_DISABLED&quot;);
+      return errorResponse("Account is disabled", 403, "ACCOUNT_DISABLED");
     }
 
     // Get user organizations
@@ -147,12 +147,12 @@ export async function POST(request: NextRequest) {
       );
 
       // Create a default organization based on the user's role
-      if (user.role === &quot;super_admin&quot; || user.role === &quot;admin&quot;) {
+      if (user.role === "super_admin" || user.role === "admin") {
         userOrgs = [
           {
-            orgId: &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;,
-            orgName: &quot;Rishi Internal&quot;,
-            orgType: &quot;internal&quot;,
+            orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+            orgName: "Rishi Internal",
+            orgType: "internal",
             role: user.role,
             isPrimary: true,
           },
@@ -160,10 +160,10 @@ export async function POST(request: NextRequest) {
       } else {
         userOrgs = [
           {
-            orgId: &quot;00000000-0000-0000-0000-000000000002&quot;,
-            orgName: &quot;Default Organization&quot;,
-            orgType: &quot;client&quot;,
-            role: user.role || &quot;brand_agent&quot;,
+            orgId: "00000000-0000-0000-0000-000000000002",
+            orgName: "Default Organization",
+            orgType: "client",
+            role: user.role || "brand_agent",
             isPrimary: true,
           },
         ];
@@ -183,7 +183,7 @@ export async function POST(request: NextRequest) {
       username: user.username,
       email: user.email || null,
       fullName: user.fullName || null,
-      role: user.role || &quot;brand_agent&quot;,
+      role: user.role || "brand_agent",
       active: Boolean(user.active !== false),
     };
 
@@ -204,13 +204,13 @@ export async function POST(request: NextRequest) {
       token,
     );
   } catch (error) {
-    console.error(&quot;[Auth Service] Login error:&quot;, error);
+    console.error("[Auth Service] Login error:", error);
 
     return errorResponse(
-      &quot;Authentication failed&quot;,
+      "Authentication failed",
       500,
-      &quot;SERVER_ERROR&quot;,
-      process.env.NODE_ENV === &quot;development&quot; ? String(error) : undefined,
+      "SERVER_ERROR",
+      process.env.NODE_ENV === "development" ? String(error) : undefined,
     );
   }
 }

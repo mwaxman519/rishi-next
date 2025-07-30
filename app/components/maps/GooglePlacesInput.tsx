@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useEffect, useRef, useState } from &quot;react&quot;;
-import { useGoogleMaps } from &quot;./GoogleMapsProvider&quot;;
-import { LocationData } from &quot;./types&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
+import React, { useEffect, useRef, useState } from "react";
+import { useGoogleMaps } from "./GoogleMapsProvider";
+import { LocationData } from "./types";
+import { Loader2 } from "lucide-react";
 
 interface GooglePlacesInputProps {
   onPlaceSelected: (location: LocationData) => void;
@@ -17,8 +17,8 @@ interface GooglePlacesInputProps {
  */
 export function GooglePlacesInput({
   onPlaceSelected,
-  placeholder = &quot;Search for a location&quot;,
-  className = "&quot;,
+  placeholder = "Search for a location",
+  className = "",
 }: GooglePlacesInputProps) {
   const { isLoaded, loadError } = useGoogleMaps();
   const [logs, setLogs] = useState<string[]>([]);
@@ -41,7 +41,7 @@ export function GooglePlacesInput({
       return;
     }
 
-    addLog(&quot;Setting up Google Places autocomplete...&quot;);
+    addLog("Setting up Google Places autocomplete...");
 
     try {
       // Clear any existing content
@@ -50,46 +50,46 @@ export function GooglePlacesInput({
       }
 
       // Create the web component with complete configuration
-      const autocomplete = document.createElement(&quot;gmp-place-autocomplete&quot;);
+      const autocomplete = document.createElement("gmp-place-autocomplete");
 
       // Set the type to 'default' to allow all place types
-      // @ts-ignore - TypeScript doesn&apos;t know about these properties
-      autocomplete.type = &quot;default&quot;;
+      // @ts-ignore - TypeScript doesn't know about these properties
+      autocomplete.type = "default";
 
       // Add additional attributes that might help with functionality
       // @ts-ignore
-      autocomplete.setAttribute(&quot;auto-complete&quot;, &quot;on&quot;);
+      autocomplete.setAttribute("auto-complete", "on");
       // @ts-ignore
-      autocomplete.setAttribute(&quot;auto-focus&quot;, &quot;true&quot;);
+      autocomplete.setAttribute("auto-focus", "true");
       // @ts-ignore
-      autocomplete.setAttribute(&quot;data-full-width&quot;, &quot;true&quot;);
+      autocomplete.setAttribute("data-full-width", "true");
 
       // Connect the web component to our React-managed input
-      // @ts-ignore - the input property exists but TypeScript doesn&apos;t know about it
+      // @ts-ignore - the input property exists but TypeScript doesn't know about it
       autocomplete.input = inputRef.current;
 
       // Listen for place selection
-      autocomplete.addEventListener(&quot;place-changed&quot;, (event: any) => {
+      autocomplete.addEventListener("place-changed", (event: any) => {
         const place = event.detail?.place;
 
         if (!place) {
-          addLog(&quot;No place data received&quot;);
+          addLog("No place data received");
           return;
         }
 
-        addLog(`Selected place: ${place.displayName?.text || &quot;Unnamed place&quot;}`);
+        addLog(`Selected place: ${place.displayName?.text || "Unnamed place"}`);
 
         // Create our standardized LocationData object
         const locationData: LocationData = {
-          id: place.id || &quot;&quot;,
-          formattedAddress: place.formattedAddress || &quot;&quot;,
+          id: place.id || "",
+          formattedAddress: place.formattedAddress || "",
           latitude: place.location?.latitude || 0,
           longitude: place.location?.longitude || 0,
-          displayName: place.displayName?.text || &quot;&quot;,
+          displayName: place.displayName?.text || "",
           addressComponents:
             place.addressComponents?.map((c: any) => ({
-              longText: c.longText || &quot;&quot;,
-              shortText: c.shortText || &quot;&quot;,
+              longText: c.longText || "",
+              shortText: c.shortText || "",
               types: c.types || [],
             })) || [],
           types: place.types || [],
@@ -102,21 +102,21 @@ export function GooglePlacesInput({
       });
 
       // Hide the web component but keep it functional
-      autocomplete.style.display = &quot;none&quot;;
+      autocomplete.style.display = "none";
 
       // Add to DOM
       wcContainerRef.current.appendChild(autocomplete);
-      addLog(&quot;Autocomplete component initialized successfully&quot;);
+      addLog("Autocomplete component initialized successfully");
     } catch (error) {
       addLog(
         `Error setting up Places autocomplete: ${(error as Error).message}`,
       );
-      console.error(&quot;Google Places Autocomplete error:&quot;, error);
+      console.error("Google Places Autocomplete error:", error);
     }
 
     // Cleanup on unmount
     return () => {
-      addLog(&quot;Cleaning up Places autocomplete&quot;);
+      addLog("Cleaning up Places autocomplete");
       if (wcContainerRef.current) {
         while (wcContainerRef.current.firstChild) {
           wcContainerRef.current.removeChild(wcContainerRef.current.firstChild);
@@ -128,46 +128,46 @@ export function GooglePlacesInput({
   return (
     <div className={`w-full ${className}`}>
       {/* VISIBLE SEARCH INPUT - Managed by React */}
-      <div className=&quot;relative w-full&quot;>
+      <div className="relative w-full">
         {isLoaded ? (
           <input
             ref={inputRef}
-            type=&quot;text&quot;
+            type="text"
             placeholder={placeholder}
-            autoComplete=&quot;on&quot;
-            className=&quot;w-full px-4 py-2 border-2 border-blue-700 rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-500&quot;
+            autoComplete="on"
+            className="w-full px-4 py-2 border-2 border-blue-700 rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             style={{
-              fontSize: &quot;16px&quot;,
-              height: &quot;45px&quot;,
-              width: &quot;100%&quot;,
+              fontSize: "16px",
+              height: "45px",
+              width: "100%",
             }}
             onFocus={(e) => {
-              console.log(&quot;Input focused&quot;, e.target);
+              console.log("Input focused", e.target);
               // Force a click on the input to help activate the autocomplete
               setTimeout(() => e.target.click(), 100);
             }}
           />
         ) : (
-          <div className=&quot;w-full flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded-md bg-gray-50 text-gray-500&quot;>
-            <Loader2 className=&quot;h-4 w-4 animate-spin&quot; />
+          <div className="w-full flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded-md bg-gray-50 text-gray-500">
+            <Loader2 className="h-4 w-4 animate-spin" />
             <span>Loading places search...</span>
           </div>
         )}
 
         {/* Hidden container for the web component */}
-        <div ref={wcContainerRef} className=&quot;hidden&quot;></div>
+        <div ref={wcContainerRef} className="hidden"></div>
       </div>
 
       {/* Error message */}
       {isError && (
-        <p className=&quot;text-red-500 text-sm mt-1&quot;>
+        <p className="text-red-500 text-sm mt-1">
           Failed to load Google Maps. Please try again later.
         </p>
       )}
 
       {/* Debug logs (only in development) */}
-      {process.env.NODE_ENV === &quot;development&quot; && logs.length > 0 && (
-        <div className=&quot;mt-2 p-2 bg-gray-100 rounded overflow-auto max-h-32 text-xs font-mono">
+      {process.env.NODE_ENV === "development" && logs.length > 0 && (
+        <div className="mt-2 p-2 bg-gray-100 rounded overflow-auto max-h-32 text-xs font-mono">
           {logs.map((log, index) => (
             <div key={index}>{log}</div>
           ))}

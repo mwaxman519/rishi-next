@@ -4,14 +4,14 @@
  * This module provides the data access layer for audit logs.
  */
 
-import { sql } from &quot;@vercel/postgres&quot;;
-import { db } from &quot;../../lib/db&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
+import { sql } from "@vercel/postgres";
+import { db } from "../../lib/db";
+import { v4 as uuidv4 } from "uuid";
 import {
   AuditLogEntry,
   AuditLogQueryParams,
   CreateAuditLogDto,
-} from &quot;./models&quot;;
+} from "./models";
 
 /**
  * Repository for audit log entries
@@ -43,8 +43,8 @@ export class AuditRepository {
       const row = result.rows[0];
       return this.mapRowToAuditLogEntry(row);
     } catch (error) {
-      console.error(&quot;Error creating audit log entry:&quot;, error);
-      throw new Error(&quot;Failed to create audit log entry&quot;);
+      console.error("Error creating audit log entry:", error);
+      throw new Error("Failed to create audit log entry");
     }
   }
 
@@ -56,7 +56,7 @@ export class AuditRepository {
   ): Promise<{ logs: AuditLogEntry[]; total: number }> {
     try {
       // Start building the query with common parts
-      let whereClause = "&quot;;
+      let whereClause = "";
       const conditions: string[] = [];
       const queryParams: any[] = [];
 
@@ -102,7 +102,7 @@ export class AuditRepository {
       }
 
       if (conditions.length > 0) {
-        whereClause = `WHERE ${conditions.join(&quot; AND &quot;)}`;
+        whereClause = `WHERE ${conditions.join(" AND ")}`;
       }
 
       // Count total results for pagination
@@ -130,8 +130,8 @@ export class AuditRepository {
 
       return { logs, total };
     } catch (error) {
-      console.error(&quot;Error querying audit logs:&quot;, error);
-      throw new Error(&quot;Failed to retrieve audit logs&quot;);
+      console.error("Error querying audit logs:", error);
+      throw new Error("Failed to retrieve audit logs");
     }
   }
 
@@ -150,8 +150,8 @@ export class AuditRepository {
 
       return this.mapRowToAuditLogEntry(result.rows[0]);
     } catch (error) {
-      console.error(&quot;Error retrieving audit log entry:&quot;, error);
-      throw new Error(&quot;Failed to retrieve audit log entry&quot;);
+      console.error("Error retrieving audit log entry:", error);
+      throw new Error("Failed to retrieve audit log entry");
     }
   }
 
@@ -169,7 +169,7 @@ export class AuditRepository {
       resourceType: row.resource_type,
       resourceId: row.resource_id,
       details:
-        typeof row.details === &quot;string" ? JSON.parse(row.details) : row.details,
+        typeof row.details === "string" ? JSON.parse(row.details) : row.details,
       ipAddress: row.ip_address,
       userAgent: row.user_agent,
       success: row.success,

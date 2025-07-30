@@ -1,26 +1,26 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import fs from &quot;fs&quot;;
-import path from &quot;path&quot;;
+import fs from "fs";
+import path from "path";
 
 const DOCS_DIRECTORIES = [
-  path.join(process.cwd(), &quot;Docs&quot;),
-  path.join(process.cwd(), &quot;public/Docs&quot;),
+  path.join(process.cwd(), "Docs"),
+  path.join(process.cwd(), "public/Docs"),
 ];
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const docPath = (searchParams.get(&quot;path&quot;) || undefined) || undefined;
+  const docPath = (searchParams.get("path") || undefined) || undefined;
 
   if (!docPath) {
-    return NextResponse.json({ error: &quot;No path provided&quot; }, { status: 400 });
+    return NextResponse.json({ error: "No path provided" }, { status: 400 });
   }
 
   // Clean up path to prevent path traversal attacks
-  const cleanPath = docPath.replace(/\.\./g, "&quot;).replace(/^\/+/, &quot;&quot;);
+  const cleanPath = docPath.replace(/\.\./g, "").replace(/^\/+/, "");
 
   // Try each possible docs directory
   for (const baseDir of DOCS_DIRECTORIES) {
@@ -37,17 +37,17 @@ export async function GET(request: NextRequest) {
           const files = fs.readdirSync(fullPath);
           return NextResponse.json({
             path: cleanPath,
-            type: &quot;directory&quot;,
+            type: "directory",
             exists: true,
             files: files,
             baseDir,
           });
         } else {
           // For files, return content
-          const content = fs.readFileSync(fullPath, &quot;utf-8&quot;);
+          const content = fs.readFileSync(fullPath, "utf-8");
           return NextResponse.json({
             path: cleanPath,
-            type: &quot;file&quot;,
+            type: "file",
             exists: true,
             content,
             baseDir,
@@ -60,11 +60,11 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // If we get here, the file wasn&apos;t found in any directory
+  // If we get here, the file wasn't found in any directory
   return NextResponse.json({
     path: cleanPath,
     exists: false,
-    error: &quot;File not found in any docs directory",
+    error: "File not found in any docs directory",
     checkedDirs: DOCS_DIRECTORIES,
   });
 }

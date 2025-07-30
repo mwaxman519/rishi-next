@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { createContext, useContext, useEffect, useState } from &quot;react&quot;;
-import { GoogleMapsContext } from &quot;./types&quot;;
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { GoogleMapsContext } from "./types";
 
 // Google Maps API key
-const GOOGLE_MAPS_API_KEY = &quot;AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg&quot;;
+const GOOGLE_MAPS_API_KEY = "AIzaSyD-1UzABjgG0SYCZ2bLYtd7a7n1gJNYodg";
 
 // Create context for Google Maps API status
 const GoogleMapsAPIContext = createContext<GoogleMapsContext>({
@@ -24,7 +24,7 @@ export function useGoogleMaps() {
  */
 function isGoogleMapsLoaded(): boolean {
   return (
-    typeof window !== &quot;undefined&quot; && !!window.google && !!window.google.maps
+    typeof window !== "undefined" && !!window.google && !!window.google.maps
   );
 }
 
@@ -44,31 +44,31 @@ export function GoogleMapsProvider({
   useEffect(() => {
     // If already loaded, no need to load again
     if (isGoogleMapsLoaded()) {
-      console.log(&quot;Maps API already loaded in provider&quot;);
+      console.log("Maps API already loaded in provider");
       setGoogleMapsState({ isLoaded: true, isError: false });
       return;
     }
 
-    // Don't load if we&apos;re in SSR
-    if (typeof window === &quot;undefined&quot;) {
+    // Don't load if we're in SSR
+    if (typeof window === "undefined") {
       return;
     }
 
     console.log(
-      &quot;Loading Google Maps API with Web Components and Places Library...&quot;,
+      "Loading Google Maps API with Web Components and Places Library...",
     );
 
     // Create a unique ID for the script to avoid duplicates
-    const scriptId = &quot;google-maps-script&quot;;
+    const scriptId = "google-maps-script";
 
     // Check if script already exists
     if (document.getElementById(scriptId)) {
-      console.log(&quot;Script tag already exists, waiting for it to load...&quot;);
+      console.log("Script tag already exists, waiting for it to load...");
       return;
     }
 
     // Load Google Maps JavaScript API with places library
-    const script = document.createElement(&quot;script&quot;);
+    const script = document.createElement("script");
     script.id = scriptId;
     script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=weekly&libraries=places`;
     script.defer = true;
@@ -76,26 +76,26 @@ export function GoogleMapsProvider({
 
     // Handle loading success
     script.onload = () => {
-      console.log(&quot;✅ Google Maps API loaded successfully in provider&quot;);
+      console.log("✅ Google Maps API loaded successfully in provider");
       setGoogleMapsState({ isLoaded: true, isError: false });
     };
 
     // Handle loading errors
     script.onerror = (e) => {
-      console.error(&quot;❌ Error loading Google Maps API:&quot;, e);
+      console.error("❌ Error loading Google Maps API:", e);
       setGoogleMapsState({
         isLoaded: false,
         isError: true,
-        errorMessage: &quot;Failed to load Google Maps API&quot;,
+        errorMessage: "Failed to load Google Maps API",
       });
     };
 
     document.head.appendChild(script);
 
-    // Poll for Google Maps API to be loaded in case the event handlers don&apos;t fire
+    // Poll for Google Maps API to be loaded in case the event handlers don't fire
     const checkInterval = setInterval(() => {
       if (isGoogleMapsLoaded()) {
-        console.log(&quot;Maps API loaded (detected by interval check)&quot;);
+        console.log("Maps API loaded (detected by interval check)");
         setGoogleMapsState({ isLoaded: true, isError: false });
         clearInterval(checkInterval);
       }

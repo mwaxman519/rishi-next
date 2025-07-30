@@ -1,31 +1,31 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
-import { Alert, AlertDescription } from &quot;@/components/ui/alert&quot;;
-import { Loader2 } from &quot;lucide-react&quot;;
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("&quot;);
-  const [password, setPassword] = useState(&quot;&quot;);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(&quot;&quot;);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(&quot;&quot;);
+    setError("");
 
     try {
-      const response = await fetch(&quot;/api/auth/login&quot;, {
-        method: &quot;POST&quot;,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          &quot;Content-Type&quot;: &quot;application/json&quot;,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
@@ -33,22 +33,22 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || &quot;Login failed&quot;);
+        throw new Error(data.error || "Login failed");
       }
 
       // Redirect to dashboard on success
-      router.push(&quot;/&quot;);
+      router.push("/");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : &quot;An error occurred&quot;);
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className=&quot;container mx-auto flex h-screen items-center justify-center&quot;>
-      <Card className=&quot;w-full max-w-md&quot;>
+    <div className="container mx-auto flex h-screen items-center justify-center">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Login to Rishi Platform</CardTitle>
           <CardDescription>
@@ -56,46 +56,46 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;username&quot;>Username</Label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
               <Input
-                id=&quot;username&quot;
-                type=&quot;text&quot;
+                id="username"
+                type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder=&quot;Enter your username&quot;
+                placeholder="Enter your username"
                 required
               />
             </div>
-            <div className=&quot;space-y-2&quot;>
-              <Label htmlFor=&quot;password&quot;>Password</Label>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
               <Input
-                id=&quot;password&quot;
-                type=&quot;password&quot;
+                id="password"
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder=&quot;Enter your password&quot;
+                placeholder="Enter your password"
                 required
               />
             </div>
             {error && (
-              <Alert variant=&quot;destructive&quot;>
+              <Alert variant="destructive">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <Button type=&quot;submit&quot; className=&quot;w-full&quot; disabled={loading}>
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <>
-                  <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Logging in...
                 </>
               ) : (
-                &quot;Login&quot;
+                "Login"
               )}
             </Button>
           </form>
-          <div className=&quot;mt-4 text-sm text-muted-foreground">
+          <div className="mt-4 text-sm text-muted-foreground">
             <p>Development mode: Any username/password will work</p>
             <p>Or use: admin / admin</p>
           </div>

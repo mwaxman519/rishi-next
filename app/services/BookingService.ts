@@ -1,9 +1,9 @@
-import { db } from &quot;../../lib/db&quot;;
-import { bookings } from &quot;@shared/schema&quot;;
-import { EventBusService } from &quot;./EventBusService&quot;;
-import { ServiceRegistry } from &quot;./ServiceRegistry&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
-import { eq, and, desc } from &quot;drizzle-orm&quot;;
+import { db } from "../../lib/db";
+import { bookings } from "@shared/schema";
+import { EventBusService } from "./EventBusService";
+import { ServiceRegistry } from "./ServiceRegistry";
+import { v4 as uuidv4 } from "uuid";
+import { eq, and, desc } from "drizzle-orm";
 
 export interface BookingServiceInterface {
   getAllBookings(userId: string, organizationId: string, correlationId?: string): Promise<any[]>;
@@ -36,14 +36,14 @@ export class BookingService implements BookingServiceInterface {
     try {
       // Publish event for booking query
       await this.eventBus.publish({
-        type: &quot;booking.query.started&quot;,
+        type: "booking.query.started",
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getAllBookings&quot;,
-          queryType: &quot;list&quot;
+          action: "getAllBookings",
+          queryType: "list"
         }
       });
 
@@ -55,13 +55,13 @@ export class BookingService implements BookingServiceInterface {
 
       // Publish success event
       await this.eventBus.publish({
-        type: &quot;booking.query.completed&quot;,
+        type: "booking.query.completed",
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getAllBookings&quot;,
+          action: "getAllBookings",
           resultCount: allBookings.length
         }
       });
@@ -70,14 +70,14 @@ export class BookingService implements BookingServiceInterface {
     } catch (error) {
       // Publish error event
       await this.eventBus.publish({
-        type: &quot;booking.query.failed&quot;,
+        type: "booking.query.failed",
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getAllBookings&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "getAllBookings",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -90,12 +90,12 @@ export class BookingService implements BookingServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: &quot;booking.query.started&quot;,
+        type: "booking.query.started",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getBookingById&quot;,
+          action: "getBookingById",
           targetId: bookingId
         }
       });
@@ -107,12 +107,12 @@ export class BookingService implements BookingServiceInterface {
         .limit(1);
 
       await this.eventBus.publish({
-        type: &quot;booking.query.completed&quot;,
+        type: "booking.query.completed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getBookingById&quot;,
+          action: "getBookingById",
           found: !!booking
         }
       });
@@ -120,13 +120,13 @@ export class BookingService implements BookingServiceInterface {
       return booking;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;booking.query.failed&quot;,
+        type: "booking.query.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;getBookingById&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "getBookingById",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -140,12 +140,12 @@ export class BookingService implements BookingServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: &quot;booking.create.started&quot;,
+        type: "booking.create.started",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;createBooking&quot;,
+          action: "createBooking",
           bookingTitle: data.title,
           bookingType: data.booking_type
         }
@@ -156,7 +156,7 @@ export class BookingService implements BookingServiceInterface {
         .values({
           id: bookingId,
           ...data,
-          status: &quot;draft&quot;,
+          status: "draft",
           created_by: userId,
           created_at: new Date(),
           updated_at: new Date()
@@ -164,13 +164,13 @@ export class BookingService implements BookingServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: &quot;booking.created&quot;,
+        type: "booking.created",
         userId,
         organizationId: data.client_organization_id,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;createBooking&quot;,
+          action: "createBooking",
           bookingId: newBooking.id,
           bookingTitle: newBooking.title,
           bookingStatus: newBooking.status,
@@ -181,13 +181,13 @@ export class BookingService implements BookingServiceInterface {
 
       // Cannabis-specific booking lifecycle event
       await this.eventBus.publish({
-        type: &quot;cannabis.booking.lifecycle&quot;,
+        type: "cannabis.booking.lifecycle",
         userId,
         organizationId: data.client_organization_id,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          stage: &quot;draft&quot;,
+          stage: "draft",
           bookingId: newBooking.id,
           bookingType: data.booking_type,
           location: data.location_id,
@@ -198,13 +198,13 @@ export class BookingService implements BookingServiceInterface {
       return newBooking;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;booking.create.failed&quot;,
+        type: "booking.create.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;createBooking&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "createBooking",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -217,12 +217,12 @@ export class BookingService implements BookingServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: &quot;booking.update.started&quot;,
+        type: "booking.update.started",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateBooking&quot;,
+          action: "updateBooking",
           bookingId,
           updates: Object.keys(data)
         }
@@ -238,13 +238,13 @@ export class BookingService implements BookingServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: &quot;booking.updated&quot;,
+        type: "booking.updated",
         userId,
         organizationId: updatedBooking.client_organization_id,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateBooking&quot;,
+          action: "updateBooking",
           bookingId,
           changes: Object.keys(data)
         }
@@ -253,13 +253,13 @@ export class BookingService implements BookingServiceInterface {
       return updatedBooking;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;booking.update.failed&quot;,
+        type: "booking.update.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateBooking&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "updateBooking",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       
@@ -279,17 +279,17 @@ export class BookingService implements BookingServiceInterface {
         .limit(1);
 
       if (!currentBooking) {
-        throw new Error(&quot;Booking not found&quot;);
+        throw new Error("Booking not found");
       }
 
       await this.eventBus.publish({
-        type: &quot;booking.status.update.started&quot;,
+        type: "booking.status.update.started",
         userId,
         organizationId: currentBooking.client_organization_id,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateBookingStatus&quot;,
+          action: "updateBookingStatus",
           bookingId,
           fromStatus: currentBooking.status,
           toStatus: status
@@ -302,10 +302,10 @@ export class BookingService implements BookingServiceInterface {
       };
 
       // Add approval/rejection metadata
-      if (status === &quot;approved&quot;) {
+      if (status === "approved") {
         updateData.approved_by = userId;
         updateData.approved_at = new Date();
-      } else if (status === &quot;rejected&quot;) {
+      } else if (status === "rejected") {
         updateData.rejected_by = userId;
         updateData.rejected_at = new Date();
       }
@@ -317,13 +317,13 @@ export class BookingService implements BookingServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: &quot;booking.status.updated&quot;,
+        type: "booking.status.updated",
         userId,
         organizationId: updatedBooking.client_organization_id,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateBookingStatus&quot;,
+          action: "updateBookingStatus",
           bookingId,
           fromStatus: currentBooking.status,
           toStatus: status,
@@ -333,7 +333,7 @@ export class BookingService implements BookingServiceInterface {
 
       // Cannabis booking lifecycle event
       await this.eventBus.publish({
-        type: &quot;cannabis.booking.lifecycle&quot;,
+        type: "cannabis.booking.lifecycle",
         userId,
         organizationId: updatedBooking.client_organization_id,
         timestamp: new Date(),
@@ -349,13 +349,13 @@ export class BookingService implements BookingServiceInterface {
       return updatedBooking;
     } catch (error) {
       await this.eventBus.publish({
-        type: &quot;booking.status.update.failed&quot;,
+        type: "booking.status.update.failed",
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: &quot;updateBookingStatus&quot;,
-          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
+          action: "updateBookingStatus",
+          error: error instanceof Error ? error.message : "Unknown error"
         }
       });
       

@@ -1,51 +1,51 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { Suspense, useEffect, useState } from &quot;react&quot;;
-import { usePathname } from &quot;next/navigation&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
-import { useMediaQuery } from &quot;@/hooks/useMediaQuery&quot;;
+import React, { Suspense, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-import { PageLoader } from &quot;@/components/ui/skeletons&quot;;
-import SidebarLayout from &quot;../SidebarLayout&quot;;
-import MobileLayout from &quot;./MobileLayout&quot;;
-import PublicLayout from &quot;../PublicLayout&quot;;
+import { PageLoader } from "@/components/ui/skeletons";
+import SidebarLayout from "../SidebarLayout";
+import MobileLayout from "./MobileLayout";
+import PublicLayout from "../PublicLayout";
 
 /**
- * App logo component that&apos;s consistent between server and client
+ * App logo component that's consistent between server and client
  */
 const AppLogo = () => (
   <svg
-    width=&quot;32&quot;
-    height=&quot;32&quot;
-    viewBox=&quot;0 0 32 32&quot;
-    fill=&quot;none&quot;
-    xmlns=&quot;http://www.w3.org/2000/svg&quot;
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <circle
-      cx=&quot;16&quot;
-      cy=&quot;16&quot;
-      r=&quot;14&quot;
-      fill=&quot;#14b8a6&quot;
-      stroke=&quot;#0d9488&quot;
-      strokeWidth=&quot;2&quot;
+      cx="16"
+      cy="16"
+      r="14"
+      fill="#14b8a6"
+      stroke="#0d9488"
+      strokeWidth="2"
     />
     <path
-      d=&quot;M10 12h4v2h-4zm6 0h4v2h-4z&quot;
-      fill=&quot;white&quot;
+      d="M10 12h4v2h-4zm6 0h4v2h-4z"
+      fill="white"
     />
     <path
-      d=&quot;M8 16h6v2H8zm8 0h6v2h-6z&quot;
-      fill=&quot;white&quot;
+      d="M8 16h6v2H8zm8 0h6v2h-6z"
+      fill="white"
     />
     <path
-      d=&quot;M10 20h4v2h-4zm6 0h4v2h-4z&quot;
-      fill=&quot;white&quot;
+      d="M10 20h4v2h-4zm6 0h4v2h-4z"
+      fill="white"
     />
     <circle
-      cx=&quot;16&quot;
-      cy=&quot;8&quot;
-      r=&quot;2&quot;
-      fill=&quot;white&quot;
+      cx="16"
+      cy="8"
+      r="2"
+      fill="white"
     />
   </svg>
 );
@@ -54,57 +54,57 @@ const AppLogo = () => (
  * Simple page title component that renders the same on server and client side
  */
 const PageTitle = ({ pathname }: { pathname: string | null }) => {
-  let title = &quot;Rishi&quot;; // Default title
+  let title = "Rishi"; // Default title
 
   if (pathname) {
-    if (pathname === &quot;/dashboard&quot;) title = &quot;Dashboard&quot;;
-    else if (pathname.startsWith(&quot;/events&quot;)) title = &quot;Events&quot;;
-    else if (pathname.startsWith(&quot;/availability&quot;)) title = &quot;Availability&quot;;
-    else if (pathname.startsWith(&quot;/requests&quot;)) title = &quot;Requests&quot;;
-    else if (pathname.startsWith(&quot;/profile&quot;)) title = &quot;Profile&quot;;
-    else if (pathname.startsWith(&quot;/admin&quot;)) title = &quot;Admin Portal&quot;;
-    else if (pathname.startsWith(&quot;/team-schedule&quot;)) title = &quot;Team Schedule&quot;;
-    else if (pathname.startsWith(&quot;/docs&quot;)) title = &quot;Documentation&quot;;
-    else if (pathname.startsWith(&quot;/help&quot;)) title = &quot;Help & Support&quot;;
+    if (pathname === "/dashboard") title = "Dashboard";
+    else if (pathname.startsWith("/events")) title = "Events";
+    else if (pathname.startsWith("/availability")) title = "Availability";
+    else if (pathname.startsWith("/requests")) title = "Requests";
+    else if (pathname.startsWith("/profile")) title = "Profile";
+    else if (pathname.startsWith("/admin")) title = "Admin Portal";
+    else if (pathname.startsWith("/team-schedule")) title = "Team Schedule";
+    else if (pathname.startsWith("/docs")) title = "Documentation";
+    else if (pathname.startsWith("/help")) title = "Help & Support";
   }
 
-  return <span className=&quot;font-bold text-lg ml-2&quot;>{title}</span>;
+  return <span className="font-bold text-lg ml-2">{title}</span>;
 };
 
 /**
  * A bare minimal container that renders consistently for full-width pages
  */
 const FullWidthLayout = ({ children }: { children: React.ReactNode }) => (
-  <div className=&quot;min-h-screen&quot;>{children}</div>
+  <div className="min-h-screen">{children}</div>
 );
 
 /**
  * Placeholder content that renders during SSR and initial hydration
  */
 const ServerPlaceholder = ({ children }: { children: React.ReactNode }) => (
-  <div className=&quot;min-h-screen flex flex-col bg-white dark:bg-gray-900&quot;>
+  <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
     {/* Simple header during loading */}
-    <div className=&quot;sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm&quot;>
-      <div className=&quot;flex items-center&quot;>
+    <div className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
+      <div className="flex items-center">
         <img
-          src=&quot;/favicon.ico&quot;
-          alt=&quot;Rishi&quot;
-          className=&quot;h-10 w-auto object-contain max-w-[120px]&quot;
+          src="/favicon.ico"
+          alt="Rishi"
+          className="h-10 w-auto object-contain max-w-[120px]"
         />
       </div>
-      <div className=&quot;w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded&quot;></div>
+      <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
     </div>
     {/* Main content with single loading spinner */}
-    <main className=&quot;flex-grow flex items-center justify-center&quot;>
-      <div className=&quot;animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent&quot;></div>
+    <main className="flex-grow flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
     </main>
     {/* Simple footer during loading */}
-    <div className=&quot;sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg h-16 flex items-center justify-center&quot;>
-      <div className=&quot;flex gap-8&quot;>
+    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg h-16 flex items-center justify-center">
+      <div className="flex gap-8">
         {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
-            className=&quot;w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded&quot;
+            className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"
           ></div>
         ))}
       </div>
@@ -121,23 +121,23 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   const { user, isLoading } = useAuth();
   const pathname = usePathname();
   
-  // State to track if we&apos;re hydrated to avoid hydration mismatch
+  // State to track if we're hydrated to avoid hydration mismatch
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Check for full-width pages like login/register
   const isFullWidthPage =
-    pathname?.startsWith(&quot;/auth/&quot;) ||
-    pathname === &quot;/login&quot; ||
-    pathname === &quot;/register&quot;;
+    pathname?.startsWith("/auth/") ||
+    pathname === "/login" ||
+    pathname === "/register";
 
   // Media query hook (only works on client side)
-  const isDesktop = useMediaQuery(&quot;(min-width: 1024px)&quot;);
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   // Check if the URL has the unauthenticated parameter for testing
   const hasUnauthenticatedParam =
-    typeof window !== &quot;undefined&quot;
-      ? new URLSearchParams(window.location.search).get(&quot;unauthenticated&quot;) ===
-        &quot;true&quot;
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("unauthenticated") ===
+        "true"
       : false;
 
   // Effect to set hydrated state after component mounts
@@ -149,9 +149,9 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   // Use the same structure as PublicLayout to prevent hydration mismatch
   if (isLoading || !isHydrated) {
     return (
-      <div className=&quot;min-h-screen bg-gray-50 dark:bg-gray-900&quot;>
-        <main className=&quot;flex-grow flex items-center justify-center&quot;>
-          <div className=&quot;w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded&quot;></div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <main className="flex-grow flex items-center justify-center">
+          <div className="w-6 h-6 bg-gray-200 dark:bg-gray-700 rounded"></div>
         </main>
       </div>
     );
@@ -159,7 +159,7 @@ export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
 
   // Special case for full-width pages - bypass all sidebar logic
   if (isFullWidthPage) {
-    return <div className=&quot;min-h-screen bg-gray-50 dark:bg-gray-900&quot;>{children}</div>;
+    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900">{children}</div>;
   }
 
   // Force public layout if URL parameter is set or user is not authenticated

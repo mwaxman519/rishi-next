@@ -1,26 +1,26 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState } from &quot;react&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
-import { ArrowLeft, Package, Plus, Trash2, Search } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Package, Plus, Trash2, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -28,18 +28,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from &quot;@/components/ui/table&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 
 // Mock inventory items
 const mockInventoryItems = [
-  { id: 1, name: &quot;Portable Display Stand&quot;, category: &quot;Display&quot;, inStock: 25 },
-  { id: 2, name: &quot;iPad Air&quot;, category: &quot;Technology&quot;, inStock: 15 },
-  { id: 3, name: &quot;Promotional Banner&quot;, category: &quot;Marketing&quot;, inStock: 30 },
-  { id: 4, name: &quot;Demo Product Samples&quot;, category: &quot;Products&quot;, inStock: 100 },
-  { id: 5, name: &quot;Branded Tablecloth&quot;, category: &quot;Display&quot;, inStock: 12 },
-  { id: 6, name: &quot;Power Bank&quot;, category: &quot;Technology&quot;, inStock: 20 },
+  { id: 1, name: "Portable Display Stand", category: "Display", inStock: 25 },
+  { id: 2, name: "iPad Air", category: "Technology", inStock: 15 },
+  { id: 3, name: "Promotional Banner", category: "Marketing", inStock: 30 },
+  { id: 4, name: "Demo Product Samples", category: "Products", inStock: 100 },
+  { id: 5, name: "Branded Tablecloth", category: "Display", inStock: 12 },
+  { id: 6, name: "Power Bank", category: "Technology", inStock: 20 },
 ];
 
 export default function DeployNewKitPage() {
@@ -47,7 +47,7 @@ export default function DeployNewKitPage() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("&quot;);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredItems = mockInventoryItems.filter(item =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,31 +87,31 @@ export default function DeployNewKitPage() {
     // Simulate kit deployment
     setTimeout(() => {
       toast({
-        title: &quot;Kit Deployed Successfully&quot;,
-        description: &quot;The new kit has been created and deployed to the field.&quot;,
+        title: "Kit Deployed Successfully",
+        description: "The new kit has been created and deployed to the field.",
       });
-      router.push(&quot;/inventory/kit-instances&quot;);
+      router.push("/inventory/kit-instances");
     }, 1500);
   };
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
-      <div className=&quot;flex items-center space-x-4&quot;>
+    <div className="container mx-auto py-6 space-y-6">
+      <div className="flex items-center space-x-4">
         <Button
-          variant=&quot;ghost&quot;
-          size=&quot;sm&quot;
+          variant="ghost"
+          size="sm"
           onClick={() => router.back()}
         >
-          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Inventory
         </Button>
       </div>
 
-      <div className=&quot;max-w-4xl mx-auto&quot;>
+      <div className="max-w-4xl mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className=&quot;flex items-center&quot;>
-              <Package className=&quot;h-5 w-5 mr-2&quot; />
+            <CardTitle className="flex items-center">
+              <Package className="h-5 w-5 mr-2" />
               Deploy New Kit
             </CardTitle>
             <CardDescription>
@@ -119,103 +119,103 @@ export default function DeployNewKitPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className=&quot;space-y-6&quot;>
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Kit Information */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium&quot;>Kit Information</h3>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Kit Information</h3>
                 
-                <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;kitName&quot;>Kit Name</Label>
-                    <Input id=&quot;kitName&quot; placeholder=&quot;Enter kit name&quot; required />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="kitName">Kit Name</Label>
+                    <Input id="kitName" placeholder="Enter kit name" required />
                   </div>
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;template&quot;>Base Template</Label>
+                  <div className="space-y-2">
+                    <Label htmlFor="template">Base Template</Label>
                     <Select required>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select template&quot; />
+                        <SelectValue placeholder="Select template" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value=&quot;demo&quot;>Product Demo Kit</SelectItem>
-                        <SelectItem value=&quot;activation&quot;>Brand Activation Setup</SelectItem>
-                        <SelectItem value=&quot;trade&quot;>Trade Show Package</SelectItem>
-                        <SelectItem value=&quot;custom&quot;>Custom Kit</SelectItem>
+                        <SelectItem value="demo">Product Demo Kit</SelectItem>
+                        <SelectItem value="activation">Brand Activation Setup</SelectItem>
+                        <SelectItem value="trade">Trade Show Package</SelectItem>
+                        <SelectItem value="custom">Custom Kit</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
-                <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;assignee&quot;>Assigned To</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="assignee">Assigned To</Label>
                     <Select required>
                       <SelectTrigger>
-                        <SelectValue placeholder=&quot;Select staff member&quot; />
+                        <SelectValue placeholder="Select staff member" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value=&quot;sarah&quot;>Sarah Johnson</SelectItem>
-                        <SelectItem value=&quot;mike&quot;>Mike Chen</SelectItem>
-                        <SelectItem value=&quot;jessica&quot;>Jessica Smith</SelectItem>
-                        <SelectItem value=&quot;alex&quot;>Alex Rodriguez</SelectItem>
+                        <SelectItem value="sarah">Sarah Johnson</SelectItem>
+                        <SelectItem value="mike">Mike Chen</SelectItem>
+                        <SelectItem value="jessica">Jessica Smith</SelectItem>
+                        <SelectItem value="alex">Alex Rodriguez</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className=&quot;space-y-2&quot;>
-                    <Label htmlFor=&quot;deployDate&quot;>Deployment Date</Label>
-                    <Input id=&quot;deployDate&quot; type=&quot;date&quot; required />
+                  <div className="space-y-2">
+                    <Label htmlFor="deployDate">Deployment Date</Label>
+                    <Input id="deployDate" type="date" required />
                   </div>
                 </div>
 
-                <div className=&quot;space-y-2&quot;>
-                  <Label htmlFor=&quot;description&quot;>Description</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
-                    id=&quot;description&quot;
-                    placeholder=&quot;Brief description of the kit purpose...&quot;
+                    id="description"
+                    placeholder="Brief description of the kit purpose..."
                     rows={3}
                   />
                 </div>
               </div>
 
               {/* Item Selection */}
-              <div className=&quot;space-y-4&quot;>
-                <h3 className=&quot;text-lg font-medium&quot;>Kit Contents</h3>
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium">Kit Contents</h3>
                 
-                <div className=&quot;space-y-4&quot;>
-                  <div className=&quot;flex items-center space-x-2&quot;>
-                    <Search className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <Search className="h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder=&quot;Search inventory items...&quot;
+                      placeholder="Search inventory items..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className=&quot;max-w-sm&quot;
+                      className="max-w-sm"
                     />
                   </div>
 
                   {/* Available Items */}
                   <Card>
                     <CardHeader>
-                      <CardTitle className=&quot;text-base&quot;>Available Items</CardTitle>
+                      <CardTitle className="text-base">Available Items</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2&quot;>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                         {filteredItems.map(item => (
                           <div
                             key={item.id}
-                            className=&quot;flex items-center justify-between p-2 border rounded hover:bg-gray-50&quot;
+                            className="flex items-center justify-between p-2 border rounded hover:bg-gray-50"
                           >
-                            <div className=&quot;flex-1&quot;>
-                              <div className=&quot;text-sm font-medium&quot;>{item.name}</div>
-                              <div className=&quot;text-xs text-muted-foreground&quot;>
+                            <div className="flex-1">
+                              <div className="text-sm font-medium">{item.name}</div>
+                              <div className="text-xs text-muted-foreground">
                                 {item.category} • {item.inStock} in stock
                               </div>
                             </div>
                             <Button
-                              type=&quot;button&quot;
-                              size=&quot;sm&quot;
-                              variant=&quot;outline&quot;
+                              type="button"
+                              size="sm"
+                              variant="outline"
                               onClick={() => addItemToKit(item)}
                             >
-                              <Plus className=&quot;h-3 w-3&quot; />
+                              <Plus className="h-3 w-3" />
                             </Button>
                           </div>
                         ))}
@@ -227,7 +227,7 @@ export default function DeployNewKitPage() {
                   {selectedItems.length > 0 && (
                     <Card>
                       <CardHeader>
-                        <CardTitle className=&quot;text-base&quot;>Kit Contents</CardTitle>
+                        <CardTitle className="text-base">Kit Contents</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <Table>
@@ -235,8 +235,8 @@ export default function DeployNewKitPage() {
                             <TableRow>
                               <TableHead>Item</TableHead>
                               <TableHead>Category</TableHead>
-                              <TableHead className=&quot;w-24&quot;>Quantity</TableHead>
-                              <TableHead className=&quot;w-16&quot;>Actions</TableHead>
+                              <TableHead className="w-24">Quantity</TableHead>
+                              <TableHead className="w-16">Actions</TableHead>
                             </TableRow>
                           </TableHeader>
                           <TableBody>
@@ -244,26 +244,26 @@ export default function DeployNewKitPage() {
                               <TableRow key={item.id}>
                                 <TableCell>{item.name}</TableCell>
                                 <TableCell>
-                                  <Badge variant=&quot;outline&quot;>{item.category}</Badge>
+                                  <Badge variant="outline">{item.category}</Badge>
                                 </TableCell>
                                 <TableCell>
                                   <Input
-                                    type=&quot;number&quot;
-                                    min=&quot;1&quot;
+                                    type="number"
+                                    min="1"
                                     max={item.inStock}
                                     value={item.quantity}
                                     onChange={(e) => updateItemQuantity(item.id, e.target.value)}
-                                    className=&quot;w-16&quot;
+                                    className="w-16"
                                   />
                                 </TableCell>
                                 <TableCell>
                                   <Button
-                                    type=&quot;button&quot;
-                                    size=&quot;sm&quot;
-                                    variant=&quot;ghost&quot;
+                                    type="button"
+                                    size="sm"
+                                    variant="ghost"
                                     onClick={() => removeItemFromKit(item.id)}
                                   >
-                                    <Trash2 className=&quot;h-4 w-4&quot; />
+                                    <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </TableCell>
                               </TableRow>
@@ -277,21 +277,21 @@ export default function DeployNewKitPage() {
               </div>
 
               {/* Form Actions */}
-              <div className=&quot;flex gap-4 pt-6&quot;>
+              <div className="flex gap-4 pt-6">
                 <Button
-                  type=&quot;button&quot;
-                  variant=&quot;outline&quot;
-                  className=&quot;flex-1&quot;
+                  type="button"
+                  variant="outline"
+                  className="flex-1"
                   onClick={() => router.back()}
                 >
                   Cancel
                 </Button>
                 <Button
-                  type=&quot;submit&quot;
-                  className=&quot;flex-1&quot;
+                  type="submit"
+                  className="flex-1"
                   disabled={isSubmitting || selectedItems.length === 0}
                 >
-                  {isSubmitting ? &quot;Deploying...&quot; : &quot;Deploy Kit"}
+                  {isSubmitting ? "Deploying..." : "Deploy Kit"}
                 </Button>
               </div>
             </form>

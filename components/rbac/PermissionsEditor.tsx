@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect, useMemo } from &quot;react&quot;;
+import React, { useState, useEffect, useMemo } from "react";
 import {
   UserRole,
   Permission,
   getAllPermissions,
   getPermissionsForRole,
-} from &quot;@/components/../lib/rbac&quot;;
+} from "@/components/../lib/rbac";
 
 interface PermissionsEditorProps {
   role: UserRole;
@@ -40,7 +40,7 @@ export function PermissionsEditor({
     const grouped: Record<string, Permission[]> = {};
 
     allPermissions.forEach((permission) => {
-      const [action, resource] = permission.split(&quot;:&quot;);
+      const [action, resource] = permission.split(":");
 
       if (!grouped[resource]) {
         grouped[resource] = [];
@@ -85,16 +85,16 @@ export function PermissionsEditor({
 
   // Format permission for display
   const formatPermission = (permission: string): string => {
-    const [action, resource] = permission.split(&quot;:&quot;);
+    const [action, resource] = permission.split(":");
 
     let formattedAction = action;
-    if (action === &quot;create&quot;) formattedAction = &quot;Create&quot;;
-    if (action === &quot;read&quot;) formattedAction = &quot;View&quot;;
-    if (action === &quot;update&quot;) formattedAction = &quot;Edit&quot;;
-    if (action === &quot;delete&quot;) formattedAction = &quot;Delete&quot;;
-    if (action === &quot;manage&quot;) formattedAction = &quot;Manage&quot;;
-    if (action === &quot;approve&quot;) formattedAction = &quot;Approve&quot;;
-    if (action === &quot;assign&quot;) formattedAction = &quot;Assign&quot;;
+    if (action === "create") formattedAction = "Create";
+    if (action === "read") formattedAction = "View";
+    if (action === "update") formattedAction = "Edit";
+    if (action === "delete") formattedAction = "Delete";
+    if (action === "manage") formattedAction = "Manage";
+    if (action === "approve") formattedAction = "Approve";
+    if (action === "assign") formattedAction = "Assign";
 
     let formattedResource = resource;
     if (resource) {
@@ -113,30 +113,30 @@ export function PermissionsEditor({
   };
 
   return (
-    <div className=&quot;space-y-4&quot;>
+    <div className="space-y-4">
       {!readOnly && (
-        <div className=&quot;flex justify-end mb-2&quot;>
+        <div className="flex justify-end mb-2">
           <button
-            type=&quot;button&quot;
+            type="button"
             onClick={resetToDefaults}
-            className=&quot;px-2 py-1 text-xs text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-md dark:text-blue-400 dark:bg-blue-900/20 dark:hover:bg-blue-800/30&quot;
+            className="px-2 py-1 text-xs text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-md dark:text-blue-400 dark:bg-blue-900/20 dark:hover:bg-blue-800/30"
           >
             Reset to Default
           </button>
         </div>
       )}
 
-      <div className=&quot;space-y-4&quot;>
+      <div className="space-y-4">
         {Object.entries(permissionsByResource).map(
           ([resource, permissions]) => (
             <div
               key={resource}
-              className=&quot;border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden&quot;
+              className="border border-gray-200 dark:border-gray-700 rounded-md overflow-hidden"
             >
-              <div className=&quot;bg-gray-50 dark:bg-gray-800 px-4 py-2 font-medium capitalize&quot;>
+              <div className="bg-gray-50 dark:bg-gray-800 px-4 py-2 font-medium capitalize">
                 {resource}
               </div>
-              <div className=&quot;p-4 grid grid-cols-1 md:grid-cols-2 gap-2&quot;>
+              <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
                 {permissions.map((permission) => {
                   const isDefault = defaultPermissions.includes(permission);
                   const isSelected = isPermissionSelected(permission);
@@ -149,48 +149,48 @@ export function PermissionsEditor({
                       p-2 rounded-md flex items-center justify-between
                       ${
                         readOnly
-                          ? &quot;cursor-default&quot;
-                          : &quot;cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800&quot;
+                          ? "cursor-default"
+                          : "cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800"
                       }
                       ${
                         isSelected
-                          ? &quot;bg-blue-50 dark:bg-blue-900/20&quot;
-                          : &quot;bg-white dark:bg-gray-900&quot;
+                          ? "bg-blue-50 dark:bg-blue-900/20"
+                          : "bg-white dark:bg-gray-900"
                       }
                     `}
                     >
-                      <div className=&quot;flex items-center&quot;>
+                      <div className="flex items-center">
                         <div
                           className={`
                           w-5 h-5 rounded border flex items-center justify-center mr-3
                           ${
                             isSelected
-                              ? &quot;bg-blue-500 border-blue-500&quot;
-                              : &quot;border-gray-300 dark:border-gray-600&quot;
+                              ? "bg-blue-500 border-blue-500"
+                              : "border-gray-300 dark:border-gray-600"
                           }
                         `}
                         >
                           {isSelected && (
                             <svg
-                              className=&quot;w-4 h-4 text-white&quot;
-                              viewBox=&quot;0 0 20 20&quot;
-                              fill=&quot;currentColor&quot;
+                              className="w-4 h-4 text-white"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
                             >
                               <path
-                                fillRule=&quot;evenodd&quot;
-                                d=&quot;M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z&quot;
-                                clipRule=&quot;evenodd&quot;
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
                               />
                             </svg>
                           )}
                         </div>
-                        <span className=&quot;text-sm&quot;>
+                        <span className="text-sm">
                           {formatPermission(permission)}
                         </span>
                       </div>
 
                       {isDefault && (
-                        <span className=&quot;text-xs text-gray-500 dark:text-gray-400 italic&quot;>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 italic">
                           Default
                         </span>
                       )}

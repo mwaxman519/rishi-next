@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { EventBusDemo } from &quot;@/components/infrastructure/EventBusDemo&quot;;
+import { EventBusDemo } from "@/components/infrastructure/EventBusDemo";
 
 export default function InfrastructurePage() {
   return (
-    <div className=&quot;container mx-auto py-6&quot;>
+    <div className="container mx-auto py-6">
       <EventBusDemo />
     </div>
   );

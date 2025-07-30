@@ -3,20 +3,20 @@
  * Event definitions for microservice communication
  */
 
-import { EventBus } from &quot;../core/EventBus&quot;;
-import type { ExpenseData, ExpenseApproval } from &quot;./models&quot;;
+import { EventBus } from "../core/EventBus";
+import type { ExpenseData, ExpenseApproval } from "./models";
 
 // Event Bus Instance
 export const expenseEventBus = new EventBus();
 
 // Event Types
 export const EXPENSE_EVENTS = {
-  SUBMITTED: &quot;expense.submitted&quot;,
-  APPROVED: &quot;expense.approved&quot;,
-  REJECTED: &quot;expense.rejected&quot;,
-  UPDATED: &quot;expense.updated&quot;,
-  DELETED: &quot;expense.deleted&quot;,
-  PAYMENT_PROCESSED: &quot;expense.payment.processed&quot;,
+  SUBMITTED: "expense.submitted",
+  APPROVED: "expense.approved",
+  REJECTED: "expense.rejected",
+  UPDATED: "expense.updated",
+  DELETED: "expense.deleted",
+  PAYMENT_PROCESSED: "expense.payment.processed",
 } as const;
 
 // Event Interfaces
@@ -132,8 +132,8 @@ export class ExpenseEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;expense-service&quot;,
+        version: "1.0",
+        source: "expense-service",
       },
     };
 
@@ -155,8 +155,8 @@ export class ExpenseEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;expense-service&quot;,
+        version: "1.0",
+        source: "expense-service",
       },
     };
 
@@ -180,8 +180,8 @@ export class ExpenseEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;expense-service&quot;,
+        version: "1.0",
+        source: "expense-service",
       },
     };
 
@@ -205,8 +205,8 @@ export class ExpenseEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;expense-service&quot;,
+        version: "1.0",
+        source: "expense-service",
       },
     };
 
@@ -228,8 +228,8 @@ export class ExpenseEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;expense-service&quot;,
+        version: "1.0",
+        source: "expense-service",
       },
     };
 
@@ -253,8 +253,8 @@ export class ExpenseEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;expense-service&quot;,
+        version: "1.0",
+        source: "expense-service",
       },
     };
 

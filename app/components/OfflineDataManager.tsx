@@ -64,16 +64,16 @@ export default function OfflineDataManager() {
     const handleOnline = () => {
       preloadCriticalData();
       toast({
-        title: &quot;Back Online&quot;,
-        description: &quot;Refreshing data and syncing changes...&quot;,
+        title: "Back Online",
+        description: "Refreshing data and syncing changes...",
       });
     };
 
     const handleOffline = () => {
       toast({
-        title: &quot;Offline Mode&quot;,
-        description: &quot;Using cached data. Changes will sync when reconnected.&quot;,
-        variant: &quot;destructive&quot;
+        title: "Offline Mode",
+        description: "Using cached data. Changes will sync when reconnected.",
+        variant: "destructive"
       });
     };
 
@@ -86,6 +86,6 @@ export default function OfflineDataManager() {
     };
   }, [toast]);
 
-  // Component doesn&apos;t render anything visible - it&apos;s a data management utility
+  // Component doesn't render anything visible - it's a data management utility
   return null;
 }

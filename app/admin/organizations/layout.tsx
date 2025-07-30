@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import { usePathname } from &quot;next/navigation&quot;;
-import Link from &quot;next/link&quot;;
-import { Tabs, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
-import { Separator } from &quot;@/components/ui/separator&quot;;
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
 
 export default function OrganizationsLayout({
   children,
@@ -12,16 +12,16 @@ export default function OrganizationsLayout({
 }) {
   const pathname = usePathname();
 
-  const isSettings = pathname.includes(&quot;/settings&quot;);
-  const isBranding = pathname.includes(&quot;/branding&quot;);
-  const isUsers = pathname.includes(&quot;/users&quot;);
-  const isRoles = pathname.includes(&quot;/roles&quot;);
+  const isSettings = pathname.includes("/settings");
+  const isBranding = pathname.includes("/branding");
+  const isUsers = pathname.includes("/users");
+  const isRoles = pathname.includes("/roles");
 
-  // If we&apos;re looking at a specific organization's feature, get the organizationId
+  // If we're looking at a specific organization's feature, get the organizationId
   const organizationIdMatch = pathname.match(/organizationId=([^&]+)/);
   const organizationId = organizationIdMatch ? organizationIdMatch[1] : null;
 
-  // Only show tabs when we&apos;re on an organization-specific page
+  // Only show tabs when we're on an organization-specific page
   if (!organizationId) {
     return <>{children}</>;
   }
@@ -34,20 +34,20 @@ export default function OrganizationsLayout({
       <Tabs
         value={
           isSettings
-            ? &quot;settings&quot;
+            ? "settings"
             : isBranding
-              ? &quot;branding&quot;
+              ? "branding"
               : isUsers
-                ? &quot;users&quot;
+                ? "users"
                 : isRoles
-                  ? &quot;roles&quot;
-                  : &quot;details&quot;
+                  ? "roles"
+                  : "details"
         }
-        className=&quot;w-full mb-6&quot;
+        className="w-full mb-6"
       >
-        <TabsList className=&quot;grid grid-cols-5 w-full&quot;>
+        <TabsList className="grid grid-cols-5 w-full">
           <Link href={`${baseUrl}/${organizationId}`} passHref legacyBehavior>
-            <TabsTrigger value=&quot;details&quot; className=&quot;cursor-pointer&quot;>
+            <TabsTrigger value="details" className="cursor-pointer">
               Details
             </TabsTrigger>
           </Link>
@@ -57,7 +57,7 @@ export default function OrganizationsLayout({
             passHref
             legacyBehavior
           >
-            <TabsTrigger value=&quot;settings&quot; className=&quot;cursor-pointer&quot;>
+            <TabsTrigger value="settings" className="cursor-pointer">
               Settings
             </TabsTrigger>
           </Link>
@@ -67,7 +67,7 @@ export default function OrganizationsLayout({
             passHref
             legacyBehavior
           >
-            <TabsTrigger value=&quot;branding&quot; className=&quot;cursor-pointer&quot;>
+            <TabsTrigger value="branding" className="cursor-pointer">
               Branding
             </TabsTrigger>
           </Link>
@@ -77,7 +77,7 @@ export default function OrganizationsLayout({
             passHref
             legacyBehavior
           >
-            <TabsTrigger value=&quot;users&quot; className=&quot;cursor-pointer&quot;>
+            <TabsTrigger value="users" className="cursor-pointer">
               Users
             </TabsTrigger>
           </Link>
@@ -87,14 +87,14 @@ export default function OrganizationsLayout({
             passHref
             legacyBehavior
           >
-            <TabsTrigger value=&quot;roles&quot; className=&quot;cursor-pointer&quot;>
+            <TabsTrigger value="roles" className="cursor-pointer">
               Roles & Permissions
             </TabsTrigger>
           </Link>
         </TabsList>
       </Tabs>
 
-      <Separator className=&quot;mb-6&quot; />
+      <Separator className="mb-6" />
 
       {children}
     </div>

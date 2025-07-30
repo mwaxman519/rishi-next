@@ -1,14 +1,14 @@
-import { NextResponse, NextRequest } from &quot;next/server&quot;;
+import { NextResponse, NextRequest } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getServerSession } from &quot;next-auth&quot;;
-import { EventBusService } from &quot;../../../services/event-bus-service&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import * as userService from &quot;../../services/users/userService&quot;;
-import { insertUserSchema } from &quot;@shared/schema&quot;;
-import { z } from &quot;zod&quot;;
+import { getServerSession } from "next-auth";
+import { EventBusService } from "../../../services/event-bus-service";
+import { authOptions } from "@/lib/auth-options";
+import * as userService from "../../services/users/userService";
+import { insertUserSchema } from "@shared/schema";
+import { z } from "zod";
 
 /**
  * GET /api/users - Get all users
@@ -21,7 +21,7 @@ export async function GET(): Promise<NextResponse> {
 
   if (!result.success) {
     return NextResponse.json(
-      { error: result.error || &quot;Failed to fetch users&quot; },
+      { error: result.error || "Failed to fetch users" },
       { status: 500 },
     );
   }
@@ -37,16 +37,16 @@ export async function GET(): Promise<NextResponse> {
  */
 export async function POST(request: Request): Promise<NextResponse> {
   try {
-    console.log(&quot;POST /api/users - Started processing request&quot;);
+    console.log("POST /api/users - Started processing request");
 
     const body = await request.json();
-    console.log(&quot;Request body:&quot;, body);
+    console.log("Request body:", body);
 
     try {
       // Validate the request body against our schema
-      console.log(&quot;Validating request data with Zod schema&quot;);
+      console.log("Validating request data with Zod schema");
       const validatedData = insertUserSchema.parse(body);
-      console.log(&quot;Validation successful:&quot;, validatedData);
+      console.log("Validation successful:", validatedData);
 
       // Map the validated data to our service model
       const createUserRequest = {
@@ -58,22 +58,22 @@ export async function POST(request: Request): Promise<NextResponse> {
         role: validatedData.role,
         profileImage: validatedData.profileImage || null,
       };
-      console.log(&quot;Mapped to service model:&quot;, {
+      console.log("Mapped to service model:", {
         ...createUserRequest,
-        password: &quot;[REDACTED]&quot;,
+        password: "[REDACTED]",
       });
 
       // Call the service to create the user
-      console.log(&quot;Calling userService.createUser&quot;);
+      console.log("Calling userService.createUser");
       const result = await userService.createUser(createUserRequest);
-      console.log(&quot;Service result:&quot;, {
+      console.log("Service result:", {
         success: result.success,
         error: result.error,
-        data: result.data ? &quot;User data returned&quot; : null,
+        data: result.data ? "User data returned" : null,
       });
 
       if (!result.success) {
-        const status = (result.error === &quot;Username already exists&quot; || result.error === &quot;Email already exists&quot;) ? 409 : 500;
+        const status = (result.error === "Username already exists" || result.error === "Email already exists") ? 409 : 500;
         console.log(
           `Returning error response with status ${status}:`,
           result.error,
@@ -81,33 +81,33 @@ export async function POST(request: Request): Promise<NextResponse> {
         return NextResponse.json({ error: result.error }, { status });
       }
 
-      console.log(&quot;User created successfully, returning 201 Created&quot;);
+      console.log("User created successfully, returning 201 Created");
       return NextResponse.json(result.data, { status: 201 });
     } catch (validationError) {
       if (validationError instanceof z.ZodError) {
-        console.error(&quot;Zod validation error:&quot;, validationError.format());
+        console.error("Zod validation error:", validationError.format());
         return NextResponse.json(
-          { error: &quot;Validation error&quot;, details: validationError.format() },
+          { error: "Validation error", details: validationError.format() },
           { status: 400 },
         );
       }
-      throw validationError; // Re-throw if it&apos;s not a ZodError
+      throw validationError; // Re-throw if it's not a ZodError
     }
   } catch (error) {
-    console.error(&quot;Failed to create user:&quot;, error);
+    console.error("Failed to create user:", error);
 
     // Provide more detailed error message for debugging
     const errorMessage =
       error instanceof Error
-        ? `${error.name}: ${error.message}${error.stack ? &quot;\n&quot; + error.stack : "&quot;}`
-        : &quot;Unknown error&quot;;
+        ? `${error.name}: ${error.message}${error.stack ? "\n" + error.stack : ""}`
+        : "Unknown error";
 
-    console.error(&quot;Detailed error:&quot;, errorMessage);
+    console.error("Detailed error:", errorMessage);
 
     return NextResponse.json(
       {
-        error: &quot;Failed to create user&quot;,
-        message: error instanceof Error ? error.message : &quot;Unknown error",
+        error: "Failed to create user",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );

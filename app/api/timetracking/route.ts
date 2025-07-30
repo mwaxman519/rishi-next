@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { EventBusService } from &quot;../../../services/event-bus-service&quot;;
-import { simpleTimeTrackingService } from &quot;../../services/timetracking/SimpleTimeTrackingService&quot;;
-import { z } from &quot;zod&quot;;
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
+import { EventBusService } from "../../../services/event-bus-service";
+import { simpleTimeTrackingService } from "../../services/timetracking/SimpleTimeTrackingService";
+import { z } from "zod";
 
 // Use the exported instance
 const timeTrackingService = simpleTimeTrackingService;
@@ -20,36 +20,36 @@ export async function GET(request: NextRequest) {
     // Get authenticated user from session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const user = session.user as any;
 
     const { searchParams } = new URL(request.url);
 
-    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined);
-    const agentId = (searchParams.get(&quot;agentId&quot;) || undefined) || undefined;
-    const shiftId = (searchParams.get(&quot;shiftId&quot;) || undefined) || undefined;
-    const startDate = (searchParams.get(&quot;startDate&quot;) || undefined);
-    const endDate = (searchParams.get(&quot;endDate&quot;) || undefined);
-    const status = (searchParams.get(&quot;status&quot;) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
+    const agentId = (searchParams.get("agentId") || undefined) || undefined;
+    const shiftId = (searchParams.get("shiftId") || undefined) || undefined;
+    const startDate = (searchParams.get("startDate") || undefined);
+    const endDate = (searchParams.get("endDate") || undefined);
+    const status = (searchParams.get("status") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: &quot;Organization ID is required&quot; },
+        { error: "Organization ID is required" },
         { status: 400 },
       );
     }
 
     // Role-based access control
     let effectiveAgentId = agentId;
-    if (user.role === &quot;brand_agent&quot;) {
+    if (user.role === "brand_agent") {
       // Brand agents can only see their own time entries
       effectiveAgentId = user.id;
-    } else if (user.role === &quot;field_manager&quot; || user.role === &quot;client_user&quot;) {
+    } else if (user.role === "field_manager" || user.role === "client_user") {
       // Field managers and client users can see all time entries for their organization
       // effectiveAgentId remains as provided (can be undefined for all org users)
       effectiveAgentId = agentId;
-    } else if (user.role === &quot;internal_admin&quot; || user.role === &quot;super_admin&quot;) {
+    } else if (user.role === "internal_admin" || user.role === "super_admin") {
       // Internal admins can see all time entries across all organizations
       effectiveAgentId = agentId;
     } else {
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
         ...(effectiveAgentId && { agentId: effectiveAgentId }),
         ...(startDate && { startDate: new Date(startDate) }),
         ...(endDate && { endDate: new Date(endDate) }),
-        ...(status && status !== &quot;all&quot; && { status }),
+        ...(status && status !== "all" && { status }),
       },
     );
 
@@ -72,14 +72,14 @@ export async function GET(request: NextRequest) {
       data: timeEntries,
     });
   } catch (error) {
-    console.error(&quot;Error fetching time entries:&quot;, error);
+    console.error("Error fetching time entries:", error);
     return NextResponse.json(
       {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : &quot;Failed to fetch time entries&quot;,
+            : "Failed to fetch time entries",
       },
       { status: 500 },
     );
@@ -92,11 +92,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { action, ...data } = body;
 
-    if (action === &quot;clock-in&quot;) {
+    if (action === "clock-in") {
       // Get authenticated user from session
       const session = await getServerSession(authOptions);
       if (!session?.user) {
-        return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
       const user = session.user as any;
 
@@ -119,16 +119,16 @@ export async function POST(request: NextRequest) {
 
       // Role-based access control for clock-in operations
       let effectiveAgentId = validatedData.agentId;
-      if (user.role === &quot;brand_agent&quot;) {
+      if (user.role === "brand_agent") {
         // Brand agents can only clock in for themselves
         effectiveAgentId = user.id;
-      } else if (user.role === &quot;field_manager&quot; || user.role === &quot;client_user&quot;) {
+      } else if (user.role === "field_manager" || user.role === "client_user") {
         // Field managers and client users can clock in for agents in their organization
         // In production, verify the agent belongs to the same organization
         effectiveAgentId = validatedData.agentId;
       } else if (
-        user.role === &quot;internal_admin&quot; ||
-        user.role === &quot;super_admin&quot;
+        user.role === "internal_admin" ||
+        user.role === "super_admin"
       ) {
         // Internal admins can clock in for any agent
         effectiveAgentId = validatedData.agentId;
@@ -147,11 +147,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         data: result,
-        message: &quot;Clocked in successfully&quot;,
+        message: "Clocked in successfully",
       });
     }
 
-    if (action === &quot;clock-out&quot;) {
+    if (action === "clock-out") {
       const clockOutSchema = z.object({
         timeEntryId: z.string(),
         location: z
@@ -166,23 +166,23 @@ export async function POST(request: NextRequest) {
         notes: z.string().optional(),
       });
 
-      console.log(&quot;DEVELOPMENT MODE: Using mock user for testing&quot;);
-      const user = { id: &quot;mock-user-id&quot;, role: &quot;brand_agent&quot; }; // In production, get from session
+      console.log("DEVELOPMENT MODE: Using mock user for testing");
+      const user = { id: "mock-user-id", role: "brand_agent" }; // In production, get from session
 
       const validatedData = clockOutSchema.parse(data);
 
       // Role-based access control for clock-out operations
       let agentId;
-      if (user.role === &quot;brand_agent&quot;) {
+      if (user.role === "brand_agent") {
         // Brand agents can only clock out for themselves
         agentId = user.id;
-      } else if (user.role === &quot;field_manager&quot; || user.role === &quot;client_user&quot;) {
+      } else if (user.role === "field_manager" || user.role === "client_user") {
         // Field managers and client users can clock out for agents in their organization
         // In production, verify the agent belongs to the same organization
         agentId = user.id; // For demo, use current user
       } else if (
-        user.role === &quot;internal_admin&quot; ||
-        user.role === &quot;super_admin&quot;
+        user.role === "internal_admin" ||
+        user.role === "super_admin"
       ) {
         // Internal admins can clock out for any agent
         agentId = user.id; // For demo, use current user
@@ -200,22 +200,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         data: result,
-        message: &quot;Clocked out successfully&quot;,
+        message: "Clocked out successfully",
       });
     }
 
     return NextResponse.json(
-      { error: &quot;Invalid action. Use 'clock-in' or 'clock-out'&quot; },
+      { error: "Invalid action. Use 'clock-in' or 'clock-out'" },
       { status: 400 },
     );
   } catch (error) {
-    console.error(&quot;Error processing time tracking action:&quot;, error);
+    console.error("Error processing time tracking action:", error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         {
           success: false,
-          error: &quot;Validation error&quot;,
+          error: "Validation error",
           details: error.errors,
         },
         { status: 400 },
@@ -228,7 +228,7 @@ export async function POST(request: NextRequest) {
         error:
           error instanceof Error
             ? error.message
-            : &quot;Time tracking operation failed&quot;,
+            : "Time tracking operation failed",
       },
       { status: 500 },
     );

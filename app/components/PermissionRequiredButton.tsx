@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import React from &quot;react&quot;;
-import { useEnhancedRBAC } from &quot;../contexts/EnhancedRBACProvider&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { PermissionContext } from &quot;../lib/rbac-enhanced&quot;;
+import React from "react";
+import { useEnhancedRBAC } from "../contexts/EnhancedRBACProvider";
+import { Button } from "@/components/ui/button";
+import { PermissionContext } from "../lib/rbac-enhanced";
 
 /**
  * A button that only renders when the user has the necessary permission
@@ -17,13 +17,13 @@ interface PermissionRequiredButtonProps {
   onClick?: () => void;
   className?: string;
   variant?:
-    | &quot;default&quot;
-    | &quot;destructive&quot;
-    | &quot;outline&quot;
-    | &quot;secondary&quot;
-    | &quot;ghost&quot;
-    | &quot;link&quot;;
-  size?: &quot;default&quot; | &quot;sm&quot; | &quot;lg&quot; | &quot;icon&quot;;
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
+  size?: "default" | "sm" | "lg" | "icon";
 }
 
 export function PermissionRequiredButton({
@@ -33,12 +33,12 @@ export function PermissionRequiredButton({
   children,
   onClick,
   className,
-  variant = &quot;default&quot;,
-  size = &quot;default&quot;,
+  variant = "default",
+  size = "default",
 }: PermissionRequiredButtonProps) {
   const { hasPermission, isLoading } = useEnhancedRBAC();
 
-  // During loading, don&apos;t show anything
+  // During loading, don't show anything
   if (isLoading) {
     return null;
   }
@@ -47,7 +47,7 @@ export function PermissionRequiredButton({
   const canAccess = hasPermission(permission, context);
 
   if (!canAccess) {
-    // If no access and no fallback, don&apos;t render anything
+    // If no access and no fallback, don't render anything
     if (!fallback) return null;
 
     // Otherwise render the fallback content
@@ -86,7 +86,7 @@ export function PermissionRequired({
 }: PermissionRequiredProps) {
   const { hasAllPermissions, isLoading } = useEnhancedRBAC();
 
-  // During loading, don&apos;t show anything
+  // During loading, don't show anything
   if (isLoading) {
     return null;
   }
@@ -95,7 +95,7 @@ export function PermissionRequired({
   const canAccess = hasAllPermissions(permissions, context);
 
   if (!canAccess) {
-    // If no access and no fallback, don&apos;t render anything
+    // If no access and no fallback, don't render anything
     if (!fallback) return null;
 
     // Otherwise render the fallback content
@@ -125,7 +125,7 @@ export function PermissionAnyRequired({
 }: PermissionAnyRequiredProps) {
   const { hasSomePermissions, isLoading } = useEnhancedRBAC();
 
-  // During loading, don&apos;t show anything
+  // During loading, don't show anything
   if (isLoading) {
     return null;
   }
@@ -134,7 +134,7 @@ export function PermissionAnyRequired({
   const canAccess = hasSomePermissions(permissions, context);
 
   if (!canAccess) {
-    // If no access and no fallback, don&apos;t render anything
+    // If no access and no fallback, don't render anything
     if (!fallback) return null;
 
     // Otherwise render the fallback content

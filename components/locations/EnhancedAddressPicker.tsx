@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useRef, useState } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Loader2, MapPin, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Augment Window interface to add Google Maps properties
 declare global {
@@ -33,9 +33,9 @@ interface EnhancedAddressPickerProps {
  */
 export default function EnhancedAddressPicker({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: EnhancedAddressPickerProps): React.JSX.Element {
-  const [inputValue, setInputValue] = useState(&quot;&quot;);
+  const [inputValue, setInputValue] = useState("");
   const [predictions, setPredictions] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -57,13 +57,13 @@ export default function EnhancedAddressPicker({
   const initializeMap = (location: { lat: number; lng: number }) => {
     if (!mapRef.current || !window.google?.maps) {
       console.error(
-        &quot;EnhancedAddressPicker: Map container or Google Maps not available&quot;,
+        "EnhancedAddressPicker: Map container or Google Maps not available",
       );
       return;
     }
 
     console.log(
-      &quot;EnhancedAddressPicker: Initializing map with location:&quot;,
+      "EnhancedAddressPicker: Initializing map with location:",
       location,
     );
 
@@ -81,18 +81,18 @@ export default function EnhancedAddressPicker({
       // Create or reuse map
       let mapInstance = map;
       if (!mapInstance) {
-        console.log(&quot;EnhancedAddressPicker: Creating new map instance&quot;);
+        console.log("EnhancedAddressPicker: Creating new map instance");
         mapInstance = new window.google.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
       } else {
-        console.log(&quot;EnhancedAddressPicker: Reusing existing map instance&quot;);
+        console.log("EnhancedAddressPicker: Reusing existing map instance");
         mapInstance.setCenter(location);
       }
 
       // Create or reuse marker
       let markerInstance = marker;
       if (!markerInstance) {
-        console.log(&quot;EnhancedAddressPicker: Creating new marker&quot;);
+        console.log("EnhancedAddressPicker: Creating new marker");
         markerInstance = new window.google.maps.Marker({
           position: location,
           map: mapInstance,
@@ -100,15 +100,15 @@ export default function EnhancedAddressPicker({
         });
         setMarker(markerInstance);
       } else {
-        console.log(&quot;EnhancedAddressPicker: Updating existing marker&quot;);
+        console.log("EnhancedAddressPicker: Updating existing marker");
         markerInstance.setPosition(location);
       }
     } catch (error) {
-      console.error(&quot;EnhancedAddressPicker: Error initializing map:&quot;, error);
+      console.error("EnhancedAddressPicker: Error initializing map:", error);
       toast({
-        title: &quot;Map Error&quot;,
-        description: &quot;Could not display the map&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Map Error",
+        description: "Could not display the map",
+        variant: "destructive",
       });
     }
   };
@@ -118,23 +118,23 @@ export default function EnhancedAddressPicker({
     // Define the initialization function
     function initializeServices() {
       try {
-        console.log(&quot;EnhancedAddressPicker: Initializing Google services...&quot;);
+        console.log("EnhancedAddressPicker: Initializing Google services...");
 
         // Nothing special to initialize for now
 
         setGoogleInitialized(true);
         console.log(
-          &quot;EnhancedAddressPicker: Google services initialized successfully&quot;,
+          "EnhancedAddressPicker: Google services initialized successfully",
         );
       } catch (error) {
         console.error(
-          &quot;EnhancedAddressPicker: Error initializing Google services:&quot;,
+          "EnhancedAddressPicker: Error initializing Google services:",
           error,
         );
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to initialize location services&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to initialize location services",
+          variant: "destructive",
         });
       }
     }
@@ -142,7 +142,7 @@ export default function EnhancedAddressPicker({
     // Set up callback for script loading
     window.initGoogleMaps = () => {
       console.log(
-        &quot;[EnhancedAddressPicker] Google Maps initialized via callback&quot;,
+        "[EnhancedAddressPicker] Google Maps initialized via callback",
       );
       initializeServices();
     };
@@ -150,7 +150,7 @@ export default function EnhancedAddressPicker({
     // First check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.places) {
       console.log(
-        &quot;[EnhancedAddressPicker] Google Maps already loaded, initializing services&quot;,
+        "[EnhancedAddressPicker] Google Maps already loaded, initializing services",
       );
       initializeServices();
       return;
@@ -158,29 +158,29 @@ export default function EnhancedAddressPicker({
 
     // Check if script is already in document but not fully loaded
     const existingScript = document.querySelector(
-      'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
+      'script[src*="maps.googleapis.com/maps/api"]',
     );
     if (existingScript) {
       console.log(
-        &quot;[EnhancedAddressPicker] Google Maps script already exists, waiting for load&quot;,
+        "[EnhancedAddressPicker] Google Maps script already exists, waiting for load",
       );
       return; // The callback will handle initialization
     }
 
     // Load the script
-    console.log(&quot;[EnhancedAddressPicker] Loading Google Maps script...&quot;);
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || &quot;&quot;;
-    const script = document.createElement(&quot;script&quot;);
+    console.log("[EnhancedAddressPicker] Loading Google Maps script...");
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async`;
     script.async = true;
     script.onerror = () => {
       console.error(
-        &quot;[EnhancedAddressPicker] Failed to load Google Maps script&quot;,
+        "[EnhancedAddressPicker] Failed to load Google Maps script",
       );
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to load Google Maps service&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to load Google Maps service",
+        variant: "destructive",
       });
     };
     document.head.appendChild(script);
@@ -197,20 +197,20 @@ export default function EnhancedAddressPicker({
   const handleInputChange = (value: string) => {
     setInputValue(value);
 
-    // Don't search if input is empty or Google Maps isn&apos;t initialized
+    // Don't search if input is empty or Google Maps isn't initialized
     if (!value.trim() || !googleInitialized || !window.google?.maps?.places) {
       setPredictions([]);
       setShowDropdown(false);
       return;
     }
 
-    console.log(&quot;Fetching predictions for:&quot;, value);
+    console.log("Fetching predictions for:", value);
     setIsLoading(true);
 
     // Use the new AutocompleteSuggestion API
     const autocompleteOptions = {
       input: value,
-      componentRestrictions: { country: &quot;us&quot; },
+      componentRestrictions: { country: "us" },
     };
 
     try {
@@ -226,7 +226,7 @@ export default function EnhancedAddressPicker({
             response.suggestions &&
             response.suggestions.length > 0
           ) {
-            console.log(&quot;Got predictions:&quot;, response.suggestions.length);
+            console.log("Got predictions:", response.suggestions.length);
 
             // Format the predictions to match our component expectations
             const formattedPredictions = response.suggestions.map(
@@ -235,7 +235,7 @@ export default function EnhancedAddressPicker({
                 structured_formatting: {
                   main_text: suggestion.formattedSuggestion.mainText,
                   secondary_text:
-                    suggestion.formattedSuggestion.secondaryText || &quot;&quot;,
+                    suggestion.formattedSuggestion.secondaryText || "",
                 },
               }),
             );
@@ -243,13 +243,13 @@ export default function EnhancedAddressPicker({
             setPredictions(formattedPredictions);
             setShowDropdown(true);
           } else {
-            console.log(&quot;No predictions found&quot;);
+            console.log("No predictions found");
             setPredictions([]);
             setShowDropdown(false);
           }
         })
         .catch((error: any) => {
-          console.error(&quot;Error fetching predictions:&quot;, error);
+          console.error("Error fetching predictions:", error);
           setIsLoading(false);
           setPredictions([]);
           setShowDropdown(false);
@@ -258,7 +258,7 @@ export default function EnhancedAddressPicker({
           handleInputChangeFallback(value);
         });
     } catch (error) {
-      console.error(&quot;Error setting up AutocompleteSuggestion:&quot;, error);
+      console.error("Error setting up AutocompleteSuggestion:", error);
       setIsLoading(false);
 
       // Use fallback method if primary method fails
@@ -268,7 +268,7 @@ export default function EnhancedAddressPicker({
 
   // Fallback method using the older API
   const handleInputChangeFallback = (value: string) => {
-    console.log(&quot;Using fallback prediction method for:&quot;, value);
+    console.log("Using fallback prediction method for:", value);
 
     try {
       // Create an instance of AutocompleteService as fallback
@@ -276,7 +276,7 @@ export default function EnhancedAddressPicker({
         new window.google.maps.places.AutocompleteService();
       const autocompleteOptions = {
         input: value,
-        componentRestrictions: { country: &quot;us&quot; },
+        componentRestrictions: { country: "us" },
       };
 
       autocompleteService.getPlacePredictions(
@@ -289,26 +289,26 @@ export default function EnhancedAddressPicker({
             predictions &&
             predictions.length > 0
           ) {
-            console.log(&quot;Got fallback predictions:&quot;, predictions.length);
+            console.log("Got fallback predictions:", predictions.length);
             setPredictions(predictions);
             setShowDropdown(true);
           } else {
-            console.log(&quot;No fallback predictions found or error:&quot;, status);
+            console.log("No fallback predictions found or error:", status);
             setPredictions([]);
             setShowDropdown(false);
           }
         },
       );
     } catch (error) {
-      console.error(&quot;Error with fallback prediction method:&quot;, error);
+      console.error("Error with fallback prediction method:", error);
       setIsLoading(false);
       setPredictions([]);
       setShowDropdown(false);
 
       toast({
-        title: &quot;Search Error&quot;,
-        description: &quot;Location search is unavailable&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Search Error",
+        description: "Location search is unavailable",
+        variant: "destructive",
       });
     }
   };
@@ -316,7 +316,7 @@ export default function EnhancedAddressPicker({
   // Handle selection of a place
   const handlePlaceSelect = (placeId: string) => {
     console.log(
-      &quot;EnhancedAddressPicker: handlePlaceSelect called with ID:&quot;,
+      "EnhancedAddressPicker: handlePlaceSelect called with ID:",
       placeId,
     );
 
@@ -326,12 +326,12 @@ export default function EnhancedAddressPicker({
     // Check if the Places API is available
     if (!window.google?.maps?.places) {
       console.error(
-        &quot;EnhancedAddressPicker: ERROR - Places API not initialized&quot;,
+        "EnhancedAddressPicker: ERROR - Places API not initialized",
       );
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Location service not available&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Location service not available",
+        variant: "destructive",
       });
       return;
     }
@@ -339,7 +339,7 @@ export default function EnhancedAddressPicker({
     setIsLoading(true);
 
     console.log(
-      &quot;EnhancedAddressPicker: Fetching place details for ID:&quot;,
+      "EnhancedAddressPicker: Fetching place details for ID:",
       placeId,
     );
 
@@ -347,11 +347,11 @@ export default function EnhancedAddressPicker({
       // Parameters for fetching place details
       const placeOptions = {
         fields: [
-          &quot;name&quot;,
-          &quot;formattedAddress&quot;,
-          &quot;geometry&quot;,
-          &quot;addressComponents&quot;,
-          &quot;id&quot;,
+          "name",
+          "formattedAddress",
+          "geometry",
+          "addressComponents",
+          "id",
         ],
       };
 
@@ -361,27 +361,27 @@ export default function EnhancedAddressPicker({
         window.google.maps.places.Place.fetchById(placeId, placeOptions)
           .then((placeResult: any) => {
             console.log(
-              &quot;EnhancedAddressPicker: Successfully got place details:&quot;,
+              "EnhancedAddressPicker: Successfully got place details:",
               placeResult,
             );
             setIsLoading(false);
 
             if (placeResult) {
-              setInputValue(placeResult.formattedAddress || &quot;&quot;);
+              setInputValue(placeResult.formattedAddress || "");
 
               try {
                 // Extract coordinates from the place result
                 const location = placeResult.geometry?.location;
 
                 if (!location) {
-                  throw new Error(&quot;Location data not available&quot;);
+                  throw new Error("Location data not available");
                 }
 
                 // Get coordinates
                 const latitude = location.lat; // New API returns properties, not methods
                 const longitude = location.lng;
                 console.log(
-                  &quot;EnhancedAddressPicker: Using coordinates:&quot;,
+                  "EnhancedAddressPicker: Using coordinates:",
                   latitude,
                   longitude,
                 );
@@ -406,7 +406,7 @@ export default function EnhancedAddressPicker({
                 };
 
                 console.log(
-                  &quot;EnhancedAddressPicker: Sending address data to parent component:&quot;,
+                  "EnhancedAddressPicker: Sending address data to parent component:",
                   addressData,
                 );
 
@@ -414,28 +414,28 @@ export default function EnhancedAddressPicker({
                 onAddressSelect(addressData);
 
                 console.log(
-                  &quot;EnhancedAddressPicker: onAddressSelect function called successfully&quot;,
+                  "EnhancedAddressPicker: onAddressSelect function called successfully",
                 );
               } catch (error) {
                 console.error(
-                  &quot;EnhancedAddressPicker: Error processing place data:&quot;,
+                  "EnhancedAddressPicker: Error processing place data:",
                   error,
                 );
                 toast({
-                  title: &quot;Error&quot;,
-                  description: &quot;Failed to process location data&quot;,
-                  variant: &quot;destructive&quot;,
+                  title: "Error",
+                  description: "Failed to process location data",
+                  variant: "destructive",
                 });
 
                 // Try fallback method
                 handlePlaceSelectFallback(placeId);
               }
             } else {
-              console.error(&quot;EnhancedAddressPicker: No place details returned&quot;);
+              console.error("EnhancedAddressPicker: No place details returned");
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Could not get location details&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Could not get location details",
+                variant: "destructive",
               });
 
               // Try fallback method
@@ -444,7 +444,7 @@ export default function EnhancedAddressPicker({
           })
           .catch((error: any) => {
             console.error(
-              &quot;EnhancedAddressPicker: Error fetching place details:&quot;,
+              "EnhancedAddressPicker: Error fetching place details:",
               error,
             );
             setIsLoading(false);
@@ -455,7 +455,7 @@ export default function EnhancedAddressPicker({
       }, 50); // Small delay to ensure UI responsiveness
     } catch (error) {
       console.error(
-        &quot;EnhancedAddressPicker: Error setting up Place API:&quot;,
+        "EnhancedAddressPicker: Error setting up Place API:",
         error,
       );
       setIsLoading(false);
@@ -468,13 +468,13 @@ export default function EnhancedAddressPicker({
   // Fallback method to get place details using older API
   const handlePlaceSelectFallback = (placeId: string) => {
     console.log(
-      &quot;EnhancedAddressPicker: Using fallback method for place details:&quot;,
+      "EnhancedAddressPicker: Using fallback method for place details:",
       placeId,
     );
 
     try {
       // Create a PlacesService with a temporary div
-      const tempDiv = document.createElement(&quot;div&quot;);
+      const tempDiv = document.createElement("div");
       const placesService = new window.google.maps.places.PlacesService(
         tempDiv,
       );
@@ -484,10 +484,10 @@ export default function EnhancedAddressPicker({
         {
           placeId,
           fields: [
-            &quot;name&quot;,
-            &quot;formatted_address&quot;,
-            &quot;geometry&quot;,
-            &quot;address_components&quot;,
+            "name",
+            "formatted_address",
+            "geometry",
+            "address_components",
           ],
         },
         (placeResult: any, status: any) => {
@@ -498,30 +498,30 @@ export default function EnhancedAddressPicker({
             placeResult
           ) {
             console.log(
-              &quot;EnhancedAddressPicker: Successfully got place details via fallback:&quot;,
+              "EnhancedAddressPicker: Successfully got place details via fallback:",
               placeResult,
             );
-            setInputValue(placeResult.formatted_address || &quot;&quot;);
+            setInputValue(placeResult.formatted_address || "");
 
             try {
               // Extract coordinates from the place result
               const location = placeResult.geometry?.location;
 
               if (!location) {
-                throw new Error(&quot;Location data not available&quot;);
+                throw new Error("Location data not available");
               }
 
               // Get coordinates - note that lat and lng are methods in the older API
               const latitude =
-                typeof location.lat === &quot;function&quot;
+                typeof location.lat === "function"
                   ? location.lat()
                   : location.lat;
               const longitude =
-                typeof location.lng === &quot;function&quot;
+                typeof location.lng === "function"
                   ? location.lng()
                   : location.lng;
               console.log(
-                &quot;EnhancedAddressPicker: Using coordinates:&quot;,
+                "EnhancedAddressPicker: Using coordinates:",
                 latitude,
                 longitude,
               );
@@ -546,7 +546,7 @@ export default function EnhancedAddressPicker({
               };
 
               console.log(
-                &quot;EnhancedAddressPicker: Sending address data to parent component:&quot;,
+                "EnhancedAddressPicker: Sending address data to parent component:",
                 addressData,
               );
 
@@ -554,43 +554,43 @@ export default function EnhancedAddressPicker({
               onAddressSelect(addressData);
 
               console.log(
-                &quot;EnhancedAddressPicker: onAddressSelect function called successfully&quot;,
+                "EnhancedAddressPicker: onAddressSelect function called successfully",
               );
             } catch (error) {
               console.error(
-                &quot;EnhancedAddressPicker: Error processing place data:&quot;,
+                "EnhancedAddressPicker: Error processing place data:",
                 error,
               );
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Failed to process location data&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Failed to process location data",
+                variant: "destructive",
               });
             }
           } else {
             console.error(
-              &quot;EnhancedAddressPicker: No place details returned or error:&quot;,
+              "EnhancedAddressPicker: No place details returned or error:",
               status,
             );
             toast({
-              title: &quot;Error&quot;,
-              description: &quot;Could not get location details&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Error",
+              description: "Could not get location details",
+              variant: "destructive",
             });
           }
         },
       );
     } catch (error) {
       console.error(
-        &quot;EnhancedAddressPicker: Error with fallback place details:&quot;,
+        "EnhancedAddressPicker: Error with fallback place details:",
         error,
       );
       setIsLoading(false);
 
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Location service is unavailable&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Location service is unavailable",
+        variant: "destructive",
       });
     }
   };
@@ -598,7 +598,7 @@ export default function EnhancedAddressPicker({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const dropdownElement = document.querySelector(&quot;.locations-dropdown&quot;);
+      const dropdownElement = document.querySelector(".locations-dropdown");
       const isClickInsideDropdown =
         dropdownElement && dropdownElement.contains(event.target as Node);
 
@@ -609,40 +609,40 @@ export default function EnhancedAddressPicker({
         !isClickInsideDropdown
       ) {
         console.log(
-          &quot;EnhancedAddressPicker: Clicked outside - closing dropdown&quot;,
+          "EnhancedAddressPicker: Clicked outside - closing dropdown",
         );
         setShowDropdown(false);
       }
     };
 
-    document.addEventListener(&quot;mousedown&quot;, handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener(&quot;mousedown&quot;, handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
     <div className={`${className} relative`}>
-      <div className=&quot;relative&quot;>
-        <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           ref={inputRef}
-          type=&quot;text&quot;
-          placeholder=&quot;Search for a location&quot;
+          type="text"
+          placeholder="Search for a location"
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
-          className=&quot;pl-9&quot;
+          className="pl-9"
           disabled={!googleInitialized}
         />
         {isLoading && (
-          <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+          <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
         )}
       </div>
 
       {/* Predictions dropdown */}
       {showDropdown && predictions.length > 0 && (
-        <div className=&quot;absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg locations-dropdown&quot;>
-          <ul className=&quot;py-1&quot;>
+        <div className="absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg locations-dropdown">
+          <ul className="py-1">
             {predictions.map((prediction) => (
               <li
                 key={prediction.place_id}
@@ -650,7 +650,7 @@ export default function EnhancedAddressPicker({
                   e.preventDefault(); // Prevent default behavior
                   e.stopPropagation(); // Prevent event bubbling
                   console.log(
-                    &quot;EnhancedAddressPicker: CLICKED on prediction with ID:&quot;,
+                    "EnhancedAddressPicker: CLICKED on prediction with ID:",
                     prediction.place_id,
                   );
                   handlePlaceSelect(prediction.place_id);
@@ -659,14 +659,14 @@ export default function EnhancedAddressPicker({
                   // Prevent blur event on input which might close dropdown
                   e.preventDefault();
                 }}
-                className=&quot;flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer&quot;
+                className="flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer"
               >
-                <MapPin className=&quot;h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground&quot; />
-                <div className=&quot;flex-1&quot;>
-                  <div className=&quot;text-sm font-medium&quot;>
+                <MapPin className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground" />
+                <div className="flex-1">
+                  <div className="text-sm font-medium">
                     {prediction.structured_formatting.main_text}
                   </div>
-                  <div className=&quot;text-xs text-muted-foreground&quot;>
+                  <div className="text-xs text-muted-foreground">
                     {prediction.structured_formatting.secondary_text}
                   </div>
                 </div>
@@ -678,11 +678,11 @@ export default function EnhancedAddressPicker({
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className=&quot;mt-4&quot;>
+        <div className="mt-4">
           <div
             ref={mapRef}
-            className=&quot;w-full h-[250px] rounded-md border&quot;
-            aria-label=&quot;Map showing selected location"
+            className="w-full h-[250px] rounded-md border"
+            aria-label="Map showing selected location"
           />
         </div>
       )}

@@ -5,7 +5,7 @@
  * failures in event processing and message delivery.
  */
 
-import { AppEvent } from &quot;./eventTypes&quot;;
+import { AppEvent } from "./eventTypes";
 
 /**
  * Error handling strategy interface
@@ -48,7 +48,7 @@ export class RetryStrategy implements ErrorHandlingStrategy {
     eventType: AppEvent,
     context: Record<string, any>,
   ): Promise<boolean> {
-    const eventId = context.eventId || &quot;unknown&quot;;
+    const eventId = context.eventId || "unknown";
     const key = `${eventType}-${eventId}`;
 
     // Get current retry count
@@ -97,7 +97,7 @@ export class DeadLetterQueueStrategy implements ErrorHandlingStrategy {
     eventType: AppEvent,
     context: Record<string, any>,
   ): Promise<boolean> {
-    const eventId = context.eventId || &quot;unknown&quot;;
+    const eventId = context.eventId || "unknown";
     const event = context.event;
 
     if (!event) {
@@ -201,11 +201,11 @@ export class NotificationStrategy implements ErrorHandlingStrategy {
     eventType: AppEvent,
     context: Record<string, any>,
   ): Promise<boolean> {
-    const eventId = context.eventId || &quot;unknown&quot;;
+    const eventId = context.eventId || "unknown";
     const severity = this.getSeverity(eventType);
 
     // Only send notifications for important events
-    if (severity === &quot;high&quot;) {
+    if (severity === "high") {
       await this.notifyAdmins(
         `Critical event processing failure: ${eventType} (${eventId})`,
         {
@@ -217,7 +217,7 @@ export class NotificationStrategy implements ErrorHandlingStrategy {
       );
     }
 
-    // This strategy doesn&apos;t actually handle the error, it just notifies about it
+    // This strategy doesn't actually handle the error, it just notifies about it
     return false;
   }
 
@@ -230,15 +230,15 @@ export class NotificationStrategy implements ErrorHandlingStrategy {
     ];
   }
 
-  private getSeverity(eventType: AppEvent): &quot;low&quot; | &quot;medium&quot; | &quot;high&quot; {
+  private getSeverity(eventType: AppEvent): "low" | "medium" | "high" {
     switch (eventType) {
       case AppEvent.SYSTEM_ERROR:
-        return &quot;high&quot;;
+        return "high";
       case AppEvent.LOCATION_APPROVED:
       case AppEvent.LOCATION_REJECTED:
-        return &quot;medium&quot;;
+        return "medium";
       default:
-        return &quot;low&quot;;
+        return "low";
     }
   }
 }

@@ -1,10 +1,10 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from &quot;react&quot;;
-import { Search, Loader2, MapPin } from &quot;lucide-react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { useGoogleMaps } from &quot;@/contexts/GoogleMapsContext&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Search, Loader2, MapPin } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useGoogleMaps } from "@/contexts/GoogleMapsContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface PlacesAutocompleteProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
@@ -16,9 +16,9 @@ interface PlacesAutocompleteProps {
 
 export default function PlacesAutocomplete({
   onPlaceSelect,
-  placeholder = &quot;Search for an address&quot;,
-  defaultValue = "&quot;,
-  className = &quot;&quot;,
+  placeholder = "Search for an address",
+  defaultValue = "",
+  className = "",
   disabled = false,
 }: PlacesAutocompleteProps) {
   const { isLoaded, loadError, google } = useGoogleMaps();
@@ -42,17 +42,17 @@ export default function PlacesAutocomplete({
     if (isLoaded && google) {
       try {
         // Create a dummy element for the PlacesService (it needs a DOM element)
-        const dummyElement = document.createElement(&quot;div&quot;);
+        const dummyElement = document.createElement("div");
         autocompleteRef.current = new google.maps.places.AutocompleteService();
         placesServiceRef.current = new google.maps.places.PlacesService(
           dummyElement,
         );
       } catch (error) {
-        console.error(&quot;Error initializing Places services:&quot;, error);
+        console.error("Error initializing Places services:", error);
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to initialize Google Places API&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to initialize Google Places API",
+          variant: "destructive",
         });
       }
     }
@@ -73,9 +73,9 @@ export default function PlacesAutocomplete({
 
       const request = {
         input: value,
-        // You can&apos;t mix 'address' with other types, so we'll use 'establishment' or 'geocode' which is more versatile
-        types: [&quot;geocode&quot;],
-        componentRestrictions: { country: &quot;us&quot; }, // Limit to US
+        // You can't mix 'address' with other types, so we'll use 'establishment' or 'geocode' which is more versatile
+        types: ["geocode"],
+        componentRestrictions: { country: "us" }, // Limit to US
       };
 
       try {
@@ -89,7 +89,7 @@ export default function PlacesAutocomplete({
 
             // Handle error cases explicitly
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
-              console.warn(&quot;Places API returned status:&quot;, status);
+              console.warn("Places API returned status:", status);
               setPredictions([]);
               setIsOpen(false);
               return;
@@ -97,7 +97,7 @@ export default function PlacesAutocomplete({
 
             // Extra validation to ensure we have a valid array
             if (!results || !Array.isArray(results) || results.length === 0) {
-              console.warn(&quot;No valid predictions returned&quot;);
+              console.warn("No valid predictions returned");
               setPredictions([]);
               setIsOpen(false);
               return;
@@ -114,18 +114,18 @@ export default function PlacesAutocomplete({
             );
 
             if (validPredictions.length === 0) {
-              console.warn(&quot;No valid predictions with required properties&quot;);
+              console.warn("No valid predictions with required properties");
               setPredictions([]);
               setIsOpen(false);
               return;
             }
 
             // Set predictions if we have valid results
-            console.log(&quot;Got predictions:&quot;, validPredictions.length);
+            console.log("Got predictions:", validPredictions.length);
             setPredictions(validPredictions);
             setIsOpen(true);
           } catch (callbackError) {
-            console.error(&quot;Error in prediction callback:&quot;, callbackError);
+            console.error("Error in prediction callback:", callbackError);
             setPredictions([]);
             setIsOpen(false);
           }
@@ -134,7 +134,7 @@ export default function PlacesAutocomplete({
         // Call the API with our safer callback
         autocompleteRef.current.getPlacePredictions(request, safeCallback);
       } catch (error) {
-        console.error(&quot;Error calling getPlacePredictions:&quot;, error);
+        console.error("Error calling getPlacePredictions:", error);
         setIsSearching(false);
         setPredictions([]);
         setIsOpen(false);
@@ -152,11 +152,11 @@ export default function PlacesAutocomplete({
   const getPlaceDetails = useCallback(
     (placeId: string) => {
       if (!placesServiceRef.current || !google) {
-        console.error(&quot;Places service or Google API not available&quot;);
+        console.error("Places service or Google API not available");
         toast({
-          title: &quot;Service Unavailable&quot;,
-          description: &quot;Location service is not available&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Service Unavailable",
+          description: "Location service is not available",
+          variant: "destructive",
         });
         return;
       }
@@ -164,11 +164,11 @@ export default function PlacesAutocomplete({
       const request = {
         placeId,
         fields: [
-          &quot;address_components&quot;,
-          &quot;formatted_address&quot;,
-          &quot;geometry&quot;,
-          &quot;name&quot;,
-          &quot;place_id&quot;,
+          "address_components",
+          "formatted_address",
+          "geometry",
+          "name",
+          "place_id",
         ],
       };
 
@@ -184,17 +184,17 @@ export default function PlacesAutocomplete({
               status === google.maps.places.PlacesServiceStatus.OK &&
               result
             ) {
-              console.log(&quot;Place details retrieved successfully&quot;, result);
+              console.log("Place details retrieved successfully", result);
 
               // Additional validation to ensure result object is properly structured
-              if (!result || typeof result !== &quot;object&quot;) {
-                throw new Error(&quot;Invalid place result object&quot;);
+              if (!result || typeof result !== "object") {
+                throw new Error("Invalid place result object");
               }
 
               // Update the input field with the formatted address if available
               if (result.formatted_address) {
                 console.log(
-                  &quot;Setting formatted address:&quot;,
+                  "Setting formatted address:",
                   result.formatted_address,
                 );
                 setValue(result.formatted_address);
@@ -207,12 +207,12 @@ export default function PlacesAutocomplete({
 
               // Verify we have location data - if not, we need to handle this case
               if (!result.geometry || !result.geometry.location) {
-                console.error(&quot;Place result missing geometry or location&quot;);
+                console.error("Place result missing geometry or location");
                 toast({
-                  title: &quot;Data Error&quot;,
+                  title: "Data Error",
                   description:
-                    &quot;The selected location is missing geographic coordinates&quot;,
-                  variant: &quot;destructive&quot;,
+                    "The selected location is missing geographic coordinates",
+                  variant: "destructive",
                 });
                 return;
               }
@@ -225,28 +225,28 @@ export default function PlacesAutocomplete({
                 // Check if we have a valid Google LatLng object
                 const isValidLatLng =
                   result.geometry.location &&
-                  typeof result.geometry.location.lat === &quot;function&quot; &&
-                  typeof result.geometry.location.lng === &quot;function&quot; &&
-                  typeof result.geometry.location.equals === &quot;function&quot; &&
-                  typeof result.geometry.location.toJSON === &quot;function&quot; &&
-                  typeof result.geometry.location.toUrlValue === &quot;function&quot;;
+                  typeof result.geometry.location.lat === "function" &&
+                  typeof result.geometry.location.lng === "function" &&
+                  typeof result.geometry.location.equals === "function" &&
+                  typeof result.geometry.location.toJSON === "function" &&
+                  typeof result.geometry.location.toUrlValue === "function";
 
                 if (isValidLatLng) {
-                  console.log(&quot;Using standard Google LatLng object&quot;);
+                  console.log("Using standard Google LatLng object");
                   onPlaceSelect(result);
                 } else {
                   // Create a proper Google Maps LatLng-like object
-                  console.log(&quot;Creating custom LatLng object&quot;);
+                  console.log("Creating custom LatLng object");
 
                   // Get lat/lng values, applying fallbacks if needed
                   let lat = 0;
                   let lng = 0;
 
                   if (result.geometry.location) {
-                    if (typeof result.geometry.location.lat === &quot;function&quot;) {
+                    if (typeof result.geometry.location.lat === "function") {
                       lat = result.geometry.location.lat() as number;
                     } else if (
-                      typeof result.geometry.location.lat === &quot;number&quot;
+                      typeof result.geometry.location.lat === "number"
                     ) {
                       lat = result.geometry.location.lat;
                     } else if (result.geometry.location.lat !== undefined) {
@@ -256,10 +256,10 @@ export default function PlacesAutocomplete({
                       if (!isNaN(parsed)) lat = parsed;
                     }
 
-                    if (typeof result.geometry.location.lng === &quot;function&quot;) {
+                    if (typeof result.geometry.location.lng === "function") {
                       lng = result.geometry.location.lng() as number;
                     } else if (
-                      typeof result.geometry.location.lng === &quot;number&quot;
+                      typeof result.geometry.location.lng === "number"
                     ) {
                       lng = result.geometry.location.lng;
                     } else if (result.geometry.location.lng !== undefined) {
@@ -281,11 +281,11 @@ export default function PlacesAutocomplete({
                     equals: function (other: any) {
                       if (!other) return false;
                       const otherLat =
-                        typeof other.lat === &quot;function&quot;
+                        typeof other.lat === "function"
                           ? other.lat()
                           : other.lat;
                       const otherLng =
-                        typeof other.lng === &quot;function&quot;
+                        typeof other.lng === "function"
                           ? other.lng()
                           : other.lng;
                       return lat === otherLat && lng === otherLng;
@@ -294,7 +294,7 @@ export default function PlacesAutocomplete({
                       return { lat, lng };
                     },
                     toUrlValue: function (precision?: number) {
-                      if (typeof precision === &quot;number&quot;) {
+                      if (typeof precision === "number") {
                         return `${lat.toFixed(precision)},${lng.toFixed(precision)}`;
                       }
                       return `${lat},${lng}`;
@@ -310,12 +310,12 @@ export default function PlacesAutocomplete({
                     },
                   };
 
-                  console.log(&quot;Created custom LatLng object:&quot;, customLatLng);
+                  console.log("Created custom LatLng object:", customLatLng);
                   onPlaceSelect(customResult);
                 }
               } catch (callbackError) {
                 console.error(
-                  &quot;Error creating custom LatLng object:&quot;,
+                  "Error creating custom LatLng object:",
                   callbackError,
                 );
 
@@ -334,7 +334,7 @@ export default function PlacesAutocomplete({
                     return { lat: 0, lng: 0 };
                   },
                   toUrlValue: function () {
-                    return &quot;0,0&quot;;
+                    return "0,0";
                   },
                 } as google.maps.LatLng;
 
@@ -346,32 +346,32 @@ export default function PlacesAutocomplete({
                   },
                 };
 
-                console.log(&quot;Using manual fallback LatLng object&quot;);
+                console.log("Using manual fallback LatLng object");
                 onPlaceSelect(manualResult);
 
                 toast({
-                  title: &quot;Warning&quot;,
-                  description: &quot;Location processed with limited data&quot;,
-                  variant: &quot;default&quot;,
+                  title: "Warning",
+                  description: "Location processed with limited data",
+                  variant: "default",
                 });
               }
             }
             // Handle API error response
             else {
-              console.error(&quot;Error fetching place details, status:&quot;, status);
+              console.error("Error fetching place details, status:", status);
               toast({
-                title: &quot;Location Error&quot;,
+                title: "Location Error",
                 description:
-                  &quot;Could not retrieve details for the selected location&quot;,
-                variant: &quot;destructive&quot;,
+                  "Could not retrieve details for the selected location",
+                variant: "destructive",
               });
             }
           } catch (detailsError) {
-            console.error(&quot;Error processing place details:&quot;, detailsError);
+            console.error("Error processing place details:", detailsError);
             toast({
-              title: &quot;Data Error&quot;,
-              description: &quot;Could not process location data&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Data Error",
+              description: "Could not process location data",
+              variant: "destructive",
             });
           } finally {
             setIsOpen(false);
@@ -381,11 +381,11 @@ export default function PlacesAutocomplete({
         // Call the API with our safer callback
         placesServiceRef.current.getDetails(request, safeCallback);
       } catch (error) {
-        console.error(&quot;Exception while calling getDetails:&quot;, error);
+        console.error("Exception while calling getDetails:", error);
         toast({
-          title: &quot;Service Error&quot;,
-          description: &quot;An error occurred while fetching location details&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Service Error",
+          description: "An error occurred while fetching location details",
+          variant: "destructive",
         });
         setIsOpen(false);
       }
@@ -404,10 +404,10 @@ export default function PlacesAutocomplete({
       }
     }
 
-    document.addEventListener(&quot;mousedown&quot;, handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener(&quot;mousedown&quot;, handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [inputRef]);
 
@@ -415,9 +415,9 @@ export default function PlacesAutocomplete({
     return (
       <div className={`${className} relative`}>
         <Input
-          placeholder=&quot;Google Maps API failed to load&quot;
+          placeholder="Google Maps API failed to load"
           disabled={true}
-          className=&quot;bg-red-50&quot;
+          className="bg-red-50"
         />
       </div>
     );
@@ -425,39 +425,39 @@ export default function PlacesAutocomplete({
 
   return (
     <div className={`${className} relative`}>
-      <div className=&quot;relative&quot;>
-        <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           ref={inputRef}
-          type=&quot;text&quot;
+          type="text"
           placeholder={placeholder}
           value={value}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => value && setPredictions.length > 0 && setIsOpen(true)}
           disabled={!isLoaded || disabled}
-          className=&quot;pl-9&quot;
+          className="pl-9"
         />
         {isSearching && (
-          <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+          <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
         )}
       </div>
 
       {/* Predictions dropdown */}
       {isOpen && predictions.length > 0 && (
-        <div className=&quot;absolute z-10 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg&quot;>
-          <ul className=&quot;py-1&quot;>
+        <div className="absolute z-10 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg">
+          <ul className="py-1">
             {predictions.map((prediction) => (
               <li
                 key={prediction.place_id}
                 onClick={() => {
                   // Set the input value to the prediction immediately for better UX
                   const mainText =
-                    prediction.structured_formatting.main_text || &quot;&quot;;
+                    prediction.structured_formatting.main_text || "";
                   const secondaryText =
-                    prediction.structured_formatting.secondary_text || &quot;&quot;;
+                    prediction.structured_formatting.secondary_text || "";
                   const fullAddress = `${mainText}, ${secondaryText}`;
 
-                  console.log(&quot;Setting value to:&quot;, fullAddress);
+                  console.log("Setting value to:", fullAddress);
                   setValue(fullAddress);
 
                   // Force update the input field immediately
@@ -468,14 +468,14 @@ export default function PlacesAutocomplete({
                   // Then fetch the full details
                   getPlaceDetails(prediction.place_id);
                 }}
-                className=&quot;flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer&quot;
+                className="flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer"
               >
-                <MapPin className=&quot;h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground&quot; />
-                <div className=&quot;flex-1&quot;>
-                  <div className=&quot;text-sm font-medium&quot;>
+                <MapPin className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground" />
+                <div className="flex-1">
+                  <div className="text-sm font-medium">
                     {prediction.structured_formatting.main_text}
                   </div>
-                  <div className=&quot;text-xs text-muted-foreground">
+                  <div className="text-xs text-muted-foreground">
                     {prediction.structured_formatting.secondary_text}
                   </div>
                 </div>

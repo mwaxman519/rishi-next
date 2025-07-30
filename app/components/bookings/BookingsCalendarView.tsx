@@ -1,14 +1,14 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 import {
   Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
-} from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Card, CardContent } from &quot;@/components/ui/card&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   format,
   startOfMonth,
@@ -20,8 +20,8 @@ import {
   isSameDay,
   addMonths,
   subMonths,
-} from &quot;date-fns&quot;;
-import Link from &quot;next/link&quot;;
+} from "date-fns";
+import Link from "next/link";
 
 interface Booking {
   id: string;
@@ -40,12 +40,12 @@ interface BookingsCalendarViewProps {
 
 // Activity status color mapper
 const activityStatusColorMapper: Record<string, string> = {
-  draft: &quot;bg-gray-200 text-gray-800&quot;,
-  pending: &quot;bg-amber-100 text-amber-800&quot;,
-  approved: &quot;bg-emerald-100 text-emerald-800&quot;,
-  in_progress: &quot;bg-blue-100 text-blue-800&quot;,
-  completed: &quot;bg-purple-100 text-purple-800&quot;,
-  cancelled: &quot;bg-red-100 text-red-800&quot;,
+  draft: "bg-gray-200 text-gray-800",
+  pending: "bg-amber-100 text-amber-800",
+  approved: "bg-emerald-100 text-emerald-800",
+  in_progress: "bg-blue-100 text-blue-800",
+  completed: "bg-purple-100 text-purple-800",
+  cancelled: "bg-red-100 text-red-800",
 };
 
 export default function BookingsCalendarView({
@@ -67,8 +67,8 @@ export default function BookingsCalendarView({
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
 
-  const dateFormat = &quot;d&quot;;
-  const monthFormat = &quot;MMMM yyyy&quot;;
+  const dateFormat = "d";
+  const monthFormat = "MMMM yyyy";
 
   const days = eachDayOfInterval({ start: startDate, end: endDate });
 
@@ -78,38 +78,38 @@ export default function BookingsCalendarView({
   );
 
   return (
-    <div className=&quot;flex flex-col h-full&quot;>
-      <div className=&quot;flex items-center justify-between p-4 border-b&quot;>
-        <h2 className=&quot;font-semibold&quot;>{format(currentMonth, monthFormat)}</h2>
-        <div className=&quot;flex gap-1&quot;>
-          <Button size=&quot;icon&quot; variant=&quot;ghost&quot; onClick={handlePreviousMonth}>
-            <ChevronLeft className=&quot;h-4 w-4&quot; />
+    <div className="flex flex-col h-full">
+      <div className="flex items-center justify-between p-4 border-b">
+        <h2 className="font-semibold">{format(currentMonth, monthFormat)}</h2>
+        <div className="flex gap-1">
+          <Button size="icon" variant="ghost" onClick={handlePreviousMonth}>
+            <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
-            size=&quot;icon&quot;
-            variant=&quot;ghost&quot;
+            size="icon"
+            variant="ghost"
             onClick={() => setCurrentMonth(new Date())}
           >
-            <CalendarIcon className=&quot;h-4 w-4&quot; />
+            <CalendarIcon className="h-4 w-4" />
           </Button>
-          <Button size=&quot;icon&quot; variant=&quot;ghost&quot; onClick={handleNextMonth}>
-            <ChevronRight className=&quot;h-4 w-4&quot; />
+          <Button size="icon" variant="ghost" onClick={handleNextMonth}>
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      <div className=&quot;grid grid-cols-7 text-center border-b&quot;>
-        {[&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;].map((day) => (
+      <div className="grid grid-cols-7 text-center border-b">
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             key={day}
-            className=&quot;py-2 font-medium text-sm text-muted-foreground&quot;
+            className="py-2 font-medium text-sm text-muted-foreground"
           >
             {day}
           </div>
         ))}
       </div>
 
-      <div className=&quot;grid grid-cols-7 flex-grow text-sm&quot;>
+      <div className="grid grid-cols-7 flex-grow text-sm">
         {days.map((day, index) => {
           const dateBookings = bookings.filter((booking) =>
             isSameDay(booking.startDate, day),
@@ -124,46 +124,46 @@ export default function BookingsCalendarView({
               key={index}
               className={`
                 min-h-[100px] p-1 border-r border-b relative 
-                ${!isCurrentMonth ? &quot;bg-muted/30 text-muted-foreground&quot; : "&quot;} 
-                ${isToday ? &quot;bg-muted/50&quot; : &quot;&quot;} 
-                ${isSelected ? &quot;ring-2 ring-inset ring-primary&quot; : &quot;&quot;}
+                ${!isCurrentMonth ? "bg-muted/30 text-muted-foreground" : ""} 
+                ${isToday ? "bg-muted/50" : ""} 
+                ${isSelected ? "ring-2 ring-inset ring-primary" : ""}
               `}
               onClick={() => setSelectedDate(day)}
             >
-              <div className=&quot;text-right p-1&quot;>
+              <div className="text-right p-1">
                 <span
                   className={`
                     text-xs inline-flex items-center justify-center h-6 w-6 rounded-full 
-                    ${isToday ? &quot;bg-primary text-primary-foreground font-semibold&quot; : &quot;&quot;}
+                    ${isToday ? "bg-primary text-primary-foreground font-semibold" : ""}
                   `}
                 >
                   {format(day, dateFormat)}
                 </span>
               </div>
 
-              <div className=&quot;mt-1 space-y-1 max-h-[80px] overflow-y-auto&quot;>
+              <div className="mt-1 space-y-1 max-h-[80px] overflow-y-auto">
                 {dateBookings.length > 0
                   ? dateBookings.slice(0, 3).map((booking) => (
                       <Link
                         key={booking.id}
                         href={`/bookings/${booking.id}`}
-                        className=&quot;block&quot;
+                        className="block"
                       >
                         <div
                           className={`
                           text-xs px-1 py-0.5 rounded truncate 
-                          ${activityStatusColorMapper[booking.activityStatus] || &quot;bg-gray-100&quot;}
+                          ${activityStatusColorMapper[booking.activityStatus] || "bg-gray-100"}
                           hover:brightness-95 transition-all
                         `}
                         >
-                          {format(booking.startDate, &quot;h:mm a&quot;)} {booking.title}
+                          {format(booking.startDate, "h:mm a")} {booking.title}
                         </div>
                       </Link>
                     ))
                   : null}
 
                 {dateBookings.length > 3 && (
-                  <div className=&quot;text-xs text-center text-muted-foreground px-1&quot;>
+                  <div className="text-xs text-center text-muted-foreground px-1">
                     +{dateBookings.length - 3} more
                   </div>
                 )}
@@ -175,33 +175,33 @@ export default function BookingsCalendarView({
 
       {/* Selected Date Details */}
       {selectedDateBookings.length > 0 && (
-        <div className=&quot;border-t p-4&quot;>
-          <h3 className=&quot;font-medium mb-2&quot;>
-            {format(selectedDate, &quot;EEEE, MMMM d, yyyy&quot;)}
+        <div className="border-t p-4">
+          <h3 className="font-medium mb-2">
+            {format(selectedDate, "EEEE, MMMM d, yyyy")}
           </h3>
-          <div className=&quot;space-y-2&quot;>
+          <div className="space-y-2">
             {selectedDateBookings.map((booking) => (
-              <Card key={booking.id} className=&quot;overflow-hidden&quot;>
-                <CardContent className=&quot;p-3&quot;>
-                  <div className=&quot;flex justify-between&quot;>
+              <Card key={booking.id} className="overflow-hidden">
+                <CardContent className="p-3">
+                  <div className="flex justify-between">
                     <div>
                       <Link
                         href={`/bookings/${booking.id}`}
-                        className=&quot;font-medium hover:text-primary transition-colors&quot;
+                        className="font-medium hover:text-primary transition-colors"
                       >
                         {booking.title}
                       </Link>
-                      <div className=&quot;text-sm text-muted-foreground&quot;>
-                        {format(booking.startDate, &quot;h:mm a&quot;)} -{&quot; &quot;}
-                        {format(booking.endDate, &quot;h:mm a&quot;)}
+                      <div className="text-sm text-muted-foreground">
+                        {format(booking.startDate, "h:mm a")} -{" "}
+                        {format(booking.endDate, "h:mm a")}
                         {booking.location && <span> • {booking.location}</span>}
                       </div>
                     </div>
                     <Badge
-                      variant=&quot;outline&quot;
+                      variant="outline"
                       className={`
                         text-xs px-2 py-0.5 h-5 
-                        ${activityStatusColorMapper[booking.activityStatus] || &quot;bg-gray-100"}
+                        ${activityStatusColorMapper[booking.activityStatus] || "bg-gray-100"}
                       `}
                     >
                       {booking.activityStatus}

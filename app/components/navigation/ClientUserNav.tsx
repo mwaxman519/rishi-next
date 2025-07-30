@@ -1,4 +1,4 @@
-import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
+import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   LayoutDashboard,
   Calendar,
@@ -10,69 +10,69 @@ import {
   BarChart,
   Briefcase,
   CreditCard,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 /**
  * Desktop navigation items for Client Users
  */
 export const CLIENT_USER_NAV: NavItem[] = [
   {
-    label: &quot;Dashboard&quot;,
-    path: &quot;/dashboard&quot;,
+    label: "Dashboard",
+    path: "/dashboard",
     icon: <LayoutDashboard size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Schedule&quot;,
-    path: &quot;/schedule&quot;,
+    label: "Schedule",
+    path: "/schedule",
     icon: <Calendar size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Events&quot;,
-    path: &quot;/events&quot;,
+    label: "Events",
+    path: "/events",
     icon: <Clock size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Requests&quot;,
-    path: &quot;/requests&quot;,
+    label: "Requests",
+    path: "/requests",
     icon: <CheckSquare size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Products&quot;,
-    path: &quot;/products&quot;,
+    label: "Products",
+    path: "/products",
     icon: <Briefcase size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Locations&quot;,
-    path: &quot;/locations&quot;,
+    label: "Locations",
+    path: "/locations",
     icon: <MapPin size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Billing&quot;,
-    path: &quot;/billing&quot;,
+    label: "Billing",
+    path: "/billing",
     icon: <CreditCard size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Analytics&quot;,
-    path: &quot;/analytics&quot;,
+    label: "Analytics",
+    path: "/analytics",
     icon: <BarChart size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: &quot;Documentation&quot;,
-    path: &quot;/docs&quot;,
+    label: "Documentation",
+    path: "/docs",
     icon: <FileText size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
   {
-    label: &quot;Settings&quot;,
-    path: &quot;/profile/settings&quot;,
+    label: "Settings",
+    path: "/profile/settings",
     icon: <Settings size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
@@ -83,14 +83,14 @@ export const CLIENT_USER_NAV: NavItem[] = [
  */
 export const CLIENT_USER_SECONDARY_NAV: NavItem[] = [
   {
-    label: &quot;Documentation&quot;,
-    path: &quot;/docs&quot;,
+    label: "Documentation",
+    path: "/docs",
     icon: <FileText size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
   {
-    label: &quot;Profile Settings&quot;,
-    path: &quot;/profile/settings&quot;,
+    label: "Profile Settings",
+    path: "/profile/settings",
     icon: <Settings size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },

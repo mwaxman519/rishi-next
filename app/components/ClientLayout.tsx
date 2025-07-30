@@ -1,12 +1,12 @@
-&quot;use client&quot;;
+"use client";
 
-import { Providers } from &quot;../providers&quot;;
-import { EnvironmentIndicator } from &quot;./ui/environment-indicator&quot;;
-import { Toaster } from &quot;@/components/ui/toaster&quot;;
-import ResponsiveLayout from &quot;./layout/ResponsiveLayout&quot;;
-import IframeCompatibility from &quot;./IframeCompatibility&quot;;
-import OfflineStatus from &quot;./OfflineStatus&quot;;
-import OfflineDataManager from &quot;./OfflineDataManager&quot;;
+import { Providers } from "../providers";
+import { EnvironmentIndicator } from "./ui/environment-indicator";
+import { Toaster } from "@/components/ui/toaster";
+import ResponsiveLayout from "./layout/ResponsiveLayout";
+import IframeCompatibility from "./IframeCompatibility";
+import OfflineStatus from "./OfflineStatus";
+import OfflineDataManager from "./OfflineDataManager";
 
 interface ClientLayoutProps {
   children: React.ReactNode;

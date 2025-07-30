@@ -1,34 +1,34 @@
-import { useState } from &quot;react&quot;;
+import { useState } from "react";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("&quot;);
-  const [password, setPassword] = useState(&quot;&quot;);
-  const [error, setError] = useState(&quot;&quot;);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(&quot;&quot;);
+    setError("");
     setIsLoading(true);
 
     try {
       // Direct API call without router for static export
-      const response = await fetch(&quot;/api/auth/login&quot;, {
-        method: &quot;POST&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
       if (response.ok) {
         // Direct navigation for static export
-        window.location.href = &quot;/dashboard&quot;;
+        window.location.href = "/dashboard";
       } else {
         const data = await response.json().catch(() => ({}));
-        setError(data.message || &quot;Login failed. Please check your credentials.&quot;);
+        setError(data.message || "Login failed. Please check your credentials.");
       }
     } catch (err) {
-      setError(&quot;An unexpected error occurred. Please try again.&quot;);
-      console.error(&quot;Login error:&quot;, err);
+      setError("An unexpected error occurred. Please try again.");
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }
@@ -76,7 +76,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
-            <label htmlFor=&quot;username&quot; style={{ 
+            <label htmlFor="username" style={{ 
               display: 'block', 
               fontSize: '0.875rem', 
               fontWeight: '500', 
@@ -86,9 +86,9 @@ export default function LoginPage() {
               Username
             </label>
             <input
-              id=&quot;username&quot;
-              name=&quot;username&quot;
-              type=&quot;text&quot;
+              id="username"
+              name="username"
+              type="text"
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -105,7 +105,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label htmlFor=&quot;password&quot; style={{ 
+            <label htmlFor="password" style={{ 
               display: 'block', 
               fontSize: '0.875rem', 
               fontWeight: '500', 
@@ -115,9 +115,9 @@ export default function LoginPage() {
               Password
             </label>
             <input
-              id=&quot;password&quot;
-              name=&quot;password&quot;
-              type=&quot;password&quot;
+              id="password"
+              name="password"
+              type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -134,7 +134,7 @@ export default function LoginPage() {
           </div>
 
           <button
-            type=&quot;submit&quot;
+            type="submit"
             disabled={isLoading}
             style={{
               width: '100%',
@@ -149,7 +149,7 @@ export default function LoginPage() {
               marginTop: '0.5rem'
             }}
           >
-            {isLoading ? &quot;Signing In...&quot; : &quot;Sign In"}
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
       </div>

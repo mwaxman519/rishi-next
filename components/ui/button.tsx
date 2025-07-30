@@ -1,34 +1,34 @@
-import * as React from &quot;react&quot;
-import { Slot } from &quot;@radix-ui/react-slot&quot;
-import { cva, type VariantProps } from &quot;class-variance-authority&quot;
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from &quot;@/lib/utils&quot;
+import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  &quot;inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50&quot;,
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: &quot;bg-primary text-primary-foreground hover:bg-primary/90&quot;,
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
-          &quot;bg-destructive text-destructive-foreground hover:bg-destructive/90&quot;,
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          &quot;border border-input bg-background hover:bg-accent hover:text-accent-foreground&quot;,
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:
-          &quot;bg-secondary text-secondary-foreground hover:bg-secondary/80&quot;,
-        ghost: &quot;hover:bg-accent hover:text-accent-foreground&quot;,
-        link: &quot;text-primary underline-offset-4 hover:underline&quot;,
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: &quot;h-10 px-4 py-2&quot;,
-        sm: &quot;h-9 rounded-md px-3&quot;,
-        lg: &quot;h-11 rounded-md px-8&quot;,
-        icon: &quot;h-10 w-10&quot;,
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
-      variant: &quot;default&quot;,
-      size: &quot;default&quot;,
+      variant: "default",
+      size: "default",
     },
   }
 )
@@ -41,7 +41,7 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : &quot;button&quot;
+    const Comp = asChild ? Slot : "button"
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -51,6 +51,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     )
   }
 )
-Button.displayName = &quot;Button&quot;
+Button.displayName = "Button"
 
 export { Button, buttonVariants }

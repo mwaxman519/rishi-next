@@ -1,5 +1,5 @@
-import { KitDTO, KitTemplateDTO } from &quot;./types&quot;;
-import { KitRepository } from &quot;./repository&quot;;
+import { KitDTO, KitTemplateDTO } from "./types";
+import { KitRepository } from "./repository";
 
 /**
  * Kit Service - Business logic layer for kit management
@@ -111,7 +111,7 @@ export class KitService {
   async updateStockLevel(kitId: string, quantity: number): Promise<void> {
     const kit = await this.repository.findKitById(kitId);
     if (!kit) {
-      throw new Error(&quot;Kit not found&quot;);
+      throw new Error("Kit not found");
     }
 
     await this.repository.updateKit(kitId, {
@@ -125,7 +125,7 @@ export class KitService {
    */
   async requestApproval(kitId: string, requestedById: string): Promise<KitDTO> {
     return this.repository.updateKit(kitId, {
-      status: &quot;pending_approval&quot;,
+      status: "pending_approval",
       requested_by_id: requestedById,
       requested_at: new Date(),
     });
@@ -136,7 +136,7 @@ export class KitService {
    */
   async approveKit(kitId: string, approvedById: string): Promise<KitDTO> {
     return this.repository.updateKit(kitId, {
-      status: &quot;active&quot;,
+      status: "active",
       approved_by_id: approvedById,
       approved_at: new Date(),
     });
@@ -147,7 +147,7 @@ export class KitService {
    */
   async rejectKit(kitId: string, rejectedById: string, reason?: string): Promise<KitDTO> {
     return this.repository.updateKit(kitId, {
-      status: &quot;inactive&quot;,
+      status: "inactive",
       approved_by_id: rejectedById,
       approved_at: new Date(),
       notes: reason,

@@ -4,8 +4,8 @@
  * Aligned with platform architecture patterns
  */
 
-import { KitRepository } from &quot;./repository&quot;;
-import { kitEventPublisher } from &quot;./events&quot;;
+import { KitRepository } from "./repository";
+import { kitEventPublisher } from "./events";
 import {
   KitDTO,
   CreateKitParams,
@@ -17,7 +17,7 @@ import {
   createKitSchema,
   updateKitSchema,
   KitStatus,
-} from &quot;./models&quot;;
+} from "./models";
 
 export interface ServiceResponse<T> {
   success: boolean;
@@ -58,11 +58,11 @@ export class KitsService {
         data: kits,
       };
     } catch (error) {
-      console.error(&quot;KitsService.getAllKits error:&quot;, error);
+      console.error("KitsService.getAllKits error:", error);
       return {
         success: false,
-        error: &quot;Failed to get kits&quot;,
-        code: &quot;GET_KITS_FAILED&quot;,
+        error: "Failed to get kits",
+        code: "GET_KITS_FAILED",
       };
     }
   }
@@ -82,8 +82,8 @@ export class KitsService {
       if (!kit) {
         return {
           success: false,
-          error: &quot;Kit not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Kit not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -91,8 +91,8 @@ export class KitsService {
       if (!this.hasKitAccess(kit, requestingUserId, userRole, organizationId)) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -104,8 +104,8 @@ export class KitsService {
       console.error(`KitsService.getKitById error for ID ${id}:`, error);
       return {
         success: false,
-        error: &quot;Failed to get kit&quot;,
-        code: &quot;GET_KIT_FAILED&quot;,
+        error: "Failed to get kit",
+        code: "GET_KIT_FAILED",
       };
     }
   }
@@ -137,11 +137,11 @@ export class KitsService {
         data: kit,
       };
     } catch (error) {
-      console.error(&quot;KitsService.createKit error:&quot;, error);
+      console.error("KitsService.createKit error:", error);
       return {
         success: false,
-        error: &quot;Failed to create kit&quot;,
-        code: &quot;CREATE_FAILED&quot;,
+        error: "Failed to create kit",
+        code: "CREATE_FAILED",
       };
     }
   }
@@ -162,8 +162,8 @@ export class KitsService {
       if (!existingKit) {
         return {
           success: false,
-          error: &quot;Kit not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Kit not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -178,8 +178,8 @@ export class KitsService {
       ) {
         return {
           success: false,
-          error: &quot;Access denied&quot;,
-          code: &quot;ACCESS_DENIED&quot;,
+          error: "Access denied",
+          code: "ACCESS_DENIED",
         };
       }
 
@@ -205,8 +205,8 @@ export class KitsService {
       console.error(`KitsService.updateKit error for ID ${id}:`, error);
       return {
         success: false,
-        error: &quot;Failed to update kit&quot;,
-        code: &quot;UPDATE_FAILED&quot;,
+        error: "Failed to update kit",
+        code: "UPDATE_FAILED",
       };
     }
   }
@@ -225,8 +225,8 @@ export class KitsService {
       if (!this.hasAssignmentPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Insufficient permissions for kit assignment&quot;,
-          code: &quot;ASSIGNMENT_PERMISSION_DENIED&quot;,
+          error: "Insufficient permissions for kit assignment",
+          code: "ASSIGNMENT_PERMISSION_DENIED",
         };
       }
 
@@ -235,8 +235,8 @@ export class KitsService {
       if (!existingKit) {
         return {
           success: false,
-          error: &quot;Kit not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Kit not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -244,8 +244,8 @@ export class KitsService {
       if (existingKit.status !== KitStatus.AVAILABLE) {
         return {
           success: false,
-          error: &quot;Kit is not available for assignment&quot;,
-          code: &quot;KIT_NOT_AVAILABLE&quot;,
+          error: "Kit is not available for assignment",
+          code: "KIT_NOT_AVAILABLE",
         };
       }
 
@@ -274,11 +274,11 @@ export class KitsService {
         data: assignedKit,
       };
     } catch (error) {
-      console.error(&quot;KitsService.assignKit error:&quot;, error);
+      console.error("KitsService.assignKit error:", error);
       return {
         success: false,
-        error: &quot;Failed to assign kit&quot;,
-        code: &quot;ASSIGNMENT_FAILED&quot;,
+        error: "Failed to assign kit",
+        code: "ASSIGNMENT_FAILED",
       };
     }
   }
@@ -297,8 +297,8 @@ export class KitsService {
       if (!this.hasAssignmentPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Insufficient permissions for kit unassignment&quot;,
-          code: &quot;UNASSIGNMENT_PERMISSION_DENIED&quot;,
+          error: "Insufficient permissions for kit unassignment",
+          code: "UNASSIGNMENT_PERMISSION_DENIED",
         };
       }
 
@@ -307,8 +307,8 @@ export class KitsService {
       if (!existingKit) {
         return {
           success: false,
-          error: &quot;Kit not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Kit not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -339,11 +339,11 @@ export class KitsService {
         data: unassignedKit,
       };
     } catch (error) {
-      console.error(&quot;KitsService.unassignKit error:&quot;, error);
+      console.error("KitsService.unassignKit error:", error);
       return {
         success: false,
-        error: &quot;Failed to unassign kit&quot;,
-        code: &quot;UNASSIGNMENT_FAILED&quot;,
+        error: "Failed to unassign kit",
+        code: "UNASSIGNMENT_FAILED",
       };
     }
   }
@@ -363,8 +363,8 @@ export class KitsService {
       if (!existingKit) {
         return {
           success: false,
-          error: &quot;Kit not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Kit not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -374,8 +374,8 @@ export class KitsService {
       ) {
         return {
           success: false,
-          error: &quot;Kit cannot be checked out in current status&quot;,
-          code: &quot;INVALID_CHECKOUT_STATUS&quot;,
+          error: "Kit cannot be checked out in current status",
+          code: "INVALID_CHECKOUT_STATUS",
         };
       }
 
@@ -404,11 +404,11 @@ export class KitsService {
         data: checkedOutKit,
       };
     } catch (error) {
-      console.error(&quot;KitsService.checkoutKit error:&quot;, error);
+      console.error("KitsService.checkoutKit error:", error);
       return {
         success: false,
-        error: &quot;Failed to check out kit&quot;,
-        code: &quot;CHECKOUT_FAILED&quot;,
+        error: "Failed to check out kit",
+        code: "CHECKOUT_FAILED",
       };
     }
   }
@@ -428,8 +428,8 @@ export class KitsService {
       if (!existingKit) {
         return {
           success: false,
-          error: &quot;Kit not found&quot;,
-          code: &quot;NOT_FOUND&quot;,
+          error: "Kit not found",
+          code: "NOT_FOUND",
         };
       }
 
@@ -437,8 +437,8 @@ export class KitsService {
       if (existingKit.status !== KitStatus.CHECKED_OUT) {
         return {
           success: false,
-          error: &quot;Kit is not checked out&quot;,
-          code: &quot;INVALID_CHECKIN_STATUS&quot;,
+          error: "Kit is not checked out",
+          code: "INVALID_CHECKIN_STATUS",
         };
       }
 
@@ -446,7 +446,7 @@ export class KitsService {
 
       // Determine new status based on condition
       const newStatus =
-        checkin.condition === &quot;damaged&quot;
+        checkin.condition === "damaged"
           ? KitStatus.DAMAGED
           : KitStatus.AVAILABLE;
 
@@ -475,12 +475,12 @@ export class KitsService {
       }
 
       // If damaged, publish damage event
-      if (checkin.condition === &quot;damaged&quot;) {
+      if (checkin.condition === "damaged") {
         await kitEventPublisher.publishKitDamaged(
           checkedInKit,
           checkedInBy,
-          checkin.notes || &quot;Damage reported during check-in&quot;,
-          &quot;minor&quot;, // Default damage level
+          checkin.notes || "Damage reported during check-in",
+          "minor", // Default damage level
           organizationId,
         );
       }
@@ -490,11 +490,11 @@ export class KitsService {
         data: checkedInKit,
       };
     } catch (error) {
-      console.error(&quot;KitsService.checkinKit error:&quot;, error);
+      console.error("KitsService.checkinKit error:", error);
       return {
         success: false,
-        error: &quot;Failed to check in kit&quot;,
-        code: &quot;CHECKIN_FAILED&quot;,
+        error: "Failed to check in kit",
+        code: "CHECKIN_FAILED",
       };
     }
   }
@@ -513,8 +513,8 @@ export class KitsService {
       if (!this.hasComponentPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Insufficient permissions for component management&quot;,
-          code: &quot;COMPONENT_PERMISSION_DENIED&quot;,
+          error: "Insufficient permissions for component management",
+          code: "COMPONENT_PERMISSION_DENIED",
         };
       }
 
@@ -534,11 +534,11 @@ export class KitsService {
         data: true,
       };
     } catch (error) {
-      console.error(&quot;KitsService.addComponent error:&quot;, error);
+      console.error("KitsService.addComponent error:", error);
       return {
         success: false,
-        error: &quot;Failed to add component&quot;,
-        code: &quot;ADD_COMPONENT_FAILED&quot;,
+        error: "Failed to add component",
+        code: "ADD_COMPONENT_FAILED",
       };
     }
   }
@@ -558,8 +558,8 @@ export class KitsService {
       if (!this.hasComponentPermissions(userRole)) {
         return {
           success: false,
-          error: &quot;Insufficient permissions for component management&quot;,
-          code: &quot;COMPONENT_PERMISSION_DENIED&quot;,
+          error: "Insufficient permissions for component management",
+          code: "COMPONENT_PERMISSION_DENIED",
         };
       }
 
@@ -579,11 +579,11 @@ export class KitsService {
         data: true,
       };
     } catch (error) {
-      console.error(&quot;KitsService.removeComponent error:&quot;, error);
+      console.error("KitsService.removeComponent error:", error);
       return {
         success: false,
-        error: &quot;Failed to remove component&quot;,
-        code: &quot;REMOVE_COMPONENT_FAILED&quot;,
+        error: "Failed to remove component",
+        code: "REMOVE_COMPONENT_FAILED",
       };
     }
   }
@@ -598,7 +598,7 @@ export class KitsService {
     organizationId: string,
   ): Record<string, any> {
     switch (userRole) {
-      case &quot;brand_agent&quot;:
+      case "brand_agent":
         // Brand agents can only see kits assigned to them or available kits
         return {
           ...filters,
@@ -609,15 +609,15 @@ export class KitsService {
           ],
         };
 
-      case &quot;internal_field_manager&quot;:
-      case &quot;organization_admin&quot;:
+      case "internal_field_manager":
+      case "organization_admin":
         // Field managers and org admins can see organization kits
         return {
           ...filters,
           organizationId,
         };
 
-      case &quot;super_admin&quot;:
+      case "super_admin":
         // Super admins can see all kits
         return filters;
 
@@ -641,19 +641,19 @@ export class KitsService {
     organizationId: string,
   ): boolean {
     switch (userRole) {
-      case &quot;brand_agent&quot;:
+      case "brand_agent":
         // Brand agents can access kits assigned to them or available kits
         return (
           kit.assignedTo === requestingUserId ||
           kit.status === KitStatus.AVAILABLE
         );
 
-      case &quot;internal_field_manager&quot;:
-      case &quot;organization_admin&quot;:
+      case "internal_field_manager":
+      case "organization_admin":
         // Field managers and org admins can access organization kits
         return true;
 
-      case &quot;super_admin&quot;:
+      case "super_admin":
         return true;
 
       default:
@@ -671,9 +671,9 @@ export class KitsService {
     organizationId: string,
   ): boolean {
     return [
-      &quot;internal_field_manager&quot;,
-      &quot;organization_admin&quot;,
-      &quot;super_admin&quot;,
+      "internal_field_manager",
+      "organization_admin",
+      "super_admin",
     ].includes(userRole);
   }
 
@@ -682,9 +682,9 @@ export class KitsService {
    */
   private hasAssignmentPermissions(userRole: string): boolean {
     return [
-      &quot;internal_field_manager&quot;,
-      &quot;organization_admin&quot;,
-      &quot;super_admin&quot;,
+      "internal_field_manager",
+      "organization_admin",
+      "super_admin",
     ].includes(userRole);
   }
 
@@ -693,9 +693,9 @@ export class KitsService {
    */
   private hasComponentPermissions(userRole: string): boolean {
     return [
-      &quot;internal_field_manager&quot;,
-      &quot;organization_admin&quot;,
-      &quot;super_admin&quot;,
+      "internal_field_manager",
+      "organization_admin",
+      "super_admin",
     ].includes(userRole);
   }
 }

@@ -1,6 +1,6 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
@@ -11,15 +11,15 @@ export const revalidate = false;
  * The users are filtered by the organization ID in the URL.
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { getCurrentUser } from &quot;@/lib/auth&quot;;
-import { db } from &quot;@/lib/db&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+import { db } from "@/lib/db";
 import {
   organizations,
   users,
   organizationUsers,
-} from &quot;@/shared/schema&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
+} from "@/shared/schema";
+import { eq, and } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
@@ -29,13 +29,13 @@ export async function GET(
     // Get authenticated user
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const organizationId = parseInt(params.id, 10);
     if (isNaN(organizationId)) {
       return NextResponse.json(
-        { error: &quot;Invalid organization ID&quot; },
+        { error: "Invalid organization ID" },
         { status: 400 },
       );
     }
@@ -54,7 +54,7 @@ export async function GET(
 
     if (!userOrg || userOrg.organizationUsers.length === 0) {
       return NextResponse.json(
-        { error: &quot;Access denied to this organization&quot; },
+        { error: "Access denied to this organization" },
         { status: 403 },
       );
     }
@@ -76,9 +76,9 @@ export async function GET(
       users: organizationUsersWithDetails,
     });
   } catch (error) {
-    console.error(&quot;Error fetching organization users:&quot;, error);
+    console.error("Error fetching organization users:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch organization users&quot; },
+      { error: "Failed to fetch organization users" },
       { status: 500 },
     );
   }

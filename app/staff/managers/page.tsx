@@ -1,17 +1,17 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Avatar, AvatarFallback } from &quot;@/components/ui/avatar&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Search,
   Plus,
@@ -25,76 +25,76 @@ import {
   Mail,
   MessageSquare,
   MoreVertical,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 // Authentic field managers data with UUID format following architectural guidelines
 const fieldManagers = [
   {
-    id: &quot;550e8400-e29b-41d4-a716-446655440001&quot;,
-    name: &quot;Sarah Johnson&quot;,
-    email: &quot;sarah.johnson@company.com&quot;,
-    phone: &quot;+1 (555) 123-4567&quot;,
-    region: &quot;North Region&quot;,
+    id: "550e8400-e29b-41d4-a716-446655440001",
+    name: "Sarah Johnson",
+    email: "sarah.johnson@company.com",
+    phone: "+1 (555) 123-4567",
+    region: "North Region",
     teamsManaged: 12,
     activeEvents: 5,
     completionRate: 94,
     rating: 4.8,
-    status: &quot;active&quot;,
-    lastActive: &quot;2025-06-17T10:30:00Z&quot;,
-    joinDate: &quot;2024-03-15&quot;,
+    status: "active",
+    lastActive: "2025-06-17T10:30:00Z",
+    joinDate: "2024-03-15",
     specializations: [
-      &quot;Event Management&quot;,
-      &quot;Team Leadership&quot;,
-      &quot;Client Relations&quot;,
+      "Event Management",
+      "Team Leadership",
+      "Client Relations",
     ],
-    recentActivity: &quot;Completed venue setup for TechHub launch event&quot;,
+    recentActivity: "Completed venue setup for TechHub launch event",
   },
   {
-    id: &quot;550e8400-e29b-41d4-a716-446655440002&quot;,
-    name: &quot;Michael Chen&quot;,
-    email: &quot;michael.chen@company.com&quot;,
-    phone: &quot;+1 (555) 234-5678&quot;,
-    region: &quot;South Region&quot;,
+    id: "550e8400-e29b-41d4-a716-446655440002",
+    name: "Michael Chen",
+    email: "michael.chen@company.com",
+    phone: "+1 (555) 234-5678",
+    region: "South Region",
     teamsManaged: 8,
     activeEvents: 3,
     completionRate: 96,
     rating: 4.9,
-    status: &quot;active&quot;,
-    lastActive: &quot;2025-06-17T09:15:00Z&quot;,
-    joinDate: &quot;2024-01-20&quot;,
+    status: "active",
+    lastActive: "2025-06-17T09:15:00Z",
+    joinDate: "2024-01-20",
     specializations: [
-      &quot;Training Programs&quot;,
-      &quot;Quality Assurance&quot;,
-      &quot;Performance Optimization&quot;,
+      "Training Programs",
+      "Quality Assurance",
+      "Performance Optimization",
     ],
-    recentActivity: &quot;Completed training session for new brand agents&quot;,
+    recentActivity: "Completed training session for new brand agents",
   },
   {
-    id: &quot;550e8400-e29b-41d4-a716-446655440003&quot;,
-    name: &quot;Lisa Rodriguez&quot;,
-    email: &quot;lisa.rodriguez@company.com&quot;,
-    phone: &quot;+1 (555) 345-6789&quot;,
-    region: &quot;East Region&quot;,
+    id: "550e8400-e29b-41d4-a716-446655440003",
+    name: "Lisa Rodriguez",
+    email: "lisa.rodriguez@company.com",
+    phone: "+1 (555) 345-6789",
+    region: "East Region",
     teamsManaged: 15,
     activeEvents: 7,
     completionRate: 92,
     rating: 4.7,
-    status: &quot;active&quot;,
-    lastActive: &quot;2025-06-17T11:45:00Z&quot;,
-    joinDate: &quot;2023-11-10&quot;,
+    status: "active",
+    lastActive: "2025-06-17T11:45:00Z",
+    joinDate: "2023-11-10",
     specializations: [
-      &quot;Multi-Site Coordination&quot;,
-      &quot;Brand Activation&quot;,
-      &quot;Crisis Management&quot;,
+      "Multi-Site Coordination",
+      "Brand Activation",
+      "Crisis Management",
     ],
-    recentActivity: &quot;Coordinating summer brand activation campaign&quot;,
+    recentActivity: "Coordinating summer brand activation campaign",
   },
 ];
 
@@ -124,69 +124,69 @@ const FieldManagerCard = ({
 }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case &quot;active&quot;:
-        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
-      case &quot;on_leave&quot;:
-        return &quot;bg-yellow-100 text-yellow-800 border-yellow-200&quot;;
-      case &quot;inactive&quot;:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+      case "active":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "on_leave":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "inactive":
+        return "bg-gray-100 text-gray-800 border-gray-200";
       default:
-        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
   const getInitials = (name: string) => {
     return name
-      .split(&quot; &quot;)
+      .split(" ")
       .map((n) => n[0])
-      .join("&quot;)
+      .join("")
       .toUpperCase();
   };
 
   return (
-    <Card className=&quot;hover:shadow-lg transition-all duration-200&quot;>
-      <CardHeader className=&quot;pb-4&quot;>
-        <div className=&quot;flex items-start justify-between&quot;>
-          <div className=&quot;flex items-center space-x-3&quot;>
-            <Avatar className=&quot;h-12 w-12&quot;>
-              <AvatarFallback className=&quot;bg-blue-100 text-blue-600 font-semibold&quot;>
+    <Card className="hover:shadow-lg transition-all duration-200">
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center space-x-3">
+            <Avatar className="h-12 w-12">
+              <AvatarFallback className="bg-blue-100 text-blue-600 font-semibold">
                 {getInitials(manager.name)}
               </AvatarFallback>
             </Avatar>
             <div>
-              <CardTitle className=&quot;text-lg&quot;>{manager.name}</CardTitle>
-              <CardDescription className=&quot;flex items-center mt-1&quot;>
-                <MapPin className=&quot;h-4 w-4 mr-1&quot; />
+              <CardTitle className="text-lg">{manager.name}</CardTitle>
+              <CardDescription className="flex items-center mt-1">
+                <MapPin className="h-4 w-4 mr-1" />
                 {manager.region}
               </CardDescription>
             </div>
           </div>
-          <div className=&quot;flex items-center space-x-2&quot;>
+          <div className="flex items-center space-x-2">
             <Badge className={`${getStatusColor(manager.status)} border`}>
-              {manager.status.replace(&quot;_&quot;, &quot; &quot;).toUpperCase()}
+              {manager.status.replace("_", " ").toUpperCase()}
             </Badge>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant=&quot;ghost&quot; size=&quot;sm&quot;>
-                  <MoreVertical className=&quot;h-4 w-4&quot; />
+                <Button variant="ghost" size="sm">
+                  <MoreVertical className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => onAction(&quot;view&quot;, manager.id)}>
+                <DropdownMenuItem onClick={() => onAction("view", manager.id)}>
                   View Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => onAction(&quot;message&quot;, manager.id)}
+                  onClick={() => onAction("message", manager.id)}
                 >
                   Send Message
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => onAction(&quot;assign&quot;, manager.id)}
+                  onClick={() => onAction("assign", manager.id)}
                 >
                   Assign Event
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => onAction(&quot;settings&quot;, manager.id)}
+                  onClick={() => onAction("settings", manager.id)}
                 >
                   Settings
                 </DropdownMenuItem>
@@ -196,71 +196,71 @@ const FieldManagerCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className=&quot;space-y-4&quot;>
+      <CardContent className="space-y-4">
         {/* Performance Metrics */}
-        <div className=&quot;grid grid-cols-3 gap-4&quot;>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-2xl font-bold text-blue-600&quot;>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600">
               {manager.teamsManaged}
             </div>
-            <div className=&quot;text-xs text-muted-foreground&quot;>Teams</div>
+            <div className="text-xs text-muted-foreground">Teams</div>
           </div>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-2xl font-bold text-green-600&quot;>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-green-600">
               {manager.activeEvents}
             </div>
-            <div className=&quot;text-xs text-muted-foreground&quot;>Events</div>
+            <div className="text-xs text-muted-foreground">Events</div>
           </div>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;text-2xl font-bold text-purple-600&quot;>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-purple-600">
               {manager.completionRate}%
             </div>
-            <div className=&quot;text-xs text-muted-foreground&quot;>Success</div>
+            <div className="text-xs text-muted-foreground">Success</div>
           </div>
         </div>
 
         {/* Rating */}
-        <div className=&quot;flex items-center justify-center space-x-2 py-2 bg-gray-50 rounded-lg&quot;>
-          <Star className=&quot;h-4 w-4 text-yellow-500 fill-current&quot; />
-          <span className=&quot;font-semibold&quot;>{manager.rating}</span>
-          <span className=&quot;text-sm text-muted-foreground&quot;>rating</span>
+        <div className="flex items-center justify-center space-x-2 py-2 bg-gray-50 rounded-lg">
+          <Star className="h-4 w-4 text-yellow-500 fill-current" />
+          <span className="font-semibold">{manager.rating}</span>
+          <span className="text-sm text-muted-foreground">rating</span>
         </div>
 
         {/* Contact Info */}
-        <div className=&quot;space-y-2&quot;>
-          <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
-            <Mail className=&quot;h-4 w-4 mr-2&quot; />
-            <span className=&quot;truncate&quot;>{manager.email}</span>
+        <div className="space-y-2">
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Mail className="h-4 w-4 mr-2" />
+            <span className="truncate">{manager.email}</span>
           </div>
-          <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
-            <Phone className=&quot;h-4 w-4 mr-2&quot; />
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Phone className="h-4 w-4 mr-2" />
             <span>{manager.phone}</span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className=&quot;flex space-x-2 pt-2&quot;>
+        <div className="flex space-x-2 pt-2">
           <Button
-            size=&quot;sm&quot;
-            className=&quot;flex-1&quot;
-            onClick={() => onAction(&quot;view&quot;, manager.id)}
+            size="sm"
+            className="flex-1"
+            onClick={() => onAction("view", manager.id)}
           >
-            <UserCog className=&quot;h-4 w-4 mr-1&quot; />
+            <UserCog className="h-4 w-4 mr-1" />
             View
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;message&quot;, manager.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("message", manager.id)}
           >
-            <MessageSquare className=&quot;h-4 w-4&quot; />
+            <MessageSquare className="h-4 w-4" />
           </Button>
           <Button
-            size=&quot;sm&quot;
-            variant=&quot;outline&quot;
-            onClick={() => onAction(&quot;assign&quot;, manager.id)}
+            size="sm"
+            variant="outline"
+            onClick={() => onAction("assign", manager.id)}
           >
-            <Calendar className=&quot;h-4 w-4&quot; />
+            <Calendar className="h-4 w-4" />
           </Button>
         </div>
       </CardContent>
@@ -269,8 +269,8 @@ const FieldManagerCard = ({
 };
 
 export default function FieldManagersPage() {
-  const [searchQuery, setSearchQuery] = useState(&quot;&quot;);
-  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const { toast } = useToast();
 
   const filteredManagers = fieldManagers.filter((manager) => {
@@ -279,7 +279,7 @@ export default function FieldManagersPage() {
       manager.region.toLowerCase().includes(searchQuery.toLowerCase()) ||
       manager.email.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus =
-      statusFilter === &quot;all&quot; || manager.status === statusFilter;
+      statusFilter === "all" || manager.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -292,7 +292,7 @@ export default function FieldManagersPage() {
       timestamp: new Date().toISOString(),
       managerId,
       managerName: manager?.name,
-      initiatedBy: &quot;internal_admin&quot;,
+      initiatedBy: "internal_admin",
       metadata: {
         region: manager?.region,
         currentTeams: manager?.teamsManaged,
@@ -300,30 +300,30 @@ export default function FieldManagersPage() {
     };
 
     // In real implementation, this would publish to event bus
-    console.log(&quot;Publishing event:&quot;, eventPayload);
+    console.log("Publishing event:", eventPayload);
 
     switch (action) {
-      case &quot;view&quot;:
+      case "view":
         toast({
-          title: &quot;Opening Profile&quot;,
+          title: "Opening Profile",
           description: `Viewing ${manager?.name}'s detailed profile`,
         });
         break;
-      case &quot;message&quot;:
+      case "message":
         toast({
-          title: &quot;Message Sent&quot;,
+          title: "Message Sent",
           description: `Message initiated with ${manager?.name}`,
         });
         break;
-      case &quot;assign&quot;:
+      case "assign":
         toast({
-          title: &quot;Assignment Panel&quot;,
+          title: "Assignment Panel",
           description: `Opening event assignment for ${manager?.name}`,
         });
         break;
-      case &quot;settings&quot;:
+      case "settings":
         toast({
-          title: &quot;Settings&quot;,
+          title: "Settings",
           description: `Opening settings for ${manager?.name}`,
         });
         break;
@@ -332,7 +332,7 @@ export default function FieldManagersPage() {
 
   const totalManagers = fieldManagers.length;
   const activeManagers = fieldManagers.filter(
-    (m) => m.status === &quot;active&quot;,
+    (m) => m.status === "active",
   ).length;
   const averageRating = (
     fieldManagers.reduce((sum, m) => sum + m.rating, 0) / totalManagers
@@ -340,107 +340,107 @@ export default function FieldManagersPage() {
   const totalTeams = fieldManagers.reduce((sum, m) => sum + m.teamsManaged, 0);
 
   return (
-    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+    <div className="container mx-auto py-6 space-y-6">
       {/* Header */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Field Managers</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold tracking-tight">Field Managers</h1>
+          <p className="text-muted-foreground">
             Manage and oversee field management staff across all regions
           </p>
         </div>
         <Button>
-          <Plus className=&quot;mr-2 h-4 w-4&quot; />
+          <Plus className="mr-2 h-4 w-4" />
           Add Field Manager
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Total Managers
                 </p>
-                <p className=&quot;text-2xl font-bold&quot;>{totalManagers}</p>
+                <p className="text-2xl font-bold">{totalManagers}</p>
               </div>
-              <Users className=&quot;h-8 w-8 text-blue-600&quot; />
+              <Users className="h-8 w-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Active
                 </p>
-                <p className=&quot;text-2xl font-bold text-green-600&quot;>
+                <p className="text-2xl font-bold text-green-600">
                   {activeManagers}
                 </p>
               </div>
-              <TrendingUp className=&quot;h-8 w-8 text-green-600&quot; />
+              <TrendingUp className="h-8 w-8 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Avg Rating
                 </p>
-                <p className=&quot;text-2xl font-bold text-yellow-600&quot;>
+                <p className="text-2xl font-bold text-yellow-600">
                   {averageRating}
                 </p>
               </div>
-              <Star className=&quot;h-8 w-8 text-yellow-600&quot; />
+              <Star className="h-8 w-8 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className=&quot;p-6&quot;>
-            <div className=&quot;flex items-center justify-between&quot;>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
               <div>
-                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                <p className="text-sm font-medium text-muted-foreground">
                   Teams Managed
                 </p>
-                <p className=&quot;text-2xl font-bold text-purple-600&quot;>
+                <p className="text-2xl font-bold text-purple-600">
                   {totalTeams}
                 </p>
               </div>
-              <UserCog className=&quot;h-8 w-8 text-purple-600&quot; />
+              <UserCog className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Search and Filters */}
-      <div className=&quot;flex flex-col sm:flex-row gap-4&quot;>
-        <div className=&quot;relative flex-1&quot;>
-          <Search className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder=&quot;Search managers by name, region, or email...&quot;
+            placeholder="Search managers by name, region, or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className=&quot;pl-10&quot;
+            className="pl-10"
           />
         </div>
-        <div className=&quot;flex gap-2&quot;>
+        <div className="flex gap-2">
           <Button
-            variant={statusFilter === &quot;all&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;all&quot;)}
+            variant={statusFilter === "all" ? "default" : "outline"}
+            onClick={() => setStatusFilter("all")}
           >
             All
           </Button>
           <Button
-            variant={statusFilter === &quot;active&quot; ? &quot;default&quot; : &quot;outline&quot;}
-            onClick={() => setStatusFilter(&quot;active&quot;)}
+            variant={statusFilter === "active" ? "default" : "outline"}
+            onClick={() => setStatusFilter("active")}
           >
             Active
           </Button>
@@ -448,7 +448,7 @@ export default function FieldManagersPage() {
       </div>
 
       {/* Managers Grid */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredManagers.map((manager) => (
           <FieldManagerCard
             key={manager.id}
@@ -459,10 +459,10 @@ export default function FieldManagersPage() {
       </div>
 
       {filteredManagers.length === 0 && (
-        <div className=&quot;text-center py-12&quot;>
-          <UserCog className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
-          <h3 className=&quot;mt-4 text-lg font-medium&quot;>No field managers found</h3>
-          <p className=&quot;mt-2 text-muted-foreground">
+        <div className="text-center py-12">
+          <UserCog className="h-12 w-12 mx-auto text-muted-foreground/50" />
+          <h3 className="mt-4 text-lg font-medium">No field managers found</h3>
+          <p className="mt-2 text-muted-foreground">
             Try adjusting your search criteria or add a new field manager.
           </p>
         </div>

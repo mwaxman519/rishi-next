@@ -1,15 +1,15 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { db, sql } from &quot;@/lib/db&quot;;
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { users, userPermissions } from &quot;@/shared/schema&quot;;
-import { validateRequest } from &quot;@/lib/auth-server&quot;;
-import { getAllRoles } from &quot;@shared/rbac/roles&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { db, sql } from "@/lib/db";
+import { eq, and } from "drizzle-orm";
+import { users, userPermissions } from "@/shared/schema";
+import { validateRequest } from "@/lib/auth-server";
+import { getAllRoles } from "@shared/rbac/roles";
 
 interface PermissionRecord {
   permission: string;
@@ -30,7 +30,7 @@ export async function GET(
     // Authenticated access only
     const user = await validateRequest(request);
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if the requested user exists
@@ -42,7 +42,7 @@ export async function GET(
 
     const userRecord = userRecordResult[0];
     if (!userRecord) {
-      return NextResponse.json({ error: &quot;User not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Get all custom permissions for this user
@@ -57,7 +57,7 @@ export async function GET(
 
     if (!roleDefinition) {
       return NextResponse.json(
-        { error: &quot;Invalid role configuration&quot; },
+        { error: "Invalid role configuration" },
         { status: 500 },
       );
     }
@@ -91,9 +91,9 @@ export async function GET(
       overriddenPermissions,
     });
   } catch (error) {
-    console.error(&quot;Error fetching user permissions:&quot;, error);
+    console.error("Error fetching user permissions:", error);
     return NextResponse.json(
-      { error: &quot;Internal Server Error&quot; },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
@@ -113,12 +113,12 @@ export async function PUT(
     // Authenticated access only
     const user = await validateRequest(request);
     if (!user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if the current user has permission to edit permissions
     if (!user.role || !['super_admin', 'internal_admin'].includes(user.role)) {
-      return NextResponse.json({ error: &quot;Forbidden&quot; }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Check if the requested user exists
@@ -130,7 +130,7 @@ export async function PUT(
 
     const userRecord = userRecordResult[0];
     if (!userRecord) {
-      return NextResponse.json({ error: &quot;User not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     // Get the request body
@@ -139,7 +139,7 @@ export async function PUT(
     // Validate the request
     if (!body.permissions || !Array.isArray(body.permissions)) {
       return NextResponse.json(
-        { error: &quot;Invalid request body&quot; },
+        { error: "Invalid request body" },
         { status: 400 },
       );
     }
@@ -185,9 +185,9 @@ export async function PUT(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(&quot;Error updating user permissions:&quot;, error);
+    console.error("Error updating user permissions:", error);
     return NextResponse.json(
-      { error: &quot;Internal Server Error&quot; },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }

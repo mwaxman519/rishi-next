@@ -4,8 +4,8 @@
  * This module provides utilities for working with organization context in API routes.
  * It helps extract and validate organization context information from request headers.
  */
-import { headers } from &quot;next/headers&quot;;
-import { NextRequest } from &quot;next/server&quot;;
+import { headers } from "next/headers";
+import { NextRequest } from "next/server";
 
 // Define the organization context type
 export interface OrganizationContext {
@@ -23,9 +23,9 @@ export interface OrganizationData {
 }
 
 // Header constants
-export const ORGANIZATION_CONTEXT_HEADER = &quot;X-Organization-ID&quot;;
-export const ORGANIZATION_NAME_HEADER = &quot;X-Organization-Name&quot;;
-export const ORGANIZATION_TYPE_HEADER = &quot;X-Organization-Type&quot;;
+export const ORGANIZATION_CONTEXT_HEADER = "X-Organization-ID";
+export const ORGANIZATION_NAME_HEADER = "X-Organization-Name";
+export const ORGANIZATION_TYPE_HEADER = "X-Organization-Type";
 
 /**
  * Get the organization context from the current request
@@ -46,10 +46,10 @@ export function getOrganizationContext(): OrganizationContext | null {
     }
 
     // Get additional context information
-    const userId = headersList.get(&quot;X-User-ID&quot;) || undefined;
-    const userRole = headersList.get(&quot;X-User-Role&quot;) || undefined;
+    const userId = headersList.get("X-User-ID") || undefined;
+    const userRole = headersList.get("X-User-Role") || undefined;
     const organizationRole =
-      headersList.get(&quot;X-Organization-Role&quot;) || undefined;
+      headersList.get("X-Organization-Role") || undefined;
 
     // Return the organization context
     return {
@@ -59,7 +59,7 @@ export function getOrganizationContext(): OrganizationContext | null {
       organizationRole,
     };
   } catch (error) {
-    console.error(&quot;Error getting organization context:&quot;, error);
+    console.error("Error getting organization context:", error);
     return null;
   }
 }
@@ -89,7 +89,7 @@ export async function getOrganizationHeaderData(
       type,
     };
   } catch (e) {
-    console.error(&quot;Error getting organization header data:&quot;, e);
+    console.error("Error getting organization header data:", e);
     return null;
   }
 }
@@ -108,7 +108,7 @@ export function requireOrganizationContext(): OrganizationContext {
   const context = getOrganizationContext();
 
   if (!context) {
-    throw new Error(&quot;Organization context is required but not available&quot;);
+    throw new Error("Organization context is required but not available");
   }
 
   return context;
@@ -126,18 +126,18 @@ export async function hasOrganizationPermission(
   try {
     const context = getOrganizationContext();
 
-    // If no context is available, the user doesn&apos;t have the permission
+    // If no context is available, the user doesn't have the permission
     if (!context) {
       return false;
     }
 
     // Super admins have all permissions
-    if (context.userRole === &quot;super_admin&quot;) {
+    if (context.userRole === "super_admin") {
       return true;
     }
 
     // In development mode, always grant permissions for testing
-    if ((process.env.NODE_ENV as string) === &quot;development&quot;) {
+    if ((process.env.NODE_ENV as string) === "development") {
       console.log(
         `DEVELOPMENT MODE: Granting permission '${permission}' in organization ${context.organizationId}`,
       );
@@ -148,7 +148,7 @@ export async function hasOrganizationPermission(
     // Production implementation - get organization data from headers
     return false;
   } catch (error) {
-    console.error(&quot;Error checking organization permission:&quot;, error);
+    console.error("Error checking organization permission:", error);
     return false;
   }
 }

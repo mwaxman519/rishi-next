@@ -1,13 +1,13 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
-import { NextResponse } from &quot;next/server&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { items } from &quot;@shared/schema&quot;;
-import { eq } from &quot;drizzle-orm&quot;;
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { items } from "@shared/schema";
+import { eq } from "drizzle-orm";
 
 // GET /api/items/[id] - Get a single item by ID
 export async function GET(
@@ -19,20 +19,20 @@ export async function GET(
     const id = parseInt(params.id);
 
     if (isNaN(id)) {
-      return NextResponse.json({ error: &quot;Invalid item ID&quot; }, { status: 400 });
+      return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
     }
 
     const [item] = await db.select().from(items).where(eq(items.id, id));
 
     if (!item) {
-      return NextResponse.json({ error: &quot;Item not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
     return NextResponse.json(item);
   } catch (error) {
-    console.error(&quot;Failed to fetch item:&quot;, error);
+    console.error("Failed to fetch item:", error);
     return NextResponse.json(
-      { error: &quot;Failed to fetch item&quot; },
+      { error: "Failed to fetch item" },
       { status: 500 },
     );
   }
@@ -48,7 +48,7 @@ export async function PUT(
     const id = parseInt(params.id);
 
     if (isNaN(id)) {
-      return NextResponse.json({ error: &quot;Invalid item ID&quot; }, { status: 400 });
+      return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
     }
 
     const body = await request.json();
@@ -60,7 +60,7 @@ export async function PUT(
       .where(eq(items.id, id));
 
     if (!existingItem) {
-      return NextResponse.json({ error: &quot;Item not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
     // Update the item
@@ -72,9 +72,9 @@ export async function PUT(
 
     return NextResponse.json(updatedItem);
   } catch (error) {
-    console.error(&quot;Failed to update item:&quot;, error);
+    console.error("Failed to update item:", error);
     return NextResponse.json(
-      { error: &quot;Failed to update item&quot; },
+      { error: "Failed to update item" },
       { status: 500 },
     );
   }
@@ -90,7 +90,7 @@ export async function DELETE(
     const id = parseInt(params.id);
 
     if (isNaN(id)) {
-      return NextResponse.json({ error: &quot;Invalid item ID&quot; }, { status: 400 });
+      return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
     }
 
     // Check if item exists
@@ -100,20 +100,20 @@ export async function DELETE(
       .where(eq(items.id, id));
 
     if (!existingItem) {
-      return NextResponse.json({ error: &quot;Item not found&quot; }, { status: 404 });
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
     // Delete the item
     await db.delete(items).where(eq(items.id, id));
 
     return NextResponse.json(
-      { message: &quot;Item deleted successfully&quot; },
+      { message: "Item deleted successfully" },
       { status: 200 },
     );
   } catch (error) {
-    console.error(&quot;Failed to delete item:&quot;, error);
+    console.error("Failed to delete item:", error);
     return NextResponse.json(
-      { error: &quot;Failed to delete item&quot; },
+      { error: "Failed to delete item" },
       { status: 500 },
     );
   }

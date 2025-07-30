@@ -3,18 +3,18 @@
  * Event definitions for microservice communication
  */
 
-import { EventBus } from &quot;../core/EventBus&quot;;
+import { EventBus } from "../core/EventBus";
 
 // Event Bus Instance
 export const locationEventBus = new EventBus();
 
 // Event Types
 export const LOCATION_EVENTS = {
-  CREATED: &quot;location.created&quot;,
-  UPDATED: &quot;location.updated&quot;,
-  APPROVED: &quot;location.approved&quot;,
-  REJECTED: &quot;location.rejected&quot;,
-  DELETED: &quot;location.deleted&quot;,
+  CREATED: "location.created",
+  UPDATED: "location.updated",
+  APPROVED: "location.approved",
+  REJECTED: "location.rejected",
+  DELETED: "location.deleted",
 } as const;
 
 // Event Interfaces
@@ -114,8 +114,8 @@ export class LocationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;location-service&quot;,
+        version: "1.0",
+        source: "location-service",
       },
     };
 
@@ -139,8 +139,8 @@ export class LocationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;location-service&quot;,
+        version: "1.0",
+        source: "location-service",
       },
     };
 
@@ -162,8 +162,8 @@ export class LocationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;location-service&quot;,
+        version: "1.0",
+        source: "location-service",
       },
     };
 
@@ -187,8 +187,8 @@ export class LocationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;location-service&quot;,
+        version: "1.0",
+        source: "location-service",
       },
     };
 
@@ -210,8 +210,8 @@ export class LocationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: &quot;1.0&quot;,
-        source: &quot;location-service&quot;,
+        version: "1.0",
+        source: "location-service",
       },
     };
 

@@ -6,19 +6,19 @@
 
 // Location status enum
 export enum LocationStatus {
-  PENDING = &quot;pending&quot;,
-  APPROVED = &quot;approved&quot;,
-  REJECTED = &quot;rejected&quot;,
+  PENDING = "pending",
+  APPROVED = "approved",
+  REJECTED = "rejected",
 }
 
 // Location type enum
 export enum LocationType {
-  OFFICE = &quot;office&quot;,
-  STORE = &quot;store&quot;,
-  WAREHOUSE = &quot;warehouse&quot;,
-  FACILITY = &quot;facility&quot;,
-  PARTNER = &quot;partner&quot;,
-  OTHER = &quot;other&quot;,
+  OFFICE = "office",
+  STORE = "store",
+  WAREHOUSE = "warehouse",
+  FACILITY = "facility",
+  PARTNER = "partner",
+  OTHER = "other",
 }
 
 // Represents a Location entity
@@ -162,7 +162,7 @@ export interface LocationSearchParams {
   limit?: number; // Limit results
   offset?: number; // Offset for pagination
   sortBy?: string; // Sort field
-  sortOrder?: &quot;asc&quot; | &quot;desc&quot;; // Sort direction
+  sortOrder?: "asc" | "desc"; // Sort direction
 }
 
 // Location search result

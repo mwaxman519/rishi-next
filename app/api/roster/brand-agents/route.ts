@@ -1,6 +1,6 @@
 /**
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
  * Brand Agents API Endpoints
@@ -12,13 +12,13 @@ export const revalidate = false;
  * @version 1.0.0
  */
 
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { v4 as uuidv4 } from &quot;uuid&quot;;
-import { authOptions } from &quot;@/lib/auth-options&quot;;
-import { EventBusService } from &quot;../../../../services/event-bus-service&quot;;
-import { rosterService } from &quot;../../../services/roster/RosterService&quot;;
-import { validateBrandAgentAssignment } from &quot;../../../services/roster/types&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { v4 as uuidv4 } from "uuid";
+import { authOptions } from "@/lib/auth-options";
+import { EventBusService } from "../../../../services/event-bus-service";
+import { rosterService } from "../../../services/roster/RosterService";
+import { validateBrandAgentAssignment } from "../../../services/roster/types";
 
 /**
  * GET /api/roster/brand-agents
@@ -28,12 +28,12 @@ import { validateBrandAgentAssignment } from &quot;../../../services/roster/type
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined);
-    const brandId = (searchParams.get(&quot;brandId&quot;) || undefined);
+    const organizationId = (searchParams.get("organizationId") || undefined);
+    const brandId = (searchParams.get("brandId") || undefined);
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: &quot;Organization ID is required&quot; },
+        { error: "Organization ID is required" },
         { status: 400 },
       );
     }
@@ -62,12 +62,12 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error(&quot;[API] Error retrieving brand agents:&quot;, error);
+    console.error("[API] Error retrieving brand agents:", error);
 
     return NextResponse.json(
       {
-        error: &quot;Failed to retrieve brand agents&quot;,
-        details: error instanceof Error ? error.message : &quot;Unknown error&quot;,
+        error: "Failed to retrieve brand agents",
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     // Get authenticated user session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await request.json();
@@ -106,11 +106,11 @@ export async function POST(request: NextRequest) {
     } catch (validationError) {
       return NextResponse.json(
         {
-          error: &quot;Invalid assignment data&quot;,
+          error: "Invalid assignment data",
           details:
             validationError instanceof Error
               ? validationError.message
-              : &quot;Validation failed&quot;,
+              : "Validation failed",
         },
         { status: 400 },
       );
@@ -128,37 +128,37 @@ export async function POST(request: NextRequest) {
     // Publish event using EventBusService
     await eventBus.publish({
       id: uuidv4(),
-      type: &quot;staff.assignment.created&quot;,
+      type: "staff.assignment.created",
       data: assignment,
       timestamp: new Date(),
       correlationId: uuidv4(),
-      source: &quot;brand-agents-api&quot;,
-      version: &quot;1.0&quot;,
+      source: "brand-agents-api",
+      version: "1.0",
     });
 
     return NextResponse.json(
       {
         success: true,
         data: assignment,
-        message: &quot;Cannabis expert staff successfully assigned&quot;,
+        message: "Cannabis expert staff successfully assigned",
         meta: {
           assignmentId: assignment.id,
           timestamp: new Date().toISOString(),
           eventsPublished: [
-            &quot;staff.assigned&quot;,
-            &quot;cannabis.staff_assignment_created&quot;,
+            "staff.assigned",
+            "cannabis.staff_assignment_created",
           ],
         },
       },
       { status: 201 },
     );
   } catch (error) {
-    console.error(&quot;[API] Error creating cannabis staff assignment:&quot;, error);
+    console.error("[API] Error creating cannabis staff assignment:", error);
 
-    if (error instanceof Error && error.message.includes(&quot;already assigned&quot;)) {
+    if (error instanceof Error && error.message.includes("already assigned")) {
       return NextResponse.json(
         {
-          error: &quot;Assignment conflict&quot;,
+          error: "Assignment conflict",
           details: error.message,
         },
         { status: 409 },
@@ -167,12 +167,12 @@ export async function POST(request: NextRequest) {
 
     if (
       error instanceof Error &&
-      (error.message.includes(&quot;not found&quot;) ||
-        error.message.includes(&quot;not active&quot;))
+      (error.message.includes("not found") ||
+        error.message.includes("not active"))
     ) {
       return NextResponse.json(
         {
-          error: &quot;Resource not found&quot;,
+          error: "Resource not found",
           details: error.message,
         },
         { status: 404 },
@@ -181,8 +181,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        error: &quot;Failed to create cannabis staff assignment&quot;,
-        details: error instanceof Error ? error.message : &quot;Unknown error&quot;,
+        error: "Failed to create cannabis staff assignment",
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );

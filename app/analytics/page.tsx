@@ -1,13 +1,13 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
+} from "@/components/ui/card";
 import {
   BarChart,
   Users,
@@ -15,7 +15,7 @@ import {
   Calendar,
   MapPin,
   Clock,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 export default function AnalyticsPage() {
   const [analyticsData, setAnalyticsData] = useState<any>(null);
@@ -24,13 +24,13 @@ export default function AnalyticsPage() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await fetch(&quot;/api/analytics/dashboard&quot;);
+        const response = await fetch("/api/analytics/dashboard");
         if (response.ok) {
           const data = await response.json();
           setAnalyticsData(data);
         }
       } catch (error) {
-        console.error(&quot;Failed to fetch analytics:&quot;, error);
+        console.error("Failed to fetch analytics:", error);
       } finally {
         setLoading(false);
       }
@@ -41,16 +41,16 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className=&quot;container mx-auto p-6 max-w-7xl&quot;>
-        <h1 className=&quot;text-3xl font-bold mb-6&quot;>Analytics Dashboard</h1>
-        <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6&quot;>
+      <div className="container mx-auto p-6 max-w-7xl">
+        <h1 className="text-3xl font-bold mb-6">Analytics Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((i) => (
-            <Card key={i} className=&quot;animate-pulse&quot;>
-              <CardHeader className=&quot;pb-2&quot;>
-                <div className=&quot;h-4 bg-muted rounded w-3/4&quot;></div>
+            <Card key={i} className="animate-pulse">
+              <CardHeader className="pb-2">
+                <div className="h-4 bg-muted rounded w-3/4"></div>
               </CardHeader>
               <CardContent>
-                <div className=&quot;h-8 bg-muted rounded w-1/2&quot;></div>
+                <div className="h-8 bg-muted rounded w-1/2"></div>
               </CardContent>
             </Card>
           ))}
@@ -60,12 +60,12 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className=&quot;container mx-auto p-6 max-w-7xl&quot;>
-      <div className=&quot;mb-8&quot;>
-        <h1 className=&quot;text-3xl font-bold text-foreground&quot;>
+    <div className="container mx-auto p-6 max-w-7xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-foreground">
           Analytics Dashboard
         </h1>
-        <p className=&quot;text-muted-foreground mt-2&quot;>
+        <p className="text-muted-foreground mt-2">
           Cannabis workforce management performance metrics and insights
         </p>
       </div>
@@ -73,70 +73,70 @@ export default function AnalyticsPage() {
       {analyticsData && (
         <>
           {/* Key Metrics */}
-          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8&quot;>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Total Bookings
                 </CardTitle>
-                <Calendar className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <Calendar className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>
+                <div className="text-2xl font-bold">
                   {analyticsData.totalBookings}
                 </div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <p className="text-xs text-muted-foreground">
                   Cannabis operations managed
                 </p>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Active Staff
                 </CardTitle>
-                <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>
+                <div className="text-2xl font-bold">
                   {analyticsData.activeStaff}
                 </div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <p className="text-xs text-muted-foreground">
                   Brand agents available
                 </p>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Monthly Revenue
                 </CardTitle>
-                <DollarSign className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <DollarSign className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>
+                <div className="text-2xl font-bold">
                   ${analyticsData.monthlyRevenue.toLocaleString()}
                 </div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <p className="text-xs text-muted-foreground">
                   Cannabis workforce services
                 </p>
               </CardContent>
             </Card>
 
             <Card>
-              <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                <CardTitle className=&quot;text-sm font-medium&quot;>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                   Completion Rate
                 </CardTitle>
-                <BarChart className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <BarChart className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className=&quot;text-2xl font-bold&quot;>
+                <div className="text-2xl font-bold">
                   {analyticsData.completionRate}%
                 </div>
-                <p className=&quot;text-xs text-muted-foreground&quot;>
+                <p className="text-xs text-muted-foreground">
                   Successful operations
                 </p>
               </CardContent>
@@ -144,11 +144,11 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Top Locations */}
-          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle className=&quot;flex items-center gap-2&quot;>
-                  <MapPin className=&quot;h-5 w-5&quot; />
+                <CardTitle className="flex items-center gap-2">
+                  <MapPin className="h-5 w-5" />
                   Top Cannabis Markets
                 </CardTitle>
                 <CardDescription>
@@ -156,20 +156,20 @@ export default function AnalyticsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;space-y-4&quot;>
+                <div className="space-y-4">
                   {analyticsData.topLocations.map(
                     (location: any, index: number) => (
                       <div
                         key={location.name}
-                        className=&quot;flex items-center justify-between&quot;
+                        className="flex items-center justify-between"
                       >
-                        <div className=&quot;flex items-center gap-3&quot;>
-                          <div className=&quot;flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-medium&quot;>
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-medium">
                             {index + 1}
                           </div>
-                          <span className=&quot;font-medium&quot;>{location.name}</span>
+                          <span className="font-medium">{location.name}</span>
                         </div>
-                        <span className=&quot;text-muted-foreground&quot;>
+                        <span className="text-muted-foreground">
                           {location.count} operations
                         </span>
                       </div>
@@ -181,8 +181,8 @@ export default function AnalyticsPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className=&quot;flex items-center gap-2&quot;>
-                  <Clock className=&quot;h-5 w-5&quot; />
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5" />
                   Recent Activity
                 </CardTitle>
                 <CardDescription>
@@ -190,20 +190,20 @@ export default function AnalyticsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className=&quot;space-y-4&quot;>
+                <div className="space-y-4">
                   {analyticsData.recentActivity.map(
                     (activity: any, index: number) => (
                       <div
                         key={index}
-                        className=&quot;flex items-center justify-between&quot;
+                        className="flex items-center justify-between"
                       >
-                        <span className=&quot;capitalize&quot;>
-                          {activity.type.replace(/_/g, &quot; &quot;)}
+                        <span className="capitalize">
+                          {activity.type.replace(/_/g, " ")}
                         </span>
-                        <div className=&quot;text-right&quot;>
-                          <div className=&quot;font-medium&quot;>{activity.count}</div>
-                          <div className=&quot;text-xs text-muted-foreground&quot;>
-                            {activity.timeframe.replace(/_/g, &quot; &quot;)}
+                        <div className="text-right">
+                          <div className="font-medium">{activity.count}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {activity.timeframe.replace(/_/g, " ")}
                           </div>
                         </div>
                       </div>

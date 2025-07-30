@@ -1,25 +1,25 @@
-&quot;use client&quot;;
+"use client";
 
-import React, { useState } from &quot;react&quot;;
-import Link from &quot;next/link&quot;;
+import React, { useState } from "react";
+import Link from "next/link";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
+} from "@/components/ui/select";
 import {
   Search,
   Package,
@@ -45,14 +45,14 @@ import {
   Eye,
   Zap,
   DollarSign,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from &quot;@/components/ui/dropdown-menu&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 import {
   Sheet,
   SheetContent,
@@ -60,61 +60,61 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from &quot;@/components/ui/sheet&quot;;
-import { useQuery } from &quot;@tanstack/react-query&quot;;
-import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
+} from "@/components/ui/sheet";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Status color mapping for consistency with dark mode support
 const getStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
-    case &quot;active&quot;:
-    case &quot;deployed&quot;:
-      return &quot;bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 border-green-200 dark:border-green-800&quot;;
-    case &quot;in_preparation&quot;:
-    case &quot;preparing&quot;:
-      return &quot;bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 border-blue-200 dark:border-blue-800&quot;;
-    case &quot;in_transit&quot;:
-    case &quot;transit&quot;:
-      return &quot;bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800&quot;;
-    case &quot;returning&quot;:
-      return &quot;bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 border-purple-200 dark:border-purple-800&quot;;
-    case &quot;maintenance&quot;:
-      return &quot;bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400 border-orange-200 dark:border-orange-800&quot;;
+    case "active":
+    case "deployed":
+      return "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 border-green-200 dark:border-green-800";
+    case "in_preparation":
+    case "preparing":
+      return "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 border-blue-200 dark:border-blue-800";
+    case "in_transit":
+    case "transit":
+      return "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800";
+    case "returning":
+      return "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400 border-purple-200 dark:border-purple-800";
+    case "maintenance":
+      return "bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400 border-orange-200 dark:border-orange-800";
     default:
-      return &quot;bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 border-gray-200 dark:border-gray-700&quot;;
+      return "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300 border-gray-200 dark:border-gray-700";
   }
 };
 
 // Priority color mapping
 const getPriorityColor = (priority: string) => {
   switch (priority?.toLowerCase()) {
-    case &quot;high&quot;:
-    case &quot;critical&quot;:
-      return &quot;bg-red-100 text-red-800 border-red-200&quot;;
-    case &quot;medium&quot;:
-      return &quot;bg-yellow-100 text-yellow-800 border-yellow-200&quot;;
-    case &quot;low&quot;:
-      return &quot;bg-green-100 text-green-800 border-green-200&quot;;
+    case "high":
+    case "critical":
+      return "bg-red-100 text-red-800 border-red-200";
+    case "medium":
+      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    case "low":
+      return "bg-green-100 text-green-800 border-green-200";
     default:
-      return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
+      return "bg-gray-100 text-gray-800 border-gray-200";
   }
 };
 
 export default function KitInstancesPage() {
   const { toast } = useToast();
-  const [searchQuery, setSearchQuery] = useState("&quot;);
-  const [selectedTerritory, setSelectedTerritory] = useState(&quot;all&quot;);
-  const [selectedStatus, setSelectedStatus] = useState(&quot;all&quot;);
-  const [viewMode, setViewMode] = useState(&quot;grid&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTerritory, setSelectedTerritory] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [viewMode, setViewMode] = useState("grid");
 
   // Fetch kit instances data
   const { data: kitInstances = [], isLoading, error } = useQuery({
-    queryKey: [&quot;/api/kits/instances&quot;],
+    queryKey: ["/api/kits/instances"],
   });
 
   // Fetch stats data
   const { data: stats = {}, isLoading: statsLoading } = useQuery({
-    queryKey: [&quot;/api/kits/instances/stats&quot;],
+    queryKey: ["/api/kits/instances/stats"],
   });
 
   // Filter kit instances based on search and filters
@@ -124,8 +124,8 @@ export default function KitInstancesPage() {
       kit.templateName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       kit.brandName?.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesTerritory = selectedTerritory === &quot;all&quot; || kit.territory === selectedTerritory;
-    const matchesStatus = selectedStatus === &quot;all&quot; || kit.status === selectedStatus;
+    const matchesTerritory = selectedTerritory === "all" || kit.territory === selectedTerritory;
+    const matchesStatus = selectedStatus === "all" || kit.status === selectedStatus;
     
     return matchesSearch && matchesTerritory && matchesStatus;
   });
@@ -133,24 +133,24 @@ export default function KitInstancesPage() {
   // Loading skeleton
   if (isLoading) {
     return (
-      <div className=&quot;p-3 sm:p-6 space-y-6&quot;>
-        <div className=&quot;flex items-center justify-between&quot;>
-          <div className=&quot;space-y-2&quot;>
-            <Skeleton className=&quot;h-8 w-48&quot; />
-            <Skeleton className=&quot;h-4 w-96&quot; />
+      <div className="p-3 sm:p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-4 w-96" />
           </div>
-          <Skeleton className=&quot;h-10 w-32&quot; />
+          <Skeleton className="h-10 w-32" />
         </div>
         
-        <div className=&quot;grid grid-cols-2 sm:grid-cols-4 gap-4&quot;>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className=&quot;h-24&quot; />
+            <Skeleton key={i} className="h-24" />
           ))}
         </div>
         
-        <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4&quot;>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(9)].map((_, i) => (
-            <Skeleton key={i} className=&quot;h-48&quot; />
+            <Skeleton key={i} className="h-48" />
           ))}
         </div>
       </div>
@@ -158,24 +158,24 @@ export default function KitInstancesPage() {
   }
 
   return (
-    <div className=&quot;min-h-screen bg-gray-50 dark:bg-gray-900&quot;>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header Section */}
-      <div className=&quot;bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10&quot;>
-        <div className=&quot;p-4 sm:p-6&quot;>
-          <div className=&quot;flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4&quot;>
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+        <div className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className=&quot;text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white&quot;>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                 Kit Instances
               </h1>
-              <p className=&quot;text-sm text-gray-600 dark:text-gray-300 mt-1&quot;>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                 Manage and track kit deployments across all territories
               </p>
             </div>
-            <div className=&quot;flex items-center gap-2&quot;>
+            <div className="flex items-center gap-2">
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
-                    <Plus className=&quot;h-4 w-4 mr-2&quot; />
+                  <Button variant="outline" size="sm">
+                    <Plus className="h-4 w-4 mr-2" />
                     New Instance
                   </Button>
                 </SheetTrigger>
@@ -186,19 +186,19 @@ export default function KitInstancesPage() {
                       Deploy a new kit instance to a territory.
                     </SheetDescription>
                   </SheetHeader>
-                  <div className=&quot;py-4&quot;>
-                    <p className=&quot;text-sm text-gray-600&quot;>
+                  <div className="py-4">
+                    <p className="text-sm text-gray-600">
                       Kit instance creation form would go here.
                     </p>
                   </div>
                 </SheetContent>
               </Sheet>
               <Button 
-                variant=&quot;outline&quot; 
-                size=&quot;sm&quot;
-                onClick={() => setViewMode(viewMode === &quot;grid&quot; ? &quot;list&quot; : &quot;grid&quot;)}
+                variant="outline" 
+                size="sm"
+                onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
               >
-                {viewMode === &quot;grid&quot; ? <List className=&quot;h-4 w-4&quot; /> : <Package className=&quot;h-4 w-4&quot; />}
+                {viewMode === "grid" ? <List className="h-4 w-4" /> : <Package className="h-4 w-4" />}
               </Button>
             </div>
           </div>
@@ -206,130 +206,130 @@ export default function KitInstancesPage() {
       </div>
 
       {/* Stats Overview */}
-      <div className=&quot;p-4 sm:p-6&quot;>
-        <div className=&quot;grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6&quot;>
+      <div className="p-4 sm:p-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
           <Card 
-            className=&quot;cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-blue-500 dark:border-l-blue-400&quot;
-            onClick={() => setSelectedStatus(&quot;all&quot;)}
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-blue-500 dark:border-l-blue-400"
+            onClick={() => setSelectedStatus("all")}
           >
-            <CardContent className=&quot;p-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className=&quot;text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider&quot;>Total</p>
-                  <div className=&quot;text-lg font-bold text-gray-900 dark:text-white mt-1&quot;>
-                    {statsLoading ? <Skeleton className=&quot;h-5 w-12&quot; /> : filteredInstances.length}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Total</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.length}
                   </div>
                 </div>
-                <Package className=&quot;h-5 w-5 text-blue-500 dark:text-blue-400&quot; />
+                <Package className="h-5 w-5 text-blue-500 dark:text-blue-400" />
               </div>
             </CardContent>
           </Card>
 
           <Card 
-            className=&quot;cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-green-500 dark:border-l-green-400&quot;
-            onClick={() => setSelectedStatus(&quot;active&quot;)}
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-green-500 dark:border-l-green-400"
+            onClick={() => setSelectedStatus("active")}
           >
-            <CardContent className=&quot;p-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className=&quot;text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider&quot;>Active</p>
-                  <div className=&quot;text-lg font-bold text-gray-900 dark:text-white mt-1&quot;>
-                    {statsLoading ? <Skeleton className=&quot;h-5 w-12&quot; /> : filteredInstances.filter(k => k.status === 'active').length}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Active</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'active').length}
                   </div>
                 </div>
-                <CheckCircle className=&quot;h-5 w-5 text-green-500 dark:text-green-400&quot; />
+                <CheckCircle className="h-5 w-5 text-green-500 dark:text-green-400" />
               </div>
             </CardContent>
           </Card>
 
           <Card 
-            className=&quot;cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-yellow-500 dark:border-l-yellow-400&quot;
-            onClick={() => setSelectedStatus(&quot;in_transit&quot;)}
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-yellow-500 dark:border-l-yellow-400"
+            onClick={() => setSelectedStatus("in_transit")}
           >
-            <CardContent className=&quot;p-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className=&quot;text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider&quot;>Transit</p>
-                  <div className=&quot;text-lg font-bold text-gray-900 dark:text-white mt-1&quot;>
-                    {statsLoading ? <Skeleton className=&quot;h-5 w-12&quot; /> : filteredInstances.filter(k => k.status === 'in_transit').length}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Transit</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'in_transit').length}
                   </div>
                 </div>
-                <Truck className=&quot;h-5 w-5 text-yellow-500 dark:text-yellow-400&quot; />
+                <Truck className="h-5 w-5 text-yellow-500 dark:text-yellow-400" />
               </div>
             </CardContent>
           </Card>
 
           <Card 
-            className=&quot;cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-orange-500 dark:border-l-orange-400&quot;
-            onClick={() => setSelectedStatus(&quot;preparing&quot;)}
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-orange-500 dark:border-l-orange-400"
+            onClick={() => setSelectedStatus("preparing")}
           >
-            <CardContent className=&quot;p-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className=&quot;text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider&quot;>Preparing</p>
-                  <div className=&quot;text-lg font-bold text-gray-900 dark:text-white mt-1&quot;>
-                    {statsLoading ? <Skeleton className=&quot;h-5 w-12&quot; /> : filteredInstances.filter(k => k.status === 'preparing').length}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Preparing</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'preparing').length}
                   </div>
                 </div>
-                <Clock className=&quot;h-5 w-5 text-orange-500 dark:text-orange-400&quot; />
+                <Clock className="h-5 w-5 text-orange-500 dark:text-orange-400" />
               </div>
             </CardContent>
           </Card>
 
           <Card 
-            className=&quot;cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-red-500 dark:border-l-red-400&quot;
-            onClick={() => setSelectedStatus(&quot;maintenance&quot;)}
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-red-500 dark:border-l-red-400"
+            onClick={() => setSelectedStatus("maintenance")}
           >
-            <CardContent className=&quot;p-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className=&quot;text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider&quot;>Issues</p>
-                  <div className=&quot;text-lg font-bold text-gray-900 dark:text-white mt-1&quot;>
-                    {statsLoading ? <Skeleton className=&quot;h-5 w-12&quot; /> : filteredInstances.filter(k => k.status === 'maintenance').length}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Issues</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : filteredInstances.filter(k => k.status === 'maintenance').length}
                   </div>
                 </div>
-                <AlertTriangle className=&quot;h-5 w-5 text-red-500 dark:text-red-400&quot; />
+                <AlertTriangle className="h-5 w-5 text-red-500 dark:text-red-400" />
               </div>
             </CardContent>
           </Card>
 
           <Card 
-            className=&quot;cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-gray-500 dark:border-l-gray-400&quot;
-            onClick={() => setSelectedTerritory(&quot;all&quot;)}
+            className="cursor-pointer transition-all duration-200 hover:shadow-md hover:scale-[1.02] border-l-4 border-l-gray-500 dark:border-l-gray-400"
+            onClick={() => setSelectedTerritory("all")}
           >
-            <CardContent className=&quot;p-3&quot;>
-              <div className=&quot;flex items-center justify-between&quot;>
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className=&quot;text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider&quot;>Territories</p>
-                  <div className=&quot;text-lg font-bold text-gray-900 dark:text-white mt-1&quot;>
-                    {statsLoading ? <Skeleton className=&quot;h-5 w-12&quot; /> : [...new Set(filteredInstances.map(k => k.territory).filter(Boolean))].length}
+                  <p className="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">Territories</p>
+                  <div className="text-lg font-bold text-gray-900 dark:text-white mt-1">
+                    {statsLoading ? <Skeleton className="h-5 w-12" /> : [...new Set(filteredInstances.map(k => k.territory).filter(Boolean))].length}
                   </div>
                 </div>
-                <MapPin className=&quot;h-5 w-5 text-gray-500 dark:text-gray-400&quot; />
+                <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400" />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Search and Filters */}
-        <div className=&quot;flex flex-col sm:flex-row gap-4 mb-6&quot;>
-          <div className=&quot;relative flex-1&quot;>
-            <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400&quot; />
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
-              placeholder=&quot;Search kit instances...&quot;
+              placeholder="Search kit instances..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className=&quot;pl-10&quot;
+              className="pl-10"
             />
           </div>
           
-          <div className=&quot;flex gap-2&quot;>
+          <div className="flex gap-2">
             <Select value={selectedTerritory} onValueChange={setSelectedTerritory}>
-              <SelectTrigger className=&quot;w-40&quot;>
-                <SelectValue placeholder=&quot;Territory&quot; />
+              <SelectTrigger className="w-40">
+                <SelectValue placeholder="Territory" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value=&quot;all&quot;>All Territories</SelectItem>
+                <SelectItem value="all">All Territories</SelectItem>
                 {/* Extract unique territories from filtered instances */}
                 {[...new Set(kitInstances.map((k: any) => k.territory).filter(Boolean))].map((territory) => (
                   <SelectItem key={territory} value={territory}>{territory}</SelectItem>
@@ -338,11 +338,11 @@ export default function KitInstancesPage() {
             </Select>
 
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-              <SelectTrigger className=&quot;w-32&quot;>
-                <SelectValue placeholder=&quot;Status&quot; />
+              <SelectTrigger className="w-32">
+                <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value=&quot;all&quot;>All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 {/* Extract unique statuses from filtered instances */}
                 {[...new Set(kitInstances.map((k: any) => k.status).filter(Boolean))].map((status) => (
                   <SelectItem key={status} value={status}>
@@ -355,55 +355,55 @@ export default function KitInstancesPage() {
         </div>
 
         {/* Kit Instances Grid */}
-        <div className={`grid gap-4 ${viewMode === &quot;grid&quot; ? &quot;grid-cols-1 md:grid-cols-2 lg:grid-cols-3&quot; : &quot;grid-cols-1&quot;}`}>
+        <div className={`grid gap-4 ${viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
           {filteredInstances.length === 0 ? (
-            <div className=&quot;col-span-full&quot;>
-              <Card className=&quot;p-12 text-center&quot;>
-                <Package className=&quot;h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4&quot; />
-                <h3 className=&quot;text-lg font-semibold text-gray-900 dark:text-white mb-2&quot;>
+            <div className="col-span-full">
+              <Card className="p-12 text-center">
+                <Package className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   No kit instances found
                 </h3>
-                <p className=&quot;text-gray-600 dark:text-gray-300 mb-4&quot;>
-                  {searchQuery || selectedTerritory !== &quot;all&quot; || selectedStatus !== &quot;all&quot; 
-                    ? &quot;No instances match your current filters.&quot; 
-                    : &quot;Create your first kit instance to get started.&quot;}
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {searchQuery || selectedTerritory !== "all" || selectedStatus !== "all" 
+                    ? "No instances match your current filters." 
+                    : "Create your first kit instance to get started."}
                 </p>
                 <Button>
-                  <Plus className=&quot;h-4 w-4 mr-2&quot; />
+                  <Plus className="h-4 w-4 mr-2" />
                   Create Kit Instance
                 </Button>
               </Card>
             </div>
           ) : (
             filteredInstances.map((kit: any) => (
-              <Card key={kit.id} className=&quot;hover:shadow-lg transition-shadow duration-200&quot;>
-                <CardHeader className=&quot;pb-3&quot;>
-                  <div className=&quot;flex items-start justify-between&quot;>
-                    <div className=&quot;flex-1&quot;>
-                      <CardTitle className=&quot;text-lg text-gray-900 dark:text-white mb-1&quot;>
-                        {kit.name || &quot;Unnamed Kit&quot;}
+              <Card key={kit.id} className="hover:shadow-lg transition-shadow duration-200">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-lg text-gray-900 dark:text-white mb-1">
+                        {kit.name || "Unnamed Kit"}
                       </CardTitle>
-                      <CardDescription className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>
-                        {kit.templateName || &quot;No template&quot;} • {kit.brandName || &quot;Unknown brand&quot;}
+                      <CardDescription className="text-sm text-gray-600 dark:text-gray-400">
+                        {kit.templateName || "No template"} • {kit.brandName || "Unknown brand"}
                       </CardDescription>
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant=&quot;ghost&quot; size=&quot;sm&quot;>
-                          <MoreVertical className=&quot;h-4 w-4&quot; />
+                        <Button variant="ghost" size="sm">
+                          <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align=&quot;end&quot;>
+                      <DropdownMenuContent align="end">
                         <DropdownMenuItem>
-                          <Eye className=&quot;h-4 w-4 mr-2&quot; />
+                          <Eye className="h-4 w-4 mr-2" />
                           View Details
                         </DropdownMenuItem>
                         <DropdownMenuItem>
-                          <Edit className=&quot;h-4 w-4 mr-2&quot; />
+                          <Edit className="h-4 w-4 mr-2" />
                           Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem>
-                          <QrCode className=&quot;h-4 w-4 mr-2&quot; />
+                          <QrCode className="h-4 w-4 mr-2" />
                           QR Code
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -411,41 +411,41 @@ export default function KitInstancesPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;space-y-3&quot;>
-                    <div className=&quot;flex items-center justify-between&quot;>
-                      <Badge className={`${getStatusColor(kit.status || &quot;unknown&quot;)} text-xs`}>
-                        {kit.status || &quot;Unknown&quot;}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Badge className={`${getStatusColor(kit.status || "unknown")} text-xs`}>
+                        {kit.status || "Unknown"}
                       </Badge>
-                      <span className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
-                        {kit.territory || &quot;No territory&quot;}
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {kit.territory || "No territory"}
                       </span>
                     </div>
                     
-                    <div className=&quot;flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400&quot;>
-                      <div className=&quot;flex items-center gap-1&quot;>
-                        <MapPin className=&quot;h-3 w-3&quot; />
-                        <span>{kit.location || &quot;TBD&quot;}</span>
+                    <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        <span>{kit.location || "TBD"}</span>
                       </div>
-                      <div className=&quot;flex items-center gap-1&quot;>
-                        <Calendar className=&quot;h-3 w-3&quot; />
-                        <span>{kit.deployedAt ? new Date(kit.deployedAt).toLocaleDateString() : &quot;Not deployed&quot;}</span>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        <span>{kit.deployedAt ? new Date(kit.deployedAt).toLocaleDateString() : "Not deployed"}</span>
                       </div>
                     </div>
 
-                    <div className=&quot;flex items-center justify-between pt-2&quot;>
-                      <div className=&quot;flex items-center gap-2&quot;>
-                        <div className=&quot;flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400&quot;>
-                          <Package className=&quot;h-3 w-3&quot; />
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                          <Package className="h-3 w-3" />
                           <span>{kit.componentCount || 0} items</span>
                         </div>
-                        <div className=&quot;flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400&quot;>
-                          <DollarSign className=&quot;h-3 w-3&quot; />
+                        <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                          <DollarSign className="h-3 w-3" />
                           <span>${kit.totalValue || 0}</span>
                         </div>
                       </div>
-                      <Button size=&quot;sm&quot; variant=&quot;ghost&quot; asChild>
+                      <Button size="sm" variant="ghost" asChild>
                         <Link href={`/inventory/kit-instances/${kit.id}`}>
-                          <ArrowRight className=&quot;h-4 w-4" />
+                          <ArrowRight className="h-4 w-4" />
                         </Link>
                       </Button>
                     </div>

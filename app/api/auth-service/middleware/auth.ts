@@ -3,10 +3,10 @@
  *
  * This middleware verifies JWT tokens and provides authenticated user information.
  */
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { verifyToken, extractTokenFromHeader } from &quot;../utils/jwt&quot;;
-import { errorResponse } from &quot;../utils/response&quot;;
-import { AUTH_CONFIG } from &quot;../config&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { verifyToken, extractTokenFromHeader } from "../utils/jwt";
+import { errorResponse } from "../utils/response";
+import { AUTH_CONFIG } from "../config";
 
 /**
  * Middleware to verify JWT token and extract user information
@@ -20,7 +20,7 @@ export async function authMiddleware(
 ): Promise<NextResponse> {
   try {
     // Check for token in authorization header
-    const authHeader = req.headers.get(&quot;authorization&quot;);
+    const authHeader = req.headers.get("authorization");
     const token = extractTokenFromHeader(authHeader);
 
     // Also check for token in cookies as a fallback
@@ -30,7 +30,7 @@ export async function authMiddleware(
     const accessToken = token || cookieToken;
 
     if (!accessToken) {
-      return errorResponse(&quot;Authentication required&quot;, 401, &quot;UNAUTHORIZED&quot;);
+      return errorResponse("Authentication required", 401, "UNAUTHORIZED");
     }
 
     try {
@@ -40,12 +40,12 @@ export async function authMiddleware(
       // Call the handler with the authenticated user
       return await handler(req, payload);
     } catch (tokenError) {
-      console.error(&quot;[Auth Service] Token verification failed:&quot;, tokenError);
-      return errorResponse(&quot;Invalid or expired token&quot;, 401, &quot;INVALID_TOKEN&quot;);
+      console.error("[Auth Service] Token verification failed:", tokenError);
+      return errorResponse("Invalid or expired token", 401, "INVALID_TOKEN");
     }
   } catch (error) {
-    console.error(&quot;[Auth Service] Authentication middleware error:&quot;, error);
-    return errorResponse(&quot;Authentication error&quot;, 500, &quot;AUTH_ERROR&quot;);
+    console.error("[Auth Service] Authentication middleware error:", error);
+    return errorResponse("Authentication error", 500, "AUTH_ERROR");
   }
 }
 

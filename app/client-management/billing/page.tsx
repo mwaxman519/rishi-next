@@ -1,6 +1,6 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
+import { useState, useEffect } from "react";
 import {
   CreditCard,
   Plus,
@@ -15,7 +15,7 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -23,9 +23,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from &quot;../../components/ui/card&quot;;
-import { Button } from &quot;../../components/ui/button&quot;;
-import { Input } from &quot;../../components/ui/input&quot;;
+} from "../../components/ui/card";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from &quot;../../components/ui/dropdown-menu&quot;;
+} from "../../components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -42,23 +42,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from &quot;../../components/ui/table&quot;;
+} from "../../components/ui/table";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from &quot;../../components/ui/tabs&quot;;
-import { Badge } from &quot;../../components/ui/badge&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+} from "../../components/ui/tabs";
+import { Badge } from "../../components/ui/badge";
+import { useAuthorization } from "@/hooks/useAuthorization";
 
 // Mock data for invoices
 
 // Mock data for payment methods
 
 export default function BillingPage() {
-  const [searchQuery, setSearchQuery] = useState("&quot;);
-  const [activeTab, setActiveTab] = useState(&quot;invoices&quot;);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("invoices");
   const { checkPermission } = useAuthorization();
 
   // Filter invoices based on search query
@@ -112,186 +112,186 @@ export default function BillingPage() {
   // Function to get status badge color for invoices
   const getInvoiceStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case &quot;paid&quot;:
+      case "paid":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-green-50 text-green-700 border-green-200&quot;
+            variant="outline"
+            className="bg-green-50 text-green-700 border-green-200"
           >
             Paid
           </Badge>
         );
-      case &quot;pending&quot;:
+      case "pending":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;
+            variant="outline"
+            className="bg-yellow-50 text-yellow-700 border-yellow-200"
           >
             Pending
           </Badge>
         );
-      case &quot;overdue&quot;:
+      case "overdue":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-red-50 text-red-700 border-red-200&quot;
+            variant="outline"
+            className="bg-red-50 text-red-700 border-red-200"
           >
             Overdue
           </Badge>
         );
-      case &quot;draft&quot;:
+      case "draft":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-gray-50 text-gray-700 border-gray-200&quot;
+            variant="outline"
+            className="bg-gray-50 text-gray-700 border-gray-200"
           >
             Draft
           </Badge>
         );
       default:
-        return <Badge variant=&quot;outline&quot;>{status}</Badge>;
+        return <Badge variant="outline">{status}</Badge>;
     }
   };
 
   // Function to get status badge color for payment methods
   const getPaymentMethodStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case &quot;active&quot;:
+      case "active":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-green-50 text-green-700 border-green-200&quot;
+            variant="outline"
+            className="bg-green-50 text-green-700 border-green-200"
           >
             Active
           </Badge>
         );
-      case &quot;expired&quot;:
+      case "expired":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-red-50 text-red-700 border-red-200&quot;
+            variant="outline"
+            className="bg-red-50 text-red-700 border-red-200"
           >
             Expired
           </Badge>
         );
-      case &quot;inactive&quot;:
+      case "inactive":
         return (
           <Badge
-            variant=&quot;outline&quot;
-            className=&quot;bg-gray-50 text-gray-700 border-gray-200&quot;
+            variant="outline"
+            className="bg-gray-50 text-gray-700 border-gray-200"
           >
             Inactive
           </Badge>
         );
       default:
-        return <Badge variant=&quot;outline&quot;>{status}</Badge>;
+        return <Badge variant="outline">{status}</Badge>;
     }
   };
 
   // Function to get payment method icon
   const getPaymentMethodIcon = (type: string) => {
-    if (type.toLowerCase().includes(&quot;credit card&quot;)) {
-      return <CreditCard className=&quot;h-4 w-4 text-blue-600&quot; />;
+    if (type.toLowerCase().includes("credit card")) {
+      return <CreditCard className="h-4 w-4 text-blue-600" />;
     } else if (
-      type.toLowerCase().includes(&quot;ach&quot;) ||
-      type.toLowerCase().includes(&quot;bank&quot;)
+      type.toLowerCase().includes("ach") ||
+      type.toLowerCase().includes("bank")
     ) {
-      return <Building className=&quot;h-4 w-4 text-indigo-600&quot; />;
+      return <Building className="h-4 w-4 text-indigo-600" />;
     } else {
-      return <Receipt className=&quot;h-4 w-4 text-gray-600&quot; />;
+      return <Receipt className="h-4 w-4 text-gray-600" />;
     }
   };
 
   return (
-    <div className=&quot;container mx-auto px-4 py-8&quot;>
-      <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4&quot;>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <div>
-          <h1 className=&quot;text-3xl font-bold text-gray-900 dark:text-white&quot;>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Billing Management
           </h1>
-          <p className=&quot;mt-1 text-gray-600 dark:text-gray-400&quot;>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">
             Manage client invoices, billing, and payment information
           </p>
         </div>
 
-        <div className=&quot;flex flex-col sm:flex-row gap-3&quot;>
-          <div className=&quot;relative&quot;>
-            <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
-              type=&quot;search&quot;
+              type="search"
               placeholder={`Search ${activeTab}...`}
-              className=&quot;pl-8 w-full sm:w-[250px]&quot;
+              className="pl-8 w-full sm:w-[250px]"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           <Button
-            className=&quot;flex items-center gap-1&quot;
+            className="flex items-center gap-1"
             disabled={
               !checkPermission(
-                activeTab === &quot;invoices&quot;
-                  ? &quot;create:invoices&quot;
-                  : &quot;manage:payment-methods&quot;,
+                activeTab === "invoices"
+                  ? "create:invoices"
+                  : "manage:payment-methods",
               )
             }
           >
-            <Plus className=&quot;h-4 w-4&quot; />
-            {activeTab === &quot;invoices&quot; ? &quot;Create Invoice&quot; : &quot;Add Payment Method&quot;}
+            <Plus className="h-4 w-4" />
+            {activeTab === "invoices" ? "Create Invoice" : "Add Payment Method"}
           </Button>
         </div>
       </div>
 
       <Tabs
-        defaultValue=&quot;invoices&quot;
-        className=&quot;mb-6&quot;
+        defaultValue="invoices"
+        className="mb-6"
         onValueChange={setActiveTab}
       >
         <TabsList>
-          <TabsTrigger value=&quot;invoices&quot; className=&quot;flex items-center gap-1&quot;>
-            <FileText className=&quot;h-4 w-4&quot; />
+          <TabsTrigger value="invoices" className="flex items-center gap-1">
+            <FileText className="h-4 w-4" />
             <span>Invoices</span>
           </TabsTrigger>
           <TabsTrigger
-            value=&quot;payment-methods&quot;
-            className=&quot;flex items-center gap-1&quot;
+            value="payment-methods"
+            className="flex items-center gap-1"
           >
-            <CreditCard className=&quot;h-4 w-4&quot; />
+            <CreditCard className="h-4 w-4" />
             <span>Payment Methods</span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;invoices&quot;>
+        <TabsContent value="invoices">
           <Card>
-            <CardContent className=&quot;p-0&quot;>
+            <CardContent className="p-0">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className=&quot;w-[150px]&quot;>Invoice #</TableHead>
+                    <TableHead className="w-[150px]">Invoice #</TableHead>
                     <TableHead>Client</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Amount</TableHead>
                     <TableHead>Issue Date</TableHead>
                     <TableHead>Due Date</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead className=&quot;text-right&quot;>Actions</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredInvoices.length > 0 ? (
                     filteredInvoices.map((invoice) => (
                       <TableRow key={invoice.id}>
-                        <TableCell className=&quot;font-medium&quot;>
-                          <div className=&quot;flex items-center&quot;>
-                            <div className=&quot;flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-md flex items-center justify-center mr-3&quot;>
-                              <FileText className=&quot;h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
+                        <TableCell className="font-medium">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-md flex items-center justify-center mr-3">
+                              <FileText className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                             </div>
                             {invoice.id}
                           </div>
                         </TableCell>
                         <TableCell>{invoice.client}</TableCell>
                         <TableCell>{invoice.description}</TableCell>
-                        <TableCell className=&quot;font-medium&quot;>
+                        <TableCell className="font-medium">
                           {invoice.amount}
                         </TableCell>
                         <TableCell>{invoice.issueDate}</TableCell>
@@ -299,57 +299,57 @@ export default function BillingPage() {
                         <TableCell>
                           {getInvoiceStatusBadge(invoice.status)}
                         </TableCell>
-                        <TableCell className=&quot;text-right&quot;>
+                        <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant=&quot;ghost&quot; size=&quot;icon&quot;>
-                                <MoreVertical className=&quot;h-4 w-4&quot; />
-                                <span className=&quot;sr-only&quot;>Actions</span>
+                              <Button variant="ghost" size="icon">
+                                <MoreVertical className="h-4 w-4" />
+                                <span className="sr-only">Actions</span>
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align=&quot;end&quot;>
+                            <DropdownMenuContent align="end">
                               <DropdownMenuLabel>
                                 Invoice Actions
                               </DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
-                                className=&quot;cursor-pointer&quot;
-                                disabled={!checkPermission(&quot;view:invoices&quot;)}
+                                className="cursor-pointer"
+                                disabled={!checkPermission("view:invoices")}
                               >
-                                <FileText className=&quot;h-4 w-4 mr-2&quot; /> View
+                                <FileText className="h-4 w-4 mr-2" /> View
                                 Invoice
                               </DropdownMenuItem>
-                              {invoice.status !== &quot;Paid&quot; && (
+                              {invoice.status !== "Paid" && (
                                 <DropdownMenuItem
-                                  className=&quot;cursor-pointer&quot;
-                                  disabled={!checkPermission(&quot;edit:invoices&quot;)}
+                                  className="cursor-pointer"
+                                  disabled={!checkPermission("edit:invoices")}
                                 >
-                                  <FileEdit className=&quot;h-4 w-4 mr-2&quot; /> Edit
+                                  <FileEdit className="h-4 w-4 mr-2" /> Edit
                                   Invoice
                                 </DropdownMenuItem>
                               )}
-                              <DropdownMenuItem className=&quot;cursor-pointer&quot;>
-                                <Download className=&quot;h-4 w-4 mr-2&quot; /> Download
+                              <DropdownMenuItem className="cursor-pointer">
+                                <Download className="h-4 w-4 mr-2" /> Download
                                 PDF
                               </DropdownMenuItem>
-                              <DropdownMenuItem className=&quot;cursor-pointer&quot;>
-                                <Mail className=&quot;h-4 w-4 mr-2&quot; /> Email Invoice
+                              <DropdownMenuItem className="cursor-pointer">
+                                <Mail className="h-4 w-4 mr-2" /> Email Invoice
                               </DropdownMenuItem>
-                              {invoice.status === &quot;Pending&quot; && (
+                              {invoice.status === "Pending" && (
                                 <DropdownMenuItem
-                                  className=&quot;cursor-pointer text-green-600&quot;
-                                  disabled={!checkPermission(&quot;manage:invoices&quot;)}
+                                  className="cursor-pointer text-green-600"
+                                  disabled={!checkPermission("manage:invoices")}
                                 >
-                                  <CheckCircle2 className=&quot;h-4 w-4 mr-2&quot; /> Mark
+                                  <CheckCircle2 className="h-4 w-4 mr-2" /> Mark
                                   as Paid
                                 </DropdownMenuItem>
                               )}
-                              {invoice.status === &quot;Overdue&quot; && (
+                              {invoice.status === "Overdue" && (
                                 <DropdownMenuItem
-                                  className=&quot;cursor-pointer text-yellow-600&quot;
-                                  disabled={!checkPermission(&quot;manage:invoices&quot;)}
+                                  className="cursor-pointer text-yellow-600"
+                                  disabled={!checkPermission("manage:invoices")}
                                 >
-                                  <AlertCircle className=&quot;h-4 w-4 mr-2&quot; /> Send
+                                  <AlertCircle className="h-4 w-4 mr-2" /> Send
                                   Reminder
                                 </DropdownMenuItem>
                               )}
@@ -362,7 +362,7 @@ export default function BillingPage() {
                     <TableRow>
                       <TableCell
                         colSpan={8}
-                        className=&quot;text-center py-8 text-gray-500 dark:text-gray-400&quot;
+                        className="text-center py-8 text-gray-500 dark:text-gray-400"
                       >
                         No invoices found
                       </TableCell>
@@ -374,83 +374,83 @@ export default function BillingPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;payment-methods&quot;>
+        <TabsContent value="payment-methods">
           <Card>
-            <CardContent className=&quot;p-0&quot;>
+            <CardContent className="p-0">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className=&quot;w-[250px]&quot;>Client</TableHead>
+                    <TableHead className="w-[250px]">Client</TableHead>
                     <TableHead>Payment Method</TableHead>
                     <TableHead>Last 4</TableHead>
                     <TableHead>Expiry</TableHead>
                     <TableHead>Default</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Added Date</TableHead>
-                    <TableHead className=&quot;text-right&quot;>Actions</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredPaymentMethods.length > 0 ? (
                     filteredPaymentMethods.map((method) => (
                       <TableRow key={method.id}>
-                        <TableCell className=&quot;font-medium&quot;>
+                        <TableCell className="font-medium">
                           {method.client}
                         </TableCell>
                         <TableCell>
-                          <div className=&quot;flex items-center gap-2&quot;>
+                          <div className="flex items-center gap-2">
                             {getPaymentMethodIcon(method.type)}
                             {method.type}
                           </div>
                         </TableCell>
                         <TableCell>•••• {method.lastFour}</TableCell>
                         <TableCell>{method.expiryDate}</TableCell>
-                        <TableCell>{method.default ? &quot;Yes&quot; : &quot;No&quot;}</TableCell>
+                        <TableCell>{method.default ? "Yes" : "No"}</TableCell>
                         <TableCell>
                           {getPaymentMethodStatusBadge(method.status)}
                         </TableCell>
                         <TableCell>{method.addedDate}</TableCell>
-                        <TableCell className=&quot;text-right&quot;>
+                        <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant=&quot;ghost&quot; size=&quot;icon&quot;>
-                                <MoreVertical className=&quot;h-4 w-4&quot; />
-                                <span className=&quot;sr-only&quot;>Actions</span>
+                              <Button variant="ghost" size="icon">
+                                <MoreVertical className="h-4 w-4" />
+                                <span className="sr-only">Actions</span>
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align=&quot;end&quot;>
+                            <DropdownMenuContent align="end">
                               <DropdownMenuLabel>
                                 Payment Method Actions
                               </DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
-                                className=&quot;cursor-pointer&quot;
+                                className="cursor-pointer"
                                 disabled={
-                                  !checkPermission(&quot;manage:payment-methods&quot;)
+                                  !checkPermission("manage:payment-methods")
                                 }
                               >
-                                <FileEdit className=&quot;h-4 w-4 mr-2&quot; /> Edit
+                                <FileEdit className="h-4 w-4 mr-2" /> Edit
                                 Payment Method
                               </DropdownMenuItem>
                               {!method.default && (
                                 <DropdownMenuItem
-                                  className=&quot;cursor-pointer&quot;
+                                  className="cursor-pointer"
                                   disabled={
-                                    !checkPermission(&quot;manage:payment-methods&quot;)
+                                    !checkPermission("manage:payment-methods")
                                   }
                                 >
-                                  <CheckCircle2 className=&quot;h-4 w-4 mr-2&quot; /> Set
+                                  <CheckCircle2 className="h-4 w-4 mr-2" /> Set
                                   as Default
                                 </DropdownMenuItem>
                               )}
-                              {method.status === &quot;Expired&quot; && (
+                              {method.status === "Expired" && (
                                 <DropdownMenuItem
-                                  className=&quot;cursor-pointer text-yellow-600&quot;
+                                  className="cursor-pointer text-yellow-600"
                                   disabled={
-                                    !checkPermission(&quot;manage:payment-methods&quot;)
+                                    !checkPermission("manage:payment-methods")
                                   }
                                 >
-                                  <Clock className=&quot;h-4 w-4 mr-2&quot; /> Update
+                                  <Clock className="h-4 w-4 mr-2" /> Update
                                   Expiry
                                 </DropdownMenuItem>
                               )}
@@ -463,7 +463,7 @@ export default function BillingPage() {
                     <TableRow>
                       <TableCell
                         colSpan={8}
-                        className=&quot;text-center py-8 text-gray-500 dark:text-gray-400"
+                        className="text-center py-8 text-gray-500 dark:text-gray-400"
                       >
                         No payment methods found
                       </TableCell>

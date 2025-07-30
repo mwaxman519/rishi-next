@@ -1,16 +1,16 @@
-import { generateStaticParams } from &quot;./generateStaticParams&quot;;
+import { generateStaticParams } from "./generateStaticParams";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
 
 /**
  * API Route for approving a kit instance
  */
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
-import { kitsService } from &quot;../../../../../services/kits&quot;;
-import { getServerSession } from &quot;next-auth&quot;;
-import { authOptions } from &quot;@/lib/auth-server&quot;;
+import { NextRequest, NextResponse } from "next/server";
+import { kitsService } from "../../../../../services/kits";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-server";
 
 /**
  * POST /api/kits/instances/[id]/approve
@@ -24,12 +24,12 @@ export async function POST(
     // Get the current user from the session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const id = parseInt(params.id);
     if (isNaN(id)) {
-      return NextResponse.json({ error: &quot;Invalid ID format&quot; }, { status: 400 });
+      return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
 
     // Parse request body
@@ -44,7 +44,7 @@ export async function POST(
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : &quot;An unknown error occurred&quot;,
+          error instanceof Error ? error.message : "An unknown error occurred",
       },
       { status: 400 },
     );

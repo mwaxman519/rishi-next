@@ -1,9 +1,9 @@
-&quot;use client&quot;;
+"use client";
 
-import { useEffect, useRef, useState } from &quot;react&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useEffect, useRef, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Loader2, MapPin, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Augment Window interface to add Google Maps properties
 declare global {
@@ -29,9 +29,9 @@ interface SimpleAddressPickerProps {
 
 export default function SimpleAddressPicker({
   onAddressSelect,
-  className = "&quot;,
+  className = "",
 }: SimpleAddressPickerProps): React.JSX.Element {
-  const [inputValue, setInputValue] = useState(&quot;&quot;);
+  const [inputValue, setInputValue] = useState("");
   const [predictions, setPredictions] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -53,13 +53,13 @@ export default function SimpleAddressPicker({
   const initializeMap = (location: { lat: number; lng: number }) => {
     if (!mapRef.current || !window.google?.maps) {
       console.error(
-        &quot;SimpleAddressPicker: Map container or Google Maps not available&quot;,
+        "SimpleAddressPicker: Map container or Google Maps not available",
       );
       return;
     }
 
     console.log(
-      &quot;SimpleAddressPicker: Initializing map with location:&quot;,
+      "SimpleAddressPicker: Initializing map with location:",
       location,
     );
 
@@ -77,18 +77,18 @@ export default function SimpleAddressPicker({
       // Create or reuse map
       let mapInstance = map;
       if (!mapInstance) {
-        console.log(&quot;SimpleAddressPicker: Creating new map instance&quot;);
+        console.log("SimpleAddressPicker: Creating new map instance");
         mapInstance = new window.google.maps.Map(mapRef.current, mapOptions);
         setMap(mapInstance);
       } else {
-        console.log(&quot;SimpleAddressPicker: Reusing existing map instance&quot;);
+        console.log("SimpleAddressPicker: Reusing existing map instance");
         mapInstance.setCenter(location);
       }
 
       // Create or reuse marker
       let markerInstance = marker;
       if (!markerInstance) {
-        console.log(&quot;SimpleAddressPicker: Creating new marker&quot;);
+        console.log("SimpleAddressPicker: Creating new marker");
         markerInstance = new window.google.maps.Marker({
           position: location,
           map: mapInstance,
@@ -96,15 +96,15 @@ export default function SimpleAddressPicker({
         });
         setMarker(markerInstance);
       } else {
-        console.log(&quot;SimpleAddressPicker: Updating existing marker&quot;);
+        console.log("SimpleAddressPicker: Updating existing marker");
         markerInstance.setPosition(location);
       }
     } catch (error) {
-      console.error(&quot;SimpleAddressPicker: Error initializing map:&quot;, error);
+      console.error("SimpleAddressPicker: Error initializing map:", error);
       toast({
-        title: &quot;Map Error&quot;,
-        description: &quot;Could not display the map&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Map Error",
+        description: "Could not display the map",
+        variant: "destructive",
       });
     }
   };
@@ -114,34 +114,34 @@ export default function SimpleAddressPicker({
     // Define the initialization function
     function initializeServices() {
       try {
-        console.log(&quot;SimpleAddressPicker: Initializing Google services...&quot;);
+        console.log("SimpleAddressPicker: Initializing Google services...");
         setGoogleInitialized(true);
         console.log(
-          &quot;SimpleAddressPicker: Google services initialized successfully&quot;,
+          "SimpleAddressPicker: Google services initialized successfully",
         );
       } catch (error) {
         console.error(
-          &quot;SimpleAddressPicker: Error initializing Google services:&quot;,
+          "SimpleAddressPicker: Error initializing Google services:",
           error,
         );
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Failed to initialize location services&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Failed to initialize location services",
+          variant: "destructive",
         });
       }
     }
 
     // Set up callback for script loading
     window.initGoogleMaps = () => {
-      console.log(&quot;[SimpleAddressPicker] Google Maps initialized via callback&quot;);
+      console.log("[SimpleAddressPicker] Google Maps initialized via callback");
       initializeServices();
     };
 
     // First check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.places) {
       console.log(
-        &quot;[SimpleAddressPicker] Google Maps already loaded, initializing services&quot;,
+        "[SimpleAddressPicker] Google Maps already loaded, initializing services",
       );
       initializeServices();
       return;
@@ -149,33 +149,33 @@ export default function SimpleAddressPicker({
 
     // Check if script is already in document but not fully loaded
     const existingScript = document.querySelector(
-      'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
+      'script[src*="maps.googleapis.com/maps/api"]',
     );
     if (existingScript) {
       console.log(
-        &quot;[SimpleAddressPicker] Google Maps script already exists, waiting for load&quot;,
+        "[SimpleAddressPicker] Google Maps script already exists, waiting for load",
       );
       return; // The callback will handle initialization
     }
 
     // Load the script
-    console.log(&quot;[SimpleAddressPicker] Loading Google Maps script...&quot;);
+    console.log("[SimpleAddressPicker] Loading Google Maps script...");
     const apiKey =
       process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
-      &quot;AIzaSyB3BcM_Y6ASCfnr5Nm9V7-ZGf2oSCjgDww&quot;;
+      "AIzaSyB3BcM_Y6ASCfnr5Nm9V7-ZGf2oSCjgDww";
     console.log(
-      &quot;[SimpleAddressPicker] Using Google Maps API Key:&quot;,
-      apiKey ? &quot;Key found&quot; : &quot;Key missing&quot;,
+      "[SimpleAddressPicker] Using Google Maps API Key:",
+      apiKey ? "Key found" : "Key missing",
     );
-    const script = document.createElement(&quot;script&quot;);
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async`;
     script.async = true;
     script.onerror = () => {
-      console.error(&quot;[SimpleAddressPicker] Failed to load Google Maps script&quot;);
+      console.error("[SimpleAddressPicker] Failed to load Google Maps script");
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Failed to load Google Maps service&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Failed to load Google Maps service",
+        variant: "destructive",
       });
     };
     document.head.appendChild(script);
@@ -192,20 +192,20 @@ export default function SimpleAddressPicker({
   const handleInputChange = (value: string) => {
     setInputValue(value);
 
-    // Don't search if input is empty or Google Maps isn&apos;t initialized
+    // Don't search if input is empty or Google Maps isn't initialized
     if (!value.trim() || !googleInitialized || !window.google?.maps?.places) {
       setPredictions([]);
       setShowDropdown(false);
       return;
     }
 
-    console.log(&quot;Fetching predictions for:&quot;, value);
+    console.log("Fetching predictions for:", value);
     setIsLoading(true);
 
     // Use the AutocompleteService API
     const autocompleteOptions = {
       input: value,
-      componentRestrictions: { country: &quot;us&quot; },
+      componentRestrictions: { country: "us" },
     };
 
     try {
@@ -238,38 +238,38 @@ export default function SimpleAddressPicker({
           setIsLoading(false);
 
           if (predictions && predictions.length > 0) {
-            console.log(&quot;Got predictions:&quot;, predictions.length);
+            console.log("Got predictions:", predictions.length);
             setPredictions(predictions);
             setShowDropdown(true);
           } else {
-            console.log(&quot;No predictions found&quot;);
+            console.log("No predictions found");
             setPredictions([]);
             setShowDropdown(false);
           }
         })
         .catch((error: any) => {
-          console.error(&quot;Error fetching predictions:&quot;, error);
+          console.error("Error fetching predictions:", error);
           setIsLoading(false);
           setPredictions([]);
           setShowDropdown(false);
 
           toast({
-            title: &quot;Search Error&quot;,
-            description: &quot;Could not get location suggestions&quot;,
-            variant: &quot;destructive&quot;,
+            title: "Search Error",
+            description: "Could not get location suggestions",
+            variant: "destructive",
           });
         });
     } catch (error) {
-      console.error(&quot;Error setting up AutocompleteService:&quot;, error);
+      console.error("Error setting up AutocompleteService:", error);
       setIsLoading(false);
 
       setPredictions([]);
       setShowDropdown(false);
 
       toast({
-        title: &quot;Search Error&quot;,
-        description: &quot;Location search is unavailable&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Search Error",
+        description: "Location search is unavailable",
+        variant: "destructive",
       });
     }
   };
@@ -277,7 +277,7 @@ export default function SimpleAddressPicker({
   // Handle selection of a place
   const handlePlaceSelect = (placeId: string) => {
     console.log(
-      &quot;SimpleAddressPicker: handlePlaceSelect called with ID:&quot;,
+      "SimpleAddressPicker: handlePlaceSelect called with ID:",
       placeId,
     );
 
@@ -286,27 +286,27 @@ export default function SimpleAddressPicker({
 
     // Check if the Places API is available
     if (!window.google?.maps?.places) {
-      console.error(&quot;SimpleAddressPicker: ERROR - Places API not initialized&quot;);
+      console.error("SimpleAddressPicker: ERROR - Places API not initialized");
       toast({
-        title: &quot;Error&quot;,
-        description: &quot;Location service not available&quot;,
-        variant: &quot;destructive&quot;,
+        title: "Error",
+        description: "Location service not available",
+        variant: "destructive",
       });
       return;
     }
 
     setIsLoading(true);
 
-    console.log(&quot;SimpleAddressPicker: Fetching place details for ID:&quot;, placeId);
+    console.log("SimpleAddressPicker: Fetching place details for ID:", placeId);
 
     // Parameters for fetching place details
     const placeOptions = {
       fields: [
-        &quot;name&quot;,
-        &quot;formattedAddress&quot;,
-        &quot;geometry&quot;,
-        &quot;addressComponents&quot;,
-        &quot;id&quot;,
+        "name",
+        "formattedAddress",
+        "geometry",
+        "addressComponents",
+        "id",
       ],
     };
 
@@ -314,7 +314,7 @@ export default function SimpleAddressPicker({
     setTimeout(() => {
       try {
         // Create a PlacesService with a temporary div
-        const tempDiv = document.createElement(&quot;div&quot;);
+        const tempDiv = document.createElement("div");
         const placesService = new window.google.maps.places.PlacesService(
           tempDiv,
         );
@@ -344,10 +344,10 @@ export default function SimpleAddressPicker({
         const detailsRequest = {
           placeId: placeId,
           fields: [
-            &quot;name&quot;,
-            &quot;formatted_address&quot;,
-            &quot;geometry&quot;,
-            &quot;address_components&quot;,
+            "name",
+            "formatted_address",
+            "geometry",
+            "address_components",
           ],
         };
 
@@ -355,43 +355,43 @@ export default function SimpleAddressPicker({
         getPlaceDetailsPromise(detailsRequest)
           .then((placeResult: any) => {
             console.log(
-              &quot;SimpleAddressPicker: Successfully got place details:&quot;,
+              "SimpleAddressPicker: Successfully got place details:",
               placeResult,
             );
             setIsLoading(false);
 
             if (placeResult) {
-              setInputValue(placeResult.formatted_address || &quot;&quot;);
+              setInputValue(placeResult.formatted_address || "");
 
               try {
                 // Extract coordinates from the place result
                 const location = placeResult.geometry?.location;
 
                 if (!location) {
-                  throw new Error(&quot;Location data not available&quot;);
+                  throw new Error("Location data not available");
                 }
 
                 // Log the geometry object to see its structure
                 console.log(
-                  &quot;SimpleAddressPicker: Place geometry:&quot;,
+                  "SimpleAddressPicker: Place geometry:",
                   placeResult.geometry,
                 );
                 console.log(
-                  &quot;SimpleAddressPicker: Location type:&quot;,
+                  "SimpleAddressPicker: Location type:",
                   typeof location,
                 );
 
                 // Get coordinates - note that lat and lng are methods in the older API
                 const latitude =
-                  typeof location.lat === &quot;function&quot;
+                  typeof location.lat === "function"
                     ? location.lat()
                     : location.lat;
                 const longitude =
-                  typeof location.lng === &quot;function&quot;
+                  typeof location.lng === "function"
                     ? location.lng()
                     : location.lng;
                 console.log(
-                  &quot;SimpleAddressPicker: Using coordinates:&quot;,
+                  "SimpleAddressPicker: Using coordinates:",
                   latitude,
                   longitude,
                 );
@@ -416,7 +416,7 @@ export default function SimpleAddressPicker({
                 };
 
                 console.log(
-                  &quot;SimpleAddressPicker: Sending address data to parent component:&quot;,
+                  "SimpleAddressPicker: Sending address data to parent component:",
                   addressData,
                 );
 
@@ -424,52 +424,52 @@ export default function SimpleAddressPicker({
                 onAddressSelect(addressData);
 
                 console.log(
-                  &quot;SimpleAddressPicker: onAddressSelect function called successfully&quot;,
+                  "SimpleAddressPicker: onAddressSelect function called successfully",
                 );
               } catch (error) {
                 console.error(
-                  &quot;SimpleAddressPicker: Error processing place data:&quot;,
+                  "SimpleAddressPicker: Error processing place data:",
                   error,
                 );
                 toast({
-                  title: &quot;Error&quot;,
-                  description: &quot;Failed to process location data&quot;,
-                  variant: &quot;destructive&quot;,
+                  title: "Error",
+                  description: "Failed to process location data",
+                  variant: "destructive",
                 });
               }
             } else {
-              console.error(&quot;SimpleAddressPicker: No place details returned&quot;);
+              console.error("SimpleAddressPicker: No place details returned");
               toast({
-                title: &quot;Error&quot;,
-                description: &quot;Could not get location details&quot;,
-                variant: &quot;destructive&quot;,
+                title: "Error",
+                description: "Could not get location details",
+                variant: "destructive",
               });
             }
           })
           .catch((error: any) => {
             console.error(
-              &quot;SimpleAddressPicker: Error fetching place details:&quot;,
+              "SimpleAddressPicker: Error fetching place details:",
               error,
             );
             setIsLoading(false);
 
             toast({
-              title: &quot;Error&quot;,
-              description: &quot;Could not get location details&quot;,
-              variant: &quot;destructive&quot;,
+              title: "Error",
+              description: "Could not get location details",
+              variant: "destructive",
             });
           });
       } catch (error) {
         console.error(
-          &quot;SimpleAddressPicker: Error setting up PlacesService:&quot;,
+          "SimpleAddressPicker: Error setting up PlacesService:",
           error,
         );
         setIsLoading(false);
 
         toast({
-          title: &quot;Error&quot;,
-          description: &quot;Location service is unavailable&quot;,
-          variant: &quot;destructive&quot;,
+          title: "Error",
+          description: "Location service is unavailable",
+          variant: "destructive",
         });
       }
     }, 50); // Small delay to ensure UI responsiveness
@@ -478,7 +478,7 @@ export default function SimpleAddressPicker({
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const dropdownElement = document.querySelector(&quot;.locations-dropdown&quot;);
+      const dropdownElement = document.querySelector(".locations-dropdown");
       const isClickInsideDropdown =
         dropdownElement && dropdownElement.contains(event.target as Node);
 
@@ -488,39 +488,39 @@ export default function SimpleAddressPicker({
         !inputRef.current.contains(event.target as Node) &&
         !isClickInsideDropdown
       ) {
-        console.log(&quot;SimpleAddressPicker: Clicked outside - closing dropdown&quot;);
+        console.log("SimpleAddressPicker: Clicked outside - closing dropdown");
         setShowDropdown(false);
       }
     };
 
-    document.addEventListener(&quot;mousedown&quot;, handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener(&quot;mousedown&quot;, handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
     <div className={`${className} relative`}>
-      <div className=&quot;relative&quot;>
-        <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           ref={inputRef}
-          type=&quot;text&quot;
-          placeholder=&quot;Search for a location&quot;
+          type="text"
+          placeholder="Search for a location"
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
-          className=&quot;pl-9&quot;
+          className="pl-9"
           disabled={!googleInitialized}
         />
         {isLoading && (
-          <Loader2 className=&quot;absolute right-2.5 top-2.5 h-4 w-4 animate-spin&quot; />
+          <Loader2 className="absolute right-2.5 top-2.5 h-4 w-4 animate-spin" />
         )}
       </div>
 
       {/* Predictions dropdown */}
       {showDropdown && predictions.length > 0 && (
-        <div className=&quot;absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg locations-dropdown&quot;>
-          <ul className=&quot;py-1&quot;>
+        <div className="absolute z-50 mt-1 w-full max-h-60 overflow-auto rounded-md bg-white dark:bg-slate-800 border shadow-lg locations-dropdown">
+          <ul className="py-1">
             {predictions.map((prediction) => (
               <li
                 key={prediction.place_id}
@@ -528,11 +528,11 @@ export default function SimpleAddressPicker({
                   e.preventDefault(); // Prevent default behavior
                   e.stopPropagation(); // Prevent event bubbling
                   console.log(
-                    &quot;SimpleAddressPicker: CLICKED on prediction with ID:&quot;,
+                    "SimpleAddressPicker: CLICKED on prediction with ID:",
                     prediction.place_id,
                   );
                   console.log(
-                    &quot;SimpleAddressPicker: Prediction object:&quot;,
+                    "SimpleAddressPicker: Prediction object:",
                     prediction,
                   );
                   handlePlaceSelect(prediction.place_id);
@@ -541,14 +541,14 @@ export default function SimpleAddressPicker({
                   // Prevent blur event on input which might close dropdown
                   e.preventDefault();
                 }}
-                className=&quot;flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer&quot;
+                className="flex items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer"
               >
-                <MapPin className=&quot;h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground&quot; />
-                <div className=&quot;flex-1&quot;>
-                  <div className=&quot;text-sm font-medium&quot;>
+                <MapPin className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-muted-foreground" />
+                <div className="flex-1">
+                  <div className="text-sm font-medium">
                     {prediction.structured_formatting.main_text}
                   </div>
-                  <div className=&quot;text-xs text-muted-foreground&quot;>
+                  <div className="text-xs text-muted-foreground">
                     {prediction.structured_formatting.secondary_text}
                   </div>
                 </div>
@@ -560,11 +560,11 @@ export default function SimpleAddressPicker({
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className=&quot;mt-4&quot;>
+        <div className="mt-4">
           <div
             ref={mapRef}
-            className=&quot;w-full h-[250px] rounded-md border&quot;
-            aria-label=&quot;Map showing selected location"
+            className="w-full h-[250px] rounded-md border"
+            aria-label="Map showing selected location"
           />
         </div>
       )}

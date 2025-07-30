@@ -1,18 +1,18 @@
-import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { NextRequest, NextResponse } from "next/server";
 
-export const dynamic = &quot;force-static&quot;;
+export const dynamic = "force-static";
 export const revalidate = false;
 
-import { eq, and } from &quot;drizzle-orm&quot;;
-import { db } from &quot;@/lib/db&quot;;
-import { getCurrentUser } from &quot;@/lib/auth-utils&quot;;
+import { eq, and } from "drizzle-orm";
+import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth-utils";
 import {
   organizationInvitations,
   userOrganizations,
   userOrganizationPreferences,
   organizations,
-} from &quot;@/shared/schema&quot;;
-import { sendEmail } from &quot;@/lib/email-utils&quot;;
+} from "@/shared/schema";
+import { sendEmail } from "@/lib/email-utils";
 
 /**
  * POST handler for accepting an organization invitation
@@ -24,14 +24,14 @@ export async function POST(request: NextRequest) {
     const { token } = body;
 
     if (!token) {
-      return NextResponse.json({ error: &quot;Token is required&quot; }, { status: 400 });
+      return NextResponse.json({ error: "Token is required" }, { status: 400 });
     }
 
     // Get the current authenticated user
     const currentUser = await getCurrentUser();
     if (!currentUser) {
       return NextResponse.json(
-        { error: &quot;Authentication required&quot; },
+        { error: "Authentication required" },
         { status: 401 },
       );
     }
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     if (!invitation) {
       return NextResponse.json(
-        { error: &quot;Invalid or expired invitation token&quot; },
+        { error: "Invalid or expired invitation token" },
         { status: 404 },
       );
     }
@@ -63,17 +63,17 @@ export async function POST(request: NextRequest) {
       // Update invitation status to 'expired'
       await db
         .update(organizationInvitations)
-        .set({ status: &quot;expired&quot; })
+        .set({ status: "expired" })
         .where(eq(organizationInvitations.id, invitation.id));
 
       return NextResponse.json(
-        { error: &quot;Invitation has expired&quot; },
+        { error: "Invitation has expired" },
         { status: 400 },
       );
     }
 
     // Check if invitation is not pending (already accepted, rejected, expired)
-    if (invitation.status !== &quot;pending&quot;) {
+    if (invitation.status !== "pending") {
       return NextResponse.json(
         {
           error: `Invitation is no longer valid. Status: ${invitation.status}`,
@@ -83,10 +83,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if the invitation email matches the current user's email
-    const userEmail = currentUser.email || "&quot;;
+    const userEmail = currentUser.email || "";
     if (invitation.email.toLowerCase() !== userEmail.toLowerCase()) {
       return NextResponse.json(
-        { error: &quot;This invitation was sent to a different email address&quot; },
+        { error: "This invitation was sent to a different email address" },
         { status: 403 },
       );
     }
@@ -103,11 +103,11 @@ export async function POST(request: NextRequest) {
       // Update invitation status to 'accepted'
       await db
         .update(organizationInvitations)
-        .set({ status: &quot;accepted&quot;, updated_at: new Date() })
+        .set({ status: "accepted", updated_at: new Date() })
         .where(eq(organizationInvitations.id, invitation.id));
 
       return NextResponse.json(
-        { error: &quot;You are already a member of this organization&quot; },
+        { error: "You are already a member of this organization" },
         { status: 400 },
       );
     }
@@ -129,8 +129,8 @@ export async function POST(request: NextRequest) {
     await db.insert(userOrganizationPreferences).values({
       userId: currentUser.id,
       organizationId: invitation.organizationId,
-      theme: &quot;system&quot;,
-      dashboardLayout: &quot;default&quot;,
+      theme: "system",
+      dashboardLayout: "default",
       notificationSettings: JSON.stringify({
         email: true,
         inApp: true,
@@ -141,7 +141,7 @@ export async function POST(request: NextRequest) {
     // Update invitation status to 'accepted'
     await db
       .update(organizationInvitations)
-      .set({ status: &quot;accepted&quot;, updated_at: new Date() })
+      .set({ status: "accepted", updated_at: new Date() })
       .where(eq(organizationInvitations.id, invitation.id));
 
     // Send notification email to the inviter
@@ -151,22 +151,22 @@ export async function POST(request: NextRequest) {
           to: invitation.invitedBy.email,
           subject: `A user has joined ${invitation.organization.name}`,
           html: `
-            <div style=&quot;font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;&quot;>
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2>Your invitation was accepted</h2>
               <p>A user has accepted your invitation to join ${invitation.organization.name}.</p>
-              <p>They are now a member of your organization with the role of &quot;${invitation.role}&quot;.</p>
+              <p>They are now a member of your organization with the role of "${invitation.role}".</p>
             </div>
           `,
         });
       } catch (emailError) {
-        console.error(&quot;Failed to send notification email:&quot;, emailError);
+        console.error("Failed to send notification email:", emailError);
         // Continue with the process even if email sending fails
       }
     }
 
     return NextResponse.json(
       {
-        message: &quot;You have successfully joined the organization&quot;,
+        message: "You have successfully joined the organization",
         organization: {
           id: invitation.organizationId,
           name: invitation.organization.name,
@@ -176,9 +176,9 @@ export async function POST(request: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.error(&quot;Error accepting invitation:&quot;, error);
+    console.error("Error accepting invitation:", error);
     return NextResponse.json(
-      { error: &quot;Failed to accept invitation&quot; },
+      { error: "Failed to accept invitation" },
       { status: 500 },
     );
   }
@@ -191,10 +191,10 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = (searchParams.get(&quot;token&quot;) || undefined);
+    const token = (searchParams.get("token") || undefined);
 
     if (!token) {
-      return NextResponse.json({ error: &quot;Token is required&quot; }, { status: 400 });
+      return NextResponse.json({ error: "Token is required" }, { status: 400 });
     }
 
     // Find the invitation by token
@@ -222,18 +222,18 @@ export async function GET(request: NextRequest) {
 
     if (!invitation) {
       return NextResponse.json(
-        { error: &quot;Invalid or expired invitation token&quot; },
+        { error: "Invalid or expired invitation token" },
         { status: 404 },
       );
     }
 
     // Check if the invitation has expired
     if (invitation.expiresAt && new Date(invitation.expiresAt) < new Date()) {
-      // Update invitation status to 'expired' if it&apos;s still pending
-      if (invitation.status === &quot;pending&quot;) {
+      // Update invitation status to 'expired' if it's still pending
+      if (invitation.status === "pending") {
         await db
           .update(organizationInvitations)
-          .set({ status: &quot;expired&quot; })
+          .set({ status: "expired" })
           .where(eq(organizationInvitations.id, invitation.id));
       }
 
@@ -241,13 +241,13 @@ export async function GET(request: NextRequest) {
         invitation: {
           ...invitation,
           valid: false,
-          reason: &quot;expired&quot;,
+          reason: "expired",
         },
       });
     }
 
     // Check if invitation is not pending (already accepted, rejected)
-    if (invitation.status !== &quot;pending&quot;) {
+    if (invitation.status !== "pending") {
       return NextResponse.json({
         invitation: {
           ...invitation,
@@ -262,7 +262,7 @@ export async function GET(request: NextRequest) {
     let emailMatch = false;
 
     if (currentUser) {
-      const userEmail = currentUser.email || &quot;&quot;;
+      const userEmail = currentUser.email || "";
       emailMatch = invitation.email.toLowerCase() === userEmail.toLowerCase();
 
       // Check if user is already a member
@@ -279,7 +279,7 @@ export async function GET(request: NextRequest) {
             invitation: {
               ...invitation,
               valid: false,
-              reason: &quot;already_member&quot;,
+              reason: "already_member",
               userAuthenticated: true,
             },
           });
@@ -297,9 +297,9 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error(&quot;Error retrieving invitation:&quot;, error);
+    console.error("Error retrieving invitation:", error);
     return NextResponse.json(
-      { error: &quot;Failed to retrieve invitation" },
+      { error: "Failed to retrieve invitation" },
       { status: 500 },
     );
   }

@@ -1,32 +1,32 @@
-&quot;use client&quot;;
+"use client";
 
-import { useState, useEffect } from &quot;react&quot;;
-import { useAuth } from &quot;@/hooks/useAuth&quot;;
-import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
-import { useToast } from &quot;@/hooks/use-toast&quot;;
-import Link from &quot;next/link&quot;;
-import { getAllUsers } from &quot;@/actions/users&quot;;
-import { UserProfile } from &quot;@/services/users/models&quot;;
-import { useRouter } from &quot;next/navigation&quot;;
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
+import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { getAllUsers } from "@/actions/users";
+import { UserProfile } from "@/services/users/models";
+import { useRouter } from "next/navigation";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from &quot;@/components/ui/tabs-fixed&quot;;
-import UsersTable from &quot;@/components/users/UsersTable&quot;;
-import UserDetailPanel from &quot;@/components/users/UserDetailPanel&quot;;
+} from "@/components/ui/tabs-fixed";
+import UsersTable from "@/components/users/UsersTable";
+import UserDetailPanel from "@/components/users/UserDetailPanel";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
-import { AlertCircle, PlusCircle, UserCog, Users } from &quot;lucide-react&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+} from "@/components/ui/card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle, PlusCircle, UserCog, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function AdminUsersPage() {
   const { user, loading: isAuthLoading } = useAuth();
@@ -38,7 +38,7 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedTab, setSelectedTab] = useState<string>(&quot;all-users&quot;);
+  const [selectedTab, setSelectedTab] = useState<string>("all-users");
 
   // State for the user detail panel
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -73,27 +73,27 @@ export default function AdminUsersPage() {
             activeUsers: response.data.filter((u) => u.active).length,
             inactiveUsers: response.data.filter((u) => !u.active).length,
             admins: response.data.filter(
-              (u) => u.role === &quot;super_admin&quot; || u.role === &quot;internal_admin&quot;,
+              (u) => u.role === "super_admin" || u.role === "internal_admin",
             ).length,
-            brandAgents: response.data.filter((u) => u.role === &quot;brand_agent&quot;)
+            brandAgents: response.data.filter((u) => u.role === "brand_agent")
               .length,
             clientUsers: response.data.filter(
-              (u) => u.role === &quot;client_user&quot; || u.role === &quot;client_manager&quot;,
+              (u) => u.role === "client_user" || u.role === "client_manager",
             ).length,
             internalUsers: response.data.filter(
               (u) =>
-                u.role === &quot;internal_field_manager&quot; ||
-                u.role === &quot;field_coordinator&quot;,
+                u.role === "internal_field_manager" ||
+                u.role === "field_coordinator",
             ).length,
           };
 
           setStats(userStats);
         } else {
-          setError(response.error || &quot;Failed to load users data&quot;);
+          setError(response.error || "Failed to load users data");
         }
       } catch (error) {
-        console.error(&quot;Failed to load users:&quot;, error);
-        setError(&quot;Error fetching users. Please try again.&quot;);
+        console.error("Failed to load users:", error);
+        setError("Error fetching users. Please try again.");
       } finally {
         setIsLoading(false);
       }
@@ -119,11 +119,11 @@ export default function AdminUsersPage() {
   const confirmDeleteUser = async (userId: string) => {
     try {
       const response = await fetch(`/api/users/${userId}`, {
-        method: &quot;DELETE&quot;,
+        method: "DELETE",
       });
 
       if (!response.ok) {
-        throw new Error(&quot;Failed to delete user&quot;);
+        throw new Error("Failed to delete user");
       }
 
       // Remove user from the list
@@ -135,18 +135,18 @@ export default function AdminUsersPage() {
       }
 
       toast({
-        title: &quot;Success&quot;,
-        description: &quot;User deleted successfully&quot;,
-        variant: &quot;default&quot;,
+        title: "Success",
+        description: "User deleted successfully",
+        variant: "default",
       });
     } catch (err) {
-      console.error(&quot;Error deleting user:&quot;, err);
+      console.error("Error deleting user:", err);
 
       toast({
-        title: &quot;Error&quot;,
+        title: "Error",
         description:
-          err instanceof Error ? err.message : &quot;Failed to delete user&quot;,
-        variant: &quot;destructive&quot;,
+          err instanceof Error ? err.message : "Failed to delete user",
+        variant: "destructive",
       });
     } finally {
       setShowDeleteConfirm(null);
@@ -155,37 +155,37 @@ export default function AdminUsersPage() {
 
   // Get the filtered users based on the selected tab
   const getFilteredUsers = () => {
-    if (selectedTab === &quot;all-users&quot;) {
+    if (selectedTab === "all-users") {
       return users;
-    } else if (selectedTab === &quot;admins&quot;) {
+    } else if (selectedTab === "admins") {
       return users.filter(
-        (u) => u.role === &quot;super_admin&quot; || u.role === &quot;internal_admin&quot;,
+        (u) => u.role === "super_admin" || u.role === "internal_admin",
       );
-    } else if (selectedTab === &quot;brand-agents&quot;) {
-      return users.filter((u) => u.role === &quot;brand_agent&quot;);
-    } else if (selectedTab === &quot;client-users&quot;) {
+    } else if (selectedTab === "brand-agents") {
+      return users.filter((u) => u.role === "brand_agent");
+    } else if (selectedTab === "client-users") {
       return users.filter(
-        (u) => u.role === &quot;client_user&quot; || u.role === &quot;client_manager&quot;,
+        (u) => u.role === "client_user" || u.role === "client_manager",
       );
-    } else if (selectedTab === &quot;internal-staff&quot;) {
+    } else if (selectedTab === "internal-staff") {
       return users.filter(
         (u) =>
-          u.role === &quot;internal_field_manager&quot; || u.role === &quot;field_coordinator&quot;,
+          u.role === "internal_field_manager" || u.role === "field_coordinator",
       );
-    } else if (selectedTab === &quot;inactive-users&quot;) {
+    } else if (selectedTab === "inactive-users") {
       return users.filter((u) => !u.active);
     }
     return users;
   };
 
   // Check for superadmin access
-  const isSuperAdmin = user && user.role === &quot;super_admin&quot;;
+  const isSuperAdmin = user && user.role === "super_admin";
 
   // Show loading state while authentication is checking
   if (isAuthLoading) {
     return (
-      <div className=&quot;p-6 flex justify-center items-center h-64&quot;>
-        <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
+      <div className="p-6 flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -193,18 +193,18 @@ export default function AdminUsersPage() {
   // Enhanced admin permission check
   if (
     !user ||
-    !(user.role === &quot;super_admin&quot; || user.role === &quot;internal_admin&quot;)
+    !(user.role === "super_admin" || user.role === "internal_admin")
   ) {
     return (
-      <div className=&quot;p-6&quot;>
-        <Alert variant=&quot;destructive&quot; className=&quot;mb-6&quot;>
-          <AlertCircle className=&quot;h-4 w-4&quot; />
+      <div className="p-6">
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
-            You don&apos;t have administrative permission to access this page.
+            You don't have administrative permission to access this page.
           </AlertDescription>
         </Alert>
-        <Button onClick={() => router.push(&quot;/&quot;)} variant=&quot;outline&quot;>
+        <Button onClick={() => router.push("/")} variant="outline">
           Return to Dashboard
         </Button>
       </div>
@@ -212,40 +212,40 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className=&quot;p-4 space-y-6&quot;>
+    <div className="p-4 space-y-6">
       {/* Header with actions */}
-      <div className=&quot;flex justify-between items-center&quot;>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className=&quot;text-2xl font-bold&quot;>User Administration</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-2xl font-bold">User Administration</h1>
+          <p className="text-muted-foreground">
             Manage all users across the platform with advanced controls
           </p>
         </div>
-        <div className=&quot;flex space-x-3&quot;>
-          <Button variant=&quot;outline&quot; onClick={() => router.push(&quot;/users&quot;)}>
-            <Users className=&quot;h-4 w-4 mr-2&quot; />
+        <div className="flex space-x-3">
+          <Button variant="outline" onClick={() => router.push("/users")}>
+            <Users className="h-4 w-4 mr-2" />
             Regular View
           </Button>
-          <Button onClick={() => router.push(&quot;/users/new&quot;)}>
-            <PlusCircle className=&quot;h-4 w-4 mr-2&quot; />
+          <Button onClick={() => router.push("/users/new")}>
+            <PlusCircle className="h-4 w-4 mr-2" />
             Add User
           </Button>
         </div>
       </div>
 
       {/* Statistics Cards */}
-      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4&quot;>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
-          <CardHeader className=&quot;pb-2&quot;>
-            <CardTitle className=&quot;text-lg&quot;>Total Users</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Total Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-3xl font-bold&quot;>{stats.totalUsers}</div>
-            <div className=&quot;flex mt-2&quot;>
-              <Badge variant=&quot;outline&quot; className=&quot;mr-2&quot;>
+            <div className="text-3xl font-bold">{stats.totalUsers}</div>
+            <div className="flex mt-2">
+              <Badge variant="outline" className="mr-2">
                 {stats.activeUsers} Active
               </Badge>
-              <Badge variant=&quot;outline&quot; className=&quot;bg-gray-100&quot;>
+              <Badge variant="outline" className="bg-gray-100">
                 {stats.inactiveUsers} Inactive
               </Badge>
             </div>
@@ -253,36 +253,36 @@ export default function AdminUsersPage() {
         </Card>
 
         <Card>
-          <CardHeader className=&quot;pb-2&quot;>
-            <CardTitle className=&quot;text-lg&quot;>Administrators</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Administrators</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-3xl font-bold&quot;>{stats.admins}</div>
-            <Badge variant=&quot;outline&quot; className=&quot;mt-2&quot;>
+            <div className="text-3xl font-bold">{stats.admins}</div>
+            <Badge variant="outline" className="mt-2">
               System Access
             </Badge>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className=&quot;pb-2&quot;>
-            <CardTitle className=&quot;text-lg&quot;>Brand Agents</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Brand Agents</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-3xl font-bold&quot;>{stats.brandAgents}</div>
-            <Badge variant=&quot;outline&quot; className=&quot;mt-2&quot;>
+            <div className="text-3xl font-bold">{stats.brandAgents}</div>
+            <Badge variant="outline" className="mt-2">
               Field Staff
             </Badge>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className=&quot;pb-2&quot;>
-            <CardTitle className=&quot;text-lg&quot;>Client Users</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Client Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className=&quot;text-3xl font-bold&quot;>{stats.clientUsers}</div>
-            <Badge variant=&quot;outline&quot; className=&quot;mt-2&quot;>
+            <div className="text-3xl font-bold">{stats.clientUsers}</div>
+            <Badge variant="outline" className="mt-2">
               External Access
             </Badge>
           </CardContent>
@@ -291,22 +291,22 @@ export default function AdminUsersPage() {
 
       {/* Delete confirmation dialog */}
       {showDeleteConfirm && (
-        <Alert variant=&quot;destructive&quot; className=&quot;mb-6&quot;>
+        <Alert variant="destructive" className="mb-6">
           <AlertTitle>Confirm User Deletion</AlertTitle>
           <AlertDescription>
-            <p className=&quot;mb-3&quot;>
+            <p className="mb-3">
               Are you sure you want to delete this user? This action cannot be
               undone.
             </p>
-            <div className=&quot;flex justify-end space-x-3&quot;>
+            <div className="flex justify-end space-x-3">
               <Button
-                variant=&quot;outline&quot;
+                variant="outline"
                 onClick={() => setShowDeleteConfirm(null)}
               >
                 Cancel
               </Button>
               <Button
-                variant=&quot;destructive&quot;
+                variant="destructive"
                 onClick={() => {
                   if (showDeleteConfirm) {
                     confirmDeleteUser(showDeleteConfirm);
@@ -322,16 +322,16 @@ export default function AdminUsersPage() {
 
       {/* User tabs and content */}
       {isLoading ? (
-        <div className=&quot;flex justify-center items-center h-64&quot;>
-          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
         </div>
       ) : error ? (
-        <Alert variant=&quot;destructive&quot; className=&quot;mb-6&quot;>
-          <AlertCircle className=&quot;h-4 w-4&quot; />
+        <Alert variant="destructive" className="mb-6">
+          <AlertCircle className="h-4 w-4" />
           <AlertTitle>Error Loading Users</AlertTitle>
           <AlertDescription>
-            <p className=&quot;mb-3&quot;>{error}</p>
-            <Button variant=&quot;outline&quot; onClick={() => window.location.reload()}>
+            <p className="mb-3">{error}</p>
+            <Button variant="outline" onClick={() => window.location.reload()}>
               Try Again
             </Button>
           </AlertDescription>
@@ -344,13 +344,13 @@ export default function AdminUsersPage() {
               View and manage all users across the platform
             </CardDescription>
           </CardHeader>
-          <CardContent className=&quot;p-0&quot;>
+          <CardContent className="p-0">
             {selectedUserId ? (
-              <div className=&quot;p-6&quot;>
+              <div className="p-6">
                 <Button
-                  variant=&quot;ghost&quot;
+                  variant="ghost"
                   onClick={() => setSelectedUserId(null)}
-                  className=&quot;mb-4&quot;
+                  className="mb-4"
                 >
                   ← Back to Users
                 </Button>
@@ -363,46 +363,46 @@ export default function AdminUsersPage() {
             ) : (
               <>
                 <Tabs
-                  defaultValue=&quot;all-users&quot;
-                  className=&quot;w-full&quot;
+                  defaultValue="all-users"
+                  className="w-full"
                   value={selectedTab}
                   onValueChange={setSelectedTab}
                 >
-                  <div className=&quot;px-6 border-b&quot;>
-                    <TabsList className=&quot;mb-px&quot;>
-                      <TabsTrigger value=&quot;all-users&quot; className=&quot;relative&quot;>
+                  <div className="px-6 border-b">
+                    <TabsList className="mb-px">
+                      <TabsTrigger value="all-users" className="relative">
                         All Users
-                        <Badge className=&quot;ml-2 h-5 px-1.5&quot;>
+                        <Badge className="ml-2 h-5 px-1.5">
                           {stats.totalUsers}
                         </Badge>
                       </TabsTrigger>
-                      <TabsTrigger value=&quot;admins&quot;>
+                      <TabsTrigger value="admins">
                         Administrators
-                        <Badge className=&quot;ml-2 h-5 px-1.5&quot;>
+                        <Badge className="ml-2 h-5 px-1.5">
                           {stats.admins}
                         </Badge>
                       </TabsTrigger>
-                      <TabsTrigger value=&quot;brand-agents&quot;>
+                      <TabsTrigger value="brand-agents">
                         Brand Agents
-                        <Badge className=&quot;ml-2 h-5 px-1.5&quot;>
+                        <Badge className="ml-2 h-5 px-1.5">
                           {stats.brandAgents}
                         </Badge>
                       </TabsTrigger>
-                      <TabsTrigger value=&quot;client-users&quot;>
+                      <TabsTrigger value="client-users">
                         Client Users
-                        <Badge className=&quot;ml-2 h-5 px-1.5&quot;>
+                        <Badge className="ml-2 h-5 px-1.5">
                           {stats.clientUsers}
                         </Badge>
                       </TabsTrigger>
-                      <TabsTrigger value=&quot;internal-staff&quot;>
+                      <TabsTrigger value="internal-staff">
                         Internal Staff
-                        <Badge className=&quot;ml-2 h-5 px-1.5&quot;>
+                        <Badge className="ml-2 h-5 px-1.5">
                           {stats.internalUsers}
                         </Badge>
                       </TabsTrigger>
-                      <TabsTrigger value=&quot;inactive-users&quot;>
+                      <TabsTrigger value="inactive-users">
                         Inactive Users
-                        <Badge className=&quot;ml-2 h-5 px-1.5&quot;>
+                        <Badge className="ml-2 h-5 px-1.5">
                           {stats.inactiveUsers}
                         </Badge>
                       </TabsTrigger>
@@ -410,7 +410,7 @@ export default function AdminUsersPage() {
                   </div>
 
                   {/* All tabs share the same content with different filters */}
-                  <div className=&quot;p-0&quot;>
+                  <div className="p-0">
                     <UsersTable
                       users={getFilteredUsers()}
                       onViewUser={handleViewUser}
@@ -434,23 +434,23 @@ export default function AdminUsersPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className=&quot;flex flex-wrap gap-3&quot;>
+            <div className="flex flex-wrap gap-3">
               <Button
-                variant=&quot;outline&quot;
-                onClick={() => router.push(&quot;/admin/users/bulk-import&quot;)}
+                variant="outline"
+                onClick={() => router.push("/admin/users/bulk-import")}
               >
                 Bulk Import Users
               </Button>
               <Button
-                variant=&quot;outline&quot;
-                onClick={() => router.push(&quot;/admin/users/permissions&quot;)}
+                variant="outline"
+                onClick={() => router.push("/admin/users/permissions")}
               >
-                <UserCog className=&quot;h-4 w-4 mr-2&quot; />
+                <UserCog className="h-4 w-4 mr-2" />
                 User Permissions
               </Button>
               <Button
-                variant=&quot;outline&quot;
-                onClick={() => router.push(&quot;/admin/audit-logs?resource=users&quot;)}
+                variant="outline"
+                onClick={() => router.push("/admin/audit-logs?resource=users")}
               >
                 View User Audit Logs
               </Button>

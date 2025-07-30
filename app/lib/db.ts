@@ -3,7 +3,7 @@
  * This provides consistent access to the database connection
  */
 
-import { db } from &quot;./db-connection&quot;;
+import { db } from "./db-connection";
 
 export { db };
 export default db;

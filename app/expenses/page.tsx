@@ -4,28 +4,28 @@
  * Dark mode compatible and architecturally aligned with time tracking system
  */
 
-&quot;use client&quot;;
+"use client";
 
-import React, { useState, useEffect } from &quot;react&quot;;
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from &quot;@/components/ui/card&quot;;
-import { Button } from &quot;@/components/ui/button&quot;;
-import { Input } from &quot;@/components/ui/input&quot;;
-import { Label } from &quot;@/components/ui/label&quot;;
-import { Textarea } from &quot;@/components/ui/textarea&quot;;
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from &quot;@/components/ui/select&quot;;
-import { Badge } from &quot;@/components/ui/badge&quot;;
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -33,9 +33,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from &quot;@/components/ui/dialog&quot;;
-import { Alert, AlertDescription } from &quot;@/components/ui/alert&quot;;
-import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+} from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DollarSign,
   Receipt,
@@ -55,7 +55,7 @@ import {
   Filter,
   Download,
   Search,
-} from &quot;lucide-react&quot;;
+} from "lucide-react";
 
 interface ExpenseData {
   id: string;
@@ -63,13 +63,13 @@ interface ExpenseData {
   eventId?: string | null;
   shiftId?: string | null;
   expenseType:
-    | &quot;mileage&quot;
-    | &quot;meals&quot;
-    | &quot;parking&quot;
-    | &quot;supplies&quot;
-    | &quot;lodging&quot;
-    | &quot;transportation&quot;
-    | &quot;other&quot;;
+    | "mileage"
+    | "meals"
+    | "parking"
+    | "supplies"
+    | "lodging"
+    | "transportation"
+    | "other";
   amount: string;
   currency: string;
   description: string;
@@ -81,7 +81,7 @@ interface ExpenseData {
     distance: number;
     rate: number;
   } | null;
-  status: &quot;draft&quot; | &quot;submitted&quot; | &quot;approved&quot; | &quot;rejected&quot; | &quot;paid&quot;;
+  status: "draft" | "submitted" | "approved" | "rejected" | "paid";
   submittedAt?: Date | null;
   approvedAt?: Date | null;
   approvedBy?: string | null;
@@ -120,13 +120,13 @@ const ExpenseTypeIcons = {
 };
 
 const ExpenseTypeLabels = {
-  mileage: &quot;Mileage&quot;,
-  meals: &quot;Meals&quot;,
-  parking: &quot;Parking&quot;,
-  supplies: &quot;Supplies&quot;,
-  lodging: &quot;Lodging&quot;,
-  transportation: &quot;Transportation&quot;,
-  other: &quot;Other&quot;,
+  mileage: "Mileage",
+  meals: "Meals",
+  parking: "Parking",
+  supplies: "Supplies",
+  lodging: "Lodging",
+  transportation: "Transportation",
+  other: "Other",
 };
 
 export default function ExpensePage() {
@@ -135,28 +135,28 @@ export default function ExpensePage() {
   const [loading, setLoading] = useState(false);
   const [showNewExpenseDialog, setShowNewExpenseDialog] = useState(false);
   const [showMileageCalculator, setShowMileageCalculator] = useState(false);
-  const [activeTab, setActiveTab] = useState(&quot;overview&quot;);
+  const [activeTab, setActiveTab] = useState("overview");
 
   // Filters
   const [filters, setFilters] = useState({
-    search: "&quot;,
-    status: &quot;all&quot;,
-    type: &quot;all&quot;,
-    dateRange: &quot;all&quot;,
+    search: "",
+    status: "all",
+    type: "all",
+    dateRange: "all",
   });
 
   // New expense form state
   const [newExpense, setNewExpense] = useState({
-    expenseType: &quot;meals&quot; as const,
-    amount: &quot;&quot;,
-    description: &quot;&quot;,
-    expenseDate: new Date().toISOString().split(&quot;T&quot;)[0],
-    receiptUrl: &quot;&quot;,
-    eventId: &quot;&quot;,
-    shiftId: &quot;&quot;,
+    expenseType: "meals" as const,
+    amount: "",
+    description: "",
+    expenseDate: new Date().toISOString().split("T")[0],
+    receiptUrl: "",
+    eventId: "",
+    shiftId: "",
     mileageData: {
-      startLocation: &quot;&quot;,
-      endLocation: &quot;&quot;,
+      startLocation: "",
+      endLocation: "",
       distance: 0,
       rate: 0.67,
     },
@@ -164,8 +164,8 @@ export default function ExpensePage() {
 
   // Mileage calculator state
   const [mileageCalc, setMileageCalc] = useState({
-    startLocation: &quot;&quot;,
-    endLocation: &quot;&quot;,
+    startLocation: "",
+    endLocation: "",
     result: null as any,
   });
 
@@ -177,13 +177,13 @@ export default function ExpensePage() {
   const fetchExpenses = async () => {
     try {
       setLoading(true);
-      const response = await fetch(&quot;/api/expenses&quot;);
+      const response = await fetch("/api/expenses");
       if (response.ok) {
         const data = await response.json();
         setExpenses(data.expenses || []);
       }
     } catch (error) {
-      console.error(&quot;Error fetching expenses:&quot;, error);
+      console.error("Error fetching expenses:", error);
     } finally {
       setLoading(false);
     }
@@ -191,44 +191,44 @@ export default function ExpensePage() {
 
   const fetchExpenseSummary = async () => {
     try {
-      const response = await fetch(&quot;/api/expenses/summary&quot;);
+      const response = await fetch("/api/expenses/summary");
       if (response.ok) {
         const data = await response.json();
         setSummary(data);
       }
     } catch (error) {
-      console.error(&quot;Error fetching expense summary:&quot;, error);
+      console.error("Error fetching expense summary:", error);
     }
   };
 
-  const submitExpense = async (action: &quot;draft&quot; | &quot;submit&quot; = &quot;submit&quot;) => {
+  const submitExpense = async (action: "draft" | "submit" = "submit") => {
     try {
       const expenseData = {
-        agentId: &quot;mock-user-id&quot;,
+        agentId: "mock-user-id",
         ...newExpense,
         mileageData:
-          newExpense.expenseType === &quot;mileage&quot; ? newExpense.mileageData : null,
+          newExpense.expenseType === "mileage" ? newExpense.mileageData : null,
       };
 
-      const response = await fetch(&quot;/api/expenses&quot;, {
-        method: &quot;POST&quot;,
-        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+      const response = await fetch("/api/expenses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...expenseData, action }),
       });
 
       if (response.ok) {
         setShowNewExpenseDialog(false);
         setNewExpense({
-          expenseType: &quot;meals&quot;,
-          amount: &quot;&quot;,
-          description: &quot;&quot;,
-          expenseDate: new Date().toISOString().split(&quot;T&quot;)[0],
-          receiptUrl: &quot;&quot;,
-          eventId: &quot;&quot;,
-          shiftId: &quot;&quot;,
+          expenseType: "meals",
+          amount: "",
+          description: "",
+          expenseDate: new Date().toISOString().split("T")[0],
+          receiptUrl: "",
+          eventId: "",
+          shiftId: "",
           mileageData: {
-            startLocation: &quot;&quot;,
-            endLocation: &quot;&quot;,
+            startLocation: "",
+            endLocation: "",
             distance: 0,
             rate: 0.67,
           },
@@ -237,7 +237,7 @@ export default function ExpensePage() {
         fetchExpenseSummary();
       }
     } catch (error) {
-      console.error(&quot;Error submitting expense:&quot;, error);
+      console.error("Error submitting expense:", error);
     }
   };
 
@@ -265,33 +265,33 @@ export default function ExpensePage() {
   };
 
   const formatCurrency = (amount: string | number) => {
-    const num = typeof amount === &quot;string&quot; ? parseFloat(amount) : amount;
-    return new Intl.NumberFormat(&quot;en-US&quot;, {
-      style: &quot;currency&quot;,
-      currency: &quot;USD&quot;,
+    const num = typeof amount === "string" ? parseFloat(amount) : amount;
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(num || 0);
   };
 
   const getStatusBadge = (status: string) => {
     const variants = {
-      draft: &quot;outline&quot;,
-      submitted: &quot;secondary&quot;,
-      approved: &quot;default&quot;,
-      rejected: &quot;destructive&quot;,
-      paid: &quot;default&quot;,
+      draft: "outline",
+      submitted: "secondary",
+      approved: "default",
+      rejected: "destructive",
+      paid: "default",
     } as const;
 
     const colors = {
-      draft: &quot;text-muted-foreground&quot;,
-      submitted: &quot;text-blue-600 dark:text-blue-400&quot;,
-      approved: &quot;text-green-600 dark:text-green-400&quot;,
-      rejected: &quot;text-red-600 dark:text-red-400&quot;,
-      paid: &quot;text-emerald-600 dark:text-emerald-400&quot;,
+      draft: "text-muted-foreground",
+      submitted: "text-blue-600 dark:text-blue-400",
+      approved: "text-green-600 dark:text-green-400",
+      rejected: "text-red-600 dark:text-red-400",
+      paid: "text-emerald-600 dark:text-emerald-400",
     };
 
     return (
       <Badge
-        variant={variants[status as keyof typeof variants] || &quot;outline&quot;}
+        variant={variants[status as keyof typeof variants] || "outline"}
         className={colors[status as keyof typeof colors]}
       >
         {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -311,9 +311,9 @@ export default function ExpensePage() {
       if (!matchesSearch) return false;
     }
 
-    if (filters.status !== &quot;all&quot; && expense.status !== filters.status)
+    if (filters.status !== "all" && expense.status !== filters.status)
       return false;
-    if (filters.type !== &quot;all&quot; && expense.expenseType !== filters.type)
+    if (filters.type !== "all" && expense.expenseType !== filters.type)
       return false;
 
     return true;
@@ -321,11 +321,11 @@ export default function ExpensePage() {
 
   if (loading && expenses.length === 0) {
     return (
-      <div className=&quot;container mx-auto px-4 py-8&quot;>
-        <div className=&quot;flex items-center justify-center min-h-[400px]&quot;>
-          <div className=&quot;text-center&quot;>
-            <div className=&quot;animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4&quot;></div>
-            <p className=&quot;text-muted-foreground&quot;>Loading expenses...</p>
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading expenses...</p>
           </div>
         </div>
       </div>
@@ -333,23 +333,23 @@ export default function ExpensePage() {
   }
 
   return (
-    <div className=&quot;container mx-auto px-4 py-8 space-y-6&quot;>
-      <div className=&quot;flex items-center justify-between&quot;>
+    <div className="container mx-auto px-4 py-8 space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className=&quot;text-3xl font-bold&quot;>Expense Management</h1>
-          <p className=&quot;text-muted-foreground&quot;>
+          <h1 className="text-3xl font-bold">Expense Management</h1>
+          <p className="text-muted-foreground">
             Track and manage your expenses with role-based approval workflow
           </p>
         </div>
 
-        <div className=&quot;flex gap-2&quot;>
+        <div className="flex gap-2">
           <Dialog
             open={showMileageCalculator}
             onOpenChange={setShowMileageCalculator}
           >
             <DialogTrigger asChild>
-              <Button variant=&quot;outline&quot;>
-                <Calculator className=&quot;h-4 w-4 mr-2&quot; />
+              <Button variant="outline">
+                <Calculator className="h-4 w-4 mr-2" />
                 Mileage Calculator
               </Button>
             </DialogTrigger>
@@ -360,11 +360,11 @@ export default function ExpensePage() {
                   Calculate mileage expenses between two locations
                 </DialogDescription>
               </DialogHeader>
-              <div className=&quot;space-y-4&quot;>
+              <div className="space-y-4">
                 <div>
-                  <Label htmlFor=&quot;startLocation&quot;>Start Location</Label>
+                  <Label htmlFor="startLocation">Start Location</Label>
                   <Input
-                    id=&quot;startLocation&quot;
+                    id="startLocation"
                     value={mileageCalc.startLocation}
                     onChange={(e) =>
                       setMileageCalc((prev) => ({
@@ -372,13 +372,13 @@ export default function ExpensePage() {
                         startLocation: e.target.value,
                       }))
                     }
-                    placeholder=&quot;Enter starting point&quot;
+                    placeholder="Enter starting point"
                   />
                 </div>
                 <div>
-                  <Label htmlFor=&quot;endLocation&quot;>End Location</Label>
+                  <Label htmlFor="endLocation">End Location</Label>
                   <Input
-                    id=&quot;endLocation&quot;
+                    id="endLocation"
                     value={mileageCalc.endLocation}
                     onChange={(e) =>
                       setMileageCalc((prev) => ({
@@ -386,24 +386,24 @@ export default function ExpensePage() {
                         endLocation: e.target.value,
                       }))
                     }
-                    placeholder=&quot;Enter destination&quot;
+                    placeholder="Enter destination"
                   />
                 </div>
-                <Button onClick={calculateMileage} className=&quot;w-full&quot;>
+                <Button onClick={calculateMileage} className="w-full">
                   Calculate Mileage
                 </Button>
                 {mileageCalc.result && (
-                  <div className=&quot;p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800&quot;>
-                    <h4 className=&quot;font-semibold text-green-900 dark:text-green-100&quot;>
+                  <div className="p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
+                    <h4 className="font-semibold text-green-900 dark:text-green-100">
                       Calculation Result
                     </h4>
-                    <p className=&quot;text-green-700 dark:text-green-300&quot;>
+                    <p className="text-green-700 dark:text-green-300">
                       Distance: {mileageCalc.result.distance} miles
                     </p>
-                    <p className=&quot;text-green-700 dark:text-green-300&quot;>
+                    <p className="text-green-700 dark:text-green-300">
                       Rate: ${mileageCalc.result.rate} per mile
                     </p>
-                    <p className=&quot;text-green-700 dark:text-green-300 font-bold&quot;>
+                    <p className="text-green-700 dark:text-green-300 font-bold">
                       Total: {formatCurrency(mileageCalc.result.amount)}
                     </p>
                   </div>
@@ -418,20 +418,20 @@ export default function ExpensePage() {
           >
             <DialogTrigger asChild>
               <Button>
-                <Plus className=&quot;h-4 w-4 mr-2&quot; />
+                <Plus className="h-4 w-4 mr-2" />
                 New Expense
               </Button>
             </DialogTrigger>
-            <DialogContent className=&quot;max-w-md&quot;>
+            <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle>Create New Expense</DialogTitle>
                 <DialogDescription>
                   Submit a new expense for approval
                 </DialogDescription>
               </DialogHeader>
-              <div className=&quot;space-y-4&quot;>
+              <div className="space-y-4">
                 <div>
-                  <Label htmlFor=&quot;expenseType&quot;>Expense Type</Label>
+                  <Label htmlFor="expenseType">Expense Type</Label>
                   <Select
                     value={newExpense.expenseType}
                     onValueChange={(value: any) =>
@@ -442,25 +442,25 @@ export default function ExpensePage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=&quot;mileage&quot;>Mileage</SelectItem>
-                      <SelectItem value=&quot;meals&quot;>Meals</SelectItem>
-                      <SelectItem value=&quot;parking&quot;>Parking</SelectItem>
-                      <SelectItem value=&quot;supplies&quot;>Supplies</SelectItem>
-                      <SelectItem value=&quot;lodging&quot;>Lodging</SelectItem>
-                      <SelectItem value=&quot;transportation&quot;>
+                      <SelectItem value="mileage">Mileage</SelectItem>
+                      <SelectItem value="meals">Meals</SelectItem>
+                      <SelectItem value="parking">Parking</SelectItem>
+                      <SelectItem value="supplies">Supplies</SelectItem>
+                      <SelectItem value="lodging">Lodging</SelectItem>
+                      <SelectItem value="transportation">
                         Transportation
                       </SelectItem>
-                      <SelectItem value=&quot;other&quot;>Other</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {newExpense.expenseType === &quot;mileage&quot; && (
-                  <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                {newExpense.expenseType === "mileage" && (
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor=&quot;startLoc&quot;>Start Location</Label>
+                      <Label htmlFor="startLoc">Start Location</Label>
                       <Input
-                        id=&quot;startLoc&quot;
+                        id="startLoc"
                         value={newExpense.mileageData.startLocation}
                         onChange={(e) =>
                           setNewExpense((prev) => ({
@@ -471,13 +471,13 @@ export default function ExpensePage() {
                             },
                           }))
                         }
-                        placeholder=&quot;Starting location&quot;
+                        placeholder="Starting location"
                       />
                     </div>
                     <div>
-                      <Label htmlFor=&quot;endLoc&quot;>End Location</Label>
+                      <Label htmlFor="endLoc">End Location</Label>
                       <Input
-                        id=&quot;endLoc&quot;
+                        id="endLoc"
                         value={newExpense.mileageData.endLocation}
                         onChange={(e) =>
                           setNewExpense((prev) => ({
@@ -488,18 +488,18 @@ export default function ExpensePage() {
                             },
                           }))
                         }
-                        placeholder=&quot;Destination&quot;
+                        placeholder="Destination"
                       />
                     </div>
                   </div>
                 )}
 
                 <div>
-                  <Label htmlFor=&quot;amount&quot;>Amount</Label>
+                  <Label htmlFor="amount">Amount</Label>
                   <Input
-                    id=&quot;amount&quot;
-                    type=&quot;number&quot;
-                    step=&quot;0.01&quot;
+                    id="amount"
+                    type="number"
+                    step="0.01"
                     value={newExpense.amount}
                     onChange={(e) =>
                       setNewExpense((prev) => ({
@@ -507,14 +507,14 @@ export default function ExpensePage() {
                         amount: e.target.value,
                       }))
                     }
-                    placeholder=&quot;0.00&quot;
+                    placeholder="0.00"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor=&quot;description&quot;>Description</Label>
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
-                    id=&quot;description&quot;
+                    id="description"
                     value={newExpense.description}
                     onChange={(e) =>
                       setNewExpense((prev) => ({
@@ -522,16 +522,16 @@ export default function ExpensePage() {
                         description: e.target.value,
                       }))
                     }
-                    placeholder=&quot;Describe the expense&quot;
+                    placeholder="Describe the expense"
                     rows={3}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor=&quot;expenseDate&quot;>Date</Label>
+                  <Label htmlFor="expenseDate">Date</Label>
                   <Input
-                    id=&quot;expenseDate&quot;
-                    type=&quot;date&quot;
+                    id="expenseDate"
+                    type="date"
                     value={newExpense.expenseDate}
                     onChange={(e) =>
                       setNewExpense((prev) => ({
@@ -542,17 +542,17 @@ export default function ExpensePage() {
                   />
                 </div>
 
-                <div className=&quot;flex gap-2&quot;>
+                <div className="flex gap-2">
                   <Button
-                    variant=&quot;outline&quot;
-                    onClick={() => submitExpense(&quot;draft&quot;)}
-                    className=&quot;flex-1&quot;
+                    variant="outline"
+                    onClick={() => submitExpense("draft")}
+                    className="flex-1"
                   >
                     Save Draft
                   </Button>
                   <Button
-                    onClick={() => submitExpense(&quot;submit&quot;)}
-                    className=&quot;flex-1&quot;
+                    onClick={() => submitExpense("submit")}
+                    className="flex-1"
                   >
                     Submit
                   </Button>
@@ -563,79 +563,79 @@ export default function ExpensePage() {
         </div>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className=&quot;w-full&quot;>
-        <TabsList className=&quot;grid w-full grid-cols-3&quot;>
-          <TabsTrigger value=&quot;overview&quot;>Overview</TabsTrigger>
-          <TabsTrigger value=&quot;expenses&quot;>Expenses</TabsTrigger>
-          <TabsTrigger value=&quot;reports&quot;>Reports</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="expenses">Expenses</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
 
-        <TabsContent value=&quot;overview&quot; className=&quot;space-y-6&quot;>
+        <TabsContent value="overview" className="space-y-6">
           {summary && (
-            <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
                     Total Expenses
                   </CardTitle>
-                  <Receipt className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                  <Receipt className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold&quot;>
+                  <div className="text-2xl font-bold">
                     {summary.totalExpenses}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>
+                  <p className="text-xs text-muted-foreground">
                     {formatCurrency(summary.totalAmount)} total value
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
                     Pending Approval
                   </CardTitle>
-                  <Clock className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                  <Clock className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold&quot;>
+                  <div className="text-2xl font-bold">
                     {summary.pendingApproval}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>
+                  <p className="text-xs text-muted-foreground">
                     {formatCurrency(summary.pendingAmount)} pending
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
                     Approved
                   </CardTitle>
-                  <CheckCircle className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                  <CheckCircle className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold text-green-600 dark:text-green-400&quot;>
+                  <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                     {formatCurrency(summary.approvedAmount)}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>
+                  <p className="text-xs text-muted-foreground">
                     Approved expenses
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
-                  <CardTitle className=&quot;text-sm font-medium&quot;>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
                     Rejected
                   </CardTitle>
-                  <XCircle className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                  <XCircle className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className=&quot;text-2xl font-bold text-red-600 dark:text-red-400&quot;>
+                  <div className="text-2xl font-bold text-red-600 dark:text-red-400">
                     {formatCurrency(summary.rejectedAmount)}
                   </div>
-                  <p className=&quot;text-xs text-muted-foreground&quot;>
+                  <p className="text-xs text-muted-foreground">
                     Rejected expenses
                   </p>
                 </CardContent>
@@ -650,7 +650,7 @@ export default function ExpensePage() {
             </CardHeader>
             <CardContent>
               {summary && (
-                <div className=&quot;space-y-4&quot;>
+                <div className="space-y-4">
                   {Object.entries(summary.byCategory).map(
                     ([category, data]) => {
                       const Icon =
@@ -660,23 +660,23 @@ export default function ExpensePage() {
                       return (
                         <div
                           key={category}
-                          className=&quot;flex items-center justify-between p-3 rounded-lg bg-muted/50&quot;
+                          className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
                         >
-                          <div className=&quot;flex items-center gap-3&quot;>
-                            <Icon className=&quot;h-5 w-5 text-muted-foreground&quot; />
+                          <div className="flex items-center gap-3">
+                            <Icon className="h-5 w-5 text-muted-foreground" />
                             <div>
-                              <p className=&quot;font-medium&quot;>
+                              <p className="font-medium">
                                 {ExpenseTypeLabels[
                                   category as keyof typeof ExpenseTypeLabels
                                 ] || category}
                               </p>
-                              <p className=&quot;text-sm text-muted-foreground&quot;>
+                              <p className="text-sm text-muted-foreground">
                                 {data.count} expenses
                               </p>
                             </div>
                           </div>
-                          <div className=&quot;text-right&quot;>
-                            <p className=&quot;font-medium&quot;>
+                          <div className="text-right">
+                            <p className="font-medium">
                               {formatCurrency(data.amount)}
                             </p>
                           </div>
@@ -690,16 +690,16 @@ export default function ExpensePage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;expenses&quot; className=&quot;space-y-6&quot;>
+        <TabsContent value="expenses" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className=&quot;flex items-center justify-between&quot;>
+              <CardTitle className="flex items-center justify-between">
                 All Expenses
-                <div className=&quot;flex items-center gap-2&quot;>
-                  <div className=&quot;flex items-center gap-2&quot;>
-                    <Search className=&quot;h-4 w-4 text-muted-foreground&quot; />
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2">
+                    <Search className="h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder=&quot;Search expenses...&quot;
+                      placeholder="Search expenses..."
                       value={filters.search}
                       onChange={(e) =>
                         setFilters((prev) => ({
@@ -707,7 +707,7 @@ export default function ExpensePage() {
                           search: e.target.value,
                         }))
                       }
-                      className=&quot;w-64&quot;
+                      className="w-64"
                     />
                   </div>
                   <Select
@@ -716,34 +716,34 @@ export default function ExpensePage() {
                       setFilters((prev) => ({ ...prev, status: value }))
                     }
                   >
-                    <SelectTrigger className=&quot;w-32&quot;>
+                    <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value=&quot;all&quot;>All Status</SelectItem>
-                      <SelectItem value=&quot;draft&quot;>Draft</SelectItem>
-                      <SelectItem value=&quot;submitted&quot;>Submitted</SelectItem>
-                      <SelectItem value=&quot;approved&quot;>Approved</SelectItem>
-                      <SelectItem value=&quot;rejected&quot;>Rejected</SelectItem>
-                      <SelectItem value=&quot;paid&quot;>Paid</SelectItem>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="submitted">Submitted</SelectItem>
+                      <SelectItem value="approved">Approved</SelectItem>
+                      <SelectItem value="rejected">Rejected</SelectItem>
+                      <SelectItem value="paid">Paid</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className=&quot;space-y-4&quot;>
+              <div className="space-y-4">
                 {filteredExpenses.length === 0 ? (
-                  <div className=&quot;text-center py-8&quot;>
-                    <Receipt className=&quot;h-12 w-12 text-muted-foreground mx-auto mb-4&quot; />
-                    <h3 className=&quot;text-lg font-medium mb-2&quot;>
+                  <div className="text-center py-8">
+                    <Receipt className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-medium mb-2">
                       No expenses found
                     </h3>
-                    <p className=&quot;text-muted-foreground mb-4&quot;>
+                    <p className="text-muted-foreground mb-4">
                       Get started by submitting your first expense
                     </p>
                     <Button onClick={() => setShowNewExpenseDialog(true)}>
-                      <Plus className=&quot;h-4 w-4 mr-2&quot; />
+                      <Plus className="h-4 w-4 mr-2" />
                       Create Expense
                     </Button>
                   </div>
@@ -753,17 +753,17 @@ export default function ExpensePage() {
                     return (
                       <div
                         key={expense.id}
-                        className=&quot;flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors&quot;
+                        className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
                       >
-                        <div className=&quot;flex items-center gap-4&quot;>
-                          <div className=&quot;p-2 rounded-lg bg-primary/10&quot;>
-                            <Icon className=&quot;h-5 w-5 text-primary&quot; />
+                        <div className="flex items-center gap-4">
+                          <div className="p-2 rounded-lg bg-primary/10">
+                            <Icon className="h-5 w-5 text-primary" />
                           </div>
                           <div>
-                            <h4 className=&quot;font-medium&quot;>
+                            <h4 className="font-medium">
                               {expense.description}
                             </h4>
-                            <div className=&quot;flex items-center gap-2 text-sm text-muted-foreground&quot;>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
                               <span>
                                 {ExpenseTypeLabels[expense.expenseType]}
                               </span>
@@ -777,7 +777,7 @@ export default function ExpensePage() {
                                 <>
                                   <span>•</span>
                                   <span>
-                                    {expense.agent.firstName}{&quot; &quot;}
+                                    {expense.agent.firstName}{" "}
                                     {expense.agent.lastName}
                                   </span>
                                 </>
@@ -785,12 +785,12 @@ export default function ExpensePage() {
                             </div>
                           </div>
                         </div>
-                        <div className=&quot;flex items-center gap-4&quot;>
-                          <div className=&quot;text-right&quot;>
-                            <p className=&quot;font-medium&quot;>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <p className="font-medium">
                               {formatCurrency(expense.amount)}
                             </p>
-                            <p className=&quot;text-sm text-muted-foreground&quot;>
+                            <p className="text-sm text-muted-foreground">
                               {expense.currency}
                             </p>
                           </div>
@@ -805,7 +805,7 @@ export default function ExpensePage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value=&quot;reports&quot; className=&quot;space-y-6&quot;>
+        <TabsContent value="reports" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Expense Reports</CardTitle>
@@ -814,19 +814,19 @@ export default function ExpensePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className=&quot;space-y-4&quot;>
-                <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
-                  <Button variant=&quot;outline&quot; className=&quot;h-20 flex flex-col&quot;>
-                    <Download className=&quot;h-6 w-6 mb-2&quot; />
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Button variant="outline" className="h-20 flex flex-col">
+                    <Download className="h-6 w-6 mb-2" />
                     <span>Export Monthly Report</span>
                   </Button>
-                  <Button variant=&quot;outline&quot; className=&quot;h-20 flex flex-col&quot;>
-                    <FileText className=&quot;h-6 w-6 mb-2&quot; />
+                  <Button variant="outline" className="h-20 flex flex-col">
+                    <FileText className="h-6 w-6 mb-2" />
                     <span>Tax Summary Report</span>
                   </Button>
                 </div>
                 <Alert>
-                  <AlertCircle className=&quot;h-4 w-4" />
+                  <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
                     Reports will be generated in PDF format and include all
                     approved expenses for the selected period.
