@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { Loader2, Check, X, AlertTriangle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, Suspense } from &quot;react&quot;;
+import { useSearchParams, useRouter } from &quot;next/navigation&quot;;
+import { useMutation } from &quot;@tanstack/react-query&quot;;
+import { Loader2, Check, X, AlertTriangle } from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
@@ -12,18 +12,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { toast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
-import { apiRequest } from "@/lib/queryClient";
+} from &quot;@/components/ui/card&quot;;
+import { toast } from &quot;@/hooks/use-toast&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { apiRequest } from &quot;@/lib/queryClient&quot;;
 
 // Wrapper with suspense boundary
 export default function AcceptInvitationPageWrapper() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
         </div>
       }
     >
@@ -39,44 +39,44 @@ function AcceptInvitationPage() {
   const { user, loading: isAuthLoading } = useAuth();
   const [token, setToken] = useState<string | null>(null);
   const [status, setStatus] = useState<
-    "loading" | "accepting" | "success" | "error"
-  >("loading");
+    &quot;loading&quot; | &quot;accepting&quot; | &quot;success&quot; | &quot;error&quot;
+  >(&quot;loading&quot;);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const urlToken = searchParams.get("token");
+    const urlToken = searchParams.get(&quot;token&quot;);
     if (urlToken) {
       setToken(urlToken);
     } else {
-      setStatus("error");
-      setErrorMessage("Invalid invitation link. No token provided.");
+      setStatus(&quot;error&quot;);
+      setErrorMessage(&quot;Invalid invitation link. No token provided.&quot;);
     }
   }, [searchParams]);
 
   // Mutation for accepting the invitation
   const acceptInvitationMutation = useMutation({
     mutationFn: async (token: string) => {
-      return apiRequest("POST", "/api/organizations/invitations/accept", {
+      return apiRequest(&quot;POST&quot;, &quot;/api/organizations/invitations/accept&quot;, {
         token,
       });
     },
     onSuccess: () => {
-      setStatus("success");
+      setStatus(&quot;success&quot;);
       toast({
-        title: "Invitation Accepted",
-        description: "You have successfully joined the organization.",
+        title: &quot;Invitation Accepted&quot;,
+        description: &quot;You have successfully joined the organization.&quot;,
       });
     },
     onError: (error: Error) => {
-      setStatus("error");
+      setStatus(&quot;error&quot;);
       setErrorMessage(
-        error.message || "There was an error accepting the invitation.",
+        error.message || &quot;There was an error accepting the invitation.&quot;,
       );
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          error.message || "There was an error accepting the invitation.",
-        variant: "destructive",
+          error.message || &quot;There was an error accepting the invitation.&quot;,
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -84,24 +84,24 @@ function AcceptInvitationPage() {
   // Mutation for rejecting the invitation
   const rejectInvitationMutation = useMutation({
     mutationFn: async (token: string) => {
-      return apiRequest("POST", "/api/organizations/invitations/reject", {
+      return apiRequest(&quot;POST&quot;, &quot;/api/organizations/invitations/reject&quot;, {
         token,
       });
     },
     onSuccess: () => {
       toast({
-        title: "Invitation Rejected",
+        title: &quot;Invitation Rejected&quot;,
         description:
-          "You have declined the invitation to join the organization.",
+          &quot;You have declined the invitation to join the organization.&quot;,
       });
-      router.push("/");
+      router.push(&quot;/&quot;);
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          error.message || "There was an error rejecting the invitation.",
-        variant: "destructive",
+          error.message || &quot;There was an error rejecting the invitation.&quot;,
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -109,7 +109,7 @@ function AcceptInvitationPage() {
   // Handle accepting the invitation
   const handleAccept = () => {
     if (token) {
-      setStatus("accepting");
+      setStatus(&quot;accepting&quot;);
       acceptInvitationMutation.mutate(token);
     }
   };
@@ -133,8 +133,8 @@ function AcceptInvitationPage() {
   // If still loading authentication status
   if (isAuthLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
       </div>
     );
   }
@@ -142,15 +142,15 @@ function AcceptInvitationPage() {
   // If not authenticated, show a loading indicator (will redirect via useEffect)
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="w-full max-w-md p-4">
+    <div className=&quot;flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900&quot;>
+      <div className=&quot;w-full max-w-md p-4&quot;>
         <Card>
           <CardHeader>
             <CardTitle>Organization Invitation</CardTitle>
@@ -159,81 +159,81 @@ function AcceptInvitationPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {status === "loading" && (
-              <div className="flex flex-col items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-                <p className="text-center">Loading invitation details...</p>
+            {status === &quot;loading&quot; && (
+              <div className=&quot;flex flex-col items-center justify-center py-8&quot;>
+                <Loader2 className=&quot;h-8 w-8 animate-spin text-primary mb-4&quot; />
+                <p className=&quot;text-center&quot;>Loading invitation details...</p>
               </div>
             )}
 
-            {status === "accepting" && (
-              <div className="flex flex-col items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-                <p className="text-center">Processing your acceptance...</p>
+            {status === &quot;accepting&quot; && (
+              <div className=&quot;flex flex-col items-center justify-center py-8&quot;>
+                <Loader2 className=&quot;h-8 w-8 animate-spin text-primary mb-4&quot; />
+                <p className=&quot;text-center&quot;>Processing your acceptance...</p>
               </div>
             )}
 
-            {status === "success" && (
-              <div className="flex flex-col items-center justify-center py-8">
-                <div className="bg-green-100 rounded-full p-3 mb-4">
-                  <Check className="h-8 w-8 text-green-600" />
+            {status === &quot;success&quot; && (
+              <div className=&quot;flex flex-col items-center justify-center py-8&quot;>
+                <div className=&quot;bg-green-100 rounded-full p-3 mb-4&quot;>
+                  <Check className=&quot;h-8 w-8 text-green-600&quot; />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className=&quot;text-xl font-semibold mb-2&quot;>
                   Invitation Accepted
                 </h3>
-                <p className="text-center text-gray-600 dark:text-gray-400 mb-4">
+                <p className=&quot;text-center text-gray-600 dark:text-gray-400 mb-4&quot;>
                   You have successfully joined the organization.
                 </p>
-                <p className="text-center text-sm text-gray-500">
+                <p className=&quot;text-center text-sm text-gray-500&quot;>
                   You can now access the organization resources.
                 </p>
               </div>
             )}
 
-            {status === "error" && (
-              <div className="flex flex-col items-center justify-center py-8">
-                <div className="bg-red-100 rounded-full p-3 mb-4">
-                  <AlertTriangle className="h-8 w-8 text-red-600" />
+            {status === &quot;error&quot; && (
+              <div className=&quot;flex flex-col items-center justify-center py-8&quot;>
+                <div className=&quot;bg-red-100 rounded-full p-3 mb-4&quot;>
+                  <AlertTriangle className=&quot;h-8 w-8 text-red-600&quot; />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Error</h3>
-                <p className="text-center text-gray-600 dark:text-gray-400 mb-4">
+                <h3 className=&quot;text-xl font-semibold mb-2&quot;>Error</h3>
+                <p className=&quot;text-center text-gray-600 dark:text-gray-400 mb-4&quot;>
                   {errorMessage ||
-                    "There was an error processing your invitation."}
+                    &quot;There was an error processing your invitation.&quot;}
                 </p>
               </div>
             )}
           </CardContent>
-          <CardFooter className="flex justify-center space-x-4">
-            {status === "loading" && (
+          <CardFooter className=&quot;flex justify-center space-x-4&quot;>
+            {status === &quot;loading&quot; && (
               <>
                 <Button
-                  variant="default"
+                  variant=&quot;default&quot;
                   onClick={handleAccept}
-                  className="w-32"
+                  className=&quot;w-32&quot;
                 >
-                  <Check className="h-4 w-4 mr-2" />
+                  <Check className=&quot;h-4 w-4 mr-2&quot; />
                   Accept
                 </Button>
                 <Button
-                  variant="outline"
+                  variant=&quot;outline&quot;
                   onClick={handleReject}
-                  className="w-32"
+                  className=&quot;w-32&quot;
                 >
-                  <X className="h-4 w-4 mr-2" />
+                  <X className=&quot;h-4 w-4 mr-2&quot; />
                   Decline
                 </Button>
               </>
             )}
 
-            {status === "accepting" && (
-              <Button variant="outline" disabled>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            {status === &quot;accepting&quot; && (
+              <Button variant=&quot;outline&quot; disabled>
+                <Loader2 className=&quot;h-4 w-4 mr-2 animate-spin&quot; />
                 Processing
               </Button>
             )}
 
-            {(status === "success" || status === "error") && (
-              <Button onClick={() => router.push("/")}>Go to Dashboard</Button>
+            {(status === &quot;success&quot; || status === &quot;error&quot;) && (
+              <Button onClick={() => router.push(&quot;/&quot;)}>Go to Dashboard</Button>
             )}
           </CardFooter>
         </Card>

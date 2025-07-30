@@ -3,7 +3,7 @@ import {
   LocalServiceAdapter,
   RemoteServiceAdapter,
   DefaultApiClient,
-} from "./serviceAdapter";
+} from &quot;./serviceAdapter&quot;;
 
 /**
  * ServiceRegistry
@@ -15,7 +15,7 @@ import {
 
 // Service configuration type
 export type ServiceConfig = {
-  type: "local" | "remote";
+  type: &quot;local&quot; | &quot;remote&quot;;
   url?: string;
 };
 
@@ -24,9 +24,9 @@ export type ServiceConfig = {
 // variables or a configuration service
 export const serviceConfigurations: Record<string, ServiceConfig> = {
   // All services are local by default in development
-  auth: { type: "local" },
-  user: { type: "local" },
-  availability: { type: "local" },
+  auth: { type: &quot;local&quot; },
+  user: { type: &quot;local&quot; },
+  availability: { type: &quot;local&quot; },
   // Future configuration example:
   // 'auth': { type: 'remote', url: 'https://auth-service.example.com/api' }
 };
@@ -54,7 +54,7 @@ export function getServiceAdapter<T extends object>(
     return new LocalServiceAdapter<T>(localInstance);
   }
 
-  if (config.type === "local") {
+  if (config.type === &quot;local&quot;) {
     return new LocalServiceAdapter<T>(localInstance);
   } else {
     if (!config.url) {
@@ -85,7 +85,7 @@ export function getAsyncServiceAdapter<T extends object>(
     throw new Error(`Service '${serviceId}' needs to be properly configured.`);
   }
 
-  if (config.type === "remote") {
+  if (config.type === &quot;remote&quot;) {
     if (!config.url) {
       throw new Error(
         `Remote service '${serviceId}' is missing a URL configuration.`,
@@ -98,7 +98,7 @@ export function getAsyncServiceAdapter<T extends object>(
     return {
       getService(): T {
         throw new Error(
-          "This service must be accessed through an API route. Direct client access is not supported.",
+          &quot;This service must be accessed through an API route. Direct client access is not supported.&quot;,
         );
       },
     } as ServiceAdapter<T>;
@@ -143,7 +143,7 @@ export function createAsyncServiceProvider<T extends object>(
     }
 
     // For remote services, create a remote adapter
-    if (config.type === "remote") {
+    if (config.type === &quot;remote&quot;) {
       if (!config.url) {
         throw new Error(
           `Remote service '${serviceId}' is missing a URL configuration`,
@@ -156,11 +156,11 @@ export function createAsyncServiceProvider<T extends object>(
     // For local services, dynamically import
     // This pattern ensures the imports only happen on the server
     try {
-      if (serviceId === "availability") {
+      if (serviceId === &quot;availability&quot;) {
         // Special handling for availability service
         // Import the adapter, not the service directly
         const { LocalAvailabilityServiceAdapter } = await import(
-          "../availability/serviceAdapter"
+          &quot;../availability/serviceAdapter&quot;
         );
         const adapter = new LocalAvailabilityServiceAdapter();
         // Use the getServiceAsync method defined on this specific adapter

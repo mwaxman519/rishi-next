@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect, useRef, useState } from "react";
-import { Loader2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React, { useEffect, useRef, useState } from &quot;react&quot;;
+import { Loader2 } from &quot;lucide-react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 
 // Mock useToast hook if not available
 const useToast = () => {
@@ -29,7 +29,7 @@ interface PlacesAutocompleteProps {
 
 export default function PlacesAutocomplete({
   onPlaceSelect,
-  placeholder = "Search for an address",
+  placeholder = &quot;Search for an address&quot;,
   className,
 }: PlacesAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,10 +41,10 @@ export default function PlacesAutocomplete({
     if (!window.google || !window.google.maps || !window.google.maps.places) {
       // If Google Maps API is not loaded, show a toast
       toast({
-        title: "Google Maps not loaded",
+        title: &quot;Google Maps not loaded&quot;,
         description:
-          "Please make sure Google Maps API is correctly configured.",
-        variant: "destructive",
+          &quot;Please make sure Google Maps API is correctly configured.&quot;,
+        variant: &quot;destructive&quot;,
       });
       return;
     }
@@ -56,19 +56,19 @@ export default function PlacesAutocomplete({
       if (inputRef.current) {
         autoCompleteRef.current = new window.google.maps.places.Autocomplete(
           inputRef.current,
-          { types: ["address"] },
+          { types: [&quot;address&quot;] },
         );
 
         // Add a listener for place changed
-        autoCompleteRef.current.addListener("place_changed", () => {
+        autoCompleteRef.current.addListener(&quot;place_changed&quot;, () => {
           if (autoCompleteRef.current) {
             const place = autoCompleteRef.current.getPlace();
 
             if (!place.geometry) {
               toast({
-                title: "Invalid Location",
-                description: "Please select a location from the dropdown.",
-                variant: "destructive",
+                title: &quot;Invalid Location&quot;,
+                description: &quot;Please select a location from the dropdown.&quot;,
+                variant: &quot;destructive&quot;,
               });
               return;
             }
@@ -79,10 +79,10 @@ export default function PlacesAutocomplete({
       }
     } catch (error: any) {
       toast({
-        title: "Google Maps Error",
+        title: &quot;Google Maps Error&quot;,
         description:
-          error.message || "An error occurred while initializing Google Maps",
-        variant: "destructive",
+          error.message || &quot;An error occurred while initializing Google Maps&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsLoading(false);
@@ -99,7 +99,7 @@ export default function PlacesAutocomplete({
   }, [onPlaceSelect, toast]);
 
   return (
-    <div className="relative">
+    <div className=&quot;relative&quot;>
       <Input
         ref={inputRef}
         placeholder={placeholder}
@@ -107,8 +107,8 @@ export default function PlacesAutocomplete({
         disabled={isLoading}
       />
       {isLoading && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2">
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+        <div className=&quot;absolute right-3 top-1/2 -translate-y-1/2&quot;>
+          <Loader2 className=&quot;h-4 w-4 animate-spin text-muted-foreground&quot; />
         </div>
       )}
     </div>

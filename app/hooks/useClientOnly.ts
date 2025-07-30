@@ -1,12 +1,12 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from &quot;react&quot;;
 
 /**
  * Returns true if code is running in a browser environment
  */
 export function isClientSide(): boolean {
-  return typeof window !== "undefined";
+  return typeof window !== &quot;undefined&quot;;
 }
 
 /**

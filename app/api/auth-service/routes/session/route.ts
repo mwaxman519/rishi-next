@@ -1,20 +1,20 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Session API Endpoint for Auth Microservice
  *
  * This endpoint verifies user sessions and returns current user data.
  */
-import { NextRequest } from "next/server";
-import { verifyToken, extractTokenFromHeader } from "../../utils/jwt";
-import { errorResponse, successResponse } from "../../utils/response";
+import { NextRequest } from &quot;next/server&quot;;
+import { verifyToken, extractTokenFromHeader } from &quot;../../utils/jwt&quot;;
+import { errorResponse, successResponse } from &quot;../../utils/response&quot;;
 import {
   getUserById,
   getUserOrganizations,
-} from "../../models/user-repository";
-import { AUTH_CONFIG } from "../../config";
+} from &quot;../../models/user-repository&quot;;
+import { AUTH_CONFIG } from &quot;../../config&quot;;
 
 /**
  * Handle GET /api/auth-service/routes/session
@@ -22,10 +22,10 @@ import { AUTH_CONFIG } from "../../config";
  */
 export async function GET(request: NextRequest) {
   try {
-    console.log("[Auth Service] Session verification request");
+    console.log(&quot;[Auth Service] Session verification request&quot;);
 
     // Check for token in authorization header
-    const authHeader = request.headers.get("authorization");
+    const authHeader = request.headers.get(&quot;authorization&quot;);
     const token = extractTokenFromHeader(authHeader);
 
     // Also check for token in cookies as a fallback
@@ -36,27 +36,27 @@ export async function GET(request: NextRequest) {
 
     // Development mode option to bypass token for testing
     const urlParams = new URL(request.url).searchParams;
-    const devModeParam = urlParams.get("dev_mode");
+    const devModeParam = urlParams.get(&quot;dev_mode&quot;);
 
     // Handle development mode bypass if explicitly enabled
-    if (AUTH_CONFIG.DEV_MODE && devModeParam === "true") {
-      console.log("[Auth Service] DEVELOPMENT MODE: Using mock user session");
+    if (AUTH_CONFIG.DEV_MODE && devModeParam === &quot;true&quot;) {
+      console.log(&quot;[Auth Service] DEVELOPMENT MODE: Using mock user session&quot;);
 
       return successResponse({
         user: {
-          id: "00000000-0000-0000-0000-000000000001",
-          email: "admin@example.com",
-          name: "Admin User",
-          role: "super_admin",
-          organizationId: "00000000-0000-0000-0000-000000000001",
-          roles: ["SUPER_ADMIN"],
+          id: &quot;00000000-0000-0000-0000-000000000001&quot;,
+          email: &quot;admin@example.com&quot;,
+          name: &quot;Admin User&quot;,
+          role: &quot;super_admin&quot;,
+          organizationId: &quot;00000000-0000-0000-0000-000000000001&quot;,
+          roles: [&quot;SUPER_ADMIN&quot;],
         },
       });
     }
 
     // No token available
     if (!accessToken) {
-      console.log("[Auth Service] No session token found");
+      console.log(&quot;[Auth Service] No session token found&quot;);
       return successResponse({ user: null });
     }
 
@@ -66,7 +66,7 @@ export async function GET(request: NextRequest) {
 
       // Get the complete user data
       if (!payload.sub) {
-        return errorResponse("Invalid token: missing user ID", 401);
+        return errorResponse(&quot;Invalid token: missing user ID&quot;, 401);
       }
       const user = await getUserById(payload.sub);
 
@@ -95,11 +95,11 @@ export async function GET(request: NextRequest) {
         },
       });
     } catch (tokenError) {
-      console.error("[Auth Service] Token validation error:", tokenError);
+      console.error(&quot;[Auth Service] Token validation error:&quot;, tokenError);
       return successResponse({ user: null });
     }
   } catch (error) {
-    console.error("[Auth Service] Session verification error:", error);
-    return errorResponse("Session error", 500, "SESSION_ERROR");
+    console.error(&quot;[Auth Service] Session verification error:&quot;, error);
+    return errorResponse(&quot;Session error&quot;, 500, &quot;SESSION_ERROR&quot;);
   }
 }

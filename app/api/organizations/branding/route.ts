@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "@/lib/db";
-import { randomUUID } from "crypto";
-import { eq } from "drizzle-orm";
-import { organizationBranding, organizations } from "@shared/schema";
-import { hasPermission } from "../auth-helper";
-import { z } from "zod";
+import { db } from &quot;@/lib/db&quot;;
+import { randomUUID } from &quot;crypto&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import { organizationBranding, organizations } from &quot;@shared/schema&quot;;
+import { hasPermission } from &quot;../auth-helper&quot;;
+import { z } from &quot;zod&quot;;
 
 const brandingSchema = z.object({
   organization_id: z.string().uuid(),
@@ -16,17 +16,17 @@ const brandingSchema = z.object({
   primary_color: z
     .string()
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-      message: "Must be a valid hex color code",
+      message: &quot;Must be a valid hex color code&quot;,
     }),
   secondary_color: z
     .string()
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-      message: "Must be a valid hex color code",
+      message: &quot;Must be a valid hex color code&quot;,
     }),
   accent_color: z
     .string()
     .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, {
-      message: "Must be a valid hex color code",
+      message: &quot;Must be a valid hex color code&quot;,
     }),
   font_family: z.string().optional(),
   custom_css: z.string().nullable().optional(),
@@ -38,20 +38,20 @@ const brandingSchema = z.object({
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
+    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined) || undefined;
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: "Organization ID is required" },
+        { error: &quot;Organization ID is required&quot; },
         { status: 400 },
       );
     }
 
     // Check if user has permission to view organization branding
-    const canViewBranding = await hasPermission(user.id, "read:organizations");
+    const canViewBranding = await hasPermission(user.id, &quot;read:organizations&quot;);
     if (!canViewBranding) {
       return NextResponse.json(
-        { error: "Unauthorized to view organization branding" },
+        { error: &quot;Unauthorized to view organization branding&quot; },
         { status: 403 },
       );
     }
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
 
     if (!organization) {
       return NextResponse.json(
-        { error: "Organization not found" },
+        { error: &quot;Organization not found&quot; },
         { status: 404 },
       );
     }
@@ -71,8 +71,8 @@ export async function GET(request: NextRequest) {
     // Check if organization can customize branding based on tier
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
-      ((organization.tier || "tier_1") || "tier_1") === "tier_3" ||
-      (await hasPermission(user.id, "update:organizations"));
+      ((organization.tier || &quot;tier_1&quot;) || &quot;tier_1&quot;) === &quot;tier_3&quot; ||
+      (await hasPermission(user.id, &quot;update:organizations&quot;));
 
     const branding = await db.query.organizationBranding.findFirst({
       where: eq(organizationBranding.organization_id, organizationId),
@@ -86,9 +86,9 @@ export async function GET(request: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error fetching organization branding:", error);
+    console.error(&quot;Error fetching organization branding:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch organization branding" },
+      { error: &quot;Failed to fetch organization branding&quot; },
       { status: 500 },
     );
   }
@@ -103,12 +103,12 @@ export async function POST(request: NextRequest) {
 
     // Check if user has permission to update organization branding
     const canUpdateBranding = await hasPermission(
-      "edit:organization_branding",
-      ["super_admin"]
+      &quot;edit:organization_branding&quot;,
+      [&quot;super_admin&quot;]
     );
     if (!canUpdateBranding) {
       return NextResponse.json(
-        { error: "Unauthorized to update organization branding" },
+        { error: &quot;Unauthorized to update organization branding&quot; },
         { status: 403 },
       );
     }
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
 
     if (!organization) {
       return NextResponse.json(
-        { error: "Organization not found" },
+        { error: &quot;Organization not found&quot; },
         { status: 404 },
       );
     }
@@ -128,14 +128,14 @@ export async function POST(request: NextRequest) {
     // Check if organization can customize branding based on tier
     // Tier 3 organizations and special permissions can customize
     const canCustomize =
-      ((organization.tier || "tier_1") || "tier_1") === "tier_3" ||
-      (await hasPermission(user.id, "update:organizations"));
+      ((organization.tier || &quot;tier_1&quot;) || &quot;tier_1&quot;) === &quot;tier_3&quot; ||
+      (await hasPermission(user.id, &quot;update:organizations&quot;));
 
     if (!canCustomize) {
       return NextResponse.json(
         {
           error:
-            "This organization tier does not support branding customization",
+            &quot;This organization tier does not support branding customization&quot;,
         },
         { status: 403 },
       );
@@ -179,17 +179,17 @@ export async function POST(request: NextRequest) {
       { status: existingBranding ? 200 : 201 },
     );
   } catch (error) {
-    console.error("Error saving organization branding:", error);
+    console.error(&quot;Error saving organization branding:&quot;, error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation failed", details: error.format() },
+        { error: &quot;Validation failed&quot;, details: error.format() },
         { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: "Failed to save organization branding" },
+      { error: &quot;Failed to save organization branding&quot; },
       { status: 500 },
     );
   }

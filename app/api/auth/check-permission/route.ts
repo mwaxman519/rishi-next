@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentUser } from "@/lib/auth";
-import { cookies } from "next/headers";
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { cookies } from &quot;next/headers&quot;;
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,18 +14,18 @@ export async function GET(request: NextRequest) {
 
     if (!permission) {
       return NextResponse.json(
-        { error: "Permission parameter is required" },
+        { error: &quot;Permission parameter is required&quot; },
         { status: 400 }
       );
     }
 
     // Check authentication using the same approach as the auth-service
     const cookieStore = await cookies();
-    const authToken = cookieStore.get("auth_token");
+    const authToken = cookieStore.get(&quot;auth_token&quot;);
     
     if (!authToken) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: &quot;User not authenticated&quot; },
         { status: 401 }
       );
     }
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
       if (!sessionResponse.ok) {
         return NextResponse.json(
-          { error: "Authentication failed" },
+          { error: &quot;Authentication failed&quot; },
           { status: 401 }
         );
       }
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
       // FIX: Check sessionData.success and sessionData.data.user structure
       if (!sessionData.success || !sessionData.data || !sessionData.data.user) {
         return NextResponse.json(
-          { error: "User not authenticated" },
+          { error: &quot;User not authenticated&quot; },
           { status: 401 }
         );
       }
@@ -72,17 +72,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ hasPermission: true });
 
     } catch (authError) {
-      console.error("Authentication error in permission check:", authError);
+      console.error(&quot;Authentication error in permission check:&quot;, authError);
       return NextResponse.json(
-        { error: "Authentication failed" },
+        { error: &quot;Authentication failed&quot; },
         { status: 401 }
       );
     }
 
   } catch (error) {
-    console.error("Error checking permission:", error);
+    console.error(&quot;Error checking permission:&quot;, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: &quot;Internal server error&quot; },
       { status: 500 }
     );
   }

@@ -1,16 +1,16 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { useState, useEffect } from &quot;react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { Alert, AlertDescription } from &quot;@/components/ui/alert&quot;;
+import { CheckCircle, XCircle, Loader2 } from &quot;lucide-react&quot;;
 
 interface TestResult {
   endpoint: string;
-  status: "success" | "error" | "loading";
+  status: &quot;success&quot; | &quot;error&quot; | &quot;loading&quot;;
   message: string;
   data?: any;
 }
@@ -20,10 +20,10 @@ export default function TestAuthPage() {
   const [loading, setLoading] = useState(false);
 
   const testEndpoints = [
-    { endpoint: "/api/auth/user", description: "User Authentication" },
-    { endpoint: "/api/locations", description: "Locations API" },
-    { endpoint: "/api/kits", description: "Kits API" },
-    { endpoint: "/api/auth/session", description: "Session API" },
+    { endpoint: &quot;/api/auth/user&quot;, description: &quot;User Authentication&quot; },
+    { endpoint: &quot;/api/locations&quot;, description: &quot;Locations API&quot; },
+    { endpoint: &quot;/api/kits&quot;, description: &quot;Kits API&quot; },
+    { endpoint: &quot;/api/auth/session&quot;, description: &quot;Session API&quot; },
   ];
 
   const runTests = async () => {
@@ -38,14 +38,14 @@ export default function TestAuthPage() {
         if (response.ok) {
           newResults.push({
             endpoint: test.endpoint,
-            status: "success",
+            status: &quot;success&quot;,
             message: `✓ ${test.description} working`,
             data: data,
           });
         } else {
           newResults.push({
             endpoint: test.endpoint,
-            status: "error",
+            status: &quot;error&quot;,
             message: `✗ ${test.description} failed: ${data.error || response.statusText}`,
             data: data,
           });
@@ -53,7 +53,7 @@ export default function TestAuthPage() {
       } catch (error) {
         newResults.push({
           endpoint: test.endpoint,
-          status: "error",
+          status: &quot;error&quot;,
           message: `✗ ${test.description} failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
         });
       }
@@ -68,49 +68,49 @@ export default function TestAuthPage() {
   }, []);
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h1 className="text-3xl font-bold">Authentication & API Testing</h1>
-          <p className="text-muted-foreground mt-1">
+          <h1 className=&quot;text-3xl font-bold&quot;>Authentication & API Testing</h1>
+          <p className=&quot;text-muted-foreground mt-1&quot;>
             Testing authentication and API endpoints for Location and Kit Management
           </p>
         </div>
         <Button onClick={runTests} disabled={loading}>
           {loading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
               Testing...
             </>
           ) : (
-            "Run Tests"
+            &quot;Run Tests&quot;
           )}
         </Button>
       </div>
 
-      <div className="grid gap-4">
+      <div className=&quot;grid gap-4&quot;>
         {results.map((result, index) => (
           <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+            <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+              <CardTitle className=&quot;text-sm font-medium&quot;>
                 {result.endpoint}
               </CardTitle>
-              <Badge variant={result.status === "success" ? "default" : "destructive"}>
-                {result.status === "success" ? (
-                  <CheckCircle className="h-3 w-3 mr-1" />
+              <Badge variant={result.status === &quot;success&quot; ? &quot;default&quot; : &quot;destructive&quot;}>
+                {result.status === &quot;success&quot; ? (
+                  <CheckCircle className=&quot;h-3 w-3 mr-1&quot; />
                 ) : (
-                  <XCircle className="h-3 w-3 mr-1" />
+                  <XCircle className=&quot;h-3 w-3 mr-1&quot; />
                 )}
                 {result.status}
               </Badge>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-2">
+              <p className=&quot;text-sm text-muted-foreground mb-2&quot;>
                 {result.message}
               </p>
               {result.data && (
-                <div className="bg-muted p-3 rounded-md">
-                  <pre className="text-xs overflow-x-auto">
+                <div className=&quot;bg-muted p-3 rounded-md&quot;>
+                  <pre className=&quot;text-xs overflow-x-auto&quot;>
                     {JSON.stringify(result.data, null, 2)}
                   </pre>
                 </div>
@@ -122,9 +122,9 @@ export default function TestAuthPage() {
 
       <Separator />
 
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Quick Actions</h2>
-        <div className="grid gap-4 md:grid-cols-2">
+      <div className=&quot;space-y-4&quot;>
+        <h2 className=&quot;text-2xl font-bold&quot;>Quick Actions</h2>
+        <div className=&quot;grid gap-4 md:grid-cols-2&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Test Location Management</CardTitle>
@@ -133,8 +133,8 @@ export default function TestAuthPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button asChild className="w-full">
-                <a href="/locations">Go to Locations</a>
+              <Button asChild className=&quot;w-full&quot;>
+                <a href=&quot;/locations&quot;>Go to Locations</a>
               </Button>
             </CardContent>
           </Card>
@@ -147,8 +147,8 @@ export default function TestAuthPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button asChild className="w-full">
-                <a href="/kits">Go to Kits</a>
+              <Button asChild className=&quot;w-full&quot;>
+                <a href=&quot;/kits&quot;>Go to Kits</a>
               </Button>
             </CardContent>
           </Card>
@@ -156,7 +156,7 @@ export default function TestAuthPage() {
       </div>
 
       <Alert>
-        <CheckCircle className="h-4 w-4" />
+        <CheckCircle className=&quot;h-4 w-4&quot; />
         <AlertDescription>
           Authentication system is now configured for full system testing. Both Location and Kit Management systems should be accessible.
         </AlertDescription>

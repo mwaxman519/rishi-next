@@ -1,12 +1,12 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from &quot;react&quot;;
+import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Progress } from &quot;@/components/ui/progress&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 import { 
   Radar, 
   Users, 
@@ -21,17 +21,17 @@ import {
   Filter,
   Calendar,
   BarChart3
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 interface ReviewCycle {
   id: string;
   name: string;
-  status: "draft" | "active" | "completed";
+  status: &quot;draft&quot; | &quot;active&quot; | &quot;completed&quot;;
   startDate: string;
   endDate: string;
   participants: number;
   completed: number;
-  type: "quarterly" | "annual" | "custom";
+  type: &quot;quarterly&quot; | &quot;annual&quot; | &quot;custom&quot;;
 }
 
 interface Review360Data {
@@ -61,50 +61,50 @@ interface Review360Data {
 }
 
 export default function Review360() {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState(&quot;overview&quot;);
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
 
   const reviewCycles: ReviewCycle[] = [
     {
-      id: "1",
-      name: "Q1 2025 Performance Review",
-      status: "active",
-      startDate: "2025-01-15",
-      endDate: "2025-02-15",
+      id: &quot;1&quot;,
+      name: &quot;Q1 2025 Performance Review&quot;,
+      status: &quot;active&quot;,
+      startDate: &quot;2025-01-15&quot;,
+      endDate: &quot;2025-02-15&quot;,
       participants: 45,
       completed: 32,
-      type: "quarterly"
+      type: &quot;quarterly&quot;
     },
     {
-      id: "2",
-      name: "Annual Review 2024",
-      status: "completed",
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
+      id: &quot;2&quot;,
+      name: &quot;Annual Review 2024&quot;,
+      status: &quot;completed&quot;,
+      startDate: &quot;2024-12-01&quot;,
+      endDate: &quot;2024-12-31&quot;,
       participants: 48,
       completed: 48,
-      type: "annual"
+      type: &quot;annual&quot;
     },
     {
-      id: "3",
-      name: "Mid-Year Check-in",
-      status: "draft",
-      startDate: "2025-07-01",
-      endDate: "2025-07-31",
+      id: &quot;3&quot;,
+      name: &quot;Mid-Year Check-in&quot;,
+      status: &quot;draft&quot;,
+      startDate: &quot;2025-07-01&quot;,
+      endDate: &quot;2025-07-31&quot;,
       participants: 0,
       completed: 0,
-      type: "custom"
+      type: &quot;custom&quot;
     }
   ];
 
   const mockReviews: Review360Data[] = [
     {
       employee: {
-        id: "1",
-        name: "Sarah Chen",
-        role: "Senior Brand Agent",
-        department: "Field Operations",
-        avatar: "/api/placeholder/40/40"
+        id: &quot;1&quot;,
+        name: &quot;Sarah Chen&quot;,
+        role: &quot;Senior Brand Agent&quot;,
+        department: &quot;Field Operations&quot;,
+        avatar: &quot;/api/placeholder/40/40&quot;
       },
       overallScore: 4.3,
       reviewers: {
@@ -114,36 +114,36 @@ export default function Review360() {
         subordinates: 4.4
       },
       competencies: [
-        { name: "Cannabis Knowledge", score: 4.8, feedback: "Exceptional product knowledge and industry expertise", category: "Technical" },
-        { name: "Customer Service", score: 4.2, feedback: "Consistently delivers excellent customer experiences", category: "Service" },
-        { name: "Team Collaboration", score: 4.0, feedback: "Good team player, could improve communication", category: "Collaboration" },
-        { name: "Problem Solving", score: 4.4, feedback: "Quick to identify and resolve issues", category: "Technical" },
-        { name: "Leadership", score: 3.9, feedback: "Shows potential, needs more confidence", category: "Leadership" }
+        { name: &quot;Cannabis Knowledge&quot;, score: 4.8, feedback: &quot;Exceptional product knowledge and industry expertise&quot;, category: &quot;Technical&quot; },
+        { name: &quot;Customer Service&quot;, score: 4.2, feedback: &quot;Consistently delivers excellent customer experiences&quot;, category: &quot;Service&quot; },
+        { name: &quot;Team Collaboration&quot;, score: 4.0, feedback: &quot;Good team player, could improve communication&quot;, category: &quot;Collaboration&quot; },
+        { name: &quot;Problem Solving&quot;, score: 4.4, feedback: &quot;Quick to identify and resolve issues&quot;, category: &quot;Technical&quot; },
+        { name: &quot;Leadership&quot;, score: 3.9, feedback: &quot;Shows potential, needs more confidence&quot;, category: &quot;Leadership&quot; }
       ],
       strengths: [
-        "Deep cannabis industry knowledge",
-        "Strong customer relationship building",
-        "Reliable and consistent performance",
-        "Excellent problem-solving abilities"
+        &quot;Deep cannabis industry knowledge&quot;,
+        &quot;Strong customer relationship building&quot;,
+        &quot;Reliable and consistent performance&quot;,
+        &quot;Excellent problem-solving abilities&quot;
       ],
       areasForImprovement: [
-        "Public speaking and presentation skills",
-        "Delegation and team leadership",
-        "Strategic thinking and planning"
+        &quot;Public speaking and presentation skills&quot;,
+        &quot;Delegation and team leadership&quot;,
+        &quot;Strategic thinking and planning&quot;
       ],
       goals: [
-        "Complete advanced leadership training",
-        "Increase customer satisfaction scores by 5%",
-        "Mentor 2 junior team members"
+        &quot;Complete advanced leadership training&quot;,
+        &quot;Increase customer satisfaction scores by 5%&quot;,
+        &quot;Mentor 2 junior team members&quot;
       ]
     },
     {
       employee: {
-        id: "2",
-        name: "Mike Rodriguez",
-        role: "Field Manager",
-        department: "Operations",
-        avatar: "/api/placeholder/40/40"
+        id: &quot;2&quot;,
+        name: &quot;Mike Rodriguez&quot;,
+        role: &quot;Field Manager&quot;,
+        department: &quot;Operations&quot;,
+        avatar: &quot;/api/placeholder/40/40&quot;
       },
       overallScore: 4.6,
       reviewers: {
@@ -153,45 +153,45 @@ export default function Review360() {
         subordinates: 4.7
       },
       competencies: [
-        { name: "Team Management", score: 4.7, feedback: "Excellent at motivating and developing team members", category: "Leadership" },
-        { name: "Operational Excellence", score: 4.5, feedback: "Consistently meets operational targets", category: "Operations" },
-        { name: "Communication", score: 4.6, feedback: "Clear and effective communicator", category: "Communication" },
-        { name: "Strategic Planning", score: 4.2, feedback: "Good strategic thinking with room for improvement", category: "Strategic" },
-        { name: "Cannabis Compliance", score: 4.8, feedback: "Expert knowledge of cannabis regulations", category: "Compliance" }
+        { name: &quot;Team Management&quot;, score: 4.7, feedback: &quot;Excellent at motivating and developing team members&quot;, category: &quot;Leadership&quot; },
+        { name: &quot;Operational Excellence&quot;, score: 4.5, feedback: &quot;Consistently meets operational targets&quot;, category: &quot;Operations&quot; },
+        { name: &quot;Communication&quot;, score: 4.6, feedback: &quot;Clear and effective communicator&quot;, category: &quot;Communication&quot; },
+        { name: &quot;Strategic Planning&quot;, score: 4.2, feedback: &quot;Good strategic thinking with room for improvement&quot;, category: &quot;Strategic&quot; },
+        { name: &quot;Cannabis Compliance&quot;, score: 4.8, feedback: &quot;Expert knowledge of cannabis regulations&quot;, category: &quot;Compliance&quot; }
       ],
       strengths: [
-        "Outstanding team leadership",
-        "Strong operational management",
-        "Excellent communication skills",
-        "Deep compliance knowledge"
+        &quot;Outstanding team leadership&quot;,
+        &quot;Strong operational management&quot;,
+        &quot;Excellent communication skills&quot;,
+        &quot;Deep compliance knowledge&quot;
       ],
       areasForImprovement: [
-        "Long-term strategic planning",
-        "Cross-functional collaboration",
-        "Technology adoption"
+        &quot;Long-term strategic planning&quot;,
+        &quot;Cross-functional collaboration&quot;,
+        &quot;Technology adoption&quot;
       ],
       goals: [
-        "Implement team productivity improvements",
-        "Complete strategic management certification",
-        "Improve cross-departmental partnerships"
+        &quot;Implement team productivity improvements&quot;,
+        &quot;Complete strategic management certification&quot;,
+        &quot;Improve cross-departmental partnerships&quot;
       ]
     }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active": return "bg-green-100 text-green-800";
-      case "completed": return "bg-teal-100 text-teal-800";
-      case "draft": return "bg-gray-100 text-gray-800";
-      default: return "bg-gray-100 text-gray-800";
+      case &quot;active&quot;: return &quot;bg-green-100 text-green-800&quot;;
+      case &quot;completed&quot;: return &quot;bg-teal-100 text-teal-800&quot;;
+      case &quot;draft&quot;: return &quot;bg-gray-100 text-gray-800&quot;;
+      default: return &quot;bg-gray-100 text-gray-800&quot;;
     }
   };
 
   const getCompetencyColor = (score: number) => {
-    if (score >= 4.5) return "text-green-600";
-    if (score >= 4.0) return "text-teal-600";
-    if (score >= 3.5) return "text-yellow-600";
-    return "text-red-600";
+    if (score >= 4.5) return &quot;text-green-600&quot;;
+    if (score >= 4.0) return &quot;text-teal-600&quot;;
+    if (score >= 3.5) return &quot;text-yellow-600&quot;;
+    return &quot;text-red-600&quot;;
   };
 
   const renderRadarChart = (data: Review360Data) => {
@@ -199,12 +199,12 @@ export default function Review360() {
     const maxScore = 5;
     
     return (
-      <div className="relative w-48 h-48 mx-auto">
+      <div className=&quot;relative w-48 h-48 mx-auto&quot;>
         {/* Radar chart visualization would go here */}
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 rounded-full">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600">{data.overallScore}</div>
-            <div className="text-sm text-gray-600">Overall Score</div>
+        <div className=&quot;absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 rounded-full&quot;>
+          <div className=&quot;text-center&quot;>
+            <div className=&quot;text-3xl font-bold text-purple-600&quot;>{data.overallScore}</div>
+            <div className=&quot;text-sm text-gray-600&quot;>Overall Score</div>
           </div>
         </div>
       </div>
@@ -212,75 +212,75 @@ export default function Review360() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className=&quot;space-y-6&quot;>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">360° Performance Reviews</h2>
-          <p className="text-gray-600">Comprehensive multi-perspective performance evaluations</p>
+          <h2 className=&quot;text-2xl font-bold text-gray-900&quot;>360° Performance Reviews</h2>
+          <p className=&quot;text-gray-600&quot;>Comprehensive multi-perspective performance evaluations</p>
         </div>
-        <Button className="gap-2 bg-gradient-to-r from-blue-500 to-purple-600">
-          <Radar className="w-4 h-4" />
+        <Button className=&quot;gap-2 bg-gradient-to-r from-blue-500 to-purple-600&quot;>
+          <Radar className=&quot;w-4 h-4&quot; />
           New Review Cycle
         </Button>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="cycles">Review Cycles</TabsTrigger>
-          <TabsTrigger value="reviews">Individual Reviews</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className=&quot;space-y-6&quot;>
+        <TabsList className=&quot;grid w-full grid-cols-4&quot;>
+          <TabsTrigger value=&quot;overview&quot;>Overview</TabsTrigger>
+          <TabsTrigger value=&quot;cycles&quot;>Review Cycles</TabsTrigger>
+          <TabsTrigger value=&quot;reviews&quot;>Individual Reviews</TabsTrigger>
+          <TabsTrigger value=&quot;analytics&quot;>Analytics</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value=&quot;overview&quot; className=&quot;space-y-6&quot;>
           {/* Summary Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+          <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+            <Card className=&quot;bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-blue-600 mb-1">Active Reviews</p>
-                    <p className="text-2xl font-bold text-blue-800">32</p>
+                    <p className=&quot;text-sm text-blue-600 mb-1&quot;>Active Reviews</p>
+                    <p className=&quot;text-2xl font-bold text-blue-800&quot;>32</p>
                   </div>
-                  <Eye className="w-8 h-8 text-blue-500" />
+                  <Eye className=&quot;w-8 h-8 text-blue-500&quot; />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+            <Card className=&quot;bg-gradient-to-br from-green-50 to-green-100 border-green-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-green-600 mb-1">Completed</p>
-                    <p className="text-2xl font-bold text-green-800">48</p>
+                    <p className=&quot;text-sm text-green-600 mb-1&quot;>Completed</p>
+                    <p className=&quot;text-2xl font-bold text-green-800&quot;>48</p>
                   </div>
-                  <CheckCircle className="w-8 h-8 text-green-500" />
+                  <CheckCircle className=&quot;w-8 h-8 text-green-500&quot; />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+            <Card className=&quot;bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-purple-600 mb-1">Avg Score</p>
-                    <p className="text-2xl font-bold text-purple-800">4.2</p>
+                    <p className=&quot;text-sm text-purple-600 mb-1&quot;>Avg Score</p>
+                    <p className=&quot;text-2xl font-bold text-purple-800&quot;>4.2</p>
                   </div>
-                  <Star className="w-8 h-8 text-purple-500" />
+                  <Star className=&quot;w-8 h-8 text-purple-500&quot; />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+            <Card className=&quot;bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-yellow-600 mb-1">Pending</p>
-                    <p className="text-2xl font-bold text-yellow-800">13</p>
+                    <p className=&quot;text-sm text-yellow-600 mb-1&quot;>Pending</p>
+                    <p className=&quot;text-2xl font-bold text-yellow-800&quot;>13</p>
                   </div>
-                  <Clock className="w-8 h-8 text-yellow-500" />
+                  <Clock className=&quot;w-8 h-8 text-yellow-500&quot; />
                 </div>
               </CardContent>
             </Card>
@@ -289,32 +289,32 @@ export default function Review360() {
           {/* Recent Reviews */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <UserCheck className="w-5 h-5" />
+              <CardTitle className=&quot;flex items-center gap-2&quot;>
+                <UserCheck className=&quot;w-5 h-5&quot; />
                 Recent Reviews
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className=&quot;space-y-4&quot;>
                 {mockReviews.map((review) => (
-                  <div key={review.employee.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-12 h-12">
+                  <div key={review.employee.id} className=&quot;flex items-center justify-between p-4 bg-gray-50 rounded-lg&quot;>
+                    <div className=&quot;flex items-center gap-3&quot;>
+                      <Avatar className=&quot;w-12 h-12&quot;>
                         <AvatarImage src={review.employee.avatar} alt={review.employee.name} />
                         <AvatarFallback>{review.employee.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-semibold">{review.employee.name}</p>
-                        <p className="text-sm text-gray-600">{review.employee.role}</p>
-                        <p className="text-sm text-gray-500">{review.employee.department}</p>
+                        <p className=&quot;font-semibold&quot;>{review.employee.name}</p>
+                        <p className=&quot;text-sm text-gray-600&quot;>{review.employee.role}</p>
+                        <p className=&quot;text-sm text-gray-500&quot;>{review.employee.department}</p>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                        <span className="font-bold text-lg">{review.overallScore}</span>
+                    <div className=&quot;text-right&quot;>
+                      <div className=&quot;flex items-center gap-2 mb-1&quot;>
+                        <Star className=&quot;w-4 h-4 text-yellow-500 fill-current&quot; />
+                        <span className=&quot;font-bold text-lg&quot;>{review.overallScore}</span>
                       </div>
-                      <Badge variant="secondary">Completed</Badge>
+                      <Badge variant=&quot;secondary&quot;>Completed</Badge>
                     </div>
                   </div>
                 ))}
@@ -324,22 +324,22 @@ export default function Review360() {
         </TabsContent>
 
         {/* Review Cycles Tab */}
-        <TabsContent value="cycles" className="space-y-6">
+        <TabsContent value=&quot;cycles&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
+              <CardTitle className=&quot;flex items-center gap-2&quot;>
+                <Calendar className=&quot;w-5 h-5&quot; />
                 Review Cycles
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className=&quot;space-y-4&quot;>
                 {reviewCycles.map((cycle) => (
-                  <div key={cycle.id} className="p-4 border rounded-lg">
-                    <div className="flex items-center justify-between mb-3">
+                  <div key={cycle.id} className=&quot;p-4 border rounded-lg&quot;>
+                    <div className=&quot;flex items-center justify-between mb-3&quot;>
                       <div>
-                        <h3 className="font-semibold">{cycle.name}</h3>
-                        <p className="text-sm text-gray-600">
+                        <h3 className=&quot;font-semibold&quot;>{cycle.name}</h3>
+                        <p className=&quot;text-sm text-gray-600&quot;>
                           {cycle.startDate} - {cycle.endDate}
                         </p>
                       </div>
@@ -348,27 +348,27 @@ export default function Review360() {
                       </Badge>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className=&quot;grid grid-cols-2 gap-4 mb-4&quot;>
                       <div>
-                        <p className="text-sm text-gray-600">Participants</p>
-                        <p className="font-semibold">{cycle.participants}</p>
+                        <p className=&quot;text-sm text-gray-600&quot;>Participants</p>
+                        <p className=&quot;font-semibold&quot;>{cycle.participants}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Completed</p>
-                        <p className="font-semibold">{cycle.completed}</p>
+                        <p className=&quot;text-sm text-gray-600&quot;>Completed</p>
+                        <p className=&quot;font-semibold&quot;>{cycle.completed}</p>
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-sm">Progress</span>
-                        <span className="text-sm font-medium">
+                    <div className=&quot;space-y-2&quot;>
+                      <div className=&quot;flex justify-between&quot;>
+                        <span className=&quot;text-sm&quot;>Progress</span>
+                        <span className=&quot;text-sm font-medium&quot;>
                           {cycle.participants > 0 ? Math.round((cycle.completed / cycle.participants) * 100) : 0}%
                         </span>
                       </div>
                       <Progress 
                         value={cycle.participants > 0 ? (cycle.completed / cycle.participants) * 100 : 0} 
-                        className="h-2"
+                        className=&quot;h-2&quot;
                       />
                     </div>
                   </div>
@@ -379,61 +379,61 @@ export default function Review360() {
         </TabsContent>
 
         {/* Individual Reviews Tab */}
-        <TabsContent value="reviews" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value=&quot;reviews&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
             {mockReviews.map((review) => (
-              <Card key={review.employee.id} className="cursor-pointer hover:shadow-lg transition-shadow">
+              <Card key={review.employee.id} className=&quot;cursor-pointer hover:shadow-lg transition-shadow&quot;>
                 <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="w-12 h-12">
+                  <div className=&quot;flex items-center gap-3&quot;>
+                    <Avatar className=&quot;w-12 h-12&quot;>
                       <AvatarImage src={review.employee.avatar} alt={review.employee.name} />
                       <AvatarFallback>{review.employee.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>
-                      <CardTitle className="text-lg">{review.employee.name}</CardTitle>
-                      <p className="text-sm text-gray-600">{review.employee.role}</p>
+                      <CardTitle className=&quot;text-lg&quot;>{review.employee.name}</CardTitle>
+                      <p className=&quot;text-sm text-gray-600&quot;>{review.employee.role}</p>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-6">
+                  <div className=&quot;space-y-6&quot;>
                     {/* Overall Score */}
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-600 mb-1">{review.overallScore}</div>
-                      <p className="text-sm text-gray-600">Overall Score</p>
+                    <div className=&quot;text-center&quot;>
+                      <div className=&quot;text-3xl font-bold text-blue-600 mb-1&quot;>{review.overallScore}</div>
+                      <p className=&quot;text-sm text-gray-600&quot;>Overall Score</p>
                     </div>
 
                     {/* Reviewer Breakdown */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-3">
-                        <div className="flex justify-between">
-                          <span className="text-sm">Self</span>
-                          <span className="font-medium">{review.reviewers.self}</span>
+                    <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                      <div className=&quot;space-y-3&quot;>
+                        <div className=&quot;flex justify-between&quot;>
+                          <span className=&quot;text-sm&quot;>Self</span>
+                          <span className=&quot;font-medium&quot;>{review.reviewers.self}</span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm">Manager</span>
-                          <span className="font-medium">{review.reviewers.manager}</span>
+                        <div className=&quot;flex justify-between&quot;>
+                          <span className=&quot;text-sm&quot;>Manager</span>
+                          <span className=&quot;font-medium&quot;>{review.reviewers.manager}</span>
                         </div>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex justify-between">
-                          <span className="text-sm">Peers</span>
-                          <span className="font-medium">{review.reviewers.peers}</span>
+                      <div className=&quot;space-y-3&quot;>
+                        <div className=&quot;flex justify-between&quot;>
+                          <span className=&quot;text-sm&quot;>Peers</span>
+                          <span className=&quot;font-medium&quot;>{review.reviewers.peers}</span>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm">Subordinates</span>
-                          <span className="font-medium">{review.reviewers.subordinates}</span>
+                        <div className=&quot;flex justify-between&quot;>
+                          <span className=&quot;text-sm&quot;>Subordinates</span>
+                          <span className=&quot;font-medium&quot;>{review.reviewers.subordinates}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Top Competencies */}
                     <div>
-                      <h4 className="font-semibold mb-3">Top Competencies</h4>
-                      <div className="space-y-2">
+                      <h4 className=&quot;font-semibold mb-3&quot;>Top Competencies</h4>
+                      <div className=&quot;space-y-2&quot;>
                         {review.competencies.slice(0, 3).map((comp, index) => (
-                          <div key={index} className="flex items-center justify-between">
-                            <span className="text-sm">{comp.name}</span>
+                          <div key={index} className=&quot;flex items-center justify-between&quot;>
+                            <span className=&quot;text-sm&quot;>{comp.name}</span>
                             <span className={`font-medium ${getCompetencyColor(comp.score)}`}>
                               {comp.score}
                             </span>
@@ -442,9 +442,9 @@ export default function Review360() {
                       </div>
                     </div>
 
-                    <Button variant="outline" className="w-full">
+                    <Button variant=&quot;outline&quot; className=&quot;w-full&quot;>
                       View Full Review
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      <ArrowRight className=&quot;w-4 h-4 ml-2&quot; />
                     </Button>
                   </div>
                 </CardContent>
@@ -454,22 +454,22 @@ export default function Review360() {
         </TabsContent>
 
         {/* Analytics Tab */}
-        <TabsContent value="analytics" className="space-y-6">
+        <TabsContent value=&quot;analytics&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5" />
+              <CardTitle className=&quot;flex items-center gap-2&quot;>
+                <BarChart3 className=&quot;w-5 h-5&quot; />
                 Review Analytics
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12">
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="w-12 h-12 text-white" />
+              <div className=&quot;text-center py-12&quot;>
+                <div className=&quot;w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4&quot;>
+                  <BarChart3 className=&quot;w-12 h-12 text-white&quot; />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Advanced Analytics</h3>
-                <p className="text-gray-600 mb-6">Performance trends and insights coming soon</p>
-                <Button className="bg-gradient-to-r from-purple-500 to-pink-600">
+                <h3 className=&quot;text-xl font-semibold mb-2&quot;>Advanced Analytics</h3>
+                <p className=&quot;text-gray-600 mb-6&quot;>Performance trends and insights coming soon</p>
+                <Button className=&quot;bg-gradient-to-r from-purple-500 to-pink-600&quot;>
                   Generate Report
                 </Button>
               </div>

@@ -2,39 +2,39 @@
  * Staff Service Models
  * These models define the core entities and types for staff management
  */
-import { z } from "zod";
+import { z } from &quot;zod&quot;;
 
 /**
  * Staff member status
  */
 export enum StaffStatus {
-  PENDING = "pending", // New staff member pending approval
-  ACTIVE = "active", // Active and available for assignments
-  INACTIVE = "inactive", // Temporarily unavailable
-  SUSPENDED = "suspended", // Suspended due to policy violation
-  TERMINATED = "terminated", // Employment terminated
+  PENDING = &quot;pending&quot;, // New staff member pending approval
+  ACTIVE = &quot;active&quot;, // Active and available for assignments
+  INACTIVE = &quot;inactive&quot;, // Temporarily unavailable
+  SUSPENDED = &quot;suspended&quot;, // Suspended due to policy violation
+  TERMINATED = &quot;terminated&quot;, // Employment terminated
 }
 
 /**
  * Staff member type
  */
 export enum StaffType {
-  FULL_TIME = "full_time", // Full-time staff
-  PART_TIME = "part_time", // Part-time staff
-  CONTRACTOR = "contractor", // Independent contractor
-  VOLUNTEER = "volunteer", // Volunteer staff
-  SEASONAL = "seasonal", // Seasonal worker
-  TEMP = "temp", // Temporary worker
+  FULL_TIME = &quot;full_time&quot;, // Full-time staff
+  PART_TIME = &quot;part_time&quot;, // Part-time staff
+  CONTRACTOR = &quot;contractor&quot;, // Independent contractor
+  VOLUNTEER = &quot;volunteer&quot;, // Volunteer staff
+  SEASONAL = &quot;seasonal&quot;, // Seasonal worker
+  TEMP = &quot;temp&quot;, // Temporary worker
 }
 
 /**
  * Staff skill level
  */
 export enum SkillLevel {
-  BEGINNER = "beginner",
-  INTERMEDIATE = "intermediate",
-  ADVANCED = "advanced",
-  EXPERT = "expert",
+  BEGINNER = &quot;beginner&quot;,
+  INTERMEDIATE = &quot;intermediate&quot;,
+  ADVANCED = &quot;advanced&quot;,
+  EXPERT = &quot;expert&quot;,
 }
 
 /**
@@ -83,8 +83,8 @@ export interface StaffAvailability {
   id: string;
   staffId: string;
   dayOfWeek: number; // 0 = Sunday, 1 = Monday, etc.
-  startTime: string; // Format: "HH:MM" in 24-hour
-  endTime: string; // Format: "HH:MM" in 24-hour
+  startTime: string; // Format: &quot;HH:MM&quot; in 24-hour
+  endTime: string; // Format: &quot;HH:MM&quot; in 24-hour
   isAvailable: boolean; // Whether available during this time slot
   notes?: string;
   createdAt: string; // ISO date string
@@ -99,8 +99,8 @@ export interface TimeOffRequest {
   staffId: string;
   startDate: string; // ISO date string
   endDate: string; // ISO date string
-  type: "vacation" | "sick" | "personal" | "bereavement" | "other";
-  status: "pending" | "approved" | "rejected" | "cancelled";
+  type: &quot;vacation&quot; | &quot;sick&quot; | &quot;personal&quot; | &quot;bereavement&quot; | &quot;other&quot;;
+  status: &quot;pending&quot; | &quot;approved&quot; | &quot;rejected&quot; | &quot;cancelled&quot;;
   reason?: string;
   notes?: string;
   reviewerId?: string;
@@ -114,16 +114,16 @@ export interface TimeOffRequest {
  * Create staff member schema
  */
 export const createStaffMemberSchema = z.object({
-  userId: z.string().min(1, "User ID is required"),
-  fullName: z.string().min(1, "Full name is required"),
-  email: z.string().email("Invalid email format"),
+  userId: z.string().min(1, &quot;User ID is required&quot;),
+  fullName: z.string().min(1, &quot;Full name is required&quot;),
+  email: z.string().email(&quot;Invalid email format&quot;),
   phone: z.string().optional(),
   type: z.nativeEnum(StaffType),
-  organizationId: z.string().min(1, "Organization ID is required"),
+  organizationId: z.string().min(1, &quot;Organization ID is required&quot;),
   title: z.string().optional(),
   department: z.string().optional(),
   manager: z.string().optional(),
-  hireDate: z.string().datetime("Invalid date format"),
+  hireDate: z.string().datetime(&quot;Invalid date format&quot;),
   notes: z.string().optional(),
 });
 
@@ -134,19 +134,19 @@ export const updateStaffMemberSchema = createStaffMemberSchema
   .partial()
   .extend({
     status: z.nativeEnum(StaffStatus).optional(),
-    terminationDate: z.string().datetime("Invalid date format").optional(),
+    terminationDate: z.string().datetime(&quot;Invalid date format&quot;).optional(),
   });
 
 /**
  * Create staff skill schema
  */
 export const createStaffSkillSchema = z.object({
-  staffId: z.string().min(1, "Staff ID is required"),
-  skillId: z.string().min(1, "Skill ID is required"),
+  staffId: z.string().min(1, &quot;Staff ID is required&quot;),
+  skillId: z.string().min(1, &quot;Skill ID is required&quot;),
   level: z.nativeEnum(SkillLevel),
   certified: z.boolean().default(false),
-  certificationDate: z.string().datetime("Invalid date format").optional(),
-  certificationExpiry: z.string().datetime("Invalid date format").optional(),
+  certificationDate: z.string().datetime(&quot;Invalid date format&quot;).optional(),
+  certificationExpiry: z.string().datetime(&quot;Invalid date format&quot;).optional(),
   notes: z.string().optional(),
 });
 
@@ -161,19 +161,19 @@ export const updateStaffSkillSchema = createStaffSkillSchema
  * Create availability schema
  */
 export const createAvailabilitySchema = z.object({
-  staffId: z.string().min(1, "Staff ID is required"),
+  staffId: z.string().min(1, &quot;Staff ID is required&quot;),
   dayOfWeek: z.number().min(0).max(6),
   startTime: z
     .string()
     .regex(
       /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time must be in 24-hour format (HH:MM)",
+      &quot;Time must be in 24-hour format (HH:MM)&quot;,
     ),
   endTime: z
     .string()
     .regex(
       /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time must be in 24-hour format (HH:MM)",
+      &quot;Time must be in 24-hour format (HH:MM)&quot;,
     ),
   isAvailable: z.boolean().default(true),
   notes: z.string().optional(),
@@ -190,10 +190,10 @@ export const updateAvailabilitySchema = createAvailabilitySchema
  * Create time off request schema
  */
 export const createTimeOffRequestSchema = z.object({
-  staffId: z.string().min(1, "Staff ID is required"),
-  startDate: z.string().datetime("Invalid date format"),
-  endDate: z.string().datetime("Invalid date format"),
-  type: z.enum(["vacation", "sick", "personal", "bereavement", "other"]),
+  staffId: z.string().min(1, &quot;Staff ID is required&quot;),
+  startDate: z.string().datetime(&quot;Invalid date format&quot;),
+  endDate: z.string().datetime(&quot;Invalid date format&quot;),
+  type: z.enum([&quot;vacation&quot;, &quot;sick&quot;, &quot;personal&quot;, &quot;bereavement&quot;, &quot;other&quot;]),
   reason: z.string().optional(),
   notes: z.string().optional(),
 });
@@ -209,7 +209,7 @@ export const updateTimeOffRequestSchema = createTimeOffRequestSchema
  * Approve time off request schema
  */
 export const approveTimeOffRequestSchema = z.object({
-  id: z.string().min(1, "Request ID is required"),
+  id: z.string().min(1, &quot;Request ID is required&quot;),
   notes: z.string().optional(),
 });
 
@@ -217,8 +217,8 @@ export const approveTimeOffRequestSchema = z.object({
  * Reject time off request schema
  */
 export const rejectTimeOffRequestSchema = z.object({
-  id: z.string().min(1, "Request ID is required"),
-  rejectionReason: z.string().min(1, "Rejection reason is required"),
+  id: z.string().min(1, &quot;Request ID is required&quot;),
+  rejectionReason: z.string().min(1, &quot;Rejection reason is required&quot;),
   notes: z.string().optional(),
 });
 
@@ -234,8 +234,8 @@ export interface StaffFilters {
   skillLevel?: SkillLevel;
   q?: string; // Search term for name/email
   availableOn?: string; // ISO date string to check availability
-  availableStartTime?: string; // Format: "HH:MM" in 24-hour
-  availableEndTime?: string; // Format: "HH:MM" in 24-hour
+  availableStartTime?: string; // Format: &quot;HH:MM&quot; in 24-hour
+  availableEndTime?: string; // Format: &quot;HH:MM&quot; in 24-hour
 }
 
 // Types derived from schemas

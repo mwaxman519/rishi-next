@@ -3,7 +3,7 @@
  * This version is designed to work with the current application requirements
  */
 
-import { NextRequest } from "next/server";
+import { NextRequest } from &quot;next/server&quot;;
 
 // Define permission type
 export type Permission = string;
@@ -19,51 +19,51 @@ export interface Role {
 // Define roles
 export const ROLES: Record<string, Role> = {
   super_admin: {
-    id: "super_admin",
-    name: "Super Admin",
-    description: "Full access to all system functions",
+    id: &quot;super_admin&quot;,
+    name: &quot;Super Admin&quot;,
+    description: &quot;Full access to all system functions&quot;,
     permissions: [
-      "view:locations",
-      "create:locations",
-      "update:locations",
-      "delete:locations",
-      "approve:locations",
-      "view:users",
-      "create:users",
-      "update:users",
-      "delete:users",
-      "view:organizations",
-      "create:organizations",
-      "update:organizations",
-      "delete:organizations",
+      &quot;view:locations&quot;,
+      &quot;create:locations&quot;,
+      &quot;update:locations&quot;,
+      &quot;delete:locations&quot;,
+      &quot;approve:locations&quot;,
+      &quot;view:users&quot;,
+      &quot;create:users&quot;,
+      &quot;update:users&quot;,
+      &quot;delete:users&quot;,
+      &quot;view:organizations&quot;,
+      &quot;create:organizations&quot;,
+      &quot;update:organizations&quot;,
+      &quot;delete:organizations&quot;,
     ],
   },
   admin: {
-    id: "admin",
-    name: "Admin",
-    description: "Administrative access to organizational resources",
+    id: &quot;admin&quot;,
+    name: &quot;Admin&quot;,
+    description: &quot;Administrative access to organizational resources&quot;,
     permissions: [
-      "view:locations",
-      "create:locations",
-      "update:locations",
-      "approve:locations",
-      "view:users",
-      "create:users",
-      "update:users",
-      "view:organizations",
+      &quot;view:locations&quot;,
+      &quot;create:locations&quot;,
+      &quot;update:locations&quot;,
+      &quot;approve:locations&quot;,
+      &quot;view:users&quot;,
+      &quot;create:users&quot;,
+      &quot;update:users&quot;,
+      &quot;view:organizations&quot;,
     ],
   },
   manager: {
-    id: "manager",
-    name: "Manager",
-    description: "Management access to team resources",
-    permissions: ["view:locations", "create:locations", "view:users"],
+    id: &quot;manager&quot;,
+    name: &quot;Manager&quot;,
+    description: &quot;Management access to team resources&quot;,
+    permissions: [&quot;view:locations&quot;, &quot;create:locations&quot;, &quot;view:users&quot;],
   },
   user: {
-    id: "user",
-    name: "User",
-    description: "Basic user access",
-    permissions: ["view:locations"],
+    id: &quot;user&quot;,
+    name: &quot;User&quot;,
+    description: &quot;Basic user access&quot;,
+    permissions: [&quot;view:locations&quot;],
   },
 };
 
@@ -109,19 +109,19 @@ export async function hasPermission(
   userRoles: string[] = [],
 ): Promise<boolean> {
   // In development mode, always return true for super_admin
-  if (userRoles.includes("super_admin")) return true;
+  if (userRoles.includes(&quot;super_admin&quot;)) return true;
 
   const userPermissions = getUserPermissions(userRoles);
   return userPermissions.includes(permission);
 }
 
 export const routePermissions: Record<string, string[]> = {
-  "/admin": ["admin:access"],
-  "/users": ["view:users"],
-  "/organizations": ["view:organizations"],
-  "/locations": ["view:locations"],
-  "/bookings": ["view:bookings"],
-  "/reports": ["view:reports"],
+  &quot;/admin&quot;: [&quot;admin:access&quot;],
+  &quot;/users&quot;: [&quot;view:users&quot;],
+  &quot;/organizations&quot;: [&quot;view:organizations&quot;],
+  &quot;/locations&quot;: [&quot;view:locations&quot;],
+  &quot;/bookings&quot;: [&quot;view:bookings&quot;],
+  &quot;/reports&quot;: [&quot;view:reports&quot;],
 };
 
 export async function hasRoutePermission(

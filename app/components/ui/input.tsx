@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from &quot;react&quot;;
 
-import { cn } from "../../lib/utils";
+import { cn } from &quot;../../lib/utils&quot;;
 
 export interface BaseInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -12,7 +12,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
       <input
         type={type}
         className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          &quot;flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50&quot;,
           className,
         )}
         ref={ref}
@@ -21,7 +21,7 @@ const BaseInput = React.forwardRef<HTMLInputElement, BaseInputProps>(
     );
   },
 );
-BaseInput.displayName = "BaseInput";
+BaseInput.displayName = &quot;BaseInput&quot;;
 
 // Extended interface that includes label
 export interface InputProps extends BaseInputProps {
@@ -33,15 +33,15 @@ export interface InputProps extends BaseInputProps {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, label, fullWidth, ...props }, ref) => {
     return (
-      <div className={cn("w-full space-y-2", className)}>
+      <div className={cn(&quot;w-full space-y-2&quot;, className)}>
         {label && (
-          <label className="block text-sm font-medium text-foreground">
+          <label className=&quot;block text-sm font-medium text-foreground&quot;>
             {label}
           </label>
         )}
         <BaseInput
           type={type}
-          className={cn(fullWidth ? "w-full" : "")}
+          className={cn(fullWidth ? &quot;w-full&quot; : "&quot;)}
           ref={ref}
           {...props}
         />
@@ -49,6 +49,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   },
 );
-Input.displayName = "Input";
+Input.displayName = &quot;Input";
 
 export { Input, BaseInput };

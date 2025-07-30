@@ -1,5 +1,5 @@
-import { NextRequest } from "next/server";
-import { verify } from "./jsonwebtoken";
+import { NextRequest } from &quot;next/server&quot;;
+import { verify } from &quot;./jsonwebtoken&quot;;
 
 export interface AuthenticatedUser {
   id: string;
@@ -13,23 +13,23 @@ export async function authenticateRequest(
 ): Promise<AuthenticatedUser | null> {
   try {
     // In development mode, return mock user
-    if (process.env.NODE_ENV === "development") {
-      console.log("DEVELOPMENT MODE: Using mock user for testing");
+    if (process.env.NODE_ENV === &quot;development&quot;) {
+      console.log(&quot;DEVELOPMENT MODE: Using mock user for testing&quot;);
       return {
-        id: "00000000-0000-0000-0000-000000000001",
-        email: "dev@rishiplatform.com",
-        role: "super_admin",
-        organizationId: "00000000-0000-0000-0000-000000000001",
+        id: &quot;00000000-0000-0000-0000-000000000001&quot;,
+        email: &quot;dev@rishiplatform.com&quot;,
+        role: &quot;super_admin&quot;,
+        organizationId: &quot;00000000-0000-0000-0000-000000000001&quot;,
       };
     }
 
-    const authHeader = request.headers.get("authorization");
-    if (!authHeader?.startsWith("Bearer ")) {
+    const authHeader = request.headers.get(&quot;authorization&quot;);
+    if (!authHeader?.startsWith(&quot;Bearer &quot;)) {
       return null;
     }
 
     const token = authHeader.substring(7);
-    const secret = process.env.JWT_SECRET || "dev-secret";
+    const secret = process.env.JWT_SECRET || &quot;dev-secret&quot;;
 
     const decoded = verify(token, secret) as any;
 
@@ -40,7 +40,7 @@ export async function authenticateRequest(
       organizationId: decoded.organizationId,
     };
   } catch (error) {
-    console.error("Authentication error:", error);
+    console.error(&quot;Authentication error:&quot;, error);
     return null;
   }
 }

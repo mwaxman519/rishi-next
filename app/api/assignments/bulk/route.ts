@@ -1,20 +1,20 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "../../../lib/db-connection";
-import { brandAgentAssignments } from "@shared/schema";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
-import { randomUUID } from "crypto";
+import { db } from &quot;../../../lib/db-connection&quot;;
+import { brandAgentAssignments } from &quot;@shared/schema&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { authOptions } from &quot;@/lib/auth-options&quot;;
+import { randomUUID } from &quot;crypto&quot;;
 
 // POST /api/assignments/bulk - Create bulk assignments
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const body = await request.json();
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     if (!assignments || !Array.isArray(assignments)) {
       return NextResponse.json(
-        { error: "Assignments array is required" },
+        { error: &quot;Assignments array is required&quot; },
         { status: 400 },
       );
     }
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       brandAgentId: assignment.memberId,
       bookingId: assignment.bookingId,
       activityId: assignment.activityId,
-      status: assignment.status || "assigned",
+      status: assignment.status || &quot;assigned&quot;,
       assignedAt: new Date(assignment.assignedAt || Date.now()),
       assignedById: assignment.assignedById || (session.user as any).id,
     }));
@@ -45,11 +45,11 @@ export async function POST(request: NextRequest) {
 
     // Publish events for each assignment
     for (const assignment of createdAssignments) {
-      await fetch("/api/events/publish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      await fetch(&quot;/api/events/publish&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify({
-          eventType: "assignment.created",
+          eventType: &quot;assignment.created&quot;,
           payload: {
             assignmentId: assignment.id,
             memberId: assignment.brandAgentId,
@@ -68,9 +68,9 @@ export async function POST(request: NextRequest) {
       count: createdAssignments.length,
     });
   } catch (error) {
-    console.error("Error creating bulk assignments:", error);
+    console.error(&quot;Error creating bulk assignments:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to create assignments" },
+      { error: &quot;Failed to create assignments&quot; },
       { status: 500 },
     );
   }

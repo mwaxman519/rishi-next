@@ -1,18 +1,18 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * API endpoint to initialize the feature system for all organizations
  * This is typically called during application startup or after major changes
  */
-import { NextRequest, NextResponse } from "next/server";
-import { initializeFeatureSystem } from "@shared/features/initialize";
-import { db } from "@/lib/db";
-import { organizations } from "@shared/schema";
-import { initializeOrganizationFeatures } from "@shared/features/registry";
-import { hasPermission } from "@/lib/permissions";
-import { getCurrentUser } from "@/lib/auth";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { initializeFeatureSystem } from &quot;@shared/features/initialize&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { organizations } from &quot;@shared/schema&quot;;
+import { initializeOrganizationFeatures } from &quot;@shared/features/registry&quot;;
+import { hasPermission } from &quot;@/lib/permissions&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,13 +20,13 @@ export async function POST(request: NextRequest) {
     // Get current user for permission check
     const currentUser = await getCurrentUser();
     if (!currentUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
     
-    const hasAccess = await hasPermission(currentUser.id, "create:organizations");
+    const hasAccess = await hasPermission(currentUser.id, &quot;create:organizations&quot;);
     if (!hasAccess) {
       return NextResponse.json(
-        { error: "Unauthorized: Requires super admin permissions" },
+        { error: &quot;Unauthorized: Requires super admin permissions&quot; },
         { status: 403 },
       );
     }
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     // Get all active organizations
     const allOrgs = await db.query.organizations.findMany({
-      where: eq(organizations.status, "active"),
+      where: eq(organizations.status, &quot;active&quot;),
     });
 
     // Initialize features for each organization
@@ -48,13 +48,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Feature system initialized successfully",
+      message: &quot;Feature system initialized successfully&quot;,
       initializedOrganizationCount: initializedOrgs.length,
     });
   } catch (error) {
-    console.error("Error initializing feature system:", error);
+    console.error(&quot;Error initializing feature system:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to initialize feature system" },
+      { error: &quot;Failed to initialize feature system&quot; },
       { status: 500 },
     );
   }

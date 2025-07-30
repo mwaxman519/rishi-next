@@ -1,25 +1,25 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import React, { useState } from &quot;react&quot;;
+import { z } from &quot;zod&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { FormProvider } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
+} from &quot;@/components/ui/form&quot;;
+import { FormProvider } from &quot;react-hook-form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { Loader2 } from &quot;lucide-react&quot;;
 
 // Simplified booking form schema
 const simpleBookingFormSchema = z.object({
-  title: z.string().min(3, { message: "Title must be at least 3 characters" }),
+  title: z.string().min(3, { message: &quot;Title must be at least 3 characters&quot; }),
   description: z.string().optional(),
 });
 
@@ -40,8 +40,8 @@ export function SimpleBookingForm({
   const form = useForm<SimpleBookingFormValues>({
     resolver: zodResolver(simpleBookingFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: "&quot;,
+      description: &quot;&quot;,
     },
   });
 
@@ -57,37 +57,37 @@ export function SimpleBookingForm({
   };
 
   // Check that form is working properly by logging values
-  console.log("DEBUG SimpleBookingForm - Form state:", {
+  console.log(&quot;DEBUG SimpleBookingForm - Form state:&quot;, {
     values: form.getValues(),
     isDirty: form.formState.isDirty,
     isValid: form.formState.isValid,
   });
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-800 shadow-sm">
-      <div className="p-6 border-b dark:border-gray-800">
-        <h1 className="text-2xl font-bold dark:text-white">
+    <div className=&quot;bg-white dark:bg-gray-900 rounded-lg border dark:border-gray-800 shadow-sm&quot;>
+      <div className=&quot;p-6 border-b dark:border-gray-800&quot;>
+        <h1 className=&quot;text-2xl font-bold dark:text-white&quot;>
           New Booking (Simplified)
         </h1>
-        <p className="text-muted-foreground dark:text-gray-400 mt-1">
+        <p className=&quot;text-muted-foreground dark:text-gray-400 mt-1&quot;>
           Create a new booking with basic information
         </p>
       </div>
 
-      <div className="p-6">
+      <div className=&quot;p-6&quot;>
         <FormProvider {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-6"
+            className=&quot;space-y-6&quot;
           >
             <FormField
               control={form.control}
-              name="title"
+              name=&quot;title&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Event Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter event title" {...field} />
+                    <Input placeholder=&quot;Enter event title&quot; {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,16 +96,16 @@ export function SimpleBookingForm({
 
             <FormField
               control={form.control}
-              name="description"
+              name=&quot;description&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter event description"
-                      className="min-h-[100px]"
+                      placeholder=&quot;Enter event description&quot;
+                      className=&quot;min-h-[100px]&quot;
                       {...field}
-                      value={field.value || ""}
+                      value={field.value || &quot;&quot;}
                     />
                   </FormControl>
                   <FormMessage />
@@ -113,19 +113,19 @@ export function SimpleBookingForm({
               )}
             />
 
-            <div className="flex justify-between pt-4">
-              <Button type="button" variant="outline" onClick={onCancel}>
+            <div className=&quot;flex justify-between pt-4&quot;>
+              <Button type=&quot;button&quot; variant=&quot;outline&quot; onClick={onCancel}>
                 Cancel
               </Button>
 
-              <Button type="submit" disabled={isLoading}>
+              <Button type=&quot;submit&quot; disabled={isLoading}>
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                     Submitting...
                   </>
                 ) : (
-                  "Submit Booking"
+                  &quot;Submit Booking"
                 )}
               </Button>
             </div>

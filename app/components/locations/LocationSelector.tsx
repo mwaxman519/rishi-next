@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import { Search } from "lucide-react";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { Search } from &quot;lucide-react&quot;;
 import {
   Command,
   CommandEmpty,
@@ -9,11 +9,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from &quot;@/components/ui/command&quot;;
+import { MapPin } from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Card } from &quot;@/components/ui/card&quot;;
+import { ScrollArea } from &quot;@/components/ui/scroll-area&quot;;
 
 // Location data will be fetched from database via API
 
@@ -26,7 +26,7 @@ export default function LocationSelector({
   selectedLocationId,
   onLocationChange,
 }: LocationSelectorProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
   const [locations, setLocations] = useState<any[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,15 +79,15 @@ export default function LocationSelector({
   };
 
   return (
-    <div className="space-y-4">
+    <div className=&quot;space-y-4&quot;>
       {/* Show selected location */}
       {selectedLocation && (
-        <Card className="p-4 bg-muted/50">
-          <div className="flex items-start gap-3">
-            <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+        <Card className=&quot;p-4 bg-muted/50&quot;>
+          <div className=&quot;flex items-start gap-3&quot;>
+            <MapPin className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
             <div>
-              <div className="font-medium">{selectedLocation.name}</div>
-              <div className="text-sm text-muted-foreground">
+              <div className=&quot;font-medium&quot;>{selectedLocation.name}</div>
+              <div className=&quot;text-sm text-muted-foreground&quot;>
                 {selectedLocation.address}
               </div>
             </div>
@@ -96,20 +96,20 @@ export default function LocationSelector({
       )}
 
       {/* Location search and selection */}
-      <Command className="rounded-lg border shadow-md">
-        <div className="flex items-center border-b px-3">
-          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+      <Command className=&quot;rounded-lg border shadow-md&quot;>
+        <div className=&quot;flex items-center border-b px-3&quot;>
+          <Search className=&quot;mr-2 h-4 w-4 shrink-0 opacity-50&quot; />
           <CommandInput
-            placeholder="Search locations..."
+            placeholder=&quot;Search locations...&quot;
             value={searchQuery}
             onValueChange={handleSearch}
-            className="flex h-11 w-full bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            className=&quot;flex h-11 w-full bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50&quot;
           />
         </div>
-        <ScrollArea className="h-[300px]">
+        <ScrollArea className=&quot;h-[300px]&quot;>
           <CommandList>
             <CommandEmpty>No locations found</CommandEmpty>
-            <CommandGroup heading="Locations">
+            <CommandGroup heading=&quot;Locations&quot;>
               {locations.map((location) => (
                 <CommandItem
                   key={location.id}
@@ -117,13 +117,13 @@ export default function LocationSelector({
                     setSelectedLocation(location);
                     onLocationChange(location.id);
                   }}
-                  className="cursor-pointer"
+                  className=&quot;cursor-pointer&quot;
                 >
-                  <div className="flex items-start gap-3 py-1">
-                    <MapPin className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  <div className=&quot;flex items-start gap-3 py-1&quot;>
+                    <MapPin className=&quot;h-5 w-5 text-muted-foreground flex-shrink-0 mt-0.5&quot; />
                     <div>
-                      <div className="font-medium">{location.name}</div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className=&quot;font-medium&quot;>{location.name}</div>
+                      <div className=&quot;text-xs text-muted-foreground">
                         {location.address}
                       </div>
                     </div>

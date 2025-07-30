@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect } from "react";
-import { DocContent } from "../../components/docs/DocContent";
-import { CachedDocumentLoader } from "../../components/docs/cached-document-loader";
+import { useEffect } from &quot;react&quot;;
+import { DocContent } from &quot;../../components/docs/DocContent&quot;;
+import { CachedDocumentLoader } from &quot;../../components/docs/cached-document-loader&quot;;
 
 interface CachedDocPageProps {
   docPath: string;
@@ -24,7 +24,7 @@ export default function CachedDocPage({
 
   useEffect(() => {
     // Add page to browser history for improved navigation
-    if (typeof window !== "undefined") {
+    if (typeof window !== &quot;undefined&quot;) {
       const title = metadata.title || null;
       window.history.replaceState(
         { docPath, title },
@@ -42,8 +42,8 @@ export default function CachedDocPage({
 
   return (
     <CachedDocumentLoader path={docPath}>
-      <div className="w-full overflow-hidden">
-        <div className="max-w-3xl mx-auto px-4 py-6">
+      <div className=&quot;w-full overflow-hidden&quot;>
+        <div className=&quot;max-w-3xl mx-auto px-4 py-6&quot;>
           <DocContent content={content} metadata={metadata} />
         </div>
       </div>

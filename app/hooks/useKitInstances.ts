@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "../lib/queryClient";
+import { useState } from &quot;react&quot;;
+import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
+import { apiRequest } from &quot;../lib/queryClient&quot;;
 import {
   KitDTO,
   KitTemplateDTO,
   CreateKitInstanceRequest,
-} from "../../services/kits/types";
+} from &quot;../../services/kits/types&quot;;
 
 /**
  * Custom hook for managing kit instances
@@ -22,12 +22,12 @@ export function useKitInstances() {
     isLoading: isLoadingInstances,
     error: instancesError,
   } = useQuery<KitDTO[]>({
-    queryKey: ["/api/kits/instances"],
+    queryKey: [&quot;/api/kits/instances&quot;],
     queryFn: async () => {
       try {
         const response = await apiRequest(
-          "GET",
-          "/api/kits/instances",
+          &quot;GET&quot;,
+          &quot;/api/kits/instances&quot;,
           null,
           2,
         );
@@ -40,7 +40,7 @@ export function useKitInstances() {
         const data = await response.json();
         if (!Array.isArray(data)) {
           console.warn(
-            "Expected array for kit instances but got:",
+            &quot;Expected array for kit instances but got:&quot;,
             typeof data,
           );
           return [];
@@ -48,7 +48,7 @@ export function useKitInstances() {
 
         return data;
       } catch (error) {
-        console.error("Error fetching kit instances:", error);
+        console.error(&quot;Error fetching kit instances:&quot;, error);
         return [];
       }
     },
@@ -62,12 +62,12 @@ export function useKitInstances() {
     isLoading: isLoadingTemplates,
     error: templatesError,
   } = useQuery<KitTemplateDTO[]>({
-    queryKey: ["/api/kits/templates"],
+    queryKey: [&quot;/api/kits/templates&quot;],
     queryFn: async () => {
       try {
         const response = await apiRequest(
-          "GET",
-          "/api/kits/templates",
+          &quot;GET&quot;,
+          &quot;/api/kits/templates&quot;,
           null,
           2,
         );
@@ -80,7 +80,7 @@ export function useKitInstances() {
         const data = await response.json();
         if (!Array.isArray(data)) {
           console.warn(
-            "Expected array for kit templates but got:",
+            &quot;Expected array for kit templates but got:&quot;,
             typeof data,
           );
           return [];
@@ -88,7 +88,7 @@ export function useKitInstances() {
 
         return data;
       } catch (error) {
-        console.error("Error fetching kit templates:", error);
+        console.error(&quot;Error fetching kit templates:&quot;, error);
         return [];
       }
     },
@@ -101,8 +101,8 @@ export function useKitInstances() {
     mutationFn: async (data: CreateKitInstanceRequest) => {
       try {
         const response = await apiRequest(
-          "POST",
-          "/api/kits/instances",
+          &quot;POST&quot;,
+          &quot;/api/kits/instances&quot;,
           data,
           2,
         ); // Allow up to 2 retries
@@ -115,17 +115,17 @@ export function useKitInstances() {
         }
         return response.json();
       } catch (error) {
-        console.error("Error creating kit instance:", error);
+        console.error(&quot;Error creating kit instance:&quot;, error);
         throw error;
       }
     },
     onSuccess: () => {
       // Invalidate relevant queries
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/instances"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/instances&quot;] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;] });
     },
     onError: (error) => {
-      console.error("Kit instance creation failed:", error);
+      console.error(&quot;Kit instance creation failed:&quot;, error);
     },
   });
 

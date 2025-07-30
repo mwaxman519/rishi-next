@@ -1,10 +1,10 @@
-import { db } from "../lib/db";
-import { eq } from "drizzle-orm";
-import { eventBus } from "../events/event-bus";
-import { v4 as uuidv4 } from "uuid";
-import { bookings, systemSystemEvents } from "@shared/schema";
-import { addWeeks, addDays, format, parseISO } from "date-fns";
-import { RetryExecutor } from "../../lib/resilience";
+import { db } from &quot;../lib/db&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import { eventBus } from &quot;../events/event-bus&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
+import { bookings, systemSystemEvents } from &quot;@shared/schema&quot;;
+import { addWeeks, addDays, format, parseISO } from &quot;date-fns&quot;;
+import { RetryExecutor } from &quot;../../lib/resilience&quot;;
 
 /**
  * Service for handling booking workflows and system events
@@ -20,7 +20,7 @@ export class BookingsEventsService {
   ) {
     const retryExecutor = new RetryExecutor({
       maxRetries: 3,
-      retryableErrors: ["deadlock", "timeout", "connection"],
+      retryableErrors: [&quot;deadlock&quot;, &quot;timeout&quot;, &quot;connection&quot;],
     });
 
     return await retryExecutor.execute(async () => {
@@ -29,7 +29,7 @@ export class BookingsEventsService {
         const [updatedBooking] = await tx
           .update(bookings)
           .set({
-            status: "approved",
+            status: &quot;approved&quot;,
             approvedById: userId,
             approvedAt: new Date(),
             updated_at: new Date(),
@@ -38,7 +38,7 @@ export class BookingsEventsService {
           .returning();
 
         if (!updatedBooking) {
-          throw new Error("Booking not found");
+          throw new Error(&quot;Booking not found&quot;);
         }
 
         // Generate events if requested
@@ -52,7 +52,7 @@ export class BookingsEventsService {
           await tx
             .update(bookings)
             .set({
-              eventGenerationStatus: "completed",
+              eventGenerationStatus: &quot;completed&quot;,
               eventCount: eventIds.length,
               lastEventGeneratedAt: new Date(),
             })
@@ -64,11 +64,11 @@ export class BookingsEventsService {
         try {
           const eventBusRetry = new RetryExecutor({
             maxRetries: 5,
-            retryableErrors: ["timeout", "connection", "network"],
+            retryableErrors: [&quot;timeout&quot;, &quot;connection&quot;, &quot;network&quot;],
           });
 
           await eventBusRetry.execute(async () => {
-            await eventBus.publish("BOOKING_APPROVED", {
+            await eventBus.publish(&quot;BOOKING_APPROVED&quot;, {
               bookingId: updatedBooking.id,
               clientId: updatedBooking.clientOrganizationId,
               approvedBy: userId,
@@ -78,8 +78,8 @@ export class BookingsEventsService {
             });
           });
         } catch (error) {
-          // Log the error but don't fail the transaction
-          console.error("Failed to publish booking approval event", {
+          // Log the error but don&apos;t fail the transaction
+          console.error(&quot;Failed to publish booking approval event&quot;, {
             error,
             bookingId,
           });
@@ -105,11 +105,11 @@ export class BookingsEventsService {
     const eventInstancesToCreate = eventDates.map((date) => ({
       id: uuidv4(),
       bookingId: booking.id,
-      date: format(date, "yyyy-MM-dd"),
-      startTime: booking.startTime || "09:00",
-      endTime: booking.endTime || "17:00",
+      date: format(date, &quot;yyyy-MM-dd&quot;),
+      startTime: booking.startTime || &quot;09:00&quot;,
+      endTime: booking.endTime || &quot;17:00&quot;,
       locationId: booking.locationId,
-      status: "scheduled",
+      status: &quot;scheduled&quot;,
       checkInRequired: true,
       specialInstructions: booking.notes,
     }));
@@ -117,7 +117,7 @@ export class BookingsEventsService {
     // Log system events for tracking
     const systemEventPromises = eventInstancesToCreate.map((eventData) =>
       tx.insert(systemEvents).values({
-        eventType: "booking_instance_created",
+        eventType: &quot;booking_instance_created&quot;,
         userId: null,
         organizationId: booking.clientOrganizationId,
         metadata: eventData,
@@ -133,12 +133,12 @@ export class BookingsEventsService {
    */
   private calculateEventDates(booking: typeof bookings.$inferSelect): Date[] {
     const startDate =
-      typeof booking.startDate === "string"
+      typeof booking.startDate === &quot;string&quot;
         ? parseISO(booking.startDate)
         : booking.startDate;
 
     const endDate =
-      typeof booking.endDate === "string"
+      typeof booking.endDate === &quot;string&quot;
         ? parseISO(booking.endDate)
         : booking.endDate;
 
@@ -152,21 +152,21 @@ export class BookingsEventsService {
 
     // Calculate dates based on recurrence pattern
     switch (booking.recurrencePattern) {
-      case "weekly":
+      case &quot;weekly&quot;:
         while (currentDate <= endDate) {
           dates.push(new Date(currentDate));
           currentDate = addWeeks(currentDate, 1);
         }
         break;
 
-      case "biweekly":
+      case &quot;biweekly&quot;:
         while (currentDate <= endDate) {
           dates.push(new Date(currentDate));
           currentDate = addWeeks(currentDate, 2);
         }
         break;
 
-      case "monthly":
+      case &quot;monthly&quot;:
         while (currentDate <= endDate) {
           dates.push(new Date(currentDate));
           // Approximate a month as 4 weeks
@@ -174,7 +174,7 @@ export class BookingsEventsService {
         }
         break;
 
-      case "daily":
+      case &quot;daily&quot;:
         while (currentDate <= endDate) {
           dates.push(new Date(currentDate));
           currentDate = addDays(currentDate, 1);
@@ -199,7 +199,7 @@ export class BookingsEventsService {
   ) {
     const retryExecutor = new RetryExecutor({
       maxRetries: 3,
-      retryableErrors: ["deadlock", "timeout", "connection"],
+      retryableErrors: [&quot;deadlock&quot;, &quot;timeout&quot;, &quot;connection&quot;],
     });
 
     return await retryExecutor.execute(async () => {
@@ -214,7 +214,7 @@ export class BookingsEventsService {
         .returning();
 
       if (!updatedEvent) {
-        throw new Error("Event not found");
+        throw new Error(&quot;Event not found&quot;);
       }
 
       // Publish event to event bus
@@ -222,11 +222,11 @@ export class BookingsEventsService {
         const correlationId = uuidv4();
         const eventBusRetry = new RetryExecutor({
           maxRetries: 5,
-          retryableErrors: ["timeout", "connection", "network"],
+          retryableErrors: [&quot;timeout&quot;, &quot;connection&quot;, &quot;network&quot;],
         });
 
         await eventBusRetry.execute(async () => {
-          await eventBus.publish("EVENT_MANAGER_ASSIGNED", {
+          await eventBus.publish(&quot;EVENT_MANAGER_ASSIGNED&quot;, {
             eventId: updatedEvent.id,
             bookingId: updatedEvent.bookingId,
             managerId: managerId,
@@ -236,8 +236,8 @@ export class BookingsEventsService {
           });
         });
       } catch (error) {
-        // Log the error but don't fail the operation
-        console.error("Failed to publish manager assignment event", {
+        // Log the error but don&apos;t fail the operation
+        console.error(&quot;Failed to publish manager assignment event&quot;, {
           error,
           eventId,
         });
@@ -264,18 +264,18 @@ export class BookingsEventsService {
       const [updatedEvent] = await db
         .update(events)
         .set({
-          preparationStatus: "in_progress",
+          preparationStatus: &quot;in_progress&quot;,
           updated_at: new Date(),
         })
         .where(eq(systemEvents.id, eventId))
         .returning();
 
       if (!updatedEvent) {
-        throw new Error("Event not found");
+        throw new Error(&quot;Event not found&quot;);
       }
 
       // Publish event to event bus
-      await eventBus.publish("EVENT_PREPARATION_STARTED", {
+      await eventBus.publish(&quot;EVENT_PREPARATION_STARTED&quot;, {
         eventId: updatedEvent.id,
         bookingId: updatedEvent.bookingId,
         startedBy: userId,
@@ -285,7 +285,7 @@ export class BookingsEventsService {
 
       return updatedEvent;
     } catch (error) {
-      console.error("Error starting event preparation:", error);
+      console.error(&quot;Error starting event preparation:&quot;, error);
       throw error;
     }
   }
@@ -308,18 +308,18 @@ export class BookingsEventsService {
       const [updatedEvent] = await db
         .update(events)
         .set({
-          preparationStatus: "ready",
+          preparationStatus: &quot;ready&quot;,
           updated_at: new Date(),
         })
         .where(eq(systemEvents.id, eventId))
         .returning();
 
       if (!updatedEvent) {
-        throw new Error("Event not found");
+        throw new Error(&quot;Event not found&quot;);
       }
 
       // Publish event to event bus
-      await eventBus.publish("EVENT_PREPARATION_COMPLETE", {
+      await eventBus.publish(&quot;EVENT_PREPARATION_COMPLETE&quot;, {
         eventId: updatedEvent.id,
         bookingId: updatedEvent.bookingId,
         readyStatus: details,
@@ -329,7 +329,7 @@ export class BookingsEventsService {
 
       return updatedEvent;
     } catch (error) {
-      console.error("Error marking event as ready:", error);
+      console.error(&quot;Error marking event as ready:&quot;, error);
       throw error;
     }
   }

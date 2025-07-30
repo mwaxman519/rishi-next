@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useState, use } from "react";
-import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState, use } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
 import {
   ArrowLeft,
   Building2,
@@ -12,8 +12,8 @@ import {
   MapPin,
   Shield,
   Users,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
@@ -21,11 +21,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import type { Organization } from "@shared/schema";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import Link from &quot;next/link&quot;;
+import type { Organization } from &quot;@shared/schema&quot;;
 
 export default function OrganizationDetailPage({
   params,
@@ -44,8 +44,8 @@ export default function OrganizationDetailPage({
   // If organization not found or loading
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
       </div>
     );
   }
@@ -54,14 +54,14 @@ export default function OrganizationDetailPage({
 
   if (!organization) {
     return (
-      <div className="container mx-auto py-6">
-        <div className="flex justify-between items-center mb-6">
+      <div className=&quot;container mx-auto py-6&quot;>
+        <div className=&quot;flex justify-between items-center mb-6&quot;>
           <Button
-            variant="ghost"
-            onClick={() => router.push("/admin/organizations")}
-            className="flex items-center"
+            variant=&quot;ghost&quot;
+            onClick={() => router.push(&quot;/admin/organizations&quot;)}
+            className=&quot;flex items-center&quot;
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
             Back to Organizations
           </Button>
         </div>
@@ -74,7 +74,7 @@ export default function OrganizationDetailPage({
             </CardDescription>
           </CardHeader>
           <CardFooter>
-            <Button onClick={() => router.push("/admin/organizations")}>
+            <Button onClick={() => router.push(&quot;/admin/organizations&quot;)}>
               Back to Organizations
             </Button>
           </CardFooter>
@@ -85,112 +85,112 @@ export default function OrganizationDetailPage({
 
   const tierName = organization?.tier
     ? organization?.tier
-        .replace("_", " ")
+        .replace(&quot;_&quot;, &quot; &quot;)
         .replace(/\b\w/g, (c) => c.toUpperCase())
-    : "No Tier";
+    : &quot;No Tier&quot;;
 
   return (
-    <div className="container mx-auto py-6">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
+    <div className=&quot;container mx-auto py-6&quot;>
+      <div className=&quot;flex justify-between items-center mb-6&quot;>
+        <div className=&quot;flex items-center&quot;>
           <Button
-            variant="ghost"
-            onClick={() => router.push("/admin/organizations")}
-            className="mr-4"
+            variant=&quot;ghost&quot;
+            onClick={() => router.push(&quot;/admin/organizations&quot;)}
+            className=&quot;mr-4&quot;
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
             Back
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
               {organization?.name || 'Unknown Organization'}
             </h1>
-            <div className="flex items-center mt-1">
-              <Badge variant="outline" className="mr-2">
+            <div className=&quot;flex items-center mt-1&quot;>
+              <Badge variant=&quot;outline&quot; className=&quot;mr-2&quot;>
                 {organization?.type?.charAt(0).toUpperCase() +
                   organization?.type?.slice(1) || 'Unknown'}
               </Badge>
               {organization?.tier && (
-                <Badge variant="secondary">{tierName}</Badge>
+                <Badge variant=&quot;secondary&quot;>{tierName}</Badge>
               )}
               <Badge
-                variant={organization?.status === "active" ? "success" : "destructive"}
-                className="ml-2"
+                variant={organization?.status === &quot;active&quot; ? &quot;success&quot; : &quot;destructive&quot;}
+                className=&quot;ml-2&quot;
               >
-                {organization?.status === "active" ? "Active" : "Inactive"}
+                {organization?.status === &quot;active&quot; ? &quot;Active&quot; : &quot;Inactive&quot;}
               </Badge>
             </div>
           </div>
         </div>
-        <div className="flex space-x-2">
+        <div className=&quot;flex space-x-2&quot;>
           <Link
             href={`/admin/organizations/settings?organizationId=${organization?.id}`}
           >
-            <Button variant="outline" size="sm">
+            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
               Manage Settings
             </Button>
           </Link>
           <Link
             href={`/admin/organizations/branding?organizationId=${organization?.id}`}
           >
-            <Button variant="outline" size="sm">
+            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
               Customize Branding
             </Button>
           </Link>
         </div>
       </div>
 
-      <Separator className="my-6" />
+      <Separator className=&quot;my-6&quot; />
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className=&quot;grid gap-6 md:grid-cols-2&quot;>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <Building2 className="mr-2 h-5 w-5" />
+            <CardTitle className=&quot;flex items-center&quot;>
+              <Building2 className=&quot;mr-2 h-5 w-5&quot; />
               Organization Details
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="space-y-4">
+            <dl className=&quot;space-y-4&quot;>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">
+                <dt className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   ID
                 </dt>
-                <dd className="text-sm mt-1">{organization?.id}</dd>
+                <dd className=&quot;text-sm mt-1&quot;>{organization?.id}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">
+                <dt className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Type
                 </dt>
-                <dd className="text-sm mt-1 capitalize">{organization?.type}</dd>
+                <dd className=&quot;text-sm mt-1 capitalize&quot;>{organization?.type}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">
+                <dt className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Tier
                 </dt>
-                <dd className="text-sm mt-1">{tierName}</dd>
+                <dd className=&quot;text-sm mt-1&quot;>{tierName}</dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">
+                <dt className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Status
                 </dt>
-                <dd className="text-sm mt-1">
-                  {organization?.status === "active" ? "Active" : "Inactive"}
+                <dd className=&quot;text-sm mt-1&quot;>
+                  {organization?.status === &quot;active&quot; ? &quot;Active&quot; : &quot;Inactive&quot;}
                 </dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">
+                <dt className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Created
                 </dt>
-                <dd className="text-sm mt-1">
+                <dd className=&quot;text-sm mt-1&quot;>
                   {organization?.created_at ? new Date(organization?.created_at).toLocaleString() : 'Unknown'}
                 </dd>
               </div>
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">
+                <dt className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Last Updated
                 </dt>
-                <dd className="text-sm mt-1">
+                <dd className=&quot;text-sm mt-1&quot;>
                   {organization?.updated_at ? new Date(organization?.updated_at).toLocaleString() : 'Unknown'}
                 </dd>
               </div>
@@ -202,52 +202,52 @@ export default function OrganizationDetailPage({
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4">
+          <CardContent className=&quot;grid gap-4&quot;>
             <Link
               href={`/admin/organizations/users?organizationId=${organization?.id}`}
             >
-              <Button variant="outline" className="w-full justify-start">
-                <Users className="mr-2 h-4 w-4" />
+              <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                <Users className=&quot;mr-2 h-4 w-4&quot; />
                 Manage Users
               </Button>
             </Link>
             <Link
               href={`/admin/organizations/roles?organizationId=${organization?.id}`}
             >
-              <Button variant="outline" className="w-full justify-start">
-                <Shield className="mr-2 h-4 w-4" />
+              <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                <Shield className=&quot;mr-2 h-4 w-4&quot; />
                 Manage Roles & Permissions
               </Button>
             </Link>
             <Link
               href={`/admin/organizations/settings?organizationId=${organization?.id}`}
             >
-              <Button variant="outline" className="w-full justify-start">
-                <FileText className="mr-2 h-4 w-4" />
+              <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                <FileText className=&quot;mr-2 h-4 w-4&quot; />
                 Organization Settings
               </Button>
             </Link>
             <Link
               href={`/admin/organizations/branding?organizationId=${organization?.id}`}
             >
-              <Button variant="outline" className="w-full justify-start">
-                <Building2 className="mr-2 h-4 w-4" />
+              <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                <Building2 className=&quot;mr-2 h-4 w-4&quot; />
                 Branding & Customization
               </Button>
             </Link>
             <Link
               href={`/admin/organization-regions?organizationId=${organization?.id}`}
             >
-              <Button variant="outline" className="w-full justify-start">
-                <MapPin className="mr-2 h-4 w-4" />
+              <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                <MapPin className=&quot;mr-2 h-4 w-4&quot; />
                 Manage Regions
               </Button>
             </Link>
             <Link
               href={`/admin/organization-events?organizationId=${organization?.id}`}
             >
-              <Button variant="outline" className="w-full justify-start">
-                <Calendar className="mr-2 h-4 w-4" />
+              <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                <Calendar className=&quot;mr-2 h-4 w-4&quot; />
                 View Events
               </Button>
             </Link>

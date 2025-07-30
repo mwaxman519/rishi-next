@@ -6,8 +6,8 @@
  * in the database with appropriate cache invalidation strategies.
  */
 
-import { neon } from "@neondatabase/serverless";
-import crypto from "crypto";
+import { neon } from &quot;@neondatabase/serverless&quot;;
+import crypto from &quot;crypto&quot;;
 
 // Cache settings
 const DOCS_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
@@ -16,7 +16,7 @@ const ALLOW_STALE_WHILE_REVALIDATING = true;
 // Verify DATABASE_URL is set
 if (!process.env.DATABASE_URL) {
   console.warn(
-    "DATABASE_URL is not set. Documentation database caching will be disabled.",
+    &quot;DATABASE_URL is not set. Documentation database caching will be disabled.&quot;,
   );
 }
 
@@ -28,7 +28,7 @@ const sql = process.env.DATABASE_URL
     })
   : null;
 
-// Initialize the docs cache table if it doesn't exist
+// Initialize the docs cache table if it doesn&apos;t exist
 async function initDocsCacheTable() {
   if (!sql) return false;
 
@@ -48,10 +48,10 @@ async function initDocsCacheTable() {
       CREATE INDEX IF NOT EXISTS idx_docs_cache_updated_at ON docs_cache(updated_at)
     `;
 
-    console.log("[DOCS DB] Cache table initialized successfully");
+    console.log(&quot;[DOCS DB] Cache table initialized successfully&quot;);
     return true;
   } catch (error) {
-    console.error("[DOCS DB] Error initializing cache table:", error);
+    console.error(&quot;[DOCS DB] Error initializing cache table:&quot;, error);
     return false;
   }
 }
@@ -79,9 +79,9 @@ export async function cacheDocumentInDb(
   try {
     // Calculate content hash for cache validation
     const contentHash = crypto
-      .createHash("md5")
+      .createHash(&quot;md5&quot;)
       .update(content + JSON.stringify(metadata))
-      .digest("hex");
+      .digest(&quot;hex&quot;);
 
     // Store in database
     await sql`
@@ -180,9 +180,9 @@ export async function shouldRevalidateDocument(
   try {
     // Calculate content hash for the current content
     const contentHash = crypto
-      .createHash("md5")
+      .createHash(&quot;md5&quot;)
       .update(content + JSON.stringify(metadata))
-      .digest("hex");
+      .digest(&quot;hex&quot;);
 
     // Get cached hash
     const result = await sql`
@@ -229,6 +229,6 @@ export async function purgeStaleDocCache(maxAgeDays = 30) {
 
     console.log(`[DOCS DB] Purged ${result.length} stale cache entries`);
   } catch (error) {
-    console.error("[DOCS DB] Error purging stale cache:", error);
+    console.error(&quot;[DOCS DB] Error purging stale cache:&quot;, error);
   }
 }

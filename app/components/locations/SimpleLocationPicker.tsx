@@ -1,9 +1,9 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Loader2, MapPin, Search } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useEffect, useRef, useState } from &quot;react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
+import { useToast } from &quot;@/components/ui/use-toast&quot;;
 
 interface AddressData {
   formatted_address: string;
@@ -25,7 +25,7 @@ let googleMapsLoaded = false;
 
 export default function SimpleLocationPicker({
   onAddressSelect,
-  className = "",
+  className = "&quot;,
 }: Props): React.ReactNode {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +33,7 @@ export default function SimpleLocationPicker({
     lat: number;
     lng: number;
   } | null>(null);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(&quot;&quot;);
 
   // Refs
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,13 +49,13 @@ export default function SimpleLocationPicker({
       googleMapsLoaded = true;
 
       window.initMap = function () {
-        console.log("Google Maps API loaded via callback");
+        console.log(&quot;Google Maps API loaded via callback&quot;);
         if (window.google?.maps?.places) {
           setupAutocomplete();
         }
       };
 
-      const script = document.createElement("script");
+      const script = document.createElement(&quot;script&quot;);
       script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PPMg1ZVIB8ih7JIsTVahbPzlAhwJ70Q&libraries=places&callback=initMap&loading=async&v=weekly`;
       script.async = true;
       script.defer = true;
@@ -69,15 +69,15 @@ export default function SimpleLocationPicker({
         autocompleteRef.current = new window.google.maps.places.Autocomplete(
           inputRef.current,
           {
-            types: ["address", "establishment", "geocode"],
+            types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
           },
         );
 
-        autocompleteRef.current.addListener("place_changed", () => {
+        autocompleteRef.current.addListener(&quot;place_changed&quot;, () => {
           const place = autocompleteRef.current.getPlace();
 
           if (!place.geometry) {
-            console.error("Place selected but no geometry data");
+            console.error(&quot;Place selected but no geometry data&quot;);
             return;
           }
 
@@ -92,8 +92,8 @@ export default function SimpleLocationPicker({
           // Determine if business/place
           const isBusinessOrPlace =
             place.types &&
-            (place.types.includes("establishment") ||
-              place.types.includes("point_of_interest"));
+            (place.types.includes(&quot;establishment&quot;) ||
+              place.types.includes(&quot;point_of_interest&quot;));
 
           // Create address data
           const addressData: AddressData = {
@@ -101,12 +101,12 @@ export default function SimpleLocationPicker({
             address_components: place.address_components || [],
             latitude: lat,
             longitude: lng,
-            place_id: place.place_id || "",
+            place_id: place.place_id || &quot;&quot;,
             name: isBusinessOrPlace ? place.name : place.name || address,
             types: place.types || [],
           };
 
-          console.log("Selected address data:", addressData);
+          console.log(&quot;Selected address data:&quot;, addressData);
 
           // Update display
           if (isBusinessOrPlace && place.name && place.formatted_address) {
@@ -120,9 +120,9 @@ export default function SimpleLocationPicker({
         });
 
         setIsLoading(false);
-        console.log("Autocomplete initialized");
+        console.log(&quot;Autocomplete initialized&quot;);
       } catch (error) {
-        console.error("Error setting up autocomplete:", error);
+        console.error(&quot;Error setting up autocomplete:&quot;, error);
         setIsLoading(false);
       }
     };
@@ -191,26 +191,26 @@ export default function SimpleLocationPicker({
   return (
     <div className={className}>
       {/* Search input */}
-      <div className="relative mb-4 max-w-md">
-        <div className="relative rounded-md shadow-sm">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+      <div className=&quot;relative mb-4 max-w-md&quot;>
+        <div className=&quot;relative rounded-md shadow-sm&quot;>
+          <div className=&quot;pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3&quot;>
             <Search
-              className="h-4 w-4 text-muted-foreground"
-              aria-hidden="true"
+              className=&quot;h-4 w-4 text-muted-foreground&quot;
+              aria-hidden=&quot;true&quot;
             />
           </div>
           <Input
             ref={inputRef}
-            type="text"
+            type=&quot;text&quot;
             value={address}
             onChange={handleInputChange}
-            placeholder="Search for addresses, businesses, or places..."
-            className="pl-10 h-12 focus-visible:ring-2 focus-visible:ring-primary rounded-lg shadow-md"
+            placeholder=&quot;Search for addresses, businesses, or places...&quot;
+            className=&quot;pl-10 h-12 focus-visible:ring-2 focus-visible:ring-primary rounded-lg shadow-md&quot;
             disabled={isLoading}
           />
           {isLoading && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <div className=&quot;absolute inset-y-0 right-0 flex items-center pr-3&quot;>
+              <Loader2 className=&quot;h-4 w-4 animate-spin text-primary&quot; />
             </div>
           )}
         </div>
@@ -219,13 +219,13 @@ export default function SimpleLocationPicker({
       {/* Map container */}
       <div
         ref={mapContainerRef}
-        className={`w-full h-[350px] rounded-md border border-input relative ${!selectedLocation ? "bg-muted/40 flex items-center justify-center" : ""}`}
+        className={`w-full h-[350px] rounded-md border border-input relative ${!selectedLocation ? &quot;bg-muted/40 flex items-center justify-center&quot; : &quot;&quot;}`}
       >
         {!selectedLocation && (
-          <div className="text-center text-muted-foreground flex flex-col items-center">
-            <MapPin className="h-12 w-12 mb-3 text-muted-foreground/60" />
-            <p className="text-lg">Search for a location to see the map</p>
-            <p className="text-sm text-muted-foreground/80 mt-1 max-w-xs">
+          <div className=&quot;text-center text-muted-foreground flex flex-col items-center&quot;>
+            <MapPin className=&quot;h-12 w-12 mb-3 text-muted-foreground/60&quot; />
+            <p className=&quot;text-lg&quot;>Search for a location to see the map</p>
+            <p className=&quot;text-sm text-muted-foreground/80 mt-1 max-w-xs">
               Try searching for businesses, landmarks, or addresses
             </p>
           </div>

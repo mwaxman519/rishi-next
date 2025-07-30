@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import { useAuth } from "../hooks/useAuth";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useAuth } from &quot;../hooks/useAuth&quot;;
+import { useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 
 export default function ProfileLayout({
   children,
@@ -14,16 +14,16 @@ export default function ProfileLayout({
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/auth/login");
+      router.push(&quot;/auth/login&quot;);
     }
   }, [user, loading, router]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-4">Loading...</h2>
-          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
+      <div className=&quot;min-h-screen flex items-center justify-center&quot;>
+        <div className=&quot;text-center&quot;>
+          <h2 className=&quot;text-2xl font-semibold mb-4&quot;>Loading...</h2>
+          <div className=&quot;w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto&quot;></div>
         </div>
       </div>
     );
@@ -34,17 +34,17 @@ export default function ProfileLayout({
       {user ? (
         children
       ) : (
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-4">
+        <div className=&quot;min-h-screen flex items-center justify-center&quot;>
+          <div className=&quot;text-center&quot;>
+            <h2 className=&quot;text-2xl font-semibold mb-4&quot;>
               Authentication Required
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className=&quot;text-gray-600 mb-4&quot;>
               Please log in to access this page.
             </p>
             <button
-              onClick={() => router.push("/auth/login")}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              onClick={() => router.push(&quot;/auth/login&quot;)}
+              className=&quot;px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors&quot;
             >
               Go to Login
             </button>

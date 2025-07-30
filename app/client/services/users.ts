@@ -4,7 +4,7 @@
  * Client-side adapter for interacting with the users service.
  */
 
-import { ApiError } from "@/lib/errors";
+import { ApiError } from &quot;@/lib/errors&quot;;
 
 /**
  * User model interface
@@ -70,30 +70,30 @@ export class UsersServiceClient {
       // Build query string from params
       const queryParams = new URLSearchParams();
 
-      if (params.search) queryParams.append("search", params.search);
+      if (params.search) queryParams.append(&quot;search&quot;, params.search);
       if (params.organizationId)
-        queryParams.append("organizationId", params.organizationId);
-      if (params.roleId) queryParams.append("roleId", params.roleId);
+        queryParams.append(&quot;organizationId&quot;, params.organizationId);
+      if (params.roleId) queryParams.append(&quot;roleId&quot;, params.roleId);
       if (params.isAdmin !== undefined)
-        queryParams.append("isAdmin", params.isAdmin.toString());
+        queryParams.append(&quot;isAdmin&quot;, params.isAdmin.toString());
       if (params.isActive !== undefined)
-        queryParams.append("isActive", params.isActive.toString());
-      if (params.limit) queryParams.append("limit", params.limit.toString());
-      if (params.offset) queryParams.append("offset", params.offset.toString());
+        queryParams.append(&quot;isActive&quot;, params.isActive.toString());
+      if (params.limit) queryParams.append(&quot;limit&quot;, params.limit.toString());
+      if (params.offset) queryParams.append(&quot;offset&quot;, params.offset.toString());
 
       const queryString = queryParams.toString();
-      const url = `/api/users${queryString ? `?${queryString}` : ""}`;
+      const url = `/api/users${queryString ? `?${queryString}` : "&quot;}`;
 
       const response = await fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to fetch users",
+          error.message || &quot;Failed to fetch users&quot;,
           response.status,
           error.details,
         );
@@ -104,7 +104,7 @@ export class UsersServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to fetch users", 500);
+      throw new ApiError(&quot;Failed to fetch users&quot;, 500);
     }
   }
 
@@ -116,9 +116,9 @@ export class UsersServiceClient {
   async getUserById(id: string): Promise<User> {
     try {
       const response = await fetch(`/api/users/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
@@ -147,17 +147,17 @@ export class UsersServiceClient {
    */
   async createUser(userData: UserDTO): Promise<User> {
     try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/users&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to create user",
+          error.message || &quot;Failed to create user&quot;,
           response.status,
           error.details,
         );
@@ -169,7 +169,7 @@ export class UsersServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to create user", 500);
+      throw new ApiError(&quot;Failed to create user&quot;, 500);
     }
   }
 
@@ -182,9 +182,9 @@ export class UsersServiceClient {
   async updateUser(id: string, userData: Partial<UserDTO>): Promise<User> {
     try {
       const response = await fetch(`/api/users/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;PATCH&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify(userData),
       });
 
@@ -215,8 +215,8 @@ export class UsersServiceClient {
   async deleteUser(id: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/users/${id}`, {
-        method: "DELETE",
-        credentials: "include",
+        method: &quot;DELETE&quot;,
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
@@ -261,15 +261,15 @@ export class UsersServiceClient {
       const response = await fetch(
         `/api/users/${userId}/organizations/${organizationId}`,
         {
-          method: "POST",
-          credentials: "include",
+          method: &quot;POST&quot;,
+          credentials: &quot;include&quot;,
         },
       );
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to add user to organization",
+          error.message || &quot;Failed to add user to organization&quot;,
           response.status,
           error.details,
         );
@@ -280,7 +280,7 @@ export class UsersServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to add user to organization", 500);
+      throw new ApiError(&quot;Failed to add user to organization&quot;, 500);
     }
   }
 
@@ -298,15 +298,15 @@ export class UsersServiceClient {
       const response = await fetch(
         `/api/users/${userId}/organizations/${organizationId}`,
         {
-          method: "DELETE",
-          credentials: "include",
+          method: &quot;DELETE&quot;,
+          credentials: &quot;include&quot;,
         },
       );
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to remove user from organization",
+          error.message || &quot;Failed to remove user from organization&quot;,
           response.status,
           error.details,
         );
@@ -317,7 +317,7 @@ export class UsersServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to remove user from organization", 500);
+      throw new ApiError(&quot;Failed to remove user from organization&quot;, 500);
     }
   }
 
@@ -330,14 +330,14 @@ export class UsersServiceClient {
   async assignRoleToUser(userId: string, roleId: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/users/${userId}/roles/${roleId}`, {
-        method: "POST",
-        credentials: "include",
+        method: &quot;POST&quot;,
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to assign role to user",
+          error.message || &quot;Failed to assign role to user&quot;,
           response.status,
           error.details,
         );
@@ -348,7 +348,7 @@ export class UsersServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to assign role to user", 500);
+      throw new ApiError(&quot;Failed to assign role to user&quot;, 500);
     }
   }
 
@@ -361,14 +361,14 @@ export class UsersServiceClient {
   async removeRoleFromUser(userId: string, roleId: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/users/${userId}/roles/${roleId}`, {
-        method: "DELETE",
-        credentials: "include",
+        method: &quot;DELETE&quot;,
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to remove role from user",
+          error.message || &quot;Failed to remove role from user&quot;,
           response.status,
           error.details,
         );
@@ -379,7 +379,7 @@ export class UsersServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to remove role from user", 500);
+      throw new ApiError(&quot;Failed to remove role from user", 500);
     }
   }
 }

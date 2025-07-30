@@ -2,15 +2,15 @@
  * Helper utilities for working with user repository data
  * Contains type-safe conversion functions between DB and domain models
  */
-import { UserRole } from "./schema";
-import { UserProfile, UserWithCredentials } from "../services/users/models";
+import { UserRole } from &quot;./schema&quot;;
+import { UserProfile, UserWithCredentials } from &quot;../services/users/models&quot;;
 
 /**
  * Safely converts a database user record to the UserWithCredentials domain model
  */
 export function mapDatabaseUserToCredentials(user: any): UserWithCredentials {
   if (!user) {
-    throw new Error("Cannot map null or undefined user");
+    throw new Error(&quot;Cannot map null or undefined user&quot;);
   }
 
   return {
@@ -33,7 +33,7 @@ export function mapDatabaseUserToCredentials(user: any): UserWithCredentials {
  */
 export function mapDatabaseUserToProfile(user: any): UserProfile {
   if (!user) {
-    throw new Error("Cannot map null or undefined user");
+    throw new Error(&quot;Cannot map null or undefined user&quot;);
   }
 
   return {

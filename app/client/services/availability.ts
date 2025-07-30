@@ -4,7 +4,7 @@
  * Client-side adapter for interacting with the availability service.
  */
 
-import { ApiError } from "@/lib/errors";
+import { ApiError } from &quot;@/lib/errors&quot;;
 
 /**
  * Availability window model
@@ -77,25 +77,25 @@ export class AvailabilityServiceClient {
       // Build query string from params
       const queryParams = new URLSearchParams();
 
-      if (params.userId) queryParams.append("userId", params.userId);
-      if (params.startDate) queryParams.append("startDate", params.startDate);
-      if (params.endDate) queryParams.append("endDate", params.endDate);
+      if (params.userId) queryParams.append(&quot;userId&quot;, params.userId);
+      if (params.startDate) queryParams.append(&quot;startDate&quot;, params.startDate);
+      if (params.endDate) queryParams.append(&quot;endDate&quot;, params.endDate);
       if (params.isRecurring !== undefined)
-        queryParams.append("isRecurring", params.isRecurring.toString());
+        queryParams.append(&quot;isRecurring&quot;, params.isRecurring.toString());
 
       const queryString = queryParams.toString();
-      const url = `/api/availability${queryString ? `?${queryString}` : ""}`;
+      const url = `/api/availability${queryString ? `?${queryString}` : "&quot;}`;
 
       const response = await fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to fetch availability windows",
+          error.message || &quot;Failed to fetch availability windows&quot;,
           response.status,
           error.details,
         );
@@ -107,7 +107,7 @@ export class AvailabilityServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to fetch availability windows", 500);
+      throw new ApiError(&quot;Failed to fetch availability windows&quot;, 500);
     }
   }
 
@@ -127,15 +127,15 @@ export class AvailabilityServiceClient {
       const url = `/api/availability/${userId}?startDate=${startDate}&endDate=${endDate}`;
 
       const response = await fetch(url, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to fetch user availability",
+          error.message || &quot;Failed to fetch user availability&quot;,
           response.status,
           error.details,
         );
@@ -147,7 +147,7 @@ export class AvailabilityServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to fetch user availability", 500);
+      throw new ApiError(&quot;Failed to fetch user availability&quot;, 500);
     }
   }
 
@@ -159,9 +159,9 @@ export class AvailabilityServiceClient {
   async getAvailabilityWindowById(id: string): Promise<AvailabilityWindow> {
     try {
       const response = await fetch(`/api/availability/window/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
@@ -197,17 +197,17 @@ export class AvailabilityServiceClient {
     availabilityData: AvailabilityWindowDTO,
   ): Promise<AvailabilityWindow> {
     try {
-      const response = await fetch("/api/availability", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/availability&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify({ userId, ...availabilityData }),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to create availability window",
+          error.message || &quot;Failed to create availability window&quot;,
           response.status,
           error.details,
         );
@@ -219,7 +219,7 @@ export class AvailabilityServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to create availability window", 500);
+      throw new ApiError(&quot;Failed to create availability window&quot;, 500);
     }
   }
 
@@ -235,9 +235,9 @@ export class AvailabilityServiceClient {
   ): Promise<AvailabilityWindow> {
     try {
       const response = await fetch(`/api/availability/window/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;PATCH&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify(availabilityData),
       });
 
@@ -271,8 +271,8 @@ export class AvailabilityServiceClient {
   async deleteAvailabilityWindow(id: string): Promise<boolean> {
     try {
       const response = await fetch(`/api/availability/window/${id}`, {
-        method: "DELETE",
-        credentials: "include",
+        method: &quot;DELETE&quot;,
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
@@ -309,17 +309,17 @@ export class AvailabilityServiceClient {
     endDate: string,
   ): Promise<Record<string, boolean>> {
     try {
-      const response = await fetch("/api/availability/check", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/availability/check&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify({ userIds, startDate, endDate }),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to check staff availability",
+          error.message || &quot;Failed to check staff availability&quot;,
           response.status,
           error.details,
         );
@@ -331,7 +331,7 @@ export class AvailabilityServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to check staff availability", 500);
+      throw new ApiError(&quot;Failed to check staff availability", 500);
     }
   }
 }

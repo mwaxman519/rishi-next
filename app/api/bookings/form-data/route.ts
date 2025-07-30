@@ -1,22 +1,22 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Booking Form Data API
  * Provides data needed to populate the booking form
  */
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
 import {
   activityTypes,
   locations,
   promotionTypes,
   kitTemplates,
-} from "@shared/schema";
-import { getServerSession } from "next-auth";
-import { eq, and } from "drizzle-orm";
-import { authOptions } from "@/lib/auth-options";
+} from &quot;@shared/schema&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { eq, and } from &quot;drizzle-orm&quot;;
+import { authOptions } from &quot;@/lib/auth-options&quot;;
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     // No special exceptions for authentication in any environment
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Fetch real data from the database
@@ -42,9 +42,9 @@ export async function GET(req: NextRequest) {
       kitTemplates: kitTemplatesData,
     });
   } catch (error) {
-    console.error("Error fetching form data:", error);
+    console.error(&quot;Error fetching form data:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch form data" },
+      { error: &quot;Failed to fetch form data&quot; },
       { status: 500 },
     );
   }

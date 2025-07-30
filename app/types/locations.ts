@@ -2,16 +2,16 @@
  * Location related types for the application
  * Compatible with the service models
  */
-import { StateEntity } from "@/services/locations/models";
+import { StateEntity } from &quot;@/services/locations/models&quot;;
 
 // Re-export types from the LocationType and LocationStatus enums
-export type LocationType = "venue" | "office" | "storage" | "other";
+export type LocationType = &quot;venue&quot; | &quot;office&quot; | &quot;storage&quot; | &quot;other&quot;;
 export type LocationStatus =
-  | "draft"
-  | "pending"
-  | "approved"
-  | "rejected"
-  | "inactive";
+  | &quot;draft&quot;
+  | &quot;pending&quot;
+  | &quot;approved&quot;
+  | &quot;rejected&quot;
+  | &quot;inactive&quot;;
 
 // Compatible with StateEntity from services
 export interface StateDTO {

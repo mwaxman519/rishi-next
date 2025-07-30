@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
-import { useAuthorization } from "@/hooks/useAuthorization";
-import { USER_ROLES } from "@shared/rbac/roles";
+import { useState, useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+import { USER_ROLES } from &quot;@shared/rbac/roles&quot;;
 import {
   MoreHorizontal,
   Edit,
@@ -17,7 +17,7 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,14 +25,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu-fixed";
+} from &quot;@/components/ui/dropdown-menu-fixed&quot;;
 
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs-fixed"; // Using fixed version that doesn't rely on cn
+} from &quot;@/components/ui/tabs-fixed&quot;; // Using fixed version that doesn&apos;t rely on cn
 
 // Type for user data
 type User = {
@@ -50,7 +50,7 @@ type User = {
 // Helper function to format role names
 const formatRoleName = (role: string): string => {
   return role
-    .replace(/_/g, " ")
+    .replace(/_/g, &quot; &quot;)
     .replace(/\b\w/g, (l: string) => l.toUpperCase());
 };
 
@@ -79,12 +79,12 @@ export default function UserDetailPanel({
 
   // Form data state
   const [formData, setFormData] = useState({
-    username: "",
-    fullName: "",
-    email: "",
-    phone: "",
-    role: "",
-    profileImage: "",
+    username: "&quot;,
+    fullName: &quot;&quot;,
+    email: &quot;&quot;,
+    phone: &quot;&quot;,
+    role: &quot;&quot;,
+    profileImage: &quot;&quot;,
     active: true,
   });
 
@@ -99,9 +99,9 @@ export default function UserDetailPanel({
 
         if (!response.ok) {
           if (response.status === 404) {
-            throw new Error("User not found");
+            throw new Error(&quot;User not found&quot;);
           } else {
-            throw new Error("Failed to fetch user details");
+            throw new Error(&quot;Failed to fetch user details&quot;);
           }
         }
 
@@ -111,24 +111,24 @@ export default function UserDetailPanel({
         // Initialize form data
         setFormData({
           username: userData.username,
-          fullName: userData.fullName || "",
-          email: userData.email || "",
-          phone: userData.phone || "",
+          fullName: userData.fullName || &quot;&quot;,
+          email: userData.email || &quot;&quot;,
+          phone: userData.phone || &quot;&quot;,
           role: userData.role,
-          profileImage: userData.profileImage || "",
+          profileImage: userData.profileImage || &quot;&quot;,
           active: userData.active,
         });
       } catch (err) {
-        console.error("Error fetching user details:", err);
+        console.error(&quot;Error fetching user details:&quot;, err);
         setError(
-          err instanceof Error ? err.message : "An unknown error occurred",
+          err instanceof Error ? err.message : &quot;An unknown error occurred&quot;,
         );
 
         toast({
-          title: "Error",
+          title: &quot;Error&quot;,
           description:
-            err instanceof Error ? err.message : "Failed to load user details",
-          variant: "destructive",
+            err instanceof Error ? err.message : &quot;Failed to load user details&quot;,
+          variant: &quot;destructive&quot;,
         });
       } finally {
         setLoading(false);
@@ -151,7 +151,7 @@ export default function UserDetailPanel({
     setFormData((prev) => ({
       ...prev,
       [name]:
-        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+        type === &quot;checkbox&quot; ? (e.target as HTMLInputElement).checked : value,
     }));
   };
 
@@ -162,11 +162,11 @@ export default function UserDetailPanel({
       if (user) {
         setFormData({
           username: user.username,
-          fullName: user.fullName || "",
-          email: user.email || "",
-          phone: user.phone || "",
+          fullName: user.fullName || &quot;&quot;,
+          email: user.email || &quot;&quot;,
+          phone: user.phone || &quot;&quot;,
           role: user.role,
-          profileImage: user.profileImage || "",
+          profileImage: user.profileImage || &quot;&quot;,
           active: user.active,
         });
       }
@@ -181,9 +181,9 @@ export default function UserDetailPanel({
 
     try {
       const response = await fetch(`/api/users/${userId}`, {
-        method: "PUT",
+        method: &quot;PUT&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify(formData),
       });
@@ -194,10 +194,10 @@ export default function UserDetailPanel({
         if (data.details) {
           const validationErrors = Object.entries(data.details)
             .map(([field, error]) => `${field}: ${JSON.stringify(error)}`)
-            .join(", ");
+            .join(&quot;, &quot;);
           throw new Error(`Validation error: ${validationErrors}`);
         }
-        throw new Error(data.error || "Failed to update user");
+        throw new Error(data.error || &quot;Failed to update user&quot;);
       }
 
       // Update local user data
@@ -215,21 +215,21 @@ export default function UserDetailPanel({
       setEditMode(false);
 
       toast({
-        title: "Success",
-        description: "User updated successfully",
-        variant: "default",
+        title: &quot;Success&quot;,
+        description: &quot;User updated successfully&quot;,
+        variant: &quot;default&quot;,
       });
     } catch (err) {
-      console.error("Error updating user:", err);
+      console.error(&quot;Error updating user:&quot;, err);
       setError(
-        err instanceof Error ? err.message : "An unknown error occurred",
+        err instanceof Error ? err.message : &quot;An unknown error occurred&quot;,
       );
 
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          err instanceof Error ? err.message : "Failed to update user",
-        variant: "destructive",
+          err instanceof Error ? err.message : &quot;Failed to update user&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSubmitting(false);
@@ -243,32 +243,32 @@ export default function UserDetailPanel({
 
     try {
       const response = await fetch(`/api/users/${userId}`, {
-        method: "DELETE",
+        method: &quot;DELETE&quot;,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete user");
+        throw new Error(&quot;Failed to delete user&quot;);
       }
 
       toast({
-        title: "Success",
-        description: "User deleted successfully",
-        variant: "default",
+        title: &quot;Success&quot;,
+        description: &quot;User deleted successfully&quot;,
+        variant: &quot;default&quot;,
       });
 
       // Navigate back to users list
-      router.push("/users");
+      router.push(&quot;/users&quot;);
     } catch (err) {
-      console.error("Error deleting user:", err);
+      console.error(&quot;Error deleting user:&quot;, err);
       setError(
-        err instanceof Error ? err.message : "An unknown error occurred",
+        err instanceof Error ? err.message : &quot;An unknown error occurred&quot;,
       );
 
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          err instanceof Error ? err.message : "Failed to delete user",
-        variant: "destructive",
+          err instanceof Error ? err.message : &quot;Failed to delete user&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSubmitting(false);
@@ -281,30 +281,30 @@ export default function UserDetailPanel({
     if (onBack) {
       onBack();
     } else {
-      router.push("/users");
+      router.push(&quot;/users&quot;);
     }
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className=&quot;flex justify-center items-center h-64&quot;>
+        <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
       </div>
     );
   }
 
   if (error && !user) {
     return (
-      <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-6 rounded">
-        <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">
+      <div className=&quot;bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-6 rounded&quot;>
+        <h3 className=&quot;text-lg font-semibold text-red-800 dark:text-red-300 mb-2&quot;>
           Error
         </h3>
-        <p className="text-red-700 dark:text-red-400">{error}</p>
+        <p className=&quot;text-red-700 dark:text-red-400&quot;>{error}</p>
         <button
           onClick={handleBack}
-          className="mt-4 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+          className=&quot;mt-4 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700&quot;
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
           Back to Users
         </button>
       </div>
@@ -313,18 +313,18 @@ export default function UserDetailPanel({
 
   if (!user) {
     return (
-      <div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 p-6 rounded">
-        <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
+      <div className=&quot;bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 p-6 rounded&quot;>
+        <h3 className=&quot;text-lg font-semibold text-yellow-800 dark:text-yellow-300 mb-2&quot;>
           User Not Found
         </h3>
-        <p className="text-yellow-700 dark:text-yellow-400">
-          The user you're looking for doesn't exist or has been deleted.
+        <p className=&quot;text-yellow-700 dark:text-yellow-400&quot;>
+          The user you&apos;re looking for doesn&apos;t exist or has been deleted.
         </p>
         <button
           onClick={handleBack}
-          className="mt-4 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+          className=&quot;mt-4 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700&quot;
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
           Back to Users
         </button>
       </div>
@@ -332,61 +332,61 @@ export default function UserDetailPanel({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <div className=&quot;bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden&quot;>
       {/* Header with profile background and actions */}
-      <div className="relative">
+      <div className=&quot;relative&quot;>
         {/* Background gradient banner */}
-        <div className="h-32 bg-gradient-to-r from-primary/80 to-primary"></div>
+        <div className=&quot;h-32 bg-gradient-to-r from-primary/80 to-primary&quot;></div>
 
         {/* User avatar and back button overlay */}
-        <div className="absolute top-0 left-0 w-full p-4 flex justify-between items-start">
+        <div className=&quot;absolute top-0 left-0 w-full p-4 flex justify-between items-start&quot;>
           {showBackButton && (
             <button
               onClick={handleBack}
-              className="bg-white/90 dark:bg-gray-800/90 p-2 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors"
+              className=&quot;bg-white/90 dark:bg-gray-800/90 p-2 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors&quot;
             >
-              <ArrowLeft className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+              <ArrowLeft className=&quot;h-5 w-5 text-gray-600 dark:text-gray-300&quot; />
             </button>
           )}
 
           {/* Action menu */}
           {!editMode && (
             <DropdownMenu>
-              <DropdownMenuTrigger className="bg-white/90 dark:bg-gray-800/90 p-2 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors">
-                <MoreHorizontal className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+              <DropdownMenuTrigger className=&quot;bg-white/90 dark:bg-gray-800/90 p-2 rounded-full shadow-sm hover:bg-white dark:hover:bg-gray-700 transition-colors&quot;>
+                <MoreHorizontal className=&quot;h-5 w-5 text-gray-600 dark:text-gray-300&quot; />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align=&quot;end&quot; className=&quot;w-56&quot;>
                 <DropdownMenuLabel>User Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                {checkPermission("edit:users") && (
+                {checkPermission(&quot;edit:users&quot;) && (
                   <DropdownMenuItem
                     onClick={() => setEditMode(true)}
-                    className="cursor-pointer"
+                    className=&quot;cursor-pointer&quot;
                   >
-                    <Edit className="mr-2 h-4 w-4" />
+                    <Edit className=&quot;mr-2 h-4 w-4&quot; />
                     Edit User
                   </DropdownMenuItem>
                 )}
 
-                {checkPermission("edit:permissions") && (
+                {checkPermission(&quot;edit:permissions&quot;) && (
                   <DropdownMenuItem
                     onClick={() => router.push(`/admin/rbac/users/${user.id}`)}
-                    className="cursor-pointer"
+                    className=&quot;cursor-pointer&quot;
                   >
-                    <Shield className="mr-2 h-4 w-4" />
+                    <Shield className=&quot;mr-2 h-4 w-4&quot; />
                     Manage Permissions
                   </DropdownMenuItem>
                 )}
 
-                {checkPermission("delete:users") && (
+                {checkPermission(&quot;delete:users&quot;) && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => setShowDeleteConfirm(true)}
-                      className="cursor-pointer text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400"
+                      className=&quot;cursor-pointer text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400&quot;
                     >
-                      <Trash className="mr-2 h-4 w-4" />
+                      <Trash className=&quot;mr-2 h-4 w-4&quot; />
                       Delete User
                     </DropdownMenuItem>
                   </>
@@ -397,13 +397,13 @@ export default function UserDetailPanel({
         </div>
 
         {/* Avatar */}
-        <div className="absolute bottom-0 left-6 transform translate-y-1/2">
-          <div className="h-20 w-20 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-700 flex items-center justify-center">
+        <div className=&quot;absolute bottom-0 left-6 transform translate-y-1/2&quot;>
+          <div className=&quot;h-20 w-20 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-700 flex items-center justify-center&quot;>
             {user.profileImage ? (
               <img
                 src={user.profileImage}
                 alt={user.username}
-                className="h-full w-full object-cover"
+                className=&quot;h-full w-full object-cover&quot;
                 onError={(e) => {
                   // If image fails to load, show initials
                   e.currentTarget.onerror = null;
@@ -411,10 +411,10 @@ export default function UserDetailPanel({
                 }}
               />
             ) : (
-              <span className="text-white text-2xl font-bold">
+              <span className=&quot;text-white text-2xl font-bold&quot;>
                 {user.fullName
-                  ? `${user.fullName.split(" ")[0]?.[0] || ""}${user.fullName.split(" ")[1]?.[0] || ""}`
-                  : (user.username?.[0] || "").toUpperCase()}
+                  ? `${user.fullName.split(&quot; &quot;)[0]?.[0] || &quot;&quot;}${user.fullName.split(&quot; &quot;)[1]?.[0] || &quot;&quot;}`
+                  : (user.username?.[0] || &quot;&quot;).toUpperCase()}
               </span>
             )}
           </div>
@@ -422,24 +422,24 @@ export default function UserDetailPanel({
 
         {/* Edit/Save buttons (when in edit mode) */}
         {editMode && (
-          <div className="absolute bottom-0 right-6 transform translate-y-1/2 flex space-x-2">
+          <div className=&quot;absolute bottom-0 right-6 transform translate-y-1/2 flex space-x-2&quot;>
             <button
               onClick={toggleEditMode}
               disabled={isSubmitting}
-              className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none"
+              className=&quot;inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none&quot;
             >
-              <X className="mr-2 h-4 w-4" />
+              <X className=&quot;mr-2 h-4 w-4&quot; />
               Cancel
             </button>
             <button
               onClick={handleSaveChanges}
               disabled={isSubmitting}
-              className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none disabled:opacity-50"
+              className=&quot;inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none disabled:opacity-50&quot;
             >
               {isSubmitting ? (
-                <div className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className=&quot;mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin&quot;></div>
               ) : (
-                <Save className="mr-2 h-4 w-4" />
+                <Save className=&quot;mr-2 h-4 w-4&quot; />
               )}
               Save Changes
             </button>
@@ -448,39 +448,39 @@ export default function UserDetailPanel({
       </div>
 
       {/* User information content */}
-      <div className="pt-14 px-6 pb-6">
+      <div className=&quot;pt-14 px-6 pb-6&quot;>
         {error && (
-          <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded text-red-700 dark:text-red-400 text-sm">
+          <div className=&quot;mb-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded text-red-700 dark:text-red-400 text-sm&quot;>
             {error}
           </div>
         )}
 
         {/* Delete confirmation */}
         {showDeleteConfirm && (
-          <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded">
-            <h3 className="text-lg font-medium text-red-800 dark:text-red-300">
+          <div className=&quot;mb-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded&quot;>
+            <h3 className=&quot;text-lg font-medium text-red-800 dark:text-red-300&quot;>
               Confirm Deletion
             </h3>
-            <p className="mt-1 text-sm text-red-700 dark:text-red-400">
+            <p className=&quot;mt-1 text-sm text-red-700 dark:text-red-400&quot;>
               Are you sure you want to delete this user? This action cannot be
               undone.
             </p>
-            <div className="mt-3 flex justify-end space-x-3">
+            <div className=&quot;mt-3 flex justify-end space-x-3&quot;>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none"
+                className=&quot;inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none&quot;
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteUser}
                 disabled={isSubmitting}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none disabled:opacity-50"
+                className=&quot;inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none disabled:opacity-50&quot;
               >
                 {isSubmitting ? (
-                  <div className="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <div className=&quot;mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin&quot;></div>
                 ) : (
-                  <Trash className="mr-2 h-4 w-4" />
+                  <Trash className=&quot;mr-2 h-4 w-4&quot; />
                 )}
                 Delete User
               </button>
@@ -489,52 +489,52 @@ export default function UserDetailPanel({
         )}
 
         {/* User name and basic info */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+        <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between&quot;>
           <div>
             {editMode ? (
-              <div className="mb-4">
+              <div className=&quot;mb-4&quot;>
                 <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;fullName&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
                   Full Name
                 </label>
                 <input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
+                  id=&quot;fullName&quot;
+                  name=&quot;fullName&quot;
+                  type=&quot;text&quot;
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full md:w-64 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter full name"
+                  className=&quot;w-full md:w-64 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter full name&quot;
                 />
               </div>
             ) : (
               <>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className=&quot;text-2xl font-bold text-gray-900 dark:text-white&quot;>
                   {user.fullName || user.username}
                 </h2>
-                <p className="text-gray-500 dark:text-gray-400">
+                <p className=&quot;text-gray-500 dark:text-gray-400&quot;>
                   {user.username}
                 </p>
               </>
             )}
           </div>
 
-          <div className="mt-2 md:mt-0 flex flex-wrap gap-2">
+          <div className=&quot;mt-2 md:mt-0 flex flex-wrap gap-2&quot;>
             {editMode ? (
-              <div className="flex items-center space-x-2">
+              <div className=&quot;flex items-center space-x-2&quot;>
                 <input
-                  id="active"
-                  name="active"
-                  type="checkbox"
+                  id=&quot;active&quot;
+                  name=&quot;active&quot;
+                  type=&quot;checkbox&quot;
                   checked={formData.active}
                   onChange={handleChange}
-                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  className=&quot;h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded&quot;
                 />
                 <label
-                  htmlFor="active"
-                  className="text-sm text-gray-700 dark:text-gray-300"
+                  htmlFor=&quot;active&quot;
+                  className=&quot;text-sm text-gray-700 dark:text-gray-300&quot;
                 >
                   Active Account
                 </label>
@@ -544,26 +544,26 @@ export default function UserDetailPanel({
                 <span
                   className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                     user.active
-                      ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
-                      : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400"
+                      ? &quot;bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400&quot;
+                      : &quot;bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400&quot;
                   }`}
                 >
                   {user.active ? (
                     <>
-                      <CheckCircle className="mr-1 h-3 w-3" />
+                      <CheckCircle className=&quot;mr-1 h-3 w-3&quot; />
                       Active
                     </>
                   ) : (
                     <>
-                      <XCircle className="mr-1 h-3 w-3" />
+                      <XCircle className=&quot;mr-1 h-3 w-3&quot; />
                       Inactive
                     </>
                   )}
                 </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400">
-                  <Shield className="mr-1 h-3 w-3" />
+                <span className=&quot;inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400&quot;>
+                  <Shield className=&quot;mr-1 h-3 w-3&quot; />
                   {user.role
-                    .replace("_", " ")
+                    .replace(&quot;_&quot;, &quot; &quot;)
                     .replace(/\b\w/g, (l) => l.toUpperCase())}
                 </span>
               </>
@@ -572,34 +572,34 @@ export default function UserDetailPanel({
         </div>
 
         {/* Tabs for different sections */}
-        <Tabs defaultValue="details" className="mt-6">
-          <TabsList className="mb-4">
-            <TabsTrigger value="details">Details</TabsTrigger>
-            <TabsTrigger value="activity">Activity</TabsTrigger>
-            <TabsTrigger value="permissions">Permissions</TabsTrigger>
+        <Tabs defaultValue=&quot;details&quot; className=&quot;mt-6&quot;>
+          <TabsList className=&quot;mb-4&quot;>
+            <TabsTrigger value=&quot;details&quot;>Details</TabsTrigger>
+            <TabsTrigger value=&quot;activity&quot;>Activity</TabsTrigger>
+            <TabsTrigger value=&quot;permissions&quot;>Permissions</TabsTrigger>
           </TabsList>
 
           {/* Details Tab */}
-          <TabsContent value="details" className="space-y-4">
+          <TabsContent value=&quot;details&quot; className=&quot;space-y-4&quot;>
             {editMode ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
                 {/* Username */}
                 <div>
                   <label
-                    htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    htmlFor=&quot;username&quot;
+                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                   >
                     Username
                   </label>
                   <input
-                    id="username"
-                    name="username"
-                    type="text"
+                    id=&quot;username&quot;
+                    name=&quot;username&quot;
+                    type=&quot;text&quot;
                     value={formData.username}
                     disabled
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-not-allowed"
+                    className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 cursor-not-allowed&quot;
                   />
-                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  <p className=&quot;mt-1 text-xs text-gray-500 dark:text-gray-400&quot;>
                     Username cannot be changed
                   </p>
                 </div>
@@ -607,19 +607,19 @@ export default function UserDetailPanel({
                 {/* Role selection */}
                 <div>
                   <label
-                    htmlFor="role"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    htmlFor=&quot;role&quot;
+                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                   >
                     Role
                   </label>
                   <select
-                    id="role"
-                    name="role"
+                    id=&quot;role&quot;
+                    name=&quot;role&quot;
                     value={formData.role}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
                   >
-                    {checkPermission("assign:any_role") && (
+                    {checkPermission(&quot;assign:any_role&quot;) && (
                       <>
                         <option value={USER_ROLES.SUPER_ADMIN}>
                           Super Admin
@@ -647,141 +647,141 @@ export default function UserDetailPanel({
                 {/* Email */}
                 <div>
                   <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    htmlFor=&quot;email&quot;
+                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                   >
                     Email Address
                   </label>
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
+                    id=&quot;email&quot;
+                    name=&quot;email&quot;
+                    type=&quot;email&quot;
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                    placeholder="user@example.com"
+                    className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                    placeholder=&quot;user@example.com&quot;
                   />
                 </div>
 
                 {/* Phone */}
                 <div>
                   <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    htmlFor=&quot;phone&quot;
+                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                   >
                     Phone Number
                   </label>
                   <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
+                    id=&quot;phone&quot;
+                    name=&quot;phone&quot;
+                    type=&quot;tel&quot;
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                    placeholder="(555) 123-4567"
+                    className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                    placeholder=&quot;(555) 123-4567&quot;
                   />
                 </div>
 
                 {/* Profile Image */}
-                <div className="md:col-span-2">
+                <div className=&quot;md:col-span-2&quot;>
                   <label
-                    htmlFor="profileImage"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    htmlFor=&quot;profileImage&quot;
+                    className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                   >
                     Profile Image URL
                   </label>
                   <input
-                    id="profileImage"
-                    name="profileImage"
-                    type="text"
+                    id=&quot;profileImage&quot;
+                    name=&quot;profileImage&quot;
+                    type=&quot;text&quot;
                     value={formData.profileImage}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                    placeholder="https://example.com/image.jpg"
+                    className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                    placeholder=&quot;https://example.com/image.jpg&quot;
                   />
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+                <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded-lg&quot;>
+                  <h3 className=&quot;text-sm font-medium text-gray-500 dark:text-gray-400 mb-1&quot;>
                     Username
                   </h3>
-                  <p className="text-gray-900 dark:text-white font-medium">
+                  <p className=&quot;text-gray-900 dark:text-white font-medium&quot;>
                     {user.username}
                   </p>
                 </div>
 
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded-lg&quot;>
+                  <h3 className=&quot;text-sm font-medium text-gray-500 dark:text-gray-400 mb-1&quot;>
                     Email
                   </h3>
-                  <p className="text-gray-900 dark:text-white font-medium">
-                    {user.email || "Not provided"}
+                  <p className=&quot;text-gray-900 dark:text-white font-medium&quot;>
+                    {user.email || &quot;Not provided&quot;}
                   </p>
                 </div>
 
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded-lg&quot;>
+                  <h3 className=&quot;text-sm font-medium text-gray-500 dark:text-gray-400 mb-1&quot;>
                     Phone
                   </h3>
-                  <p className="text-gray-900 dark:text-white font-medium">
-                    {user.phone || "Not provided"}
+                  <p className=&quot;text-gray-900 dark:text-white font-medium&quot;>
+                    {user.phone || &quot;Not provided&quot;}
                   </p>
                 </div>
 
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded-lg&quot;>
+                  <h3 className=&quot;text-sm font-medium text-gray-500 dark:text-gray-400 mb-1&quot;>
                     Role
                   </h3>
-                  <p className="text-gray-900 dark:text-white font-medium flex items-center">
-                    <Shield className="mr-2 h-4 w-4 text-blue-500" />
+                  <p className=&quot;text-gray-900 dark:text-white font-medium flex items-center&quot;>
+                    <Shield className=&quot;mr-2 h-4 w-4 text-blue-500&quot; />
                     {formatRoleName(user.role)}
                   </p>
                 </div>
 
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded-lg&quot;>
+                  <h3 className=&quot;text-sm font-medium text-gray-500 dark:text-gray-400 mb-1&quot;>
                     Account Status
                   </h3>
-                  <p className="text-gray-900 dark:text-white font-medium flex items-center">
+                  <p className=&quot;text-gray-900 dark:text-white font-medium flex items-center&quot;>
                     {user.active ? (
                       <>
-                        <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
+                        <CheckCircle className=&quot;mr-2 h-4 w-4 text-green-500&quot; />
                         Active
                       </>
                     ) : (
                       <>
-                        <XCircle className="mr-2 h-4 w-4 text-red-500" />
+                        <XCircle className=&quot;mr-2 h-4 w-4 text-red-500&quot; />
                         Inactive
                       </>
                     )}
                   </p>
                 </div>
 
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+                <div className=&quot;p-4 border border-gray-200 dark:border-gray-700 rounded-lg&quot;>
+                  <h3 className=&quot;text-sm font-medium text-gray-500 dark:text-gray-400 mb-1&quot;>
                     Joined
                   </h3>
-                  <p className="text-gray-900 dark:text-white font-medium flex items-center">
-                    <Clock className="mr-2 h-4 w-4 text-gray-500" />
-                    {new Date(user.createdAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
+                  <p className=&quot;text-gray-900 dark:text-white font-medium flex items-center&quot;>
+                    <Clock className=&quot;mr-2 h-4 w-4 text-gray-500&quot; />
+                    {new Date(user.createdAt).toLocaleDateString(&quot;en-US&quot;, {
+                      year: &quot;numeric&quot;,
+                      month: &quot;long&quot;,
+                      day: &quot;numeric&quot;,
                     })}
                   </p>
                 </div>
               </div>
             )}
 
-            {!editMode && checkPermission("edit:users") && (
-              <div className="flex justify-end mt-4">
+            {!editMode && checkPermission(&quot;edit:users&quot;) && (
+              <div className=&quot;flex justify-end mt-4&quot;>
                 <button
                   onClick={() => setEditMode(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none"
+                  className=&quot;inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary/90 focus:outline-none&quot;
                 >
-                  <Edit className="mr-2 h-4 w-4" />
+                  <Edit className=&quot;mr-2 h-4 w-4&quot; />
                   Edit User
                 </button>
               </div>
@@ -789,52 +789,52 @@ export default function UserDetailPanel({
           </TabsContent>
 
           {/* Activity Tab */}
-          <TabsContent value="activity">
-            <div className="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center">
-              <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+          <TabsContent value=&quot;activity&quot;>
+            <div className=&quot;bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center&quot;>
+              <h3 className=&quot;text-lg font-medium text-gray-700 dark:text-gray-300&quot;>
                 Activity Tracking
               </h3>
-              <p className="mt-2 text-gray-500 dark:text-gray-400">
+              <p className=&quot;mt-2 text-gray-500 dark:text-gray-400&quot;>
                 User activity tracking will be available in a future update.
               </p>
             </div>
           </TabsContent>
 
           {/* Permissions Tab */}
-          <TabsContent value="permissions">
-            <div className="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+          <TabsContent value=&quot;permissions&quot;>
+            <div className=&quot;bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 rounded-lg p-6&quot;>
+              <div className=&quot;flex items-center justify-between mb-4&quot;>
+                <h3 className=&quot;text-lg font-medium text-gray-700 dark:text-gray-300&quot;>
                   Role-Based Permissions
                 </h3>
 
-                {checkPermission("edit:permissions") && (
+                {checkPermission(&quot;edit:permissions&quot;) && (
                   <button
                     onClick={() => router.push(`/admin/rbac/users/${user.id}`)}
-                    className="inline-flex items-center px-3 py-1.5 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors"
+                    className=&quot;inline-flex items-center px-3 py-1.5 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors&quot;
                   >
-                    <Shield className="mr-1.5 h-4 w-4" />
+                    <Shield className=&quot;mr-1.5 h-4 w-4&quot; />
                     Manage Permissions
                   </button>
                 )}
               </div>
 
-              <p className="text-gray-500 dark:text-gray-400 mb-4">
-                This user has the{" "}
-                <span className="font-semibold">
+              <p className=&quot;text-gray-500 dark:text-gray-400 mb-4&quot;>
+                This user has the{&quot; &quot;}
+                <span className=&quot;font-semibold&quot;>
                   {formatRoleName(user.role)}
-                </span>{" "}
+                </span>{&quot; &quot;}
                 role, which includes a set of predefined permissions.
               </p>
 
-              <div className="mt-4">
-                <div className="flex items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
-                  <BadgeCheck className="mr-2 h-4 w-4 text-green-500" />
+              <div className=&quot;mt-4&quot;>
+                <div className=&quot;flex items-center mb-2 text-sm text-gray-600 dark:text-gray-400&quot;>
+                  <BadgeCheck className=&quot;mr-2 h-4 w-4 text-green-500&quot; />
                   Permissions are inherited based on the user's assigned role
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 p-4 rounded border border-gray-200 dark:border-gray-700">
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                <div className=&quot;bg-white dark:bg-gray-800 p-4 rounded border border-gray-200 dark:border-gray-700&quot;>
+                  <p className=&quot;text-sm text-gray-500 dark:text-gray-400">
                     To view or modify specific permissions for this user, use
                     the Manage Permissions button above.
                   </p>

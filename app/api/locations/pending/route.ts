@@ -1,21 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import * as schema from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import * as schema from &quot;@shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 import {
   AppEvent,
   AppEventTypes,
   BaseEvent,
   LocationApprovalPayload,
   LocationRejectionPayload,
-} from "../../../../services/infrastructure/messaging/eventTypes";
-import { publishEvent } from "../../../../services/infrastructure/messaging/distributedEventBus";
+} from &quot;../../../../services/infrastructure/messaging/eventTypes&quot;;
+import { publishEvent } from &quot;../../../../services/infrastructure/messaging/distributedEventBus&quot;;
 
 // Get all pending locations
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -23,28 +23,28 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to approve locations (internal admin)
-    if (!(await checkPermission(req, "update:locations"))) {
+    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
 
     // Parse query parameters
     const url = new URL(req.url);
-    const sortBy = url.searchParams.get("sortBy") || "createdAt";
-    const sortOrder = url.searchParams.get("sortOrder") || "desc";
+    const sortBy = url.searchParams.get(&quot;sortBy&quot;) || &quot;createdAt&quot;;
+    const sortOrder = url.searchParams.get(&quot;sortOrder&quot;) || &quot;desc&quot;;
 
     // Get all locations from the database using Drizzle ORM
     const allLocations = await db.select().from(schema.locations);
 
     // Filter for pending locations only
     const pendingLocations = allLocations.filter(
-      (loc) => loc.status === "pending",
+      (loc) => loc.status === &quot;pending&quot;,
     );
 
     // Sort locations based on sortBy and sortOrder
@@ -53,30 +53,30 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       const valueA = a[sortBy as keyof typeof a];
       const valueB = b[sortBy as keyof typeof b];
 
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return sortOrder === "desc"
+      if (typeof valueA === &quot;string&quot; && typeof valueB === &quot;string&quot;) {
+        return sortOrder === &quot;desc&quot;
           ? valueB.localeCompare(valueA)
           : valueA.localeCompare(valueB);
       } else if (valueA instanceof Date && valueB instanceof Date) {
-        return sortOrder === "desc"
+        return sortOrder === &quot;desc&quot;
           ? valueB.getTime() - valueA.getTime()
           : valueA.getTime() - valueB.getTime();
       } else {
         // Default comparison for other types
-        if (valueA < valueB) return sortOrder === "desc" ? 1 : -1;
-        if (valueA > valueB) return sortOrder === "desc" ? -1 : 1;
+        if (valueA < valueB) return sortOrder === &quot;desc&quot; ? 1 : -1;
+        if (valueA > valueB) return sortOrder === &quot;desc&quot; ? -1 : 1;
         return 0;
       }
     });
 
-    // We don't need to create test data, as we can just return empty array if no locations are pending
-    // This would be handled by the UI showing a "No pending locations" message
+    // We don&apos;t need to create test data, as we can just return empty array if no locations are pending
+    // This would be handled by the UI showing a &quot;No pending locations&quot; message
 
     return NextResponse.json({ pendingLocations });
   } catch (error) {
     console.error(`Error fetching pending locations:`, error);
     return NextResponse.json(
-      { error: "Failed to fetch pending locations" },
+      { error: &quot;Failed to fetch pending locations&quot; },
       { status: 500 },
     );
   }
@@ -88,13 +88,13 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to approve locations
-    if (!(await checkPermission(req, "update:locations"))) {
+    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -103,15 +103,15 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
 
     if (!body.id) {
       return NextResponse.json(
-        { error: "Location ID is required" },
+        { error: &quot;Location ID is required&quot; },
         { status: 400 },
       );
     }
 
     // Validate status update
-    if (!body.status || !["approved", "rejected"].includes(body.status)) {
+    if (!body.status || ![&quot;approved&quot;, &quot;rejected&quot;].includes(body.status)) {
       return NextResponse.json(
-        { error: "Valid status (approved or rejected) is required" },
+        { error: &quot;Valid status (approved or rejected) is required&quot; },
         { status: 400 },
       );
     }
@@ -124,13 +124,13 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
 
     if (!location) {
       return NextResponse.json(
-        { error: "Location not found" },
+        { error: &quot;Location not found&quot; },
         { status: 404 },
       );
     }
 
-    // Determine if we're in development mode
-    const isDevelopment = process.env.NODE_ENV === "development";
+    // Determine if we&apos;re in development mode
+    const isDevelopment = process.env.NODE_ENV === &quot;development&quot;;
 
     // Get a valid user ID for the reviewedBy field
     let reviewerId = user.id;
@@ -142,7 +142,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
           const testUsers = await db
             .select()
             .from(schema.users)
-            .where(eq(schema.users.username, "testuser"));
+            .where(eq(schema.users.username, &quot;testuser&quot;));
 
           if (testUsers.length > 0) {
             return testUsers[0].id;
@@ -152,12 +152,12 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
           const [testUser] = await db
             .insert(schema.users)
             .values({
-              id: "00000000-0000-0000-0000-000000000001",
-              username: "testuser",
-              password: "password-hash",
-              email: "test@example.com",
-              fullName: "Test User",
-              role: "client_user",
+              id: &quot;00000000-0000-0000-0000-000000000001&quot;,
+              username: &quot;testuser&quot;,
+              password: &quot;password-hash&quot;,
+              email: &quot;test@example.com&quot;,
+              fullName: &quot;Test User&quot;,
+              role: &quot;client_user&quot;,
               active: true,
             })
             .returning();
@@ -167,15 +167,15 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
 
         reviewerId = await getOrCreateTestUserId();
       } catch (err) {
-        console.warn("Failed to create test user:", err);
+        console.warn(&quot;Failed to create test user:&quot;, err);
         // Fall back to the mock user ID
       }
     }
 
     // Update the location status
     const now = new Date();
-    const newStatus = body.status === "approved" ? "active" : "rejected";
-    const reviewerName = user.fullName || user.username || "Administrator";
+    const newStatus = body.status === &quot;approved&quot; ? &quot;active&quot; : &quot;rejected&quot;;
+    const reviewerName = user.fullName || user.username || &quot;Administrator&quot;;
 
     const [updatedLocation] = await db
       .update(schema.locations)
@@ -185,7 +185,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
         reviewDate: now,
         updatedAt: now,
         notes: body.notes
-          ? `${location.notes || ""}\n\nAdmin notes: ${body.notes}`
+          ? `${location.notes || "&quot;}\n\nAdmin notes: ${body.notes}`
           : location.notes,
       })
       .where(eq(schema.locations.id, body.id))
@@ -193,7 +193,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
 
     // Publish WebSocket event based on the approval status
     try {
-      if (newStatus === "active") {
+      if (newStatus === &quot;active&quot;) {
         // Location was approved - publish approval event
         const approvalPayload: LocationApprovalPayload = {
           locationId: updatedLocation?.id || '',
@@ -208,9 +208,9 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
 
         // Also publish a system notification for all users
         await publishEvent(AppEventTypes.SYSTEM_NOTIFICATION, {
-          title: "Location Approved",
+          title: &quot;Location Approved&quot;,
           message: `${updatedLocation.name} has been approved and is now active.`,
-          level: "success",
+          level: &quot;success&quot;,
         });
       } else {
         // Location was rejected - publish rejection event
@@ -230,8 +230,8 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
         `WebSocket notification sent for location ${body.id} ${newStatus}`,
       );
     } catch (eventError) {
-      // Log the error but don't fail the request
-      console.error("Error publishing WebSocket event:", eventError);
+      // Log the error but don&apos;t fail the request
+      console.error(&quot;Error publishing WebSocket event:&quot;, eventError);
     }
 
     return NextResponse.json({
@@ -241,7 +241,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
   } catch (error) {
     console.error(`Error updating location status:`, error);
     return NextResponse.json(
-      { error: "Failed to update location status" },
+      { error: &quot;Failed to update location status" },
       { status: 500 },
     );
   }

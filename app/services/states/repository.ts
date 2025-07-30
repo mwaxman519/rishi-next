@@ -4,9 +4,9 @@
  * Data access layer for US states and territories.
  */
 
-import { sql } from "@vercel/postgres";
-import { db } from "../../lib/db";
-import { v4 as uuidv4 } from "uuid";
+import { sql } from &quot;@vercel/postgres&quot;;
+import { db } from &quot;../../lib/db&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 import {
   State,
   Region,
@@ -14,7 +14,7 @@ import {
   UpdateStateDto,
   CreateRegionDto,
   UpdateRegionDto,
-} from "./models";
+} from &quot;./models&quot;;
 
 /**
  * Repository for states and regions data
@@ -31,8 +31,8 @@ export class StatesRepository {
 
       return result.rows.map(this.mapRowToState);
     } catch (error) {
-      console.error("Error fetching states:", error);
-      throw new Error("Failed to fetch states");
+      console.error(&quot;Error fetching states:&quot;, error);
+      throw new Error(&quot;Failed to fetch states&quot;);
     }
   }
 
@@ -47,8 +47,8 @@ export class StatesRepository {
 
       return result.rows.map(this.mapRowToState);
     } catch (error) {
-      console.error("Error fetching active states:", error);
-      throw new Error("Failed to fetch active states");
+      console.error(&quot;Error fetching active states:&quot;, error);
+      throw new Error(&quot;Failed to fetch active states&quot;);
     }
   }
 
@@ -110,8 +110,8 @@ export class StatesRepository {
 
       return this.mapRowToState(result.rows[0]);
     } catch (error) {
-      console.error("Error creating state:", error);
-      throw new Error("Failed to create state");
+      console.error(&quot;Error creating state:&quot;, error);
+      throw new Error(&quot;Failed to create state&quot;);
     }
   }
 
@@ -173,7 +173,7 @@ export class StatesRepository {
 
       const query = `
         UPDATE states 
-        SET ${updates.join(", ")}, updated_at = now() 
+        SET ${updates.join(&quot;, &quot;)}, updated_at = now() 
         WHERE id = $${values.length} 
         RETURNING *
       `;
@@ -229,8 +229,8 @@ export class StatesRepository {
 
       return regions;
     } catch (error) {
-      console.error("Error fetching regions:", error);
-      throw new Error("Failed to fetch regions");
+      console.error(&quot;Error fetching regions:&quot;, error);
+      throw new Error(&quot;Failed to fetch regions&quot;);
     }
   }
 
@@ -282,8 +282,8 @@ export class StatesRepository {
         states: [],
       };
     } catch (error) {
-      console.error("Error creating region:", error);
-      throw new Error("Failed to create region");
+      console.error(&quot;Error creating region:&quot;, error);
+      throw new Error(&quot;Failed to create region&quot;);
     }
   }
 
@@ -325,7 +325,7 @@ export class StatesRepository {
 
       const query = `
         UPDATE regions 
-        SET ${updates.join(", ")}, updated_at = now() 
+        SET ${updates.join(&quot;, &quot;)}, updated_at = now() 
         WHERE id = $${values.length} 
         RETURNING *
       `;

@@ -1,15 +1,15 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Shift Lifecycle API Routes
  * Endpoints for managing shift status transitions
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { ShiftService } from "../../../services/shifts/ShiftService";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { ShiftService } from &quot;../../../services/shifts/ShiftService&quot;;
 
 const shiftService = new ShiftService();
 
@@ -20,22 +20,22 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const body = await request.json();
     const { action, shiftId, reason } = body;
 
     // Get user context from session
-    const userId = (session.user as any).id || "mock-user-id";
-    const userRole = (session.user as any).role || "internal_field_manager";
+    const userId = (session.user as any).id || &quot;mock-user-id&quot;;
+    const userRole = (session.user as any).role || &quot;internal_field_manager&quot;;
     const organizationId =
       (session.user as any).organizationId ||
-      "00000000-0000-0000-0000-000000000001";
+      &quot;00000000-0000-0000-0000-000000000001&quot;;
 
     if (!action || !shiftId) {
       return NextResponse.json(
-        { error: "Action and shift ID are required" },
+        { error: &quot;Action and shift ID are required&quot; },
         { status: 400 },
       );
     }
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     let result;
 
     switch (action) {
-      case "start":
+      case &quot;start&quot;:
         result = await shiftService.startShift(
           shiftId,
           userId,
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         );
         break;
 
-      case "complete":
+      case &quot;complete&quot;:
         result = await shiftService.completeShift(
           shiftId,
           userId,
@@ -61,10 +61,10 @@ export async function POST(request: NextRequest) {
         );
         break;
 
-      case "cancel":
+      case &quot;cancel&quot;:
         if (!reason) {
           return NextResponse.json(
-            { error: "Reason is required for cancellation" },
+            { error: &quot;Reason is required for cancellation&quot; },
             { status: 400 },
           );
         }
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
       default:
         return NextResponse.json(
           {
-            error: "Invalid action. Valid actions are: start, complete, cancel",
+            error: &quot;Invalid action. Valid actions are: start, complete, cancel&quot;,
           },
           { status: 400 },
         );
@@ -88,9 +88,9 @@ export async function POST(request: NextRequest) {
 
     if (!result.success) {
       const status =
-        result.code === "NOT_FOUND"
+        result.code === &quot;NOT_FOUND&quot;
           ? 404
-          : result.code?.includes("PERMISSION_DENIED")
+          : result.code?.includes(&quot;PERMISSION_DENIED&quot;)
             ? 403
             : 400;
       return NextResponse.json(
@@ -101,9 +101,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error("POST /api/shifts/lifecycle error:", error);
+    console.error(&quot;POST /api/shifts/lifecycle error:&quot;, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: &quot;Internal server error&quot; },
       { status: 500 },
     );
   }

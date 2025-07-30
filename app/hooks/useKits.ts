@@ -1,10 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "../lib/queryClient";
-import { Kit, KitTemplate, KitComponentInventory } from "../lib/schema";
+import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
+import { apiRequest } from &quot;../lib/queryClient&quot;;
+import { Kit, KitTemplate, KitComponentInventory } from &quot;../lib/schema&quot;;
 
 // Type for approval status updates
 export interface ApprovalStatusUpdate {
-  approvalStatus: "approved" | "rejected";
+  approvalStatus: &quot;approved&quot; | &quot;rejected&quot;;
   approvalNotes?: string;
 }
 
@@ -13,10 +13,10 @@ export function useKits(filters?: Record<string, string>) {
   const queryParams = new URLSearchParams(filters);
 
   return useQuery<Kit[]>({
-    queryKey: ["/api/kits", filters],
+    queryKey: [&quot;/api/kits&quot;, filters],
     queryFn: async () => {
       const response = await apiRequest(
-        "GET",
+        &quot;GET&quot;,
         `/api/kits?${queryParams.toString()}`,
       );
       return response.json();
@@ -26,10 +26,10 @@ export function useKits(filters?: Record<string, string>) {
 
 export function useKit(id: number | string | null) {
   return useQuery<Kit & { componentInventory: KitComponentInventory[] }>({
-    queryKey: ["/api/kits", id],
+    queryKey: [&quot;/api/kits&quot;, id],
     queryFn: async () => {
       if (!id) return null;
-      const response = await apiRequest("GET", `/api/kits/${id}`);
+      const response = await apiRequest(&quot;GET&quot;, `/api/kits/${id}`);
       return response.json();
     },
     enabled: !!id,
@@ -41,10 +41,10 @@ export function useKitTemplates(filters?: Record<string, string>) {
   const queryParams = new URLSearchParams(filters);
 
   return useQuery<KitTemplate[]>({
-    queryKey: ["/api/kits/templates", filters],
+    queryKey: [&quot;/api/kits/templates&quot;, filters],
     queryFn: async () => {
       const response = await apiRequest(
-        "GET",
+        &quot;GET&quot;,
         `/api/kits/templates?${queryParams.toString()}`,
       );
       return response.json();
@@ -54,10 +54,10 @@ export function useKitTemplates(filters?: Record<string, string>) {
 
 export function useKitTemplate(id: number | string | null) {
   return useQuery<KitTemplate & { kitCount: number }>({
-    queryKey: ["/api/kits/templates", id],
+    queryKey: [&quot;/api/kits/templates&quot;, id],
     queryFn: async () => {
       if (!id) return null;
-      const response = await apiRequest("GET", `/api/kits/templates/${id}`);
+      const response = await apiRequest(&quot;GET&quot;, `/api/kits/templates/${id}`);
       return response.json();
     },
     enabled: !!id,
@@ -71,10 +71,10 @@ export function useKitInventory(kitId?: number | string) {
   );
 
   return useQuery<KitComponentInventory[]>({
-    queryKey: ["/api/kits/inventory", kitId],
+    queryKey: [&quot;/api/kits/inventory&quot;, kitId],
     queryFn: async () => {
       const response = await apiRequest(
-        "GET",
+        &quot;GET&quot;,
         `/api/kits/inventory?${queryParams.toString()}`,
       );
       return response.json();
@@ -89,11 +89,11 @@ export function useCreateKit() {
 
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest("POST", "/api/kits", data);
+      const response = await apiRequest(&quot;POST&quot;, &quot;/api/kits&quot;, data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits&quot;] });
     },
   });
 }
@@ -103,12 +103,12 @@ export function useUpdateKit(id: number | string) {
 
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest("PUT", `/api/kits/${id}`, data);
+      const response = await apiRequest(&quot;PUT&quot;, `/api/kits/${id}`, data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits", id] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits&quot;] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits&quot;, id] });
     },
   });
 }
@@ -118,11 +118,11 @@ export function useDeleteKit(id: number | string) {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("DELETE", `/api/kits/${id}`);
+      const response = await apiRequest(&quot;DELETE&quot;, `/api/kits/${id}`);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits&quot;] });
     },
   });
 }
@@ -133,11 +133,11 @@ export function useCreateKitTemplate() {
 
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest("POST", "/api/kits/templates", data);
+      const response = await apiRequest(&quot;POST&quot;, &quot;/api/kits/templates&quot;, data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;] });
     },
   });
 }
@@ -148,15 +148,15 @@ export function useUpdateKitTemplate(id: number | string) {
   return useMutation({
     mutationFn: async (data: any) => {
       const response = await apiRequest(
-        "PUT",
+        &quot;PUT&quot;,
         `/api/kits/templates/${id}`,
         data,
       );
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates", id] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;, id] });
     },
   });
 }
@@ -166,11 +166,11 @@ export function useDeleteKitTemplate(id: number | string) {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("DELETE", `/api/kits/templates/${id}`);
+      const response = await apiRequest(&quot;DELETE&quot;, `/api/kits/templates/${id}`);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;] });
     },
   });
 }
@@ -181,16 +181,16 @@ export function useUpdateKitInventory() {
 
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest("POST", "/api/kits/inventory", data);
+      const response = await apiRequest(&quot;POST&quot;, &quot;/api/kits/inventory&quot;, data);
       return response.json();
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/inventory"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/inventory&quot;] });
       queryClient.invalidateQueries({
-        queryKey: ["/api/kits/inventory", variables.kitId],
+        queryKey: [&quot;/api/kits/inventory&quot;, variables.kitId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["/api/kits", variables.kitId],
+        queryKey: [&quot;/api/kits&quot;, variables.kitId],
       });
     },
   });
@@ -207,15 +207,15 @@ export function useApproveKitTemplate(id: number) {
   return useMutation({
     mutationFn: async (data: ApprovalStatusUpdate) => {
       const response = await apiRequest(
-        "PATCH",
+        &quot;PATCH&quot;,
         `/api/kits/templates/${id}/approve`,
         data,
       );
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates", id] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;, id] });
     },
   });
 }
@@ -229,15 +229,15 @@ export function useApproveKit(id: number) {
   return useMutation({
     mutationFn: async (data: ApprovalStatusUpdate) => {
       const response = await apiRequest(
-        "PATCH",
+        &quot;PATCH&quot;,
         `/api/kits/${id}/approve`,
         data,
       );
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/kits"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/kits", id] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits&quot;] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits&quot;, id] });
     },
   });
 }
@@ -249,12 +249,12 @@ export function usePendingApprovals() {
   // Get pending kit templates
   const { data: pendingTemplates, isLoading: isLoadingTemplates } =
     useKitTemplates({
-      approvalStatus: "pending",
+      approvalStatus: &quot;pending&quot;,
     });
 
   // Get pending kits
   const { data: pendingKits, isLoading: isLoadingKits } = useKits({
-    approvalStatus: "pending",
+    approvalStatus: &quot;pending&quot;,
   });
 
   return {

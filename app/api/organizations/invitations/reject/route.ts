@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { eq } from "drizzle-orm";
-import { db } from "@/lib/db";
-import { getCurrentUser } from "@/lib/auth-utils";
-import { organizationInvitations } from "@/shared/schema";
-import { sendEmail } from "@/lib/email-utils";
+import { eq } from &quot;drizzle-orm&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { getCurrentUser } from &quot;@/lib/auth-utils&quot;;
+import { organizationInvitations } from &quot;@/shared/schema&quot;;
+import { sendEmail } from &quot;@/lib/email-utils&quot;;
 
 /**
  * POST handler for rejecting an organization invitation
@@ -19,14 +19,14 @@ export async function POST(request: NextRequest) {
     const { token, reason } = body;
 
     if (!token) {
-      return NextResponse.json({ error: "Token is required" }, { status: 400 });
+      return NextResponse.json({ error: &quot;Token is required&quot; }, { status: 400 });
     }
 
     // Get the current authenticated user
     const currentUser = await getCurrentUser();
     if (!currentUser) {
       return NextResponse.json(
-        { error: "Authentication required" },
+        { error: &quot;Authentication required&quot; },
         { status: 401 },
       );
     }
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 
     if (!invitation) {
       return NextResponse.json(
-        { error: "Invalid or expired invitation token" },
+        { error: &quot;Invalid or expired invitation token&quot; },
         { status: 404 },
       );
     }
@@ -64,17 +64,17 @@ export async function POST(request: NextRequest) {
       // Update invitation status to 'expired'
       await db
         .update(organizationInvitations)
-        .set({ status: "expired" })
+        .set({ status: &quot;expired&quot; })
         .where(eq(organizationInvitations.id, invitation.id));
 
       return NextResponse.json(
-        { error: "Invitation has expired" },
+        { error: &quot;Invitation has expired&quot; },
         { status: 400 },
       );
     }
 
     // Check if invitation is already handled (accepted, rejected, expired)
-    if (invitation.status !== "pending") {
+    if (invitation.status !== &quot;pending&quot;) {
       return NextResponse.json(
         { error: `Invitation is already ${invitation.status}` },
         { status: 400 },
@@ -82,10 +82,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if the invitation email matches the current user's email
-    const userEmail = currentUser.email || "";
+    const userEmail = currentUser.email || "&quot;;
     if (invitation.email.toLowerCase() !== userEmail.toLowerCase()) {
       return NextResponse.json(
-        { error: "This invitation was sent to a different email address" },
+        { error: &quot;This invitation was sent to a different email address&quot; },
         { status: 403 },
       );
     }
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     await db
       .update(organizationInvitations)
       .set({
-        status: "rejected",
+        status: &quot;rejected&quot;,
         updated_at: new Date(),
       })
       .where(eq(organizationInvitations.id, invitation.id));
@@ -106,23 +106,23 @@ export async function POST(request: NextRequest) {
           to: invitation.invitedBy.email,
           subject: `A user has declined your invitation to ${invitation.organization.name}`,
           html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style=&quot;font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;&quot;>
               <h2>Invitation Declined</h2>
               <p>A user has declined your invitation to join ${invitation.organization.name}.</p>
-              ${reason ? `<p><strong>Reason:</strong> "${reason}"</p>` : ""}
+              ${reason ? `<p><strong>Reason:</strong> &quot;${reason}&quot;</p>` : &quot;&quot;}
               <p>They will not be added to your organization.</p>
             </div>
           `,
         });
       } catch (emailError) {
-        console.error("Failed to send notification email:", emailError);
+        console.error(&quot;Failed to send notification email:&quot;, emailError);
         // Continue with the process even if email sending fails
       }
     }
 
     return NextResponse.json(
       {
-        message: "Invitation rejected successfully",
+        message: &quot;Invitation rejected successfully&quot;,
         organization: {
           id: invitation.organizationId,
           name: invitation.organization.name,
@@ -131,9 +131,9 @@ export async function POST(request: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error rejecting invitation:", error);
+    console.error(&quot;Error rejecting invitation:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to reject invitation" },
+      { error: &quot;Failed to reject invitation" },
       { status: 500 },
     );
   }

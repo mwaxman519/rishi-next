@@ -1,16 +1,16 @@
-import { EventBus } from "./eventBus";
-import { DistributedEventBus } from "./distributedEventBus";
-import { WebSocketEventPublisher } from "./webSocketEventPublisher";
+import { EventBus } from &quot;./eventBus&quot;;
+import { DistributedEventBus } from &quot;./distributedEventBus&quot;;
+import { WebSocketEventPublisher } from &quot;./webSocketEventPublisher&quot;;
 
 // Define location event types
 export type LocationEventType =
-  | "location.created"
-  | "location.updated"
-  | "location.deleted"
-  | "location.status.updated"
-  | "location.approval.requested"
-  | "location.approval.approved"
-  | "location.approval.rejected";
+  | &quot;location.created&quot;
+  | &quot;location.updated&quot;
+  | &quot;location.deleted&quot;
+  | &quot;location.status.updated&quot;
+  | &quot;location.approval.requested&quot;
+  | &quot;location.approval.approved&quot;
+  | &quot;location.approval.rejected&quot;;
 
 // Define event payload types
 export interface LocationEventBase {
@@ -25,7 +25,7 @@ export interface LocationEventBase {
 
 // Status change event
 export interface LocationStatusUpdatedEvent extends LocationEventBase {
-  type: "location.status.updated";
+  type: &quot;location.status.updated&quot;;
   payload: {
     locationId: string;
     newStatus: string;
@@ -35,7 +35,7 @@ export interface LocationStatusUpdatedEvent extends LocationEventBase {
 
 // Create event
 export interface LocationCreatedEvent extends LocationEventBase {
-  type: "location.created";
+  type: &quot;location.created&quot;;
   payload: {
     locationId: string;
     createdBy: string;
@@ -44,7 +44,7 @@ export interface LocationCreatedEvent extends LocationEventBase {
 
 // Update event
 export interface LocationUpdatedEvent extends LocationEventBase {
-  type: "location.updated";
+  type: &quot;location.updated&quot;;
   payload: {
     locationId: string;
     updatedBy: string;
@@ -54,7 +54,7 @@ export interface LocationUpdatedEvent extends LocationEventBase {
 
 // Delete event
 export interface LocationDeletedEvent extends LocationEventBase {
-  type: "location.deleted";
+  type: &quot;location.deleted&quot;;
   payload: {
     locationId: string;
     deletedBy: string;
@@ -63,7 +63,7 @@ export interface LocationDeletedEvent extends LocationEventBase {
 
 // Approval requested event
 export interface LocationApprovalRequestedEvent extends LocationEventBase {
-  type: "location.approval.requested";
+  type: &quot;location.approval.requested&quot;;
   payload: {
     locationId: string;
     requestedBy: string;
@@ -73,7 +73,7 @@ export interface LocationApprovalRequestedEvent extends LocationEventBase {
 
 // Approval approved event
 export interface LocationApprovalApprovedEvent extends LocationEventBase {
-  type: "location.approval.approved";
+  type: &quot;location.approval.approved&quot;;
   payload: {
     locationId: string;
     approvedBy: string;
@@ -84,7 +84,7 @@ export interface LocationApprovalApprovedEvent extends LocationEventBase {
 
 // Approval rejected event
 export interface LocationApprovalRejectedEvent extends LocationEventBase {
-  type: "location.approval.rejected";
+  type: &quot;location.approval.rejected&quot;;
   payload: {
     locationId: string;
     rejectedBy: string;
@@ -113,9 +113,9 @@ export function connectLocationEventBusToWebSockets(
   locationEventBus.subscribe(async (event) => {
     // For some events, we want to notify specific users or organizations
     const userSpecificEvents: LocationEventType[] = [
-      "location.approval.requested",
-      "location.approval.approved",
-      "location.approval.rejected",
+      &quot;location.approval.requested&quot;,
+      &quot;location.approval.approved&quot;,
+      &quot;location.approval.rejected&quot;,
     ];
 
     // Broadcast to all connected clients

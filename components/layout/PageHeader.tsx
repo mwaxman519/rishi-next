@@ -1,9 +1,9 @@
-"use client";
+&quot;use client&quot;;
 
-import { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ReactNode } from &quot;react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { ArrowLeft, Plus } from &quot;lucide-react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 
 interface PageHeaderProps {
   title: string;
@@ -20,35 +20,35 @@ export default function PageHeader({
   title,
   description,
   backLink,
-  backLabel = "Back",
+  backLabel = &quot;Back&quot;,
   actionLabel,
   actionLink,
-  actionIcon = <Plus className="mr-2 h-4 w-4" />,
+  actionIcon = <Plus className=&quot;mr-2 h-4 w-4&quot; />,
   children,
 }: PageHeaderProps) {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 pb-4 border-b">
-      <div className="flex-1">
+    <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between mb-6 pb-4 border-b&quot;>
+      <div className=&quot;flex-1&quot;>
         {backLink && (
           <Button
-            variant="ghost"
-            size="sm"
-            className="mb-2 px-0 text-muted-foreground"
+            variant=&quot;ghost&quot;
+            size=&quot;sm&quot;
+            className=&quot;mb-2 px-0 text-muted-foreground&quot;
             onClick={() => router.push(backLink)}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
             {backLabel}
           </Button>
         )}
-        <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
+        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>{title}</h1>
         {description && (
-          <p className="text-muted-foreground mt-1">{description}</p>
+          <p className=&quot;text-muted-foreground mt-1&quot;>{description}</p>
         )}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-2 items-center mt-4 md:mt-0">
+      <div className=&quot;flex flex-col md:flex-row gap-2 items-center mt-4 md:mt-0&quot;>
         {children}
 
         {actionLabel && actionLink && (

@@ -1,20 +1,20 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
 import {
   activities,
   activityTypes,
   locations,
   users,
-} from "@/shared/schema";
-import { getCurrentUser } from "@/lib/auth-server";
-import { eq } from "drizzle-orm";
+} from &quot;@/shared/schema&quot;;
+import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 // POST /api/activities/[id]/approve
 export async function POST(
@@ -24,12 +24,12 @@ export async function POST(
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const { id } = await params;
     const body = await request.json();
-    const notes = body.notes || "";
+    const notes = body.notes || "&quot;;
 
     // First, check if activity exists and user is authorized
     const [existingActivity] = await db
@@ -39,16 +39,16 @@ export async function POST(
 
     if (!existingActivity) {
       return NextResponse.json(
-        { error: "Activity not found" },
+        { error: &quot;Activity not found&quot; },
         { status: 404 },
       );
     }
 
     // Check if activity is already approved
-    if (existingActivity.status === "approved") {
+    if (existingActivity.status === &quot;approved&quot;) {
       return NextResponse.json(
         {
-          error: "Activity is already approved",
+          error: &quot;Activity is already approved&quot;,
           status: 400,
         },
         { status: 400 },
@@ -56,10 +56,10 @@ export async function POST(
     }
 
     // Check if activity is in a status that can be approved (typically pending)
-    if (existingActivity.status !== "pending") {
+    if (existingActivity.status !== &quot;pending&quot;) {
       return NextResponse.json(
         {
-          error: "Activity cannot be approved in its current status",
+          error: &quot;Activity cannot be approved in its current status&quot;,
           status: 400,
         },
         { status: 400 },
@@ -70,7 +70,7 @@ export async function POST(
     const updatedActivity = await db
       .update(activities)
       .set({
-        status: "approved",
+        status: &quot;approved&quot;,
         notes: existingActivity.notes
           ? `${existingActivity.notes}\n\nApproval notes (${new Date().toISOString()}): ${notes}`
           : `Approval notes (${new Date().toISOString()}): ${notes}`,
@@ -96,7 +96,7 @@ export async function POST(
     // Check if activity data was found after update
     if (!activityData) {
       return NextResponse.json(
-        { error: "Activity not found after update" },
+        { error: &quot;Activity not found after update&quot; },
         { status: 404 },
       );
     }
@@ -143,12 +143,12 @@ export async function POST(
     return NextResponse.json({
       data: formattedActivity,
       status: 200,
-      message: "Activity approved successfully",
+      message: &quot;Activity approved successfully&quot;,
     });
   } catch (error) {
-    console.error("Error approving activity:", error);
+    console.error(&quot;Error approving activity:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to approve activity" },
+      { error: &quot;Failed to approve activity" },
       { status: 500 },
     );
   }

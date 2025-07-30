@@ -3,21 +3,21 @@
  * Event definitions for microservice communication
  */
 
-import { EventBus } from "../core/EventBus";
+import { EventBus } from &quot;../core/EventBus&quot;;
 
 // Event Bus Instance
 export const organizationEventBus = new EventBus();
 
 // Event Types
 export const ORGANIZATION_EVENTS = {
-  CREATED: "organization.created",
-  UPDATED: "organization.updated",
-  ACTIVATED: "organization.activated",
-  DEACTIVATED: "organization.deactivated",
-  DELETED: "organization.deleted",
-  MEMBER_ADDED: "organization.member.added",
-  MEMBER_REMOVED: "organization.member.removed",
-  MEMBER_ROLE_UPDATED: "organization.member.role.updated",
+  CREATED: &quot;organization.created&quot;,
+  UPDATED: &quot;organization.updated&quot;,
+  ACTIVATED: &quot;organization.activated&quot;,
+  DEACTIVATED: &quot;organization.deactivated&quot;,
+  DELETED: &quot;organization.deleted&quot;,
+  MEMBER_ADDED: &quot;organization.member.added&quot;,
+  MEMBER_REMOVED: &quot;organization.member.removed&quot;,
+  MEMBER_ROLE_UPDATED: &quot;organization.member.role.updated&quot;,
 } as const;
 
 // Event Interfaces
@@ -158,8 +158,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -181,8 +181,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -202,8 +202,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -225,8 +225,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -246,8 +246,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -271,8 +271,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -294,8 +294,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 
@@ -321,8 +321,8 @@ export class OrganizationEventPublisher {
       },
       metadata: {
         eventId: crypto.randomUUID(),
-        version: "1.0",
-        source: "organization-service",
+        version: &quot;1.0&quot;,
+        source: &quot;organization-service&quot;,
       },
     };
 

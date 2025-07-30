@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { createContext, useContext, useState, useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 
 type OrganizationContextType = {
   currentOrganizationId: string | null;
@@ -36,22 +36,22 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
     const fetchOrganizations = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch("/api/organizations/user");
+        const response = await fetch(&quot;/api/organizations/user&quot;);
         if (!response.ok) {
-          throw new Error("Failed to fetch organizations");
+          throw new Error(&quot;Failed to fetch organizations&quot;);
         }
         const data = await response.json();
         setOrganizations(data || []);
 
         // Set current organization if available
-        const currentOrgResponse = await fetch("/api/organizations/context");
+        const currentOrgResponse = await fetch(&quot;/api/organizations/context&quot;);
         if (currentOrgResponse.ok) {
           const currentOrgData = await currentOrgResponse.json();
           setCurrentOrganizationId(currentOrgData.currentOrganizationId);
         }
       } catch (err) {
-        console.error("Error fetching organizations:", err);
-        setError("Failed to load organizations");
+        console.error(&quot;Error fetching organizations:&quot;, err);
+        setError(&quot;Failed to load organizations&quot;);
       } finally {
         setIsLoading(false);
       }
@@ -63,23 +63,23 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
   const switchOrganization = async (organizationId: string) => {
     try {
       setIsLoading(true);
-      const response = await fetch("/api/auth/switch-organization", {
-        method: "POST",
+      const response = await fetch(&quot;/api/auth/switch-organization&quot;, {
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify({ organizationId }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to switch organization");
+        throw new Error(&quot;Failed to switch organization&quot;);
       }
 
       setCurrentOrganizationId(organizationId);
       router.refresh();
     } catch (err) {
-      console.error("Error switching organization:", err);
-      setError("Failed to switch organization");
+      console.error(&quot;Error switching organization:&quot;, err);
+      setError(&quot;Failed to switch organization&quot;);
     } finally {
       setIsLoading(false);
     }

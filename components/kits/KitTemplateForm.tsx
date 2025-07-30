@@ -1,19 +1,19 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useForm, useFieldArray } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { kitsClient } from "@/client/services/kits";
+import { useState, useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { useForm, useFieldArray } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { kitsClient } from &quot;@/client/services/kits&quot;;
 import {
   CreateKitTemplateParams,
   ComponentType,
   KitTemplateDTO,
-} from "@/services/kits";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from &quot;@/services/kits&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
 import {
   Form,
   FormControl,
@@ -21,23 +21,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from &quot;@/components/ui/form&quot;;
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from &quot;@/components/ui/card&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
+} from &quot;@/components/ui/select&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { Switch } from &quot;@/components/ui/switch&quot;;
 import {
   ArrowLeft,
   Plus,
@@ -45,41 +45,41 @@ import {
   Package,
   Save,
   AlertTriangle,
-} from "lucide-react";
-import Link from "next/link";
-import { useToast } from "@/hooks/use-toast";
-import { v4 as uuidv4 } from "uuid";
+} from &quot;lucide-react&quot;;
+import Link from &quot;next/link&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 
 // Extended schema with additional validation
 const componentSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, "Component name is required"),
+  name: z.string().min(1, &quot;Component name is required&quot;),
   type: z.nativeEnum(ComponentType, {
-    errorMap: () => ({ message: "Please select a component type" }),
+    errorMap: () => ({ message: &quot;Please select a component type&quot; }),
   }),
   description: z.string().optional(),
-  quantity: z.number().int().positive("Quantity must be at least 1"),
-  unitCost: z.number().nonnegative("Unit cost cannot be negative").optional(),
+  quantity: z.number().int().positive(&quot;Quantity must be at least 1&quot;),
+  unitCost: z.number().nonnegative(&quot;Unit cost cannot be negative&quot;).optional(),
   imageUrl: z
     .string()
-    .url("Please enter a valid URL")
+    .url(&quot;Please enter a valid URL&quot;)
     .optional()
-    .or(z.literal("")),
+    .or(z.literal("&quot;)),
   sku: z.string().optional(),
   barcode: z.string().optional(),
-  weight: z.number().nonnegative("Weight cannot be negative").optional(),
+  weight: z.number().nonnegative(&quot;Weight cannot be negative&quot;).optional(),
   dimensions: z.string().optional(),
   notes: z.string().optional(),
   isRequired: z.boolean().default(true),
 });
 
 const kitTemplateFormSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters"),
+  name: z.string().min(3, &quot;Name must be at least 3 characters&quot;),
   description: z.string().optional(),
-  brandId: z.number().positive("Please select a brand"),
+  brandId: z.number().positive(&quot;Please select a brand&quot;),
   components: z
     .array(componentSchema)
-    .min(1, "At least one component is required"),
+    .min(1, &quot;At least one component is required&quot;),
   instructions: z.string().optional(),
   active: z.boolean().default(true),
 });
@@ -93,7 +93,7 @@ interface BrandOption {
 }
 
 interface KitTemplateFormProps {
-  templateId?: number; // If provided, we're editing an existing template
+  templateId?: number; // If provided, we&apos;re editing an existing template
 }
 
 export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
@@ -110,19 +110,19 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
   const form = useForm<KitTemplateFormValues>({
     resolver: zodResolver(kitTemplateFormSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: &quot;&quot;,
+      description: &quot;&quot;,
       brandId: 0,
       components: [
         {
           id: uuidv4(),
-          name: "",
+          name: &quot;&quot;,
           type: ComponentType.HARDWARE,
           quantity: 1,
           isRequired: true,
         },
       ],
-      instructions: "",
+      instructions: &quot;&quot;,
       active: true,
     },
   });
@@ -130,7 +130,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
   // Setup components field array
   const { fields, append, remove } = useFieldArray({
     control: form.control,
-    name: "components",
+    name: &quot;components&quot;,
   });
 
   // Fetch brands on component mount
@@ -164,25 +164,25 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
         // Populate form with existing data
         form.reset({
           name: template.name,
-          description: template.description || "",
+          description: template.description || &quot;&quot;,
           brandId: template.brandId,
           components: template.components.map((component) => ({
             ...component,
             id: component.id || uuidv4(),
           })),
-          instructions: template.instructions || "",
+          instructions: template.instructions || &quot;&quot;,
           active: template.active,
         });
 
         setError(null);
       } catch (err) {
-        console.error("Error fetching template data:", err);
-        setError("Failed to load template data. Please try again.");
+        console.error(&quot;Error fetching template data:&quot;, err);
+        setError(&quot;Failed to load template data. Please try again.&quot;);
         toast({
-          title: "Error",
+          title: &quot;Error&quot;,
           description:
-            err instanceof Error ? err.message : "Failed to load template data",
-          variant: "destructive",
+            err instanceof Error ? err.message : &quot;Failed to load template data&quot;,
+          variant: &quot;destructive&quot;,
         });
       } finally {
         setLoading(false);
@@ -196,7 +196,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
   const addComponent = () => {
     append({
       id: uuidv4(),
-      name: "",
+      name: &quot;&quot;,
       type: ComponentType.HARDWARE,
       quantity: 1,
       isRequired: true,
@@ -212,29 +212,29 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
         // Update existing template
         await kitsClient.updateTemplate(templateId, values);
         toast({
-          title: "Success",
-          description: "Kit template updated successfully",
-          variant: "default",
+          title: &quot;Success&quot;,
+          description: &quot;Kit template updated successfully&quot;,
+          variant: &quot;default&quot;,
         });
       } else {
         // Create new template
         await kitsClient.createTemplate(values);
         toast({
-          title: "Success",
-          description: "Kit template created successfully",
-          variant: "default",
+          title: &quot;Success&quot;,
+          description: &quot;Kit template created successfully&quot;,
+          variant: &quot;default&quot;,
         });
       }
 
       // Redirect to templates list
-      router.push("/kits/templates");
+      router.push(&quot;/kits/templates&quot;);
     } catch (err) {
-      console.error("Error saving template:", err);
+      console.error(&quot;Error saving template:&quot;, err);
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          err instanceof Error ? err.message : "Failed to save template",
-        variant: "destructive",
+          err instanceof Error ? err.message : &quot;Failed to save template&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSubmitting(false);
@@ -243,21 +243,21 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em]"></div>
-        <p className="ml-2">Loading template data...</p>
+      <div className=&quot;flex justify-center items-center min-h-[400px]&quot;>
+        <div className=&quot;inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em]&quot;></div>
+        <p className=&quot;ml-2&quot;>Loading template data...</p>
       </div>
     );
   }
 
   if (error && templateId) {
     return (
-      <div className="bg-destructive/15 p-4 rounded-md flex items-center gap-2 text-destructive">
-        <AlertTriangle className="h-5 w-5" />
+      <div className=&quot;bg-destructive/15 p-4 rounded-md flex items-center gap-2 text-destructive&quot;>
+        <AlertTriangle className=&quot;h-5 w-5&quot; />
         <p>{error}</p>
-        <Button variant="outline" asChild className="ml-auto">
-          <Link href="/kits/templates">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Templates
+        <Button variant=&quot;outline&quot; asChild className=&quot;ml-auto&quot;>
+          <Link href=&quot;/kits/templates&quot;>
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; /> Back to Templates
           </Link>
         </Button>
       </div>
@@ -265,37 +265,37 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" asChild>
-            <Link href="/kits/templates">
-              <ArrowLeft className="h-4 w-4" />
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
+        <div className=&quot;flex items-center gap-2&quot;>
+          <Button variant=&quot;outline&quot; size=&quot;icon&quot; asChild>
+            <Link href=&quot;/kits/templates&quot;>
+              <ArrowLeft className=&quot;h-4 w-4&quot; />
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold tracking-tight">
-            {templateId ? "Edit Kit Template" : "Create Kit Template"}
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
+            {templateId ? &quot;Edit Kit Template&quot; : &quot;Create Kit Template&quot;}
           </h1>
         </div>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-8&quot;>
+          <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-6&quot;>
+            <div className=&quot;md:col-span-2 space-y-6&quot;>
               <Card>
                 <CardHeader>
                   <CardTitle>Basic Information</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className=&quot;space-y-4&quot;>
                   <FormField
                     control={form.control}
-                    name="name"
+                    name=&quot;name&quot;
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Template Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter template name" {...field} />
+                          <Input placeholder=&quot;Enter template name&quot; {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -304,14 +304,14 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
 
                   <FormField
                     control={form.control}
-                    name="description"
+                    name=&quot;description&quot;
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Enter template description"
-                            className="min-h-[100px]"
+                            placeholder=&quot;Enter template description&quot;
+                            className=&quot;min-h-[100px]&quot;
                             {...field}
                           />
                         </FormControl>
@@ -322,7 +322,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
 
                   <FormField
                     control={form.control}
-                    name="brandId"
+                    name=&quot;brandId&quot;
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Brand</FormLabel>
@@ -330,11 +330,11 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                           onValueChange={(value) =>
                             field.onChange(parseInt(value))
                           }
-                          value={field.value ? field.value.toString() : ""}
+                          value={field.value ? field.value.toString() : &quot;&quot;}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select brand" />
+                              <SelectValue placeholder=&quot;Select brand&quot; />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -355,14 +355,14 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
 
                   <FormField
                     control={form.control}
-                    name="instructions"
+                    name=&quot;instructions&quot;
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Instructions</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Enter assembly or usage instructions"
-                            className="min-h-[100px]"
+                            placeholder=&quot;Enter assembly or usage instructions&quot;
+                            className=&quot;min-h-[100px]&quot;
                             {...field}
                           />
                         </FormControl>
@@ -374,55 +374,55 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
               </Card>
 
               <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
+                <CardHeader className=&quot;flex flex-row items-center justify-between&quot;>
                   <CardTitle>Components</CardTitle>
                   <Button
-                    type="button"
-                    variant="outline"
+                    type=&quot;button&quot;
+                    variant=&quot;outline&quot;
                     onClick={addComponent}
-                    size="sm"
+                    size=&quot;sm&quot;
                   >
-                    <Plus className="mr-2 h-4 w-4" />
+                    <Plus className=&quot;mr-2 h-4 w-4&quot; />
                     Add Component
                   </Button>
                 </CardHeader>
                 <CardContent>
                   {fields.length === 0 ? (
-                    <div className="text-center py-6 bg-gray-50 border border-dashed border-gray-200 rounded-md">
-                      <Package className="h-10 w-10 mx-auto text-gray-400" />
-                      <p className="mt-2 text-gray-500">No components added</p>
+                    <div className=&quot;text-center py-6 bg-gray-50 border border-dashed border-gray-200 rounded-md&quot;>
+                      <Package className=&quot;h-10 w-10 mx-auto text-gray-400&quot; />
+                      <p className=&quot;mt-2 text-gray-500&quot;>No components added</p>
                       <Button
-                        type="button"
-                        variant="link"
+                        type=&quot;button&quot;
+                        variant=&quot;link&quot;
                         onClick={addComponent}
-                        className="mt-1"
+                        className=&quot;mt-1&quot;
                       >
                         Add a component
                       </Button>
                     </div>
                   ) : (
-                    <div className="space-y-6">
+                    <div className=&quot;space-y-6&quot;>
                       {fields.map((field, index) => (
                         <Card key={field.id}>
-                          <CardHeader className="pb-2">
-                            <div className="flex justify-between items-center">
-                              <CardTitle className="text-lg">
+                          <CardHeader className=&quot;pb-2&quot;>
+                            <div className=&quot;flex justify-between items-center&quot;>
+                              <CardTitle className=&quot;text-lg&quot;>
                                 Component {index + 1}
                               </CardTitle>
                               <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
+                                type=&quot;button&quot;
+                                variant=&quot;ghost&quot;
+                                size=&quot;sm&quot;
                                 onClick={() => remove(index)}
                                 disabled={fields.length === 1}
-                                className="h-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                className=&quot;h-8 text-destructive hover:text-destructive hover:bg-destructive/10&quot;
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <Trash2 className=&quot;h-4 w-4&quot; />
                               </Button>
                             </div>
                           </CardHeader>
-                          <CardContent className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <CardContent className=&quot;space-y-4&quot;>
+                            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
                               <FormField
                                 control={form.control}
                                 name={`components.${index}.name`}
@@ -431,7 +431,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
                                       <Input
-                                        placeholder="Component name"
+                                        placeholder=&quot;Component name&quot;
                                         {...field}
                                       />
                                     </FormControl>
@@ -452,7 +452,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                                     >
                                       <FormControl>
                                         <SelectTrigger>
-                                          <SelectValue placeholder="Select type" />
+                                          <SelectValue placeholder=&quot;Select type&quot; />
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent>
@@ -479,7 +479,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                                   <FormLabel>Description</FormLabel>
                                   <FormControl>
                                     <Textarea
-                                      placeholder="Component description"
+                                      placeholder=&quot;Component description&quot;
                                       {...field}
                                     />
                                   </FormControl>
@@ -488,7 +488,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                               )}
                             />
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;>
                               <FormField
                                 control={form.control}
                                 name={`components.${index}.quantity`}
@@ -497,7 +497,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                                     <FormLabel>Quantity</FormLabel>
                                     <FormControl>
                                       <Input
-                                        type="number"
+                                        type=&quot;number&quot;
                                         min={1}
                                         step={1}
                                         {...field}
@@ -521,19 +521,19 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                                     <FormLabel>Unit Cost ($)</FormLabel>
                                     <FormControl>
                                       <Input
-                                        type="number"
+                                        type=&quot;number&quot;
                                         min={0}
                                         step={0.01}
-                                        placeholder="0.00"
+                                        placeholder=&quot;0.00&quot;
                                         {...field}
                                         value={
                                           field.value === undefined
-                                            ? ""
+                                            ? &quot;&quot;
                                             : field.value
                                         }
                                         onChange={(e) => {
                                           const value =
-                                            e.target.value === ""
+                                            e.target.value === &quot;&quot;
                                               ? undefined
                                               : parseFloat(e.target.value);
                                           field.onChange(value);
@@ -553,7 +553,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                                     <FormLabel>SKU</FormLabel>
                                     <FormControl>
                                       <Input
-                                        placeholder="SKU number"
+                                        placeholder=&quot;SKU number&quot;
                                         {...field}
                                       />
                                     </FormControl>
@@ -563,15 +563,15 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                               />
                             </div>
 
-                            <div className="border-t pt-3">
+                            <div className=&quot;border-t pt-3&quot;>
                               <FormField
                                 control={form.control}
                                 name={`components.${index}.isRequired`}
                                 render={({ field }) => (
-                                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                                    <div className="space-y-0.5">
+                                  <FormItem className=&quot;flex flex-row items-center justify-between rounded-lg border p-3&quot;>
+                                    <div className=&quot;space-y-0.5&quot;>
                                       <FormLabel>Required Component</FormLabel>
-                                      <div className="text-sm text-gray-500">
+                                      <div className=&quot;text-sm text-gray-500&quot;>
                                         This component must be included in all
                                         kit instances
                                       </div>
@@ -593,7 +593,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                   )}
 
                   {form.formState.errors.components?.root && (
-                    <p className="text-sm text-red-500 mt-2">
+                    <p className=&quot;text-sm text-red-500 mt-2&quot;>
                       {form.formState.errors.components.root.message}
                     </p>
                   )}
@@ -601,7 +601,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
               </Card>
             </div>
 
-            <div className="space-y-6">
+            <div className=&quot;space-y-6&quot;>
               <Card>
                 <CardHeader>
                   <CardTitle>Settings</CardTitle>
@@ -609,12 +609,12 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                 <CardContent>
                   <FormField
                     control={form.control}
-                    name="active"
+                    name=&quot;active&quot;
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                        <div className="space-y-0.5">
+                      <FormItem className=&quot;flex flex-row items-center justify-between rounded-lg border p-3&quot;>
+                        <div className=&quot;space-y-0.5&quot;>
                           <FormLabel>Active</FormLabel>
-                          <div className="text-sm text-gray-500">
+                          <div className=&quot;text-sm text-gray-500&quot;>
                             Template will be available for use
                           </div>
                         </div>
@@ -628,20 +628,20 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                     )}
                   />
                 </CardContent>
-                <CardFooter className="flex justify-between border-t pt-5">
-                  <Button variant="outline" type="button" asChild>
-                    <Link href="/kits/templates">Cancel</Link>
+                <CardFooter className=&quot;flex justify-between border-t pt-5&quot;>
+                  <Button variant=&quot;outline&quot; type=&quot;button&quot; asChild>
+                    <Link href=&quot;/kits/templates&quot;>Cancel</Link>
                   </Button>
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type=&quot;submit&quot; disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
-                        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] mr-2"></span>
+                        <span className=&quot;inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] mr-2&quot;></span>
                         Saving...
                       </>
                     ) : (
                       <>
-                        <Save className="mr-2 h-4 w-4" />
-                        {templateId ? "Update Template" : "Create Template"}
+                        <Save className=&quot;mr-2 h-4 w-4&quot; />
+                        {templateId ? &quot;Update Template&quot; : &quot;Create Template&quot;}
                       </>
                     )}
                   </Button>
@@ -654,30 +654,30 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                     <CardTitle>Template Status</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2">
+                    <div className=&quot;space-y-2&quot;>
                       <div>
-                        <span className="text-sm font-medium">
+                        <span className=&quot;text-sm font-medium&quot;>
                           Current Status:
                         </span>
-                        <p className="capitalize">
+                        <p className=&quot;capitalize&quot;>
                           {existingTemplate.approvalStatus}
                         </p>
                       </div>
 
-                      {existingTemplate.approvalStatus === "rejected" &&
+                      {existingTemplate.approvalStatus === &quot;rejected&quot; &&
                         existingTemplate.approvalNotes && (
                           <div>
-                            <span className="text-sm font-medium">
+                            <span className=&quot;text-sm font-medium&quot;>
                               Rejection Reason:
                             </span>
-                            <p className="text-red-600">
+                            <p className=&quot;text-red-600&quot;>
                               {existingTemplate.approvalNotes}
                             </p>
                           </div>
                         )}
 
                       <div>
-                        <span className="text-sm font-medium">Created:</span>
+                        <span className=&quot;text-sm font-medium&quot;>Created:</span>
                         <p>
                           {new Date(
                             existingTemplate.createdAt,
@@ -686,7 +686,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
                       </div>
 
                       <div>
-                        <span className="text-sm font-medium">
+                        <span className=&quot;text-sm font-medium">
                           Last Updated:
                         </span>
                         <p>

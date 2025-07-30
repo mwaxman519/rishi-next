@@ -6,29 +6,29 @@ import {
   format,
   parse,
   isValid,
-} from "date-fns";
+} from &quot;date-fns&quot;;
 
 /**
  * Recurrence frequency types
  */
 export enum RecurrenceFrequency {
-  DAILY = "DAILY",
-  WEEKLY = "WEEKLY",
-  MONTHLY = "MONTHLY",
-  YEARLY = "YEARLY",
+  DAILY = &quot;DAILY&quot;,
+  WEEKLY = &quot;WEEKLY&quot;,
+  MONTHLY = &quot;MONTHLY&quot;,
+  YEARLY = &quot;YEARLY&quot;,
 }
 
 /**
  * Days of the week for weekly recurrence
  */
 export enum RecurrenceDays {
-  SU = "SU",
-  MO = "MO",
-  TU = "TU",
-  WE = "WE",
-  TH = "TH",
-  FR = "FR",
-  SA = "SA",
+  SU = &quot;SU&quot;,
+  MO = &quot;MO&quot;,
+  TU = &quot;TU&quot;,
+  WE = &quot;WE&quot;,
+  TH = &quot;TH&quot;,
+  FR = &quot;FR&quot;,
+  SA = &quot;SA&quot;,
 }
 
 /**
@@ -44,7 +44,7 @@ export interface RecurrencePattern {
 
 /**
  * Parse a recurrence pattern string into a RecurrencePattern object
- * @param pattern - The recurrence pattern string in iCalendar format (e.g., "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR")
+ * @param pattern - The recurrence pattern string in iCalendar format (e.g., &quot;FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR&quot;)
  * @returns RecurrencePattern object or null if invalid
  */
 export function parseRecurrencePattern(
@@ -53,16 +53,16 @@ export function parseRecurrencePattern(
   if (!pattern) return null;
 
   try {
-    const parts = pattern.split(";");
+    const parts = pattern.split(&quot;;&quot;);
     const result: any = {
       interval: 1, // Default interval
     };
 
     for (const part of parts) {
-      const [key, value] = part.split("=");
+      const [key, value] = part.split(&quot;=&quot;);
 
       switch (key) {
-        case "FREQ":
+        case &quot;FREQ&quot;:
           if (
             Object.values(RecurrenceFrequency).includes(
               value as RecurrenceFrequency,
@@ -74,7 +74,7 @@ export function parseRecurrencePattern(
           }
           break;
 
-        case "INTERVAL":
+        case &quot;INTERVAL&quot;:
           const interval = parseInt(value, 10);
           if (isNaN(interval) || interval < 1) {
             throw new Error(`Invalid interval: ${value}`);
@@ -82,8 +82,8 @@ export function parseRecurrencePattern(
           result.interval = interval;
           break;
 
-        case "BYDAY":
-          const days = value.split(",");
+        case &quot;BYDAY&quot;:
+          const days = value.split(&quot;,&quot;);
           const validDays = days.filter((day) =>
             Object.values(RecurrenceDays).includes(day as RecurrenceDays),
           );
@@ -95,7 +95,7 @@ export function parseRecurrencePattern(
           result.byday = validDays as RecurrenceDays[];
           break;
 
-        case "COUNT":
+        case &quot;COUNT&quot;:
           const count = parseInt(value, 10);
           if (isNaN(count) || count < 1) {
             throw new Error(`Invalid count: ${value}`);
@@ -103,7 +103,7 @@ export function parseRecurrencePattern(
           result.count = count;
           break;
 
-        case "UNTIL":
+        case &quot;UNTIL&quot;:
           // Format: YYYYMMDD
           const dateStr = value;
           if (dateStr.length !== 8) {
@@ -127,7 +127,7 @@ export function parseRecurrencePattern(
 
     // Frequency is required
     if (!result.frequency) {
-      throw new Error("Missing frequency in recurrence pattern");
+      throw new Error(&quot;Missing frequency in recurrence pattern&quot;);
     }
 
     return result as RecurrencePattern;
@@ -144,7 +144,7 @@ export function parseRecurrencePattern(
  */
 export function formatRecurrencePattern(pattern: RecurrencePattern): string {
   if (!pattern.frequency) {
-    throw new Error("Frequency is required for recurrence pattern");
+    throw new Error(&quot;Frequency is required for recurrence pattern&quot;);
   }
 
   let result = `FREQ=${pattern.frequency}`;
@@ -154,7 +154,7 @@ export function formatRecurrencePattern(pattern: RecurrencePattern): string {
   }
 
   if (pattern.byday && pattern.byday.length > 0) {
-    result += `;BYDAY=${pattern.byday.join(",")}`;
+    result += `;BYDAY=${pattern.byday.join(&quot;,&quot;)}`;
   }
 
   if (pattern.count && pattern.count > 0) {
@@ -162,7 +162,7 @@ export function formatRecurrencePattern(pattern: RecurrencePattern): string {
   }
 
   if (pattern.until) {
-    const dateStr = format(pattern.until, "yyyyMMdd");
+    const dateStr = format(pattern.until, &quot;yyyyMMdd&quot;);
     result += `;UNTIL=${dateStr}`;
   }
 
@@ -182,7 +182,7 @@ export function generateOccurrences(
   endDate?: Date,
 ): Date[] {
   const recurrencePattern =
-    typeof pattern === "string" ? parseRecurrencePattern(pattern) : pattern;
+    typeof pattern === &quot;string&quot; ? parseRecurrencePattern(pattern) : pattern;
 
   if (!recurrencePattern) {
     return [startDate]; // Return just the start date if pattern is invalid
@@ -239,7 +239,7 @@ export function generateOccurrences(
             return occurrences;
           }
 
-          // Add occurrence if it's after the start date
+          // Add occurrence if it&apos;s after the start date
           if (occurrenceDate > startDate) {
             occurrences.push(new Date(occurrenceDate));
             totalOccurrences++;
@@ -306,55 +306,55 @@ export function getRecurrenceDescription(
   pattern: RecurrencePattern | string,
 ): string {
   const recurrencePattern =
-    typeof pattern === "string" ? parseRecurrencePattern(pattern) : pattern;
+    typeof pattern === &quot;string&quot; ? parseRecurrencePattern(pattern) : pattern;
 
   if (!recurrencePattern) {
-    return "One-time event";
+    return &quot;One-time event&quot;;
   }
 
   const { frequency, interval, byday, count, until } = recurrencePattern;
 
-  let base = "";
+  let base = "&quot;;
 
   // Frequency and interval
   switch (frequency) {
     case RecurrenceFrequency.DAILY:
-      base = interval === 1 ? "Daily" : `Every ${interval} days`;
+      base = interval === 1 ? &quot;Daily&quot; : `Every ${interval} days`;
       break;
     case RecurrenceFrequency.WEEKLY:
-      base = interval === 1 ? "Weekly" : `Every ${interval} weeks`;
+      base = interval === 1 ? &quot;Weekly&quot; : `Every ${interval} weeks`;
 
       // Add days for weekly recurrence
       if (byday && byday.length > 0) {
         const dayNames: Record<RecurrenceDays, string> = {
-          [RecurrenceDays.SU]: "Sunday",
-          [RecurrenceDays.MO]: "Monday",
-          [RecurrenceDays.TU]: "Tuesday",
-          [RecurrenceDays.WE]: "Wednesday",
-          [RecurrenceDays.TH]: "Thursday",
-          [RecurrenceDays.FR]: "Friday",
-          [RecurrenceDays.SA]: "Saturday",
+          [RecurrenceDays.SU]: &quot;Sunday&quot;,
+          [RecurrenceDays.MO]: &quot;Monday&quot;,
+          [RecurrenceDays.TU]: &quot;Tuesday&quot;,
+          [RecurrenceDays.WE]: &quot;Wednesday&quot;,
+          [RecurrenceDays.TH]: &quot;Thursday&quot;,
+          [RecurrenceDays.FR]: &quot;Friday&quot;,
+          [RecurrenceDays.SA]: &quot;Saturday&quot;,
         };
 
-        const daysList = byday.map((day) => dayNames[day]).join(", ");
+        const daysList = byday.map((day) => dayNames[day]).join(&quot;, &quot;);
         base += ` on ${daysList}`;
       }
       break;
     case RecurrenceFrequency.MONTHLY:
-      base = interval === 1 ? "Monthly" : `Every ${interval} months`;
+      base = interval === 1 ? &quot;Monthly&quot; : `Every ${interval} months`;
       break;
     case RecurrenceFrequency.YEARLY:
-      base = interval === 1 ? "Yearly" : `Every ${interval} years`;
+      base = interval === 1 ? &quot;Yearly&quot; : `Every ${interval} years`;
       break;
   }
 
   // End condition
-  let endCondition = "";
+  let endCondition = &quot;&quot;;
 
   if (count) {
     endCondition = `, ${count} times`;
   } else if (until) {
-    endCondition = `, until ${format(until, "MMM d, yyyy")}`;
+    endCondition = `, until ${format(until, &quot;MMM d, yyyy")}`;
   }
 
   return `${base}${endCondition}`;

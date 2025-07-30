@@ -1,16 +1,16 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { db } from "../../../../lib/db-connection";
-import { kits, kitComponentInventory } from "@shared/schema";
-import { eq } from "drizzle-orm";
-import { getOrganizationHeaderData } from "@/lib/organization-context";
-import { checkPermission } from "@/lib/rbac";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { z } from &quot;zod&quot;;
+import { db } from &quot;../../../../lib/db-connection&quot;;
+import { kits, kitComponentInventory } from &quot;@shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import { getOrganizationHeaderData } from &quot;@/lib/organization-context&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
 
 // Helper function to get kit by ID
 async function getKit(id: number) {
@@ -28,10 +28,10 @@ export async function GET(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to view kits
-    const hasPermission = await checkPermission(req, "read:staff");
+    const hasPermission = await checkPermission(req, &quot;read:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json(
-        { error: "You do not have permission to view this kit" },
+        { error: &quot;You do not have permission to view this kit&quot; },
         { status: 403 },
       );
     }
@@ -39,16 +39,16 @@ export async function GET(
     const { id: kitId } = await params;
     const id = parseInt(kitId);
     if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
+      return NextResponse.json({ error: &quot;Invalid kit ID&quot; }, { status: 400 });
     }
 
     // Get the kit
     const kit = await getKit(id);
     if (!kit) {
-      return NextResponse.json({ error: "Kit not found" }, { status: 404 });
+      return NextResponse.json({ error: &quot;Kit not found&quot; }, { status: 404 });
     }
 
-    // Get the kit's component inventory
+    // Get the kit&apos;s component inventory
     const components = await db
       .select()
       .from(kitComponentInventory)
@@ -60,8 +60,8 @@ export async function GET(
       componentInventory: components,
     });
   } catch (error) {
-    console.error("Error fetching kit:", error);
-    return NextResponse.json({ error: "Failed to fetch kit" }, { status: 500 });
+    console.error(&quot;Error fetching kit:&quot;, error);
+    return NextResponse.json({ error: &quot;Failed to fetch kit&quot; }, { status: 500 });
   }
 }
 
@@ -75,10 +75,10 @@ export async function PUT(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to update kits
-    const hasPermission = await checkPermission(req, "update:staff");
+    const hasPermission = await checkPermission(req, &quot;update:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json(
-        { error: "You do not have permission to update this kit" },
+        { error: &quot;You do not have permission to update this kit&quot; },
         { status: 403 },
       );
     }
@@ -86,13 +86,13 @@ export async function PUT(
     const { id: kitId } = await params;
     const id = parseInt(kitId);
     if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
+      return NextResponse.json({ error: &quot;Invalid kit ID&quot; }, { status: 400 });
     }
 
     // Check if kit exists
     const existingKit = await getKit(id);
     if (!existingKit) {
-      return NextResponse.json({ error: "Kit not found" }, { status: 404 });
+      return NextResponse.json({ error: &quot;Kit not found&quot; }, { status: 404 });
     }
 
     // Parse and validate request body
@@ -110,15 +110,15 @@ export async function PUT(
 
     return NextResponse.json(updatedKit);
   } catch (error) {
-    console.error("Error updating kit:", error);
+    console.error(&quot;Error updating kit:&quot;, error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation error", details: error.errors },
+        { error: &quot;Validation error&quot;, details: error.errors },
         { status: 400 },
       );
     }
     return NextResponse.json(
-      { error: "Failed to update kit" },
+      { error: &quot;Failed to update kit&quot; },
       { status: 500 },
     );
   }
@@ -134,10 +134,10 @@ export async function DELETE(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to delete kits
-    const hasPermission = await checkPermission(req, "delete:staff");
+    const hasPermission = await checkPermission(req, &quot;delete:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json(
-        { error: "You do not have permission to delete this kit" },
+        { error: &quot;You do not have permission to delete this kit&quot; },
         { status: 403 },
       );
     }
@@ -145,23 +145,23 @@ export async function DELETE(
     const { id: kitId } = await params;
     const id = parseInt(kitId);
     if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
+      return NextResponse.json({ error: &quot;Invalid kit ID&quot; }, { status: 400 });
     }
 
     // Check if kit exists
     const existingKit = await getKit(id);
     if (!existingKit) {
-      return NextResponse.json({ error: "Kit not found" }, { status: 404 });
+      return NextResponse.json({ error: &quot;Kit not found&quot; }, { status: 404 });
     }
 
     // Delete the kit (this will cascade delete the component inventory)
     await db.delete(kits).where(eq(kits.id, id));
 
-    return NextResponse.json({ message: "Kit deleted successfully" });
+    return NextResponse.json({ message: &quot;Kit deleted successfully&quot; });
   } catch (error) {
-    console.error("Error deleting kit:", error);
+    console.error(&quot;Error deleting kit:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to delete kit" },
+      { error: &quot;Failed to delete kit&quot; },
       { status: 500 },
     );
   }

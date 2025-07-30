@@ -1,21 +1,21 @@
 /**
  * Location Repository for data access operations
  */
-import { db } from "../../../lib/db-connection";
+import { db } from &quot;../../../lib/db-connection&quot;;
 import {
   locations,
   states,
   users,
   organizations,
-} from "../../../shared/schema";
-import { eq, and, or, desc } from "drizzle-orm";
+} from &quot;../../../shared/schema&quot;;
+import { eq, and, or, desc } from &quot;drizzle-orm&quot;;
 import {
   LocationDTO,
   CreateLocationParams,
   UpdateLocationParams,
   LocationStatus,
   LocationType,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class LocationRepository {
   /**
@@ -55,7 +55,7 @@ export class LocationRepository {
       // Map to DTOs
       return locationsData.map((row) => this.mapToDTO(row));
     } catch (error) {
-      console.error("Error finding locations:", error);
+      console.error(&quot;Error finding locations:&quot;, error);
       throw new Error(
         `Failed to find locations: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -123,12 +123,12 @@ export class LocationRepository {
         .returning();
 
       if (!newLocation) {
-        throw new Error("Failed to create location, no record returned");
+        throw new Error(&quot;Failed to create location, no record returned&quot;);
       }
 
       return this.findById(newLocation.id) as Promise<LocationDTO>;
     } catch (error) {
-      console.error("Error creating location:", error);
+      console.error(&quot;Error creating location:&quot;, error);
       throw new Error(
         `Failed to create location: ${error instanceof Error ? error.message : String(error)}`,
       );

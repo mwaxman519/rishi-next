@@ -5,8 +5,8 @@
  * and real-time updates from the distributed event bus.
  */
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { AppEvent } from "../../shared/events";
+import { useEffect, useState, useCallback, useRef } from &quot;react&quot;;
+import { AppEvent } from &quot;../../shared/events&quot;;
 
 interface EventSocketOptions {
   // Automatically reconnect on disconnect
@@ -51,7 +51,7 @@ export function useEventSocket(
   const isMountedRef = useRef(true);
   // Save subscribed event types
   const eventTypesRef = useRef<AppEvent[]>(eventTypes);
-  // Track if we're currently attempting to connect
+  // Track if we&apos;re currently attempting to connect
   const isConnectingRef = useRef(false);
 
   /**
@@ -60,7 +60,7 @@ export function useEventSocket(
   const connect = useCallback(() => {
     // Prevent multiple connection attempts
     if (isConnectingRef.current) {
-      console.log("Connection attempt already in progress, skipping");
+      console.log(&quot;Connection attempt already in progress, skipping&quot;);
       return;
     }
 
@@ -79,29 +79,29 @@ export function useEventSocket(
       // Set a timeout to reset connecting state if it takes too long
       const connectingTimeout = setTimeout(() => {
         if (isConnectingRef.current) {
-          console.log("WebSocket connection attempt timed out");
+          console.log(&quot;WebSocket connection attempt timed out&quot;);
           isConnectingRef.current = false;
         }
       }, 5000); // 5 seconds timeout
 
       // Create WebSocket URL using the same protocol and host
-      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const protocol = window.location.protocol === &quot;https:&quot; ? &quot;wss:&quot; : &quot;ws:&quot;;
       const wsUrl = `${protocol}//${window.location.host}/ws`;
 
-      console.log("Connecting to WebSocket at", wsUrl);
+      console.log(&quot;Connecting to WebSocket at&quot;, wsUrl);
       const socket = new WebSocket(wsUrl);
       socketRef.current = socket;
 
       // Clear the timeout when socket is opened
-      socket.addEventListener("open", () => {
+      socket.addEventListener(&quot;open&quot;, () => {
         clearTimeout(connectingTimeout);
       });
 
       // Connection opened
-      socket.addEventListener("open", () => {
+      socket.addEventListener(&quot;open&quot;, () => {
         if (!isMountedRef.current) return;
 
-        console.log("WebSocket connection established");
+        console.log(&quot;WebSocket connection established&quot;);
         setIsConnected(true);
         reconnectAttemptsRef.current = 0;
         isConnectingRef.current = false;
@@ -110,7 +110,7 @@ export function useEventSocket(
         eventTypesRef.current.forEach((eventType) => {
           socket.send(
             JSON.stringify({
-              type: "subscribe",
+              type: &quot;subscribe&quot;,
               eventType,
             }),
           );
@@ -123,10 +123,10 @@ export function useEventSocket(
       });
 
       // Connection closed
-      socket.addEventListener("close", (event) => {
+      socket.addEventListener(&quot;close&quot;, (event) => {
         if (!isMountedRef.current) return;
 
-        console.log("WebSocket connection closed", event);
+        console.log(&quot;WebSocket connection closed&quot;, event);
         setIsConnected(false);
         isConnectingRef.current = false;
 
@@ -155,10 +155,10 @@ export function useEventSocket(
       });
 
       // Connection error
-      socket.addEventListener("error", (error) => {
+      socket.addEventListener(&quot;error&quot;, (error) => {
         if (!isMountedRef.current) return;
 
-        console.error("WebSocket error:", error);
+        console.error(&quot;WebSocket error:&quot;, error);
         isConnectingRef.current = false;
 
         // Call onError callback if provided
@@ -168,7 +168,7 @@ export function useEventSocket(
       });
 
       // Receive message
-      socket.addEventListener("message", (event) => {
+      socket.addEventListener(&quot;message&quot;, (event) => {
         if (!isMountedRef.current) return;
 
         try {
@@ -176,36 +176,36 @@ export function useEventSocket(
 
           // Handle different message types
           switch (message.type) {
-            case "event":
+            case &quot;event&quot;:
               // Add the event to our state
               setEvents((prev) => [message.data, ...prev].slice(0, 100));
               break;
 
-            case "subscription_confirmed":
+            case &quot;subscription_confirmed&quot;:
               console.log(`Subscription confirmed for ${message.eventType}`);
               break;
 
-            case "pong":
+            case &quot;pong&quot;:
               // Keep-alive response
               break;
 
-            case "error":
-              console.error("WebSocket server error:", message.message);
+            case &quot;error&quot;:
+              console.error(&quot;WebSocket server error:&quot;, message.message);
               break;
 
-            case "system":
-              console.log("System message:", message.message);
+            case &quot;system&quot;:
+              console.log(&quot;System message:&quot;, message.message);
               break;
 
             default:
-              console.log("Unknown message type:", message);
+              console.log(&quot;Unknown message type:&quot;, message);
           }
         } catch (error) {
-          console.error("Error parsing WebSocket message:", error);
+          console.error(&quot;Error parsing WebSocket message:&quot;, error);
         }
       });
     } catch (error) {
-      console.error("Failed to create WebSocket connection:", error);
+      console.error(&quot;Failed to create WebSocket connection:&quot;, error);
     }
   }, [opts]);
 
@@ -216,7 +216,7 @@ export function useEventSocket(
     if (socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(
         JSON.stringify({
-          type: "ping",
+          type: &quot;ping&quot;,
           timestamp: new Date().toISOString(),
         }),
       );
@@ -236,7 +236,7 @@ export function useEventSocket(
     if (socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(
         JSON.stringify({
-          type: "subscribe",
+          type: &quot;subscribe&quot;,
           eventType,
         }),
       );
@@ -256,7 +256,7 @@ export function useEventSocket(
     if (socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(
         JSON.stringify({
-          type: "unsubscribe",
+          type: &quot;unsubscribe&quot;,
           eventType,
         }),
       );
@@ -283,7 +283,7 @@ export function useEventSocket(
       eventTypes.forEach((eventType) => {
         socketRef.current!.send(
           JSON.stringify({
-            type: "subscribe",
+            type: &quot;subscribe&quot;,
             eventType,
           }),
         );

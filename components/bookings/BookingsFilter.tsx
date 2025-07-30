@@ -1,34 +1,34 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import React from &quot;react&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { z } from &quot;zod&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
+} from &quot;@/components/ui/select&quot;;
+import { Calendar } from &quot;@/components/ui/calendar&quot;;
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { CalendarIcon, X } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+} from &quot;@/components/ui/popover&quot;;
+import { CalendarIcon, X } from &quot;lucide-react&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
+import { format } from &quot;date-fns&quot;;
 
 const filterFormSchema = z.object({
   searchText: z.string().optional(),
@@ -46,47 +46,47 @@ export default function BookingsFilter() {
   const form = useForm<FilterFormValues>({
     resolver: zodResolver(filterFormSchema),
     defaultValues: {
-      searchText: "",
-      activityType: "",
-      status: "",
-      assignee: "",
-      location: "",
+      searchText: "&quot;,
+      activityType: &quot;&quot;,
+      status: &quot;&quot;,
+      assignee: &quot;&quot;,
+      location: &quot;&quot;,
     },
   });
 
   function onSubmit(data: FilterFormValues) {
-    console.log("Filter values:", data);
+    console.log(&quot;Filter values:&quot;, data);
     // Here you would typically call an API to fetch filtered results
   }
 
   function resetFilters() {
     form.reset({
-      searchText: "",
-      activityType: "",
-      status: "",
+      searchText: &quot;&quot;,
+      activityType: &quot;&quot;,
+      status: &quot;&quot;,
       dateFrom: undefined,
       dateTo: undefined,
-      assignee: "",
-      location: "",
+      assignee: &quot;&quot;,
+      location: &quot;&quot;,
     });
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-6&quot;>
+        <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4&quot;>
           {/* Search Text */}
           <FormField
             control={form.control}
-            name="searchText"
+            name=&quot;searchText&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Search</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Search booking title..."
+                    placeholder=&quot;Search booking title...&quot;
                     {...field}
-                    className="w-full"
+                    className=&quot;w-full&quot;
                   />
                 </FormControl>
               </FormItem>
@@ -96,7 +96,7 @@ export default function BookingsFilter() {
           {/* Activity Type */}
           <FormField
             control={form.control}
-            name="activityType"
+            name=&quot;activityType&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Activity Type</FormLabel>
@@ -107,19 +107,19 @@ export default function BookingsFilter() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select type" />
+                      <SelectValue placeholder=&quot;Select type&quot; />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="">All Types</SelectItem>
-                    <SelectItem value="event">Event</SelectItem>
-                    <SelectItem value="secret_shopping">
+                    <SelectItem value=&quot;&quot;>All Types</SelectItem>
+                    <SelectItem value=&quot;event&quot;>Event</SelectItem>
+                    <SelectItem value=&quot;secret_shopping&quot;>
                       Secret Shopping
                     </SelectItem>
-                    <SelectItem value="merchandising">Merchandising</SelectItem>
-                    <SelectItem value="logistics">Logistics</SelectItem>
-                    <SelectItem value="training">Training</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value=&quot;merchandising&quot;>Merchandising</SelectItem>
+                    <SelectItem value=&quot;logistics&quot;>Logistics</SelectItem>
+                    <SelectItem value=&quot;training&quot;>Training</SelectItem>
+                    <SelectItem value=&quot;other&quot;>Other</SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -129,7 +129,7 @@ export default function BookingsFilter() {
           {/* Status */}
           <FormField
             control={form.control}
-            name="status"
+            name=&quot;status&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
@@ -140,17 +140,17 @@ export default function BookingsFilter() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select status" />
+                      <SelectValue placeholder=&quot;Select status&quot; />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="">All Statuses</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="pending">Pending Approval</SelectItem>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="in_progress">In Progress</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                    <SelectItem value=&quot;&quot;>All Statuses</SelectItem>
+                    <SelectItem value=&quot;draft&quot;>Draft</SelectItem>
+                    <SelectItem value=&quot;pending&quot;>Pending Approval</SelectItem>
+                    <SelectItem value=&quot;approved&quot;>Approved</SelectItem>
+                    <SelectItem value=&quot;in_progress&quot;>In Progress</SelectItem>
+                    <SelectItem value=&quot;completed&quot;>Completed</SelectItem>
+                    <SelectItem value=&quot;cancelled&quot;>Cancelled</SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>
@@ -160,36 +160,36 @@ export default function BookingsFilter() {
           {/* Date From */}
           <FormField
             control={form.control}
-            name="dateFrom"
+            name=&quot;dateFrom&quot;
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className=&quot;flex flex-col&quot;>
                 <FormLabel>Date From</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant={"outline"}
+                        variant={&quot;outline&quot;}
                         className={cn(
-                          "w-full pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
+                          &quot;w-full pl-3 text-left font-normal&quot;,
+                          !field.value && &quot;text-muted-foreground&quot;,
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, &quot;PPP&quot;)
                         ) : (
                           <span>Select date</span>
                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
                     <Calendar
-                      mode="single"
+                      mode=&quot;single&quot;
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
+                        date > new Date() || date < new Date(&quot;1900-01-01&quot;)
                       }
                       initialFocus
                     />
@@ -202,38 +202,38 @@ export default function BookingsFilter() {
           {/* Date To */}
           <FormField
             control={form.control}
-            name="dateTo"
+            name=&quot;dateTo&quot;
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className=&quot;flex flex-col&quot;>
                 <FormLabel>Date To</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant={"outline"}
+                        variant={&quot;outline&quot;}
                         className={cn(
-                          "w-full pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
+                          &quot;w-full pl-3 text-left font-normal&quot;,
+                          !field.value && &quot;text-muted-foreground&quot;,
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, &quot;PPP&quot;)
                         ) : (
                           <span>Select date</span>
                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
                     <Calendar
-                      mode="single"
+                      mode=&quot;single&quot;
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) =>
                         date <
-                          (form.watch("dateFrom") || new Date("1900-01-01")) ||
-                        date < new Date("1900-01-01")
+                          (form.watch(&quot;dateFrom&quot;) || new Date(&quot;1900-01-01&quot;)) ||
+                        date < new Date(&quot;1900-01-01&quot;)
                       }
                       initialFocus
                     />
@@ -246,15 +246,15 @@ export default function BookingsFilter() {
           {/* Location */}
           <FormField
             control={form.control}
-            name="location"
+            name=&quot;location&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Filter by location..."
+                    placeholder=&quot;Filter by location...&quot;
                     {...field}
-                    className="w-full"
+                    className=&quot;w-full&quot;
                   />
                 </FormControl>
               </FormItem>
@@ -262,17 +262,17 @@ export default function BookingsFilter() {
           />
         </div>
 
-        <div className="flex gap-2 justify-end">
+        <div className=&quot;flex gap-2 justify-end&quot;>
           <Button
-            type="button"
-            variant="outline"
+            type=&quot;button&quot;
+            variant=&quot;outline&quot;
             onClick={resetFilters}
-            className="gap-1"
+            className=&quot;gap-1&quot;
           >
-            <X className="h-4 w-4" />
+            <X className=&quot;h-4 w-4&quot; />
             Clear Filters
           </Button>
-          <Button type="submit">Apply Filters</Button>
+          <Button type=&quot;submit">Apply Filters</Button>
         </div>
       </form>
     </Form>

@@ -1,7 +1,7 @@
 /**
  * Locations Service - Business logic for location management
  */
-import { LocationRepository } from "./repository";
+import { LocationRepository } from &quot;./repository&quot;;
 import {
   LocationDTO,
   CreateLocationParams,
@@ -11,7 +11,7 @@ import {
   createLocationSchema,
   updateLocationSchema,
   LocationStatus,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class LocationsService {
   private repository: LocationRepository;
@@ -29,7 +29,7 @@ export class LocationsService {
     try {
       return this.repository.findAll(filters);
     } catch (error) {
-      console.error("LocationsService.getAllLocations error:", error);
+      console.error(&quot;LocationsService.getAllLocations error:&quot;, error);
       throw error;
     }
   }
@@ -64,7 +64,7 @@ export class LocationsService {
       // Create location
       return this.repository.create(validatedData, organizationId, requesterId);
     } catch (error) {
-      console.error("LocationsService.createLocation error:", error);
+      console.error(&quot;LocationsService.createLocation error:&quot;, error);
       throw error;
     }
   }
@@ -178,9 +178,9 @@ export class LocationsService {
       if (
         reason === undefined ||
         reason === null ||
-        (typeof reason === "string" && reason.trim() === "")
+        (typeof reason === &quot;string&quot; && reason.trim() === "&quot;)
       ) {
-        rejectionReason = "No reason provided";
+        rejectionReason = &quot;No reason provided";
       }
 
       // Update location with rejected status

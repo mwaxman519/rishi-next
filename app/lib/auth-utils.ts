@@ -3,16 +3,16 @@
  * by re-exporting functions from the appropriate auth module based on the runtime
  */
 
-import type { JwtPayload } from "./auth-server";
-import { jwtVerify } from "jose";
-import { cookies } from "next/headers";
-import { UserRole } from "../../shared/rbac/roles";
+import type { JwtPayload } from &quot;./auth-server&quot;;
+import { jwtVerify } from &quot;jose&quot;;
+import { cookies } from &quot;next/headers&quot;;
+import { UserRole } from &quot;../../shared/rbac/roles&quot;;
 
 // Export all server-side functions
-export { hashPassword, comparePasswords } from "./auth-server";
+export { hashPassword, comparePasswords } from &quot;./auth-server&quot;;
 
 // Export types properly with export type
-export type { JwtPayload } from "./auth-server";
+export type { JwtPayload } from &quot;./auth-server&quot;;
 
 /**
  * Verifies a JWT token and returns the payload if valid
@@ -25,7 +25,7 @@ export async function verifyJwt(token: string): Promise<JwtPayload | null> {
     // Get the JWT secret from environment variables - NO FALLBACK
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      throw new Error("JWT_SECRET environment variable is required");
+      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
     }
 
     // Verify the token
@@ -44,7 +44,7 @@ export async function verifyJwt(token: string): Promise<JwtPayload | null> {
 
     return customPayload;
   } catch (error) {
-    console.error("JWT verification failed:", error);
+    console.error(&quot;JWT verification failed:&quot;, error);
     return null;
   }
 }
@@ -58,7 +58,7 @@ export async function getCurrentUser(): Promise<JwtPayload | null> {
   try {
     // Get the auth token from cookies
     const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
+    const token = cookieStore.get(&quot;auth_token&quot;)?.value;
 
     if (!token) {
       return null;
@@ -67,7 +67,7 @@ export async function getCurrentUser(): Promise<JwtPayload | null> {
     // Verify the token
     return verifyJwt(token);
   } catch (error) {
-    console.error("Error getting current user:", error);
+    console.error(&quot;Error getting current user:&quot;, error);
     return null;
   }
 }

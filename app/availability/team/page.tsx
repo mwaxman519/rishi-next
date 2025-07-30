@@ -1,12 +1,12 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthorization } from "@/hooks/useAuthorization";
-import { USER_ROLES } from "../../../shared/rbac/roles";
-import Link from "next/link";
-import * as userService from "../../services/users/userService";
-import { UserProfile } from "../../services/users/models";
+import { useEffect, useState } from &quot;react&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+import { USER_ROLES } from &quot;../../../shared/rbac/roles&quot;;
+import Link from &quot;next/link&quot;;
+import * as userService from &quot;../../services/users/userService&quot;;
+import { UserProfile } from &quot;../../services/users/models&quot;;
 
 export default function TeamAvailabilityPage() {
   const { user } = useAuth();
@@ -18,13 +18,13 @@ export default function TeamAvailabilityPage() {
     const loadTeamMembers = async () => {
       setIsLoading(true);
       try {
-        console.log("[team/page.tsx] Loading team members...");
+        console.log(&quot;[team/page.tsx] Loading team members...&quot;);
 
         // Load agents using direct service call
         const agentsResponse = await userService.getUsersByRole(
           USER_ROLES.BRAND_AGENT,
         );
-        console.log("[team/page.tsx] Agents response:", agentsResponse);
+        console.log(&quot;[team/page.tsx] Agents response:&quot;, agentsResponse);
 
         if (agentsResponse.success && agentsResponse.data) {
           // Set just the agents first
@@ -32,7 +32,7 @@ export default function TeamAvailabilityPage() {
 
           // If user is admin, also get managers and combine
           if (isAtLeastRole(USER_ROLES.INTERNAL_ADMIN)) {
-            console.log("[team/page.tsx] User is admin, fetching managers too");
+            console.log(&quot;[team/page.tsx] User is admin, fetching managers too&quot;);
             const managersResponse = await userService.getUsersByRole(
               USER_ROLES.INTERNAL_FIELD_MANAGER,
             );
@@ -58,7 +58,7 @@ export default function TeamAvailabilityPage() {
           );
         }
       } catch (error) {
-        console.error("[team/page.tsx] Failed to load team members:", error);
+        console.error(&quot;[team/page.tsx] Failed to load team members:&quot;, error);
       } finally {
         setIsLoading(false);
       }
@@ -72,13 +72,13 @@ export default function TeamAvailabilityPage() {
   }, [user, isAtLeastRole]);
 
   // Check if user has permission to view this page
-  if (!user || !checkPermission("view:users")) {
+  if (!user || !checkPermission(&quot;view:users&quot;)) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Team Availability</h1>
-        <div className="bg-red-50 border border-red-200 p-4 rounded">
-          <p className="text-red-700">
-            You don't have permission to view this page. Please contact your
+      <div className=&quot;p-6&quot;>
+        <h1 className=&quot;text-2xl font-bold mb-6&quot;>Team Availability</h1>
+        <div className=&quot;bg-red-50 border border-red-200 p-4 rounded&quot;>
+          <p className=&quot;text-red-700&quot;>
+            You don&apos;t have permission to view this page. Please contact your
             administrator.
           </p>
         </div>
@@ -87,20 +87,20 @@ export default function TeamAvailabilityPage() {
   }
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Team Availability</h1>
-        <div className="flex space-x-3">
+    <div className=&quot;p-6&quot;>
+      <div className=&quot;flex justify-between items-center mb-6&quot;>
+        <h1 className=&quot;text-2xl font-bold&quot;>Team Availability</h1>
+        <div className=&quot;flex space-x-3&quot;>
           <Link
-            href="/availability"
-            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition"
+            href=&quot;/availability&quot;
+            className=&quot;px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition&quot;
           >
             Back to Availability
           </Link>
           {isAtLeastRole(USER_ROLES.INTERNAL_ADMIN) && (
             <Link
-              href="/users/agents"
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition"
+              href=&quot;/users/agents&quot;
+              className=&quot;px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition&quot;
             >
               Manage Agents
             </Link>
@@ -109,29 +109,29 @@ export default function TeamAvailabilityPage() {
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className=&quot;flex justify-center items-center h-64&quot;>
+          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
         </div>
       ) : (
         <>
           {/* Team management tools - different for manager vs admin */}
           {isAtLeastRole(USER_ROLES.INTERNAL_FIELD_MANAGER) && (
-            <div className="mb-6 bg-gray-50 p-4 rounded">
-              <h2 className="text-lg font-semibold mb-2">
+            <div className=&quot;mb-6 bg-gray-50 p-4 rounded&quot;>
+              <h2 className=&quot;text-lg font-semibold mb-2&quot;>
                 Team Management Tools
               </h2>
-              <div className="flex flex-wrap gap-2">
-                <button className="px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50">
+              <div className=&quot;flex flex-wrap gap-2&quot;>
+                <button className=&quot;px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50&quot;>
                   Bulk Set Availability
                 </button>
-                <button className="px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50">
+                <button className=&quot;px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50&quot;>
                   Import Schedule
                 </button>
-                <button className="px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50">
+                <button className=&quot;px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50&quot;>
                   Export Schedule
                 </button>
                 {isAtLeastRole(USER_ROLES.INTERNAL_ADMIN) && (
-                  <button className="px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50">
+                  <button className=&quot;px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-50&quot;>
                     System Settings
                   </button>
                 )}
@@ -140,23 +140,23 @@ export default function TeamAvailabilityPage() {
           )}
 
           {/* Team members grid */}
-          <div className="mb-6">
-            <h2 className="text-lg font-semibold mb-4">Team Members</h2>
+          <div className=&quot;mb-6&quot;>
+            <h2 className=&quot;text-lg font-semibold mb-4&quot;>Team Members</h2>
 
             {agents.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4&quot;>
                 {agents.map((agent) => (
                   <div
                     key={agent.id}
-                    className="border rounded-lg p-4 bg-white hover:shadow-md transition"
+                    className=&quot;border rounded-lg p-4 bg-white hover:shadow-md transition&quot;
                   >
-                    <div className="flex items-center mb-4">
-                      <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 mr-4">
+                    <div className=&quot;flex items-center mb-4&quot;>
+                      <div className=&quot;w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 mr-4&quot;>
                         {agent.profileImage ? (
                           <img
                             src={agent.profileImage}
                             alt={agent.fullName || agent.username}
-                            className="w-full h-full rounded-full object-cover"
+                            className=&quot;w-full h-full rounded-full object-cover&quot;
                           />
                         ) : (
                           <span>
@@ -167,25 +167,25 @@ export default function TeamAvailabilityPage() {
                         )}
                       </div>
                       <div>
-                        <div className="font-medium">
+                        <div className=&quot;font-medium&quot;>
                           {agent.fullName || agent.username}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className=&quot;text-sm text-gray-500&quot;>
                           {agent.username}
                         </div>
                       </div>
                     </div>
 
-                    <div className="flex justify-between mt-4">
+                    <div className=&quot;flex justify-between mt-4&quot;>
                       <Link
                         href={`/availability/team/${agent.id}`}
-                        className="text-primary hover:underline text-sm"
+                        className=&quot;text-primary hover:underline text-sm&quot;
                       >
                         View Availability
                       </Link>
 
                       {isAtLeastRole(USER_ROLES.INTERNAL_FIELD_MANAGER) && (
-                        <button className="text-sm text-gray-500 hover:text-gray-700">
+                        <button className=&quot;text-sm text-gray-500 hover:text-gray-700&quot;>
                           Set Availability
                         </button>
                       )}
@@ -194,21 +194,21 @@ export default function TeamAvailabilityPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500">
+              <p className=&quot;text-gray-500&quot;>
                 No agents found. Please add agents to view team availability.
               </p>
             )}
           </div>
 
           {/* Team calendar view button */}
-          <div className="mb-6">
+          <div className=&quot;mb-6&quot;>
             <Link
-              href="/availability/team/calendar"
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition"
+              href=&quot;/availability/team/calendar&quot;
+              className=&quot;px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition&quot;
             >
               View Team Calendar
             </Link>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className=&quot;text-sm text-gray-500 mt-2&quot;>
               View a combined calendar of all team members' availability.
             </p>
           </div>

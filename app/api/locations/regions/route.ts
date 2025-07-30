@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { getServerSession } from &quot;next-auth&quot;;
+import { authOptions } from &quot;@/lib/auth-options&quot;;
 
 /**
  * GET /api/locations/regions
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     if (!session?.user) {
       return NextResponse.json(
-        { error: "Authentication required" },
+        { error: &quot;Authentication required&quot; },
         { status: 401 },
       );
     }
@@ -25,22 +25,22 @@ export async function GET(request: NextRequest) {
     // In a real implementation, this would query the database for regions
     // Mock regions for example purpose - replace with real data from database
     const regions = [
-      { id: "northeast", name: "Northeast", count: 12 },
-      { id: "southeast", name: "Southeast", count: 18 },
-      { id: "midwest", name: "Midwest", count: 14 },
-      { id: "southwest", name: "Southwest", count: 9 },
-      { id: "west", name: "West", count: 15 },
-      { id: "northwest", name: "Northwest", count: 7 },
-      { id: "central", name: "Central", count: 11 },
-      { id: "atlantic", name: "Atlantic", count: 8 },
-      { id: "pacific", name: "Pacific", count: 10 },
+      { id: &quot;northeast&quot;, name: &quot;Northeast&quot;, count: 12 },
+      { id: &quot;southeast&quot;, name: &quot;Southeast&quot;, count: 18 },
+      { id: &quot;midwest&quot;, name: &quot;Midwest&quot;, count: 14 },
+      { id: &quot;southwest&quot;, name: &quot;Southwest&quot;, count: 9 },
+      { id: &quot;west&quot;, name: &quot;West&quot;, count: 15 },
+      { id: &quot;northwest&quot;, name: &quot;Northwest&quot;, count: 7 },
+      { id: &quot;central&quot;, name: &quot;Central&quot;, count: 11 },
+      { id: &quot;atlantic&quot;, name: &quot;Atlantic&quot;, count: 8 },
+      { id: &quot;pacific&quot;, name: &quot;Pacific&quot;, count: 10 },
     ];
 
     return NextResponse.json({ regions });
   } catch (error) {
-    console.error("Error retrieving regions:", error);
+    console.error(&quot;Error retrieving regions:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to retrieve regions" },
+      { error: &quot;Failed to retrieve regions&quot; },
       { status: 500 },
     );
   }

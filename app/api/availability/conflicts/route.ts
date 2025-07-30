@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 import {
   AvailabilityConflict,
   AvailabilityDTO,
   ConflictCheckResponse,
-} from "../../../services/availability/models";
-import { db } from "@/lib/db";
-import { availabilityBlocks } from "@shared/schema";
-import { and, eq, sql } from "drizzle-orm";
+} from &quot;../../../services/availability/models&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { availabilityBlocks } from &quot;@shared/schema&quot;;
+import { and, eq, sql } from &quot;drizzle-orm&quot;;
 
 /**
  * GET /api/availability/conflicts - Check for conflicts with existing availability blocks
@@ -21,15 +21,15 @@ import { and, eq, sql } from "drizzle-orm";
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const userId = (searchParams.get("userId") || undefined) || undefined;
-    const startDate = (searchParams.get("startDate") || undefined) || undefined;
-    const endDate = (searchParams.get("endDate") || undefined) || undefined;
-    const excludeBlockIdStr = (searchParams.get("excludeBlockId") || undefined) || undefined;
+    const userId = (searchParams.get(&quot;userId&quot;) || undefined) || undefined;
+    const startDate = (searchParams.get(&quot;startDate&quot;) || undefined) || undefined;
+    const endDate = (searchParams.get(&quot;endDate&quot;) || undefined) || undefined;
+    const excludeBlockIdStr = (searchParams.get(&quot;excludeBlockId&quot;) || undefined) || undefined;
 
     if (!userId || !startDate || !endDate) {
       const errorResponse: ConflictCheckResponse = {
         success: false,
-        error: "userId, startDate, and endDate are required",
+        error: &quot;userId, startDate, and endDate are required&quot;,
       };
       return NextResponse.json(errorResponse, { status: 400 });
     }
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     ) {
       const errorResponse: ConflictCheckResponse = {
         success: false,
-        error: "userId and excludeBlockId must be valid numbers",
+        error: &quot;userId and excludeBlockId must be valid numbers&quot;,
       };
       return NextResponse.json(errorResponse, { status: 400 });
     }
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       // Process conflicts
       const conflicts = conflictingBlocks.map((block: any) => {
-        let conflictType: "overlap" | "adjacent" | "contained" = "overlap";
+        let conflictType: &quot;overlap&quot; | &quot;adjacent&quot; | &quot;contained&quot; = &quot;overlap&quot;;
 
         const blockStart = new Date(block.start_date);
         const blockEnd = new Date(block.end_date);
@@ -88,14 +88,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
         // Check if new block is entirely contained within existing block
         if (newStart >= blockStart && newEnd <= blockEnd) {
-          conflictType = "contained";
+          conflictType = &quot;contained&quot;;
         }
         // Check if blocks are adjacent (might want to allow this)
         else if (
           Math.abs(newStart.getTime() - blockEnd.getTime()) < 1000 ||
           Math.abs(newEnd.getTime() - blockStart.getTime()) < 1000
         ) {
-          conflictType = "adjacent";
+          conflictType = &quot;adjacent&quot;;
         }
 
         // Map to the expected DTO format
@@ -103,10 +103,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           existingBlock: {
             id: block.id,
             userId: block.user_id,
-            title: block.title || "",
+            title: block.title || "&quot;,
             startDate: block.start_date,
             endDate: block.end_date,
-            status: block.status || "available",
+            status: block.status || &quot;available&quot;,
             isRecurring: block.is_recurring || false,
             recurrencePattern: block.recurrence_pattern,
             dayOfWeek: block.day_of_week,
@@ -128,18 +128,18 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
       return NextResponse.json(response, { status: 200 });
     } catch (err) {
-      console.error("Database error checking for conflicts:", err);
+      console.error(&quot;Database error checking for conflicts:&quot;, err);
       const errorResponse: ConflictCheckResponse = {
         success: false,
-        error: "Database error checking for conflicts",
+        error: &quot;Database error checking for conflicts&quot;,
       };
       return NextResponse.json(errorResponse, { status: 500 });
     }
   } catch (error) {
-    console.error("Error checking for conflicts:", error);
+    console.error(&quot;Error checking for conflicts:&quot;, error);
     const errorResponse: ConflictCheckResponse = {
       success: false,
-      error: "Failed to check for conflicts",
+      error: &quot;Failed to check for conflicts&quot;,
     };
     return NextResponse.json(errorResponse, { status: 500 });
   }
@@ -160,14 +160,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (!userId || !startDate || !endDate) {
       const errorResponse: ConflictCheckResponse = {
         success: false,
-        error: "userId, startDate, and endDate are required",
+        error: &quot;userId, startDate, and endDate are required&quot;,
       };
       return NextResponse.json(errorResponse, { status: 400 });
     }
 
     try {
-      // Convert userId to number if it's a string
-      const userIdString = typeof userId === "string" ? userId : userId;
+      // Convert userId to number if it&apos;s a string
+      const userIdString = typeof userId === &quot;string&quot; ? userId : userId;
 
       console.log(
         `[conflicts/route POST] Checking conflicts for userId=${userIdString}, startDate=${startDate}, endDate=${endDate}`,
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       // Process conflicts
       const conflicts = conflictingBlocks.map((block: any) => {
-        let conflictType: "overlap" | "adjacent" | "contained" = "overlap";
+        let conflictType: &quot;overlap&quot; | &quot;adjacent&quot; | &quot;contained&quot; = &quot;overlap&quot;;
 
         const blockStart = new Date(block.start_date);
         const blockEnd = new Date(block.end_date);
@@ -206,14 +206,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
         // Check if new block is entirely contained within existing block
         if (newStart >= blockStart && newEnd <= blockEnd) {
-          conflictType = "contained";
+          conflictType = &quot;contained&quot;;
         }
         // Check if blocks are adjacent (might want to allow this)
         else if (
           Math.abs(newStart.getTime() - blockEnd.getTime()) < 1000 ||
           Math.abs(newEnd.getTime() - blockStart.getTime()) < 1000
         ) {
-          conflictType = "adjacent";
+          conflictType = &quot;adjacent&quot;;
         }
 
         // Map to the expected DTO format
@@ -221,10 +221,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           existingBlock: {
             id: block.id,
             userId: block.user_id,
-            title: block.title || "",
+            title: block.title || &quot;&quot;,
             startDate: block.start_date,
             endDate: block.end_date,
-            status: block.status || "available",
+            status: block.status || &quot;available&quot;,
             isRecurring: block.is_recurring || false,
             recurrencePattern: block.recurrence_pattern,
             dayOfWeek: block.day_of_week,
@@ -246,18 +246,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       return NextResponse.json(response, { status: 200 });
     } catch (err) {
-      console.error("Database error checking for conflicts:", err);
+      console.error(&quot;Database error checking for conflicts:&quot;, err);
       const errorResponse: ConflictCheckResponse = {
         success: false,
-        error: "Database error checking for conflicts",
+        error: &quot;Database error checking for conflicts&quot;,
       };
       return NextResponse.json(errorResponse, { status: 500 });
     }
   } catch (error) {
-    console.error("Error checking for conflicts:", error);
+    console.error(&quot;Error checking for conflicts:&quot;, error);
     const errorResponse: ConflictCheckResponse = {
       success: false,
-      error: "Failed to check for conflicts",
+      error: &quot;Failed to check for conflicts",
     };
     return NextResponse.json(errorResponse, { status: 500 });
   }

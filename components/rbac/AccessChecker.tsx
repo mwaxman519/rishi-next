@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useContext } from "react";
-import { RBACContext } from "@/components/../contexts/RBACProvider";
-import { Permission } from "@/components/../lib/rbac";
+import React, { useContext } from &quot;react&quot;;
+import { RBACContext } from &quot;@/components/../contexts/RBACProvider&quot;;
+import { Permission } from &quot;@/components/../lib/rbac&quot;;
 
 interface AccessCheckerProps {
   permission: Permission;
@@ -39,30 +39,30 @@ interface AccessDeniedProps {
  * Component to display when access is denied
  */
 export function AccessDenied({
-  message = "You don't have permission to access this resource",
-  className = "",
+  message = &quot;You don&apos;t have permission to access this resource&quot;,
+  className = "&quot;,
 }: AccessDeniedProps) {
   return (
     <div
       className={`bg-red-50 border border-red-200 text-red-800 rounded-md p-4 ${className}`}
     >
-      <div className="flex">
-        <div className="flex-shrink-0">
+      <div className=&quot;flex&quot;>
+        <div className=&quot;flex-shrink-0&quot;>
           <svg
-            className="h-5 w-5 text-red-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            className=&quot;h-5 w-5 text-red-400&quot;
+            viewBox=&quot;0 0 20 20&quot;
+            fill=&quot;currentColor&quot;
           >
             <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-              clipRule="evenodd"
+              fillRule=&quot;evenodd&quot;
+              d=&quot;M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z&quot;
+              clipRule=&quot;evenodd&quot;
             />
           </svg>
         </div>
-        <div className="ml-3">
-          <h3 className="text-sm font-medium text-red-800">Access Denied</h3>
-          <div className="mt-1 text-sm text-red-700">{message}</div>
+        <div className=&quot;ml-3&quot;>
+          <h3 className=&quot;text-sm font-medium text-red-800&quot;>Access Denied</h3>
+          <div className=&quot;mt-1 text-sm text-red-700">{message}</div>
         </div>
       </div>
     </div>

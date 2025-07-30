@@ -1,25 +1,25 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { BookingService } from "@/services/BookingService";
-import { checkPermission } from "@/lib/rbac";
-import { getOrganizationHeaderData } from "@/lib/organization-context";
-import { z } from "zod";
-import { BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
+import { BookingService } from &quot;@/services/BookingService&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { getOrganizationHeaderData } from &quot;@/lib/organization-context&quot;;
+import { z } from &quot;zod&quot;;
+import { BOOKING_STATUS, BOOKING_PRIORITY } from &quot;@shared/schema&quot;;
 
 // Cannabis Booking Creation Schema
 const CreateCannabisBookingSchema = z.object({
   title: z.string().min(1),
   cannabisBookingType: z.enum([
-    "product_demo",
-    "promotional_event",
-    "party_staffing",
-    "staff_training",
+    &quot;product_demo&quot;,
+    &quot;promotional_event&quot;,
+    &quot;party_staffing&quot;,
+    &quot;staff_training&quot;,
   ]),
   description: z.string().min(1),
-  priority: z.enum(["low", "medium", "high", "urgent"]),
+  priority: z.enum([&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;, &quot;urgent&quot;]),
   state: z.string(),
   region: z.string(),
   city: z.string(),
@@ -30,22 +30,22 @@ const CreateCannabisBookingSchema = z.object({
   timezone: z.string(),
   cannabisProducts: z.array(z.string()),
   targetAudience: z.enum([
-    "medical_patients",
-    "recreational_consumers",
-    "industry_professionals",
-    "general_public",
+    &quot;medical_patients&quot;,
+    &quot;recreational_consumers&quot;,
+    &quot;industry_professionals&quot;,
+    &quot;general_public&quot;,
   ]),
   estimatedAttendees: z.number(),
   consumptionAllowed: z.boolean(),
   ageVerificationRequired: z.boolean(),
   estimatedCost: z.number(),
   budget: z.number(),
-  currency: z.string().default("USD"),
+  currency: z.string().default(&quot;USD&quot;),
   minimumExperience: z.enum([
-    "entry_level",
-    "intermediate",
-    "experienced",
-    "expert",
+    &quot;entry_level&quot;,
+    &quot;intermediate&quot;,
+    &quot;experienced&quot;,
+    &quot;expert&quot;,
   ]),
   requiredSkills: z.array(z.string()),
   totalStaffNeeded: z.number(),
@@ -73,16 +73,16 @@ export async function GET(request: NextRequest) {
     const organizationData = await getOrganizationHeaderData(request);
 
     // Step 2: Check permissions using RBAC system
-    const hasPermission = await checkPermission(request, "read:staff");
+    const hasPermission = await checkPermission(request, &quot;read:staff&quot;);
     if (!hasPermission) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Step 3: Service Layer (includes Event Publishing)
     const bookingService = BookingService.getInstance();
     // Use organization data from headers for context
-    const organizationId = organizationData?.organizationId || "ec83b1b1-af6e-4465-806e-8d51a1449e86";
-    const userId = organizationData?.userId || "default-user";
+    const organizationId = organizationData?.organizationId || &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;;
+    const userId = organizationData?.userId || &quot;default-user&quot;;
     
     const allBookings = await bookingService.getAllBookings(
       userId,
@@ -92,10 +92,10 @@ export async function GET(request: NextRequest) {
 
     // Get query parameters for filtering
     const { searchParams } = new URL(request.url);
-    const status = (searchParams.get("status") || undefined) || undefined;
-    const filterOrganizationId = (searchParams.get("organizationId") || undefined) || undefined;
-    const startDate = (searchParams.get("startDate") || undefined) || undefined;
-    const endDate = (searchParams.get("endDate") || undefined) || undefined;
+    const status = (searchParams.get(&quot;status&quot;) || undefined) || undefined;
+    const filterOrganizationId = (searchParams.get(&quot;organizationId&quot;) || undefined) || undefined;
+    const startDate = (searchParams.get(&quot;startDate&quot;) || undefined) || undefined;
+    const endDate = (searchParams.get(&quot;endDate&quot;) || undefined) || undefined;
 
     // Apply filters
     let filteredBookings = [...allBookings];
@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (filterOrganizationId) {
-    const orgIds = filterOrganizationId.split(",");
+    const orgIds = filterOrganizationId.split(&quot;,&quot;);
     filteredBookings = filteredBookings.filter((b) =>
       orgIds.includes(b.clientOrganizationId),
     );
@@ -135,13 +135,13 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error("Error in GET /api/bookings:", error);
+    console.error(&quot;Error in GET /api/bookings:&quot;, error);
     return NextResponse.json(
       { 
         success: false,
         error: {
-          code: "BOOKINGS_FETCH_ERROR",
-          message: "Failed to fetch bookings",
+          code: &quot;BOOKINGS_FETCH_ERROR&quot;,
+          message: &quot;Failed to fetch bookings&quot;,
           correlationId
         }
       },
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
     // Step 1: Authentication
     const user = await getCurrentUser(request);
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Step 2: Authorization Check (basic permission check)
@@ -184,15 +184,15 @@ export async function POST(request: NextRequest) {
       }
     }, { status: 201 });
   } catch (error) {
-    console.error("Error in POST /api/bookings:", error);
+    console.error(&quot;Error in POST /api/bookings:&quot;, error);
 
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { 
           success: false,
           error: {
-            code: "VALIDATION_ERROR",
-            message: "Invalid request data",
+            code: &quot;VALIDATION_ERROR&quot;,
+            message: &quot;Invalid request data&quot;,
             details: error.errors,
             correlationId
           }
@@ -205,8 +205,8 @@ export async function POST(request: NextRequest) {
       { 
         success: false,
         error: {
-          code: "BOOKING_CREATE_ERROR",
-          message: "Failed to create booking",
+          code: &quot;BOOKING_CREATE_ERROR&quot;,
+          message: &quot;Failed to create booking&quot;,
           correlationId
         }
       },

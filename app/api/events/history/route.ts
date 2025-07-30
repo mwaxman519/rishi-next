@@ -8,7 +8,7 @@ import { hybridEventBus } from '../../../../services/infrastructure/messaging/hy
 import { getCurrentUser } from '../../../../lib/auth-server';
 import { hasPermission } from '../../../../lib/permissions';
 
-export const dynamic = "force-dynamic";
+export const dynamic = &quot;force-dynamic&quot;;
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {

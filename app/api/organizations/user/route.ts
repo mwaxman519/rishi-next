@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "@/lib/auth-server";
-import { db } from "../../../../lib/db-connection";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getCurrentAuthUser } from &quot;@/lib/auth-server&quot;;
+import { db } from &quot;../../../../lib/db-connection&quot;;
 
 /**
  * Fetch organizations for the current user
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
     // Check if user is authenticated
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     try {
@@ -37,16 +37,16 @@ export async function GET(req: NextRequest) {
         id: org.id,
         name: org.name,
         type: org.type,
-        tier: org.tier || "tier_1",
-        role: "super_admin", // Development mode: super_admin access to all organizations
-        isDefault: org.name === "Rishi Internal",
+        tier: org.tier || &quot;tier_1&quot;,
+        role: &quot;super_admin&quot;, // Development mode: super_admin access to all organizations
+        isDefault: org.name === &quot;Rishi Internal&quot;,
       }));
 
       // Find the default organization or use Rishi Internal
       let defaultOrg = userOrganizations.find((org: any) => org.isDefault);
       if (!defaultOrg) {
         defaultOrg = userOrganizations.find(
-          (org: any) => org.name === "Rishi Internal",
+          (org: any) => org.name === &quot;Rishi Internal&quot;,
         );
       }
       if (!defaultOrg && userOrganizations.length > 0) {
@@ -58,18 +58,18 @@ export async function GET(req: NextRequest) {
         defaultOrganization: defaultOrg || null,
       });
     } catch (dbError) {
-      console.error("Database error in user organizations:", dbError);
+      console.error(&quot;Database error in user organizations:&quot;, dbError);
 
       // Throw database error instead of returning mock data
       throw dbError;
     }
   } catch (error) {
-    console.error("Error fetching user organizations:", error);
+    console.error(&quot;Error fetching user organizations:&quot;, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: &quot;Internal server error&quot; },
       { status: 500 },
     );
   }
 }
 
-export const dynamic = "force-dynamic";
+export const dynamic = &quot;force-dynamic&quot;;

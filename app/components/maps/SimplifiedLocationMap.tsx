@@ -1,16 +1,16 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useCallback, useEffect } from "react";
-import { useTheme } from "next-themes";
-import { useQuery } from "@tanstack/react-query";
-import { Loader2, MapPin, AlertTriangle } from "lucide-react";
-import { Loader } from "@googlemaps/js-api-loader";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import React, { useState, useCallback, useEffect } from &quot;react&quot;;
+import { useTheme } from &quot;next-themes&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
+import { Loader2, MapPin, AlertTriangle } from &quot;lucide-react&quot;;
+import { Loader } from &quot;@googlemaps/js-api-loader&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Card } from &quot;@/components/ui/card&quot;;
 import {
   getGoogleMapsLoaderConfig,
   getGoogleMapsOptions,
-} from "@/config/google-maps";
+} from &quot;@/config/google-maps&quot;;
 
 interface Location {
   id: string;
@@ -38,8 +38,8 @@ interface SimplifiedLocationMapProps {
 export function SimplifiedLocationMap({
   selectedLocationId = null,
   onSelectLocation,
-  height = "100%",
-  width = "100%",
+  height = &quot;100%&quot;,
+  width = &quot;100%&quot;,
   zoom = 10,
   showControls = true,
 }: SimplifiedLocationMapProps) {
@@ -68,11 +68,11 @@ export function SimplifiedLocationMap({
     isLoading,
     error,
   } = useQuery<Location[]>({
-    queryKey: ["/api/admin/locations"],
+    queryKey: [&quot;/api/admin/locations&quot;],
     queryFn: async () => {
-      const res = await fetch("/api/admin/locations");
+      const res = await fetch(&quot;/api/admin/locations&quot;);
       if (!res.ok) {
-        throw new Error("Failed to fetch locations");
+        throw new Error(&quot;Failed to fetch locations&quot;);
       }
       return res.json();
     },
@@ -96,8 +96,8 @@ export function SimplifiedLocationMap({
         setMapLoaded(true);
         setMapError(null);
       } catch (err) {
-        console.error("Error loading Google Maps:", err);
-        setMapError("Failed to load Google Maps. Please try again later.");
+        console.error(&quot;Error loading Google Maps:&quot;, err);
+        setMapError(&quot;Failed to load Google Maps. Please try again later.&quot;);
       }
     };
 
@@ -110,7 +110,7 @@ export function SimplifiedLocationMap({
 
     // Clear existing markers
     markers.forEach(({ marker }) => {
-      if ("map" in marker) {
+      if (&quot;map&quot; in marker) {
         marker.setMap(null);
       }
     });
@@ -136,24 +136,24 @@ export function SimplifiedLocationMap({
 
         // Try to use Advanced Marker, fall back to regular Marker if not available
         if (
-          "marker" in google.maps &&
-          "AdvancedMarkerElement" in google.maps.marker
+          &quot;marker&quot; in google.maps &&
+          &quot;AdvancedMarkerElement&quot; in google.maps.marker
         ) {
-          const markerElement = document.createElement("div");
-          markerElement.className = "marker-pin";
+          const markerElement = document.createElement(&quot;div&quot;);
+          markerElement.className = &quot;marker-pin&quot;;
           markerElement.innerHTML = `
-          <div class="flex items-center justify-center w-8 h-8 text-white rounded-full ${
-            location.status === "pending"
-              ? "bg-amber-500"
-              : location.status === "rejected"
-                ? "bg-red-500"
-                : location.status === "inactive"
-                  ? "bg-slate-500"
-                  : "bg-emerald-500"
-          } shadow-md border-2 border-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
+          <div class=&quot;flex items-center justify-center w-8 h-8 text-white rounded-full ${
+            location.status === &quot;pending&quot;
+              ? &quot;bg-amber-500&quot;
+              : location.status === &quot;rejected&quot;
+                ? &quot;bg-red-500&quot;
+                : location.status === &quot;inactive&quot;
+                  ? &quot;bg-slate-500&quot;
+                  : &quot;bg-emerald-500&quot;
+          } shadow-md border-2 border-white&quot;>
+            <svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;>
+              <path d=&quot;M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z&quot;></path>
+              <circle cx=&quot;12&quot; cy=&quot;10&quot; r=&quot;3&quot;></circle>
             </svg>
           </div>
         `;
@@ -173,16 +173,16 @@ export function SimplifiedLocationMap({
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
               fillColor:
-                location.status === "pending"
-                  ? "#f59e0b"
-                  : location.status === "rejected"
-                    ? "#ef4444"
-                    : location.status === "inactive"
-                      ? "#94a3b8"
-                      : "#10b981",
+                location.status === &quot;pending&quot;
+                  ? &quot;#f59e0b&quot;
+                  : location.status === &quot;rejected&quot;
+                    ? &quot;#ef4444&quot;
+                    : location.status === &quot;inactive&quot;
+                      ? &quot;#94a3b8&quot;
+                      : &quot;#10b981&quot;,
               fillOpacity: 1,
               strokeWeight: 2,
-              strokeColor: "#ffffff",
+              strokeColor: &quot;#ffffff&quot;,
               scale: 10,
             },
           });
@@ -191,20 +191,20 @@ export function SimplifiedLocationMap({
         // Create info window
         const infoWindow = new google.maps.InfoWindow({
           content: `
-          <div class="p-2 max-w-[250px]">
-            <h3 class="font-semibold text-sm">${location.name}</h3>
-            <p class="text-xs opacity-75 truncate">${location.address}</p>
-            <p class="text-xs opacity-75">${location.city}, ${location.state} ${location.zipCode}</p>
-            <div class="mt-1 text-xs">
-              <span class="inline-block px-1.5 py-0.5 rounded-full ${
-                location.status === "pending"
-                  ? "bg-amber-100 text-amber-800"
-                  : location.status === "rejected"
-                    ? "bg-red-100 text-red-800"
-                    : location.status === "inactive"
-                      ? "bg-slate-100 text-slate-800"
-                      : "bg-emerald-100 text-emerald-800"
-              }">
+          <div class=&quot;p-2 max-w-[250px]&quot;>
+            <h3 class=&quot;font-semibold text-sm&quot;>${location.name}</h3>
+            <p class=&quot;text-xs opacity-75 truncate&quot;>${location.address}</p>
+            <p class=&quot;text-xs opacity-75&quot;>${location.city}, ${location.state} ${location.zipCode}</p>
+            <div class=&quot;mt-1 text-xs&quot;>
+              <span class=&quot;inline-block px-1.5 py-0.5 rounded-full ${
+                location.status === &quot;pending&quot;
+                  ? &quot;bg-amber-100 text-amber-800&quot;
+                  : location.status === &quot;rejected&quot;
+                    ? &quot;bg-red-100 text-red-800&quot;
+                    : location.status === &quot;inactive&quot;
+                      ? &quot;bg-slate-100 text-slate-800&quot;
+                      : &quot;bg-emerald-100 text-emerald-800&quot;
+              }&quot;>
                 ${location.status.charAt(0).toUpperCase() + location.status.slice(1)}
               </span>
             </div>
@@ -214,12 +214,12 @@ export function SimplifiedLocationMap({
         });
 
         // Add click listener
-        if ("addListener" in marker) {
-          marker.addListener("click", () => {
+        if (&quot;addListener&quot; in marker) {
+          marker.addListener(&quot;click&quot;, () => {
             selectMarker(marker, location, infoWindow);
           });
         } else {
-          marker.addEventListener("click", () => {
+          marker.addEventListener(&quot;click&quot;, () => {
             selectMarker(marker, location, infoWindow);
           });
         }
@@ -238,7 +238,7 @@ export function SimplifiedLocationMap({
     if (newMarkers.length > 0) {
       map.fitBounds(bounds);
 
-      // If there's only one marker, zoom out a bit
+      // If there&apos;s only one marker, zoom out a bit
       if (newMarkers.length === 1) {
         map.setZoom(Math.min(14, map.getZoom() || 14));
       }
@@ -276,7 +276,7 @@ export function SimplifiedLocationMap({
 
       // Open the info window
       if (infoWindow && map) {
-        if ("position" in marker) {
+        if (&quot;position&quot; in marker) {
           infoWindow.open({
             map,
             anchor: marker,
@@ -299,10 +299,10 @@ export function SimplifiedLocationMap({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full w-full bg-muted/20">
-        <div className="flex flex-col items-center gap-2">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground">
+      <div className=&quot;flex items-center justify-center h-full w-full bg-muted/20&quot;>
+        <div className=&quot;flex flex-col items-center gap-2&quot;>
+          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
+          <p className=&quot;text-sm text-muted-foreground&quot;>
             Loading location data...
           </p>
         </div>
@@ -312,18 +312,18 @@ export function SimplifiedLocationMap({
 
   if (error || mapError) {
     return (
-      <div className="flex items-center justify-center h-full w-full bg-muted/10">
-        <Card className="p-4 max-w-md">
-          <div className="flex flex-col items-center gap-3 text-center">
-            <AlertTriangle className="h-8 w-8 text-amber-500" />
-            <h3 className="font-semibold">Map Error</h3>
-            <p className="text-sm text-muted-foreground mb-2">
+      <div className=&quot;flex items-center justify-center h-full w-full bg-muted/10&quot;>
+        <Card className=&quot;p-4 max-w-md&quot;>
+          <div className=&quot;flex flex-col items-center gap-3 text-center&quot;>
+            <AlertTriangle className=&quot;h-8 w-8 text-amber-500&quot; />
+            <h3 className=&quot;font-semibold&quot;>Map Error</h3>
+            <p className=&quot;text-sm text-muted-foreground mb-2&quot;>
               {mapError ||
-                "Failed to load location data. Please try again later."}
+                &quot;Failed to load location data. Please try again later.&quot;}
             </p>
             <Button
-              variant="outline"
-              size="sm"
+              variant=&quot;outline&quot;
+              size=&quot;sm&quot;
               onClick={() => {
                 setMapLoaded(false);
                 setMapError(null);
@@ -339,11 +339,11 @@ export function SimplifiedLocationMap({
 
   if (!locations || locations.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full w-full bg-muted/10">
-        <div className="flex flex-col items-center gap-2 p-4 max-w-md text-center">
-          <MapPin className="h-8 w-8 text-muted-foreground/50" />
-          <h3 className="font-semibold">No Locations</h3>
-          <p className="text-sm text-muted-foreground">
+      <div className=&quot;flex items-center justify-center h-full w-full bg-muted/10&quot;>
+        <div className=&quot;flex flex-col items-center gap-2 p-4 max-w-md text-center&quot;>
+          <MapPin className=&quot;h-8 w-8 text-muted-foreground/50&quot; />
+          <h3 className=&quot;font-semibold&quot;>No Locations</h3>
+          <p className=&quot;text-sm text-muted-foreground&quot;>
             No location data is currently available to display on the map.
           </p>
         </div>
@@ -355,7 +355,7 @@ export function SimplifiedLocationMap({
     <div
       ref={mapContainerRef}
       style={{ height, width }}
-      className="rounded-md overflow-hidden bg-muted/10"
+      className=&quot;rounded-md overflow-hidden bg-muted/10&quot;
     ></div>
   );
 }

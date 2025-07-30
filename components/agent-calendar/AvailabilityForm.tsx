@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { z } from "zod";
+import React, { useState } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { z } from &quot;zod&quot;;
 
 interface AvailabilityFormProps {
   userId: number;
@@ -11,13 +11,13 @@ interface AvailabilityFormProps {
 }
 
 const daysOfWeek = [
-  { value: 0, label: "Sunday" },
-  { value: 1, label: "Monday" },
-  { value: 2, label: "Tuesday" },
-  { value: 3, label: "Wednesday" },
-  { value: 4, label: "Thursday" },
-  { value: 5, label: "Friday" },
-  { value: 6, label: "Saturday" },
+  { value: 0, label: &quot;Sunday&quot; },
+  { value: 1, label: &quot;Monday&quot; },
+  { value: 2, label: &quot;Tuesday&quot; },
+  { value: 3, label: &quot;Wednesday&quot; },
+  { value: 4, label: &quot;Thursday&quot; },
+  { value: 5, label: &quot;Friday&quot; },
+  { value: 6, label: &quot;Saturday&quot; },
 ];
 
 type FormValues = {
@@ -25,7 +25,7 @@ type FormValues = {
   title: string;
   start_date: Date | string;
   end_date: Date | string;
-  status: "available" | "unavailable" | "tentative";
+  status: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   is_recurring: boolean;
   recurring: boolean;
   day_of_week: number;
@@ -36,22 +36,22 @@ type FormValues = {
 export default function AvailabilityForm({
   userId,
   onSuccess,
-  className = "",
+  className = "&quot;,
 }: AvailabilityFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formValues, setFormValues] = useState<FormValues>({
     user_id: userId,
-    title: "Available",
+    title: &quot;Available&quot;,
     start_date: new Date(),
     end_date: new Date(),
-    start_time: "09:00",
-    end_time: "17:00",
+    start_time: &quot;09:00&quot;,
+    end_time: &quot;17:00&quot;,
     day_of_week: 1, // Monday
     is_recurring: false,
     recurring: true,
-    status: "available",
+    status: &quot;available&quot;,
   });
 
   const handleChange = (
@@ -59,9 +59,9 @@ export default function AvailabilityForm({
   ) => {
     const { name, value, type } = e.target;
 
-    if (type === "checkbox") {
+    if (type === &quot;checkbox&quot;) {
       const checkbox = e.target as HTMLInputElement;
-      if (name === "recurring") {
+      if (name === &quot;recurring&quot;) {
         setFormValues({
           ...formValues,
           recurring: checkbox.checked,
@@ -73,7 +73,7 @@ export default function AvailabilityForm({
           [name]: checkbox.checked,
         });
       }
-    } else if (name === "day_of_week") {
+    } else if (name === &quot;day_of_week&quot;) {
       setFormValues({
         ...formValues,
         [name]: value ? parseInt(value) : 1, // Default to Monday if value is undefined
@@ -104,7 +104,7 @@ export default function AvailabilityForm({
       startDate.setDate(today.getDate() + daysToAdd);
 
       // Set the time from the form
-      const [startHours, startMinutes] = formValues.start_time.split(":");
+      const [startHours, startMinutes] = formValues.start_time.split(&quot;:&quot;);
       if (startHours && startMinutes) {
         startDate.setHours(parseInt(startHours), parseInt(startMinutes), 0, 0);
       } else {
@@ -112,7 +112,7 @@ export default function AvailabilityForm({
       }
 
       const endDate = new Date(startDate);
-      const [endHours, endMinutes] = formValues.end_time.split(":");
+      const [endHours, endMinutes] = formValues.end_time.split(&quot;:&quot;);
       if (endHours && endMinutes) {
         endDate.setHours(parseInt(endHours), parseInt(endMinutes), 0, 0);
       } else {
@@ -120,10 +120,10 @@ export default function AvailabilityForm({
       }
 
       // Check for time conflicts before submitting
-      const conflictsResponse = await fetch("/api/availability/conflicts", {
-        method: "POST",
+      const conflictsResponse = await fetch(&quot;/api/availability/conflicts&quot;, {
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify({
           userId: userId,
@@ -133,7 +133,7 @@ export default function AvailabilityForm({
       });
 
       if (!conflictsResponse.ok) {
-        throw new Error("Failed to check for availability conflicts");
+        throw new Error(&quot;Failed to check for availability conflicts&quot;);
       }
 
       const conflictsData = await conflictsResponse.json();
@@ -142,7 +142,7 @@ export default function AvailabilityForm({
       if (conflictsData.hasConflicts && conflictsData.conflicts?.length > 0) {
         const conflictCount = conflictsData.conflicts.length;
         const conflictMessage = `This availability block conflicts with ${conflictCount} existing block${
-          conflictCount > 1 ? "s" : ""
+          conflictCount > 1 ? &quot;s&quot; : &quot;&quot;
         }. Do you still want to create it?`;
 
         if (!window.confirm(conflictMessage)) {
@@ -163,10 +163,10 @@ export default function AvailabilityForm({
         userId: userId,
       };
 
-      const response = await fetch("/api/availability", {
-        method: "POST",
+      const response = await fetch(&quot;/api/availability&quot;, {
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify(availabilityData),
       });
@@ -174,7 +174,7 @@ export default function AvailabilityForm({
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.error || "Failed to create availability block",
+          errorData.error || &quot;Failed to create availability block&quot;,
         );
       }
 
@@ -182,12 +182,12 @@ export default function AvailabilityForm({
       onSuccess();
       setFormValues({
         ...formValues,
-        start_time: "09:00",
-        end_time: "17:00",
+        start_time: &quot;09:00&quot;,
+        end_time: &quot;17:00&quot;,
       });
     } catch (err) {
-      console.error("Error creating availability:", err);
-      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error(&quot;Error creating availability:&quot;, err);
+      setError(err instanceof Error ? err.message : &quot;An error occurred&quot;);
     } finally {
       setIsSubmitting(false);
     }
@@ -195,22 +195,22 @@ export default function AvailabilityForm({
 
   return (
     <div className={`bg-white rounded-lg shadow p-6 ${className}`}>
-      <h3 className="text-lg font-bold mb-4">Add Availability Block</h3>
+      <h3 className=&quot;text-lg font-bold mb-4&quot;>Add Availability Block</h3>
 
       {error && (
-        <div className="bg-red-100 text-red-800 p-3 rounded mb-4">{error}</div>
+        <div className=&quot;bg-red-100 text-red-800 p-3 rounded mb-4&quot;>{error}</div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className=&quot;space-y-4&quot;>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
             Day of Week
           </label>
           <select
-            name="day_of_week"
+            name=&quot;day_of_week&quot;
             value={formValues.day_of_week}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+            className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
             required
           >
             {daysOfWeek.map((day) => (
@@ -221,77 +221,77 @@ export default function AvailabilityForm({
           </select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className=&quot;grid grid-cols-2 gap-4&quot;>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
               Start Time
             </label>
             <input
-              type="time"
-              name="start_time"
+              type=&quot;time&quot;
+              name=&quot;start_time&quot;
               value={formValues.start_time}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+              className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
               End Time
             </label>
             <input
-              type="time"
-              name="end_time"
+              type=&quot;time&quot;
+              name=&quot;end_time&quot;
               value={formValues.end_time}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+              className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
               required
             />
           </div>
         </div>
 
-        <div className="flex items-center">
+        <div className=&quot;flex items-center&quot;>
           <input
-            type="checkbox"
-            id="recurring"
-            name="recurring"
+            type=&quot;checkbox&quot;
+            id=&quot;recurring&quot;
+            name=&quot;recurring&quot;
             checked={formValues.recurring}
             onChange={handleChange}
-            className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+            className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded&quot;
           />
           <label
-            htmlFor="recurring"
-            className="ml-2 block text-sm text-gray-700"
+            htmlFor=&quot;recurring&quot;
+            className=&quot;ml-2 block text-sm text-gray-700&quot;
           >
             Recurring weekly
           </label>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;>
             Status
           </label>
           <select
-            name="status"
+            name=&quot;status&quot;
             value={formValues.status}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+            className=&quot;w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500&quot;
             required
           >
-            <option value="available">Available</option>
-            <option value="unavailable">Unavailable</option>
-            <option value="tentative">Tentative</option>
+            <option value=&quot;available&quot;>Available</option>
+            <option value=&quot;unavailable&quot;>Unavailable</option>
+            <option value=&quot;tentative&quot;>Tentative</option>
           </select>
         </div>
 
         <button
-          type="submit"
+          type=&quot;submit&quot;
           disabled={isSubmitting}
           className={`w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-            isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+            isSubmitting ? &quot;opacity-75 cursor-not-allowed&quot; : &quot;&quot;
           }`}
         >
-          {isSubmitting ? "Saving..." : "Add Availability"}
+          {isSubmitting ? &quot;Saving...&quot; : &quot;Add Availability"}
         </button>
       </form>
     </div>

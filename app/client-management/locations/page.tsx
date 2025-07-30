@@ -1,29 +1,29 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from &quot;react&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from &quot;@/components/ui/card&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { AlertCircle, Building, Search } from "lucide-react";
-import { GoogleMapsProvider } from "@/contexts/GoogleMapsContext";
-import ClientLocationsList from "@/components/locations/ClientLocationsList";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+} from &quot;@/components/ui/select&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { AlertCircle, Building, Search } from &quot;lucide-react&quot;;
+import { GoogleMapsProvider } from &quot;@/contexts/GoogleMapsContext&quot;;
+import ClientLocationsList from &quot;@/components/locations/ClientLocationsList&quot;;
+import { Alert, AlertDescription } from &quot;@/components/ui/alert&quot;;
 
 // Define interface for brand data
 interface Brand {
@@ -44,11 +44,11 @@ export default function ClientLocationsPage() {
     isLoading: brandsLoading,
     error: brandsError,
   } = useQuery({
-    queryKey: ["brands"],
+    queryKey: [&quot;brands&quot;],
     queryFn: async () => {
-      const res = await fetch("/api/brands");
+      const res = await fetch(&quot;/api/brands&quot;);
       if (!res.ok) {
-        throw new Error("Failed to fetch brands");
+        throw new Error(&quot;Failed to fetch brands&quot;);
       }
       return res.json();
     },
@@ -62,15 +62,15 @@ export default function ClientLocationsPage() {
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Brand Locations</h1>
+    <div className=&quot;container mx-auto py-6 space-y-8&quot;>
+      <div className=&quot;flex justify-between items-center&quot;>
+        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Brand Locations</h1>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center">
-            <Building className="mr-2 h-5 w-5" />
+          <CardTitle className=&quot;flex items-center&quot;>
+            <Building className=&quot;mr-2 h-5 w-5&quot; />
             Manage Your Brand Locations
           </CardTitle>
           <CardDescription>
@@ -80,40 +80,40 @@ export default function ClientLocationsPage() {
         </CardHeader>
         <CardContent>
           {brandsLoading ? (
-            <div className="py-8 text-center">
-              <div className="animate-pulse h-16 w-64 bg-muted rounded-md mx-auto mb-4"></div>
-              <p className="text-muted-foreground">
+            <div className=&quot;py-8 text-center&quot;>
+              <div className=&quot;animate-pulse h-16 w-64 bg-muted rounded-md mx-auto mb-4&quot;></div>
+              <p className=&quot;text-muted-foreground&quot;>
                 Loading brand information...
               </p>
             </div>
           ) : brandsError ? (
-            <Alert variant="destructive" className="mb-6">
-              <AlertCircle className="h-4 w-4" />
+            <Alert variant=&quot;destructive&quot; className=&quot;mb-6&quot;>
+              <AlertCircle className=&quot;h-4 w-4&quot; />
               <AlertDescription>
                 Failed to load brands. Please try again later.
               </AlertDescription>
             </Alert>
           ) : brands.length === 0 ? (
-            <div className="py-8 text-center">
-              <Building className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-medium mb-2">No brands available</h3>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                You don't have any brands configured. Please contact your
+            <div className=&quot;py-8 text-center&quot;>
+              <Building className=&quot;h-12 w-12 text-muted-foreground mx-auto mb-4&quot; />
+              <h3 className=&quot;text-lg font-medium mb-2&quot;>No brands available</h3>
+              <p className=&quot;text-muted-foreground max-w-md mx-auto&quot;>
+                You don&apos;t have any brands configured. Please contact your
                 administrator.
               </p>
             </div>
           ) : (
             <>
-              <div className="mb-8">
-                <label className="block text-sm font-medium mb-2">
+              <div className=&quot;mb-8&quot;>
+                <label className=&quot;block text-sm font-medium mb-2&quot;>
                   Select a Brand
                 </label>
                 <Select
                   onValueChange={handleBrandChange}
                   defaultValue={brands[0]?.id}
                 >
-                  <SelectTrigger className="w-full md:w-[300px]">
-                    <SelectValue placeholder="Select a brand" />
+                  <SelectTrigger className=&quot;w-full md:w-[300px]&quot;>
+                    <SelectValue placeholder=&quot;Select a brand&quot; />
                   </SelectTrigger>
                   <SelectContent>
                     {brands.map((brand: Brand) => (
@@ -125,7 +125,7 @@ export default function ClientLocationsPage() {
                 </Select>
               </div>
 
-              <Separator className="my-6" />
+              <Separator className=&quot;my-6&quot; />
 
               {selectedBrandId || brands[0]?.id ? (
                 <GoogleMapsProvider>
@@ -134,8 +134,8 @@ export default function ClientLocationsPage() {
                   />
                 </GoogleMapsProvider>
               ) : (
-                <div className="py-6 text-center">
-                  <p className="text-muted-foreground">
+                <div className=&quot;py-6 text-center&quot;>
+                  <p className=&quot;text-muted-foreground&quot;>
                     Please select a brand to manage locations
                   </p>
                 </div>

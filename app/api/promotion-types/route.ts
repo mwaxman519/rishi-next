@@ -1,36 +1,36 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentUser } from "@/lib/auth-server";
+import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
 
 // Define system promotion types
 const SYSTEM_PROMOTION_TYPES = [
   {
-    id: "product_launch",
-    name: "Product Launch",
-    description: "Introducing new products to the market",
+    id: &quot;product_launch&quot;,
+    name: &quot;Product Launch&quot;,
+    description: &quot;Introducing new products to the market&quot;,
   },
   {
-    id: "seasonal",
-    name: "Seasonal Promotion",
-    description: "Promotions for seasonal events and holidays",
+    id: &quot;seasonal&quot;,
+    name: &quot;Seasonal Promotion&quot;,
+    description: &quot;Promotions for seasonal events and holidays&quot;,
   },
   {
-    id: "brand_awareness",
-    name: "Brand Awareness",
-    description: "Activities focused on increasing brand recognition",
+    id: &quot;brand_awareness&quot;,
+    name: &quot;Brand Awareness&quot;,
+    description: &quot;Activities focused on increasing brand recognition&quot;,
   },
   {
-    id: "sampling",
-    name: "Product Sampling",
-    description: "Distributing product samples to potential customers",
+    id: &quot;sampling&quot;,
+    name: &quot;Product Sampling&quot;,
+    description: &quot;Distributing product samples to potential customers&quot;,
   },
   {
-    id: "special_event",
-    name: "Special Event",
-    description: "One-time or unique promotional events",
+    id: &quot;special_event&quot;,
+    name: &quot;Special Event&quot;,
+    description: &quot;One-time or unique promotional events&quot;,
   },
 ];
 
@@ -39,11 +39,11 @@ export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // In a real implementation, we'd fetch both system types and organization-specific types
-    // For now, we're using just the system types
+    // For now, we&apos;re using just the system types
 
     // Future implementation would look like:
     // const orgTypes = await db.select().from(promotionTypes)
@@ -57,9 +57,9 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.error("Error fetching promotion types:", error);
+    console.error(&quot;Error fetching promotion types:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch promotion types" },
+      { error: &quot;Failed to fetch promotion types&quot; },
       { status: 500 },
     );
   }

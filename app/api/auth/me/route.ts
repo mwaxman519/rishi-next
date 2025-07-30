@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentAuthUser } from "@/lib/auth-server";
+import { getCurrentAuthUser } from &quot;@/lib/auth-server&quot;;
 
 /**
  * Get current authenticated user
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           authenticated: false,
-          error: "Not authenticated",
+          error: &quot;Not authenticated&quot;,
         },
         { status: 401 },
       );
@@ -29,11 +29,11 @@ export async function GET(req: NextRequest) {
       user: user,
     });
   } catch (error) {
-    console.error("Error getting user:", error);
+    console.error(&quot;Error getting user:&quot;, error);
     return NextResponse.json(
       {
         authenticated: false,
-        error: "Error getting user",
+        error: &quot;Error getting user&quot;,
       },
       { status: 500 },
     );

@@ -33,8 +33,8 @@
  * @since Phase 7 Implementation
  */
 
-import { AnalyticsRepository } from "./repository";
-import { analyticsEventPublisher } from "./events";
+import { AnalyticsRepository } from &quot;./repository&quot;;
+import { analyticsEventPublisher } from &quot;./events&quot;;
 import {
   Dashboard,
   DashboardWidget,
@@ -54,11 +54,11 @@ import {
   DashboardAnalytics,
   ExportConfig,
   AlertConfig,
-} from "./models";
-import { PostHogAnalytics } from "./integrations/PostHogAnalytics";
-import { GA4Analytics } from "./integrations/GA4Analytics";
-import { ReportGenerator } from "./utils/ReportGenerator";
-import { MetricsCalculator } from "./utils/MetricsCalculator";
+} from &quot;./models&quot;;
+import { PostHogAnalytics } from &quot;./integrations/PostHogAnalytics&quot;;
+import { GA4Analytics } from &quot;./integrations/GA4Analytics&quot;;
+import { ReportGenerator } from &quot;./utils/ReportGenerator&quot;;
+import { MetricsCalculator } from &quot;./utils/MetricsCalculator&quot;;
 
 export class AnalyticsService {
   private repository: AnalyticsRepository;
@@ -112,7 +112,7 @@ export class AnalyticsService {
       }
 
       // Track dashboard list view in PostHog
-      await this.postHogAnalytics.trackEvent("dashboard_list_viewed", {
+      await this.postHogAnalytics.trackEvent(&quot;dashboard_list_viewed&quot;, {
         organizationId,
         userId,
         userRole,
@@ -121,11 +121,11 @@ export class AnalyticsService {
 
       return { success: true, data: result.data };
     } catch (error) {
-      console.error("Error fetching dashboards:", error);
+      console.error(&quot;Error fetching dashboards:&quot;, error);
       return {
         success: false,
-        error: "Failed to fetch dashboards",
-        code: "DASHBOARD_FETCH_ERROR",
+        error: &quot;Failed to fetch dashboards&quot;,
+        code: &quot;DASHBOARD_FETCH_ERROR&quot;,
       };
     }
   }
@@ -146,8 +146,8 @@ export class AnalyticsService {
       if (!result.success || !result.data) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
@@ -159,8 +159,8 @@ export class AnalyticsService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "DASHBOARD_ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;DASHBOARD_ACCESS_DENIED&quot;,
         };
       }
 
@@ -168,7 +168,7 @@ export class AnalyticsService {
       await this.repository.updateDashboardViewStats(dashboardId, userId);
 
       // Track dashboard view in PostHog
-      await this.postHogAnalytics.trackEvent("dashboard_viewed", {
+      await this.postHogAnalytics.trackEvent(&quot;dashboard_viewed&quot;, {
         dashboardId,
         dashboardName: dashboard.name,
         userId,
@@ -178,11 +178,11 @@ export class AnalyticsService {
 
       return { success: true, data: dashboard };
     } catch (error) {
-      console.error("Error fetching dashboard:", error);
+      console.error(&quot;Error fetching dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to fetch dashboard",
-        code: "DASHBOARD_FETCH_ERROR",
+        error: &quot;Failed to fetch dashboard&quot;,
+        code: &quot;DASHBOARD_FETCH_ERROR&quot;,
       };
     }
   }
@@ -201,8 +201,8 @@ export class AnalyticsService {
       if (!this.hasCreateDashboardPermissions(userRole)) {
         return {
           success: false,
-          error: "Insufficient permissions",
-          code: "INSUFFICIENT_PERMISSIONS",
+          error: &quot;Insufficient permissions&quot;,
+          code: &quot;INSUFFICIENT_PERMISSIONS&quot;,
         };
       }
 
@@ -228,7 +228,7 @@ export class AnalyticsService {
       );
 
       // Track in PostHog
-      await this.postHogAnalytics.trackEvent("dashboard_created", {
+      await this.postHogAnalytics.trackEvent(&quot;dashboard_created&quot;, {
         dashboardId: dashboard.id,
         dashboardName: dashboard.name,
         category: dashboard.category,
@@ -239,11 +239,11 @@ export class AnalyticsService {
 
       return { success: true, data: dashboard };
     } catch (error) {
-      console.error("Error creating dashboard:", error);
+      console.error(&quot;Error creating dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to create dashboard",
-        code: "DASHBOARD_CREATE_ERROR",
+        error: &quot;Failed to create dashboard&quot;,
+        code: &quot;DASHBOARD_CREATE_ERROR&quot;,
       };
     }
   }
@@ -267,8 +267,8 @@ export class AnalyticsService {
       if (!existingResult.success || !existingResult.data) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
@@ -285,8 +285,8 @@ export class AnalyticsService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "DASHBOARD_UPDATE_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;DASHBOARD_UPDATE_DENIED&quot;,
         };
       }
 
@@ -311,7 +311,7 @@ export class AnalyticsService {
       );
 
       // Track in PostHog
-      await this.postHogAnalytics.trackEvent("dashboard_updated", {
+      await this.postHogAnalytics.trackEvent(&quot;dashboard_updated&quot;, {
         dashboardId,
         dashboardName: updatedDashboard.name,
         userId: updatedBy,
@@ -321,11 +321,11 @@ export class AnalyticsService {
 
       return { success: true, data: updatedDashboard };
     } catch (error) {
-      console.error("Error updating dashboard:", error);
+      console.error(&quot;Error updating dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to update dashboard",
-        code: "DASHBOARD_UPDATE_ERROR",
+        error: &quot;Failed to update dashboard&quot;,
+        code: &quot;DASHBOARD_UPDATE_ERROR&quot;,
       };
     }
   }
@@ -348,8 +348,8 @@ export class AnalyticsService {
       if (!existingResult.success || !existingResult.data) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
@@ -366,8 +366,8 @@ export class AnalyticsService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "DASHBOARD_DELETE_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;DASHBOARD_DELETE_DENIED&quot;,
         };
       }
 
@@ -386,7 +386,7 @@ export class AnalyticsService {
       );
 
       // Track in PostHog
-      await this.postHogAnalytics.trackEvent("dashboard_deleted", {
+      await this.postHogAnalytics.trackEvent(&quot;dashboard_deleted&quot;, {
         dashboardId,
         dashboardName: dashboard.name,
         userId: deletedBy,
@@ -395,11 +395,11 @@ export class AnalyticsService {
 
       return { success: true, data: true };
     } catch (error) {
-      console.error("Error deleting dashboard:", error);
+      console.error(&quot;Error deleting dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to delete dashboard",
-        code: "DASHBOARD_DELETE_ERROR",
+        error: &quot;Failed to delete dashboard&quot;,
+        code: &quot;DASHBOARD_DELETE_ERROR&quot;,
       };
     }
   }
@@ -430,11 +430,11 @@ export class AnalyticsService {
 
       return { success: true, data: result.data };
     } catch (error) {
-      console.error("Error fetching real-time metrics:", error);
+      console.error(&quot;Error fetching real-time metrics:&quot;, error);
       return {
         success: false,
-        error: "Failed to fetch real-time metrics",
-        code: "METRICS_FETCH_ERROR",
+        error: &quot;Failed to fetch real-time metrics&quot;,
+        code: &quot;METRICS_FETCH_ERROR&quot;,
       };
     }
   }
@@ -457,11 +457,11 @@ export class AnalyticsService {
 
       return { success: true, data: kpis };
     } catch (error) {
-      console.error("Error calculating platform KPIs:", error);
+      console.error(&quot;Error calculating platform KPIs:&quot;, error);
       return {
         success: false,
-        error: "Failed to calculate KPIs",
-        code: "KPI_CALCULATION_ERROR",
+        error: &quot;Failed to calculate KPIs&quot;,
+        code: &quot;KPI_CALCULATION_ERROR&quot;,
       };
     }
   }
@@ -488,8 +488,8 @@ export class AnalyticsService {
       if (!templateResult.success || !templateResult.data) {
         return {
           success: false,
-          error: "Report template not found",
-          code: "TEMPLATE_NOT_FOUND",
+          error: &quot;Report template not found&quot;,
+          code: &quot;TEMPLATE_NOT_FOUND&quot;,
         };
       }
 
@@ -521,7 +521,7 @@ export class AnalyticsService {
       );
 
       // Track in PostHog
-      await this.postHogAnalytics.trackEvent("report_generated", {
+      await this.postHogAnalytics.trackEvent(&quot;report_generated&quot;, {
         reportId: report.id,
         templateId,
         templateName: template.name,
@@ -532,11 +532,11 @@ export class AnalyticsService {
 
       return { success: true, data: report };
     } catch (error) {
-      console.error("Error generating report:", error);
+      console.error(&quot;Error generating report:&quot;, error);
       return {
         success: false,
-        error: "Failed to generate report",
-        code: "REPORT_GENERATION_ERROR",
+        error: &quot;Failed to generate report&quot;,
+        code: &quot;REPORT_GENERATION_ERROR&quot;,
       };
     }
   }
@@ -573,7 +573,7 @@ export class AnalyticsService {
       }
 
       // Track export in PostHog
-      await this.postHogAnalytics.trackEvent("data_exported", {
+      await this.postHogAnalytics.trackEvent(&quot;data_exported&quot;, {
         format: config.format,
         recordCount: exportResult.data.recordCount,
         userId,
@@ -588,11 +588,11 @@ export class AnalyticsService {
         },
       };
     } catch (error) {
-      console.error("Error exporting data:", error);
+      console.error(&quot;Error exporting data:&quot;, error);
       return {
         success: false,
-        error: "Failed to export data",
-        code: "DATA_EXPORT_ERROR",
+        error: &quot;Failed to export data&quot;,
+        code: &quot;DATA_EXPORT_ERROR&quot;,
       };
     }
   }
@@ -621,11 +621,11 @@ export class AnalyticsService {
 
       return { success: true, data: true };
     } catch (error) {
-      console.error("Error tracking custom event:", error);
+      console.error(&quot;Error tracking custom event:&quot;, error);
       return {
         success: false,
-        error: "Failed to track event",
-        code: "EVENT_TRACKING_ERROR",
+        error: &quot;Failed to track event&quot;,
+        code: &quot;EVENT_TRACKING_ERROR&quot;,
       };
     }
   }
@@ -652,11 +652,11 @@ export class AnalyticsService {
 
       return { success: true, data: analyticsData };
     } catch (error) {
-      console.error("Error fetching GA4 analytics:", error);
+      console.error(&quot;Error fetching GA4 analytics:&quot;, error);
       return {
         success: false,
-        error: "Failed to fetch GA4 analytics",
-        code: "GA4_FETCH_ERROR",
+        error: &quot;Failed to fetch GA4 analytics&quot;,
+        code: &quot;GA4_FETCH_ERROR&quot;,
       };
     }
   }
@@ -676,22 +676,22 @@ export class AnalyticsService {
     const roleFilters = { ...filters };
 
     switch (userRole) {
-      case "brand_agent":
+      case &quot;brand_agent&quot;:
         // Brand agents can only see public dashboards or their own
         roleFilters.accessFilter = {
           or: [{ isPublic: true }, { createdBy: userId }],
         };
         break;
 
-      case "internal_field_manager":
+      case &quot;internal_field_manager&quot;:
         // Field managers can see organization dashboards
         break;
 
-      case "organization_admin":
+      case &quot;organization_admin&quot;:
         // Organization admins can see all organization dashboards
         break;
 
-      case "super_admin":
+      case &quot;super_admin&quot;:
         // Super admins can see all dashboards
         break;
 
@@ -714,7 +714,7 @@ export class AnalyticsService {
     // Organization check
     if (
       dashboard.organizationId !== organizationId &&
-      userRole !== "super_admin"
+      userRole !== &quot;super_admin&quot;
     ) {
       return false;
     }
@@ -736,11 +736,11 @@ export class AnalyticsService {
 
     // Role-based access
     switch (userRole) {
-      case "super_admin":
+      case &quot;super_admin&quot;:
         return true;
-      case "organization_admin":
+      case &quot;organization_admin&quot;:
         return dashboard.organizationId === organizationId;
-      case "internal_field_manager":
+      case &quot;internal_field_manager&quot;:
         return dashboard.organizationId === organizationId;
       default:
         return false;
@@ -752,9 +752,9 @@ export class AnalyticsService {
    */
   private hasCreateDashboardPermissions(userRole: string): boolean {
     return [
-      "super_admin",
-      "organization_admin",
-      "internal_field_manager",
+      &quot;super_admin&quot;,
+      &quot;organization_admin&quot;,
+      &quot;internal_field_manager&quot;,
     ].includes(userRole);
   }
 
@@ -775,7 +775,7 @@ export class AnalyticsService {
     // Check shared access with edit permission
     if (
       dashboard.sharedWith?.some(
-        (share) => share.userId === userId && share.permission === "edit",
+        (share) => share.userId === userId && share.permission === &quot;edit&quot;,
       )
     ) {
       return true;
@@ -783,9 +783,9 @@ export class AnalyticsService {
 
     // Role-based update permissions
     switch (userRole) {
-      case "super_admin":
+      case &quot;super_admin&quot;:
         return true;
-      case "organization_admin":
+      case &quot;organization_admin&quot;:
         return dashboard.organizationId === organizationId;
       default:
         return false;
@@ -808,9 +808,9 @@ export class AnalyticsService {
 
     // Role-based delete permissions
     switch (userRole) {
-      case "super_admin":
+      case &quot;super_admin&quot;:
         return true;
-      case "organization_admin":
+      case &quot;organization_admin&quot;:
         return dashboard.organizationId === organizationId;
       default:
         return false;

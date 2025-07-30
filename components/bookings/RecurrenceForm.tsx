@@ -1,34 +1,34 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import { z } from "zod";
-import { FormControl, FormLabel } from "@/components/ui/form";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { z } from &quot;zod&quot;;
+import { FormControl, FormLabel } from &quot;@/components/ui/form&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DatePicker } from "@/components/ui/date-picker";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { addDays, addMonths, addWeeks, format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Info } from "lucide-react";
-import { CheckedState } from "@radix-ui/react-checkbox";
+} from &quot;@/components/ui/select&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
+import { DatePicker } from &quot;@/components/ui/date-picker&quot;;
+import { RadioGroup, RadioGroupItem } from &quot;@/components/ui/radio-group&quot;;
+import { addDays, addMonths, addWeeks, format } from &quot;date-fns&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Calendar, Info } from &quot;lucide-react&quot;;
+import { CheckedState } from &quot;@radix-ui/react-checkbox&quot;;
 
 // Define form schema using Zod
 const recurrenceFormSchema = z.object({
-  frequency: z.enum(["daily", "weekly", "monthly"], {
-    required_error: "Please select a recurrence frequency",
+  frequency: z.enum([&quot;daily&quot;, &quot;weekly&quot;, &quot;monthly&quot;], {
+    required_error: &quot;Please select a recurrence frequency&quot;,
   }),
   interval: z.coerce.number().min(1).default(1),
   weekdays: z.array(z.string()).optional(),
   monthDay: z.coerce.number().min(1).max(31).optional(),
-  endType: z.enum(["never", "after", "on"], {
-    required_error: "Please select when the recurrence ends",
+  endType: z.enum([&quot;never&quot;, &quot;after&quot;, &quot;on&quot;], {
+    required_error: &quot;Please select when the recurrence ends&quot;,
   }),
   occurrences: z.coerce.number().min(1).optional(),
   endDate: z.date().optional(),
@@ -38,10 +38,10 @@ type RecurrenceFormValues = z.infer<typeof recurrenceFormSchema>;
 
 // Default values for the form
 const defaultValues: RecurrenceFormValues = {
-  frequency: "weekly",
+  frequency: &quot;weekly&quot;,
   interval: 1,
-  weekdays: ["monday"],
-  endType: "after",
+  weekdays: [&quot;monday&quot;],
+  endType: &quot;after&quot;,
   occurrences: 6,
   monthDay: 1,
   endDate: undefined,
@@ -61,7 +61,7 @@ export function RecurrenceForm({
   // Merge provided value with defaults
   const initialData = { ...defaultValues, ...value };
   const [formData, setFormData] = useState<RecurrenceFormValues>(initialData);
-  const [previewText, setPreviewText] = useState<string>("");
+  const [previewText, setPreviewText] = useState<string>("&quot;);
   const [previewDates, setPreviewDates] = useState<Date[]>([]);
 
   // Update the parent form when our local state changes
@@ -82,16 +82,16 @@ export function RecurrenceForm({
     // Number of dates to preview (limited to reasonable number)
     const maxPreviewDates = 10;
     const maxDatesToCalculate =
-      endType === "after" && occurrences
+      endType === &quot;after&quot; && occurrences
         ? Math.min(occurrences, maxPreviewDates)
         : maxPreviewDates;
 
     let currentDate = new Date(startDate);
 
     for (let i = 0; i < maxDatesToCalculate; i++) {
-      if (frequency === "daily") {
+      if (frequency === &quot;daily&quot;) {
         currentDate = addDays(currentDate, interval);
-      } else if (frequency === "weekly") {
+      } else if (frequency === &quot;weekly&quot;) {
         // For weekly, we need to account for selected days
         if (weekdays && weekdays.length > 0) {
           // This is simplified - in a real app you'd need more robust day-of-week handling
@@ -99,12 +99,12 @@ export function RecurrenceForm({
         } else {
           currentDate = addWeeks(currentDate, interval);
         }
-      } else if (frequency === "monthly") {
+      } else if (frequency === &quot;monthly&quot;) {
         currentDate = addMonths(currentDate, interval);
       }
 
       // If we have an end date and we've passed it, stop adding dates
-      if (endType === "on" && endDate && currentDate > endDate) {
+      if (endType === &quot;on&quot; && endDate && currentDate > endDate) {
         break;
       }
 
@@ -116,47 +116,47 @@ export function RecurrenceForm({
 
   // Update preview text when form values change
   useEffect(() => {
-    let preview = "Occurs ";
+    let preview = &quot;Occurs &quot;;
     const { frequency, interval, weekdays, endType, occurrences, endDate } =
       formData;
 
     // Frequency and interval
-    if (frequency === "daily") {
-      preview += interval === 1 ? "daily" : `every ${interval} days`;
-    } else if (frequency === "weekly") {
-      preview += interval === 1 ? "weekly" : `every ${interval} weeks`;
+    if (frequency === &quot;daily&quot;) {
+      preview += interval === 1 ? &quot;daily&quot; : `every ${interval} days`;
+    } else if (frequency === &quot;weekly&quot;) {
+      preview += interval === 1 ? &quot;weekly&quot; : `every ${interval} weeks`;
 
       if (weekdays && weekdays.length > 0) {
         const daysText = weekdays
           .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
-          .join(", ");
+          .join(&quot;, &quot;);
         preview += ` on ${daysText}`;
       }
-    } else if (frequency === "monthly") {
-      preview += interval === 1 ? "monthly" : `every ${interval} months`;
+    } else if (frequency === &quot;monthly&quot;) {
+      preview += interval === 1 ? &quot;monthly&quot; : `every ${interval} months`;
     }
 
     // End date
-    if (endType === "never") {
-      preview += " with no end date";
-    } else if (endType === "after" && occurrences) {
+    if (endType === &quot;never&quot;) {
+      preview += &quot; with no end date&quot;;
+    } else if (endType === &quot;after&quot; && occurrences) {
       preview += ` for ${occurrences} occurrences`;
 
       // Calculate end date based on occurrences
       let lastDate = new Date(startDate);
       for (let i = 0; i < occurrences; i++) {
-        if (frequency === "daily") {
+        if (frequency === &quot;daily&quot;) {
           lastDate = addDays(lastDate, interval || 1);
-        } else if (frequency === "weekly") {
+        } else if (frequency === &quot;weekly&quot;) {
           lastDate = addWeeks(lastDate, interval || 1);
-        } else if (frequency === "monthly") {
+        } else if (frequency === &quot;monthly&quot;) {
           lastDate = addMonths(lastDate, interval || 1);
         }
       }
 
-      preview += ` (until ${format(lastDate, "MMMM d, yyyy")})`;
-    } else if (endType === "on" && endDate) {
-      preview += ` until ${format(endDate, "MMMM d, yyyy")}`;
+      preview += ` (until ${format(lastDate, &quot;MMMM d, yyyy&quot;)})`;
+    } else if (endType === &quot;on&quot; && endDate) {
+      preview += ` until ${format(endDate, &quot;MMMM d, yyyy&quot;)}`;
     }
 
     setPreviewText(preview);
@@ -167,79 +167,79 @@ export function RecurrenceForm({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className=&quot;space-y-6&quot;>
+      <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
         <div>
-          <div className="space-y-4">
+          <div className=&quot;space-y-4&quot;>
             <div>
               <FormLabel>Repeats</FormLabel>
               <Select
-                value={formData.frequency || "weekly"}
-                onValueChange={(value: "daily" | "weekly" | "monthly") =>
-                  handleChange("frequency", value)
+                value={formData.frequency || &quot;weekly&quot;}
+                onValueChange={(value: &quot;daily&quot; | &quot;weekly&quot; | &quot;monthly&quot;) =>
+                  handleChange(&quot;frequency&quot;, value)
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select frequency" />
+                  <SelectValue placeholder=&quot;Select frequency&quot; />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="daily">Daily</SelectItem>
-                  <SelectItem value="weekly">Weekly</SelectItem>
-                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value=&quot;daily&quot;>Daily</SelectItem>
+                  <SelectItem value=&quot;weekly&quot;>Weekly</SelectItem>
+                  <SelectItem value=&quot;monthly&quot;>Monthly</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-muted-foreground">Every</span>
-              <div className="w-16">
+            <div className=&quot;flex items-center space-x-2&quot;>
+              <span className=&quot;text-sm text-muted-foreground&quot;>Every</span>
+              <div className=&quot;w-16&quot;>
                 <Input
-                  type="number"
+                  type=&quot;number&quot;
                   min={1}
                   value={formData.interval || 1}
                   onChange={(e) =>
-                    handleChange("interval", Number(e.target.value))
+                    handleChange(&quot;interval&quot;, Number(e.target.value))
                   }
-                  className="h-9"
+                  className=&quot;h-9&quot;
                 />
               </div>
-              <span className="text-sm text-muted-foreground">
-                {formData.frequency === "daily"
-                  ? "days"
-                  : formData.frequency === "weekly"
-                    ? "weeks"
-                    : "months"}
+              <span className=&quot;text-sm text-muted-foreground&quot;>
+                {formData.frequency === &quot;daily&quot;
+                  ? &quot;days&quot;
+                  : formData.frequency === &quot;weekly&quot;
+                    ? &quot;weeks&quot;
+                    : &quot;months&quot;}
               </span>
             </div>
 
-            {formData.frequency === "weekly" && (
+            {formData.frequency === &quot;weekly&quot; && (
               <div>
-                <FormLabel className="mb-2 block">On these days</FormLabel>
-                <div className="grid grid-cols-7 gap-2">
+                <FormLabel className=&quot;mb-2 block&quot;>On these days</FormLabel>
+                <div className=&quot;grid grid-cols-7 gap-2&quot;>
                   {[
-                    "monday",
-                    "tuesday",
-                    "wednesday",
-                    "thursday",
-                    "friday",
-                    "saturday",
-                    "sunday",
+                    &quot;monday&quot;,
+                    &quot;tuesday&quot;,
+                    &quot;wednesday&quot;,
+                    &quot;thursday&quot;,
+                    &quot;friday&quot;,
+                    &quot;saturday&quot;,
+                    &quot;sunday&quot;,
                   ].map((day) => (
                     <div
                       key={day}
-                      className="flex flex-col items-center space-y-2"
+                      className=&quot;flex flex-col items-center space-y-2&quot;
                     >
                       <Checkbox
                         checked={formData.weekdays?.includes(day) || false}
                         onCheckedChange={(checked: CheckedState) => {
                           if (checked) {
-                            handleChange("weekdays", [
+                            handleChange(&quot;weekdays&quot;, [
                               ...(formData.weekdays || []),
                               day,
                             ]);
                           } else {
                             handleChange(
-                              "weekdays",
+                              &quot;weekdays&quot;,
                               formData.weekdays?.filter((d) => d !== day) || [],
                             );
                           }
@@ -248,7 +248,7 @@ export function RecurrenceForm({
                       />
                       <FormLabel
                         htmlFor={`day-${day}`}
-                        className="text-xs cursor-pointer"
+                        className=&quot;text-xs cursor-pointer&quot;
                       >
                         {day.slice(0, 3)}
                       </FormLabel>
@@ -258,60 +258,60 @@ export function RecurrenceForm({
               </div>
             )}
 
-            <div className="space-y-3">
+            <div className=&quot;space-y-3&quot;>
               <FormLabel>End</FormLabel>
               <RadioGroup
-                value={formData.endType || "after"}
-                onValueChange={(value: "never" | "after" | "on") =>
-                  handleChange("endType", value)
+                value={formData.endType || &quot;after&quot;}
+                onValueChange={(value: &quot;never&quot; | &quot;after&quot; | &quot;on&quot;) =>
+                  handleChange(&quot;endType&quot;, value)
                 }
-                className="flex flex-col space-y-3"
+                className=&quot;flex flex-col space-y-3&quot;
               >
-                <div className="flex items-center space-x-3 space-y-0">
-                  <RadioGroupItem value="never" id="never" />
+                <div className=&quot;flex items-center space-x-3 space-y-0&quot;>
+                  <RadioGroupItem value=&quot;never&quot; id=&quot;never&quot; />
                   <FormLabel
-                    htmlFor="never"
-                    className="font-normal cursor-pointer"
+                    htmlFor=&quot;never&quot;
+                    className=&quot;font-normal cursor-pointer&quot;
                   >
                     Never
                   </FormLabel>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <RadioGroupItem value="after" id="after" />
+                <div className=&quot;flex items-center space-x-3&quot;>
+                  <RadioGroupItem value=&quot;after&quot; id=&quot;after&quot; />
                   <FormLabel
-                    htmlFor="after"
-                    className="font-normal cursor-pointer"
+                    htmlFor=&quot;after&quot;
+                    className=&quot;font-normal cursor-pointer&quot;
                   >
                     After
                   </FormLabel>
-                  <div className="w-16">
+                  <div className=&quot;w-16&quot;>
                     <Input
-                      type="number"
+                      type=&quot;number&quot;
                       min={1}
-                      disabled={formData.endType !== "after"}
+                      disabled={formData.endType !== &quot;after&quot;}
                       value={formData.occurrences || 6}
                       onChange={(e) =>
-                        handleChange("occurrences", Number(e.target.value))
+                        handleChange(&quot;occurrences&quot;, Number(e.target.value))
                       }
-                      className="h-9"
+                      className=&quot;h-9&quot;
                     />
                   </div>
-                  <span className="text-sm text-muted-foreground">
+                  <span className=&quot;text-sm text-muted-foreground&quot;>
                     occurrences
                   </span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <RadioGroupItem value="on" id="on" />
+                <div className=&quot;flex items-center space-x-3&quot;>
+                  <RadioGroupItem value=&quot;on&quot; id=&quot;on&quot; />
                   <FormLabel
-                    htmlFor="on"
-                    className="font-normal cursor-pointer"
+                    htmlFor=&quot;on&quot;
+                    className=&quot;font-normal cursor-pointer&quot;
                   >
                     On date
                   </FormLabel>
                   <DatePicker
                     date={formData.endDate}
-                    setDate={(date) => handleChange("endDate", date)}
-                    disabled={formData.endType !== "on"}
+                    setDate={(date) => handleChange(&quot;endDate&quot;, date)}
+                    disabled={formData.endType !== &quot;on&quot;}
                   />
                 </div>
               </RadioGroup>
@@ -319,33 +319,33 @@ export function RecurrenceForm({
           </div>
         </div>
 
-        <div className="bg-muted/20 rounded-md p-4 space-y-4">
-          <div className="flex items-center space-x-2">
-            <Calendar className="h-4 w-4 text-primary" />
-            <h3 className="text-sm font-medium">Pattern Summary</h3>
+        <div className=&quot;bg-muted/20 rounded-md p-4 space-y-4&quot;>
+          <div className=&quot;flex items-center space-x-2&quot;>
+            <Calendar className=&quot;h-4 w-4 text-primary&quot; />
+            <h3 className=&quot;text-sm font-medium&quot;>Pattern Summary</h3>
           </div>
 
-          <div className="rounded-md border border-dashed border-muted-foreground/30 p-3">
-            <p className="text-sm text-muted-foreground">{previewText}</p>
+          <div className=&quot;rounded-md border border-dashed border-muted-foreground/30 p-3&quot;>
+            <p className=&quot;text-sm text-muted-foreground&quot;>{previewText}</p>
           </div>
 
           {previewDates.length > 0 && (
             <div>
-              <p className="text-sm mb-2 font-medium">
+              <p className=&quot;text-sm mb-2 font-medium&quot;>
                 Next {previewDates.length} occurrences:
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className=&quot;flex flex-wrap gap-2&quot;>
                 {previewDates.map((date, i) => (
-                  <Badge key={i} variant="outline" className="font-normal">
-                    {format(date, "MMM d, yyyy")}
+                  <Badge key={i} variant=&quot;outline&quot; className=&quot;font-normal&quot;>
+                    {format(date, &quot;MMM d, yyyy&quot;)}
                   </Badge>
                 ))}
               </div>
             </div>
           )}
 
-          <div className="flex items-start space-x-2 text-xs text-muted-foreground mt-2">
-            <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+          <div className=&quot;flex items-start space-x-2 text-xs text-muted-foreground mt-2&quot;>
+            <Info className=&quot;h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
             <p>
               This is a preview of your recurring pattern. The actual events
               will be created when you submit the booking form.

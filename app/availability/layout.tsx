@@ -1,6 +1,6 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
+import React from &quot;react&quot;;
 
 interface AvailabilityLayoutProps {
   children: React.ReactNode;
@@ -10,5 +10,5 @@ interface AvailabilityLayoutProps {
 export default function AvailabilityLayout({
   children,
 }: AvailabilityLayoutProps) {
-  return <div className="availability-layout">{children}</div>;
+  return <div className=&quot;availability-layout&quot;>{children}</div>;
 }

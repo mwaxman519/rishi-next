@@ -1,4 +1,4 @@
-"use client";
+&quot;use client&quot;;
 
 import {
   Card,
@@ -7,18 +7,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { Building2, Settings, PaintBucket, Shield, Users } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
-import { PermissionGuard } from "@/components/rbac/PermissionGuard";
-import type { Organization } from "@shared/schema";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { Building2, Settings, PaintBucket, Shield, Users } from &quot;lucide-react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { Loader2 } from &quot;lucide-react&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import Link from &quot;next/link&quot;;
+import { PermissionGuard } from &quot;@/components/rbac/PermissionGuard&quot;;
+import type { Organization } from &quot;@shared/schema&quot;;
 
 export default function OrganizationsPage() {
   const router = useRouter();
@@ -26,13 +26,13 @@ export default function OrganizationsPage() {
   const { data: organizationsData, isLoading } = useQuery<{
     organizations?: Organization[];
   }>({
-    queryKey: ["/api/organizations"],
+    queryKey: [&quot;/api/organizations&quot;],
   });
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+        <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
       </div>
     );
   }
@@ -41,48 +41,48 @@ export default function OrganizationsPage() {
 
   return (
     <PermissionGuard 
-      permission="manage:organizations"
+      permission=&quot;manage:organizations&quot;
       fallback={
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <h2 className="text-lg font-semibold mb-2">Access Denied</h2>
-            <p className="text-muted-foreground">You don't have permission to manage organizations.</p>
+        <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+          <div className=&quot;text-center&quot;>
+            <h2 className=&quot;text-lg font-semibold mb-2&quot;>Access Denied</h2>
+            <p className=&quot;text-muted-foreground&quot;>You don&apos;t have permission to manage organizations.</p>
           </div>
         </div>
       }
     >
-      <div className="container mx-auto py-6">
-        <div className="flex justify-between items-center mb-6">
+      <div className=&quot;container mx-auto py-6&quot;>
+        <div className=&quot;flex justify-between items-center mb-6&quot;>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Organizations</h1>
-            <p className="text-muted-foreground">
+            <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Organizations</h1>
+            <p className=&quot;text-muted-foreground&quot;>
               Manage all organizations in the system
             </p>
           </div>
-          <Button onClick={() => router.push("/admin/organizations/create")}>
+          <Button onClick={() => router.push(&quot;/admin/organizations/create&quot;)}>
             Add Organization
           </Button>
         </div>
 
-      <Separator className="my-6" />
+      <Separator className=&quot;my-6&quot; />
 
-      <Tabs defaultValue="all" className="space-y-4">
+      <Tabs defaultValue=&quot;all&quot; className=&quot;space-y-4&quot;>
         <TabsList>
-          <TabsTrigger value="all">All Organizations</TabsTrigger>
-          <TabsTrigger value="internal">Internal</TabsTrigger>
-          <TabsTrigger value="client">Client</TabsTrigger>
-          <TabsTrigger value="partner">Partner</TabsTrigger>
+          <TabsTrigger value=&quot;all&quot;>All Organizations</TabsTrigger>
+          <TabsTrigger value=&quot;internal&quot;>Internal</TabsTrigger>
+          <TabsTrigger value=&quot;client&quot;>Client</TabsTrigger>
+          <TabsTrigger value=&quot;partner&quot;>Partner</TabsTrigger>
         </TabsList>
 
-        {["all", "internal", "client", "partner"].map((tab) => (
-          <TabsContent key={tab} value={tab} className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {[&quot;all&quot;, &quot;internal&quot;, &quot;client&quot;, &quot;partner&quot;].map((tab) => (
+          <TabsContent key={tab} value={tab} className=&quot;space-y-4&quot;>
+            <div className=&quot;grid gap-4 md:grid-cols-2 lg:grid-cols-3&quot;>
               {organizations
-                .filter((org) => tab === "all" || org.type === tab)
+                .filter((org) => tab === &quot;all&quot; || org.type === tab)
                 .map((organization) => (
-                  <Card key={organization.id} className="overflow-hidden">
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
+                  <Card key={organization.id} className=&quot;overflow-hidden&quot;>
+                    <CardHeader className=&quot;pb-2&quot;>
+                      <div className=&quot;flex justify-between items-start&quot;>
                         <CardTitle>{organization.name}</CardTitle>
                         <OrganizationBadge
                           type={organization.type}
@@ -94,47 +94,47 @@ export default function OrganizationsPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className=&quot;grid grid-cols-2 gap-2 text-sm&quot;>
                         <div>
-                          <p className="text-muted-foreground">Type</p>
-                          <p className="font-medium">{organization.type}</p>
+                          <p className=&quot;text-muted-foreground&quot;>Type</p>
+                          <p className=&quot;font-medium&quot;>{organization.type}</p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground">Tier</p>
-                          <p className="font-medium">
-                            {organization.tier || "N/A"}
+                          <p className=&quot;text-muted-foreground&quot;>Tier</p>
+                          <p className=&quot;font-medium&quot;>
+                            {organization.tier || &quot;N/A&quot;}
                           </p>
                         </div>
                         <div>
-                          <p className="text-muted-foreground">Status</p>
-                          <p className="font-medium">
-                            {organization.status === "active" ? "Active" : "Inactive"}
+                          <p className=&quot;text-muted-foreground&quot;>Status</p>
+                          <p className=&quot;font-medium&quot;>
+                            {organization.status === &quot;active&quot; ? &quot;Active&quot; : &quot;Inactive&quot;}
                           </p>
                         </div>
                       </div>
                     </CardContent>
-                    <CardFooter className="border-t bg-muted/50 px-6 py-3">
-                      <div className="flex items-center justify-between w-full">
+                    <CardFooter className=&quot;border-t bg-muted/50 px-6 py-3&quot;>
+                      <div className=&quot;flex items-center justify-between w-full&quot;>
                         <Link href={`/admin/organizations/${organization.id}`}>
                           <Button
-                            variant="outline"
-                            size="sm"
-                            className="h-8 gap-1"
+                            variant=&quot;outline&quot;
+                            size=&quot;sm&quot;
+                            className=&quot;h-8 gap-1&quot;
                           >
-                            <Building2 className="h-3.5 w-3.5" />
+                            <Building2 className=&quot;h-3.5 w-3.5&quot; />
                             <span>View</span>
                           </Button>
                         </Link>
-                        <div className="flex gap-2">
+                        <div className=&quot;flex gap-2&quot;>
                           <Link
                             href={`/admin/organizations/manage?organizationId=${organization.id}`}
                           >
                             <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 gap-1"
+                              variant=&quot;outline&quot;
+                              size=&quot;sm&quot;
+                              className=&quot;h-8 gap-1&quot;
                             >
-                              <Settings className="h-3.5 w-3.5" />
+                              <Settings className=&quot;h-3.5 w-3.5&quot; />
                               <span>Manage</span>
                             </Button>
                           </Link>
@@ -144,14 +144,14 @@ export default function OrganizationsPage() {
                   </Card>
                 ))}
             </div>
-            {organizations.filter((org) => tab === "all" || org.type === tab)
+            {organizations.filter((org) => tab === &quot;all&quot; || org.type === tab)
               .length === 0 && (
-              <div className="flex flex-col items-center justify-center p-8 text-center">
-                <Building2 className="h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium">No organizations found</h3>
-                <p className="text-muted-foreground mt-2">
-                  {tab === "all"
-                    ? "There are no organizations in the system yet."
+              <div className=&quot;flex flex-col items-center justify-center p-8 text-center&quot;>
+                <Building2 className=&quot;h-12 w-12 text-muted-foreground mb-4&quot; />
+                <h3 className=&quot;text-lg font-medium&quot;>No organizations found</h3>
+                <p className=&quot;text-muted-foreground mt-2&quot;>
+                  {tab === &quot;all&quot;
+                    ? &quot;There are no organizations in the system yet.&quot;
                     : `There are no ${tab} organizations in the system yet.`}
                 </p>
               </div>
@@ -171,26 +171,26 @@ function OrganizationBadge({
   type: string;
   tier: string | null;
 }) {
-  let variant: "default" | "outline" | "secondary" | "destructive" = "default";
+  let variant: &quot;default&quot; | &quot;outline&quot; | &quot;secondary&quot; | &quot;destructive&quot; = &quot;default&quot;;
 
   switch (type) {
-    case "internal":
-      variant = "default";
+    case &quot;internal&quot;:
+      variant = &quot;default&quot;;
       break;
-    case "client":
-      variant = "secondary";
+    case &quot;client&quot;:
+      variant = &quot;secondary&quot;;
       break;
-    case "partner":
-      variant = "outline";
+    case &quot;partner&quot;:
+      variant = &quot;outline&quot;;
       break;
     default:
-      variant = "default";
+      variant = &quot;default&quot;;
   }
 
   return (
-    <div className="flex gap-2">
+    <div className=&quot;flex gap-2&quot;>
       <Badge variant={variant}>{type}</Badge>
-      {tier && <Badge variant="outline">{tier.replace("_", " ")}</Badge>}
+      {tier && <Badge variant=&quot;outline&quot;>{tier.replace(&quot;_&quot;, &quot; &quot;)}</Badge>}
     </div>
   );
 }

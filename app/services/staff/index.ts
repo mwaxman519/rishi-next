@@ -1,7 +1,7 @@
-export * from "./models";
-export * from "./staffService";
+export * from &quot;./models&quot;;
+export * from &quot;./staffService&quot;;
 
-import { StaffService } from "./staffService";
+import { StaffService } from &quot;./staffService&quot;;
 
 // Create a singleton instance of the Staff service
 const staffService = new StaffService();

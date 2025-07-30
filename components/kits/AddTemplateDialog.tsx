@@ -1,11 +1,11 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from &quot;react&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { Loader2 } from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from &quot;@/components/ui/dialog&quot;;
 import {
   Form,
   FormControl,
@@ -22,20 +22,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { useCreateKitTemplate } from "@/hooks/useKits";
-import { Switch } from "@/components/ui/switch";
-import { useQueryClient } from "@tanstack/react-query";
-import { insertKitTemplateSchema } from "@shared/schema";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useCreateKitTemplate } from &quot;@/hooks/useKits&quot;;
+import { Switch } from &quot;@/components/ui/switch&quot;;
+import { useQueryClient } from &quot;@tanstack/react-query&quot;;
+import { insertKitTemplateSchema } from &quot;@shared/schema&quot;;
 
 // Extend the kit template schema with validation
 const createTemplateSchema = insertKitTemplateSchema.extend({
-  name: z.string().min(3, "Name must be at least 3 characters"),
+  name: z.string().min(3, &quot;Name must be at least 3 characters&quot;),
   description: z.string().optional(),
-  brandId: z.number().min(1, "Brand must be selected"),
+  brandId: z.number().min(1, &quot;Brand must be selected&quot;),
 });
 
 // TypeScript type for our form values
@@ -58,8 +58,8 @@ export default function AddTemplateDialog({
   const form = useForm<FormValues>({
     resolver: zodResolver(createTemplateSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: "&quot;,
+      description: &quot;&quot;,
       brandId: 1, // Default brandId
       is_active: true,
     },
@@ -71,8 +71,8 @@ export default function AddTemplateDialog({
       await createMutation.mutateAsync(data);
 
       toast({
-        title: "Success",
-        description: "Kit template created successfully",
+        title: &quot;Success&quot;,
+        description: &quot;Kit template created successfully&quot;,
       });
 
       // Reset form
@@ -82,20 +82,20 @@ export default function AddTemplateDialog({
       onOpenChange(false);
 
       // Refresh kit templates
-      queryClient.invalidateQueries({ queryKey: ["/api/kits/templates"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;/api/kits/templates&quot;] });
     } catch (error) {
-      console.error("Error creating kit template:", error);
+      console.error(&quot;Error creating kit template:&quot;, error);
       toast({
-        title: "Error",
-        description: "Failed to create kit template. Please try again.",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to create kit template. Please try again.&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className=&quot;sm:max-w-[500px]&quot;>
         <DialogHeader>
           <DialogTitle>Create Kit Template</DialogTitle>
           <DialogDescription>
@@ -104,15 +104,15 @@ export default function AddTemplateDialog({
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-4&quot;>
             <FormField
               control={form.control}
-              name="name"
+              name=&quot;name&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Template Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter template name" {...field} />
+                    <Input placeholder=&quot;Enter template name&quot; {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,16 +121,16 @@ export default function AddTemplateDialog({
 
             <FormField
               control={form.control}
-              name="description"
+              name=&quot;description&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter a description for this template"
-                      className="resize-none min-h-[80px]"
+                      placeholder=&quot;Enter a description for this template&quot;
+                      className=&quot;resize-none min-h-[80px]&quot;
                       {...field}
-                      value={field.value || ""}
+                      value={field.value || &quot;&quot;}
                     />
                   </FormControl>
                   <FormMessage />
@@ -140,14 +140,14 @@ export default function AddTemplateDialog({
 
             <FormField
               control={form.control}
-              name="brandId"
+              name=&quot;brandId&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Brand/Region</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      min="1"
+                      type=&quot;number&quot;
+                      min=&quot;1&quot;
                       {...field}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
@@ -162,10 +162,10 @@ export default function AddTemplateDialog({
 
             <FormField
               control={form.control}
-              name="is_active"
+              name=&quot;is_active&quot;
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
+                <FormItem className=&quot;flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm&quot;>
+                  <div className=&quot;space-y-0.5&quot;>
                     <FormLabel>Active</FormLabel>
                     <FormDescription>
                       Make this template available for use
@@ -183,20 +183,20 @@ export default function AddTemplateDialog({
 
             <DialogFooter>
               <Button
-                type="button"
-                variant="outline"
+                type=&quot;button&quot;
+                variant=&quot;outline&quot;
                 onClick={() => onOpenChange(false)}
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={createMutation.isPending}>
+              <Button type=&quot;submit&quot; disabled={createMutation.isPending}>
                 {createMutation.isPending ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                     Creating...
                   </>
                 ) : (
-                  "Create Template"
+                  &quot;Create Template"
                 )}
               </Button>
             </DialogFooter>

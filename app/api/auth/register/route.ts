@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { cookies } from "next/headers";
-import { scrypt, randomBytes } from "crypto";
-import { promisify } from "util";
-import { SignJWT } from "jose";
-import { db } from "../../../../lib/db-connection";
-import { users, insertUserSchema } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { cookies } from &quot;next/headers&quot;;
+import { scrypt, randomBytes } from &quot;crypto&quot;;
+import { promisify } from &quot;util&quot;;
+import { SignJWT } from &quot;jose&quot;;
+import { db } from &quot;../../../../lib/db-connection&quot;;
+import { users, insertUserSchema } from &quot;@shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 const scryptAsync = promisify(scrypt);
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       insertUserSchema.parse(body);
     } catch (validationError) {
       return NextResponse.json(
-        { error: "Invalid user data", details: validationError },
+        { error: &quot;Invalid user data&quot;, details: validationError },
         { status: 400 },
       );
     }
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     if (existingUser.length > 0) {
       return NextResponse.json(
-        { error: "Username already exists" },
+        { error: &quot;Username already exists&quot; },
         { status: 400 },
       );
     }
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
     if (existingEmail.length > 0) {
       return NextResponse.json(
-        { error: "Email already in use" },
+        { error: &quot;Email already in use&quot; },
         { status: 400 },
       );
     }
@@ -79,14 +79,14 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         fullName: fullName || username,
-        role: "client_user", // Default role
+        role: &quot;client_user&quot;, // Default role
       })
       .returning();
 
     // Create JWT token
     if (!newUser) {
       return NextResponse.json(
-        { error: "Failed to create user" },
+        { error: &quot;Failed to create user&quot; },
         { status: 500 },
       );
     }
@@ -96,27 +96,27 @@ export async function POST(request: NextRequest) {
       username: newUser.username,
       role: newUser.role,
     })
-      .setProtectedHeader({ alg: "HS256" })
+      .setProtectedHeader({ alg: &quot;HS256&quot; })
       .setIssuedAt()
-      .setExpirationTime("24h")
+      .setExpirationTime(&quot;24h&quot;)
       .sign(JWT_SECRET);
 
     // Set cookie with JWT (await is required in Next.js 15.2.2)
     const cookieStore = await cookies();
-    await cookieStore.set("auth-token", token, {
+    await cookieStore.set(&quot;auth-token&quot;, token, {
       httpOnly: true,
-      secure: (process.env.NODE_ENV as string) === "production",
+      secure: (process.env.NODE_ENV as string) === &quot;production&quot;,
       maxAge: 60 * 60 * 24, // 1 day
-      path: "/",
+      path: &quot;/&quot;,
     });
 
     // Return user without password
     const { password: _, ...userWithoutPassword } = newUser;
     return NextResponse.json(userWithoutPassword, { status: 201 });
   } catch (error) {
-    console.error("Registration error:", error);
+    console.error(&quot;Registration error:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to register user" },
+      { error: &quot;Failed to register user&quot; },
       { status: 500 },
     );
   }
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
 
 // Hash password with salt
 async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16).toString("hex");
+  const salt = randomBytes(16).toString(&quot;hex&quot;);
   const derivedKey = (await scryptAsync(password, salt, 64)) as Buffer;
-  return derivedKey.toString("hex") + "." + salt;
+  return derivedKey.toString(&quot;hex&quot;) + &quot;.&quot; + salt;
 }

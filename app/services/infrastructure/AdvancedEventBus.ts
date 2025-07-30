@@ -10,7 +10,7 @@
  * - Event filtering and routing
  */
 
-import { AppEvent, EventPayload, PayloadFor } from "../../../shared/events";
+import { AppEvent, EventPayload, PayloadFor } from &quot;../../../shared/events&quot;;
 
 // Advanced event metadata interface
 export interface EventMetadata {
@@ -43,7 +43,7 @@ export interface EventHandler<T = any> {
 
 // Circuit breaker for fault tolerance
 class CircuitBreaker {
-  private state: "CLOSED" | "OPEN" | "HALF_OPEN" = "CLOSED";
+  private state: &quot;CLOSED&quot; | &quot;OPEN&quot; | &quot;HALF_OPEN&quot; = &quot;CLOSED&quot;;
   private failureCount = 0;
   private lastFailureTime = 0;
   
@@ -53,11 +53,11 @@ class CircuitBreaker {
   ) {}
 
   async execute<T>(operation: () => Promise<T>): Promise<T> {
-    if (this.state === "OPEN") {
+    if (this.state === &quot;OPEN&quot;) {
       if (Date.now() - this.lastFailureTime > this.resetTimeout) {
-        this.state = "HALF_OPEN";
+        this.state = &quot;HALF_OPEN&quot;;
       } else {
-        throw new Error("Circuit breaker is open");
+        throw new Error(&quot;Circuit breaker is open&quot;);
       }
     }
 
@@ -73,15 +73,15 @@ class CircuitBreaker {
 
   private onSuccess(): void {
     this.failureCount = 0;
-    this.state = "CLOSED";
+    this.state = &quot;CLOSED&quot;;
   }
 
   private onFailure(): void {
     this.failureCount++;
     this.lastFailureTime = Date.now();
     
-    if (this.state === "HALF_OPEN" || this.failureCount >= this.failureThreshold) {
-      this.state = "OPEN";
+    if (this.state === &quot;HALF_OPEN&quot; || this.failureCount >= this.failureThreshold) {
+      this.state = &quot;OPEN&quot;;
     }
   }
 
@@ -89,7 +89,7 @@ class CircuitBreaker {
     return {
       state: this.state,
       failureCount: this.failureCount,
-      isHealthy: this.state === "CLOSED"
+      isHealthy: this.state === &quot;CLOSED&quot;
     };
   }
 }

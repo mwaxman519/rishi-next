@@ -1,6 +1,6 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
+import { useState } from &quot;react&quot;;
 import {
   Building,
   Check,
@@ -14,12 +14,12 @@ import {
   RefreshCw,
   Calendar,
   User,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { format } from "date-fns";
+} from &quot;lucide-react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { format } from &quot;date-fns&quot;;
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 import {
   Card,
   CardContent,
@@ -27,8 +27,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+} from &quot;@/components/ui/card&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
 import {
   Dialog,
   DialogContent,
@@ -37,39 +37,39 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
+} from &quot;@/components/ui/dialog&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+} from &quot;@/components/ui/select&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
 
-import { useLocations } from "@/hooks/useLocations";
-import { LocationDTO } from "@/services/locations";
-import LocationMap from "@/components/locations/LocationMap";
+import { useLocations } from &quot;@/hooks/useLocations&quot;;
+import { LocationDTO } from &quot;@/services/locations&quot;;
+import LocationMap from &quot;@/components/locations/LocationMap&quot;;
 
 export default function LocationApprovalPage() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
   const [selectedLocation, setSelectedLocation] = useState<LocationDTO | null>(
     null,
   );
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState("");
-  const [currentTab, setCurrentTab] = useState("pending");
+  const [rejectionReason, setRejectionReason] = useState(&quot;&quot;);
+  const [currentTab, setCurrentTab] = useState(&quot;pending&quot;);
 
   // Filter for pending locations
-  const filters = { status: currentTab === "all" ? undefined : currentTab };
+  const filters = { status: currentTab === &quot;all&quot; ? undefined : currentTab };
 
   // Fetch locations with the status filter
   const {
@@ -89,7 +89,7 @@ export default function LocationApprovalPage() {
       location.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       location.address1.toLowerCase().includes(searchQuery.toLowerCase()) ||
       location.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (location.state?.name || "")
+      (location.state?.name || &quot;&quot;)
         .toLowerCase()
         .includes(searchQuery.toLowerCase()),
   );
@@ -99,20 +99,20 @@ export default function LocationApprovalPage() {
     try {
       await approveLocation(id);
       toast({
-        title: "Success",
-        description: "Location has been approved",
+        title: &quot;Success&quot;,
+        description: &quot;Location has been approved&quot;,
       });
       // Close details dialog if the approved location is the selected one
       if (selectedLocation?.id === id) {
         setIsDetailsOpen(false);
       }
     } catch (error) {
-      console.error("Error approving location:", error);
+      console.error(&quot;Error approving location:&quot;, error);
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          error instanceof Error ? error.message : "Failed to approve location",
-        variant: "destructive",
+          error instanceof Error ? error.message : &quot;Failed to approve location&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -122,8 +122,8 @@ export default function LocationApprovalPage() {
     try {
       await rejectLocation({ id, reason });
       toast({
-        title: "Success",
-        description: "Location has been rejected",
+        title: &quot;Success&quot;,
+        description: &quot;Location has been rejected&quot;,
       });
       setIsRejectDialogOpen(false);
       // Close details dialog if the rejected location is the selected one
@@ -131,12 +131,12 @@ export default function LocationApprovalPage() {
         setIsDetailsOpen(false);
       }
     } catch (error) {
-      console.error("Error rejecting location:", error);
+      console.error(&quot;Error rejecting location:&quot;, error);
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          error instanceof Error ? error.message : "Failed to reject location",
-        variant: "destructive",
+          error instanceof Error ? error.message : &quot;Failed to reject location&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -150,86 +150,86 @@ export default function LocationApprovalPage() {
   // Open rejection dialog
   const handleOpenRejectDialog = (location: LocationDTO) => {
     setSelectedLocation(location);
-    setRejectionReason("");
+    setRejectionReason(&quot;&quot;);
     setIsRejectDialogOpen(true);
   };
 
   // Get status badge based on location status
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "approved":
-        return <Badge className="bg-green-100 text-green-800">Approved</Badge>;
-      case "pending":
+      case &quot;approved&quot;:
+        return <Badge className=&quot;bg-green-100 text-green-800&quot;>Approved</Badge>;
+      case &quot;pending&quot;:
         return (
-          <Badge className="bg-yellow-100 text-yellow-800">
+          <Badge className=&quot;bg-yellow-100 text-yellow-800&quot;>
             Pending Review
           </Badge>
         );
-      case "rejected":
-        return <Badge className="bg-red-100 text-red-800">Rejected</Badge>;
-      case "draft":
-        return <Badge className="bg-gray-100 text-gray-800">Draft</Badge>;
+      case &quot;rejected&quot;:
+        return <Badge className=&quot;bg-red-100 text-red-800&quot;>Rejected</Badge>;
+      case &quot;draft&quot;:
+        return <Badge className=&quot;bg-gray-100 text-gray-800&quot;>Draft</Badge>;
       default:
-        return <Badge className="bg-gray-100 text-gray-800">{status}</Badge>;
+        return <Badge className=&quot;bg-gray-100 text-gray-800&quot;>{status}</Badge>;
     }
   };
 
   // Get location type badge
   const getTypeBadge = (type: string) => {
     switch (type) {
-      case "venue":
-        return <Badge className="bg-blue-100 text-blue-800">Venue</Badge>;
-      case "office":
-        return <Badge className="bg-purple-100 text-purple-800">Office</Badge>;
-      case "storage":
-        return <Badge className="bg-amber-100 text-amber-800">Storage</Badge>;
+      case &quot;venue&quot;:
+        return <Badge className=&quot;bg-blue-100 text-blue-800&quot;>Venue</Badge>;
+      case &quot;office&quot;:
+        return <Badge className=&quot;bg-purple-100 text-purple-800&quot;>Office</Badge>;
+      case &quot;storage&quot;:
+        return <Badge className=&quot;bg-amber-100 text-amber-800&quot;>Storage</Badge>;
       default:
-        return <Badge className="bg-gray-100 text-gray-800">{type}</Badge>;
+        return <Badge className=&quot;bg-gray-100 text-gray-800&quot;>{type}</Badge>;
     }
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex justify-between items-center">
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+      <div className=&quot;flex justify-between items-center&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
             Location Approval Queue
           </h1>
-          <p className="text-muted-foreground">
+          <p className=&quot;text-muted-foreground&quot;>
             Review and approve venue location requests
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className=&quot;flex items-center gap-3&quot;>
           <Button
-            variant="outline"
-            size="sm"
+            variant=&quot;outline&quot;
+            size=&quot;sm&quot;
             onClick={() => refetch()}
             disabled={isLoading}
-            className="flex items-center gap-2"
+            className=&quot;flex items-center gap-2&quot;
           >
             <RefreshCw
-              className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+              className={`h-4 w-4 ${isLoading ? &quot;animate-spin&quot; : &quot;&quot;}`}
             />
             Refresh
           </Button>
           <Button
-            variant="default"
-            size="sm"
-            onClick={() => router.push("/admin/locations")}
+            variant=&quot;default&quot;
+            size=&quot;sm&quot;
+            onClick={() => router.push(&quot;/admin/locations&quot;)}
           >
             View All Locations
           </Button>
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className=&quot;flex items-center space-x-4&quot;>
+        <div className=&quot;relative flex-1 max-w-sm&quot;>
+          <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
           <Input
-            type="search"
-            placeholder="Search locations..."
-            className="pl-9"
+            type=&quot;search&quot;
+            placeholder=&quot;Search locations...&quot;
+            className=&quot;pl-9&quot;
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -238,25 +238,25 @@ export default function LocationApprovalPage() {
         <Tabs
           value={currentTab}
           onValueChange={setCurrentTab}
-          className="flex-1"
+          className=&quot;flex-1&quot;
         >
-          <TabsList className="grid w-full max-w-md grid-cols-3">
-            <TabsTrigger value="pending">
-              Pending{" "}
-              <Badge variant="outline" className="ml-2">
-                {locations.filter((l) => l.status === "pending").length}
+          <TabsList className=&quot;grid w-full max-w-md grid-cols-3&quot;>
+            <TabsTrigger value=&quot;pending&quot;>
+              Pending{&quot; &quot;}
+              <Badge variant=&quot;outline&quot; className=&quot;ml-2&quot;>
+                {locations.filter((l) => l.status === &quot;pending&quot;).length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="approved">
-              Approved{" "}
-              <Badge variant="outline" className="ml-2">
-                {locations.filter((l) => l.status === "approved").length}
+            <TabsTrigger value=&quot;approved&quot;>
+              Approved{&quot; &quot;}
+              <Badge variant=&quot;outline&quot; className=&quot;ml-2&quot;>
+                {locations.filter((l) => l.status === &quot;approved&quot;).length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="rejected">
-              Rejected{" "}
-              <Badge variant="outline" className="ml-2">
-                {locations.filter((l) => l.status === "rejected").length}
+            <TabsTrigger value=&quot;rejected&quot;>
+              Rejected{&quot; &quot;}
+              <Badge variant=&quot;outline&quot; className=&quot;ml-2&quot;>
+                {locations.filter((l) => l.status === &quot;rejected&quot;).length}
               </Badge>
             </TabsTrigger>
           </TabsList>
@@ -264,126 +264,126 @@ export default function LocationApprovalPage() {
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="flex flex-col items-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <p className="mt-4 text-muted-foreground">Loading locations...</p>
+        <div className=&quot;flex justify-center items-center py-12&quot;>
+          <div className=&quot;flex flex-col items-center&quot;>
+            <div className=&quot;animate-spin rounded-full h-12 w-12 border-b-2 border-primary&quot;></div>
+            <p className=&quot;mt-4 text-muted-foreground&quot;>Loading locations...</p>
           </div>
         </div>
       ) : error ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <div className="rounded-full bg-red-100 p-3 text-red-600 mb-4">
-              <X className="h-6 w-6" />
+          <CardContent className=&quot;flex flex-col items-center justify-center py-12&quot;>
+            <div className=&quot;rounded-full bg-red-100 p-3 text-red-600 mb-4&quot;>
+              <X className=&quot;h-6 w-6&quot; />
             </div>
-            <h3 className="text-lg font-medium">Error Loading Locations</h3>
-            <p className="text-sm text-muted-foreground mt-2">
+            <h3 className=&quot;text-lg font-medium&quot;>Error Loading Locations</h3>
+            <p className=&quot;text-sm text-muted-foreground mt-2&quot;>
               {error instanceof Error
                 ? error.message
-                : "An unknown error occurred"}
+                : &quot;An unknown error occurred&quot;}
             </p>
             <Button
-              variant="outline"
-              className="mt-4"
+              variant=&quot;outline&quot;
+              className=&quot;mt-4&quot;
               onClick={() => refetch()}
             >
-              <RefreshCw className="mr-2 h-4 w-4" />
+              <RefreshCw className=&quot;mr-2 h-4 w-4&quot; />
               Try Again
             </Button>
           </CardContent>
         </Card>
       ) : filteredLocations.length === 0 ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <div className="rounded-full bg-blue-100 p-3 text-blue-600 mb-4">
-              <MapPin className="h-6 w-6" />
+          <CardContent className=&quot;flex flex-col items-center justify-center py-12&quot;>
+            <div className=&quot;rounded-full bg-blue-100 p-3 text-blue-600 mb-4&quot;>
+              <MapPin className=&quot;h-6 w-6&quot; />
             </div>
-            <h3 className="text-lg font-medium">No Locations Found</h3>
-            <p className="text-sm text-muted-foreground mt-2">
+            <h3 className=&quot;text-lg font-medium&quot;>No Locations Found</h3>
+            <p className=&quot;text-sm text-muted-foreground mt-2&quot;>
               {searchQuery
-                ? "No locations match your search criteria"
+                ? &quot;No locations match your search criteria&quot;
                 : `No ${currentTab} locations available at this time`}
             </p>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className=&quot;grid gap-4 md:grid-cols-2 lg:grid-cols-3&quot;>
           {filteredLocations.map((location) => (
-            <Card key={location.id} className="overflow-hidden">
-              <CardHeader className="p-4 pb-2 flex flex-row justify-between items-start">
+            <Card key={location.id} className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;p-4 pb-2 flex flex-row justify-between items-start&quot;>
                 <div>
-                  <CardTitle className="text-lg">{location.name}</CardTitle>
+                  <CardTitle className=&quot;text-lg&quot;>{location.name}</CardTitle>
                   <CardDescription>
                     {location.type} in {location.city}
                   </CardDescription>
                 </div>
-                <div className="flex space-x-1">
+                <div className=&quot;flex space-x-1&quot;>
                   {getStatusBadge(location.status)}
                   {getTypeBadge(location.type)}
                 </div>
               </CardHeader>
-              <CardContent className="p-4 pt-2">
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-start">
-                    <MapPin className="h-4 w-4 mr-2 mt-0.5 text-muted-foreground" />
-                    <div className="flex-1">
+              <CardContent className=&quot;p-4 pt-2&quot;>
+                <div className=&quot;space-y-2 text-sm&quot;>
+                  <div className=&quot;flex items-start&quot;>
+                    <MapPin className=&quot;h-4 w-4 mr-2 mt-0.5 text-muted-foreground&quot; />
+                    <div className=&quot;flex-1&quot;>
                       <p>{location.address1}</p>
                       {location.address2 && <p>{location.address2}</p>}
                       <p>
-                        {location.city}, {location.state?.abbreviation || "N/A"}{" "}
+                        {location.city}, {location.state?.abbreviation || &quot;N/A&quot;}{&quot; &quot;}
                         {location.zipcode}
                       </p>
                     </div>
                   </div>
                   {location.requester && (
-                    <div className="flex items-center">
-                      <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                    <div className=&quot;flex items-center&quot;>
+                      <User className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
                       <span>Requested by {location.requester.fullName}</span>
                     </div>
                   )}
-                  <div className="flex items-center">
-                    <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
+                  <div className=&quot;flex items-center&quot;>
+                    <Clock className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
                     <span>
-                      Submitted{" "}
-                      {format(new Date(location.createdAt), "MMM d, yyyy")}
+                      Submitted{&quot; &quot;}
+                      {format(new Date(location.createdAt), &quot;MMM d, yyyy&quot;)}
                     </span>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="bg-muted/20 p-4 flex justify-between">
+              <CardFooter className=&quot;bg-muted/20 p-4 flex justify-between&quot;>
                 <Button
-                  variant="outline"
-                  size="sm"
+                  variant=&quot;outline&quot;
+                  size=&quot;sm&quot;
                   onClick={() => handleViewDetails(location)}
                 >
-                  <Eye className="mr-2 h-4 w-4" />
+                  <Eye className=&quot;mr-2 h-4 w-4&quot; />
                   View Details
                 </Button>
 
-                {location.status === "pending" && (
-                  <div className="flex gap-2">
+                {location.status === &quot;pending&quot; && (
+                  <div className=&quot;flex gap-2&quot;>
                     <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-red-600 border-red-200 hover:bg-red-50"
+                      variant=&quot;outline&quot;
+                      size=&quot;sm&quot;
+                      className=&quot;text-red-600 border-red-200 hover:bg-red-50&quot;
                       onClick={() => handleOpenRejectDialog(location)}
                       disabled={
                         approveMutation.isPending || rejectMutation.isPending
                       }
                     >
-                      <X className="mr-2 h-4 w-4" />
+                      <X className=&quot;mr-2 h-4 w-4&quot; />
                       Reject
                     </Button>
                     <Button
-                      variant="default"
-                      size="sm"
-                      className="bg-green-600 hover:bg-green-700"
+                      variant=&quot;default&quot;
+                      size=&quot;sm&quot;
+                      className=&quot;bg-green-600 hover:bg-green-700&quot;
                       onClick={() => handleApproveLocation(location.id)}
                       disabled={
                         approveMutation.isPending || rejectMutation.isPending
                       }
                     >
-                      <Check className="mr-2 h-4 w-4" />
+                      <Check className=&quot;mr-2 h-4 w-4&quot; />
                       Approve
                     </Button>
                   </div>
@@ -397,12 +397,12 @@ export default function LocationApprovalPage() {
       {/* Location Details Dialog */}
       {selectedLocation && (
         <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-          <DialogContent className="max-w-3xl h-[80vh] flex flex-col">
+          <DialogContent className=&quot;max-w-3xl h-[80vh] flex flex-col&quot;>
             <DialogHeader>
-              <DialogTitle className="flex items-center">
-                <Building className="mr-2 h-5 w-5" />
+              <DialogTitle className=&quot;flex items-center&quot;>
+                <Building className=&quot;mr-2 h-5 w-5&quot; />
                 {selectedLocation.name}
-                <div className="ml-3">
+                <div className=&quot;ml-3&quot;>
                   {getStatusBadge(selectedLocation.status)}
                 </div>
               </DialogTitle>
@@ -411,53 +411,53 @@ export default function LocationApprovalPage() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="flex flex-col md:flex-row gap-6 flex-1 overflow-hidden">
-              <div className="flex-1 overflow-y-auto">
-                <div className="space-y-4">
+            <div className=&quot;flex flex-col md:flex-row gap-6 flex-1 overflow-hidden&quot;>
+              <div className=&quot;flex-1 overflow-y-auto&quot;>
+                <div className=&quot;space-y-4&quot;>
                   {/* Location Information */}
                   <div>
-                    <h3 className="text-lg font-medium">
+                    <h3 className=&quot;text-lg font-medium&quot;>
                       Location Information
                     </h3>
-                    <div className="mt-2 space-y-2 text-sm">
-                      <div className="flex">
-                        <span className="font-medium w-32">Type:</span>
+                    <div className=&quot;mt-2 space-y-2 text-sm&quot;>
+                      <div className=&quot;flex&quot;>
+                        <span className=&quot;font-medium w-32&quot;>Type:</span>
                         <span>{getTypeBadge(selectedLocation.type)}</span>
                       </div>
-                      <div className="flex">
-                        <span className="font-medium w-32">Address:</span>
+                      <div className=&quot;flex&quot;>
+                        <span className=&quot;font-medium w-32&quot;>Address:</span>
                         <div>
                           <p>{selectedLocation.address1}</p>
                           {selectedLocation.address2 && (
                             <p>{selectedLocation.address2}</p>
                           )}
                           <p>
-                            {selectedLocation.city},{" "}
-                            {selectedLocation.state?.abbreviation || "N/A"}{" "}
+                            {selectedLocation.city},{&quot; &quot;}
+                            {selectedLocation.state?.abbreviation || &quot;N/A&quot;}{&quot; &quot;}
                             {selectedLocation.zipcode}
                           </p>
                         </div>
                       </div>
                       {selectedLocation.phone && (
-                        <div className="flex">
-                          <span className="font-medium w-32">Phone:</span>
+                        <div className=&quot;flex&quot;>
+                          <span className=&quot;font-medium w-32&quot;>Phone:</span>
                           <span>{selectedLocation.phone}</span>
                         </div>
                       )}
                       {selectedLocation.email && (
-                        <div className="flex">
-                          <span className="font-medium w-32">Email:</span>
+                        <div className=&quot;flex&quot;>
+                          <span className=&quot;font-medium w-32&quot;>Email:</span>
                           <span>{selectedLocation.email}</span>
                         </div>
                       )}
                       {selectedLocation.website && (
-                        <div className="flex">
-                          <span className="font-medium w-32">Website:</span>
+                        <div className=&quot;flex&quot;>
+                          <span className=&quot;font-medium w-32&quot;>Website:</span>
                           <a
                             href={selectedLocation.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
+                            target=&quot;_blank&quot;
+                            rel=&quot;noopener noreferrer&quot;
+                            className=&quot;text-blue-600 hover:underline&quot;
                           >
                             {selectedLocation.website}
                           </a>
@@ -474,25 +474,25 @@ export default function LocationApprovalPage() {
                     selectedLocation.contactPhone) && (
                     <>
                       <div>
-                        <h3 className="text-lg font-medium">
+                        <h3 className=&quot;text-lg font-medium&quot;>
                           Contact Information
                         </h3>
-                        <div className="mt-2 space-y-2 text-sm">
+                        <div className=&quot;mt-2 space-y-2 text-sm&quot;>
                           {selectedLocation.contactName && (
-                            <div className="flex">
-                              <span className="font-medium w-32">Name:</span>
+                            <div className=&quot;flex&quot;>
+                              <span className=&quot;font-medium w-32&quot;>Name:</span>
                               <span>{selectedLocation.contactName}</span>
                             </div>
                           )}
                           {selectedLocation.contactEmail && (
-                            <div className="flex">
-                              <span className="font-medium w-32">Email:</span>
+                            <div className=&quot;flex&quot;>
+                              <span className=&quot;font-medium w-32&quot;>Email:</span>
                               <span>{selectedLocation.contactEmail}</span>
                             </div>
                           )}
                           {selectedLocation.contactPhone && (
-                            <div className="flex">
-                              <span className="font-medium w-32">Phone:</span>
+                            <div className=&quot;flex&quot;>
+                              <span className=&quot;font-medium w-32&quot;>Phone:</span>
                               <span>{selectedLocation.contactPhone}</span>
                             </div>
                           )}
@@ -507,14 +507,14 @@ export default function LocationApprovalPage() {
                   {selectedLocation.requester && (
                     <>
                       <div>
-                        <h3 className="text-lg font-medium">Request Details</h3>
-                        <div className="mt-2 space-y-2 text-sm">
-                          <div className="flex items-center">
-                            <span className="font-medium w-32">
+                        <h3 className=&quot;text-lg font-medium&quot;>Request Details</h3>
+                        <div className=&quot;mt-2 space-y-2 text-sm&quot;>
+                          <div className=&quot;flex items-center&quot;>
+                            <span className=&quot;font-medium w-32&quot;>
                               Requested By:
                             </span>
-                            <div className="flex items-center">
-                              <Avatar className="h-6 w-6 mr-2">
+                            <div className=&quot;flex items-center&quot;>
+                              <Avatar className=&quot;h-6 w-6 mr-2&quot;>
                                 <AvatarFallback>
                                   {selectedLocation.requester.fullName.charAt(
                                     0,
@@ -524,18 +524,18 @@ export default function LocationApprovalPage() {
                               <span>{selectedLocation.requester.fullName}</span>
                             </div>
                           </div>
-                          <div className="flex">
-                            <span className="font-medium w-32">Email:</span>
+                          <div className=&quot;flex&quot;>
+                            <span className=&quot;font-medium w-32&quot;>Email:</span>
                             <span>{selectedLocation.requester.email}</span>
                           </div>
-                          <div className="flex">
-                            <span className="font-medium w-32">
+                          <div className=&quot;flex&quot;>
+                            <span className=&quot;font-medium w-32&quot;>
                               Request Date:
                             </span>
                             <span>
                               {format(
                                 new Date(selectedLocation.createdAt),
-                                "MMM d, yyyy h:mm a",
+                                &quot;MMM d, yyyy h:mm a&quot;,
                               )}
                             </span>
                           </div>
@@ -550,10 +550,10 @@ export default function LocationApprovalPage() {
                   {selectedLocation.notes && (
                     <>
                       <div>
-                        <h3 className="text-lg font-medium">
+                        <h3 className=&quot;text-lg font-medium&quot;>
                           Additional Notes
                         </h3>
-                        <div className="mt-2 p-3 bg-muted rounded-md text-sm">
+                        <div className=&quot;mt-2 p-3 bg-muted rounded-md text-sm&quot;>
                           {selectedLocation.notes}
                         </div>
                       </div>
@@ -563,14 +563,14 @@ export default function LocationApprovalPage() {
                   )}
 
                   {/* Rejection Reason */}
-                  {selectedLocation.status === "rejected" &&
+                  {selectedLocation.status === &quot;rejected&quot; &&
                     selectedLocation.rejectionReason && (
                       <>
                         <div>
-                          <h3 className="text-lg font-medium text-red-600">
+                          <h3 className=&quot;text-lg font-medium text-red-600&quot;>
                             Rejection Reason
                           </h3>
-                          <div className="mt-2 p-3 bg-red-50 border border-red-100 rounded-md text-sm">
+                          <div className=&quot;mt-2 p-3 bg-red-50 border border-red-100 rounded-md text-sm&quot;>
                             {selectedLocation.rejectionReason}
                           </div>
                         </div>
@@ -582,18 +582,18 @@ export default function LocationApprovalPage() {
               </div>
 
               {/* Map Section */}
-              <div className="w-full md:w-1/2 h-[300px] md:h-auto">
+              <div className=&quot;w-full md:w-1/2 h-[300px] md:h-auto&quot;>
                 {selectedLocation.latitude && selectedLocation.longitude ? (
                   <LocationMap
                     latitude={selectedLocation.latitude}
                     longitude={selectedLocation.longitude}
-                    className="h-full w-full rounded-md border"
+                    className=&quot;h-full w-full rounded-md border&quot;
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-full w-full bg-muted rounded-md border">
-                    <div className="text-center">
-                      <MapPin className="mx-auto h-10 w-10 text-muted-foreground/50" />
-                      <p className="mt-2 text-sm text-muted-foreground">
+                  <div className=&quot;flex items-center justify-center h-full w-full bg-muted rounded-md border&quot;>
+                    <div className=&quot;text-center&quot;>
+                      <MapPin className=&quot;mx-auto h-10 w-10 text-muted-foreground/50&quot; />
+                      <p className=&quot;mt-2 text-sm text-muted-foreground&quot;>
                         No coordinates available for this location
                       </p>
                     </div>
@@ -602,33 +602,33 @@ export default function LocationApprovalPage() {
               </div>
             </div>
 
-            <DialogFooter className="mt-auto">
+            <DialogFooter className=&quot;mt-auto&quot;>
               <DialogClose asChild>
-                <Button variant="outline">Close</Button>
+                <Button variant=&quot;outline&quot;>Close</Button>
               </DialogClose>
 
-              {selectedLocation.status === "pending" && (
+              {selectedLocation.status === &quot;pending&quot; && (
                 <>
                   <Button
-                    variant="outline"
-                    className="text-red-600 border-red-200 hover:bg-red-50"
+                    variant=&quot;outline&quot;
+                    className=&quot;text-red-600 border-red-200 hover:bg-red-50&quot;
                     onClick={() => handleOpenRejectDialog(selectedLocation)}
                     disabled={
                       approveMutation.isPending || rejectMutation.isPending
                     }
                   >
-                    <X className="mr-2 h-4 w-4" />
+                    <X className=&quot;mr-2 h-4 w-4&quot; />
                     Reject Location
                   </Button>
                   <Button
-                    variant="default"
-                    className="bg-green-600 hover:bg-green-700"
+                    variant=&quot;default&quot;
+                    className=&quot;bg-green-600 hover:bg-green-700&quot;
                     onClick={() => handleApproveLocation(selectedLocation.id)}
                     disabled={
                       approveMutation.isPending || rejectMutation.isPending
                     }
                   >
-                    <Check className="mr-2 h-4 w-4" />
+                    <Check className=&quot;mr-2 h-4 w-4&quot; />
                     Approve Location
                   </Button>
                 </>
@@ -649,25 +649,25 @@ export default function LocationApprovalPage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 py-2">
+          <div className=&quot;space-y-4 py-2&quot;>
             <Textarea
-              placeholder="Enter rejection reason..."
+              placeholder=&quot;Enter rejection reason...&quot;
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
-              className="h-32"
+              className=&quot;h-32&quot;
             />
           </div>
 
           <DialogFooter>
             <Button
-              variant="outline"
+              variant=&quot;outline&quot;
               onClick={() => setIsRejectDialogOpen(false)}
               disabled={rejectMutation.isPending}
             >
               Cancel
             </Button>
             <Button
-              variant="destructive"
+              variant=&quot;destructive&quot;
               onClick={() =>
                 selectedLocation &&
                 handleRejectLocation(selectedLocation.id, rejectionReason)
@@ -676,12 +676,12 @@ export default function LocationApprovalPage() {
             >
               {rejectMutation.isPending ? (
                 <>
-                  <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                  <RefreshCw className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                   Rejecting...
                 </>
               ) : (
                 <>
-                  <X className="mr-2 h-4 w-4" />
+                  <X className=&quot;mr-2 h-4 w-4" />
                   Reject Location
                 </>
               )}

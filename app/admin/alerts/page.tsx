@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import Link from "next/link";
-import { format } from "date-fns";
+import { useState } from &quot;react&quot;;
+import Link from &quot;next/link&quot;;
+import { format } from &quot;date-fns&quot;;
 import {
   BadgeAlert,
   AlertTriangle,
@@ -16,9 +16,9 @@ import {
   Clock,
   ChevronRight,
   ChevronLeft,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,66 +26,66 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
+} from &quot;@/components/ui/dropdown-menu&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from &quot;@/components/ui/select&quot;;
 
 // Mock data
 const alerts = [
   {
     id: 1,
-    title: "Database Performance",
-    description: "Slow query performance detected in production environment",
-    status: "critical",
-    category: "system",
+    title: &quot;Database Performance&quot;,
+    description: &quot;Slow query performance detected in production environment&quot;,
+    status: &quot;critical&quot;,
+    category: &quot;system&quot;,
     createdAt: new Date(Date.now() - 15 * 60 * 1000),
     resolvedAt: null,
     assignedTo: null,
   },
   {
     id: 2,
-    title: "API Rate Limiting",
-    description: "Rate limit threshold reached for external API calls",
-    status: "critical",
-    category: "api",
+    title: &quot;API Rate Limiting&quot;,
+    description: &quot;Rate limit threshold reached for external API calls&quot;,
+    status: &quot;critical&quot;,
+    category: &quot;api&quot;,
     createdAt: new Date(Date.now() - 42 * 60 * 1000),
     resolvedAt: null,
     assignedTo: null,
   },
   {
     id: 3,
-    title: "User Authentication Spike",
-    description: "Unusual number of authentication failures detected",
-    status: "warning",
-    category: "security",
+    title: &quot;User Authentication Spike&quot;,
+    description: &quot;Unusual number of authentication failures detected&quot;,
+    status: &quot;warning&quot;,
+    category: &quot;security&quot;,
     createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000),
     resolvedAt: null,
-    assignedTo: "Alex Johnson",
+    assignedTo: &quot;Alex Johnson&quot;,
   },
   {
     id: 4,
-    title: "Memory Usage High",
-    description: "Server memory usage exceeded 85% threshold",
-    status: "warning",
-    category: "system",
+    title: &quot;Memory Usage High&quot;,
+    description: &quot;Server memory usage exceeded 85% threshold&quot;,
+    status: &quot;warning&quot;,
+    category: &quot;system&quot;,
     createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000),
     resolvedAt: null,
     assignedTo: null,
   },
   {
     id: 5,
-    title: "Scheduled Maintenance",
-    description: "System will be undergoing maintenance in 24 hours",
-    status: "info",
-    category: "maintenance",
+    title: &quot;Scheduled Maintenance&quot;,
+    description: &quot;System will be undergoing maintenance in 24 hours&quot;,
+    status: &quot;info&quot;,
+    category: &quot;maintenance&quot;,
     createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000),
     resolvedAt: null,
     assignedTo: null,
@@ -94,33 +94,33 @@ const alerts = [
 
 const getStatusBadge = (status: string) => {
   switch (status) {
-    case "critical":
+    case &quot;critical&quot;:
       return (
-        <Badge variant="destructive" className="rounded-sm px-2 py-1">
+        <Badge variant=&quot;destructive&quot; className=&quot;rounded-sm px-2 py-1&quot;>
           Critical
         </Badge>
       );
-    case "warning":
+    case &quot;warning&quot;:
       return (
         <Badge
-          variant="outline"
-          className="bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 rounded-sm px-2 py-1"
+          variant=&quot;outline&quot;
+          className=&quot;bg-amber-100 text-amber-800 hover:bg-amber-100 border-amber-200 rounded-sm px-2 py-1&quot;
         >
           Warning
         </Badge>
       );
-    case "info":
+    case &quot;info&quot;:
       return (
         <Badge
-          variant="outline"
-          className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200 rounded-sm px-2 py-1"
+          variant=&quot;outline&quot;
+          className=&quot;bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200 rounded-sm px-2 py-1&quot;
         >
           Info
         </Badge>
       );
     default:
       return (
-        <Badge variant="outline" className="rounded-sm px-2 py-1">
+        <Badge variant=&quot;outline&quot; className=&quot;rounded-sm px-2 py-1&quot;>
           {status}
         </Badge>
       );
@@ -129,21 +129,21 @@ const getStatusBadge = (status: string) => {
 
 const getStatusIcon = (status: string) => {
   switch (status) {
-    case "critical":
-      return <BadgeAlert className="h-5 w-5 text-red-500" />;
-    case "warning":
-      return <AlertTriangle className="h-5 w-5 text-amber-500" />;
-    case "info":
-      return <Info className="h-5 w-5 text-blue-500" />;
+    case &quot;critical&quot;:
+      return <BadgeAlert className=&quot;h-5 w-5 text-red-500&quot; />;
+    case &quot;warning&quot;:
+      return <AlertTriangle className=&quot;h-5 w-5 text-amber-500&quot; />;
+    case &quot;info&quot;:
+      return <Info className=&quot;h-5 w-5 text-blue-500&quot; />;
     default:
-      return <Info className="h-5 w-5" />;
+      return <Info className=&quot;h-5 w-5&quot; />;
   }
 };
 
 export default function AlertsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
+  const [categoryFilter, setCategoryFilter] = useState(&quot;all&quot;);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -156,11 +156,11 @@ export default function AlertsPage() {
 
     // Status filter
     const matchesStatus =
-      statusFilter === "all" || alert.status === statusFilter;
+      statusFilter === &quot;all&quot; || alert.status === statusFilter;
 
     // Category filter
     const matchesCategory =
-      categoryFilter === "all" || alert.category === categoryFilter;
+      categoryFilter === &quot;all&quot; || alert.category === categoryFilter;
 
     return matchesSearch && matchesStatus && matchesCategory;
   });
@@ -173,63 +173,63 @@ export default function AlertsPage() {
   );
 
   return (
-    <div className="container mx-auto py-6">
-      <header className="mb-6">
-        <div className="flex justify-between items-center">
+    <div className=&quot;container mx-auto py-6&quot;>
+      <header className=&quot;mb-6&quot;>
+        <div className=&quot;flex justify-between items-center&quot;>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">System Alerts</h1>
-            <p className="text-muted-foreground mt-1">
+            <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>System Alerts</h1>
+            <p className=&quot;text-muted-foreground mt-1&quot;>
               Monitor and manage system alerts across the platform
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
-              <Filter className="h-4 w-4 mr-2" />
+          <div className=&quot;flex items-center gap-2&quot;>
+            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+              <Filter className=&quot;h-4 w-4 mr-2&quot; />
               Manage Filters
             </Button>
-            <Button variant="outline" size="sm">
-              <Calendar className="h-4 w-4 mr-2" />
+            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+              <Calendar className=&quot;h-4 w-4 mr-2&quot; />
               History
             </Button>
             <Button>
-              <Check className="h-4 w-4 mr-2" />
+              <Check className=&quot;h-4 w-4 mr-2&quot; />
               Mark All as Read
             </Button>
           </div>
         </div>
       </header>
 
-      <Tabs defaultValue="active" className="space-y-4">
+      <Tabs defaultValue=&quot;active&quot; className=&quot;space-y-4&quot;>
         <TabsList>
-          <TabsTrigger value="active">Active Alerts</TabsTrigger>
-          <TabsTrigger value="resolved">Resolved</TabsTrigger>
-          <TabsTrigger value="all">All Alerts</TabsTrigger>
+          <TabsTrigger value=&quot;active&quot;>Active Alerts</TabsTrigger>
+          <TabsTrigger value=&quot;resolved&quot;>Resolved</TabsTrigger>
+          <TabsTrigger value=&quot;all&quot;>All Alerts</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="active" className="space-y-4">
+        <TabsContent value=&quot;active&quot; className=&quot;space-y-4&quot;>
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className=&quot;pb-3&quot;>
               <CardTitle>Filter Alerts</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <CardContent className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
               <div>
                 <Input
-                  placeholder="Search alerts..."
+                  placeholder=&quot;Search alerts...&quot;
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full"
+                  className=&quot;w-full&quot;
                 />
               </div>
               <div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Filter by status" />
+                  <SelectTrigger className=&quot;w-full&quot;>
+                    <SelectValue placeholder=&quot;Filter by status&quot; />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="critical">Critical</SelectItem>
-                    <SelectItem value="warning">Warning</SelectItem>
-                    <SelectItem value="info">Info</SelectItem>
+                    <SelectItem value=&quot;all&quot;>All Statuses</SelectItem>
+                    <SelectItem value=&quot;critical&quot;>Critical</SelectItem>
+                    <SelectItem value=&quot;warning&quot;>Warning</SelectItem>
+                    <SelectItem value=&quot;info&quot;>Info</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -238,26 +238,26 @@ export default function AlertsPage() {
                   value={categoryFilter}
                   onValueChange={setCategoryFilter}
                 >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Filter by category" />
+                  <SelectTrigger className=&quot;w-full&quot;>
+                    <SelectValue placeholder=&quot;Filter by category&quot; />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="system">System</SelectItem>
-                    <SelectItem value="api">API</SelectItem>
-                    <SelectItem value="security">Security</SelectItem>
-                    <SelectItem value="maintenance">Maintenance</SelectItem>
+                    <SelectItem value=&quot;all&quot;>All Categories</SelectItem>
+                    <SelectItem value=&quot;system&quot;>System</SelectItem>
+                    <SelectItem value=&quot;api&quot;>API</SelectItem>
+                    <SelectItem value=&quot;security&quot;>Security</SelectItem>
+                    <SelectItem value=&quot;maintenance&quot;>Maintenance</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="flex justify-end">
+              <div className=&quot;flex justify-end&quot;>
                 <Button
-                  variant="outline"
-                  size="sm"
+                  variant=&quot;outline&quot;
+                  size=&quot;sm&quot;
                   onClick={() => {
-                    setSearchQuery("");
-                    setStatusFilter("all");
-                    setCategoryFilter("all");
+                    setSearchQuery(&quot;&quot;);
+                    setStatusFilter(&quot;all&quot;);
+                    setCategoryFilter(&quot;all&quot;);
                   }}
                 >
                   Reset Filters
@@ -267,28 +267,28 @@ export default function AlertsPage() {
           </Card>
 
           <Card>
-            <CardContent className="pt-6">
-              <div className="rounded-md border">
-                <div className="relative w-full overflow-auto">
-                  <table className="w-full caption-bottom text-sm">
+            <CardContent className=&quot;pt-6&quot;>
+              <div className=&quot;rounded-md border&quot;>
+                <div className=&quot;relative w-full overflow-auto&quot;>
+                  <table className=&quot;w-full caption-bottom text-sm&quot;>
                     <thead>
-                      <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                        <th className="h-12 px-4 text-left align-middle font-medium">
+                      <tr className=&quot;border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted&quot;>
+                        <th className=&quot;h-12 px-4 text-left align-middle font-medium&quot;>
                           Status
                         </th>
-                        <th className="h-12 px-4 text-left align-middle font-medium">
+                        <th className=&quot;h-12 px-4 text-left align-middle font-medium&quot;>
                           Alert
                         </th>
-                        <th className="h-12 px-4 text-left align-middle font-medium">
+                        <th className=&quot;h-12 px-4 text-left align-middle font-medium&quot;>
                           Time
                         </th>
-                        <th className="h-12 px-4 text-left align-middle font-medium">
+                        <th className=&quot;h-12 px-4 text-left align-middle font-medium&quot;>
                           Category
                         </th>
-                        <th className="h-12 px-4 text-left align-middle font-medium">
+                        <th className=&quot;h-12 px-4 text-left align-middle font-medium&quot;>
                           Assigned To
                         </th>
-                        <th className="h-12 px-4 text-right align-middle font-medium">
+                        <th className=&quot;h-12 px-4 text-right align-middle font-medium&quot;>
                           Actions
                         </th>
                       </tr>
@@ -297,56 +297,56 @@ export default function AlertsPage() {
                       {paginatedAlerts.map((alert) => (
                         <tr
                           key={alert.id}
-                          className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                          className=&quot;border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted&quot;
                         >
-                          <td className="p-4 align-middle">
-                            <div className="flex items-center">
+                          <td className=&quot;p-4 align-middle&quot;>
+                            <div className=&quot;flex items-center&quot;>
                               {getStatusIcon(alert.status)}
-                              <span className="ml-2">
+                              <span className=&quot;ml-2&quot;>
                                 {getStatusBadge(alert.status)}
                               </span>
                             </div>
                           </td>
-                          <td className="p-4 align-middle">
+                          <td className=&quot;p-4 align-middle&quot;>
                             <div>
-                              <div className="font-medium">{alert.title}</div>
-                              <div className="text-sm text-muted-foreground">
+                              <div className=&quot;font-medium&quot;>{alert.title}</div>
+                              <div className=&quot;text-sm text-muted-foreground&quot;>
                                 {alert.description}
                               </div>
                             </div>
                           </td>
-                          <td className="p-4 align-middle">
-                            <div className="flex items-center">
-                              <Clock className="h-4 w-4 mr-2 text-gray-400" />
-                              {format(alert.createdAt, "MMM d, h:mm a")}
+                          <td className=&quot;p-4 align-middle&quot;>
+                            <div className=&quot;flex items-center&quot;>
+                              <Clock className=&quot;h-4 w-4 mr-2 text-gray-400&quot; />
+                              {format(alert.createdAt, &quot;MMM d, h:mm a&quot;)}
                             </div>
                           </td>
-                          <td className="p-4 align-middle">
-                            <Badge variant="outline" className="capitalize">
+                          <td className=&quot;p-4 align-middle&quot;>
+                            <Badge variant=&quot;outline&quot; className=&quot;capitalize&quot;>
                               {alert.category}
                             </Badge>
                           </td>
-                          <td className="p-4 align-middle">
-                            {alert.assignedTo || "-"}
+                          <td className=&quot;p-4 align-middle&quot;>
+                            {alert.assignedTo || &quot;-&quot;}
                           </td>
-                          <td className="p-4 align-middle text-right">
-                            <div className="flex justify-end gap-2">
-                              <Button asChild variant="ghost" size="icon">
+                          <td className=&quot;p-4 align-middle text-right&quot;>
+                            <div className=&quot;flex justify-end gap-2&quot;>
+                              <Button asChild variant=&quot;ghost&quot; size=&quot;icon&quot;>
                                 <Link href={`/admin/alerts/${alert.id}`}>
-                                  <Eye className="h-4 w-4" />
-                                  <span className="sr-only">View</span>
+                                  <Eye className=&quot;h-4 w-4&quot; />
+                                  <span className=&quot;sr-only&quot;>View</span>
                                 </Link>
                               </Button>
                               <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                  <Button variant="ghost" size="icon">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                    <span className="sr-only">
+                                  <Button variant=&quot;ghost&quot; size=&quot;icon&quot;>
+                                    <MoreHorizontal className=&quot;h-4 w-4&quot; />
+                                    <span className=&quot;sr-only&quot;>
                                       More options
                                     </span>
                                   </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
+                                <DropdownMenuContent align=&quot;end&quot;>
                                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                   <DropdownMenuItem>
                                     Assign Alert
@@ -370,10 +370,10 @@ export default function AlertsPage() {
               </div>
 
               {filteredAlerts.length === 0 && (
-                <div className="flex flex-col items-center justify-center text-center p-8">
-                  <BadgeAlert className="h-10 w-10 text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium">No alerts found</h3>
-                  <p className="text-muted-foreground mt-2">
+                <div className=&quot;flex flex-col items-center justify-center text-center p-8&quot;>
+                  <BadgeAlert className=&quot;h-10 w-10 text-muted-foreground mb-4&quot; />
+                  <h3 className=&quot;text-lg font-medium&quot;>No alerts found</h3>
+                  <p className=&quot;text-muted-foreground mt-2&quot;>
                     No alerts match your current filter criteria. Try adjusting
                     your filters.
                   </p>
@@ -381,42 +381,42 @@ export default function AlertsPage() {
               )}
 
               {filteredAlerts.length > 0 && (
-                <div className="flex items-center justify-between mt-4">
-                  <div className="text-sm text-muted-foreground">
-                    Showing{" "}
+                <div className=&quot;flex items-center justify-between mt-4&quot;>
+                  <div className=&quot;text-sm text-muted-foreground&quot;>
+                    Showing{&quot; &quot;}
                     {Math.min(
                       filteredAlerts.length,
                       (currentPage - 1) * itemsPerPage + 1,
-                    )}{" "}
-                    to{" "}
+                    )}{&quot; &quot;}
+                    to{&quot; &quot;}
                     {Math.min(
                       filteredAlerts.length,
                       currentPage * itemsPerPage,
-                    )}{" "}
+                    )}{&quot; &quot;}
                     of {filteredAlerts.length} alerts
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className=&quot;flex items-center space-x-2&quot;>
                     <Button
-                      variant="outline"
-                      size="sm"
+                      variant=&quot;outline&quot;
+                      size=&quot;sm&quot;
                       onClick={() =>
                         setCurrentPage((prev) => Math.max(prev - 1, 1))
                       }
                       disabled={currentPage === 1}
                     >
-                      <ChevronLeft className="h-4 w-4" />
-                      <span className="sr-only">Previous page</span>
+                      <ChevronLeft className=&quot;h-4 w-4&quot; />
+                      <span className=&quot;sr-only&quot;>Previous page</span>
                     </Button>
                     <Button
-                      variant="outline"
-                      size="sm"
+                      variant=&quot;outline&quot;
+                      size=&quot;sm&quot;
                       onClick={() =>
                         setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                       }
                       disabled={currentPage === totalPages}
                     >
-                      <ChevronRight className="h-4 w-4" />
-                      <span className="sr-only">Next page</span>
+                      <ChevronRight className=&quot;h-4 w-4&quot; />
+                      <span className=&quot;sr-only&quot;>Next page</span>
                     </Button>
                   </div>
                 </div>
@@ -425,18 +425,18 @@ export default function AlertsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="resolved" className="space-y-4">
+        <TabsContent value=&quot;resolved&quot; className=&quot;space-y-4&quot;>
           <Card>
-            <CardContent className="pt-6">
-              <div className="flex flex-col items-center justify-center text-center p-8">
-                <Check className="h-10 w-10 text-green-500 mb-4" />
-                <h3 className="text-lg font-medium">All caught up!</h3>
-                <p className="text-muted-foreground mt-2">
+            <CardContent className=&quot;pt-6&quot;>
+              <div className=&quot;flex flex-col items-center justify-center text-center p-8&quot;>
+                <Check className=&quot;h-10 w-10 text-green-500 mb-4&quot; />
+                <h3 className=&quot;text-lg font-medium&quot;>All caught up!</h3>
+                <p className=&quot;text-muted-foreground mt-2&quot;>
                   There are no recently resolved alerts. Check back later or
                   view history.
                 </p>
-                <Button variant="outline" className="mt-4">
-                  <Calendar className="h-4 w-4 mr-2" />
+                <Button variant=&quot;outline&quot; className=&quot;mt-4&quot;>
+                  <Calendar className=&quot;h-4 w-4 mr-2&quot; />
                   View Alert History
                 </Button>
               </div>
@@ -444,14 +444,14 @@ export default function AlertsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="all" className="space-y-4">
-          {/* Same content as "active" tab, but showing all alerts */}
+        <TabsContent value=&quot;all&quot; className=&quot;space-y-4&quot;>
+          {/* Same content as &quot;active&quot; tab, but showing all alerts */}
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader className=&quot;pb-3&quot;>
               <CardTitle>All System Alerts</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-center text-muted-foreground p-4">
+              <p className=&quot;text-center text-muted-foreground p-4">
                 View and manage all alerts across the system, including resolved
                 and acknowledged alerts.
               </p>

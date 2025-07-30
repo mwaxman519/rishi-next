@@ -5,59 +5,59 @@
 
 // Define the app events and their payload types
 export type AppEvent =
-  | "availability.created"
-  | "availability.updated"
-  | "availability.deleted"
-  | "user.created"
-  | "user.updated"
-  | "booking.created"
-  | "booking.updated"
-  | "booking.cancelled";
+  | &quot;availability.created&quot;
+  | &quot;availability.updated&quot;
+  | &quot;availability.deleted&quot;
+  | &quot;user.created&quot;
+  | &quot;user.updated&quot;
+  | &quot;booking.created&quot;
+  | &quot;booking.updated&quot;
+  | &quot;booking.cancelled&quot;;
 
 // Define the payload types for each event
 export interface EventPayload {
-  "availability.created": {
+  &quot;availability.created&quot;: {
     id: number;
     userId: number;
     startDate: Date | string;
     endDate: Date | string;
     recurring?: boolean;
   };
-  "availability.updated": {
+  &quot;availability.updated&quot;: {
     id: number;
     userId: number;
     startDate?: Date | string;
     endDate?: Date | string;
     recurring?: boolean;
   };
-  "availability.deleted": {
+  &quot;availability.deleted&quot;: {
     id: number;
     userId: number;
   };
-  "user.created": {
+  &quot;user.created&quot;: {
     id: number;
     username: string;
     role: string;
   };
-  "user.updated": {
+  &quot;user.updated&quot;: {
     id: number;
     username?: string;
     role?: string;
   };
-  "booking.created": {
+  &quot;booking.created&quot;: {
     id: number;
     userId: number;
     agentId: number;
     startTime: Date | string;
     endTime: Date | string;
   };
-  "booking.updated": {
+  &quot;booking.updated&quot;: {
     id: number;
     startTime?: Date | string;
     endTime?: Date | string;
     status?: string;
   };
-  "booking.cancelled": {
+  &quot;booking.cancelled&quot;: {
     id: number;
     reason?: string;
   };
@@ -103,14 +103,14 @@ export class LocalEventBus implements EventPublisher, EventSubscriber {
 
       // Handle Date objects in availability events
       if (
-        event === "availability.created" ||
-        event === "availability.updated"
+        event === &quot;availability.created&quot; ||
+        event === &quot;availability.updated&quot;
       ) {
         // Safe type checking before accessing properties
         const availabilityPayload = processedPayload as any;
         if (
           availabilityPayload &&
-          "startDate" in availabilityPayload &&
+          &quot;startDate&quot; in availabilityPayload &&
           availabilityPayload.startDate instanceof Date
         ) {
           availabilityPayload.startDate =
@@ -118,7 +118,7 @@ export class LocalEventBus implements EventPublisher, EventSubscriber {
         }
         if (
           availabilityPayload &&
-          "endDate" in availabilityPayload &&
+          &quot;endDate&quot; in availabilityPayload &&
           availabilityPayload.endDate instanceof Date
         ) {
           availabilityPayload.endDate =
@@ -150,15 +150,15 @@ export class LocalEventBus implements EventPublisher, EventSubscriber {
 
 // Export all required constants
 export const APP_EVENTS: AppEvent[] = [
-  "availability.created",
-  "availability.updated",
-  "availability.deleted",
-  "user.created",
-  "user.updated",
-  "booking.created",
-  "booking.updated",
-  "booking.cancelled",
+  &quot;availability.created&quot;,
+  &quot;availability.updated&quot;,
+  &quot;availability.deleted&quot;,
+  &quot;user.created&quot;,
+  &quot;user.updated&quot;,
+  &quot;booking.created&quot;,
+  &quot;booking.updated&quot;,
+  &quot;booking.cancelled&quot;,
 ];
 
 // Re-export the advanced event bus for backwards compatibility
-export { advancedEventBus as distributedEventBus } from "./AdvancedEventBus";
+export { advancedEventBus as distributedEventBus } from &quot;./AdvancedEventBus&quot;;

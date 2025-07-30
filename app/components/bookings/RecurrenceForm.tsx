@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from &quot;react&quot;;
 import {
   RecurrenceFrequency,
   RecurrenceDays,
   RecurrencePattern,
   formatRecurrencePattern,
   getRecurrenceDescription,
-} from "@/lib/recurrence";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+} from &quot;@/lib/recurrence&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Calendar } from &quot;@/components/ui/calendar&quot;;
 import {
   Form,
   FormControl,
@@ -16,40 +16,40 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from &quot;@/components/ui/form&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
+} from &quot;@/components/ui/select&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Switch } from &quot;@/components/ui/switch&quot;;
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { CalendarIcon, CheckIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
+} from &quot;@/components/ui/popover&quot;;
+import { format } from &quot;date-fns&quot;;
+import { CalendarIcon, CheckIcon } from &quot;lucide-react&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+} from &quot;@/components/ui/card&quot;;
+import { RadioGroup, RadioGroupItem } from &quot;@/components/ui/radio-group&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from &quot;@/components/ui/tooltip&quot;;
 
 interface RecurrenceFormProps {
   isRecurring: boolean;
@@ -77,8 +77,8 @@ export function RecurrenceForm({
     },
   );
 
-  const [endType, setEndType] = useState<"never" | "on" | "after">(
-    recurrenceEndDate ? "on" : "never",
+  const [endType, setEndType] = useState<&quot;never&quot; | &quot;on&quot; | &quot;after&quot;>(
+    recurrenceEndDate ? &quot;on&quot; : &quot;never&quot;,
   );
 
   const [occurrenceCount, setOccurrenceCount] = useState<number>(10);
@@ -93,9 +93,9 @@ export function RecurrenceForm({
     const newPattern = { ...currentPattern };
 
     // Handle end conditions
-    if (endType === "on") {
+    if (endType === &quot;on&quot;) {
       delete newPattern.count;
-    } else if (endType === "after") {
+    } else if (endType === &quot;after&quot;) {
       newPattern.count = occurrenceCount;
       onRecurrenceEndDateChange(null);
     } else {
@@ -112,12 +112,12 @@ export function RecurrenceForm({
       setCurrentPattern(recurrencePattern);
 
       if (recurrencePattern.count) {
-        setEndType("after");
+        setEndType(&quot;after&quot;);
         setOccurrenceCount(recurrencePattern.count);
       } else if (recurrenceEndDate) {
-        setEndType("on");
+        setEndType(&quot;on&quot;);
       } else {
-        setEndType("never");
+        setEndType(&quot;never&quot;);
       }
     }
   }, [recurrencePattern, recurrenceEndDate]);
@@ -160,7 +160,7 @@ export function RecurrenceForm({
     });
   };
 
-  const handleEndTypeChange = (value: "never" | "on" | "after") => {
+  const handleEndTypeChange = (value: &quot;never&quot; | &quot;on&quot; | &quot;after&quot;) => {
     setEndType(value);
   };
 
@@ -173,11 +173,11 @@ export function RecurrenceForm({
 
   if (!isRecurring) {
     return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
+      <div className=&quot;space-y-4&quot;>
+        <div className=&quot;flex items-center justify-between&quot;>
           <div>
-            <h3 className="text-md font-medium">Repeat</h3>
-            <p className="text-sm text-muted-foreground">
+            <h3 className=&quot;text-md font-medium&quot;>Repeat</h3>
+            <p className=&quot;text-sm text-muted-foreground&quot;>
               Is this a recurring event?
             </p>
           </div>
@@ -191,11 +191,11 @@ export function RecurrenceForm({
   const description = getRecurrenceDescription(currentPattern);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className=&quot;space-y-6&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h3 className="text-md font-medium">Repeat</h3>
-          <p className="text-sm text-muted-foreground">
+          <h3 className=&quot;text-md font-medium&quot;>Repeat</h3>
+          <p className=&quot;text-sm text-muted-foreground&quot;>
             Configure recurring event pattern
           </p>
         </div>
@@ -204,14 +204,14 @@ export function RecurrenceForm({
 
       {isRecurring && (
         <>
-          <Card className="border-dashed">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-md">Recurrence Pattern</CardTitle>
+          <Card className=&quot;border-dashed&quot;>
+            <CardHeader className=&quot;pb-2&quot;>
+              <CardTitle className=&quot;text-md&quot;>Recurrence Pattern</CardTitle>
               <CardDescription>{description}</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className=&quot;space-y-4&quot;>
               {/* Frequency selection */}
-              <div className="space-y-2">
+              <div className=&quot;space-y-2&quot;>
                 <Label>Frequency</Label>
                 <Select
                   value={currentPattern.frequency}
@@ -238,54 +238,54 @@ export function RecurrenceForm({
               </div>
 
               {/* Interval */}
-              <div className="space-y-2">
+              <div className=&quot;space-y-2&quot;>
                 <Label>Repeat every</Label>
-                <div className="flex items-center space-x-2">
+                <div className=&quot;flex items-center space-x-2&quot;>
                   <Input
-                    type="number"
+                    type=&quot;number&quot;
                     value={currentPattern.interval}
                     onChange={(e) => handleIntervalChange(e.target.value)}
                     min={1}
                     max={99}
-                    className="w-20"
+                    className=&quot;w-20&quot;
                   />
                   <span>
                     {currentPattern.frequency === RecurrenceFrequency.DAILY &&
-                      "days"}
+                      &quot;days&quot;}
                     {currentPattern.frequency === RecurrenceFrequency.WEEKLY &&
-                      "weeks"}
+                      &quot;weeks&quot;}
                     {currentPattern.frequency === RecurrenceFrequency.MONTHLY &&
-                      "months"}
+                      &quot;months&quot;}
                     {currentPattern.frequency === RecurrenceFrequency.YEARLY &&
-                      "years"}
+                      &quot;years&quot;}
                   </span>
                 </div>
               </div>
 
               {/* Weekly days selection */}
               {currentPattern.frequency === RecurrenceFrequency.WEEKLY && (
-                <div className="space-y-2">
+                <div className=&quot;space-y-2&quot;>
                   <Label>Repeat on</Label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className=&quot;flex flex-wrap gap-2&quot;>
                     {Object.values(RecurrenceDays).map((day) => {
                       const dayLabels: Record<RecurrenceDays, string> = {
-                        [RecurrenceDays.SU]: "S",
-                        [RecurrenceDays.MO]: "M",
-                        [RecurrenceDays.TU]: "T",
-                        [RecurrenceDays.WE]: "W",
-                        [RecurrenceDays.TH]: "T",
-                        [RecurrenceDays.FR]: "F",
-                        [RecurrenceDays.SA]: "S",
+                        [RecurrenceDays.SU]: &quot;S&quot;,
+                        [RecurrenceDays.MO]: &quot;M&quot;,
+                        [RecurrenceDays.TU]: &quot;T&quot;,
+                        [RecurrenceDays.WE]: &quot;W&quot;,
+                        [RecurrenceDays.TH]: &quot;T&quot;,
+                        [RecurrenceDays.FR]: &quot;F&quot;,
+                        [RecurrenceDays.SA]: &quot;S&quot;,
                       };
 
                       const dayFullLabels: Record<RecurrenceDays, string> = {
-                        [RecurrenceDays.SU]: "Sunday",
-                        [RecurrenceDays.MO]: "Monday",
-                        [RecurrenceDays.TU]: "Tuesday",
-                        [RecurrenceDays.WE]: "Wednesday",
-                        [RecurrenceDays.TH]: "Thursday",
-                        [RecurrenceDays.FR]: "Friday",
-                        [RecurrenceDays.SA]: "Saturday",
+                        [RecurrenceDays.SU]: &quot;Sunday&quot;,
+                        [RecurrenceDays.MO]: &quot;Monday&quot;,
+                        [RecurrenceDays.TU]: &quot;Tuesday&quot;,
+                        [RecurrenceDays.WE]: &quot;Wednesday&quot;,
+                        [RecurrenceDays.TH]: &quot;Thursday&quot;,
+                        [RecurrenceDays.FR]: &quot;Friday&quot;,
+                        [RecurrenceDays.SA]: &quot;Saturday&quot;,
                       };
 
                       const isSelected = currentPattern.byday?.includes(day);
@@ -295,10 +295,10 @@ export function RecurrenceForm({
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <Badge
-                                variant={isSelected ? "default" : "outline"}
+                                variant={isSelected ? &quot;default&quot; : &quot;outline&quot;}
                                 className={cn(
-                                  "h-8 w-8 cursor-pointer rounded-full p-0 flex items-center justify-center",
-                                  isSelected ? "bg-primary" : "hover:bg-muted",
+                                  &quot;h-8 w-8 cursor-pointer rounded-full p-0 flex items-center justify-center&quot;,
+                                  isSelected ? &quot;bg-primary&quot; : &quot;hover:bg-muted&quot;,
                                 )}
                                 onClick={() => handleDayToggle(day)}
                               >
@@ -317,47 +317,47 @@ export function RecurrenceForm({
               )}
 
               {/* End condition */}
-              <div className="space-y-2">
+              <div className=&quot;space-y-2&quot;>
                 <Label>Ends</Label>
                 <RadioGroup
                   value={endType}
                   onValueChange={handleEndTypeChange as any}
-                  className="space-y-3"
+                  className=&quot;space-y-3&quot;
                 >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="never" id="never" />
-                    <Label htmlFor="never" className="font-normal">
+                  <div className=&quot;flex items-center space-x-2&quot;>
+                    <RadioGroupItem value=&quot;never&quot; id=&quot;never&quot; />
+                    <Label htmlFor=&quot;never&quot; className=&quot;font-normal&quot;>
                       Never
                     </Label>
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="on" id="on" />
-                    <Label htmlFor="on" className="font-normal">
+                  <div className=&quot;flex items-center space-x-2&quot;>
+                    <RadioGroupItem value=&quot;on&quot; id=&quot;on&quot; />
+                    <Label htmlFor=&quot;on&quot; className=&quot;font-normal&quot;>
                       On date
                     </Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
-                          variant="outline"
+                          variant=&quot;outline&quot;
                           className={cn(
-                            "w-[180px] justify-start text-left font-normal",
-                            !recurrenceEndDate && "text-muted-foreground",
-                            endType !== "on" &&
-                              "opacity-50 pointer-events-none",
+                            &quot;w-[180px] justify-start text-left font-normal&quot;,
+                            !recurrenceEndDate && &quot;text-muted-foreground&quot;,
+                            endType !== &quot;on&quot; &&
+                              &quot;opacity-50 pointer-events-none&quot;,
                           )}
                         >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
                           {recurrenceEndDate ? (
-                            format(recurrenceEndDate, "PPP")
+                            format(recurrenceEndDate, &quot;PPP&quot;)
                           ) : (
                             <span>Pick a date</span>
                           )}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
+                      <PopoverContent className=&quot;w-auto p-0&quot;>
                         <Calendar
-                          mode="single"
+                          mode=&quot;single&quot;
                           selected={recurrenceEndDate || undefined}
                           onSelect={(date) => onRecurrenceEndDateChange(date)}
                           initialFocus
@@ -366,13 +366,13 @@ export function RecurrenceForm({
                     </Popover>
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="after" id="after" />
-                    <Label htmlFor="after" className="font-normal">
+                  <div className=&quot;flex items-center space-x-2&quot;>
+                    <RadioGroupItem value=&quot;after&quot; id=&quot;after&quot; />
+                    <Label htmlFor=&quot;after&quot; className=&quot;font-normal&quot;>
                       After
                     </Label>
                     <Input
-                      type="number"
+                      type=&quot;number&quot;
                       value={occurrenceCount}
                       onChange={(e) =>
                         handleOccurrenceCountChange(e.target.value)
@@ -380,8 +380,8 @@ export function RecurrenceForm({
                       min={1}
                       max={999}
                       className={cn(
-                        "w-20",
-                        endType !== "after" && "opacity-50 pointer-events-none",
+                        &quot;w-20&quot;,
+                        endType !== &quot;after&quot; && &quot;opacity-50 pointer-events-none&quot;,
                       )}
                     />
                     <span>occurrences</span>
@@ -391,7 +391,7 @@ export function RecurrenceForm({
             </CardContent>
           </Card>
 
-          <div className="text-sm text-muted-foreground italic">
+          <div className=&quot;text-sm text-muted-foreground italic&quot;>
             This will create a series of events based on this pattern.
           </div>
         </>

@@ -2,18 +2,18 @@
  * Scheduling Service Models
  * These models define the core entities and types for scheduling management
  */
-import { z } from "zod";
-import { EventStatus } from "../events/models";
-import { StaffStatus } from "../staff/models";
+import { z } from &quot;zod&quot;;
+import { EventStatus } from &quot;../events/models&quot;;
+import { StaffStatus } from &quot;../staff/models&quot;;
 
 /**
  * Schedule status enum
  */
 export enum ScheduleStatus {
-  DRAFT = "draft", // Initial schedule creation
-  PUBLISHED = "published", // Published to staff
-  FINALIZED = "finalized", // Confirmed and locked
-  CANCELLED = "cancelled", // Schedule cancelled
+  DRAFT = &quot;draft&quot;, // Initial schedule creation
+  PUBLISHED = &quot;published&quot;, // Published to staff
+  FINALIZED = &quot;finalized&quot;, // Confirmed and locked
+  CANCELLED = &quot;cancelled&quot;, // Schedule cancelled
 }
 
 /**
@@ -54,8 +54,8 @@ export interface ScheduleShift {
   locationId?: string;
   locationName?: string;
   date: string; // ISO date string (YYYY-MM-DD)
-  startTime: string; // Format: "HH:MM" in 24-hour
-  endTime: string; // Format: "HH:MM" in 24-hour
+  startTime: string; // Format: &quot;HH:MM&quot; in 24-hour
+  endTime: string; // Format: &quot;HH:MM&quot; in 24-hour
   requiredStaffCount: number;
   assignedStaffCount: number;
   skillRequirements?: string[]; // Array of skill IDs required
@@ -74,7 +74,7 @@ export interface ShiftAssignment {
   staffId: string;
   staffName?: string;
   role: string;
-  status: "pending" | "confirmed" | "declined" | "removed";
+  status: &quot;pending&quot; | &quot;confirmed&quot; | &quot;declined&quot; | &quot;removed&quot;;
   confirmedAt?: string; // ISO date string
   declinedAt?: string; // ISO date string
   declineReason?: string;
@@ -110,8 +110,8 @@ export interface ShiftTemplate {
   description?: string;
   locationId?: string;
   dayOffset: number; // Days from event start (0 = same day)
-  startTime: string; // Format: "HH:MM" in 24-hour
-  endTime: string; // Format: "HH:MM" in 24-hour
+  startTime: string; // Format: &quot;HH:MM&quot; in 24-hour
+  endTime: string; // Format: &quot;HH:MM&quot; in 24-hour
   requiredStaffCount: number;
   skillRequirements?: string[]; // Array of skill IDs required
   notes?: string;
@@ -123,11 +123,11 @@ export interface ShiftTemplate {
  * Create schedule schema
  */
 export const createScheduleSchema = z.object({
-  eventId: z.string().min(1, "Event ID is required"),
-  name: z.string().min(1, "Name is required"),
+  eventId: z.string().min(1, &quot;Event ID is required&quot;),
+  name: z.string().min(1, &quot;Name is required&quot;),
   description: z.string().optional(),
-  startDate: z.string().datetime("Invalid date format"),
-  endDate: z.string().datetime("Invalid date format"),
+  startDate: z.string().datetime(&quot;Invalid date format&quot;),
+  endDate: z.string().datetime(&quot;Invalid date format&quot;),
   notesForStaff: z.string().optional(),
   notesInternal: z.string().optional(),
   templateId: z.string().optional(), // If using a template
@@ -144,22 +144,22 @@ export const updateScheduleSchema = createScheduleSchema.partial().extend({
  * Create shift schema
  */
 export const createShiftSchema = z.object({
-  scheduleId: z.string().min(1, "Schedule ID is required"),
-  title: z.string().min(1, "Title is required"),
+  scheduleId: z.string().min(1, &quot;Schedule ID is required&quot;),
+  title: z.string().min(1, &quot;Title is required&quot;),
   description: z.string().optional(),
   locationId: z.string().optional(),
-  date: z.string().datetime("Invalid date format"),
+  date: z.string().datetime(&quot;Invalid date format&quot;),
   startTime: z
     .string()
     .regex(
       /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time must be in 24-hour format (HH:MM)",
+      &quot;Time must be in 24-hour format (HH:MM)&quot;,
     ),
   endTime: z
     .string()
     .regex(
       /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time must be in 24-hour format (HH:MM)",
+      &quot;Time must be in 24-hour format (HH:MM)&quot;,
     ),
   requiredStaffCount: z.number().int().positive(),
   skillRequirements: z.array(z.string()).optional(),
@@ -177,10 +177,10 @@ export const updateShiftSchema = createShiftSchema
  * Create shift assignment schema
  */
 export const createShiftAssignmentSchema = z.object({
-  shiftId: z.string().min(1, "Shift ID is required"),
-  scheduleId: z.string().min(1, "Schedule ID is required"),
-  staffId: z.string().min(1, "Staff ID is required"),
-  role: z.string().min(1, "Role is required"),
+  shiftId: z.string().min(1, &quot;Shift ID is required&quot;),
+  scheduleId: z.string().min(1, &quot;Schedule ID is required&quot;),
+  staffId: z.string().min(1, &quot;Staff ID is required&quot;),
+  role: z.string().min(1, &quot;Role is required&quot;),
   notes: z.string().optional(),
 });
 
@@ -190,10 +190,10 @@ export const createShiftAssignmentSchema = z.object({
 export const updateShiftAssignmentSchema = z
   .object({
     role: z.string().optional(),
-    status: z.enum(["pending", "confirmed", "declined", "removed"]).optional(),
+    status: z.enum([&quot;pending&quot;, &quot;confirmed&quot;, &quot;declined&quot;, &quot;removed&quot;]).optional(),
     declineReason: z.string().optional(),
-    checkedInAt: z.string().datetime("Invalid date format").optional(),
-    checkedOutAt: z.string().datetime("Invalid date format").optional(),
+    checkedInAt: z.string().datetime(&quot;Invalid date format&quot;).optional(),
+    checkedOutAt: z.string().datetime(&quot;Invalid date format&quot;).optional(),
     notes: z.string().optional(),
   })
   .partial();
@@ -202,9 +202,9 @@ export const updateShiftAssignmentSchema = z
  * Create schedule template schema
  */
 export const createScheduleTemplateSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, &quot;Name is required&quot;),
   description: z.string().optional(),
-  organizationId: z.string().min(1, "Organization ID is required"),
+  organizationId: z.string().min(1, &quot;Organization ID is required&quot;),
   isDefault: z.boolean().default(false),
 });
 
@@ -218,8 +218,8 @@ export const updateScheduleTemplateSchema =
  * Create shift template schema
  */
 export const createShiftTemplateSchema = z.object({
-  templateId: z.string().min(1, "Template ID is required"),
-  title: z.string().min(1, "Title is required"),
+  templateId: z.string().min(1, &quot;Template ID is required&quot;),
+  title: z.string().min(1, &quot;Title is required&quot;),
   description: z.string().optional(),
   locationId: z.string().optional(),
   dayOffset: z.number().int().min(0),
@@ -227,13 +227,13 @@ export const createShiftTemplateSchema = z.object({
     .string()
     .regex(
       /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time must be in 24-hour format (HH:MM)",
+      &quot;Time must be in 24-hour format (HH:MM)&quot;,
     ),
   endTime: z
     .string()
     .regex(
       /^([01]\d|2[0-3]):([0-5]\d)$/,
-      "Time must be in 24-hour format (HH:MM)",
+      &quot;Time must be in 24-hour format (HH:MM)&quot;,
     ),
   requiredStaffCount: z.number().int().positive(),
   skillRequirements: z.array(z.string()).optional(),
@@ -295,7 +295,7 @@ export interface AssignmentFilters {
   scheduleId?: string;
   shiftId?: string;
   staffId?: string;
-  status?: "pending" | "confirmed" | "declined" | "removed";
+  status?: &quot;pending&quot; | &quot;confirmed&quot; | &quot;declined&quot; | &quot;removed&quot;;
   date?: string; // ISO date string
   startDateRange?: string; // ISO date string for start of range
   endDateRange?: string; // ISO date string for end of range

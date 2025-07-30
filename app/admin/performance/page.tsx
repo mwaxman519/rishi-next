@@ -1,117 +1,117 @@
-"use client";
+&quot;use client&quot;;
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { LineChart, Activity, Zap, Clock, TrendingUp } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { LineChart, Activity, Zap, Clock, TrendingUp } from &quot;lucide-react&quot;;
 
 export default function PerformancePage() {
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className=&quot;p-6 space-y-6&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h1 className="text-2xl font-bold">Performance Monitoring</h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <h1 className=&quot;text-2xl font-bold&quot;>Performance Monitoring</h1>
+          <p className=&quot;text-gray-600 dark:text-gray-400&quot;>
             Monitor system performance, response times, and resource usage
           </p>
         </div>
-        <Badge variant="outline" className="text-green-600">
-          <Activity className="h-4 w-4 mr-2" />
+        <Badge variant=&quot;outline&quot; className=&quot;text-green-600&quot;>
+          <Activity className=&quot;h-4 w-4 mr-2&quot; />
           Optimal
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6&quot;>
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center text-sm">
-              <Clock className="h-4 w-4 mr-2" />
+          <CardHeader className=&quot;pb-3&quot;>
+            <CardTitle className=&quot;flex items-center text-sm&quot;>
+              <Clock className=&quot;h-4 w-4 mr-2&quot; />
               Response Time
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">245ms</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Avg last 24h</p>
+            <div className=&quot;text-2xl font-bold text-green-600&quot;>245ms</div>
+            <p className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>Avg last 24h</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center text-sm">
-              <Zap className="h-4 w-4 mr-2" />
+          <CardHeader className=&quot;pb-3&quot;>
+            <CardTitle className=&quot;flex items-center text-sm&quot;>
+              <Zap className=&quot;h-4 w-4 mr-2&quot; />
               Throughput
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">1,247</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Requests/min</p>
+            <div className=&quot;text-2xl font-bold text-blue-600&quot;>1,247</div>
+            <p className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>Requests/min</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center text-sm">
-              <TrendingUp className="h-4 w-4 mr-2" />
+          <CardHeader className=&quot;pb-3&quot;>
+            <CardTitle className=&quot;flex items-center text-sm&quot;>
+              <TrendingUp className=&quot;h-4 w-4 mr-2&quot; />
               CPU Usage
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">34%</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Current usage</p>
+            <div className=&quot;text-2xl font-bold text-orange-600&quot;>34%</div>
+            <p className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>Current usage</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center text-sm">
-              <Activity className="h-4 w-4 mr-2" />
+          <CardHeader className=&quot;pb-3&quot;>
+            <CardTitle className=&quot;flex items-center text-sm&quot;>
+              <Activity className=&quot;h-4 w-4 mr-2&quot; />
               Memory
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-600">2.4GB</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Used of 8GB</p>
+            <div className=&quot;text-2xl font-bold text-purple-600&quot;>2.4GB</div>
+            <p className=&quot;text-sm text-gray-600 dark:text-gray-400&quot;>Used of 8GB</p>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <LineChart className="h-5 w-5 mr-2" />
+            <CardTitle className=&quot;flex items-center&quot;>
+              <LineChart className=&quot;h-5 w-5 mr-2&quot; />
               API Performance
             </CardTitle>
             <CardDescription>Response times by endpoint</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-sm">/api/admin/locations</span>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="secondary">200ms</Badge>
-                  <Badge variant="outline" className="text-green-600">Fast</Badge>
+            <div className=&quot;space-y-3&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
+                <span className=&quot;font-mono text-sm&quot;>/api/admin/locations</span>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Badge variant=&quot;secondary&quot;>200ms</Badge>
+                  <Badge variant=&quot;outline&quot; className=&quot;text-green-600&quot;>Fast</Badge>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-sm">/api/admin/organizations</span>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="secondary">156ms</Badge>
-                  <Badge variant="outline" className="text-green-600">Fast</Badge>
+              <div className=&quot;flex items-center justify-between&quot;>
+                <span className=&quot;font-mono text-sm&quot;>/api/admin/organizations</span>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Badge variant=&quot;secondary&quot;>156ms</Badge>
+                  <Badge variant=&quot;outline&quot; className=&quot;text-green-600&quot;>Fast</Badge>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-sm">/api/admin/users</span>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="secondary">89ms</Badge>
-                  <Badge variant="outline" className="text-green-600">Fast</Badge>
+              <div className=&quot;flex items-center justify-between&quot;>
+                <span className=&quot;font-mono text-sm&quot;>/api/admin/users</span>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Badge variant=&quot;secondary&quot;>89ms</Badge>
+                  <Badge variant=&quot;outline&quot; className=&quot;text-green-600&quot;>Fast</Badge>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-sm">/api/admin/analytics</span>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="secondary">445ms</Badge>
-                  <Badge variant="outline" className="text-yellow-600">Slow</Badge>
+              <div className=&quot;flex items-center justify-between&quot;>
+                <span className=&quot;font-mono text-sm&quot;>/api/admin/analytics</span>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Badge variant=&quot;secondary&quot;>445ms</Badge>
+                  <Badge variant=&quot;outline&quot; className=&quot;text-yellow-600&quot;>Slow</Badge>
                 </div>
               </div>
             </div>
@@ -120,39 +120,39 @@ export default function PerformancePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <Activity className="h-5 w-5 mr-2" />
+            <CardTitle className=&quot;flex items-center&quot;>
+              <Activity className=&quot;h-5 w-5 mr-2&quot; />
               System Resources
             </CardTitle>
             <CardDescription>Current system resource usage</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className=&quot;space-y-4&quot;>
               <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm">CPU Usage</span>
-                  <span className="text-sm">34%</span>
+                <div className=&quot;flex justify-between mb-1&quot;>
+                  <span className=&quot;text-sm&quot;>CPU Usage</span>
+                  <span className=&quot;text-sm&quot;>34%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-orange-600 h-2 rounded-full" style={{ width: '34%' }}></div>
+                <div className=&quot;w-full bg-gray-200 rounded-full h-2&quot;>
+                  <div className=&quot;bg-orange-600 h-2 rounded-full&quot; style={{ width: '34%' }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm">Memory Usage</span>
-                  <span className="text-sm">30%</span>
+                <div className=&quot;flex justify-between mb-1&quot;>
+                  <span className=&quot;text-sm&quot;>Memory Usage</span>
+                  <span className=&quot;text-sm&quot;>30%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-purple-600 h-2 rounded-full" style={{ width: '30%' }}></div>
+                <div className=&quot;w-full bg-gray-200 rounded-full h-2&quot;>
+                  <div className=&quot;bg-purple-600 h-2 rounded-full&quot; style={{ width: '30%' }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm">Database Connections</span>
-                  <span className="text-sm">24%</span>
+                <div className=&quot;flex justify-between mb-1&quot;>
+                  <span className=&quot;text-sm&quot;>Database Connections</span>
+                  <span className=&quot;text-sm&quot;>24%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-blue-600 h-2 rounded-full" style={{ width: '24%' }}></div>
+                <div className=&quot;w-full bg-gray-200 rounded-full h-2&quot;>
+                  <div className=&quot;bg-blue-600 h-2 rounded-full&quot; style={{ width: '24%' }}></div>
                 </div>
               </div>
             </div>
@@ -166,17 +166,17 @@ export default function PerformancePage() {
           <CardDescription>Analyze and optimize system performance</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="outline">
-              <LineChart className="h-4 w-4 mr-2" />
+          <div className=&quot;flex flex-wrap gap-3&quot;>
+            <Button variant=&quot;outline&quot;>
+              <LineChart className=&quot;h-4 w-4 mr-2&quot; />
               Generate Report
             </Button>
-            <Button variant="outline">
-              <Activity className="h-4 w-4 mr-2" />
+            <Button variant=&quot;outline&quot;>
+              <Activity className=&quot;h-4 w-4 mr-2&quot; />
               Real-time Monitor
             </Button>
-            <Button variant="outline">
-              <Zap className="h-4 w-4 mr-2" />
+            <Button variant=&quot;outline&quot;>
+              <Zap className=&quot;h-4 w-4 mr-2&quot; />
               Optimize Settings
             </Button>
           </div>

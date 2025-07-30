@@ -1,15 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from &quot;next/server&quot;;
 
 export async function GET() {
   return NextResponse.json({
     credentials: {
-      id: "credentials",
-      name: "Credentials",
-      type: "credentials",
-      signinUrl: "/api/auth/signin/credentials",
-      callbackUrl: "/api/auth/callback/credentials",
+      id: &quot;credentials&quot;,
+      name: &quot;Credentials&quot;,
+      type: &quot;credentials&quot;,
+      signinUrl: &quot;/api/auth/signin/credentials&quot;,
+      callbackUrl: &quot;/api/auth/callback/credentials&quot;,
     },
   });
 }
 
-export const dynamic = "force-dynamic";
+export const dynamic = &quot;force-dynamic&quot;;

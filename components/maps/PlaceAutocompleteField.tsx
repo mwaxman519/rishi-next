@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useRef, useEffect, useState, useId } from "react";
-import { useGoogleMaps } from "./GoogleMapsProvider";
-import { LocationData } from "./types";
-import { Loader2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React, { useRef, useEffect, useState, useId } from &quot;react&quot;;
+import { useGoogleMaps } from &quot;./GoogleMapsProvider&quot;;
+import { LocationData } from &quot;./types&quot;;
+import { Loader2 } from &quot;lucide-react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 
 interface PlaceAutocompleteFieldProps {
   onPlaceSelected: (location: LocationData) => void;
@@ -12,12 +12,12 @@ interface PlaceAutocompleteFieldProps {
   className?: string;
   disabled?: boolean;
   type?:
-    | "default"
-    | "geocode"
-    | "address"
-    | "establishment"
-    | "regions"
-    | "cities";
+    | &quot;default&quot;
+    | &quot;geocode&quot;
+    | &quot;address&quot;
+    | &quot;establishment&quot;
+    | &quot;regions&quot;
+    | &quot;cities&quot;;
 }
 
 /**
@@ -28,63 +28,63 @@ interface PlaceAutocompleteFieldProps {
  */
 export function PlaceAutocompleteField({
   onPlaceSelected,
-  placeholder = "Search for a location",
-  className = "",
+  placeholder = &quot;Search for a location&quot;,
+  className = "&quot;,
   disabled = false,
-  type = "default",
+  type = &quot;default&quot;,
 }: PlaceAutocompleteFieldProps) {
   const { isLoaded, loadError } = useGoogleMaps();
   const autocompleteRef = useRef<HTMLElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(&quot;&quot;);
   const inputId = useId(); // Generate unique ID for input association
 
   // Debug console
   const debugConsole = {
-    log: (...args: any[]) => console.log("[PlaceAutocompleteField]", ...args),
+    log: (...args: any[]) => console.log(&quot;[PlaceAutocompleteField]&quot;, ...args),
     error: (...args: any[]) =>
-      console.error("[PlaceAutocompleteField]", ...args),
-    warn: (...args: any[]) => console.warn("[PlaceAutocompleteField]", ...args),
+      console.error(&quot;[PlaceAutocompleteField]&quot;, ...args),
+    warn: (...args: any[]) => console.warn(&quot;[PlaceAutocompleteField]&quot;, ...args),
   };
 
   // Setup autocomplete once Google Maps is loaded
   useEffect(() => {
     // Only run in browser environment
-    if (typeof window === "undefined") return;
+    if (typeof window === &quot;undefined&quot;) return;
 
     if (!isLoaded || !inputRef.current) {
       debugConsole.log(
-        "Waiting for Maps API to load or input to be available...",
+        &quot;Waiting for Maps API to load or input to be available...&quot;,
       );
       return;
     }
 
-    debugConsole.log("Maps API loaded, initializing autocomplete...");
+    debugConsole.log(&quot;Maps API loaded, initializing autocomplete...&quot;);
     let handlePlaceChanged: ((event: any) => void) | null = null;
 
-    // Create the autocomplete web component if it doesn't exist
+    // Create the autocomplete web component if it doesn&apos;t exist
     if (!autocompleteRef.current) {
       try {
         // Check if the required APIs are available
         if (!window.google?.maps) {
-          debugConsole.error("Google Maps API not loaded properly");
-          throw new Error("Google Maps API not loaded");
+          debugConsole.error(&quot;Google Maps API not loaded properly&quot;);
+          throw new Error(&quot;Google Maps API not loaded&quot;);
         }
 
-        debugConsole.log("Creating web component...");
+        debugConsole.log(&quot;Creating web component...&quot;);
 
         // Create the autocomplete element with a specific ID based on the React useId
         const autocompleteId = `place-autocomplete-${inputId}`;
 
         // Create the element - make sure to use the correct element name
-        const autocomplete = document.createElement("gmp-place-autocomplete");
+        const autocomplete = document.createElement(&quot;gmp-place-autocomplete&quot;);
         autocomplete.id = autocompleteId;
 
         // Set properties
         // @ts-ignore - Web Component properties
         autocomplete.type = type;
 
-        debugConsole.log("Connecting input to web component...");
+        debugConsole.log(&quot;Connecting input to web component...&quot;);
 
         // Connect to input - this is the most critical part
         // @ts-ignore - Web Component properties
@@ -92,22 +92,22 @@ export function PlaceAutocompleteField({
 
         // Set additional attributes for debugging
         autocomplete.setAttribute(
-          "data-input-id",
-          inputRef.current.id || "unknown-input",
+          &quot;data-input-id&quot;,
+          inputRef.current.id || &quot;unknown-input&quot;,
         );
 
         // Add event listener for place selection
         handlePlaceChanged = (event: any) => {
-          debugConsole.log("Place changed event received", event);
+          debugConsole.log(&quot;Place changed event received&quot;, event);
 
           try {
             const place = event.detail?.place;
             if (!place) {
-              debugConsole.warn("No place data in event");
+              debugConsole.warn(&quot;No place data in event&quot;);
               return;
             }
 
-            debugConsole.log("Place selected:", place);
+            debugConsole.log(&quot;Place selected:&quot;, place);
 
             // Map the Google Place object to our LocationData format
             const locationData: LocationData = {
@@ -130,22 +130,22 @@ export function PlaceAutocompleteField({
             // Notify parent component
             onPlaceSelected(locationData);
           } catch (error) {
-            debugConsole.error("Error handling place selection:", error);
+            debugConsole.error(&quot;Error handling place selection:&quot;, error);
           }
         };
 
         // Event listener registration
-        debugConsole.log("Adding place-changed event listener");
-        autocomplete.addEventListener("place-changed", handlePlaceChanged);
+        debugConsole.log(&quot;Adding place-changed event listener&quot;);
+        autocomplete.addEventListener(&quot;place-changed&quot;, handlePlaceChanged);
 
         // Handle request denied event
-        autocomplete.addEventListener("request-denied", (e: any) => {
-          debugConsole.error("Place request denied:", e);
+        autocomplete.addEventListener(&quot;request-denied&quot;, (e: any) => {
+          debugConsole.error(&quot;Place request denied:&quot;, e);
         });
 
         // Hide the web component - it should not be visible in the UI
         // It only needs to exist in the DOM to connect to our input
-        autocomplete.style.display = "none";
+        autocomplete.style.display = &quot;none&quot;;
 
         document.body.appendChild(autocomplete);
 
@@ -154,7 +154,7 @@ export function PlaceAutocompleteField({
         // Store the reference
         autocompleteRef.current = autocomplete;
       } catch (error) {
-        debugConsole.error("Error creating web component:", error);
+        debugConsole.error(&quot;Error creating web component:&quot;, error);
       }
     }
 
@@ -162,21 +162,21 @@ export function PlaceAutocompleteField({
     return () => {
       if (autocompleteRef.current) {
         try {
-          debugConsole.log("Cleaning up web component...");
+          debugConsole.log(&quot;Cleaning up web component...&quot;);
 
           // Remove event listeners
           if (handlePlaceChanged) {
             autocompleteRef.current.removeEventListener(
-              "place-changed",
+              &quot;place-changed&quot;,
               handlePlaceChanged,
             );
           }
 
           // Remove from DOM
           document.body.removeChild(autocompleteRef.current);
-          debugConsole.log("Web component removed");
+          debugConsole.log(&quot;Web component removed&quot;);
         } catch (error) {
-          debugConsole.error("Error removing web component:", error);
+          debugConsole.error(&quot;Error removing web component:&quot;, error);
         }
         autocompleteRef.current = null;
       }
@@ -190,30 +190,30 @@ export function PlaceAutocompleteField({
 
   // Clear input
   const clearInput = () => {
-    setInputValue("");
+    setInputValue(&quot;&quot;);
     if (inputRef.current) {
-      inputRef.current.value = "";
+      inputRef.current.value = &quot;&quot;;
       inputRef.current.focus();
     }
   };
 
   return (
     <div className={`relative ${className}`}>
-      <div className="relative">
+      <div className=&quot;relative&quot;>
         {/* Search icon */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+        <div className=&quot;pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3&quot;>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 text-muted-foreground"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            xmlns=&quot;http://www.w3.org/2000/svg&quot;
+            className=&quot;h-4 w-4 text-muted-foreground&quot;
+            viewBox=&quot;0 0 24 24&quot;
+            fill=&quot;none&quot;
+            stroke=&quot;currentColor&quot;
+            strokeWidth=&quot;2&quot;
+            strokeLinecap=&quot;round&quot;
+            strokeLinejoin=&quot;round&quot;
           >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
+            <circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;></circle>
+            <path d=&quot;m21 21-4.3-4.3&quot;></path>
           </svg>
         </div>
 
@@ -221,51 +221,51 @@ export function PlaceAutocompleteField({
         <Input
           ref={inputRef}
           id={`place-input-${inputId}`}
-          type="text"
-          className="pl-10 pr-10 h-12 focus-visible:ring-2 focus-visible:ring-ring"
+          type=&quot;text&quot;
+          className=&quot;pl-10 pr-10 h-12 focus-visible:ring-2 focus-visible:ring-ring&quot;
           placeholder={placeholder}
           value={inputValue}
           onChange={handleInputChange}
           disabled={disabled || !isLoaded || isError}
-          aria-label="Search for a location"
+          aria-label=&quot;Search for a location&quot;
         />
 
         {/* Clear button */}
         {inputValue && (
           <button
-            type="button"
+            type=&quot;button&quot;
             onClick={clearInput}
-            className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 inline-flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
+            className=&quot;absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 inline-flex items-center justify-center rounded-full text-muted-foreground hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring&quot;
             disabled={disabled}
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              xmlns=&quot;http://www.w3.org/2000/svg&quot;
+              className=&quot;h-4 w-4&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              fill=&quot;none&quot;
+              stroke=&quot;currentColor&quot;
+              strokeWidth=&quot;2&quot;
+              strokeLinecap=&quot;round&quot;
+              strokeLinejoin=&quot;round&quot;
             >
-              <path d="M18 6 6 18"></path>
-              <path d="m6 6 12 12"></path>
+              <path d=&quot;M18 6 6 18&quot;></path>
+              <path d=&quot;m6 6 12 12&quot;></path>
             </svg>
-            <span className="sr-only">Clear search</span>
+            <span className=&quot;sr-only&quot;>Clear search</span>
           </button>
         )}
 
         {/* Loading indicator */}
         {!isLoaded && (
-          <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
-            <Loader2 className="h-4 w-4 animate-spin text-primary" />
+          <div className=&quot;absolute right-10 top-1/2 transform -translate-y-1/2&quot;>
+            <Loader2 className=&quot;h-4 w-4 animate-spin text-primary&quot; />
           </div>
         )}
       </div>
 
       {/* Error message */}
       {isError && (
-        <div className="mt-2 text-sm text-destructive">
+        <div className=&quot;mt-2 text-sm text-destructive">
           Failed to load Google Maps API. Please try again later.
         </div>
       )}

@@ -8,8 +8,8 @@ export async function hasPermission(
   context: { organizationId?: string } = {},
 ): Promise<boolean> {
   // In development, always grant permission
-  if (process.env.NODE_ENV === "development") {
-    console.log(`DEVELOPMENT MODE: Granting permission for "${permission}"`);
+  if (process.env.NODE_ENV === &quot;development&quot;) {
+    console.log(`DEVELOPMENT MODE: Granting permission for &quot;${permission}&quot;`);
     return true;
   }
 

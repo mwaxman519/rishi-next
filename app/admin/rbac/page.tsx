@@ -1,22 +1,22 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useMemo } from "react";
-import SidebarLayout from "@/components/SidebarLayout";
-import ErrorBoundary from "../../components/ErrorBoundary";
-import { USER_ROLES } from "../../../shared/schema";
+import React, { useState, useMemo } from &quot;react&quot;;
+import SidebarLayout from &quot;@/components/SidebarLayout&quot;;
+import ErrorBoundary from &quot;../../components/ErrorBoundary&quot;;
+import { USER_ROLES } from &quot;../../../shared/schema&quot;;
 import {
   ApplicationFeatures,
   getAllFeatures,
   Feature,
   FeatureOperation,
   PERMISSION_SCOPES,
-} from "../../../shared/rbac/features";
+} from &quot;../../../shared/rbac/features&quot;;
 import {
   getAllRoles,
   checkRoleHasPermission,
   RoleDefinition,
   ROLE_HIERARCHY,
-} from "../../../shared/rbac/roles";
+} from &quot;../../../shared/rbac/roles&quot;;
 import {
   ChevronDown,
   ChevronRight,
@@ -27,13 +27,13 @@ import {
   Settings,
   Building2,
   Globe,
-} from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
-import { useOrganization } from "@/contexts/OrganizationProvider";
-import { Badge } from "@/components/ui/badge";
+} from &quot;lucide-react&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useOrganization } from &quot;@/contexts/OrganizationProvider&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
 
 // Tab options for the RBAC dashboard
-type TabOption = "feature-matrix" | "role-matrix" | "service-view";
+type TabOption = &quot;feature-matrix&quot; | &quot;role-matrix&quot; | &quot;service-view&quot;;
 
 // Component for displaying role-feature access status
 function RoleFeatureAccess({
@@ -62,40 +62,40 @@ function RoleFeatureAccess({
 
   // Check if any of the permissions have organization scope
   const hasOrgScopedPermissions = operations.some((op) => {
-    const parts = op.permission.split(":");
+    const parts = op.permission.split(&quot;:&quot;);
     return parts.length > 2 && parts[2] === PERMISSION_SCOPES.ORGANIZATION;
   });
 
   // Check if any of the permissions have region scope
   const hasRegionScopedPermissions = operations.some((op) => {
-    const parts = op.permission.split(":");
+    const parts = op.permission.split(&quot;:&quot;);
     return parts.length > 2 && parts[2] === PERMISSION_SCOPES.REGION;
   });
 
   if (hasAnyPermission) {
     return (
-      <div className="flex flex-col items-center">
-        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 dark:bg-green-900">
-          <Check className="h-4 w-4 text-green-700 dark:text-green-300" />
+      <div className=&quot;flex flex-col items-center&quot;>
+        <span className=&quot;inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 dark:bg-green-900&quot;>
+          <Check className=&quot;h-4 w-4 text-green-700 dark:text-green-300&quot; />
         </span>
 
         {expanded && (
-          <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          <span className=&quot;text-xs text-gray-500 dark:text-gray-400 mt-1&quot;>
             {permissionCount}/{operations.length}
           </span>
         )}
 
         {/* Show organization context indicators if applicable */}
-        <div className="flex gap-1 mt-1">
+        <div className=&quot;flex gap-1 mt-1&quot;>
           {hasOrgScopedPermissions && (
-            <div title="Has organization-scoped permissions">
-              <Building2 className="h-3 w-3 text-blue-500" />
+            <div title=&quot;Has organization-scoped permissions&quot;>
+              <Building2 className=&quot;h-3 w-3 text-blue-500&quot; />
             </div>
           )}
 
           {hasRegionScopedPermissions && (
-            <div title="Has region-scoped permissions">
-              <Globe className="h-3 w-3 text-purple-500" />
+            <div title=&quot;Has region-scoped permissions&quot;>
+              <Globe className=&quot;h-3 w-3 text-purple-500&quot; />
             </div>
           )}
         </div>
@@ -104,8 +104,8 @@ function RoleFeatureAccess({
   }
 
   return (
-    <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 dark:bg-red-900">
-      <X className="h-4 w-4 text-red-700 dark:text-red-300" />
+    <span className=&quot;inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 dark:bg-red-900&quot;>
+      <X className=&quot;h-4 w-4 text-red-700 dark:text-red-300&quot; />
     </span>
   );
 }
@@ -122,7 +122,7 @@ function PermissionCheck({
   const { currentOrganization } = useOrganization();
 
   // Parse the permission to check if it has a scope
-  const permissionParts = permission.split(":");
+  const permissionParts = permission.split(&quot;:&quot;);
   const hasScope = permissionParts.length > 2;
   const scope = hasScope ? permissionParts[2] : undefined;
 
@@ -137,25 +137,25 @@ function PermissionCheck({
 
   if (hasPermission) {
     return (
-      <div className="flex flex-col items-center">
-        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 dark:bg-green-900">
-          <Check className="h-4 w-4 text-green-700 dark:text-green-300" />
+      <div className=&quot;flex flex-col items-center&quot;>
+        <span className=&quot;inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-100 dark:bg-green-900&quot;>
+          <Check className=&quot;h-4 w-4 text-green-700 dark:text-green-300&quot; />
         </span>
 
         {/* Display scope badge if applicable */}
         {hasScope && (
           <Badge
-            variant="outline"
+            variant=&quot;outline&quot;
             className={`mt-1 text-xs px-1 ${
               isOrgScoped
-                ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                ? &quot;border-blue-500 text-blue-600 dark:text-blue-400&quot;
                 : isRegionScoped
-                  ? "border-purple-500 text-purple-600 dark:text-purple-400"
+                  ? &quot;border-purple-500 text-purple-600 dark:text-purple-400&quot;
                   : isOwnedScoped
-                    ? "border-amber-500 text-amber-600 dark:text-amber-400"
+                    ? &quot;border-amber-500 text-amber-600 dark:text-amber-400&quot;
                     : isAssignedScoped
-                      ? "border-teal-500 text-teal-600 dark:text-teal-400"
-                      : "border-gray-500 text-gray-600 dark:text-gray-400"
+                      ? &quot;border-teal-500 text-teal-600 dark:text-teal-400&quot;
+                      : &quot;border-gray-500 text-gray-600 dark:text-gray-400&quot;
             }`}
           >
             {scope}
@@ -166,26 +166,26 @@ function PermissionCheck({
   }
 
   return (
-    <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 dark:bg-red-900">
-      <X className="h-4 w-4 text-red-700 dark:text-red-300" />
+    <span className=&quot;inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 dark:bg-red-900&quot;>
+      <X className=&quot;h-4 w-4 text-red-700 dark:text-red-300&quot; />
     </span>
   );
 }
 
 export default function RBACPage() {
-  const [activeTab, setActiveTab] = useState<TabOption>("feature-matrix");
+  const [activeTab, setActiveTab] = useState<TabOption>(&quot;feature-matrix&quot;);
   const [expandedFeatures, setExpandedFeatures] = useState<
     Record<string, boolean>
   >({});
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
 
   const allFeatures = useMemo(() => {
     try {
       const features = getAllFeatures();
       return Array.isArray(features) ? features : [];
     } catch (error) {
-      console.error("Error loading features:", error);
+      console.error(&quot;Error loading features:&quot;, error);
       return [];
     }
   }, []);
@@ -195,7 +195,7 @@ export default function RBACPage() {
       const roles = getAllRoles();
       return Array.isArray(roles) ? roles : [];
     } catch (error) {
-      console.error("Error loading roles:", error);
+      console.error(&quot;Error loading roles:&quot;, error);
       return [];
     }
   }, []);
@@ -247,11 +247,11 @@ export default function RBACPage() {
 
   // Format permission string for display
   const formatPermission = (permission: string) => {
-    const [action, resource] = permission.split(":");
+    const [action, resource] = permission.split(&quot;:&quot;);
     return (
       <span>
-        <span className="font-medium">{action}</span>:
-        <span className="text-primary">{resource}</span>
+        <span className=&quot;font-medium&quot;>{action}</span>:
+        <span className=&quot;text-primary&quot;>{resource}</span>
       </span>
     );
   };
@@ -267,52 +267,52 @@ export default function RBACPage() {
   return (
     <ErrorBoundary>
       <SidebarLayout>
-        <div className="p-6">
-          <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100">
+        <div className=&quot;p-6&quot;>
+          <h1 className=&quot;text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100&quot;>
             Role-Based Access Control
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-2">
+          <p className=&quot;text-gray-600 dark:text-gray-400 mb-2&quot;>
             Visualize and manage permissions across roles, features, and
             services
           </p>
 
           {/* Organization Context Info */}
-          <div className="bg-gray-50 dark:bg-gray-800 rounded-md p-4 mb-6 border border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className=&quot;bg-gray-50 dark:bg-gray-800 rounded-md p-4 mb-6 border border-gray-200 dark:border-gray-700&quot;>
+            <div className=&quot;flex flex-col md:flex-row md:items-center justify-between gap-4&quot;>
               <div>
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <h3 className=&quot;text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;>
                   Current Organization Context
                 </h3>
-                <div className="flex items-center gap-2">
-                  <Building2 className="h-4 w-4 text-primary" />
-                  <span className="font-semibold">
+                <div className=&quot;flex items-center gap-2&quot;>
+                  <Building2 className=&quot;h-4 w-4 text-primary&quot; />
+                  <span className=&quot;font-semibold&quot;>
                     {orgLoading
-                      ? "Loading..."
-                      : currentOrganization?.name || "Global System Context"}
+                      ? &quot;Loading...&quot;
+                      : currentOrganization?.name || &quot;Global System Context&quot;}
                   </span>
                   {currentOrganization?.id && (
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant=&quot;outline&quot; className=&quot;text-xs&quot;>
                       ID: {currentOrganization.id}
                     </Badge>
                   )}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-1 text-xs">
-                  <div className="w-3 h-3 rounded-full bg-blue-500" />
+              <div className=&quot;flex flex-wrap gap-3&quot;>
+                <div className=&quot;flex items-center gap-1 text-xs&quot;>
+                  <div className=&quot;w-3 h-3 rounded-full bg-blue-500&quot; />
                   <span>Organization Scope</span>
                 </div>
-                <div className="flex items-center gap-1 text-xs">
-                  <div className="w-3 h-3 rounded-full bg-purple-500" />
+                <div className=&quot;flex items-center gap-1 text-xs&quot;>
+                  <div className=&quot;w-3 h-3 rounded-full bg-purple-500&quot; />
                   <span>Region Scope</span>
                 </div>
-                <div className="flex items-center gap-1 text-xs">
-                  <div className="w-3 h-3 rounded-full bg-amber-500" />
+                <div className=&quot;flex items-center gap-1 text-xs&quot;>
+                  <div className=&quot;w-3 h-3 rounded-full bg-amber-500&quot; />
                   <span>Owned Scope</span>
                 </div>
-                <div className="flex items-center gap-1 text-xs">
-                  <div className="w-3 h-3 rounded-full bg-teal-500" />
+                <div className=&quot;flex items-center gap-1 text-xs&quot;>
+                  <div className=&quot;w-3 h-3 rounded-full bg-teal-500&quot; />
                   <span>Assigned Scope</span>
                 </div>
               </div>
@@ -320,71 +320,71 @@ export default function RBACPage() {
           </div>
 
           {/* Filters and Search */}
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Filter className="h-4 w-4 text-gray-400" />
+          <div className=&quot;flex flex-col md:flex-row gap-4 mb-6&quot;>
+            <div className=&quot;relative&quot;>
+              <div className=&quot;absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none&quot;>
+                <Filter className=&quot;h-4 w-4 text-gray-400&quot; />
               </div>
               <select
-                value={selectedService || ""}
+                value={selectedService || &quot;&quot;}
                 onChange={(e) => setSelectedService(e.target.value || null)}
-                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
-                       focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                className=&quot;pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                       focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
               >
-                <option value="">All Services</option>
+                <option value=&quot;&quot;>All Services</option>
                 {services.map((service, index) => (
                   <option key={`service-${index}-${service}`} value={service}>
                     {service.charAt(0).toUpperCase() +
-                      service.slice(1).replace(/-/g, " ")}
+                      service.slice(1).replace(/-/g, &quot; &quot;)}
                   </option>
                 ))}
               </select>
             </div>
 
-            <div className="relative flex-grow">
+            <div className=&quot;relative flex-grow&quot;>
               <input
-                type="text"
-                placeholder="Search features, permissions..."
+                type=&quot;text&quot;
+                placeholder=&quot;Search features, permissions...&quot;
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-4 pr-4 py-2 w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
-                       focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                className=&quot;pl-4 pr-4 py-2 w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm 
+                       focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
               />
             </div>
           </div>
 
           {/* Tab Navigation */}
-          <div className="border-b border-gray-200 dark:border-gray-700 mb-6">
-            <div className="flex space-x-8">
+          <div className=&quot;border-b border-gray-200 dark:border-gray-700 mb-6&quot;>
+            <div className=&quot;flex space-x-8&quot;>
               <button
-                key="tab-feature-matrix"
-                onClick={() => setActiveTab("feature-matrix")}
+                key=&quot;tab-feature-matrix&quot;
+                onClick={() => setActiveTab(&quot;feature-matrix&quot;)}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === "feature-matrix"
-                    ? "border-primary text-primary dark:text-primary-400"
-                    : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  activeTab === &quot;feature-matrix&quot;
+                    ? &quot;border-primary text-primary dark:text-primary-400&quot;
+                    : &quot;border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300&quot;
                 }`}
               >
                 Feature Matrix
               </button>
               <button
-                key="tab-role-matrix"
-                onClick={() => setActiveTab("role-matrix")}
+                key=&quot;tab-role-matrix&quot;
+                onClick={() => setActiveTab(&quot;role-matrix&quot;)}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === "role-matrix"
-                    ? "border-primary text-primary dark:text-primary-400"
-                    : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  activeTab === &quot;role-matrix&quot;
+                    ? &quot;border-primary text-primary dark:text-primary-400&quot;
+                    : &quot;border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300&quot;
                 }`}
               >
                 Role Matrix
               </button>
               <button
-                key="tab-service-view"
-                onClick={() => setActiveTab("service-view")}
+                key=&quot;tab-service-view&quot;
+                onClick={() => setActiveTab(&quot;service-view&quot;)}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === "service-view"
-                    ? "border-primary text-primary dark:text-primary-400"
-                    : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  activeTab === &quot;service-view&quot;
+                    ? &quot;border-primary text-primary dark:text-primary-400&quot;
+                    : &quot;border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300&quot;
                 }`}
               >
                 Service View
@@ -393,52 +393,52 @@ export default function RBACPage() {
           </div>
 
           {/* Feature Matrix View */}
-          {activeTab === "feature-matrix" && (
-            <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-900">
+          {activeTab === &quot;feature-matrix&quot; && (
+            <div className=&quot;bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden&quot;>
+              <div className=&quot;overflow-x-auto&quot;>
+                <table className=&quot;min-w-full divide-y divide-gray-200 dark:divide-gray-700&quot;>
+                  <thead className=&quot;bg-gray-50 dark:bg-gray-900&quot;>
                     <tr>
                       <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[300px]"
+                        scope=&quot;col&quot;
+                        className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[300px]&quot;
                       >
                         Feature / Role
                       </th>
                       {allRoles.map((role, roleIndex) => (
                         <th
                           key={`role-header-${roleIndex}-${role.id}`}
-                          scope="col"
-                          className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                          scope=&quot;col&quot;
+                          className=&quot;px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
                         >
                           {role.name}
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  <tbody className=&quot;bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700&quot;>
                     {filteredFeatures.map((feature) => (
                       <React.Fragment key={`feature-group-${feature.id}`}>
-                        <tr className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                          <td className="px-6 py-4">
-                            <div className="flex items-start">
+                        <tr className=&quot;hover:bg-gray-50 dark:hover:bg-gray-700&quot;>
+                          <td className=&quot;px-6 py-4&quot;>
+                            <div className=&quot;flex items-start&quot;>
                               <button
                                 onClick={() =>
                                   toggleFeatureExpansion(feature.id)
                                 }
-                                className="mr-2 mt-1 focus:outline-none"
+                                className=&quot;mr-2 mt-1 focus:outline-none&quot;
                               >
                                 {expandedFeatures[feature.id] ? (
-                                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                                  <ChevronDown className=&quot;h-4 w-4 text-gray-500&quot; />
                                 ) : (
-                                  <ChevronRight className="h-4 w-4 text-gray-500" />
+                                  <ChevronRight className=&quot;h-4 w-4 text-gray-500&quot; />
                                 )}
                               </button>
                               <div>
-                                <div className="font-medium text-gray-900 dark:text-gray-100">
+                                <div className=&quot;font-medium text-gray-900 dark:text-gray-100&quot;>
                                   {feature.name}
                                 </div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">
+                                <div className=&quot;text-sm text-gray-500 dark:text-gray-400&quot;>
                                   {feature.description}
                                 </div>
                               </div>
@@ -447,7 +447,7 @@ export default function RBACPage() {
                           {allRoles.map((role, roleIndex) => (
                             <td
                               key={`${feature.id}-${role.id}-${roleIndex}`}
-                              className="px-6 py-4 text-center"
+                              className=&quot;px-6 py-4 text-center&quot;
                             >
                               <RoleFeatureAccess
                                 role={role}
@@ -463,16 +463,16 @@ export default function RBACPage() {
                           feature.operations?.map((operation) => (
                             <tr
                               key={`${feature.id}-${operation.id}`}
-                              className="bg-gray-50 dark:bg-gray-700"
+                              className=&quot;bg-gray-50 dark:bg-gray-700&quot;
                             >
-                              <td className="px-6 py-2 pl-12">
-                                <div className="flex items-center">
-                                  <div className="ml-2">
-                                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                      {operation.name} -{" "}
+                              <td className=&quot;px-6 py-2 pl-12&quot;>
+                                <div className=&quot;flex items-center&quot;>
+                                  <div className=&quot;ml-2&quot;>
+                                    <div className=&quot;text-sm font-medium text-gray-700 dark:text-gray-300&quot;>
+                                      {operation.name} -{&quot; &quot;}
                                       {formatPermission(operation.permission)}
                                     </div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                    <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
                                       {operation.description}
                                     </div>
                                   </div>
@@ -481,7 +481,7 @@ export default function RBACPage() {
                               {allRoles.map((role, roleIndex) => (
                                 <td
                                   key={`${feature.id}-${operation.id}-${role.id}-${roleIndex}`}
-                                  className="px-6 py-2 text-center"
+                                  className=&quot;px-6 py-2 text-center&quot;
                                 >
                                   <PermissionCheck
                                     permission={operation.permission}
@@ -500,27 +500,27 @@ export default function RBACPage() {
                             >
                               <tr
                                 key={`subfeature-${feature.id}-${subfeature.id}`}
-                                className="bg-gray-50 dark:bg-gray-700"
+                                className=&quot;bg-gray-50 dark:bg-gray-700&quot;
                               >
-                                <td className="px-6 py-3 pl-12">
-                                  <div className="flex items-start">
+                                <td className=&quot;px-6 py-3 pl-12&quot;>
+                                  <div className=&quot;flex items-start&quot;>
                                     <button
                                       onClick={() =>
                                         toggleFeatureExpansion(subfeature.id)
                                       }
-                                      className="mr-2 mt-1 focus:outline-none"
+                                      className=&quot;mr-2 mt-1 focus:outline-none&quot;
                                     >
                                       {expandedFeatures[subfeature.id] ? (
-                                        <ChevronDown className="h-4 w-4 text-gray-500" />
+                                        <ChevronDown className=&quot;h-4 w-4 text-gray-500&quot; />
                                       ) : (
-                                        <ChevronRight className="h-4 w-4 text-gray-500" />
+                                        <ChevronRight className=&quot;h-4 w-4 text-gray-500&quot; />
                                       )}
                                     </button>
                                     <div>
-                                      <div className="font-medium text-gray-700 dark:text-gray-300">
+                                      <div className=&quot;font-medium text-gray-700 dark:text-gray-300&quot;>
                                         {subfeature.name}
                                       </div>
-                                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                                      <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
                                         {subfeature.description}
                                       </div>
                                     </div>
@@ -529,7 +529,7 @@ export default function RBACPage() {
                                 {allRoles.map((role, roleIndex) => (
                                   <td
                                     key={`${feature.id}-${subfeature.id}-${role.id}-${roleIndex}`}
-                                    className="px-6 py-3 text-center"
+                                    className=&quot;px-6 py-3 text-center&quot;
                                   >
                                     <RoleFeatureAccess
                                       role={role}
@@ -545,18 +545,18 @@ export default function RBACPage() {
                                 subfeature.operations?.map((operation) => (
                                   <tr
                                     key={`${feature.id}-${subfeature.id}-${operation.id}`}
-                                    className="bg-gray-100 dark:bg-gray-800"
+                                    className=&quot;bg-gray-100 dark:bg-gray-800&quot;
                                   >
-                                    <td className="px-6 py-2 pl-20">
-                                      <div className="flex items-center">
-                                        <div className="ml-2">
-                                          <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            {operation.name} -{" "}
+                                    <td className=&quot;px-6 py-2 pl-20&quot;>
+                                      <div className=&quot;flex items-center&quot;>
+                                        <div className=&quot;ml-2&quot;>
+                                          <div className=&quot;text-sm font-medium text-gray-700 dark:text-gray-300&quot;>
+                                            {operation.name} -{&quot; &quot;}
                                             {formatPermission(
                                               operation.permission,
                                             )}
                                           </div>
-                                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                                          <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
                                             {operation.description}
                                           </div>
                                         </div>
@@ -565,7 +565,7 @@ export default function RBACPage() {
                                     {allRoles.map((role, roleIndex) => (
                                       <td
                                         key={`${feature.id}-${subfeature.id}-${operation.id}-${role.id}-${roleIndex}`}
-                                        className="px-6 py-2 text-center"
+                                        className=&quot;px-6 py-2 text-center&quot;
                                       >
                                         <PermissionCheck
                                           permission={operation.permission}
@@ -581,12 +581,12 @@ export default function RBACPage() {
                     ))}
 
                     {filteredFeatures.length === 0 && (
-                      <tr key="no-features-found">
+                      <tr key=&quot;no-features-found&quot;>
                         <td
                           colSpan={allRoles.length + 1}
-                          className="px-6 py-8 text-center"
+                          className=&quot;px-6 py-8 text-center&quot;
                         >
-                          <div className="text-gray-500 dark:text-gray-400">
+                          <div className=&quot;text-gray-500 dark:text-gray-400&quot;>
                             No features found matching your criteria.
                           </div>
                         </td>
@@ -599,61 +599,61 @@ export default function RBACPage() {
           )}
 
           {/* Role Matrix View */}
-          {activeTab === "role-matrix" && (
-            <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <thead className="bg-gray-50 dark:bg-gray-900">
+          {activeTab === &quot;role-matrix&quot; && (
+            <div className=&quot;bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden&quot;>
+              <div className=&quot;overflow-x-auto&quot;>
+                <table className=&quot;min-w-full divide-y divide-gray-200 dark:divide-gray-700&quot;>
+                  <thead className=&quot;bg-gray-50 dark:bg-gray-900&quot;>
                     <tr>
                       <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[250px]"
+                        scope=&quot;col&quot;
+                        className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-[250px]&quot;
                       >
                         Role
                       </th>
                       <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                        scope=&quot;col&quot;
+                        className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
                       >
                         Description
                       </th>
                       <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                        scope=&quot;col&quot;
+                        className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
                       >
                         Permissions
                       </th>
                       <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                        scope=&quot;col&quot;
+                        className=&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
                       >
                         Inherits From
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  <tbody className=&quot;bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700&quot;>
                     {allRoles.map((role, roleIndex) => (
                       <tr
                         key={`role-row-${roleIndex}-${role.id}`}
-                        className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                        className=&quot;hover:bg-gray-50 dark:hover:bg-gray-700&quot;
                       >
-                        <td className="px-6 py-4">
-                          <div className="font-medium text-gray-900 dark:text-gray-100">
+                        <td className=&quot;px-6 py-4&quot;>
+                          <div className=&quot;font-medium text-gray-900 dark:text-gray-100&quot;>
                             {role.name}
                           </div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                          <div className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
                             {role.id}
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
+                        <td className=&quot;px-6 py-4 text-sm text-gray-700 dark:text-gray-300&quot;>
                           {role.description}
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-wrap gap-1">
+                        <td className=&quot;px-6 py-4&quot;>
+                          <div className=&quot;flex flex-wrap gap-1&quot;>
                             {role.permissions?.map((permission, permIndex) => (
                               <span
                                 key={`${role.id}-perm-${permIndex}-${permission}`}
-                                className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+                                className=&quot;px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200&quot;
                               >
                                 {permission}
                               </span>
@@ -662,22 +662,22 @@ export default function RBACPage() {
                               role.permissions.length === 0) && (
                               <span
                                 key={`${role.id}-no-permissions`}
-                                className="text-gray-500 dark:text-gray-400 text-sm"
+                                className=&quot;text-gray-500 dark:text-gray-400 text-sm&quot;
                               >
                                 No direct permissions
                               </span>
                             )}
                           </div>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="flex flex-wrap gap-1">
+                        <td className=&quot;px-6 py-4&quot;>
+                          <div className=&quot;flex flex-wrap gap-1&quot;>
                             {/* Display role inheritance using ROLE_HIERARCHY lookup */}
                             {(ROLE_HIERARCHY[role.id]?.length ?? 0) > 0 ? 
                               ROLE_HIERARCHY[role.id]?.map(
                               (parentRole: string, inheritIndex) => (
                                 <span
                                   key={`${role.id}-inherits-${inheritIndex}-${parentRole}`}
-                                  className="px-2 py-1 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200"
+                                  className=&quot;px-2 py-1 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200&quot;
                                 >
                                   {parentRole}
                                 </span>
@@ -686,7 +686,7 @@ export default function RBACPage() {
                             {(ROLE_HIERARCHY[role.id]?.length ?? 0) === 0 && (
                               <span
                                 key={`${role.id}-no-inheritance`}
-                                className="text-gray-500 dark:text-gray-400 text-sm"
+                                className=&quot;text-gray-500 dark:text-gray-400 text-sm&quot;
                               >
                                 No inheritance
                               </span>
@@ -702,62 +702,62 @@ export default function RBACPage() {
           )}
 
           {/* Service View */}
-          {activeTab === "service-view" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {activeTab === &quot;service-view&quot; && (
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6&quot;>
               {services.map((service, serviceIndex) => (
                 <div
                   key={`service-card-${serviceIndex}-${service}`}
-                  className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700"
+                  className=&quot;bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border border-gray-100 dark:border-gray-700&quot;
                 >
-                  <div className="p-6">
-                    <div className="flex items-center mb-4">
-                      <div className="p-2 rounded-md bg-blue-100 dark:bg-blue-900 mr-4">
-                        {service === "core" ? (
-                          <Settings className="h-6 w-6 text-blue-700 dark:text-blue-300" />
+                  <div className=&quot;p-6&quot;>
+                    <div className=&quot;flex items-center mb-4&quot;>
+                      <div className=&quot;p-2 rounded-md bg-blue-100 dark:bg-blue-900 mr-4&quot;>
+                        {service === &quot;core&quot; ? (
+                          <Settings className=&quot;h-6 w-6 text-blue-700 dark:text-blue-300&quot; />
                         ) : (
-                          <Database className="h-6 w-6 text-blue-700 dark:text-blue-300" />
+                          <Database className=&quot;h-6 w-6 text-blue-700 dark:text-blue-300&quot; />
                         )}
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                        <h3 className=&quot;text-lg font-semibold text-gray-900 dark:text-gray-100&quot;>
                           {service.charAt(0).toUpperCase() +
-                            service.slice(1).replace(/-/g, " ")}
+                            service.slice(1).replace(/-/g, &quot; &quot;)}
                         </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className=&quot;text-sm text-gray-500 dark:text-gray-400&quot;>
                           {
                             allFeatures.filter((f) => f.service === service)
                               .length
-                          }{" "}
+                          }{&quot; &quot;}
                           features
                         </p>
                       </div>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className=&quot;space-y-4&quot;>
                       {allFeatures
                         .filter((f) => f.service === service)
                         .map((feature, featureIndex) => (
                           <div
                             key={`${service}-feature-${featureIndex}-${feature.id}`}
-                            className="border-t border-gray-100 dark:border-gray-700 pt-4"
+                            className=&quot;border-t border-gray-100 dark:border-gray-700 pt-4&quot;
                           >
-                            <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-1">
+                            <h4 className=&quot;font-medium text-gray-900 dark:text-gray-100 mb-1&quot;>
                               {feature.name}
                             </h4>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                            <p className=&quot;text-sm text-gray-500 dark:text-gray-400 mb-2&quot;>
                               {feature.description}
                             </p>
 
-                            <div className="space-y-1">
+                            <div className=&quot;space-y-1&quot;>
                               {feature.operations?.map((op, opIndex) => (
                                 <div
                                   key={`${feature.id}-${op.id}-${opIndex}`}
-                                  className="text-xs flex items-center"
+                                  className=&quot;text-xs flex items-center&quot;
                                 >
-                                  <span className="w-20 text-gray-700 dark:text-gray-300">
+                                  <span className=&quot;w-20 text-gray-700 dark:text-gray-300&quot;>
                                     {op.name}:
                                   </span>
-                                  <span className="text-primary">
+                                  <span className=&quot;text-primary">
                                     {op.permission}
                                   </span>
                                 </div>

@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import Link from "next/link";
-import { canAccessAdmin } from "@/lib/rbac/hasPermission";
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useEffect, useState } from &quot;react&quot;;
+import { useRouter, usePathname } from &quot;next/navigation&quot;;
+import Link from &quot;next/link&quot;;
+import { canAccessAdmin } from &quot;@/lib/rbac/hasPermission&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { AlertCircle } from &quot;lucide-react&quot;;
+import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
 
 export default function AdminLayout({
   children,
@@ -33,7 +33,7 @@ export default function AdminLayout({
         const hasAccess = canAccessAdmin(user.role);
         setAuthorized(hasAccess);
       } catch (error) {
-        console.error("Error checking permissions:", error);
+        console.error(&quot;Error checking permissions:&quot;, error);
         setAuthorized(false);
       } finally {
         setLoading(false);
@@ -43,8 +43,8 @@ export default function AdminLayout({
 
   if (loading) {
     return (
-      <div className="container mx-auto py-8">
-        <div className="text-center">
+      <div className=&quot;container mx-auto py-8&quot;>
+        <div className=&quot;text-center&quot;>
           <p>Loading...</p>
         </div>
       </div>
@@ -53,35 +53,35 @@ export default function AdminLayout({
 
   if (authorized === false) {
     return (
-      <div className="container mx-auto py-8">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+      <div className=&quot;container mx-auto py-8&quot;>
+        <Alert variant=&quot;destructive&quot;>
+          <AlertCircle className=&quot;h-4 w-4&quot; />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
             You don&apos;t have permission to access this area.
           </AlertDescription>
         </Alert>
-        <div className="mt-4 text-center">
-          <Button onClick={() => router.push("/")}>Back to Home</Button>
+        <div className=&quot;mt-4 text-center&quot;>
+          <Button onClick={() => router.push(&quot;/&quot;)}>Back to Home</Button>
         </div>
       </div>
     );
   }
 
   const navItems = [
-    { href: "/admin", label: "Dashboard", exact: true },
-    { href: "/admin/users", label: "Users" },
-    { href: "/admin/organizations", label: "Organizations" },
-    { href: "/admin/features", label: "Features" },
-    { href: "/admin/regions", label: "Regions" },
-    { href: "/admin/audit-logs", label: "Audit Logs" },
+    { href: &quot;/admin&quot;, label: &quot;Dashboard&quot;, exact: true },
+    { href: &quot;/admin/users&quot;, label: &quot;Users&quot; },
+    { href: &quot;/admin/organizations&quot;, label: &quot;Organizations&quot; },
+    { href: &quot;/admin/features&quot;, label: &quot;Features&quot; },
+    { href: &quot;/admin/regions&quot;, label: &quot;Regions&quot; },
+    { href: &quot;/admin/audit-logs&quot;, label: &quot;Audit Logs&quot; },
   ];
 
   return (
-    <div className="container mx-auto py-4">
-      <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
+    <div className=&quot;container mx-auto py-4&quot;>
+      <h1 className=&quot;text-3xl font-bold mb-6&quot;>Admin Panel</h1>
 
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className=&quot;flex flex-wrap gap-2 mb-6&quot;>
         {navItems.map((item) => {
           const isActive = item.exact
             ? pathname === item.href
@@ -89,7 +89,7 @@ export default function AdminLayout({
 
           return (
             <Link key={item.href} href={item.href}>
-              <Button variant={isActive ? "default" : "outline"} size="sm">
+              <Button variant={isActive ? &quot;default&quot; : &quot;outline&quot;} size=&quot;sm&quot;>
                 {item.label}
               </Button>
             </Link>

@@ -2,7 +2,7 @@
  * Kit Management Repository - SIMPLIFIED for VoltBuilder
  * Using correct schema field names from shared/schema.ts
  */
-import { db } from "../../lib/db-connection";
+import { db } from &quot;../../lib/db-connection&quot;;
 import {
   kitTemplates,
   kits,
@@ -10,14 +10,14 @@ import {
   users,
   activityKits,
   activities,
-} from "../../../shared/schema";
-import { eq, and, or, desc, like, asc, sql } from "drizzle-orm";
+} from &quot;../../../shared/schema&quot;;
+import { eq, and, or, desc, like, asc, sql } from &quot;drizzle-orm&quot;;
 
 import {
   KitTemplateDTO,
   KitDTO,
   ActivityKitDTO,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class KitRepository {
   async findAllTemplates(): Promise<KitTemplateDTO[]> {

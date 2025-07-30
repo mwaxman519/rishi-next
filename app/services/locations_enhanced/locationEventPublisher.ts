@@ -9,18 +9,18 @@
  * - Automatic retry for failed deliveries
  */
 
-import { AppEvent, EventPayload, PayloadFor } from "../../../shared/events";
-import { enhancedDistributedEventBus } from "../infrastructure/messaging/distributedEventBus";
-import { RetryableEventBus } from "../infrastructure/messaging/retryableEventBus";
-import { distributedEventBus } from "../infrastructure/distributedEventBus";
+import { AppEvent, EventPayload, PayloadFor } from &quot;../../../shared/events&quot;;
+import { enhancedDistributedEventBus } from &quot;../infrastructure/messaging/distributedEventBus&quot;;
+import { RetryableEventBus } from &quot;../infrastructure/messaging/retryableEventBus&quot;;
+import { distributedEventBus } from &quot;../infrastructure/distributedEventBus&quot;;
 
 // Location-specific event types
 export type LocationEvent =
-  | "location.created"
-  | "location.updated"
-  | "location.deleted"
-  | "location.approved"
-  | "location.rejected";
+  | &quot;location.created&quot;
+  | &quot;location.updated&quot;
+  | &quot;location.deleted&quot;
+  | &quot;location.approved&quot;
+  | &quot;location.rejected&quot;;
 
 // Wrapper that integrates the RetryableEventBus with the DistributedEventBus
 export class LocationEventPublisher {
@@ -51,31 +51,31 @@ export class LocationEventPublisher {
    * Configure which channels to use for different location event types
    */
   private configureEventChannels(): void {
-    // If we're using the enhanced distributed event bus, configure routing
+    // If we&apos;re using the enhanced distributed event bus, configure routing
     if (enhancedDistributedEventBus.configureEventChannels) {
       // Critical events go to both local and HTTP channels
-      enhancedDistributedEventBus.configureEventChannels("location.created", [
-        "local",
-        "http",
+      enhancedDistributedEventBus.configureEventChannels(&quot;location.created&quot;, [
+        &quot;local&quot;,
+        &quot;http&quot;,
       ]);
 
-      enhancedDistributedEventBus.configureEventChannels("location.approved", [
-        "local",
-        "http",
+      enhancedDistributedEventBus.configureEventChannels(&quot;location.approved&quot;, [
+        &quot;local&quot;,
+        &quot;http&quot;,
       ]);
 
-      enhancedDistributedEventBus.configureEventChannels("location.rejected", [
-        "local",
-        "http",
+      enhancedDistributedEventBus.configureEventChannels(&quot;location.rejected&quot;, [
+        &quot;local&quot;,
+        &quot;http&quot;,
       ]);
 
       // Less critical events can stay local for now
-      enhancedDistributedEventBus.configureEventChannels("location.updated", [
-        "local",
+      enhancedDistributedEventBus.configureEventChannels(&quot;location.updated&quot;, [
+        &quot;local&quot;,
       ]);
 
-      enhancedDistributedEventBus.configureEventChannels("location.deleted", [
-        "local",
+      enhancedDistributedEventBus.configureEventChannels(&quot;location.deleted&quot;, [
+        &quot;local&quot;,
       ]);
     }
   }
@@ -98,7 +98,7 @@ export class LocationEventPublisher {
         maxRetries: options.maxRetries,
         metadata: {
           correlationId: options.correlationId || this.generateCorrelationId(),
-          serviceName: "location-service",
+          serviceName: &quot;location-service&quot;,
           timestamp: new Date().toISOString(),
         },
       });
@@ -112,13 +112,13 @@ export class LocationEventPublisher {
    * Publish a location.created event
    */
   async publishLocationCreated(
-    payload: PayloadFor<"location.created">,
+    payload: PayloadFor<&quot;location.created&quot;>,
     options: {
       immediate?: boolean;
       correlationId?: string;
     } = {},
   ): Promise<boolean> {
-    return this.publishEvent("location.created", payload, {
+    return this.publishEvent(&quot;location.created&quot;, payload, {
       immediate: options.immediate || true, // Default to immediate for create events
       maxRetries: 5,
       correlationId: options.correlationId,
@@ -129,13 +129,13 @@ export class LocationEventPublisher {
    * Publish a location.updated event
    */
   async publishLocationUpdated(
-    payload: PayloadFor<"location.updated">,
+    payload: PayloadFor<&quot;location.updated&quot;>,
     options: {
       immediate?: boolean;
       correlationId?: string;
     } = {},
   ): Promise<boolean> {
-    return this.publishEvent("location.updated", payload, {
+    return this.publishEvent(&quot;location.updated&quot;, payload, {
       immediate: options.immediate,
       maxRetries: 3,
       correlationId: options.correlationId,
@@ -146,13 +146,13 @@ export class LocationEventPublisher {
    * Publish a location.deleted event
    */
   async publishLocationDeleted(
-    payload: PayloadFor<"location.deleted">,
+    payload: PayloadFor<&quot;location.deleted&quot;>,
     options: {
       immediate?: boolean;
       correlationId?: string;
     } = {},
   ): Promise<boolean> {
-    return this.publishEvent("location.deleted", payload, {
+    return this.publishEvent(&quot;location.deleted&quot;, payload, {
       immediate: options.immediate || true, // Default to immediate for delete events
       maxRetries: 4,
       correlationId: options.correlationId,
@@ -163,13 +163,13 @@ export class LocationEventPublisher {
    * Publish a location.approved event
    */
   async publishLocationApproved(
-    payload: PayloadFor<"location.approved">,
+    payload: PayloadFor<&quot;location.approved&quot;>,
     options: {
       immediate?: boolean;
       correlationId?: string;
     } = {},
   ): Promise<boolean> {
-    return this.publishEvent("location.approved", payload, {
+    return this.publishEvent(&quot;location.approved&quot;, payload, {
       immediate: options.immediate || true, // Default to immediate for approval events
       maxRetries: 5,
       correlationId: options.correlationId,
@@ -180,13 +180,13 @@ export class LocationEventPublisher {
    * Publish a location.rejected event
    */
   async publishLocationRejected(
-    payload: PayloadFor<"location.rejected">,
+    payload: PayloadFor<&quot;location.rejected&quot;>,
     options: {
       immediate?: boolean;
       correlationId?: string;
     } = {},
   ): Promise<boolean> {
-    return this.publishEvent("location.rejected", payload, {
+    return this.publishEvent(&quot;location.rejected&quot;, payload, {
       immediate: options.immediate || true, // Default to immediate for rejection events
       maxRetries: 5,
       correlationId: options.correlationId,

@@ -1,5 +1,5 @@
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { Metadata } from &quot;next&quot;;
+import { notFound } from &quot;next/navigation&quot;;
 import {
   ArrowLeft,
   Mail,
@@ -21,20 +21,20 @@ import {
   AlertTriangle,
   Users,
   Building,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import Link from "next/link";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Progress } from &quot;@/components/ui/progress&quot;;
+import Link from &quot;next/link&quot;;
 
 interface TeamMemberDetailsProps {
   params: Promise<{
@@ -45,76 +45,76 @@ interface TeamMemberDetailsProps {
 // Mock data for team member details
 const getTeamMemberById = (id: string) => {
   const members = {
-    "1": {
-      id: "1",
-      name: "Sarah Johnson",
-      role: "Brand Agent",
-      email: "sarah.johnson@rishievents.com",
-      personalEmail: "sarah.j.personal@gmail.com",
-      phone: "+1 (555) 123-4567",
+    &quot;1&quot;: {
+      id: &quot;1&quot;,
+      name: &quot;Sarah Johnson&quot;,
+      role: &quot;Brand Agent&quot;,
+      email: &quot;sarah.johnson@rishievents.com&quot;,
+      personalEmail: &quot;sarah.j.personal@gmail.com&quot;,
+      phone: &quot;+1 (555) 123-4567&quot;,
       address: {
-        street: "1234 Market Street, Apt 5B",
-        city: "San Francisco",
-        state: "CA",
-        zipCode: "94103",
-        country: "United States",
+        street: &quot;1234 Market Street, Apt 5B&quot;,
+        city: &quot;San Francisco&quot;,
+        state: &quot;CA&quot;,
+        zipCode: &quot;94103&quot;,
+        country: &quot;United States&quot;,
       },
-      location: "San Francisco, CA",
-      status: "active",
+      location: &quot;San Francisco, CA&quot;,
+      status: &quot;active&quot;,
       rating: 4.8,
       eventsCompleted: 24,
-      joinDate: "2024-01-15",
-      manager: "Emily Davis",
-      managerId: "3",
-      department: "Field Operations",
-      employeeId: "EMP-2024-001",
-      shirtSize: "M",
-      lastDeviceType: "iPhone 14 Pro",
+      joinDate: &quot;2024-01-15&quot;,
+      manager: &quot;Emily Davis&quot;,
+      managerId: &quot;3&quot;,
+      department: &quot;Field Operations&quot;,
+      employeeId: &quot;EMP-2024-001&quot;,
+      shirtSize: &quot;M&quot;,
+      lastDeviceType: &quot;iPhone 14 Pro&quot;,
       emergencyContact: {
-        name: "John Johnson",
-        relationship: "Spouse",
-        phone: "+1 (555) 987-6543",
+        name: &quot;John Johnson&quot;,
+        relationship: &quot;Spouse&quot;,
+        phone: &quot;+1 (555) 987-6543&quot;,
       },
       personalInfo: {
-        dateOfBirth: "1995-03-15",
-        ssn: "***-**-4567",
-        workEligibility: "US Citizen",
-        driversLicense: "CA-D1234567",
+        dateOfBirth: &quot;1995-03-15&quot;,
+        ssn: &quot;***-**-4567&quot;,
+        workEligibility: &quot;US Citizen&quot;,
+        driversLicense: &quot;CA-D1234567&quot;,
       },
       bankingInfo: {
-        accountType: "Direct Deposit",
-        bankName: "Wells Fargo",
-        routingLast4: "1234",
+        accountType: &quot;Direct Deposit&quot;,
+        bankName: &quot;Wells Fargo&quot;,
+        routingLast4: &quot;1234&quot;,
       },
-      specialties: ["Product Demo", "Corporate Events"],
-      avatar: "/avatars/sarah.jpg",
-      bio: "Experienced brand agent with 3+ years in product demonstrations and corporate events. Specializes in tech product launches and B2B engagement.",
+      specialties: [&quot;Product Demo&quot;, &quot;Corporate Events&quot;],
+      avatar: &quot;/avatars/sarah.jpg&quot;,
+      bio: &quot;Experienced brand agent with 3+ years in product demonstrations and corporate events. Specializes in tech product launches and B2B engagement.&quot;,
       skills: [
-        { name: "Product Demo", level: 95 },
-        { name: "Public Speaking", level: 88 },
-        { name: "Customer Engagement", level: 92 },
-        { name: "Event Coordination", level: 85 },
+        { name: &quot;Product Demo&quot;, level: 95 },
+        { name: &quot;Public Speaking&quot;, level: 88 },
+        { name: &quot;Customer Engagement&quot;, level: 92 },
+        { name: &quot;Event Coordination&quot;, level: 85 },
       ],
       recentEvents: [
         {
           id: 1,
-          name: "Tech Conference 2024",
-          date: "2024-06-10",
-          status: "completed",
+          name: &quot;Tech Conference 2024&quot;,
+          date: &quot;2024-06-10&quot;,
+          status: &quot;completed&quot;,
           rating: 4.9,
         },
         {
           id: 2,
-          name: "Product Launch Demo",
-          date: "2024-06-05",
-          status: "completed",
+          name: &quot;Product Launch Demo&quot;,
+          date: &quot;2024-06-05&quot;,
+          status: &quot;completed&quot;,
           rating: 4.7,
         },
         {
           id: 3,
-          name: "Corporate Training",
-          date: "2024-05-28",
-          status: "completed",
+          name: &quot;Corporate Training&quot;,
+          date: &quot;2024-05-28&quot;,
+          status: &quot;completed&quot;,
           rating: 4.8,
         },
       ],
@@ -122,84 +122,84 @@ const getTeamMemberById = (id: string) => {
         onTimeRate: 96,
         customerSatisfaction: 4.8,
         eventCompletionRate: 100,
-        responseTime: "< 2 hours",
+        responseTime: &quot;< 2 hours&quot;,
       },
       certifications: [
-        "Brand Ambassador Certification",
-        "Product Demo Specialist",
-        "Corporate Events Training",
+        &quot;Brand Ambassador Certification&quot;,
+        &quot;Product Demo Specialist&quot;,
+        &quot;Corporate Events Training&quot;,
       ],
     },
-    "2": {
-      id: "2",
-      name: "Michael Chen",
-      role: "Brand Agent",
-      email: "michael.chen@rishievents.com",
-      personalEmail: "mike.chen.personal@yahoo.com",
-      phone: "+1 (555) 234-5678",
+    &quot;2&quot;: {
+      id: &quot;2&quot;,
+      name: &quot;Michael Chen&quot;,
+      role: &quot;Brand Agent&quot;,
+      email: &quot;michael.chen@rishievents.com&quot;,
+      personalEmail: &quot;mike.chen.personal@yahoo.com&quot;,
+      phone: &quot;+1 (555) 234-5678&quot;,
       address: {
-        street: "789 Sunset Boulevard, Unit 12",
-        city: "Los Angeles",
-        state: "CA",
-        zipCode: "90210",
-        country: "United States",
+        street: &quot;789 Sunset Boulevard, Unit 12&quot;,
+        city: &quot;Los Angeles&quot;,
+        state: &quot;CA&quot;,
+        zipCode: &quot;90210&quot;,
+        country: &quot;United States&quot;,
       },
-      location: "Los Angeles, CA",
-      status: "active",
+      location: &quot;Los Angeles, CA&quot;,
+      status: &quot;active&quot;,
       rating: 4.9,
       eventsCompleted: 31,
-      joinDate: "2023-11-08",
-      manager: "Emily Davis",
-      managerId: "3",
-      department: "Field Operations",
-      employeeId: "EMP-2023-007",
-      shirtSize: "L",
-      lastDeviceType: "Samsung Galaxy S24",
+      joinDate: &quot;2023-11-08&quot;,
+      manager: &quot;Emily Davis&quot;,
+      managerId: &quot;3&quot;,
+      department: &quot;Field Operations&quot;,
+      employeeId: &quot;EMP-2023-007&quot;,
+      shirtSize: &quot;L&quot;,
+      lastDeviceType: &quot;Samsung Galaxy S24&quot;,
       emergencyContact: {
-        name: "Linda Chen",
-        relationship: "Mother",
-        phone: "+1 (555) 876-5432",
+        name: &quot;Linda Chen&quot;,
+        relationship: &quot;Mother&quot;,
+        phone: &quot;+1 (555) 876-5432&quot;,
       },
       personalInfo: {
-        dateOfBirth: "1992-08-22",
-        ssn: "***-**-9876",
-        workEligibility: "Green Card Holder",
-        driversLicense: "CA-D9876543",
+        dateOfBirth: &quot;1992-08-22&quot;,
+        ssn: &quot;***-**-9876&quot;,
+        workEligibility: &quot;Green Card Holder&quot;,
+        driversLicense: &quot;CA-D9876543&quot;,
       },
       bankingInfo: {
-        accountType: "Direct Deposit",
-        bankName: "Chase Bank",
-        routingLast4: "5678",
+        accountType: &quot;Direct Deposit&quot;,
+        bankName: &quot;Chase Bank&quot;,
+        routingLast4: &quot;5678&quot;,
       },
-      specialties: ["Trade Shows", "Retail Activation"],
-      avatar: "/avatars/michael.jpg",
-      bio: "Senior brand agent with extensive experience in trade shows and retail activation campaigns. Known for exceptional client relationships.",
+      specialties: [&quot;Trade Shows&quot;, &quot;Retail Activation&quot;],
+      avatar: &quot;/avatars/michael.jpg&quot;,
+      bio: &quot;Senior brand agent with extensive experience in trade shows and retail activation campaigns. Known for exceptional client relationships.&quot;,
       skills: [
-        { name: "Trade Show Management", level: 98 },
-        { name: "Retail Activation", level: 95 },
-        { name: "Client Relations", level: 93 },
-        { name: "Team Leadership", level: 87 },
+        { name: &quot;Trade Show Management&quot;, level: 98 },
+        { name: &quot;Retail Activation&quot;, level: 95 },
+        { name: &quot;Client Relations&quot;, level: 93 },
+        { name: &quot;Team Leadership&quot;, level: 87 },
       ],
       recentEvents: [
         {
           id: 4,
-          name: "Retail Expo 2024",
-          date: "2024-06-12",
-          status: "completed",
+          name: &quot;Retail Expo 2024&quot;,
+          date: &quot;2024-06-12&quot;,
+          status: &quot;completed&quot;,
           rating: 5.0,
         },
         {
           id: 5,
-          name: "Brand Activation Campaign",
-          date: "2024-06-08",
-          status: "completed",
+          name: &quot;Brand Activation Campaign&quot;,
+          date: &quot;2024-06-08&quot;,
+          status: &quot;completed&quot;,
           rating: 4.8,
         },
         {
           id: 6,
-          name: "Trade Show Demo",
-          date: "2024-06-01",
-          status: "completed",
+          name: &quot;Trade Show Demo&quot;,
+          date: &quot;2024-06-01&quot;,
+          status: &quot;completed&quot;,
           rating: 4.9,
         },
       ],
@@ -207,75 +207,75 @@ const getTeamMemberById = (id: string) => {
         onTimeRate: 98,
         customerSatisfaction: 4.9,
         eventCompletionRate: 100,
-        responseTime: "< 1 hour",
+        responseTime: &quot;< 1 hour&quot;,
       },
       certifications: [
-        "Trade Show Specialist",
-        "Retail Marketing Certification",
-        "Team Leadership Training",
+        &quot;Trade Show Specialist&quot;,
+        &quot;Retail Marketing Certification&quot;,
+        &quot;Team Leadership Training&quot;,
       ],
     },
-    "3": {
-      id: "3",
-      name: "Emily Davis",
-      role: "Field Manager",
-      email: "emily.davis@rishievents.com",
-      personalEmail: "emily.davis.work@outlook.com",
-      phone: "+1 (555) 345-6789",
+    &quot;3&quot;: {
+      id: &quot;3&quot;,
+      name: &quot;Emily Davis&quot;,
+      role: &quot;Field Manager&quot;,
+      email: &quot;emily.davis@rishievents.com&quot;,
+      personalEmail: &quot;emily.davis.work@outlook.com&quot;,
+      phone: &quot;+1 (555) 345-6789&quot;,
       address: {
-        street: "456 Oak Avenue",
-        city: "Portland",
-        state: "OR",
-        zipCode: "97201",
-        country: "United States",
+        street: &quot;456 Oak Avenue&quot;,
+        city: &quot;Portland&quot;,
+        state: &quot;OR&quot;,
+        zipCode: &quot;97201&quot;,
+        country: &quot;United States&quot;,
       },
-      location: "Portland, OR",
-      status: "active",
+      location: &quot;Portland, OR&quot;,
+      status: &quot;active&quot;,
       rating: 4.9,
       eventsCompleted: 45,
-      joinDate: "2022-03-10",
-      manager: "Director of Operations",
-      managerId: "dir-001",
-      department: "Field Operations",
-      employeeId: "EMP-2022-003",
-      shirtSize: "S",
-      lastDeviceType: 'iPad Pro 11"',
+      joinDate: &quot;2022-03-10&quot;,
+      manager: &quot;Director of Operations&quot;,
+      managerId: &quot;dir-001&quot;,
+      department: &quot;Field Operations&quot;,
+      employeeId: &quot;EMP-2022-003&quot;,
+      shirtSize: &quot;S&quot;,
+      lastDeviceType: 'iPad Pro 11&quot;',
       emergencyContact: {
-        name: "Robert Davis",
-        relationship: "Father",
-        phone: "+1 (555) 654-3210",
+        name: &quot;Robert Davis&quot;,
+        relationship: &quot;Father&quot;,
+        phone: &quot;+1 (555) 654-3210&quot;,
       },
       personalInfo: {
-        dateOfBirth: "1988-11-30",
-        ssn: "***-**-1234",
-        workEligibility: "US Citizen",
-        driversLicense: "OR-D1122334",
+        dateOfBirth: &quot;1988-11-30&quot;,
+        ssn: &quot;***-**-1234&quot;,
+        workEligibility: &quot;US Citizen&quot;,
+        driversLicense: &quot;OR-D1122334&quot;,
       },
       bankingInfo: {
-        accountType: "Direct Deposit",
-        bankName: "Bank of America",
-        routingLast4: "9876",
+        accountType: &quot;Direct Deposit&quot;,
+        bankName: &quot;Bank of America&quot;,
+        routingLast4: &quot;9876&quot;,
       },
-      specialties: ["Team Management", "Operations"],
-      avatar: "/avatars/emily.jpg",
-      bio: "Experienced field manager overseeing multiple brand agents and ensuring operational excellence across all events.",
+      specialties: [&quot;Team Management&quot;, &quot;Operations&quot;],
+      avatar: &quot;/avatars/emily.jpg&quot;,
+      bio: &quot;Experienced field manager overseeing multiple brand agents and ensuring operational excellence across all events.&quot;,
       skills: [
-        { name: "Team Management", level: 95 },
-        { name: "Operations", level: 92 },
-        { name: "Strategic Planning", level: 88 },
-        { name: "Quality Assurance", level: 90 },
+        { name: &quot;Team Management&quot;, level: 95 },
+        { name: &quot;Operations&quot;, level: 92 },
+        { name: &quot;Strategic Planning&quot;, level: 88 },
+        { name: &quot;Quality Assurance&quot;, level: 90 },
       ],
       recentEvents: [],
       performance: {
         onTimeRate: 99,
         customerSatisfaction: 4.9,
         eventCompletionRate: 100,
-        responseTime: "< 30 minutes",
+        responseTime: &quot;< 30 minutes&quot;,
       },
       certifications: [
-        "Management Training",
-        "Operations Excellence",
-        "Safety Coordinator",
+        &quot;Management Training&quot;,
+        &quot;Operations Excellence&quot;,
+        &quot;Safety Coordinator&quot;,
       ],
     },
   };
@@ -291,7 +291,7 @@ export async function generateMetadata({
 
   if (!member) {
     return {
-      title: "Team Member Not Found | Rishi Workforce Management",
+      title: &quot;Team Member Not Found | Rishi Workforce Management&quot;,
     };
   }
 
@@ -312,30 +312,30 @@ export default async function TeamMemberDetailsPage({
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
       {/* Header with Back Button */}
-      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4">
-        <Button variant="outline" size="sm" asChild className="w-fit">
-          <Link href="/team">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+      <div className=&quot;flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4&quot;>
+        <Button variant=&quot;outline&quot; size=&quot;sm&quot; asChild className=&quot;w-fit&quot;>
+          <Link href=&quot;/team&quot;>
+            <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
             Back to Team
           </Link>
         </Button>
-        <div className="flex-1">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+        <div className=&quot;flex-1&quot;>
+          <h1 className=&quot;text-2xl sm:text-3xl font-bold tracking-tight&quot;>
             Team Member Profile
           </h1>
-          <p className="text-muted-foreground text-sm sm:text-base">
+          <p className=&quot;text-muted-foreground text-sm sm:text-base&quot;>
             Detailed information and performance metrics
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-          <Button variant="outline" size="sm" className="w-full sm:w-auto">
-            <MessageSquare className="h-4 w-4 mr-2" />
+        <div className=&quot;flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2&quot;>
+          <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;w-full sm:w-auto&quot;>
+            <MessageSquare className=&quot;h-4 w-4 mr-2&quot; />
             Send Message
           </Button>
-          <Button size="sm" className="w-full sm:w-auto">
-            <Edit className="h-4 w-4 mr-2" />
+          <Button size=&quot;sm&quot; className=&quot;w-full sm:w-auto&quot;>
+            <Edit className=&quot;h-4 w-4 mr-2&quot; />
             Edit Profile
           </Button>
         </div>
@@ -343,53 +343,53 @@ export default async function TeamMemberDetailsPage({
 
       {/* Profile Header */}
       <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col lg:flex-row items-start space-y-6 lg:space-y-0 lg:space-x-6">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 w-full lg:w-auto">
-              <Avatar className="h-24 w-24 flex-shrink-0">
+        <CardContent className=&quot;p-6&quot;>
+          <div className=&quot;flex flex-col lg:flex-row items-start space-y-6 lg:space-y-0 lg:space-x-6&quot;>
+            <div className=&quot;flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 w-full lg:w-auto&quot;>
+              <Avatar className=&quot;h-24 w-24 flex-shrink-0&quot;>
                 <AvatarImage src={member.avatar} alt={member.name} />
-                <AvatarFallback className="text-lg">
+                <AvatarFallback className=&quot;text-lg&quot;>
                   {member.name
-                    .split(" ")
+                    .split(&quot; &quot;)
                     .map((n) => n[0])
-                    .join("")}
+                    .join(&quot;&quot;)}
                 </AvatarFallback>
               </Avatar>
 
-              <div className="flex-1 text-center sm:text-left space-y-4">
+              <div className=&quot;flex-1 text-center sm:text-left space-y-4&quot;>
                 <div>
-                  <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
-                    <h2 className="text-2xl font-bold">{member.name}</h2>
+                  <div className=&quot;flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3&quot;>
+                    <h2 className=&quot;text-2xl font-bold&quot;>{member.name}</h2>
                     <Badge
                       variant={
-                        member.status === "active" ? "default" : "secondary"
+                        member.status === &quot;active&quot; ? &quot;default&quot; : &quot;secondary&quot;
                       }
                     >
                       {member.status}
                     </Badge>
                   </div>
-                  <p className="text-lg text-muted-foreground">{member.role}</p>
-                  <p className="text-sm text-muted-foreground mt-2">
+                  <p className=&quot;text-lg text-muted-foreground&quot;>{member.role}</p>
+                  <p className=&quot;text-sm text-muted-foreground mt-2&quot;>
                     {member.bio}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-                  <div className="flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg">
-                    <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm truncate">{member.email}</span>
+                <div className=&quot;grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3&quot;>
+                  <div className=&quot;flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg&quot;>
+                    <Mail className=&quot;h-4 w-4 text-muted-foreground flex-shrink-0&quot; />
+                    <span className=&quot;text-sm truncate&quot;>{member.email}</span>
                   </div>
-                  <div className="flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg">
-                    <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm truncate">{member.phone}</span>
+                  <div className=&quot;flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg&quot;>
+                    <Phone className=&quot;h-4 w-4 text-muted-foreground flex-shrink-0&quot; />
+                    <span className=&quot;text-sm truncate&quot;>{member.phone}</span>
                   </div>
-                  <div className="flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg">
-                    <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm truncate">{member.location}</span>
+                  <div className=&quot;flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg&quot;>
+                    <MapPin className=&quot;h-4 w-4 text-muted-foreground flex-shrink-0&quot; />
+                    <span className=&quot;text-sm truncate&quot;>{member.location}</span>
                   </div>
-                  <div className="flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg">
-                    <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-sm truncate">
+                  <div className=&quot;flex items-center justify-center sm:justify-start space-x-2 min-w-0 p-2 bg-muted/30 rounded-lg&quot;>
+                    <Calendar className=&quot;h-4 w-4 text-muted-foreground flex-shrink-0&quot; />
+                    <span className=&quot;text-sm truncate&quot;>
                       Joined {new Date(member.joinDate).toLocaleDateString()}
                     </span>
                   </div>
@@ -397,12 +397,12 @@ export default async function TeamMemberDetailsPage({
               </div>
             </div>
 
-            <div className="flex flex-col items-center lg:items-end space-y-2 w-full lg:w-auto">
-              <div className="flex items-center space-x-1">
-                <Star className="h-5 w-5 text-yellow-400" />
-                <span className="text-xl font-bold">{member.rating}</span>
+            <div className=&quot;flex flex-col items-center lg:items-end space-y-2 w-full lg:w-auto&quot;>
+              <div className=&quot;flex items-center space-x-1&quot;>
+                <Star className=&quot;h-5 w-5 text-yellow-400&quot; />
+                <span className=&quot;text-xl font-bold&quot;>{member.rating}</span>
               </div>
-              <p className="text-sm text-muted-foreground text-center lg:text-right">
+              <p className=&quot;text-sm text-muted-foreground text-center lg:text-right&quot;>
                 {member.eventsCompleted} events completed
               </p>
             </div>
@@ -411,74 +411,74 @@ export default async function TeamMemberDetailsPage({
       </Card>
 
       {/* Detailed Information Tabs */}
-      <Tabs defaultValue="personal" className="space-y-6">
-        <div className="w-full overflow-x-auto">
-          <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 min-w-max sm:min-w-full">
-            <TabsTrigger value="personal" className="text-xs sm:text-sm">
+      <Tabs defaultValue=&quot;personal&quot; className=&quot;space-y-6&quot;>
+        <div className=&quot;w-full overflow-x-auto&quot;>
+          <TabsList className=&quot;grid w-full grid-cols-3 sm:grid-cols-6 min-w-max sm:min-w-full&quot;>
+            <TabsTrigger value=&quot;personal&quot; className=&quot;text-xs sm:text-sm&quot;>
               Personal Info
             </TabsTrigger>
-            <TabsTrigger value="work" className="text-xs sm:text-sm">
+            <TabsTrigger value=&quot;work&quot; className=&quot;text-xs sm:text-sm&quot;>
               Work Details
             </TabsTrigger>
-            <TabsTrigger value="performance" className="text-xs sm:text-sm">
+            <TabsTrigger value=&quot;performance&quot; className=&quot;text-xs sm:text-sm&quot;>
               Performance
             </TabsTrigger>
-            <TabsTrigger value="events" className="text-xs sm:text-sm">
+            <TabsTrigger value=&quot;events&quot; className=&quot;text-xs sm:text-sm&quot;>
               Recent Events
             </TabsTrigger>
-            <TabsTrigger value="skills" className="text-xs sm:text-sm">
+            <TabsTrigger value=&quot;skills&quot; className=&quot;text-xs sm:text-sm&quot;>
               Skills
             </TabsTrigger>
-            <TabsTrigger value="emergency" className="text-xs sm:text-sm">
+            <TabsTrigger value=&quot;emergency&quot; className=&quot;text-xs sm:text-sm&quot;>
               Emergency
             </TabsTrigger>
           </TabsList>
         </div>
 
-        <TabsContent value="personal" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value=&quot;personal&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
             {/* Contact Information */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
-                <CardTitle className="flex items-center">
-                  <Mail className="h-5 w-5 mr-2 text-blue-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <Mail className=&quot;h-5 w-5 mr-2 text-blue-600&quot; />
                   Contact Information
                 </CardTitle>
                 <CardDescription>Primary contact details</CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <Mail className="h-4 w-4 text-blue-600" />
+              <CardContent className=&quot;p-6 space-y-4&quot;>
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <Mail className=&quot;h-4 w-4 text-blue-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Work Email</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Work Email</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       {member.email}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <Mail className="h-4 w-4 text-green-600" />
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <Mail className=&quot;h-4 w-4 text-green-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Personal Email</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Personal Email</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       {member.personalEmail}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <Phone className="h-4 w-4 text-purple-600" />
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <Phone className=&quot;h-4 w-4 text-purple-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Phone Number</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Phone Number</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       {member.phone}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <Smartphone className="h-4 w-4 text-orange-600" />
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <Smartphone className=&quot;h-4 w-4 text-orange-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Last Device</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Last Device</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       {member.lastDeviceType}
                     </p>
                   </div>
@@ -487,24 +487,24 @@ export default async function TeamMemberDetailsPage({
             </Card>
 
             {/* Address Information */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
-                <CardTitle className="flex items-center">
-                  <Home className="h-5 w-5 mr-2 text-green-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <Home className=&quot;h-5 w-5 mr-2 text-green-600&quot; />
                   Address Information
                 </CardTitle>
                 <CardDescription>Residential address details</CardDescription>
               </CardHeader>
-              <CardContent className="p-6">
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <MapPin className="h-4 w-4 text-green-600 mt-0.5" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Home Address</p>
-                      <div className="text-sm text-muted-foreground">
+              <CardContent className=&quot;p-6&quot;>
+                <div className=&quot;space-y-3&quot;>
+                  <div className=&quot;flex items-start space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <MapPin className=&quot;h-4 w-4 text-green-600 mt-0.5&quot; />
+                    <div className=&quot;flex-1&quot;>
+                      <p className=&quot;text-sm font-medium&quot;>Home Address</p>
+                      <div className=&quot;text-sm text-muted-foreground&quot;>
                         <p>{member.address.street}</p>
                         <p>
-                          {member.address.city}, {member.address.state}{" "}
+                          {member.address.city}, {member.address.state}{&quot; &quot;}
                           {member.address.zipCode}
                         </p>
                         <p>{member.address.country}</p>
@@ -516,58 +516,58 @@ export default async function TeamMemberDetailsPage({
             </Card>
 
             {/* Personal Details */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20">
-                <CardTitle className="flex items-center">
-                  <User className="h-5 w-5 mr-2 text-purple-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <User className=&quot;h-5 w-5 mr-2 text-purple-600&quot; />
                   Personal Details
                 </CardTitle>
                 <CardDescription>
                   Identity and personal information
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Calendar className="h-4 w-4 text-purple-600" />
+              <CardContent className=&quot;p-6 space-y-4&quot;>
+                <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Calendar className=&quot;h-4 w-4 text-purple-600&quot; />
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground">
+                      <p className=&quot;text-xs font-medium text-muted-foreground&quot;>
                         Date of Birth
                       </p>
-                      <p className="text-sm">
+                      <p className=&quot;text-sm&quot;>
                         {new Date(
                           member.personalInfo.dateOfBirth,
                         ).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Shield className="h-4 w-4 text-blue-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Shield className=&quot;h-4 w-4 text-blue-600&quot; />
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground">
+                      <p className=&quot;text-xs font-medium text-muted-foreground&quot;>
                         SSN
                       </p>
-                      <p className="text-sm">{member.personalInfo.ssn}</p>
+                      <p className=&quot;text-sm&quot;>{member.personalInfo.ssn}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Shield className="h-4 w-4 text-green-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Shield className=&quot;h-4 w-4 text-green-600&quot; />
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground">
+                      <p className=&quot;text-xs font-medium text-muted-foreground&quot;>
                         Work Eligibility
                       </p>
-                      <p className="text-sm">
+                      <p className=&quot;text-sm&quot;>
                         {member.personalInfo.workEligibility}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <CreditCard className="h-4 w-4 text-orange-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <CreditCard className=&quot;h-4 w-4 text-orange-600&quot; />
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground">
+                      <p className=&quot;text-xs font-medium text-muted-foreground&quot;>
                         Driver's License
                       </p>
-                      <p className="text-sm">
+                      <p className=&quot;text-sm&quot;>
                         {member.personalInfo.driversLicense}
                       </p>
                     </div>
@@ -577,36 +577,36 @@ export default async function TeamMemberDetailsPage({
             </Card>
 
             {/* Uniform & Equipment */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20">
-                <CardTitle className="flex items-center">
-                  <Building className="h-5 w-5 mr-2 text-orange-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <Building className=&quot;h-5 w-5 mr-2 text-orange-600&quot; />
                   Uniform & Equipment
                 </CardTitle>
                 <CardDescription>
                   Size and equipment information
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <User className="h-4 w-4 text-orange-600" />
+              <CardContent className=&quot;p-6 space-y-4&quot;>
+                <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <User className=&quot;h-4 w-4 text-orange-600&quot; />
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground">
+                      <p className=&quot;text-xs font-medium text-muted-foreground&quot;>
                         Shirt Size
                       </p>
-                      <p className="text-lg font-semibold">
+                      <p className=&quot;text-lg font-semibold&quot;>
                         {member.shirtSize}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Smartphone className="h-4 w-4 text-blue-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Smartphone className=&quot;h-4 w-4 text-blue-600&quot; />
                     <div>
-                      <p className="text-xs font-medium text-muted-foreground">
+                      <p className=&quot;text-xs font-medium text-muted-foreground&quot;>
                         Device Type
                       </p>
-                      <p className="text-sm">{member.lastDeviceType}</p>
+                      <p className=&quot;text-sm&quot;>{member.lastDeviceType}</p>
                     </div>
                   </div>
                 </div>
@@ -615,51 +615,51 @@ export default async function TeamMemberDetailsPage({
           </div>
         </TabsContent>
 
-        <TabsContent value="work" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value=&quot;work&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
             {/* Employment Details */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20">
-                <CardTitle className="flex items-center">
-                  <Building className="h-5 w-5 mr-2 text-blue-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <Building className=&quot;h-5 w-5 mr-2 text-blue-600&quot; />
                   Employment Details
                 </CardTitle>
                 <CardDescription>Official work information</CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <User className="h-4 w-4 text-blue-600" />
+              <CardContent className=&quot;p-6 space-y-4&quot;>
+                <div className=&quot;grid grid-cols-1 gap-4&quot;>
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <User className=&quot;h-4 w-4 text-blue-600&quot; />
                     <div>
-                      <p className="text-sm font-medium">Employee ID</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className=&quot;text-sm font-medium&quot;>Employee ID</p>
+                      <p className=&quot;text-sm text-muted-foreground&quot;>
                         {member.employeeId}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Building className="h-4 w-4 text-green-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Building className=&quot;h-4 w-4 text-green-600&quot; />
                     <div>
-                      <p className="text-sm font-medium">Department</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className=&quot;text-sm font-medium&quot;>Department</p>
+                      <p className=&quot;text-sm text-muted-foreground&quot;>
                         {member.department}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Users className="h-4 w-4 text-purple-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Users className=&quot;h-4 w-4 text-purple-600&quot; />
                     <div>
-                      <p className="text-sm font-medium">Direct Manager</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className=&quot;text-sm font-medium&quot;>Direct Manager</p>
+                      <p className=&quot;text-sm text-muted-foreground&quot;>
                         {member.manager}
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <Calendar className="h-4 w-4 text-orange-600" />
+                  <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                    <Calendar className=&quot;h-4 w-4 text-orange-600&quot; />
                     <div>
-                      <p className="text-sm font-medium">Hire Date</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className=&quot;text-sm font-medium&quot;>Hire Date</p>
+                      <p className=&quot;text-sm text-muted-foreground&quot;>
                         {new Date(member.joinDate).toLocaleDateString()}
                       </p>
                     </div>
@@ -669,38 +669,38 @@ export default async function TeamMemberDetailsPage({
             </Card>
 
             {/* Banking Information */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-950/20 dark:to-teal-950/20">
-                <CardTitle className="flex items-center">
-                  <CreditCard className="h-5 w-5 mr-2 text-green-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-950/20 dark:to-teal-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <CreditCard className=&quot;h-5 w-5 mr-2 text-green-600&quot; />
                   Banking Information
                 </CardTitle>
                 <CardDescription>Payroll and payment details</CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <CreditCard className="h-4 w-4 text-green-600" />
+              <CardContent className=&quot;p-6 space-y-4&quot;>
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <CreditCard className=&quot;h-4 w-4 text-green-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Payment Method</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Payment Method</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       {member.bankingInfo.accountType}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <Building className="h-4 w-4 text-blue-600" />
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <Building className=&quot;h-4 w-4 text-blue-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Bank Name</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Bank Name</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       {member.bankingInfo.bankName}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                  <Shield className="h-4 w-4 text-purple-600" />
+                <div className=&quot;flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50&quot;>
+                  <Shield className=&quot;h-4 w-4 text-purple-600&quot; />
                   <div>
-                    <p className="text-sm font-medium">Routing (Last 4)</p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className=&quot;text-sm font-medium&quot;>Routing (Last 4)</p>
+                    <p className=&quot;text-sm text-muted-foreground&quot;>
                       ****{member.bankingInfo.routingLast4}
                     </p>
                   </div>
@@ -709,47 +709,47 @@ export default async function TeamMemberDetailsPage({
             </Card>
 
             {/* Performance Metrics */}
-            <Card className="lg:col-span-2 overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20">
-                <CardTitle className="flex items-center">
-                  <TrendingUp className="h-5 w-5 mr-2 text-purple-600" />
+            <Card className=&quot;lg:col-span-2 overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <TrendingUp className=&quot;h-5 w-5 mr-2 text-purple-600&quot; />
                   Performance Overview
                 </CardTitle>
                 <CardDescription>
                   Current performance metrics and ratings
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20">
-                    <div className="text-2xl font-bold text-blue-600">
+              <CardContent className=&quot;p-6&quot;>
+                <div className=&quot;grid grid-cols-2 md:grid-cols-4 gap-6&quot;>
+                  <div className=&quot;text-center p-4 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20&quot;>
+                    <div className=&quot;text-2xl font-bold text-blue-600&quot;>
                       {member.performance.onTimeRate}%
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className=&quot;text-sm text-muted-foreground&quot;>
                       On-time Rate
                     </div>
                   </div>
-                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20">
-                    <div className="text-2xl font-bold text-green-600">
+                  <div className=&quot;text-center p-4 rounded-lg bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20&quot;>
+                    <div className=&quot;text-2xl font-bold text-green-600&quot;>
                       {member.performance.customerSatisfaction}/5.0
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className=&quot;text-sm text-muted-foreground&quot;>
                       Customer Rating
                     </div>
                   </div>
-                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/20 dark:to-purple-900/20">
-                    <div className="text-2xl font-bold text-purple-600">
+                  <div className=&quot;text-center p-4 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/20 dark:to-purple-900/20&quot;>
+                    <div className=&quot;text-2xl font-bold text-purple-600&quot;>
                       {member.performance.eventCompletionRate}%
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className=&quot;text-sm text-muted-foreground&quot;>
                       Completion Rate
                     </div>
                   </div>
-                  <div className="text-center p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/20 dark:to-orange-900/20">
-                    <div className="text-2xl font-bold text-orange-600">
+                  <div className=&quot;text-center p-4 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950/20 dark:to-orange-900/20&quot;>
+                    <div className=&quot;text-2xl font-bold text-orange-600&quot;>
                       {member.performance.responseTime}
                     </div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className=&quot;text-sm text-muted-foreground&quot;>
                       Response Time
                     </div>
                   </div>
@@ -759,38 +759,38 @@ export default async function TeamMemberDetailsPage({
           </div>
         </TabsContent>
 
-        <TabsContent value="emergency" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TabsContent value=&quot;emergency&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
             {/* Emergency Contact */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20">
-                <CardTitle className="flex items-center">
-                  <AlertTriangle className="h-5 w-5 mr-2 text-red-600" />
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20&quot;>
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <AlertTriangle className=&quot;h-5 w-5 mr-2 text-red-600&quot; />
                   Emergency Contact
                 </CardTitle>
                 <CardDescription>
                   Primary emergency contact information
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="flex items-center space-x-3 p-4 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800">
-                  <User className="h-5 w-5 text-red-600" />
+              <CardContent className=&quot;p-6 space-y-4&quot;>
+                <div className=&quot;flex items-center space-x-3 p-4 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800&quot;>
+                  <User className=&quot;h-5 w-5 text-red-600&quot; />
                   <div>
-                    <p className="font-medium text-red-900 dark:text-red-100">
+                    <p className=&quot;font-medium text-red-900 dark:text-red-100&quot;>
                       {member.emergencyContact.name}
                     </p>
-                    <p className="text-sm text-red-700 dark:text-red-300">
+                    <p className=&quot;text-sm text-red-700 dark:text-red-300&quot;>
                       {member.emergencyContact.relationship}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-4 rounded-lg bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800">
-                  <Phone className="h-5 w-5 text-orange-600" />
+                <div className=&quot;flex items-center space-x-3 p-4 rounded-lg bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800&quot;>
+                  <Phone className=&quot;h-5 w-5 text-orange-600&quot; />
                   <div>
-                    <p className="font-medium text-orange-900 dark:text-orange-100">
+                    <p className=&quot;font-medium text-orange-900 dark:text-orange-100&quot;>
                       Emergency Phone
                     </p>
-                    <p className="text-sm text-orange-700 dark:text-orange-300">
+                    <p className=&quot;text-sm text-orange-700 dark:text-orange-300&quot;>
                       {member.emergencyContact.phone}
                     </p>
                   </div>
@@ -799,46 +799,46 @@ export default async function TeamMemberDetailsPage({
             </Card>
 
             {/* Quick Actions */}
-            <Card className="overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950/20 dark:to-blue-950/20">
+            <Card className=&quot;overflow-hidden&quot;>
+              <CardHeader className=&quot;bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950/20 dark:to-blue-950/20&quot;>
                 <CardTitle>Quick Actions</CardTitle>
                 <CardDescription>
                   Common profile management actions
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-6 space-y-3">
+              <CardContent className=&quot;p-6 space-y-3&quot;>
                 <Button
-                  variant="outline"
-                  className="w-full justify-start h-12"
+                  variant=&quot;outline&quot;
+                  className=&quot;w-full justify-start h-12&quot;
                   asChild
                 >
                   <Link href={`/team/${member.id}/edit`}>
-                    <Edit className="h-4 w-4 mr-3" />
+                    <Edit className=&quot;h-4 w-4 mr-3&quot; />
                     Edit Profile Details
                   </Link>
                 </Button>
                 <Button
-                  variant="outline"
-                  className="w-full justify-start h-12"
+                  variant=&quot;outline&quot;
+                  className=&quot;w-full justify-start h-12&quot;
                   asChild
                 >
                   <Link href={`/team/${member.id}/assign`}>
-                    <UserPlus className="h-4 w-4 mr-3" />
+                    <UserPlus className=&quot;h-4 w-4 mr-3&quot; />
                     Assign to Event
                   </Link>
                 </Button>
                 <Button
-                  variant="outline"
-                  className="w-full justify-start h-12"
+                  variant=&quot;outline&quot;
+                  className=&quot;w-full justify-start h-12&quot;
                   asChild
                 >
                   <Link href={`/team/${member.id}/message`}>
-                    <MessageSquare className="h-4 w-4 mr-3" />
+                    <MessageSquare className=&quot;h-4 w-4 mr-3&quot; />
                     Send Message
                   </Link>
                 </Button>
-                <Button variant="outline" className="w-full justify-start h-12">
-                  <Calendar className="h-4 w-4 mr-3" />
+                <Button variant=&quot;outline&quot; className=&quot;w-full justify-start h-12&quot;>
+                  <Calendar className=&quot;h-4 w-4 mr-3&quot; />
                   View Schedule
                 </Button>
               </CardContent>
@@ -846,38 +846,38 @@ export default async function TeamMemberDetailsPage({
           </div>
         </TabsContent>
 
-        <TabsContent value="performance" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <TabsContent value=&quot;performance&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-6&quot;>
             {/* Performance Metrics */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <TrendingUp className="h-5 w-5 mr-2" />
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <TrendingUp className=&quot;h-5 w-5 mr-2&quot; />
                   Performance Metrics
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-sm">On-time Rate</span>
-                  <span className="font-medium">
+              <CardContent className=&quot;space-y-4&quot;>
+                <div className=&quot;flex justify-between&quot;>
+                  <span className=&quot;text-sm&quot;>On-time Rate</span>
+                  <span className=&quot;font-medium&quot;>
                     {member.performance.onTimeRate}%
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm">Customer Satisfaction</span>
-                  <span className="font-medium">
+                <div className=&quot;flex justify-between&quot;>
+                  <span className=&quot;text-sm&quot;>Customer Satisfaction</span>
+                  <span className=&quot;font-medium&quot;>
                     {member.performance.customerSatisfaction}/5.0
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm">Completion Rate</span>
-                  <span className="font-medium">
+                <div className=&quot;flex justify-between&quot;>
+                  <span className=&quot;text-sm&quot;>Completion Rate</span>
+                  <span className=&quot;font-medium&quot;>
                     {member.performance.eventCompletionRate}%
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-sm">Response Time</span>
-                  <span className="font-medium">
+                <div className=&quot;flex justify-between&quot;>
+                  <span className=&quot;text-sm&quot;>Response Time</span>
+                  <span className=&quot;font-medium&quot;>
                     {member.performance.responseTime}
                   </span>
                 </div>
@@ -890,9 +890,9 @@ export default async function TeamMemberDetailsPage({
                 <CardTitle>Specialties</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-2">
+                <div className=&quot;flex flex-wrap gap-2&quot;>
                   {member.specialties.map((specialty, index) => (
-                    <Badge key={index} variant="outline">
+                    <Badge key={index} variant=&quot;outline&quot;>
                       {specialty}
                     </Badge>
                   ))}
@@ -905,17 +905,17 @@ export default async function TeamMemberDetailsPage({
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2">
-                <Button variant="outline" className="w-full justify-start">
-                  <UserPlus className="h-4 w-4 mr-2" />
+              <CardContent className=&quot;space-y-2&quot;>
+                <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                  <UserPlus className=&quot;h-4 w-4 mr-2&quot; />
                   Assign to Event
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Calendar className="h-4 w-4 mr-2" />
+                <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                  <Calendar className=&quot;h-4 w-4 mr-2&quot; />
                   View Schedule
                 </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <MessageSquare className="h-4 w-4 mr-2" />
+                <Button variant=&quot;outline&quot; className=&quot;w-full justify-start&quot;>
+                  <MessageSquare className=&quot;h-4 w-4 mr-2&quot; />
                   Send Message
                 </Button>
               </CardContent>
@@ -923,52 +923,52 @@ export default async function TeamMemberDetailsPage({
           </div>
         </TabsContent>
 
-        <TabsContent value="performance" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value=&quot;performance&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
             <Card>
               <CardHeader>
                 <CardTitle>Performance Overview</CardTitle>
                 <CardDescription>Key performance indicators</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className=&quot;space-y-6&quot;>
                 <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium">On-time Rate</span>
-                    <span className="text-sm">
+                  <div className=&quot;flex justify-between mb-2&quot;>
+                    <span className=&quot;text-sm font-medium&quot;>On-time Rate</span>
+                    <span className=&quot;text-sm&quot;>
                       {member.performance.onTimeRate}%
                     </span>
                   </div>
                   <Progress
                     value={member.performance.onTimeRate}
-                    className="h-2"
+                    className=&quot;h-2&quot;
                   />
                 </div>
                 <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium">
+                  <div className=&quot;flex justify-between mb-2&quot;>
+                    <span className=&quot;text-sm font-medium&quot;>
                       Event Completion
                     </span>
-                    <span className="text-sm">
+                    <span className=&quot;text-sm&quot;>
                       {member.performance.eventCompletionRate}%
                     </span>
                   </div>
                   <Progress
                     value={member.performance.eventCompletionRate}
-                    className="h-2"
+                    className=&quot;h-2&quot;
                   />
                 </div>
                 <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium">
+                  <div className=&quot;flex justify-between mb-2&quot;>
+                    <span className=&quot;text-sm font-medium&quot;>
                       Customer Satisfaction
                     </span>
-                    <span className="text-sm">
+                    <span className=&quot;text-sm&quot;>
                       {member.performance.customerSatisfaction}/5.0
                     </span>
                   </div>
                   <Progress
                     value={(member.performance.customerSatisfaction / 5) * 100}
-                    className="h-2"
+                    className=&quot;h-2&quot;
                   />
                 </div>
               </CardContent>
@@ -980,22 +980,22 @@ export default async function TeamMemberDetailsPage({
                 <CardDescription>Current month performance</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
+                <div className=&quot;space-y-4&quot;>
+                  <div className=&quot;flex justify-between&quot;>
                     <span>Events Completed</span>
-                    <span className="font-bold">8</span>
+                    <span className=&quot;font-bold&quot;>8</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className=&quot;flex justify-between&quot;>
                     <span>Hours Logged</span>
-                    <span className="font-bold">64</span>
+                    <span className=&quot;font-bold&quot;>64</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className=&quot;flex justify-between&quot;>
                     <span>Average Rating</span>
-                    <span className="font-bold">4.8/5.0</span>
+                    <span className=&quot;font-bold&quot;>4.8/5.0</span>
                   </div>
-                  <div className="flex justify-between">
+                  <div className=&quot;flex justify-between&quot;>
                     <span>Client Feedback</span>
-                    <span className="font-bold">12 positive</span>
+                    <span className=&quot;font-bold&quot;>12 positive</span>
                   </div>
                 </div>
               </CardContent>
@@ -1003,7 +1003,7 @@ export default async function TeamMemberDetailsPage({
           </div>
         </TabsContent>
 
-        <TabsContent value="events" className="space-y-6">
+        <TabsContent value=&quot;events&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Recent Events</CardTitle>
@@ -1012,25 +1012,25 @@ export default async function TeamMemberDetailsPage({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className=&quot;space-y-4&quot;>
                 {member.recentEvents.map((event) => (
                   <div
                     key={event.id}
-                    className="flex items-center justify-between p-4 border rounded-lg"
+                    className=&quot;flex items-center justify-between p-4 border rounded-lg&quot;
                   >
-                    <div className="space-y-1">
-                      <h4 className="font-medium">{event.name}</h4>
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                        <div className="flex items-center">
-                          <Calendar className="h-3 w-3 mr-1" />
+                    <div className=&quot;space-y-1&quot;>
+                      <h4 className=&quot;font-medium&quot;>{event.name}</h4>
+                      <div className=&quot;flex items-center space-x-4 text-sm text-muted-foreground&quot;>
+                        <div className=&quot;flex items-center&quot;>
+                          <Calendar className=&quot;h-3 w-3 mr-1&quot; />
                           {new Date(event.date).toLocaleDateString()}
                         </div>
-                        <Badge variant="secondary">{event.status}</Badge>
+                        <Badge variant=&quot;secondary&quot;>{event.status}</Badge>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span className="font-medium">{event.rating}</span>
+                    <div className=&quot;flex items-center space-x-2&quot;>
+                      <Star className=&quot;h-4 w-4 text-yellow-400&quot; />
+                      <span className=&quot;font-medium&quot;>{event.rating}</span>
                     </div>
                   </div>
                 ))}
@@ -1039,21 +1039,21 @@ export default async function TeamMemberDetailsPage({
           </Card>
         </TabsContent>
 
-        <TabsContent value="skills" className="space-y-6">
+        <TabsContent value=&quot;skills&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Skills Assessment</CardTitle>
               <CardDescription>Proficiency levels in key areas</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
+              <div className=&quot;space-y-6&quot;>
                 {member.skills.map((skill, index) => (
                   <div key={index}>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-sm font-medium">{skill.name}</span>
-                      <span className="text-sm">{skill.level}%</span>
+                    <div className=&quot;flex justify-between mb-2&quot;>
+                      <span className=&quot;text-sm font-medium&quot;>{skill.name}</span>
+                      <span className=&quot;text-sm&quot;>{skill.level}%</span>
                     </div>
-                    <Progress value={skill.level} className="h-2" />
+                    <Progress value={skill.level} className=&quot;h-2&quot; />
                   </div>
                 ))}
               </div>
@@ -1061,7 +1061,7 @@ export default async function TeamMemberDetailsPage({
           </Card>
         </TabsContent>
 
-        <TabsContent value="certifications" className="space-y-6">
+        <TabsContent value=&quot;certifications&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Certifications</CardTitle>
@@ -1070,10 +1070,10 @@ export default async function TeamMemberDetailsPage({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
+              <div className=&quot;space-y-3&quot;>
                 {member.certifications.map((cert, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <Award className="h-5 w-5 text-green-600" />
+                  <div key={index} className=&quot;flex items-center space-x-3&quot;>
+                    <Award className=&quot;h-5 w-5 text-green-600" />
                     <span>{cert}</span>
                   </div>
                 ))}

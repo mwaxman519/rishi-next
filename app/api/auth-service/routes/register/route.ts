@@ -1,49 +1,49 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Register API for Auth Microservice
  *
  * Handles user registration.
  */
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { createToken } from "../../utils/jwt";
-import { hashPassword, validatePasswordStrength } from "../../utils/password";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { z } from &quot;zod&quot;;
+import { createToken } from &quot;../../utils/jwt&quot;;
+import { hashPassword, validatePasswordStrength } from &quot;../../utils/password&quot;;
 import {
   errorResponse,
   responseWithAuthCookie,
   successResponse,
-} from "../../utils/response";
+} from &quot;../../utils/response&quot;;
 import {
   createUser,
   getUserByEmail,
   getUserByUsername,
   setupUserOrganization,
   getUserOrganizations,
-} from "../../models/user-repository";
-import { AUTH_CONFIG } from "../../config";
-import { v4 as uuidv4 } from "uuid";
+} from &quot;../../models/user-repository&quot;;
+import { AUTH_CONFIG } from &quot;../../config&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 
 // Registration request schema
 const registerSchema = z
   .object({
-    username: z.string().min(1, "Username is required"),
-    email: z.string().email("Invalid email address").optional().nullable(),
+    username: z.string().min(1, &quot;Username is required&quot;),
+    email: z.string().email(&quot;Invalid email address&quot;).optional().nullable(),
     password: z
       .string()
       .min(
         AUTH_CONFIG.MIN_PASSWORD_LENGTH,
         `Password must be at least ${AUTH_CONFIG.MIN_PASSWORD_LENGTH} characters`,
       ),
-    confirmPassword: z.string().min(1, "Confirm password is required"),
+    confirmPassword: z.string().min(1, &quot;Confirm password is required&quot;),
     registrationPasscode: z
       .string()
-      .min(1, "Registration passcode is required"),
+      .min(1, &quot;Registration passcode is required&quot;),
     fullName: z.string().optional().nullable(),
     
-    role: z.string().optional().default("user"),
+    role: z.string().optional().default(&quot;user&quot;),
     // Organization options (only for internal use)
     organizationId: z.string().optional(),
     // Admin-only fields
@@ -54,8 +54,8 @@ const registerSchema = z
     isInternalRequest: z.boolean().optional().default(false),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
+    message: &quot;Passwords don&apos;t match&quot;,
+    path: [&quot;confirmPassword&quot;],
   });
 
 /**
@@ -64,13 +64,13 @@ const registerSchema = z
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log("[Auth Service] Registration attempt");
+    console.log(&quot;[Auth Service] Registration attempt&quot;);
 
     // Process user registration with database connection
-    if (process.env.NODE_ENV !== "development") {
+    if (process.env.NODE_ENV !== &quot;development&quot;) {
       try {
         // Import database module with its environment detection
-        const { db, testConnection, getEnvironment } = await import("../../db");
+        const { db, testConnection, getEnvironment } = await import(&quot;../../db&quot;);
 
         // Get the environment using the exported function
         const environment = getEnvironment();
@@ -83,9 +83,9 @@ export async function POST(request: NextRequest) {
         );
 
         // For Replit staging environment, we need additional validation
-        if (isReplit && environment === "staging") {
+        if (isReplit && environment === &quot;staging&quot;) {
           console.log(
-            "[Auth Service] Replit staging environment detected, testing database connection",
+            &quot;[Auth Service] Replit staging environment detected, testing database connection&quot;,
           );
 
           // Run connection test to verify database is accessible
@@ -93,21 +93,21 @@ export async function POST(request: NextRequest) {
 
           if (!connectionStatus.connected) {
             console.error(
-              "[Auth Service] Database connection test failed in Replit staging environment:",
+              &quot;[Auth Service] Database connection test failed in Replit staging environment:&quot;,
               connectionStatus.error,
             );
 
             // Provide detailed error message for staging database issues
             return errorResponse(
-              "Unable to connect to the staging database. This is likely a configuration issue.",
+              &quot;Unable to connect to the staging database. This is likely a configuration issue.&quot;,
               500,
-              "STAGING_DATABASE_CONNECTION_ERROR",
+              &quot;STAGING_DATABASE_CONNECTION_ERROR&quot;,
               connectionStatus,
             );
           }
 
           console.log(
-            "[Auth Service] Database connection verified in Replit staging environment",
+            &quot;[Auth Service] Database connection verified in Replit staging environment&quot;,
           );
         } else {
           console.log(
@@ -115,11 +115,11 @@ export async function POST(request: NextRequest) {
           );
         }
       } catch (dbError) {
-        console.error("[Auth Service] Database connection error:", dbError);
+        console.error(&quot;[Auth Service] Database connection error:&quot;, dbError);
         return errorResponse(
-          "Database connection error during registration. Please try again later.",
+          &quot;Database connection error during registration. Please try again later.&quot;,
           500,
-          "DATABASE_CONNECTION_ERROR",
+          &quot;DATABASE_CONNECTION_ERROR&quot;,
         );
       }
     }
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
     // Block self-registration unless explicitly allowed
     if (!AUTH_CONFIG.ALLOW_SELF_REGISTRATION) {
       const headers = request.headers;
-      const internalAuthToken = headers.get("x-internal-auth-token");
+      const internalAuthToken = headers.get(&quot;x-internal-auth-token&quot;);
 
       // Check if this is a non-internal request
       if (
@@ -135,9 +135,9 @@ export async function POST(request: NextRequest) {
         internalAuthToken !== AUTH_CONFIG.INTERNAL_AUTH_TOKEN
       ) {
         return errorResponse(
-          "Self-registration is disabled. Please contact your organization administrator.",
+          &quot;Self-registration is disabled. Please contact your organization administrator.&quot;,
           403,
-          "REGISTRATION_DISABLED",
+          &quot;REGISTRATION_DISABLED&quot;,
         );
       }
     }
@@ -145,38 +145,38 @@ export async function POST(request: NextRequest) {
     // Development mode bypass
     if (AUTH_CONFIG.DEV_MODE) {
       const urlParams = new URL(request.url).searchParams;
-      if (urlParams.get("dev_mode") === "true") {
+      if (urlParams.get(&quot;dev_mode&quot;) === &quot;true&quot;) {
         console.log(
-          "[Auth Service] DEVELOPMENT MODE: Simulating successful registration",
+          &quot;[Auth Service] DEVELOPMENT MODE: Simulating successful registration&quot;,
         );
 
         // Create a token for the mock user
-        const token = await createToken("00000000-0000-0000-0000-000000010001");
+        const token = await createToken(&quot;00000000-0000-0000-0000-000000010001&quot;);
 
         return responseWithAuthCookie(
           {
             user: {
-              id: "00000000-0000-0000-0000-000000010001",
-              username: "new_user",
-              email: "new_user@example.com",
-              fullName: "New User",
-              role: "user",
-              roles: ["USER"],
+              id: &quot;00000000-0000-0000-0000-000000010001&quot;,
+              username: &quot;new_user&quot;,
+              email: &quot;new_user@example.com&quot;,
+              fullName: &quot;New User&quot;,
+              role: &quot;user&quot;,
+              roles: [&quot;USER&quot;],
               createdAt: new Date().toISOString(),
               organizations: [
                 {
-                  orgId: "00000000-0000-0000-0000-000000000001",
-                  orgName: "Rishi Internal",
-                  orgType: "internal",
-                  role: "user",
+                  orgId: &quot;00000000-0000-0000-0000-000000000001&quot;,
+                  orgName: &quot;Rishi Internal&quot;,
+                  orgType: &quot;internal&quot;,
+                  role: &quot;user&quot;,
                   isPrimary: true,
                 },
               ],
               currentOrganization: {
-                orgId: "00000000-0000-0000-0000-000000000001",
-                orgName: "Rishi Internal",
-                orgType: "internal",
-                role: "user",
+                orgId: &quot;00000000-0000-0000-0000-000000000001&quot;,
+                orgName: &quot;Rishi Internal&quot;,
+                orgType: &quot;internal&quot;,
+                role: &quot;user&quot;,
                 isPrimary: true,
               },
             },
@@ -193,9 +193,9 @@ export async function POST(request: NextRequest) {
     const result = registerSchema.safeParse(body);
     if (!result.success) {
       return errorResponse(
-        "Invalid registration data",
+        &quot;Invalid registration data&quot;,
         400,
-        "VALIDATION_ERROR",
+        &quot;VALIDATION_ERROR&quot;,
         result.error.issues,
       );
     }
@@ -226,23 +226,23 @@ export async function POST(request: NextRequest) {
     const passwordValidation = validatePasswordStrength(password);
     if (!passwordValidation.valid) {
       return errorResponse(
-        passwordValidation.message || "Password is not strong enough",
+        passwordValidation.message || &quot;Password is not strong enough&quot;,
         400,
-        "VALIDATION_ERROR",
+        &quot;VALIDATION_ERROR&quot;,
       );
     }
 
     // Check if username already exists
     const existingUserByUsername = await getUserByUsername(username);
     if (existingUserByUsername) {
-      return errorResponse("Username already taken", 409, "USERNAME_CONFLICT");
+      return errorResponse(&quot;Username already taken&quot;, 409, &quot;USERNAME_CONFLICT&quot;);
     }
 
     // Check if email already exists (if provided)
     if (email) {
       const existingUserByEmail = await getUserByEmail(email);
       if (existingUserByEmail) {
-        return errorResponse("Email already registered", 409, "EMAIL_CONFLICT");
+        return errorResponse(&quot;Email already registered&quot;, 409, &quot;EMAIL_CONFLICT&quot;);
       }
     }
 
@@ -258,9 +258,9 @@ export async function POST(request: NextRequest) {
       !isInternalManagementRequest
     ) {
       return errorResponse(
-        "Organization creation is restricted to internal management users",
+        &quot;Organization creation is restricted to internal management users&quot;,
         403,
-        "PERMISSION_DENIED",
+        &quot;PERMISSION_DENIED&quot;,
       );
     }
 
@@ -285,9 +285,9 @@ export async function POST(request: NextRequest) {
     if (!newUser) {
       console.error(`[Auth Service] Failed to create user: ${userCreateError}`);
       return errorResponse(
-        userCreateError || "Failed to create user",
+        userCreateError || &quot;Failed to create user&quot;,
         500,
-        "DATABASE_ERROR",
+        &quot;DATABASE_ERROR&quot;,
       );
     }
 
@@ -296,13 +296,13 @@ export async function POST(request: NextRequest) {
     let setupOrgResult = null;
 
     // Handle super_admin assignment specifically - they are always primarily assigned to Rishi Internal
-    if (role === "super_admin") {
+    if (role === &quot;super_admin&quot;) {
       console.log(
         `[Auth Service] Setting up organization for super_admin user ${username}`,
       );
       setupOrgResult = await setupUserOrganization(userId, {
         // Pass the role as super_admin which will trigger special handling
-        role: "super_admin",
+        role: &quot;super_admin&quot;,
         // If a specific organization was requested, it will be added as secondary
         ...(organizationId ? { orgId: organizationId } : {}),
       });
@@ -315,13 +315,13 @@ export async function POST(request: NextRequest) {
     ) {
       // Create new organization and assign user (only for internal management users)
       console.log(
-        `[Auth Service] Creating new organization "${organizationName}" for user ${username}`,
+        `[Auth Service] Creating new organization &quot;${organizationName}&quot; for user ${username}`,
       );
       setupOrgResult = await setupUserOrganization(userId, {
         createNewOrg: true,
         orgName: organizationName,
-        orgType: organizationType || "client",
-        role: "admin",
+        orgType: organizationType || &quot;client&quot;,
+        role: &quot;admin&quot;,
       });
     } else if (organizationId) {
       // Assign user to existing organization
@@ -345,7 +345,7 @@ export async function POST(request: NextRequest) {
 
     if (!setupOrgResult.userOrg) {
       const errorMessage =
-        setupOrgResult.error || "Unknown error during organization assignment";
+        setupOrgResult.error || &quot;Unknown error during organization assignment&quot;;
       console.warn(
         `[Auth Service] Failed to assign user ${username} to an organization: ${errorMessage}`,
       );
@@ -379,18 +379,18 @@ export async function POST(request: NextRequest) {
       token,
     );
   } catch (error) {
-    console.error("[Auth Service] Registration error:", error);
+    console.error(&quot;[Auth Service] Registration error:&quot;, error);
 
     // Enhanced error analysis to provide better feedback
     let errorMessage =
-      "Registration failed. Please check your information and try again.";
-    let errorCode = "SERVER_ERROR";
+      &quot;Registration failed. Please check your information and try again.&quot;;
+    let errorCode = &quot;SERVER_ERROR&quot;;
     let statusCode = 500;
     let errorDetails: any = undefined;
 
     // Get environment context for better error diagnostics
     const isReplit = process.env.REPL_ID !== undefined;
-    const env = process.env.NODE_ENV || "development";
+    const env = process.env.NODE_ENV || &quot;development&quot;;
     const envContext = {
       environment: env,
       isReplit,
@@ -403,65 +403,65 @@ export async function POST(request: NextRequest) {
 
       // Database connection error
       if (
-        errMsg.includes("connection") ||
-        errMsg.includes("connect") ||
-        errMsg.includes("timeout") ||
-        errMsg.includes("unable to connect")
+        errMsg.includes(&quot;connection&quot;) ||
+        errMsg.includes(&quot;connect&quot;) ||
+        errMsg.includes(&quot;timeout&quot;) ||
+        errMsg.includes(&quot;unable to connect&quot;)
       ) {
         errorMessage =
-          "Unable to connect to the database. Please try again later.";
-        errorCode = "DATABASE_CONNECTION_ERROR";
+          &quot;Unable to connect to the database. Please try again later.&quot;;
+        errorCode = &quot;DATABASE_CONNECTION_ERROR&quot;;
         // Include environment for diagnostics
         errorDetails = { ...envContext };
       }
       // Authentication error with database - specific handling for Replit staging
-      else if (errMsg.includes("password authentication failed")) {
+      else if (errMsg.includes(&quot;password authentication failed&quot;)) {
         // Special handling for Replit environments
-        if (isReplit && env === "production") {
+        if (isReplit && env === &quot;production&quot;) {
           errorMessage =
-            "Database authentication error in Replit environment. This might be a configuration issue with the staging database.";
-          errorCode = "REPLIT_DATABASE_AUTH_ERROR";
+            &quot;Database authentication error in Replit environment. This might be a configuration issue with the staging database.&quot;;
+          errorCode = &quot;REPLIT_DATABASE_AUTH_ERROR&quot;;
           // Include environment context for diagnostics
           errorDetails = { ...envContext };
         } else {
           errorMessage =
-            "Database authentication error. Please contact support.";
-          errorCode = "DATABASE_AUTH_ERROR";
+            &quot;Database authentication error. Please contact support.&quot;;
+          errorCode = &quot;DATABASE_AUTH_ERROR&quot;;
         }
       }
       // Replit neondb_owner errors
-      else if (errMsg.includes("neondb_owner")) {
+      else if (errMsg.includes(&quot;neondb_owner&quot;)) {
         errorMessage =
-          "Replit database configuration error. Please verify database environment variables are correctly set.";
-        errorCode = "REPLIT_DATABASE_CONFIG_ERROR";
+          &quot;Replit database configuration error. Please verify database environment variables are correctly set.&quot;;
+        errorCode = &quot;REPLIT_DATABASE_CONFIG_ERROR&quot;;
         // Include environment context for diagnostics
         errorDetails = { ...envContext };
       }
       // Constraint violation
       else if (
-        errMsg.includes("duplicate key") ||
-        errMsg.includes("unique constraint")
+        errMsg.includes(&quot;duplicate key&quot;) ||
+        errMsg.includes(&quot;unique constraint&quot;)
       ) {
-        if (errMsg.includes("username")) {
+        if (errMsg.includes(&quot;username&quot;)) {
           errorMessage =
-            "Username already exists. Please choose a different username.";
-          errorCode = "USERNAME_CONFLICT";
+            &quot;Username already exists. Please choose a different username.&quot;;
+          errorCode = &quot;USERNAME_CONFLICT&quot;;
           statusCode = 409;
-        } else if (errMsg.includes("email")) {
+        } else if (errMsg.includes(&quot;email&quot;)) {
           errorMessage =
-            "Email already registered. Please use a different email.";
-          errorCode = "EMAIL_CONFLICT";
+            &quot;Email already registered. Please use a different email.&quot;;
+          errorCode = &quot;EMAIL_CONFLICT&quot;;
           statusCode = 409;
         } else {
           errorMessage =
-            "Registration failed due to a conflict. Please try different information.";
-          errorCode = "DATA_CONFLICT";
+            &quot;Registration failed due to a conflict. Please try different information.&quot;;
+          errorCode = &quot;DATA_CONFLICT&quot;;
           statusCode = 409;
         }
       }
 
       // Provide more detailed error information in development environment
-      if ((process.env.NODE_ENV as string) === "development") {
+      if ((process.env.NODE_ENV as string) === &quot;development&quot;) {
         errorDetails = {
           message: error.message,
           stack: error.stack,
@@ -471,7 +471,7 @@ export async function POST(request: NextRequest) {
     } else {
       // For non-Error objects, convert to string for logging
       const errorString = String(error);
-      if ((process.env.NODE_ENV as string) === "development") {
+      if ((process.env.NODE_ENV as string) === &quot;development&quot;) {
         errorDetails = errorString;
       }
     }

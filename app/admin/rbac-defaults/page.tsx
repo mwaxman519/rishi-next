@@ -1,21 +1,21 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useState, useEffect } from &quot;react&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Shield, Globe, Building, AlertTriangle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from &quot;@/components/ui/card&quot;;
+import { Switch } from &quot;@/components/ui/switch&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { Shield, Globe, Building, AlertTriangle } from &quot;lucide-react&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 
 interface SystemRBACDefault {
   id: string;
@@ -48,72 +48,72 @@ export default function SystemRBACDefaultsPage() {
 
   const loadSystemDefaults = async () => {
     try {
-      const response = await fetch("/api/admin/rbac-defaults");
+      const response = await fetch(&quot;/api/admin/rbac-defaults&quot;);
       if (response.ok) {
         const data = await response.json();
 
         const defaults: SystemRBACDefault[] = [
           {
-            id: "brand_agents_view_org_events",
-            name: "Brand Agents Can View Organizational Events",
+            id: &quot;brand_agents_view_org_events&quot;,
+            name: &quot;Brand Agents Can View Organizational Events&quot;,
             description:
-              "Default setting for whether brand agents can view all organizational events or only their assigned ones",
-            category: "Events",
+              &quot;Default setting for whether brand agents can view all organizational events or only their assigned ones&quot;,
+            category: &quot;Events&quot;,
             value: data.defaults.brand_agents_view_org_events || false,
           },
           {
-            id: "brand_agents_manage_availability",
-            name: "Brand Agents Can Manage Availability",
+            id: &quot;brand_agents_manage_availability&quot;,
+            name: &quot;Brand Agents Can Manage Availability&quot;,
             description:
-              "Default setting for brand agent availability management permissions",
-            category: "Events",
+              &quot;Default setting for brand agent availability management permissions&quot;,
+            category: &quot;Events&quot;,
             value: data.defaults.brand_agents_manage_availability !== false,
           },
           {
-            id: "field_coordinators_approve_assignments",
-            name: "Field Coordinators Can Approve Assignments",
+            id: &quot;field_coordinators_approve_assignments&quot;,
+            name: &quot;Field Coordinators Can Approve Assignments&quot;,
             description:
-              "Default setting for field coordinator approval permissions",
-            category: "Events",
+              &quot;Default setting for field coordinator approval permissions&quot;,
+            category: &quot;Events&quot;,
             value:
               data.defaults.field_coordinators_approve_assignments !== false,
           },
           {
-            id: "client_users_create_events",
-            name: "Client Users Can Create Events",
+            id: &quot;client_users_create_events&quot;,
+            name: &quot;Client Users Can Create Events&quot;,
             description:
-              "Default setting for client user event creation permissions",
-            category: "Events",
+              &quot;Default setting for client user event creation permissions&quot;,
+            category: &quot;Events&quot;,
             value: data.defaults.client_users_create_events !== false,
           },
           {
-            id: "enable_event_notifications",
-            name: "Enable Event Notifications",
-            description: "Default setting for event notification system",
-            category: "System",
+            id: &quot;enable_event_notifications&quot;,
+            name: &quot;Enable Event Notifications&quot;,
+            description: &quot;Default setting for event notification system&quot;,
+            category: &quot;System&quot;,
             value: data.defaults.enable_event_notifications !== false,
           },
           {
-            id: "auto_assign_brand_agents",
-            name: "Auto-Assign Brand Agents",
+            id: &quot;auto_assign_brand_agents&quot;,
+            name: &quot;Auto-Assign Brand Agents&quot;,
             description:
-              "Automatically assign available brand agents to new events",
-            category: "Events",
+              &quot;Automatically assign available brand agents to new events&quot;,
+            category: &quot;Events&quot;,
             value: data.defaults.auto_assign_brand_agents || false,
           },
           {
-            id: "require_approval_for_schedule_changes",
-            name: "Require Approval for Schedule Changes",
-            description: "Require manager approval for schedule modifications",
-            category: "Events",
+            id: &quot;require_approval_for_schedule_changes&quot;,
+            name: &quot;Require Approval for Schedule Changes&quot;,
+            description: &quot;Require manager approval for schedule modifications&quot;,
+            category: &quot;Events&quot;,
             value: data.defaults.require_approval_for_schedule_changes || false,
           },
           {
-            id: "enable_overtime_notifications",
-            name: "Enable Overtime Notifications",
+            id: &quot;enable_overtime_notifications&quot;,
+            name: &quot;Enable Overtime Notifications&quot;,
             description:
-              "Send notifications when users approach overtime hours",
-            category: "System",
+              &quot;Send notifications when users approach overtime hours&quot;,
+            category: &quot;System&quot;,
             value: data.defaults.enable_overtime_notifications !== false,
           },
         ];
@@ -121,11 +121,11 @@ export default function SystemRBACDefaultsPage() {
         setSystemDefaults(defaults);
       }
     } catch (error) {
-      console.error("Error loading system defaults:", error);
+      console.error(&quot;Error loading system defaults:&quot;, error);
       toast({
-        title: "Error",
-        description: "Failed to load system RBAC defaults",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to load system RBAC defaults&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setLoading(false);
@@ -154,28 +154,28 @@ export default function SystemRBACDefaultsPage() {
         defaultsObject[setting.id] = setting.value;
       });
 
-      const response = await fetch("/api/admin/rbac-defaults", {
-        method: "PUT",
+      const response = await fetch(&quot;/api/admin/rbac-defaults&quot;, {
+        method: &quot;PUT&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify({ defaults: defaultsObject }),
       });
 
       if (response.ok) {
         toast({
-          title: "Success",
-          description: "System RBAC defaults updated successfully",
+          title: &quot;Success&quot;,
+          description: &quot;System RBAC defaults updated successfully&quot;,
         });
       } else {
-        throw new Error("Failed to save defaults");
+        throw new Error(&quot;Failed to save defaults&quot;);
       }
     } catch (error) {
-      console.error("Error saving system defaults:", error);
+      console.error(&quot;Error saving system defaults:&quot;, error);
       toast({
-        title: "Error",
-        description: "Failed to save system RBAC defaults",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to save system RBAC defaults&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setSaving(false);
@@ -184,23 +184,23 @@ export default function SystemRBACDefaultsPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "Events":
-        return <Shield className="h-4 w-4" />;
-      case "System":
-        return <Globe className="h-4 w-4" />;
+      case &quot;Events&quot;:
+        return <Shield className=&quot;h-4 w-4&quot; />;
+      case &quot;System&quot;:
+        return <Globe className=&quot;h-4 w-4&quot; />;
       default:
-        return <Shield className="h-4 w-4" />;
+        return <Shield className=&quot;h-4 w-4&quot; />;
     }
   };
 
   if (loading) {
     return (
-      <div className="container mx-auto p-6">
-        <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/3"></div>
-          <div className="space-y-4">
+      <div className=&quot;container mx-auto p-6&quot;>
+        <div className=&quot;animate-pulse space-y-6&quot;>
+          <div className=&quot;h-8 bg-muted rounded w-1/3&quot;></div>
+          <div className=&quot;space-y-4&quot;>
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="h-24 bg-muted rounded"></div>
+              <div key={i} className=&quot;h-24 bg-muted rounded&quot;></div>
             ))}
           </div>
         </div>
@@ -221,29 +221,29 @@ export default function SystemRBACDefaultsPage() {
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="flex items-center space-x-2 mb-6">
-        <Globe className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-bold">System RBAC Defaults</h1>
+    <div className=&quot;container mx-auto p-6 max-w-6xl&quot;>
+      <div className=&quot;flex items-center space-x-2 mb-6&quot;>
+        <Globe className=&quot;h-6 w-6 text-primary&quot; />
+        <h1 className=&quot;text-2xl font-bold&quot;>System RBAC Defaults</h1>
       </div>
 
-      <p className="text-muted-foreground mb-8">
+      <p className=&quot;text-muted-foreground mb-8&quot;>
         Configure system-wide RBAC defaults that apply to all organizations.
         Organizations can override these settings individually.
       </p>
 
-      <Tabs defaultValue="defaults" className="space-y-6">
+      <Tabs defaultValue=&quot;defaults&quot; className=&quot;space-y-6&quot;>
         <TabsList>
-          <TabsTrigger value="defaults">System Defaults</TabsTrigger>
-          <TabsTrigger value="overrides">Organization Overrides</TabsTrigger>
+          <TabsTrigger value=&quot;defaults&quot;>System Defaults</TabsTrigger>
+          <TabsTrigger value=&quot;overrides&quot;>Organization Overrides</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="defaults" className="space-y-6">
+        <TabsContent value=&quot;defaults&quot; className=&quot;space-y-6&quot;>
           {Object.entries(settingsByCategory).map(
             ([category, categorySettings]) => (
               <Card key={category}>
                 <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
+                  <CardTitle className=&quot;flex items-center space-x-2&quot;>
                     {getCategoryIcon(category)}
                     <span>{category} Defaults</span>
                   </CardTitle>
@@ -252,18 +252,18 @@ export default function SystemRBACDefaultsPage() {
                     permissions
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className=&quot;space-y-6&quot;>
                   {categorySettings.map((setting, index) => (
                     <div key={setting.id}>
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1 flex-1">
+                      <div className=&quot;flex items-center justify-between&quot;>
+                        <div className=&quot;space-y-1 flex-1&quot;>
                           <Label
                             htmlFor={setting.id}
-                            className="text-sm font-medium"
+                            className=&quot;text-sm font-medium&quot;
                           >
                             {setting.name}
                           </Label>
-                          <p className="text-sm text-muted-foreground">
+                          <p className=&quot;text-sm text-muted-foreground&quot;>
                             {setting.description}
                           </p>
                         </div>
@@ -276,7 +276,7 @@ export default function SystemRBACDefaultsPage() {
                         />
                       </div>
                       {index < categorySettings.length - 1 && (
-                        <Separator className="mt-6" />
+                        <Separator className=&quot;mt-6&quot; />
                       )}
                     </div>
                   ))}
@@ -285,18 +285,18 @@ export default function SystemRBACDefaultsPage() {
             ),
           )}
 
-          <div className="flex justify-end">
+          <div className=&quot;flex justify-end&quot;>
             <Button onClick={saveSystemDefaults} disabled={saving}>
-              {saving ? "Saving..." : "Save System Defaults"}
+              {saving ? &quot;Saving...&quot; : &quot;Save System Defaults&quot;}
             </Button>
           </div>
         </TabsContent>
 
-        <TabsContent value="overrides" className="space-y-6">
+        <TabsContent value=&quot;overrides&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Building className="h-5 w-5" />
+              <CardTitle className=&quot;flex items-center space-x-2&quot;>
+                <Building className=&quot;h-5 w-5&quot; />
                 <span>Organization Overrides</span>
               </CardTitle>
               <CardDescription>
@@ -305,26 +305,26 @@ export default function SystemRBACDefaultsPage() {
             </CardHeader>
             <CardContent>
               {organizationOverrides.length === 0 ? (
-                <p className="text-muted-foreground text-center py-8">
+                <p className=&quot;text-muted-foreground text-center py-8&quot;>
                   No organizations have overridden the system defaults
                 </p>
               ) : (
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {organizationOverrides.map((org) => (
                     <div
                       key={org.organizationId}
-                      className="border rounded-lg p-4"
+                      className=&quot;border rounded-lg p-4&quot;
                     >
-                      <h3 className="font-medium mb-2">
+                      <h3 className=&quot;font-medium mb-2&quot;>
                         {org.organizationName}
                       </h3>
-                      <div className="text-sm text-muted-foreground">
+                      <div className=&quot;text-sm text-muted-foreground&quot;>
                         <strong>Overrides:</strong>
-                        <ul className="mt-1 ml-4 list-disc">
+                        <ul className=&quot;mt-1 ml-4 list-disc&quot;>
                           {Object.entries(org.overrides).map(([key, value]) => (
                             <li key={key}>
-                              {systemDefaults.find((s) => s.id === key)?.name}:{" "}
-                              {value ? "Enabled" : "Disabled"}
+                              {systemDefaults.find((s) => s.id === key)?.name}:{&quot; &quot;}
+                              {value ? &quot;Enabled&quot; : &quot;Disabled&quot;}
                             </li>
                           ))}
                         </ul>
@@ -338,15 +338,15 @@ export default function SystemRBACDefaultsPage() {
         </TabsContent>
       </Tabs>
 
-      <Card className="mt-8 border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30">
-        <CardContent className="pt-6">
-          <div className="flex items-start space-x-3">
-            <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5" />
+      <Card className=&quot;mt-8 border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30&quot;>
+        <CardContent className=&quot;pt-6&quot;>
+          <div className=&quot;flex items-start space-x-3&quot;>
+            <AlertTriangle className=&quot;h-5 w-5 text-blue-600 mt-0.5&quot; />
             <div>
-              <h3 className="font-medium text-blue-800 dark:text-blue-200">
+              <h3 className=&quot;font-medium text-blue-800 dark:text-blue-200&quot;>
                 System Defaults Impact
               </h3>
-              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+              <p className=&quot;text-sm text-blue-700 dark:text-blue-300 mt-1&quot;>
                 These defaults apply to all new organizations. Existing
                 organizations retain their current settings unless manually
                 updated. Organizations can override these defaults through their

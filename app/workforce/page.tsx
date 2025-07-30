@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { Metadata } from &quot;next&quot;;
 import {
   Clock,
   Calendar,
@@ -7,206 +7,206 @@ import {
   Plus,
   Search,
   Filter,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 
 export const metadata: Metadata = {
-  title: "Workforce | Rishi Workforce Management",
-  description: "Track time, schedules, and workforce performance",
+  title: &quot;Workforce | Rishi Workforce Management&quot;,
+  description: &quot;Track time, schedules, and workforce performance&quot;,
 };
 
 const mockTimeEntries = [
   {
     id: 1,
-    agent: "Sarah Johnson",
-    event: "Product Launch Event",
-    date: "2025-06-16",
-    clockIn: "09:00 AM",
-    clockOut: "06:00 PM",
+    agent: &quot;Sarah Johnson&quot;,
+    event: &quot;Product Launch Event&quot;,
+    date: &quot;2025-06-16&quot;,
+    clockIn: &quot;09:00 AM&quot;,
+    clockOut: &quot;06:00 PM&quot;,
     totalHours: 9,
-    status: "approved",
+    status: &quot;approved&quot;,
   },
   {
     id: 2,
-    agent: "Michael Chen",
-    event: "Summer Brand Activation",
-    date: "2025-06-16",
-    clockIn: "10:30 AM",
-    clockOut: "07:30 PM",
+    agent: &quot;Michael Chen&quot;,
+    event: &quot;Summer Brand Activation&quot;,
+    date: &quot;2025-06-16&quot;,
+    clockIn: &quot;10:30 AM&quot;,
+    clockOut: &quot;07:30 PM&quot;,
     totalHours: 9,
-    status: "pending",
+    status: &quot;pending&quot;,
   },
   {
     id: 3,
-    agent: "Emily Rodriguez",
-    event: "Corporate Trade Show",
-    date: "2025-06-15",
-    clockIn: "08:00 AM",
-    clockOut: "05:00 PM",
+    agent: &quot;Emily Rodriguez&quot;,
+    event: &quot;Corporate Trade Show&quot;,
+    date: &quot;2025-06-15&quot;,
+    clockIn: &quot;08:00 AM&quot;,
+    clockOut: &quot;05:00 PM&quot;,
     totalHours: 9,
-    status: "approved",
+    status: &quot;approved&quot;,
   },
 ];
 
 const mockSchedule = [
   {
     id: 1,
-    agent: "Sarah Johnson",
-    event: "Tech Conference Setup",
-    date: "Jun 17, 2025",
-    time: "9:00 AM - 6:00 PM",
-    location: "Convention Center",
-    status: "confirmed",
+    agent: &quot;Sarah Johnson&quot;,
+    event: &quot;Tech Conference Setup&quot;,
+    date: &quot;Jun 17, 2025&quot;,
+    time: &quot;9:00 AM - 6:00 PM&quot;,
+    location: &quot;Convention Center&quot;,
+    status: &quot;confirmed&quot;,
   },
   {
     id: 2,
-    agent: "Michael Chen",
-    event: "Product Demo Day",
-    date: "Jun 18, 2025",
-    time: "12:00 PM - 8:00 PM",
-    location: "Downtown Mall",
-    status: "tentative",
+    agent: &quot;Michael Chen&quot;,
+    event: &quot;Product Demo Day&quot;,
+    date: &quot;Jun 18, 2025&quot;,
+    time: &quot;12:00 PM - 8:00 PM&quot;,
+    location: &quot;Downtown Mall&quot;,
+    status: &quot;tentative&quot;,
   },
   {
     id: 3,
-    agent: "David Thompson",
-    event: "Brand Activation",
-    date: "Jun 19, 2025",
-    time: "10:00 AM - 7:00 PM",
-    location: "City Plaza",
-    status: "confirmed",
+    agent: &quot;David Thompson&quot;,
+    event: &quot;Brand Activation&quot;,
+    date: &quot;Jun 19, 2025&quot;,
+    time: &quot;10:00 AM - 7:00 PM&quot;,
+    location: &quot;City Plaza&quot;,
+    status: &quot;confirmed&quot;,
   },
 ];
 
 export default function WorkforcePage() {
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className=&quot;flex justify-between items-center&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Workforce</h1>
-          <p className="text-muted-foreground">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Workforce</h1>
+          <p className=&quot;text-muted-foreground&quot;>
             Track time, schedules, and workforce performance
           </p>
         </div>
         <Button>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className=&quot;h-4 w-4 mr-2&quot; />
           Add Time Entry
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>
               Total Hours Today
             </CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Clock className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">72</div>
-            <p className="text-xs text-muted-foreground">
+            <div className=&quot;text-2xl font-bold&quot;>72</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>
               +8 hours from yesterday
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>
               Active Workers
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">Currently on duty</p>
+            <div className=&quot;text-2xl font-bold&quot;>12</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>Currently on duty</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Week</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>This Week</CardTitle>
+            <Calendar className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">384</div>
-            <p className="text-xs text-muted-foreground">Total hours worked</p>
+            <div className=&quot;text-2xl font-bold&quot;>384</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>Total hours worked</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Efficiency</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Efficiency</CardTitle>
+            <TrendingUp className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">94%</div>
-            <p className="text-xs text-muted-foreground">+2% from last week</p>
+            <div className=&quot;text-2xl font-bold&quot;>94%</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>+2% from last week</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Tabs for different views */}
-      <Tabs defaultValue="timetracking" className="space-y-4">
+      <Tabs defaultValue=&quot;timetracking&quot; className=&quot;space-y-4&quot;>
         <TabsList>
-          <TabsTrigger value="timetracking">Time Tracking</TabsTrigger>
-          <TabsTrigger value="schedule">Schedule</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
+          <TabsTrigger value=&quot;timetracking&quot;>Time Tracking</TabsTrigger>
+          <TabsTrigger value=&quot;schedule&quot;>Schedule</TabsTrigger>
+          <TabsTrigger value=&quot;performance&quot;>Performance</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="timetracking" className="space-y-4">
+        <TabsContent value=&quot;timetracking&quot; className=&quot;space-y-4&quot;>
           {/* Filters */}
-          <div className="flex gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input placeholder="Search time entries..." className="pl-10" />
+          <div className=&quot;flex gap-4&quot;>
+            <div className=&quot;relative flex-1&quot;>
+              <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4&quot; />
+              <Input placeholder=&quot;Search time entries...&quot; className=&quot;pl-10&quot; />
             </div>
-            <Button variant="outline">
-              <Filter className="h-4 w-4 mr-2" />
+            <Button variant=&quot;outline&quot;>
+              <Filter className=&quot;h-4 w-4 mr-2&quot; />
               Filter
             </Button>
           </div>
 
           {/* Time Entries */}
-          <div className="space-y-3">
+          <div className=&quot;space-y-3&quot;>
             {mockTimeEntries.map((entry) => (
               <Card key={entry.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-4">
-                        <h3 className="font-medium">{entry.agent}</h3>
-                        <Badge variant="outline">{entry.event}</Badge>
+                <CardContent className=&quot;p-4&quot;>
+                  <div className=&quot;flex items-center justify-between&quot;>
+                    <div className=&quot;space-y-1&quot;>
+                      <div className=&quot;flex items-center space-x-4&quot;>
+                        <h3 className=&quot;font-medium&quot;>{entry.agent}</h3>
+                        <Badge variant=&quot;outline&quot;>{entry.event}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className=&quot;text-sm text-muted-foreground&quot;>
                         {entry.date} • {entry.clockIn} - {entry.clockOut}
                       </p>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="text-right">
-                        <div className="font-medium">
+                    <div className=&quot;flex items-center space-x-4&quot;>
+                      <div className=&quot;text-right&quot;>
+                        <div className=&quot;font-medium&quot;>
                           {entry.totalHours} hours
                         </div>
                         <Badge
                           variant={
-                            entry.status === "approved"
-                              ? "default"
-                              : "secondary"
+                            entry.status === &quot;approved&quot;
+                              ? &quot;default&quot;
+                              : &quot;secondary&quot;
                           }
                         >
                           {entry.status}
                         </Badge>
                       </div>
-                      <Button variant="outline" size="sm">
+                      <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
                         Review
                       </Button>
                     </div>
@@ -217,31 +217,31 @@ export default function WorkforcePage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="schedule" className="space-y-4">
+        <TabsContent value=&quot;schedule&quot; className=&quot;space-y-4&quot;>
           {/* Schedule Entries */}
-          <div className="space-y-3">
+          <div className=&quot;space-y-3&quot;>
             {mockSchedule.map((item) => (
               <Card key={item.id}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center space-x-4">
-                        <h3 className="font-medium">{item.agent}</h3>
-                        <Badge variant="outline">{item.event}</Badge>
+                <CardContent className=&quot;p-4&quot;>
+                  <div className=&quot;flex items-center justify-between&quot;>
+                    <div className=&quot;space-y-1&quot;>
+                      <div className=&quot;flex items-center space-x-4&quot;>
+                        <h3 className=&quot;font-medium&quot;>{item.agent}</h3>
+                        <Badge variant=&quot;outline&quot;>{item.event}</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className=&quot;text-sm text-muted-foreground&quot;>
                         {item.date} • {item.time} • {item.location}
                       </p>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className=&quot;flex items-center space-x-4&quot;>
                       <Badge
                         variant={
-                          item.status === "confirmed" ? "default" : "secondary"
+                          item.status === &quot;confirmed&quot; ? &quot;default&quot; : &quot;secondary&quot;
                         }
                       >
                         {item.status}
                       </Badge>
-                      <Button variant="outline" size="sm">
+                      <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
                         Edit
                       </Button>
                     </div>
@@ -252,7 +252,7 @@ export default function WorkforcePage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="performance" className="space-y-4">
+        <TabsContent value=&quot;performance&quot; className=&quot;space-y-4&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Performance Metrics</CardTitle>
@@ -261,12 +261,12 @@ export default function WorkforcePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8">
-                <TrendingUp className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium mb-2">
+              <div className=&quot;text-center py-8&quot;>
+                <TrendingUp className=&quot;h-12 w-12 mx-auto text-muted-foreground mb-4&quot; />
+                <h3 className=&quot;text-lg font-medium mb-2&quot;>
                   Performance Dashboard
                 </h3>
-                <p className="text-muted-foreground">
+                <p className=&quot;text-muted-foreground&quot;>
                   Detailed performance metrics and analytics will be displayed
                   here
                 </p>

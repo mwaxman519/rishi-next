@@ -8,12 +8,12 @@ export interface AvailabilityDTO {
   title: string;
   startDate: Date | string;
   endDate: Date | string;
-  status: "available" | "unavailable" | "tentative";
+  status: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
   recurrenceGroup?: string;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
   createdAt: Date | string;
@@ -28,11 +28,11 @@ export interface CreateAvailabilityRequest {
   title?: string;
   startDate: Date | string;
   endDate: Date | string;
-  status?: "available" | "unavailable" | "tentative";
+  status?: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring?: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
 }
@@ -44,11 +44,11 @@ export interface UpdateAvailabilityRequest {
   title?: string;
   startDate?: Date | string;
   endDate?: Date | string;
-  status?: "available" | "unavailable" | "tentative";
+  status?: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring?: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
 }
@@ -60,7 +60,7 @@ export interface AvailabilityQueryOptions {
   userId: number;
   startDate?: Date | string;
   endDate?: Date | string;
-  status?: "available" | "unavailable" | "tentative";
+  status?: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
 }
 
 /**

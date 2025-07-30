@@ -2,8 +2,8 @@ import {
   NavItem,
   NavItemType,
   NAV_ITEM_TYPES,
-} from "@shared/navigation-constants";
-import { Permission } from "@/lib/rbac";
+} from &quot;@shared/navigation-constants&quot;;
+import { Permission } from &quot;@/lib/rbac&quot;;
 
 /**
  * Filter navigation links based on user permissions while respecting high priority items
@@ -17,7 +17,7 @@ export const filterLinksByPermission = (
 ): NavItem[] => {
   return links.filter((link) => {
     // Always include high priority items regardless of permissions
-    if (link.priority === "high") return true;
+    if (link.priority === &quot;high&quot;) return true;
 
     // Regular permission check
     if (!link.permission) return true;
@@ -27,10 +27,10 @@ export const filterLinksByPermission = (
 };
 
 /**
- * Check if a navigation array contains a "My Availability" link
+ * Check if a navigation array contains a &quot;My Availability&quot; link
  */
 export const hasMyAvailability = (items: NavItem[]): boolean => {
-  return items.some((item: NavItem) => item.label === "My Availability");
+  return items.some((item: NavItem) => item.label === &quot;My Availability&quot;);
 };
 
 /**
@@ -42,11 +42,11 @@ export const hasMyAvailability = (items: NavItem[]): boolean => {
  */
 export const createMyAvailabilityLink = (): NavItem => {
   return {
-    href: "/availability",
-    path: "/availability",
-    label: "My Availability",
-    icon: "Clock", // This is a string that refers to the lucide-react Clock icon
+    href: &quot;/availability&quot;,
+    path: &quot;/availability&quot;,
+    label: &quot;My Availability&quot;,
+    icon: &quot;Clock&quot;, // This is a string that refers to the lucide-react Clock icon
     type: NAV_ITEM_TYPES.PRIMARY,
-    priority: "high", // Always high priority
+    priority: &quot;high&quot;, // Always high priority
   };
 };

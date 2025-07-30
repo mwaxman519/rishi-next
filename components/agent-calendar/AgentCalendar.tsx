@@ -1,22 +1,22 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { EventClickArg, DateSelectArg } from "@fullcalendar/core";
-import { format } from "date-fns";
-import { useTheme } from "@/hooks/useTheme";
-import { useSidebarState } from "@/hooks/useSidebarState";
-import AvailabilityModal from "./AvailabilityModal";
-import BlockDetailModal from "./BlockDetailModal";
-import ConflictDialog from "./ConflictDialog";
-import { mergeAdjacentBlocks } from "./merged-blocks-processor";
-import { SimpleAlertDialog } from "@/components/ui/simple-alert-dialog";
-import "./calendar-fixes.css";
-import "./calendar-buttons.css";
-import "./calendar-compact.css";
+import React, { useState, useEffect, useRef, useCallback } from &quot;react&quot;;
+import FullCalendar from &quot;@fullcalendar/react&quot;;
+import timeGridPlugin from &quot;@fullcalendar/timegrid&quot;;
+import dayGridPlugin from &quot;@fullcalendar/daygrid&quot;;
+import interactionPlugin from &quot;@fullcalendar/interaction&quot;;
+import { EventClickArg, DateSelectArg } from &quot;@fullcalendar/core&quot;;
+import { format } from &quot;date-fns&quot;;
+import { useTheme } from &quot;@/hooks/useTheme&quot;;
+import { useSidebarState } from &quot;@/hooks/useSidebarState&quot;;
+import AvailabilityModal from &quot;./AvailabilityModal&quot;;
+import BlockDetailModal from &quot;./BlockDetailModal&quot;;
+import ConflictDialog from &quot;./ConflictDialog&quot;;
+import { mergeAdjacentBlocks } from &quot;./merged-blocks-processor&quot;;
+import { SimpleAlertDialog } from &quot;@/components/ui/simple-alert-dialog&quot;;
+import &quot;./calendar-fixes.css&quot;;
+import &quot;./calendar-buttons.css&quot;;
+import &quot;./calendar-compact.css&quot;;
 
 // CSS fixes for FullCalendar are now in globals.css and in the local CSS files
 // This ensures proper styling in both light and dark modes
@@ -49,7 +49,7 @@ export default function AgentCalendar({
   debug = false,
   fullCalendarRef,
 }: AgentCalendarProps) {
-  console.log("AgentCalendar: Component rendering with userId:", userId);
+  console.log(&quot;AgentCalendar: Component rendering with userId:&quot;, userId);
   // All state hooks must be declared first and in the same order on every render
   const [calendarData, setCalendarData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,22 +61,22 @@ export default function AgentCalendar({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isConflictModalOpen, setIsConflictModalOpen] = useState(false);
   const [conflicts, setConflicts] = useState<any[]>([]);
-  const [newBlockStatus, setNewBlockStatus] = useState("available");
+  const [newBlockStatus, setNewBlockStatus] = useState(&quot;available&quot;);
   const [deletedSeriesGroups, setDeletedSeriesGroups] = useState<string[]>([]);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
   // Alert dialog states
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("&quot;);
+  const [alertTitle, setAlertTitle] = useState(&quot;&quot;);
   const [alertVariant, setAlertVariant] = useState<
-    "info" | "warning" | "error" | "success"
-  >("info");
+    &quot;info&quot; | &quot;warning&quot; | &quot;error&quot; | &quot;success&quot;
+  >(&quot;info&quot;);
 
   // Confirm dialog states
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [confirmMessage, setConfirmMessage] = useState("");
-  const [confirmTitle, setConfirmTitle] = useState("");
+  const [confirmMessage, setConfirmMessage] = useState(&quot;&quot;);
+  const [confirmTitle, setConfirmTitle] = useState(&quot;&quot;);
   const [confirmCallback, setConfirmCallback] = useState<() => void>(() => {});
 
   // All useRef hooks
@@ -88,7 +88,7 @@ export default function AgentCalendar({
     data: any[];
   }>({
     lastFetchTimestamp: 0,
-    key: "",
+    key: &quot;&quot;,
     data: [],
   });
 
@@ -97,12 +97,12 @@ export default function AgentCalendar({
   const { sidebarCollapsed } = useSidebarState();
 
   // Format dates properly for API calls
-  const formattedStartDate = format(startDate, "yyyy-MM-dd");
-  const formattedEndDate = format(endDate, "yyyy-MM-dd");
+  const formattedStartDate = format(startDate, &quot;yyyy-MM-dd&quot;);
+  const formattedEndDate = format(endDate, &quot;yyyy-MM-dd&quot;);
 
   // Define fetchAvailability function here so it can be used in callbacks
   const fetchAvailability = async () => {
-    console.log("Manually triggered fetchAvailability");
+    console.log(&quot;Manually triggered fetchAvailability&quot;);
     // First, check if we should use the cached data
     const userIdString = String(userId);
     const cacheKey = `${userIdString}|${formattedStartDate}|${formattedEndDate}`;
@@ -117,7 +117,7 @@ export default function AgentCalendar({
       now - dataCache.current.lastFetchTimestamp < cacheExpiry
     ) {
       // Use cached data instead of making a new request
-      console.log("Using cached availability data - skipping fetch");
+      console.log(&quot;Using cached availability data - skipping fetch&quot;);
       return;
     }
 
@@ -131,8 +131,8 @@ export default function AgentCalendar({
 
       const url = `/api/availability?userId=${userIdString}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
       const options: RequestInit = {
-        headers: { "Content-Type": "application/json" },
-        cache: "no-store" as RequestCache,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        cache: &quot;no-store&quot; as RequestCache,
       };
 
       // Use throttled fetch
@@ -153,7 +153,7 @@ export default function AgentCalendar({
       } else if (Array.isArray(responseData)) {
         availabilityBlocks = responseData;
       } else {
-        console.error("Unexpected response format", responseData);
+        console.error(&quot;Unexpected response format&quot;, responseData);
       }
 
       // Process data for the calendar - first convert to standard format
@@ -164,10 +164,10 @@ export default function AgentCalendar({
         return {
           id: block.id,
           virtualId: block._virtualId,
-          title: block.title || "Available",
+          title: block.title || &quot;Available&quot;,
           start: new Date(block.startDate || block.start_date),
           end: new Date(block.endDate || block.end_date),
-          status: block.status || "available",
+          status: block.status || &quot;available&quot;,
           isRecurring: isRecurring,
           isVirtual: isVirtual,
           blockId: isVirtual ? block._originalBlockId : block.id,
@@ -191,7 +191,7 @@ export default function AgentCalendar({
 
       // Log any merged unavailable blocks for debugging
       const mergedUnavailable = mergedBlocks.filter(
-        (block) => block.isMerged && block.status === "unavailable",
+        (block) => block.isMerged && block.status === &quot;unavailable&quot;,
       );
       if (mergedUnavailable.length > 0) {
         console.log(
@@ -199,13 +199,13 @@ export default function AgentCalendar({
         );
         mergedUnavailable.forEach((block) => {
           console.log(
-            `Merged block: ${new Date(block.start).toLocaleTimeString()} - ${new Date(block.end).toLocaleTimeString()}, IDs: ${block.mergedIds?.join(", ")}`,
+            `Merged block: ${new Date(block.start).toLocaleTimeString()} - ${new Date(block.end).toLocaleTimeString()}, IDs: ${block.mergedIds?.join(&quot;, &quot;)}`,
           );
         });
       }
 
       // Debug all blocks to understand the structure
-      console.log("Block structure analysis:");
+      console.log(&quot;Block structure analysis:&quot;);
       const sampleBlocks = mergedBlocks.slice(
         0,
         Math.min(5, mergedBlocks.length),
@@ -216,7 +216,7 @@ export default function AgentCalendar({
         console.log(`  End: ${new Date(block.end).toLocaleString()}`);
         console.log(`  Status: ${block.status}`);
         console.log(`  isMerged: ${!!block.isMerged}`);
-        console.log(`  mergedIds: ${block.mergedIds?.join(", ") || "none"}`);
+        console.log(`  mergedIds: ${block.mergedIds?.join(&quot;, &quot;) || &quot;none&quot;}`);
       });
 
       // Convert merged blocks to calendar events
@@ -235,14 +235,14 @@ export default function AgentCalendar({
 
         // Add time information to the title for all unavailable blocks
         // This ensures clarity about what time periods are blocked
-        if (block.status === "unavailable") {
+        if (block.status === &quot;unavailable&quot;) {
           const startTime = new Date(blockStart).toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "2-digit",
+            hour: &quot;numeric&quot;,
+            minute: &quot;2-digit&quot;,
           });
           const endTime = new Date(blockEnd).toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "2-digit",
+            hour: &quot;numeric&quot;,
+            minute: &quot;2-digit&quot;,
           });
 
           // For merged blocks, make it clear this represents multiple blocks
@@ -260,10 +260,10 @@ export default function AgentCalendar({
           end: blockEnd,
           backgroundColor: getStatusColor(block.status),
           borderColor: getStatusColor(block.status),
-          textColor: "#FFFFFF",
-          display: "block",
+          textColor: &quot;#FFFFFF&quot;,
+          display: &quot;block&quot;,
           allDay: false,
-          constraint: "businessHours",
+          constraint: &quot;businessHours&quot;,
           extendedProps: {
             blockId: block.blockId,
             originalId: block.originalId,
@@ -277,18 +277,18 @@ export default function AgentCalendar({
           },
           classNames: [
             `status-${block.status}`,
-            block.isRecurring ? "recurring-event" : "",
-            block.isVirtual ? "virtual-occurrence" : "",
-            block.isMerged ? "merged-event" : "",
-            "day-lock",
-            "fc-day-lock",
+            block.isRecurring ? &quot;recurring-event&quot; : &quot;&quot;,
+            block.isVirtual ? &quot;virtual-occurrence&quot; : &quot;&quot;,
+            block.isMerged ? &quot;merged-event&quot; : &quot;&quot;,
+            &quot;day-lock&quot;,
+            &quot;fc-day-lock&quot;,
           ],
           dataAttributes: {
-            "data-status": block.status,
-            "data-recurring": block.isRecurring ? "true" : "false",
-            "data-virtual": block.isVirtual ? "true" : "false",
-            "data-merged": block.isMerged ? "true" : "false",
-            "data-day": block.start.getDay(),
+            &quot;data-status&quot;: block.status,
+            &quot;data-recurring&quot;: block.isRecurring ? &quot;true&quot; : &quot;false&quot;,
+            &quot;data-virtual&quot;: block.isVirtual ? &quot;true&quot; : &quot;false&quot;,
+            &quot;data-merged&quot;: block.isMerged ? &quot;true&quot; : &quot;false&quot;,
+            &quot;data-day&quot;: block.start.getDay(),
           },
         };
       });
@@ -304,11 +304,11 @@ export default function AgentCalendar({
       setError(null);
       hasFetchedRef.current = true;
     } catch (err) {
-      console.error("Error fetching availability data:", err);
+      console.error(&quot;Error fetching availability data:&quot;, err);
       const errorMessage =
         err instanceof Error
           ? err.message
-          : "Failed to fetch availability data";
+          : &quot;Failed to fetch availability data&quot;;
       setError(errorMessage);
       if (onError) onError(errorMessage);
     } finally {
@@ -339,17 +339,17 @@ export default function AgentCalendar({
     };
 
     window.addEventListener(
-      "sidebarStateChange",
+      &quot;sidebarStateChange&quot;,
       handleSidebarStateChange as EventListener,
     );
-    window.addEventListener("resize", handleResize);
+    window.addEventListener(&quot;resize&quot;, handleResize);
 
     return () => {
       window.removeEventListener(
-        "sidebarStateChange",
+        &quot;sidebarStateChange&quot;,
         handleSidebarStateChange as EventListener,
       );
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener(&quot;resize&quot;, handleResize);
     };
   }, [sidebarCollapsed]);
 
@@ -358,7 +358,7 @@ export default function AgentCalendar({
     // When sidebar state changes, force resize the calendar
     if (calendarRef.current) {
       console.log(
-        "AgentCalendar: Sidebar state changed, updating calendar size",
+        &quot;AgentCalendar: Sidebar state changed, updating calendar size&quot;,
       );
       setTimeout(() => {
         if (calendarRef.current) {
@@ -559,7 +559,7 @@ export default function AgentCalendar({
               continue;
             }
 
-            // If we get here, either the request succeeded or we're out of retries
+            // If we get here, either the request succeeded or we&apos;re out of retries
             break;
           } catch (fetchError) {
             // If we encounter a network error during retry
@@ -659,7 +659,7 @@ export default function AgentCalendar({
 
     // Function to perform data fetch
     async function fetchAvailability() {
-      console.log("AgentCalendar: Data fetch triggered");
+      console.log(&quot;AgentCalendar: Data fetch triggered&quot;);
       hasFetchedRef.current = true;
 
       // Check if we have recently fetched this exact data (within last 30 seconds)
@@ -672,7 +672,7 @@ export default function AgentCalendar({
         now - dataCache.current.lastFetchTimestamp < cacheExpiry
       ) {
         // Use cached data instead of making a new request
-        console.log("AgentCalendar: Using cached availability data");
+        console.log(&quot;AgentCalendar: Using cached availability data&quot;);
         setCalendarData(dataCache.current.data);
         setLoading(false);
         if (onLoadingChange) onLoadingChange(false);
@@ -689,8 +689,8 @@ export default function AgentCalendar({
 
         const url = `/api/availability?userId=${userIdString}&startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
         const options: RequestInit = {
-          headers: { "Content-Type": "application/json" },
-          cache: "no-store" as RequestCache,
+          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+          cache: &quot;no-store&quot; as RequestCache,
         };
 
         // Use throttled fetch instead of direct fetch
@@ -729,7 +729,7 @@ export default function AgentCalendar({
           );
         } else {
           console.error(
-            "AgentCalendar: Unexpected response format",
+            &quot;AgentCalendar: Unexpected response format&quot;,
             responseData,
           );
         }
@@ -749,7 +749,7 @@ export default function AgentCalendar({
             id: block.id,
             start: new Date(block.startDate || block.start_date),
             end: new Date(block.endDate || block.end_date),
-            status: block.status || "available",
+            status: block.status || &quot;available&quot;,
             isRecurring: block.isRecurring || block.is_recurring,
             recurrencePattern:
               block.recurrencePattern || block.recurrence_pattern,
@@ -757,13 +757,13 @@ export default function AgentCalendar({
             dayOfWeek: block.dayOfWeek || block.day_of_week,
             title:
               block.title ||
-              (block.status === "unavailable" ? "Unavailable" : "Available"),
+              (block.status === &quot;unavailable&quot; ? &quot;Unavailable&quot; : &quot;Available&quot;),
             _originalBlock: block, // Keep reference to original block
           };
         });
 
         // Merge adjacent blocks with the same status
-        console.log("Attempting to merge adjacent blocks...");
+        console.log(&quot;Attempting to merge adjacent blocks...&quot;);
         const mergedBlocks = mergeAdjacentBlocks(blocksForMerge);
         console.log(
           `Merged blocks: ${blocksForMerge.length} original → ${mergedBlocks.length} after merging`,
@@ -778,21 +778,21 @@ export default function AgentCalendar({
           // Format time for display in title when merged
           const formattedStartTime = new Date(block.start).toLocaleTimeString(
             [],
-            { hour: "numeric", minute: "2-digit" },
+            { hour: &quot;numeric&quot;, minute: &quot;2-digit&quot; },
           );
           const formattedEndTime = new Date(block.end).toLocaleTimeString([], {
-            hour: "numeric",
-            minute: "2-digit",
+            hour: &quot;numeric&quot;,
+            minute: &quot;2-digit&quot;,
           });
 
           // Add time information to merged blocks
           let displayTitle = isRecurring
-            ? `${block.title || "Available"} 🔄`
-            : block.title || "Available";
+            ? `${block.title || &quot;Available&quot;} 🔄`
+            : block.title || &quot;Available&quot;;
 
           // For merged blocks, show time range in title
           if (isMerged) {
-            displayTitle = `${block.status === "unavailable" ? "Unavailable" : "Available"}: ${formattedStartTime} - ${formattedEndTime}`;
+            displayTitle = `${block.status === &quot;unavailable&quot; ? &quot;Unavailable&quot; : &quot;Available&quot;}: ${formattedStartTime} - ${formattedEndTime}`;
           }
 
           // Use forced ID if available to avoid caching issues with merged blocks
@@ -810,13 +810,13 @@ export default function AgentCalendar({
             end: block.displayEnd || block.end,
             backgroundColor: getStatusColor(block.status),
             borderColor: getStatusColor(block.status),
-            textColor: "#FFFFFF",
+            textColor: &quot;#FFFFFF&quot;,
             // Force events to be constrained to their day column
-            display: "block",
+            display: &quot;block&quot;,
             // Prevent incorrect positioning
             allDay: false,
             // Don't allow event drag to overlap days
-            constraint: "businessHours",
+            constraint: &quot;businessHours&quot;,
             extendedProps: {
               blockId: isVirtual ? block._originalBlockId : block.id,
               originalId: block.id,
@@ -834,18 +834,18 @@ export default function AgentCalendar({
             },
             // Add data attributes for status-based styling in dark mode
             classNames: [
-              `status-${block.status || "available"}`,
-              isRecurring ? "recurring-event" : "",
-              isVirtual ? "virtual-occurrence" : "",
-              isMerged ? "merged-event" : "",
-              "day-lock", // Add day-lock class to prevent horizontal shifting
-              "fc-day-lock", // Add class for our CSS overrides
+              `status-${block.status || &quot;available&quot;}`,
+              isRecurring ? &quot;recurring-event&quot; : &quot;&quot;,
+              isVirtual ? &quot;virtual-occurrence&quot; : &quot;&quot;,
+              isMerged ? &quot;merged-event&quot; : &quot;&quot;,
+              &quot;day-lock&quot;, // Add day-lock class to prevent horizontal shifting
+              &quot;fc-day-lock&quot;, // Add class for our CSS overrides
             ],
             dataAttributes: {
-              "data-status": block.status || "available",
-              "data-recurring": isRecurring ? "true" : "false",
-              "data-virtual": isVirtual ? "true" : "false",
-              "data-day": new Date(
+              &quot;data-status&quot;: block.status || &quot;available&quot;,
+              &quot;data-recurring&quot;: isRecurring ? &quot;true&quot; : &quot;false&quot;,
+              &quot;data-virtual&quot;: isVirtual ? &quot;true&quot; : &quot;false&quot;,
+              &quot;data-day&quot;: new Date(
                 block.startDate || block.start_date,
               ).getDay(), // Add day of week for alignment
             },
@@ -863,11 +863,11 @@ export default function AgentCalendar({
         setError(null);
         hasFetchedRef.current = true;
       } catch (err) {
-        console.error("Error fetching availability data:", err);
+        console.error(&quot;Error fetching availability data:&quot;, err);
         const errorMessage =
           err instanceof Error
             ? err.message
-            : "Failed to fetch availability data";
+            : &quot;Failed to fetch availability data&quot;;
         setError(errorMessage);
         if (onError) onError(errorMessage);
         setCalendarData([]);
@@ -897,18 +897,18 @@ export default function AgentCalendar({
   // Helper to get color based on status
   function getStatusColor(status: string): string {
     switch (status) {
-      case "unavailable":
-        return "#DC2626"; // red
+      case &quot;unavailable&quot;:
+        return &quot;#DC2626&quot;; // red
       default:
-        return "#00A8A8"; // teal for available
+        return &quot;#00A8A8&quot;; // teal for available
     }
   }
 
   // Show styled alert instead of browser alert
   const showAlert = (
     message: string,
-    title: string = "Notification",
-    variant: "info" | "warning" | "error" | "success" = "info",
+    title: string = &quot;Notification&quot;,
+    variant: &quot;info&quot; | &quot;warning&quot; | &quot;error&quot; | &quot;success&quot; = &quot;info&quot;,
   ) => {
     setAlertMessage(message);
     setAlertTitle(title);
@@ -920,7 +920,7 @@ export default function AgentCalendar({
   const showConfirm = (
     message: string,
     callback: () => void,
-    title: string = "Confirm Action",
+    title: string = &quot;Confirm Action&quot;,
   ) => {
     setConfirmMessage(message);
     setConfirmTitle(title);
@@ -938,7 +938,7 @@ export default function AgentCalendar({
       recurrenceEndType?: string,
       recurrenceEndDate?: string,
       recurrenceCount?: number,
-      mergeStrategy?: "merge" | "override",
+      mergeStrategy?: &quot;merge&quot; | &quot;override&quot;,
       // Add parameters for modified times
       modifiedStartStr?: string,
       modifiedEndStr?: string,
@@ -955,17 +955,17 @@ export default function AgentCalendar({
       const calendarApi = calendarRef.current?.getApi();
       const tempEventId = `temp-${Date.now()}`;
       if (calendarApi) {
-        const tempColor = status === "unavailable" ? "#DC2626" : "#00A8A8";
+        const tempColor = status === &quot;unavailable&quot; ? &quot;#DC2626&quot; : &quot;#00A8A8&quot;;
         calendarApi.addEvent({
           id: tempEventId,
-          title: title + " (Saving...)",
+          title: title + &quot; (Saving...)&quot;,
           start: modifiedStartStr || selectedTimeSlot.startStr,
           end: modifiedEndStr || selectedTimeSlot.endStr,
           backgroundColor: tempColor,
           borderColor: tempColor,
-          textColor: "#FFFFFF",
-          classNames: ["temp-saving-event", "day-lock", "fc-day-lock"],
-          display: "block", // Force block display to ensure proper positioning
+          textColor: &quot;#FFFFFF&quot;,
+          classNames: [&quot;temp-saving-event&quot;, &quot;day-lock&quot;, &quot;fc-day-lock&quot;],
+          display: &quot;block&quot;, // Force block display to ensure proper positioning
         });
       }
 
@@ -994,19 +994,19 @@ export default function AgentCalendar({
           recurrenceEndType: isRecurring ? recurrenceEndType : undefined,
           recurrence_end_type: isRecurring ? recurrenceEndType : undefined, // Include both formats for compatibility
           recurrenceEndDate:
-            isRecurring && recurrenceEndType === "date"
+            isRecurring && recurrenceEndType === &quot;date&quot;
               ? recurrenceEndDate
               : undefined,
           recurrence_end_date:
-            isRecurring && recurrenceEndType === "date"
+            isRecurring && recurrenceEndType === &quot;date&quot;
               ? recurrenceEndDate
               : undefined, // Include both formats for compatibility
           recurrenceCount:
-            isRecurring && recurrenceEndType === "count"
+            isRecurring && recurrenceEndType === &quot;count&quot;
               ? recurrenceCount
               : undefined,
           recurrence_count:
-            isRecurring && recurrenceEndType === "count"
+            isRecurring && recurrenceEndType === &quot;count&quot;
               ? recurrenceCount
               : undefined, // Include both formats for compatibility
         };
@@ -1014,14 +1014,14 @@ export default function AgentCalendar({
         // Always use merge strategy to automatically merge adjacent blocks
         // This will ensure the server tries to merge this block with any adjacent ones of the same type
         Object.assign(requestBody, {
-          mergeStrategy: mergeStrategy || "merge",
-          merge_strategy: mergeStrategy || "merge", // Include both formats for compatibility
+          mergeStrategy: mergeStrategy || &quot;merge&quot;,
+          merge_strategy: mergeStrategy || &quot;merge&quot;, // Include both formats for compatibility
         });
 
         // Create the availability block via API
-        const response = await fetch("/api/availability", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const response = await fetch(&quot;/api/availability&quot;, {
+          method: &quot;POST&quot;,
+          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
           body: JSON.stringify(requestBody),
         });
 
@@ -1029,19 +1029,19 @@ export default function AgentCalendar({
           // Handle specific error cases
           if (response.status === 401) {
             throw new Error(
-              "You are not authorized to create availability blocks",
+              &quot;You are not authorized to create availability blocks&quot;,
             );
           } else if (response.status === 403) {
             throw new Error(
-              "You do not have permission to create availability blocks",
+              &quot;You do not have permission to create availability blocks&quot;,
             );
           } else if (response.status === 400) {
             const errorData = await response.json();
             throw new Error(
-              errorData.error || "Invalid availability block data",
+              errorData.error || &quot;Invalid availability block data&quot;,
             );
           } else if (response.status === 500) {
-            throw new Error("Server error while creating availability block");
+            throw new Error(&quot;Server error while creating availability block&quot;);
           } else {
             const errorData = await response.json();
             throw new Error(
@@ -1067,13 +1067,13 @@ export default function AgentCalendar({
           newBlock = responseData;
         } else {
           throw new Error(
-            "Invalid response format from server after creating availability block",
+            &quot;Invalid response format from server after creating availability block&quot;,
           );
         }
 
         if (!newBlock || !newBlock.id) {
           throw new Error(
-            "Invalid response from server after creating availability block",
+            &quot;Invalid response from server after creating availability block&quot;,
           );
         }
 
@@ -1097,7 +1097,7 @@ export default function AgentCalendar({
           // If this is a recurring event, immediately create and show all the recurring instances
           if (isRecurring) {
             console.log(
-              "Creating recurring instances immediately for newly created block:",
+              &quot;Creating recurring instances immediately for newly created block:&quot;,
               newBlock.id,
             );
 
@@ -1109,7 +1109,7 @@ export default function AgentCalendar({
               end: modifiedEndStr || selectedTimeSlot.endStr,
               backgroundColor,
               borderColor: backgroundColor,
-              textColor: "#FFFFFF",
+              textColor: &quot;#FFFFFF&quot;,
               extendedProps: {
                 status,
                 blockId: newBlock.id,
@@ -1120,26 +1120,26 @@ export default function AgentCalendar({
                 recurrenceCount: recurrenceCount,
                 recurrenceEndDate: recurrenceEndDate,
               },
-              display: "block",
+              display: &quot;block&quot;,
               classNames: [
-                `status-${status || "available"}`,
-                "recurring-event",
-                "day-lock",
-                "fc-day-lock",
+                `status-${status || &quot;available&quot;}`,
+                &quot;recurring-event&quot;,
+                &quot;day-lock&quot;,
+                &quot;fc-day-lock&quot;,
               ],
               dataAttributes: {
-                "data-status": status || "available",
-                "data-recurring": "true",
+                &quot;data-status&quot;: status || &quot;available&quot;,
+                &quot;data-recurring&quot;: &quot;true&quot;,
               },
             });
 
             // Calculate how many additional occurrences to generate
             let occurrencesToGenerate = 0;
 
-            if (recurrenceEndType === "count" && recurrenceCount) {
+            if (recurrenceEndType === &quot;count&quot; && recurrenceCount) {
               // Generate count-1 additional instances (the original is already added)
               occurrencesToGenerate = recurrenceCount - 1;
-            } else if (recurrenceEndType === "date" && recurrenceEndDate) {
+            } else if (recurrenceEndType === &quot;date&quot; && recurrenceEndDate) {
               const endDate = new Date(recurrenceEndDate);
               const startDate = new Date(selectedTimeSlot.startStr);
               const daysBetween = Math.ceil(
@@ -1147,20 +1147,20 @@ export default function AgentCalendar({
                   (1000 * 60 * 60 * 24),
               );
 
-              if (recurrencePattern === "daily") {
+              if (recurrencePattern === &quot;daily&quot;) {
                 occurrencesToGenerate = daysBetween;
-              } else if (recurrencePattern === "weekly") {
+              } else if (recurrencePattern === &quot;weekly&quot;) {
                 occurrencesToGenerate = Math.ceil(daysBetween / 7);
-              } else if (recurrencePattern === "biweekly") {
+              } else if (recurrencePattern === &quot;biweekly&quot;) {
                 occurrencesToGenerate = Math.ceil(daysBetween / 14);
               }
             } else {
               // For 'never', use reasonable defaults
-              if (recurrencePattern === "daily") {
+              if (recurrencePattern === &quot;daily&quot;) {
                 occurrencesToGenerate = 14; // Two weeks
-              } else if (recurrencePattern === "weekly") {
+              } else if (recurrencePattern === &quot;weekly&quot;) {
                 occurrencesToGenerate = 8; // Two months
-              } else if (recurrencePattern === "biweekly") {
+              } else if (recurrencePattern === &quot;biweekly&quot;) {
                 occurrencesToGenerate = 6; // Three months
               } else {
                 occurrencesToGenerate = 8; // Default
@@ -1184,11 +1184,11 @@ export default function AgentCalendar({
               const currentStart = new Date(startDate);
 
               // Adjust date based on pattern
-              if (recurrencePattern === "daily") {
+              if (recurrencePattern === &quot;daily&quot;) {
                 currentStart.setDate(currentStart.getDate() + i);
-              } else if (recurrencePattern === "weekly") {
+              } else if (recurrencePattern === &quot;weekly&quot;) {
                 currentStart.setDate(currentStart.getDate() + i * 7);
-              } else if (recurrencePattern === "biweekly") {
+              } else if (recurrencePattern === &quot;biweekly&quot;) {
                 currentStart.setDate(currentStart.getDate() + i * 14);
               }
 
@@ -1196,7 +1196,7 @@ export default function AgentCalendar({
               const currentEnd = new Date(currentStart.getTime() + durationMs);
 
               // Check if we've gone past the end date
-              if (recurrenceEndType === "date" && recurrenceEndDate) {
+              if (recurrenceEndType === &quot;date&quot; && recurrenceEndDate) {
                 const endLimit = new Date(recurrenceEndDate);
                 if (currentStart > endLimit) {
                   break;
@@ -1211,7 +1211,7 @@ export default function AgentCalendar({
                 end: currentEnd.toISOString(),
                 backgroundColor,
                 borderColor: backgroundColor,
-                textColor: "#FFFFFF",
+                textColor: &quot;#FFFFFF&quot;,
                 extendedProps: {
                   status,
                   blockId: newBlock.id,
@@ -1221,19 +1221,19 @@ export default function AgentCalendar({
                   dayOfWeek: newBlock.dayOfWeek || newBlock.day_of_week,
                   recurrencePattern: recurrencePattern,
                 },
-                display: "block",
+                display: &quot;block&quot;,
                 classNames: [
-                  `status-${status || "available"}`,
-                  "recurring-event",
-                  "virtual-occurrence",
-                  "day-lock",
-                  "fc-day-lock",
+                  `status-${status || &quot;available&quot;}`,
+                  &quot;recurring-event&quot;,
+                  &quot;virtual-occurrence&quot;,
+                  &quot;day-lock&quot;,
+                  &quot;fc-day-lock&quot;,
                 ],
                 dataAttributes: {
-                  "data-status": status || "available",
-                  "data-recurring": "true",
-                  "data-virtual": "true",
-                  "data-day": currentStart.getDay(),
+                  &quot;data-status&quot;: status || &quot;available&quot;,
+                  &quot;data-recurring&quot;: &quot;true&quot;,
+                  &quot;data-virtual&quot;: &quot;true&quot;,
+                  &quot;data-day&quot;: currentStart.getDay(),
                 },
               });
             }
@@ -1245,13 +1245,13 @@ export default function AgentCalendar({
             // For recurring events, we need to refresh the calendar data from the API
             // This is because the backend created all occurrences but we need to fetch them
             console.log(
-              "Refreshing calendar data to show all recurring instances from the server",
+              &quot;Refreshing calendar data to show all recurring instances from the server&quot;,
             );
 
             // Invalidate data cache to force a fresh fetch
             dataCache.current = {
               lastFetchTimestamp: 0,
-              key: "",
+              key: &quot;&quot;,
               data: [],
             };
 
@@ -1268,21 +1268,21 @@ export default function AgentCalendar({
               end: modifiedEndStr || selectedTimeSlot.endStr,
               backgroundColor,
               borderColor: backgroundColor,
-              textColor: "#FFFFFF",
+              textColor: &quot;#FFFFFF&quot;,
               extendedProps: {
                 status,
                 blockId: newBlock.id,
                 isRecurring: false,
               },
-              display: "block", // Force block display to ensure proper positioning
+              display: &quot;block&quot;, // Force block display to ensure proper positioning
               classNames: [
-                `status-${status || "available"}`,
-                "day-lock", // Add day-lock class to prevent horizontal shifting
-                "fc-day-lock", // Add class for our CSS overrides
+                `status-${status || &quot;available&quot;}`,
+                &quot;day-lock&quot;, // Add day-lock class to prevent horizontal shifting
+                &quot;fc-day-lock&quot;, // Add class for our CSS overrides
               ],
               dataAttributes: {
-                "data-status": status || "available",
-                "data-recurring": "false",
+                &quot;data-status&quot;: status || &quot;available&quot;,
+                &quot;data-recurring&quot;: &quot;false&quot;,
               },
             });
           }
@@ -1291,13 +1291,13 @@ export default function AgentCalendar({
         // Clear any previous errors
         setError(null);
       } catch (err) {
-        console.error("Error handling availability creation:", err);
+        console.error(&quot;Error handling availability creation:&quot;, err);
         const errorMessage =
           err instanceof Error
             ? err.message
-            : "Error creating availability block. Please try again.";
+            : &quot;Error creating availability block. Please try again.&quot;;
         setError(errorMessage);
-        showAlert(errorMessage, "Error Creating Availability", "error");
+        showAlert(errorMessage, &quot;Error Creating Availability&quot;, &quot;error&quot;);
 
         // Remove the temporary event in case of error
         const calendarApi = calendarRef.current?.getApi();
@@ -1334,18 +1334,18 @@ export default function AgentCalendar({
       try {
         // Validate input
         if (!selectInfo.startStr || !selectInfo.endStr) {
-          throw new Error("Invalid date selection: Missing start or end time");
+          throw new Error(&quot;Invalid date selection: Missing start or end time&quot;);
         }
 
         // Check if this is a day selection from month view (all-day or multi-day selection)
         // FullCalendar types are sometimes incomplete, so we need to access type this way
         // @ts-ignore
         const isMonthViewSelection =
-          selectInfo.view && selectInfo.view.type === "dayGridMonth";
+          selectInfo.view && selectInfo.view.type === &quot;dayGridMonth&quot;;
 
         if (isMonthViewSelection) {
           // In month view, we need to convert the selection to a proper time range
-          // First, determine if it's a single day or multiple days
+          // First, determine if it&apos;s a single day or multiple days
           const startDate = new Date(selectInfo.startStr);
           const endDate = new Date(selectInfo.endStr);
 
@@ -1399,18 +1399,18 @@ export default function AgentCalendar({
         setLoading(false);
         return; // The rest of the function will be handled by the modal's save handler
       } catch (err) {
-        console.error("Error handling availability selection:", err);
+        console.error(&quot;Error handling availability selection:&quot;, err);
 
         // Set error state and show alert with specific message
         const errorMessage =
           err instanceof Error
             ? err.message
-            : "Error creating availability block. Please try again.";
+            : &quot;Error creating availability block. Please try again.&quot;;
 
         setError(errorMessage);
-        setAlertTitle("Error Creating Availability");
+        setAlertTitle(&quot;Error Creating Availability&quot;);
         setAlertMessage(errorMessage);
-        setAlertVariant("error");
+        setAlertVariant(&quot;error&quot;);
         setIsAlertOpen(true);
         calendarApi.unselect();
       } finally {
@@ -1434,7 +1434,7 @@ export default function AgentCalendar({
       const mergedIds = clickInfo.event.extendedProps.mergedIds;
 
       if (!blockId) {
-        console.error("Cannot open details: Missing block ID");
+        console.error(&quot;Cannot open details: Missing block ID&quot;);
         return;
       }
 
@@ -1455,8 +1455,8 @@ export default function AgentCalendar({
 
       // Clean the title - remove recurring indicator and merged blocks count
       let cleanTitle = clickInfo.event.title
-        .replace(" 🔄", "") // Remove recurring indicator
-        .replace(/ \(\d+ merged\)$/, ""); // Remove merged count
+        .replace(&quot; 🔄&quot;, &quot;&quot;) // Remove recurring indicator
+        .replace(/ \(\d+ merged\)$/, &quot;&quot;); // Remove merged count
 
       // Prepare the block object for the detail modal
       const block = {
@@ -1464,7 +1464,7 @@ export default function AgentCalendar({
         title: cleanTitle,
         start: clickInfo.event.startStr,
         end: clickInfo.event.endStr,
-        status: status || "available",
+        status: status || &quot;available&quot;,
         isRecurring: !!isRecurring,
         dayOfWeek: dayOfWeek,
         recurrencePattern: recurrencePattern,
@@ -1486,7 +1486,7 @@ export default function AgentCalendar({
       );
 
       if (!calendarRef.current) {
-        console.error("Calendar reference is not available");
+        console.error(&quot;Calendar reference is not available&quot;);
         return;
       }
 
@@ -1505,7 +1505,7 @@ export default function AgentCalendar({
         let isMergedEvent = false;
         let mergedEventToDelete = null;
 
-        // First check if we're trying to delete a merged block
+        // First check if we&apos;re trying to delete a merged block
         if (selectedEvent && calendarData) {
           // Find if any event has this blockId in its mergedIds
           for (const event of calendarData) {
@@ -1532,11 +1532,11 @@ Deleting it will delete ALL availability in this merged block.
 Do you want to continue?`;
 
           setConfirmMessage(confirmMessage);
-          setConfirmTitle("Confirm Merged Block Deletion");
+          setConfirmTitle(&quot;Confirm Merged Block Deletion&quot;);
           setConfirmCallback(() => {
             // This will be executed if user confirms
             console.log(
-              "User confirmed deletion of merged block, deleting all related blocks",
+              &quot;User confirmed deletion of merged block, deleting all related blocks&quot;,
             );
 
             // Get all blockIds to delete
@@ -1547,8 +1547,8 @@ Do you want to continue?`;
             for (const id of mergedIds) {
               deleteRequests.push(() =>
                 fetch(`/api/availability/${id as number}`, {
-                  method: "DELETE",
-                  headers: { "Content-Type": "application/json" },
+                  method: &quot;DELETE&quot;,
+                  headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
                 }),
               );
             }
@@ -1593,7 +1593,7 @@ Do you want to continue?`;
                     );
                   }
                 } catch (err) {
-                  console.error("Error deleting block in merged group:", err);
+                  console.error(&quot;Error deleting block in merged group:&quot;, err);
                 }
               }
 
@@ -1684,8 +1684,8 @@ Do you want to continue?`;
         console.log(`Sending DELETE request to: ${deleteUrl}`);
 
         const response = await fetch(deleteUrl, {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
+          method: &quot;DELETE&quot;,
+          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         });
 
         // STEP 4: Handle API response errors
@@ -1693,16 +1693,16 @@ Do you want to continue?`;
           // Handle specific error cases
           if (response.status === 401) {
             throw new Error(
-              "You are not authorized to delete this availability block",
+              &quot;You are not authorized to delete this availability block&quot;,
             );
           } else if (response.status === 403) {
             throw new Error(
-              "You do not have permission to delete this availability block",
+              &quot;You do not have permission to delete this availability block&quot;,
             );
           } else if (response.status === 404) {
-            throw new Error("The availability block could not be found");
+            throw new Error(&quot;The availability block could not be found&quot;);
           } else if (response.status === 500) {
-            throw new Error("Server error while deleting availability block");
+            throw new Error(&quot;Server error while deleting availability block&quot;);
           } else {
             // Try to get detailed error from the response
             try {
@@ -1720,14 +1720,14 @@ Do you want to continue?`;
         }
 
         console.log(
-          `Successfully deleted availability block ${blockId}${deleteEntireSeries ? " and all recurring instances" : ""}`,
+          `Successfully deleted availability block ${blockId}${deleteEntireSeries ? &quot; and all recurring instances&quot; : &quot;&quot;}`,
         );
 
         // STEP 5: Validate deletion count with server response (just for logging)
         if (deleteEntireSeries && selectedEvent?.isRecurring) {
           try {
             const result = await response.json();
-            console.log("Server delete response:", JSON.stringify(result));
+            console.log(&quot;Server delete response:&quot;, JSON.stringify(result));
 
             // Get deletion count from server for validation purposes
             let deletedCount = 0;
@@ -1736,7 +1736,7 @@ Do you want to continue?`;
             } else if (result?.count) {
               deletedCount = result.count;
             } else if (
-              typeof result.data === "object" &&
+              typeof result.data === &quot;object&quot; &&
               result.data !== null
             ) {
               deletedCount = result.data.count || 0;
@@ -1745,7 +1745,7 @@ Do you want to continue?`;
             console.log(`Server reported ${deletedCount} deleted instances`);
           } catch (parseError) {
             console.warn(
-              "Non-critical error processing deletion response:",
+              &quot;Non-critical error processing deletion response:&quot;,
               parseError,
             );
           }
@@ -1754,13 +1754,13 @@ Do you want to continue?`;
         // STEP 6: Mark the cache as stale to force a fresh fetch on next page view
         // This ensures that all views (calendar and list) stay in sync when navigating
         // between pages or returning to this page later
-        dataCache.current = { lastFetchTimestamp: 0, key: "", data: [] };
+        dataCache.current = { lastFetchTimestamp: 0, key: &quot;&quot;, data: [] };
       } catch (err) {
-        console.error("Error deleting block:", err);
+        console.error(&quot;Error deleting block:&quot;, err);
         const errorMessage =
           err instanceof Error
             ? err.message
-            : "Error deleting availability block";
+            : &quot;Error deleting availability block&quot;;
         setError(errorMessage);
 
         // Re-fetch data if delete failed to restore the UI
@@ -1788,7 +1788,7 @@ Do you want to continue?`;
   // Handle block editing from detail modal
   const handleEditBlock = useCallback(
     (block: any) => {
-      console.log("Edit functionality to be implemented", block);
+      console.log(&quot;Edit functionality to be implemented&quot;, block);
       // For now just close the modal
       setIsDetailModalOpen(false);
       setSelectedEvent(null);
@@ -1806,15 +1806,15 @@ Do you want to continue?`;
 
   return (
     <div
-      className={`${theme === "dark" ? "bg-gray-800 text-white dark" : "bg-white"} rounded-lg shadow p-4 h-full w-full transition-all duration-300 ease-in-out overflow-x-auto`}
+      className={`${theme === &quot;dark&quot; ? &quot;bg-gray-800 text-white dark&quot; : &quot;bg-white&quot;} rounded-lg shadow p-4 h-full w-full transition-all duration-300 ease-in-out overflow-x-auto`}
     >
       {loading && !calendarData.length ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+        <div className=&quot;flex justify-center items-center h-64&quot;>
+          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500&quot;></div>
         </div>
       ) : (
         <div
-          className={`${theme === "dark" ? "fc-theme-dark dark" : ""} calendar-container w-full min-w-[320px] ${sidebarCollapsed ? "sidebar-collapsed" : "sidebar-expanded"}`}
+          className={`${theme === &quot;dark&quot; ? &quot;fc-theme-dark dark&quot; : &quot;&quot;} calendar-container w-full min-w-[320px] ${sidebarCollapsed ? &quot;sidebar-collapsed&quot; : &quot;sidebar-expanded&quot;}`}
         >
           {/* Calendar styles moved to calendar-fixes.css */}
           <FullCalendar
@@ -1823,7 +1823,7 @@ Do you want to continue?`;
               calendarRef.current = el;
               // Forward the ref to parent component if provided
               if (fullCalendarRef) {
-                if (typeof fullCalendarRef === "function") {
+                if (typeof fullCalendarRef === &quot;function&quot;) {
                   fullCalendarRef(el);
                 } else {
                   (
@@ -1832,34 +1832,34 @@ Do you want to continue?`;
                 }
               }
             }}
-            themeSystem={theme === "dark" ? "standard" : "standard"}
+            themeSystem={theme === &quot;dark&quot; ? &quot;standard&quot; : &quot;standard&quot;}
             plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
-            initialView="timeGridWeek"
+            initialView=&quot;timeGridWeek&quot;
             headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: windowWidth <= 768 ? "timeGridWeek,timeGridDay" : "dayGridMonth,timeGridWeek,timeGridDay",
+              left: &quot;prev,next today&quot;,
+              center: &quot;title&quot;,
+              right: windowWidth <= 768 ? &quot;timeGridWeek,timeGridDay&quot; : &quot;dayGridMonth,timeGridWeek,timeGridDay&quot;,
             }}
             views={{
-              dayGridMonth: { buttonText: "month" },
-              timeGridWeek: { buttonText: "week" },
-              timeGridDay: { buttonText: "day" },
+              dayGridMonth: { buttonText: &quot;month&quot; },
+              timeGridWeek: { buttonText: &quot;week&quot; },
+              timeGridDay: { buttonText: &quot;day&quot; },
             }}
             firstDay={0} // Start with Sunday
             selectable={!viewOnly}
             selectMirror={true}
             editable={!viewOnly}
             weekends={true}
-            slotMinTime="08:00:00"
-            slotMaxTime="24:00:00"
-            height="auto"
+            slotMinTime=&quot;08:00:00&quot;
+            slotMaxTime=&quot;24:00:00&quot;
+            height=&quot;auto&quot;
             allDaySlot={false}
             nowIndicator={true}
             events={calendarData}
             select={handleDateSelect}
             eventClick={handleEventClick}
             dayMaxEventRows={3}
-            scrollTime="08:00:00"
+            scrollTime=&quot;08:00:00&quot;
             selectAllow={(selectInfo) => {
               // Get the duration of the selection in milliseconds
               const duration =
@@ -1879,7 +1879,7 @@ Do you want to continue?`;
               if (isAllDaySelection) {
                 // For all-day selections (likely in month view):
                 // Ensure selections are at least 1 day (already guaranteed, but we check anyway)
-                return duration >= 1000; // Just ensure it's a positive duration
+                return duration >= 1000; // Just ensure it&apos;s a positive duration
               } else {
                 // For time-specific selections (likely in week/day view):
                 // 1. Only allow selections at least 30 minutes long
@@ -1895,51 +1895,51 @@ Do you want to continue?`;
                 return duration >= 30 * 60 * 1000 && sameDay;
               }
             }}
-            slotDuration="00:30:00" // 30 minute slots
-            snapDuration="00:15:00" // 15 minute snap
+            slotDuration=&quot;00:30:00&quot; // 30 minute slots
+            snapDuration=&quot;00:15:00&quot; // 15 minute snap
             slotEventOverlap={false} // Prevent events from overlapping
             eventTimeFormat={{
-              hour: "numeric",
-              minute: "2-digit",
-              meridiem: "short",
+              hour: &quot;numeric&quot;,
+              minute: &quot;2-digit&quot;,
+              meridiem: &quot;short&quot;,
             }}
             dayHeaderFormat={{
-              weekday: "short",
-              month: "numeric",
-              day: "numeric",
+              weekday: &quot;short&quot;,
+              month: &quot;numeric&quot;,
+              day: &quot;numeric&quot;,
               omitCommas: true,
             }}
             expandRows={true} // Expand rows to fill height
-            contentHeight="auto" // Automatically adjust height
+            contentHeight=&quot;auto&quot; // Automatically adjust height
             handleWindowResize={true} // Automatically handle window resizing
             fixedWeekCount={false} // Adjust to the number of weeks in month
             aspectRatio={windowWidth <= 768 ? 1.0 : windowWidth <= 1024 ? 1.4 : 1.8} // Responsive aspect ratio
             stickyHeaderDates={true} // Keep headers visible during scroll
             slotLabelFormat={{
-              hour: "numeric",
-              minute: "2-digit",
+              hour: &quot;numeric&quot;,
+              minute: &quot;2-digit&quot;,
               hour12: true,
             }}
             eventClassNames={(info) => {
               return [
-                "fc-day-lock",
-                "day-lock",
-                `status-${info.event.extendedProps.status || "available"}`,
-                info.event.extendedProps.isRecurring ? "recurring-event" : "",
+                &quot;fc-day-lock&quot;,
+                &quot;day-lock&quot;,
+                `status-${info.event.extendedProps.status || &quot;available&quot;}`,
+                info.event.extendedProps.isRecurring ? &quot;recurring-event&quot; : &quot;&quot;,
               ];
             }}
             eventContent={(info) => {
               // Only show time in timeGrid views
-              // @ts-ignore - FullCalendar types don't fully cover info.view
+              // @ts-ignore - FullCalendar types don&apos;t fully cover info.view
               const showTime =
                 info.view &&
                 info.view.type &&
-                info.view.type.includes("timeGrid");
+                info.view.type.includes(&quot;timeGrid&quot;);
               return {
-                html: `<div class="fc-event-main-frame">
-                  ${showTime ? `<div class="fc-event-time">${info.timeText || ""}</div>` : ""}
-                  <div class="fc-event-title-container">
-                    <div class="fc-event-title fc-sticky">${info.event.title || ""}${info.event.extendedProps.isRecurring ? " 🔄" : ""}</div>
+                html: `<div class=&quot;fc-event-main-frame&quot;>
+                  ${showTime ? `<div class=&quot;fc-event-time&quot;>${info.timeText || &quot;&quot;}</div>` : &quot;&quot;}
+                  <div class=&quot;fc-event-title-container&quot;>
+                    <div class=&quot;fc-event-title fc-sticky&quot;>${info.event.title || &quot;&quot;}${info.event.extendedProps.isRecurring ? &quot; 🔄&quot; : &quot;&quot;}</div>
                   </div>
                 </div>`,
               };
@@ -2027,7 +2027,7 @@ Do you want to continue?`;
 
           // Show the availability modal to let the user set the title and other properties
           if (!selectedTimeSlot) {
-            console.error("No time slot selected for availability creation");
+            console.error(&quot;No time slot selected for availability creation&quot;);
             return;
           }
 
@@ -2036,9 +2036,9 @@ Do you want to continue?`;
 
           // Store the merge strategy as a data attribute on the modal element
           setTimeout(() => {
-            const modalElement = document.querySelector(".availability-modal");
+            const modalElement = document.querySelector(&quot;.availability-modal&quot;);
             if (modalElement) {
-              modalElement.setAttribute("data-merge-strategy", mergeStrategy);
+              modalElement.setAttribute(&quot;data-merge-strategy&quot;, mergeStrategy);
             }
           }, 50);
         }}
@@ -2059,10 +2059,10 @@ Do you want to continue?`;
         onClose={() => setIsConfirmOpen(false)}
         title={confirmTitle}
         message={confirmMessage}
-        confirmLabel="Confirm"
-        cancelLabel="Cancel"
+        confirmLabel=&quot;Confirm&quot;
+        cancelLabel=&quot;Cancel&quot;
         onConfirm={confirmCallback}
-        variant="warning"
+        variant=&quot;warning"
       />
     </div>
   );

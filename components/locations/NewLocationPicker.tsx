@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect, useRef, useState } from "react";
-import { Loader2, MapPin } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useEffect, useRef, useState } from &quot;react&quot;;
+import { Loader2, MapPin } from &quot;lucide-react&quot;;
+import { useToast } from &quot;@/components/ui/use-toast&quot;;
 
 // Track if the Maps API has been loaded
 let googleMapsLoaded = false;
@@ -24,7 +24,7 @@ interface Props {
 
 export default function NewLocationPicker({
   onAddressSelect,
-  className = "",
+  className = "&quot;,
 }: Props) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +32,7 @@ export default function NewLocationPicker({
     lat: number;
     lng: number;
   } | null>(null);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(&quot;&quot;);
 
   // Refs for DOM elements
   const autocompleteContainerRef = useRef<HTMLDivElement>(null);
@@ -55,7 +55,7 @@ export default function NewLocationPicker({
         {
           center: location,
           zoom: 15,
-          mapId: "DEMO_MAP_ID",
+          mapId: &quot;DEMO_MAP_ID&quot;,
           mapTypeControl: true,
           fullscreenControl: true,
           streetViewControl: true,
@@ -92,11 +92,11 @@ export default function NewLocationPicker({
       googleMapsLoaded = true;
 
       window.initMap = function () {
-        console.log("Google Maps API loaded via callback");
+        console.log(&quot;Google Maps API loaded via callback&quot;);
         setupPlaceAutocomplete();
       };
 
-      const script = document.createElement("script");
+      const script = document.createElement(&quot;script&quot;);
       script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PPMg1ZVIB8ih7JIsTVahbPzlAhwJ70Q&libraries=places,marker&callback=initMap&loading=async&v=weekly`;
       script.async = true;
       script.defer = true;
@@ -109,29 +109,29 @@ export default function NewLocationPicker({
 
       try {
         // Clean the container
-        autocompleteContainerRef.current.innerHTML = "";
+        autocompleteContainerRef.current.innerHTML = &quot;&quot;;
 
         // Create a regular input as a fallback
-        const fallbackInput = document.createElement("input");
-        fallbackInput.type = "text";
+        const fallbackInput = document.createElement(&quot;input&quot;);
+        fallbackInput.type = &quot;text&quot;;
         fallbackInput.placeholder =
-          "Search for addresses, businesses, or places...";
-        fallbackInput.id = "location-search-input";
+          &quot;Search for addresses, businesses, or places...&quot;;
+        fallbackInput.id = &quot;location-search-input&quot;;
         fallbackInput.className =
-          "w-full h-12 pl-10 pr-3 focus-visible:ring-2 focus-visible:ring-primary rounded-lg shadow-md border border-input bg-background text-foreground";
+          &quot;w-full h-12 pl-10 pr-3 focus-visible:ring-2 focus-visible:ring-primary rounded-lg shadow-md border border-input bg-background text-foreground&quot;;
 
         // Add search icon container
-        const searchIconContainer = document.createElement("div");
+        const searchIconContainer = document.createElement(&quot;div&quot;);
         searchIconContainer.className =
-          "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 z-10";
-        const searchIcon = document.createElement("div");
+          &quot;pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 z-10&quot;;
+        const searchIcon = document.createElement(&quot;div&quot;);
         searchIcon.innerHTML =
-          '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search h-4 w-4 text-muted-foreground"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+          '<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-search h-4 w-4 text-muted-foreground&quot;><circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;/><path d=&quot;m21 21-4.3-4.3&quot;/></svg>';
         searchIconContainer.appendChild(searchIcon);
 
         // Create container for the input
-        const inputContainer = document.createElement("div");
-        inputContainer.className = "relative w-full";
+        const inputContainer = document.createElement(&quot;div&quot;);
+        inputContainer.className = &quot;relative w-full&quot;;
         inputContainer.appendChild(searchIconContainer);
         inputContainer.appendChild(fallbackInput);
 
@@ -143,23 +143,23 @@ export default function NewLocationPicker({
           fallbackInput,
           {
             fields: [
-              "formatted_address",
-              "geometry",
-              "name",
-              "place_id",
-              "types",
-              "address_components",
+              &quot;formatted_address&quot;,
+              &quot;geometry&quot;,
+              &quot;name&quot;,
+              &quot;place_id&quot;,
+              &quot;types&quot;,
+              &quot;address_components&quot;,
             ],
-            types: ["address", "establishment", "geocode"],
+            types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
           },
         );
 
         // When a place is selected
-        autocomplete.addListener("place_changed", () => {
+        autocomplete.addListener(&quot;place_changed&quot;, () => {
           const place = autocomplete.getPlace();
 
           if (!place.geometry || !place.geometry.location) {
-            console.error("Place selected but no geometry data");
+            console.error(&quot;Place selected but no geometry data&quot;);
             return;
           }
 
@@ -174,21 +174,21 @@ export default function NewLocationPicker({
           // Determine if this is an establishment or business
           const isBusinessOrPlace =
             place.types &&
-            (place.types.includes("establishment") ||
-              place.types.includes("point_of_interest"));
+            (place.types.includes(&quot;establishment&quot;) ||
+              place.types.includes(&quot;point_of_interest&quot;));
 
           // Create address object
           const addressData: AddressData = {
-            formatted_address: place.formatted_address || "",
+            formatted_address: place.formatted_address || &quot;&quot;,
             address_components: place.address_components || [],
             latitude: lat,
             longitude: lng,
-            place_id: place.place_id || "",
-            name: isBusinessOrPlace ? place.name : place.name || "",
+            place_id: place.place_id || &quot;&quot;,
+            name: isBusinessOrPlace ? place.name : place.name || &quot;&quot;,
             types: place.types || [],
           };
 
-          console.log("Selected address data:", addressData);
+          console.log(&quot;Selected address data:&quot;, addressData);
 
           // Update display address
           if (isBusinessOrPlace && place.name && place.formatted_address) {
@@ -202,14 +202,14 @@ export default function NewLocationPicker({
         });
 
         setIsLoading(false);
-        console.log("Autocomplete initialized with regular input");
+        console.log(&quot;Autocomplete initialized with regular input&quot;);
       } catch (error) {
-        console.error("Error setting up autocomplete:", error);
+        console.error(&quot;Error setting up autocomplete:&quot;, error);
         setIsLoading(false);
         toast({
-          title: "Error",
-          description: "Failed to initialize location search",
-          variant: "destructive",
+          title: &quot;Error&quot;,
+          description: &quot;Failed to initialize location search&quot;,
+          variant: &quot;destructive&quot;,
         });
       }
     };
@@ -218,7 +218,7 @@ export default function NewLocationPicker({
     setIsLoading(true);
 
     if (window.google?.maps?.places) {
-      console.log("Google Maps already loaded, setting up autocomplete");
+      console.log(&quot;Google Maps already loaded, setting up autocomplete&quot;);
       setupPlaceAutocomplete();
     } else {
       loadGoogleMaps();
@@ -232,28 +232,28 @@ export default function NewLocationPicker({
   return (
     <div className={className}>
       {/* Search input */}
-      <div className="relative mb-4 max-w-md">
+      <div className=&quot;relative mb-4 max-w-md&quot;>
         {isLoading && (
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10">
-            <Loader2 className="h-4 w-4 animate-spin text-primary" />
+          <div className=&quot;absolute right-3 top-1/2 transform -translate-y-1/2 z-10&quot;>
+            <Loader2 className=&quot;h-4 w-4 animate-spin text-primary&quot; />
           </div>
         )}
         <div
           ref={autocompleteContainerRef}
-          className="place-autocomplete-container relative"
+          className=&quot;place-autocomplete-container relative&quot;
         ></div>
       </div>
 
       {/* Map container */}
       <div
         ref={mapContainerRef}
-        className={`w-full h-[350px] rounded-md border border-input relative ${!selectedLocation ? "bg-muted/40 flex items-center justify-center" : ""}`}
+        className={`w-full h-[350px] rounded-md border border-input relative ${!selectedLocation ? &quot;bg-muted/40 flex items-center justify-center&quot; : &quot;&quot;}`}
       >
         {!selectedLocation && (
-          <div className="text-center text-muted-foreground flex flex-col items-center">
-            <MapPin className="h-12 w-12 mb-3 text-muted-foreground/60" />
-            <p className="text-lg">Search for a location to see the map</p>
-            <p className="text-sm text-muted-foreground/80 mt-1 max-w-xs">
+          <div className=&quot;text-center text-muted-foreground flex flex-col items-center&quot;>
+            <MapPin className=&quot;h-12 w-12 mb-3 text-muted-foreground/60&quot; />
+            <p className=&quot;text-lg&quot;>Search for a location to see the map</p>
+            <p className=&quot;text-sm text-muted-foreground/80 mt-1 max-w-xs">
               Try searching for businesses, landmarks, or addresses
             </p>
           </div>

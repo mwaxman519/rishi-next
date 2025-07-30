@@ -1,13 +1,13 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { eq, desc } from "drizzle-orm";
-import { activities, activityTypes, bookings } from "@/shared/schema";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { eq, desc } from &quot;drizzle-orm&quot;;
+import { activities, activityTypes, bookings } from &quot;@/shared/schema&quot;;
 
 export async function GET(
   request: NextRequest,
@@ -63,9 +63,9 @@ export async function GET(
 
     return NextResponse.json(formattedActivities);
   } catch (error: any) {
-    console.error("Error fetching booking activities:", error);
+    console.error(&quot;Error fetching booking activities:&quot;, error);
     return NextResponse.json(
-      { error: error.message || "Failed to fetch booking activities" },
+      { error: error.message || &quot;Failed to fetch booking activities&quot; },
       { status: 500 },
     );
   }

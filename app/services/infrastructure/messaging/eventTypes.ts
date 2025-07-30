@@ -4,45 +4,45 @@
  */
 export enum AppEvent {
   // System events
-  SYSTEM_NOTIFICATION = "system.notification",
-  SYSTEM_ERROR = "system.error",
+  SYSTEM_NOTIFICATION = &quot;system.notification&quot;,
+  SYSTEM_ERROR = &quot;system.error&quot;,
 
   // Location events
-  LOCATION_CREATED = "location.created",
-  LOCATION_UPDATED = "location.updated",
-  LOCATION_DELETED = "location.deleted",
-  LOCATION_APPROVED = "location.approved",
-  LOCATION_REJECTED = "location.rejected",
+  LOCATION_CREATED = &quot;location.created&quot;,
+  LOCATION_UPDATED = &quot;location.updated&quot;,
+  LOCATION_DELETED = &quot;location.deleted&quot;,
+  LOCATION_APPROVED = &quot;location.approved&quot;,
+  LOCATION_REJECTED = &quot;location.rejected&quot;,
 
   // Organization events
-  ORGANIZATION_CREATED = "organization.created",
-  ORGANIZATION_UPDATED = "organization.updated",
-  ORGANIZATION_DELETED = "organization.deleted",
+  ORGANIZATION_CREATED = &quot;organization.created&quot;,
+  ORGANIZATION_UPDATED = &quot;organization.updated&quot;,
+  ORGANIZATION_DELETED = &quot;organization.deleted&quot;,
 
   // User events
-  USER_CREATED = "user.created",
-  USER_UPDATED = "user.updated",
-  USER_DELETED = "user.deleted",
-  USER_ROLE_CHANGED = "user.role_changed",
+  USER_CREATED = &quot;user.created&quot;,
+  USER_UPDATED = &quot;user.updated&quot;,
+  USER_DELETED = &quot;user.deleted&quot;,
+  USER_ROLE_CHANGED = &quot;user.role_changed&quot;,
 
   // Kit events
-  KIT_CREATED = "kit.created",
-  KIT_UPDATED = "kit.updated",
-  KIT_DELETED = "kit.deleted",
-  KIT_ASSIGNED = "kit.assigned",
-  KIT_UNASSIGNED = "kit.unassigned",
+  KIT_CREATED = &quot;kit.created&quot;,
+  KIT_UPDATED = &quot;kit.updated&quot;,
+  KIT_DELETED = &quot;kit.deleted&quot;,
+  KIT_ASSIGNED = &quot;kit.assigned&quot;,
+  KIT_UNASSIGNED = &quot;kit.unassigned&quot;,
 
   // Booking/Event events
-  EVENT_CREATED = "event.created",
-  EVENT_UPDATED = "event.updated",
-  EVENT_DELETED = "event.deleted",
-  EVENT_STATUS_CHANGED = "event.status_changed",
-  EVENT_COMPLETED = "event.completed",
-  EVENT_CANCELLED = "event.cancelled",
+  EVENT_CREATED = &quot;event.created&quot;,
+  EVENT_UPDATED = &quot;event.updated&quot;,
+  EVENT_DELETED = &quot;event.deleted&quot;,
+  EVENT_STATUS_CHANGED = &quot;event.status_changed&quot;,
+  EVENT_COMPLETED = &quot;event.completed&quot;,
+  EVENT_CANCELLED = &quot;event.cancelled&quot;,
 
   // Staff events
-  STAFF_ASSIGNED = "staff.assigned",
-  STAFF_UNASSIGNED = "staff.unassigned",
+  STAFF_ASSIGNED = &quot;staff.assigned&quot;,
+  STAFF_UNASSIGNED = &quot;staff.unassigned&quot;,
 }
 
 /**
@@ -54,7 +54,7 @@ export enum AppEvent {
 export interface SystemNotificationPayload {
   title: string;
   message: string;
-  level: "info" | "warning" | "error" | "success";
+  level: &quot;info&quot; | &quot;warning&quot; | &quot;error&quot; | &quot;success&quot;;
   timestamp: string;
   metadata?: Record<string, any>;
 }

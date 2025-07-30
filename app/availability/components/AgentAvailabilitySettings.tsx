@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 
 interface AgentAvailabilitySettingsProps {
   userId: number;
@@ -14,13 +14,13 @@ interface DaySchedule {
 }
 
 type DayName =
-  | "monday"
-  | "tuesday"
-  | "wednesday"
-  | "thursday"
-  | "friday"
-  | "saturday"
-  | "sunday";
+  | &quot;monday&quot;
+  | &quot;tuesday&quot;
+  | &quot;wednesday&quot;
+  | &quot;thursday&quot;
+  | &quot;friday&quot;
+  | &quot;saturday&quot;
+  | &quot;sunday&quot;;
 
 interface WorkingHoursSettings {
   monday: DaySchedule;
@@ -37,13 +37,13 @@ interface WorkingHoursSettings {
 }
 
 const DEFAULT_SETTINGS: WorkingHoursSettings = {
-  monday: { enabled: true, startTime: "09:00", endTime: "17:00" },
-  tuesday: { enabled: true, startTime: "09:00", endTime: "17:00" },
-  wednesday: { enabled: true, startTime: "09:00", endTime: "17:00" },
-  thursday: { enabled: true, startTime: "09:00", endTime: "17:00" },
-  friday: { enabled: true, startTime: "09:00", endTime: "17:00" },
-  saturday: { enabled: false, startTime: "10:00", endTime: "15:00" },
-  sunday: { enabled: false, startTime: "10:00", endTime: "15:00" },
+  monday: { enabled: true, startTime: &quot;09:00&quot;, endTime: &quot;17:00&quot; },
+  tuesday: { enabled: true, startTime: &quot;09:00&quot;, endTime: &quot;17:00&quot; },
+  wednesday: { enabled: true, startTime: &quot;09:00&quot;, endTime: &quot;17:00&quot; },
+  thursday: { enabled: true, startTime: &quot;09:00&quot;, endTime: &quot;17:00&quot; },
+  friday: { enabled: true, startTime: &quot;09:00&quot;, endTime: &quot;17:00&quot; },
+  saturday: { enabled: false, startTime: &quot;10:00&quot;, endTime: &quot;15:00&quot; },
+  sunday: { enabled: false, startTime: &quot;10:00&quot;, endTime: &quot;15:00&quot; },
   bufferBetweenSessions: 15,
   defaultSessionDuration: 60,
   maxSessionsPerDay: 8,
@@ -77,9 +77,9 @@ export default function AgentAvailabilitySettings({
           setSettings(JSON.parse(savedSettings));
         }
       } catch (err) {
-        console.error("Error fetching availability settings:", err);
+        console.error(&quot;Error fetching availability settings:&quot;, err);
         setError(
-          "Failed to load your availability settings. Please try again.",
+          &quot;Failed to load your availability settings. Please try again.&quot;,
         );
       } finally {
         setIsLoading(false);
@@ -105,7 +105,7 @@ export default function AgentAvailabilitySettings({
         ...prev,
         [day]: {
           ...daySettings,
-          [field]: field === "enabled" ? value.target.checked : value,
+          [field]: field === &quot;enabled&quot; ? value.target.checked : value,
         },
       };
     });
@@ -157,11 +157,11 @@ export default function AgentAvailabilitySettings({
       // Add a delay to simulate API call
       await new Promise((resolve) => setTimeout(resolve, 800));
 
-      setSuccessMessage("Your availability settings have been saved.");
+      setSuccessMessage(&quot;Your availability settings have been saved.&quot;);
       setHasChanges(false);
     } catch (err) {
-      console.error("Error saving availability settings:", err);
-      setError("Failed to save your availability settings. Please try again.");
+      console.error(&quot;Error saving availability settings:&quot;, err);
+      setError(&quot;Failed to save your availability settings. Please try again.&quot;);
     } finally {
       setIsSaving(false);
     }
@@ -171,62 +171,62 @@ export default function AgentAvailabilitySettings({
     const daySchedule = settings[day];
 
     return (
-      <div className="mb-6 pb-4 border-b border-gray-200 last:border-0">
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center">
+      <div className=&quot;mb-6 pb-4 border-b border-gray-200 last:border-0&quot;>
+        <div className=&quot;flex justify-between items-center mb-2&quot;>
+          <div className=&quot;flex items-center&quot;>
             <input
-              type="checkbox"
+              type=&quot;checkbox&quot;
               id={`${day}-enabled`}
               checked={daySchedule.enabled}
-              onChange={(e) => handleDayChange(day, "enabled", e)}
-              className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
+              onChange={(e) => handleDayChange(day, &quot;enabled&quot;, e)}
+              className=&quot;h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded&quot;
             />
             <label
               htmlFor={`${day}-enabled`}
-              className="ml-2 block text-sm font-medium text-gray-700"
+              className=&quot;ml-2 block text-sm font-medium text-gray-700&quot;
             >
               {label}
             </label>
           </div>
-          <div className="text-xs text-gray-500">
-            {daySchedule.enabled ? "Available" : "Unavailable"}
+          <div className=&quot;text-xs text-gray-500&quot;>
+            {daySchedule.enabled ? &quot;Available&quot; : &quot;Unavailable&quot;}
           </div>
         </div>
 
         {daySchedule.enabled && (
-          <div className="mt-3 grid grid-cols-2 gap-4">
+          <div className=&quot;mt-3 grid grid-cols-2 gap-4&quot;>
             <div>
               <label
                 htmlFor={`${day}-start`}
-                className="block text-xs font-medium text-gray-700"
+                className=&quot;block text-xs font-medium text-gray-700&quot;
               >
                 Start Time
               </label>
               <input
-                type="time"
+                type=&quot;time&quot;
                 id={`${day}-start`}
                 value={daySchedule.startTime}
                 onChange={(e) =>
-                  handleDayChange(day, "startTime", e.target.value)
+                  handleDayChange(day, &quot;startTime&quot;, e.target.value)
                 }
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                className=&quot;mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm&quot;
               />
             </div>
             <div>
               <label
                 htmlFor={`${day}-end`}
-                className="block text-xs font-medium text-gray-700"
+                className=&quot;block text-xs font-medium text-gray-700&quot;
               >
                 End Time
               </label>
               <input
-                type="time"
+                type=&quot;time&quot;
                 id={`${day}-end`}
                 value={daySchedule.endTime}
                 onChange={(e) =>
-                  handleDayChange(day, "endTime", e.target.value)
+                  handleDayChange(day, &quot;endTime&quot;, e.target.value)
                 }
-                className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                className=&quot;mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm&quot;
               />
             </div>
           </div>
@@ -237,8 +237,8 @@ export default function AgentAvailabilitySettings({
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+      <div className=&quot;flex justify-center py-12&quot;>
+        <div className=&quot;animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500&quot;></div>
       </div>
     );
   }
@@ -246,153 +246,153 @@ export default function AgentAvailabilitySettings({
   return (
     <div>
       {error && (
-        <div className="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
-          <div className="flex">
-            <div className="flex-shrink-0">
+        <div className=&quot;mb-4 bg-red-50 border-l-4 border-red-400 p-4&quot;>
+          <div className=&quot;flex&quot;>
+            <div className=&quot;flex-shrink-0&quot;>
               <svg
-                className="h-5 w-5 text-red-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                className=&quot;h-5 w-5 text-red-400&quot;
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                viewBox=&quot;0 0 20 20&quot;
+                fill=&quot;currentColor&quot;
               >
                 <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
+                  fillRule=&quot;evenodd&quot;
+                  d=&quot;M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z&quot;
+                  clipRule=&quot;evenodd&quot;
                 />
               </svg>
             </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+            <div className=&quot;ml-3&quot;>
+              <p className=&quot;text-sm text-red-700&quot;>{error}</p>
             </div>
           </div>
         </div>
       )}
 
       {successMessage && (
-        <div className="mb-4 bg-green-50 border-l-4 border-green-400 p-4">
-          <div className="flex">
-            <div className="flex-shrink-0">
+        <div className=&quot;mb-4 bg-green-50 border-l-4 border-green-400 p-4&quot;>
+          <div className=&quot;flex&quot;>
+            <div className=&quot;flex-shrink-0&quot;>
               <svg
-                className="h-5 w-5 text-green-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                className=&quot;h-5 w-5 text-green-400&quot;
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                viewBox=&quot;0 0 20 20&quot;
+                fill=&quot;currentColor&quot;
               >
                 <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
+                  fillRule=&quot;evenodd&quot;
+                  d=&quot;M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z&quot;
+                  clipRule=&quot;evenodd&quot;
                 />
               </svg>
             </div>
-            <div className="ml-3">
-              <p className="text-sm text-green-700">{successMessage}</p>
+            <div className=&quot;ml-3&quot;>
+              <p className=&quot;text-sm text-green-700&quot;>{successMessage}</p>
             </div>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-8&quot;>
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <h3 className=&quot;text-lg font-medium text-gray-900 mb-4&quot;>
             Weekly Schedule
           </h3>
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            {renderDaySettings("monday" as DayName, "Monday")}
-            {renderDaySettings("tuesday" as DayName, "Tuesday")}
-            {renderDaySettings("wednesday" as DayName, "Wednesday")}
-            {renderDaySettings("thursday" as DayName, "Thursday")}
-            {renderDaySettings("friday" as DayName, "Friday")}
-            {renderDaySettings("saturday" as DayName, "Saturday")}
-            {renderDaySettings("sunday" as DayName, "Sunday")}
+          <div className=&quot;bg-gray-50 p-4 rounded-lg border border-gray-200&quot;>
+            {renderDaySettings(&quot;monday&quot; as DayName, &quot;Monday&quot;)}
+            {renderDaySettings(&quot;tuesday&quot; as DayName, &quot;Tuesday&quot;)}
+            {renderDaySettings(&quot;wednesday&quot; as DayName, &quot;Wednesday&quot;)}
+            {renderDaySettings(&quot;thursday&quot; as DayName, &quot;Thursday&quot;)}
+            {renderDaySettings(&quot;friday&quot; as DayName, &quot;Friday&quot;)}
+            {renderDaySettings(&quot;saturday&quot; as DayName, &quot;Saturday&quot;)}
+            {renderDaySettings(&quot;sunday&quot; as DayName, &quot;Sunday&quot;)}
           </div>
         </div>
 
         <div>
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
+          <h3 className=&quot;text-lg font-medium text-gray-900 mb-4&quot;>
             Session Settings
           </h3>
-          <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <div className="mb-4">
+          <div className=&quot;bg-gray-50 p-4 rounded-lg border border-gray-200&quot;>
+            <div className=&quot;mb-4&quot;>
               <label
-                htmlFor="bufferTime"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor=&quot;bufferTime&quot;
+                className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;
               >
                 Buffer Between Sessions (minutes)
               </label>
               <input
-                type="number"
-                id="bufferTime"
-                min="0"
+                type=&quot;number&quot;
+                id=&quot;bufferTime&quot;
+                min=&quot;0&quot;
                 value={settings.bufferBetweenSessions}
                 onChange={handleBufferChange}
-                className="w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                className=&quot;w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm&quot;
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className=&quot;mt-1 text-xs text-gray-500&quot;>
                 Time needed between appointments for preparation or rest.
               </p>
             </div>
 
-            <div className="mb-4">
+            <div className=&quot;mb-4&quot;>
               <label
-                htmlFor="sessionDuration"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor=&quot;sessionDuration&quot;
+                className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;
               >
                 Default Session Duration (minutes)
               </label>
               <input
-                type="number"
-                id="sessionDuration"
-                min="15"
-                step="15"
+                type=&quot;number&quot;
+                id=&quot;sessionDuration&quot;
+                min=&quot;15&quot;
+                step=&quot;15&quot;
                 value={settings.defaultSessionDuration}
                 onChange={handleDurationChange}
-                className="w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                className=&quot;w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm&quot;
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className=&quot;mt-1 text-xs text-gray-500&quot;>
                 Standard length for your sessions. Clients can request different
                 durations.
               </p>
             </div>
 
-            <div className="mb-4">
+            <div className=&quot;mb-4&quot;>
               <label
-                htmlFor="maxSessions"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor=&quot;maxSessions&quot;
+                className=&quot;block text-sm font-medium text-gray-700 mb-1&quot;
               >
                 Maximum Sessions Per Day
               </label>
               <input
-                type="number"
-                id="maxSessions"
-                min="1"
+                type=&quot;number&quot;
+                id=&quot;maxSessions&quot;
+                min=&quot;1&quot;
                 value={settings.maxSessionsPerDay}
                 onChange={handleMaxSessionsChange}
-                className="w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                className=&quot;w-full border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm&quot;
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className=&quot;mt-1 text-xs text-gray-500&quot;>
                 Limit the number of sessions you can have in a single day.
               </p>
             </div>
 
-            <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-              <h4 className="text-sm font-medium text-yellow-800 flex items-center">
+            <div className=&quot;mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200&quot;>
+              <h4 className=&quot;text-sm font-medium text-yellow-800 flex items-center&quot;>
                 <svg
-                  className="mr-2 h-5 w-5 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+                  className=&quot;mr-2 h-5 w-5 text-yellow-400&quot;
+                  xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                  viewBox=&quot;0 0 20 20&quot;
+                  fill=&quot;currentColor&quot;
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                    clipRule="evenodd"
+                    fillRule=&quot;evenodd&quot;
+                    d=&quot;M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z&quot;
+                    clipRule=&quot;evenodd&quot;
                   />
                 </svg>
                 Upcoming Feature
               </h4>
-              <p className="mt-1 text-xs text-yellow-700">
+              <p className=&quot;mt-1 text-xs text-yellow-700&quot;>
                 Soon, you'll be able to set different availability for specific
                 dates, like holidays or personal days off.
               </p>
@@ -401,23 +401,23 @@ export default function AgentAvailabilitySettings({
         </div>
       </div>
 
-      <div className="mt-8 flex justify-end">
+      <div className=&quot;mt-8 flex justify-end&quot;>
         <button
-          type="button"
-          onClick={() => router.push("/agent/availability")}
-          className="mr-3 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+          type=&quot;button&quot;
+          onClick={() => router.push(&quot;/agent/availability&quot;)}
+          className=&quot;mr-3 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500&quot;
         >
           Cancel
         </button>
         <button
-          type="button"
+          type=&quot;button&quot;
           onClick={handleSave}
           disabled={isSaving || !hasChanges}
           className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-            isSaving || !hasChanges ? "opacity-50 cursor-not-allowed" : ""
+            isSaving || !hasChanges ? &quot;opacity-50 cursor-not-allowed&quot; : "&quot;
           }`}
         >
-          {isSaving ? "Saving..." : "Save Settings"}
+          {isSaving ? &quot;Saving...&quot; : &quot;Save Settings"}
         </button>
       </div>
     </div>

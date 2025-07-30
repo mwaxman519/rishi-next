@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "../hooks/useAuth";
-import { useEnhancedRBAC } from "../contexts/EnhancedRBACProvider";
-import { PermissionContext } from "../lib/rbac-enhanced";
+import React, { useEffect } from &quot;react&quot;;
+import { useRouter, usePathname } from &quot;next/navigation&quot;;
+import { useAuth } from &quot;../hooks/useAuth&quot;;
+import { useEnhancedRBAC } from &quot;../contexts/EnhancedRBACProvider&quot;;
+import { PermissionContext } from &quot;../lib/rbac-enhanced&quot;;
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -30,7 +30,7 @@ export function ProtectedRoute({
   children,
   permission,
   permissions,
-  redirectTo = "/auth/login",
+  redirectTo = &quot;/auth/login&quot;,
   requireAuth = true,
   context,
 }: ProtectedRouteProps) {
@@ -50,8 +50,8 @@ export function ProtectedRoute({
     // If auth is required and user is not logged in, redirect
     if (requireAuth && !user) {
       // Store the intended destination for redirecting back after login
-      if (typeof window !== "undefined") {
-        localStorage.setItem("redirectAfterLogin", pathname);
+      if (typeof window !== &quot;undefined&quot;) {
+        localStorage.setItem(&quot;redirectAfterLogin&quot;, pathname);
       }
       router.push(redirectTo);
       return;
@@ -68,7 +68,7 @@ export function ProtectedRoute({
 
       // Check single permission if provided
       if (permission && !hasPermission(permission, mergedContext)) {
-        router.push("/access-denied");
+        router.push(&quot;/access-denied&quot;);
         return;
       }
 
@@ -78,7 +78,7 @@ export function ProtectedRoute({
         permissions.length > 0 &&
         !hasAllPermissions(permissions, mergedContext)
       ) {
-        router.push("/access-denied");
+        router.push(&quot;/access-denied&quot;);
         return;
       }
     }

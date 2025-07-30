@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "../../../../lib/db-connection";
-import { systemSystemEvents } from "@shared/schema";
+import { db } from &quot;../../../../lib/db-connection&quot;;
+import { systemSystemEvents } from &quot;@shared/schema&quot;;
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
       recipientEmail,
       subject,
       body: messageBody,
-      priority = "normal",
-      deliveryMethod = "email",
+      priority = &quot;normal&quot;,
+      deliveryMethod = &quot;email&quot;,
       scheduleDelivery = false,
       scheduleDate,
       scheduleTime,
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     if (!recipientId || !subject || !messageBody || !sentBy) {
       return NextResponse.json(
         {
-          error: "Missing required fields: recipientId, subject, body, sentBy",
+          error: &quot;Missing required fields: recipientId, subject, body, sentBy&quot;,
         },
         { status: 400 },
       );
@@ -42,9 +42,9 @@ export async function POST(request: NextRequest) {
 
     // Log message sent event to system events
     await db.insert(systemEvents).values({
-      source: "team_management",
-      eventType: "message.sent",
-      eventName: "Team Message Sent",
+      source: &quot;team_management&quot;,
+      eventType: &quot;message.sent&quot;,
+      eventName: &quot;Team Message Sent&quot;,
       payload: {
         messageId,
         recipientId,
@@ -57,31 +57,31 @@ export async function POST(request: NextRequest) {
         sentBy,
         timestamp: timestamp.toISOString(),
       },
-      status: "completed",
+      status: &quot;completed&quot;,
       createdAt: timestamp,
       updatedAt: timestamp,
     });
 
     // Simulate email/SMS sending based on delivery method
-    if (deliveryMethod === "email") {
+    if (deliveryMethod === &quot;email&quot;) {
       console.log(`📧 Email sent to ${recipientEmail}: ${subject}`);
-    } else if (deliveryMethod === "sms") {
+    } else if (deliveryMethod === &quot;sms&quot;) {
       console.log(`📱 SMS sent to recipient ${recipientId}: ${subject}`);
-    } else if (deliveryMethod === "app") {
+    } else if (deliveryMethod === &quot;app&quot;) {
       console.log(`🔔 In-app notification sent to ${recipientId}: ${subject}`);
     }
 
     return NextResponse.json({
       success: true,
       messageId,
-      status: scheduleDelivery ? "scheduled" : "sent",
+      status: scheduleDelivery ? &quot;scheduled&quot; : &quot;sent&quot;,
       deliveryMethod,
       timestamp: timestamp.toISOString(),
     });
   } catch (error) {
-    console.error("Error sending message:", error);
+    console.error(&quot;Error sending message:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to send message" },
+      { error: &quot;Failed to send message&quot; },
       { status: 500 },
     );
   }

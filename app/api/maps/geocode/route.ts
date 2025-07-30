@@ -1,15 +1,15 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Geocoding API Route
  * Provides geocoding features to client-side applications
  */
-import { NextRequest, NextResponse } from "next/server";
-import { geocodingService } from "../../../services/maps";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { geocodingService } from &quot;../../../services/maps&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
 
 // Geocode an address
 export async function POST(req: NextRequest) {
@@ -17,13 +17,13 @@ export async function POST(req: NextRequest) {
     // Authenticate user
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check permissions
-    if (!(await checkPermission(req, "create:locations"))) {
+    if (!(await checkPermission(req, &quot;create:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -32,9 +32,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { address } = body;
 
-    if (!address || typeof address !== "string") {
+    if (!address || typeof address !== &quot;string&quot;) {
       return NextResponse.json(
-        { error: "Invalid request: address is required" },
+        { error: &quot;Invalid request: address is required&quot; },
         { status: 400 },
       );
     }
@@ -44,17 +44,17 @@ export async function POST(req: NextRequest) {
 
     if (!result) {
       return NextResponse.json(
-        { error: "Could not geocode the provided address" },
+        { error: &quot;Could not geocode the provided address&quot; },
         { status: 422 },
       );
     }
 
     return NextResponse.json({ result });
   } catch (error) {
-    console.error("Error in geocode API route:", error);
+    console.error(&quot;Error in geocode API route:&quot;, error);
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "Internal server error",
+        error: error instanceof Error ? error.message : &quot;Internal server error&quot;,
       },
       { status: 500 },
     );
@@ -67,27 +67,27 @@ export async function GET(req: NextRequest) {
     // Authenticate user
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check permissions
-    if (!(await checkPermission(req, "view:locations"))) {
+    if (!(await checkPermission(req, &quot;view:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
 
     // Get coordinates from query params
     const searchParams = req.nextUrl.searchParams;
-    const lat = parseFloat((searchParams.get("lat") || undefined) || "");
-    const lng = parseFloat((searchParams.get("lng") || undefined) || "");
+    const lat = parseFloat((searchParams.get(&quot;lat&quot;) || undefined) || "&quot;);
+    const lng = parseFloat((searchParams.get(&quot;lng&quot;) || undefined) || &quot;&quot;);
 
     if (isNaN(lat) || isNaN(lng)) {
       return NextResponse.json(
         {
           error:
-            "Invalid request: lat and lng are required and must be numbers",
+            &quot;Invalid request: lat and lng are required and must be numbers&quot;,
         },
         { status: 400 },
       );
@@ -98,17 +98,17 @@ export async function GET(req: NextRequest) {
 
     if (!result) {
       return NextResponse.json(
-        { error: "Could not reverse geocode the provided coordinates" },
+        { error: &quot;Could not reverse geocode the provided coordinates&quot; },
         { status: 422 },
       );
     }
 
     return NextResponse.json({ result });
   } catch (error) {
-    console.error("Error in reverse geocode API route:", error);
+    console.error(&quot;Error in reverse geocode API route:&quot;, error);
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "Internal server error",
+        error: error instanceof Error ? error.message : &quot;Internal server error",
       },
       { status: 500 },
     );

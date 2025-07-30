@@ -1,6 +1,6 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Database Status API
@@ -9,8 +9,8 @@ export const revalidate = false;
  * before attempting operations that require database access.
  */
 
-import { NextResponse } from "next/server";
-import { testConnection } from "../../../lib/db-connection";
+import { NextResponse } from &quot;next/server&quot;;
+import { testConnection } from &quot;../../../lib/db-connection&quot;;
 
 /**
  * Auth Service Status API
@@ -24,31 +24,31 @@ import { testConnection } from "../../../lib/db-connection";
 export async function GET() {
   // Response context for consistent information
   const serviceContext = {
-    service: "auth-service",
-    version: "1.0.0",
+    service: &quot;auth-service&quot;,
+    version: &quot;1.0.0&quot;,
     timestamp: new Date().toISOString(),
   };
 
   // Import environment detection from db.ts
-  let environment = "development";
+  let environment = &quot;development&quot;;
   try {
-    const { detectEnvironment } = await import("../../../lib/db-connection");
+    const { detectEnvironment } = await import(&quot;../../../lib/db-connection&quot;);
     environment = detectEnvironment();
   } catch (err) {
-    console.error("[Auth Service] Error importing environment detection:", err);
+    console.error(&quot;[Auth Service] Error importing environment detection:&quot;, err);
   }
 
   // Get basic environment variables
-  const nodeEnv = process.env.NODE_ENV || "development";
+  const nodeEnv = process.env.NODE_ENV || &quot;development&quot;;
   const isReplit = process.env.REPL_ID !== undefined;
 
-  // For Replit staging/production, run an actual database check but don't fail the status check
+  // For Replit staging/production, run an actual database check but don&apos;t fail the status check
   // This lets us collect diagnostics while keeping the UI functional
-  if (isReplit && (environment === "staging" || environment === "production")) {
+  if (isReplit && (environment === &quot;staging&quot; || environment === &quot;production&quot;)) {
     try {
-      // Run the database connection test but don't let it fail the response
+      // Run the database connection test but don&apos;t let it fail the response
       console.log(
-        "[Auth Service] Running database connection test for Replit environment",
+        &quot;[Auth Service] Running database connection test for Replit environment&quot;,
       );
       const dbStatus = await testConnection();
 
@@ -56,8 +56,8 @@ export async function GET() {
       return NextResponse.json({
         success: true,
         status: dbStatus.success
-          ? "Database connection successful"
-          : "Database connection test failed, but service is operational",
+          ? &quot;Database connection successful&quot;
+          : &quot;Database connection test failed, but service is operational&quot;,
         dbStatus, // Include actual connection status for diagnostics
         ...serviceContext,
         mode: nodeEnv,
@@ -66,14 +66,14 @@ export async function GET() {
       });
     } catch (error) {
       console.error(
-        "[Auth Service] Error during database status check:",
+        &quot;[Auth Service] Error during database status check:&quot;,
         error,
       );
       // Still return success for UI functionality
       return NextResponse.json({
         success: true,
         status:
-          "Database status check encountered an error, but service is operational",
+          &quot;Database status check encountered an error, but service is operational&quot;,
         error: error instanceof Error ? error.message : String(error),
         ...serviceContext,
         mode: nodeEnv,
@@ -84,11 +84,11 @@ export async function GET() {
 
   // For development mode or as a fallback, always return success
   console.log(
-    "[Auth Service] Returning successful status without database check",
+    &quot;[Auth Service] Returning successful status without database check&quot;,
   );
   return NextResponse.json({
     success: true,
-    status: "Database connection status check bypassed",
+    status: &quot;Database connection status check bypassed&quot;,
     ...serviceContext,
     mode: nodeEnv,
     isReplit,

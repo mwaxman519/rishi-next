@@ -1,6 +1,6 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Organization Preferences API Routes
@@ -13,16 +13,16 @@ export const revalidate = false;
  * @module api/organizations/preferences
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
-import { db } from "@/lib/db";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { db } from &quot;@/lib/db&quot;;
 import {
   userOrganizationPreferences,
   userOrganizations,
   organizations,
-} from "@shared/schema";
-import { eq, and, or, asc, desc } from "drizzle-orm";
-import { z } from "zod";
+} from &quot;@shared/schema&quot;;
+import { eq, and, or, asc, desc } from &quot;drizzle-orm&quot;;
+import { z } from &quot;zod&quot;;
 
 /**
  * GET handler for retrieving a user's organization preferences
@@ -35,11 +35,11 @@ export async function GET(request: NextRequest) {
     // Get the current authenticated user
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
-    const organizationId = (searchParams.get("organizationId") || undefined);
+    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined);
 
     // If a specific organization is requested
     if (organizationId) {
@@ -60,8 +60,8 @@ export async function GET(request: NextRequest) {
           .values({
             userId: user.id,
             organizationId: parseInt(organizationId),
-            theme: "system", // Default theme
-            dashboardLayout: "default", // Default layout
+            theme: &quot;system&quot;, // Default theme
+            dashboardLayout: &quot;default&quot;, // Default layout
             notificationSettings: JSON.stringify({
               email: true,
               inApp: true,
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
             preference.notificationSettings,
           );
         } catch (e) {
-          console.warn("Failed to parse notification settings JSON:", e);
+          console.warn(&quot;Failed to parse notification settings JSON:&quot;, e);
         }
       }
 
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
             notificationSettings: JSON.parse(pref.notificationSettings),
           };
         } catch (e) {
-          console.warn("Failed to parse notification settings JSON:", e);
+          console.warn(&quot;Failed to parse notification settings JSON:&quot;, e);
         }
       }
       return pref;
@@ -121,9 +121,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(processedPreferences);
   } catch (error) {
-    console.error("Error fetching user preferences:", error);
+    console.error(&quot;Error fetching user preferences:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch preferences" },
+      { error: &quot;Failed to fetch preferences&quot; },
       { status: 500 },
     );
   }
@@ -134,8 +134,8 @@ export async function GET(request: NextRequest) {
  */
 const updatePreferenceSchema = z.object({
   organizationId: z.number(),
-  theme: z.enum(["light", "dark", "system"]).optional(),
-  dashboardLayout: z.enum(["default", "compact", "expanded"]).optional(),
+  theme: z.enum([&quot;light&quot;, &quot;dark&quot;, &quot;system&quot;]).optional(),
+  dashboardLayout: z.enum([&quot;default&quot;, &quot;compact&quot;, &quot;expanded&quot;]).optional(),
   notificationSettings: z.record(z.boolean()).optional(),
 });
 
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
     // Get the current authenticated user
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Parse and validate request body
@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { error: "Invalid request data", details: validation.error.format() },
+        { error: &quot;Invalid request data&quot;, details: validation.error.format() },
         { status: 400 },
       );
     }
@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
 
     if (!membership) {
       return NextResponse.json(
-        { error: "User is not a member of this organization" },
+        { error: &quot;User is not a member of this organization&quot; },
         { status: 403 },
       );
     }
@@ -222,8 +222,8 @@ export async function POST(request: NextRequest) {
         .values({
           userId: user.id,
           organizationId: organizationId,
-          theme: theme || "system",
-          dashboardLayout: dashboardLayout || "default",
+          theme: theme || &quot;system&quot;,
+          dashboardLayout: dashboardLayout || &quot;default&quot;,
           notificationSettings: notificationSettings
             ? JSON.stringify(notificationSettings)
             : null,
@@ -238,19 +238,19 @@ export async function POST(request: NextRequest) {
           updatedPreference[0].notificationSettings,
         );
       } catch (e) {
-        console.warn("Failed to parse notification settings JSON:", e);
+        console.warn(&quot;Failed to parse notification settings JSON:&quot;, e);
       }
     }
 
     return NextResponse.json({
       success: true,
-      message: "Preferences updated successfully",
+      message: &quot;Preferences updated successfully&quot;,
       data: updatedPreference[0],
     });
   } catch (error) {
-    console.error("Error updating user preferences:", error);
+    console.error(&quot;Error updating user preferences:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to update preferences" },
+      { error: &quot;Failed to update preferences&quot; },
       { status: 500 },
     );
   }

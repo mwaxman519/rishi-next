@@ -1,24 +1,24 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState } from &quot;react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from &quot;@/components/ui/select&quot;;
 import {
   Calendar,
   MapPin,
@@ -27,13 +27,13 @@ import {
   Filter,
   Search,
   Plus,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 interface Event {
   id: string;
   title: string;
   type: string;
-  status: "active" | "completed" | "cancelled" | "scheduled";
+  status: &quot;active&quot; | &quot;completed&quot; | &quot;cancelled&quot; | &quot;scheduled&quot;;
   date: string;
   location: string;
   organizationId: string;
@@ -44,38 +44,38 @@ interface Event {
 
 const eventData: Event[] = [
   {
-    id: "1",
-    title: "Cannabis Education Workshop",
-    type: "Education",
-    status: "active",
-    date: "2024-01-15",
-    location: "Denver, CO",
-    organizationId: "org1",
-    organizationName: "Green Leaf Dispensary",
+    id: &quot;1&quot;,
+    title: &quot;Cannabis Education Workshop&quot;,
+    type: &quot;Education&quot;,
+    status: &quot;active&quot;,
+    date: &quot;2024-01-15&quot;,
+    location: &quot;Denver, CO&quot;,
+    organizationId: &quot;org1&quot;,
+    organizationName: &quot;Green Leaf Dispensary&quot;,
     assignedStaff: 3,
     totalSlots: 5,
   },
   {
-    id: "2",
-    title: "Product Launch Event",
-    type: "Product Launch",
-    status: "scheduled",
-    date: "2024-01-20",
-    location: "Los Angeles, CA",
-    organizationId: "org2",
-    organizationName: "Sunset Cannabis Co.",
+    id: &quot;2&quot;,
+    title: &quot;Product Launch Event&quot;,
+    type: &quot;Product Launch&quot;,
+    status: &quot;scheduled&quot;,
+    date: &quot;2024-01-20&quot;,
+    location: &quot;Los Angeles, CA&quot;,
+    organizationId: &quot;org2&quot;,
+    organizationName: &quot;Sunset Cannabis Co.&quot;,
     assignedStaff: 2,
     totalSlots: 4,
   },
   {
-    id: "3",
-    title: "Store Grand Opening",
-    type: "Grand Opening",
-    status: "completed",
-    date: "2024-01-10",
-    location: "Seattle, WA",
-    organizationId: "org3",
-    organizationName: "Pacific Northwest Cannabis",
+    id: &quot;3&quot;,
+    title: &quot;Store Grand Opening&quot;,
+    type: &quot;Grand Opening&quot;,
+    status: &quot;completed&quot;,
+    date: &quot;2024-01-10&quot;,
+    location: &quot;Seattle, WA&quot;,
+    organizationId: &quot;org3&quot;,
+    organizationName: &quot;Pacific Northwest Cannabis&quot;,
     assignedStaff: 6,
     totalSlots: 6,
   },
@@ -83,27 +83,27 @@ const eventData: Event[] = [
 
 export default function EventsManagement() {
   const [events, setEvents] = useState<Event[]>(eventData);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<string>(&quot;all&quot;);
+  const [searchTerm, setSearchTerm] = useState("&quot;);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800";
-      case "scheduled":
-        return "bg-blue-100 text-blue-800";
-      case "completed":
-        return "bg-gray-100 text-gray-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
+      case &quot;active&quot;:
+        return &quot;bg-green-100 text-green-800&quot;;
+      case &quot;scheduled&quot;:
+        return &quot;bg-blue-100 text-blue-800&quot;;
+      case &quot;completed&quot;:
+        return &quot;bg-gray-100 text-gray-800&quot;;
+      case &quot;cancelled&quot;:
+        return &quot;bg-red-100 text-red-800&quot;;
       default:
-        return "bg-gray-100 text-gray-800";
+        return &quot;bg-gray-100 text-gray-800&quot;;
     }
   };
 
   const filteredEvents = events.filter((event) => {
     const matchesStatus =
-      filterStatus === "all" || event.status === filterStatus;
+      filterStatus === &quot;all&quot; || event.status === filterStatus;
     const matchesSearch =
       event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       event.organizationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -112,60 +112,60 @@ export default function EventsManagement() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className=&quot;space-y-6&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h1 className="text-3xl font-bold">Event Management</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className=&quot;text-3xl font-bold&quot;>Event Management</h1>
+          <p className=&quot;text-muted-foreground mt-2&quot;>
             Monitor and manage events across all organizations
           </p>
         </div>
         <Button>
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className=&quot;w-4 h-4 mr-2&quot; />
           Create Event
         </Button>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <div className="flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+      <div className=&quot;flex items-center space-x-4&quot;>
+        <div className=&quot;flex-1&quot;>
+          <div className=&quot;relative&quot;>
+            <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4&quot; />
             <Input
-              placeholder="Search events, organizations, or locations..."
+              placeholder=&quot;Search events, organizations, or locations...&quot;
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className=&quot;pl-10&quot;
             />
           </div>
         </div>
         <Select value={filterStatus} onValueChange={setFilterStatus}>
-          <SelectTrigger className="w-48">
-            <Filter className="w-4 h-4 mr-2" />
+          <SelectTrigger className=&quot;w-48&quot;>
+            <Filter className=&quot;w-4 h-4 mr-2&quot; />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="scheduled">Scheduled</SelectItem>
-            <SelectItem value="completed">Completed</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value=&quot;all&quot;>All Status</SelectItem>
+            <SelectItem value=&quot;active&quot;>Active</SelectItem>
+            <SelectItem value=&quot;scheduled&quot;>Scheduled</SelectItem>
+            <SelectItem value=&quot;completed&quot;>Completed</SelectItem>
+            <SelectItem value=&quot;cancelled&quot;>Cancelled</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className="grid gap-6">
+      <div className=&quot;grid gap-6&quot;>
         {filteredEvents.map((event) => (
-          <Card key={event.id} className="hover:shadow-md transition-shadow">
+          <Card key={event.id} className=&quot;hover:shadow-md transition-shadow&quot;>
             <CardHeader>
-              <div className="flex items-center justify-between">
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <CardTitle className="text-xl">{event.title}</CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground">
+                  <CardTitle className=&quot;text-xl&quot;>{event.title}</CardTitle>
+                  <CardDescription className=&quot;text-sm text-muted-foreground&quot;>
                     {event.organizationName}
                   </CardDescription>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Badge variant="outline">{event.type}</Badge>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Badge variant=&quot;outline&quot;>{event.type}</Badge>
                   <Badge className={getStatusColor(event.status)}>
                     {event.status.charAt(0).toUpperCase() +
                       event.status.slice(1)}
@@ -174,46 +174,46 @@ export default function EventsManagement() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">
+              <div className=&quot;grid grid-cols-2 md:grid-cols-4 gap-4&quot;>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Calendar className=&quot;w-4 h-4 text-muted-foreground&quot; />
+                  <span className=&quot;text-sm&quot;>
                     {new Date(event.date).toLocaleDateString()}
                   </span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">{event.location}</span>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <MapPin className=&quot;w-4 h-4 text-muted-foreground&quot; />
+                  <span className=&quot;text-sm&quot;>{event.location}</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Users className=&quot;w-4 h-4 text-muted-foreground&quot; />
+                  <span className=&quot;text-sm&quot;>
                     {event.assignedStaff}/{event.totalSlots} Staff
                   </span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    {event.status === "active"
-                      ? "In Progress"
-                      : event.status === "scheduled"
-                        ? "Upcoming"
-                        : event.status === "completed"
-                          ? "Finished"
-                          : "Cancelled"}
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <Clock className=&quot;w-4 h-4 text-muted-foreground&quot; />
+                  <span className=&quot;text-sm&quot;>
+                    {event.status === &quot;active&quot;
+                      ? &quot;In Progress&quot;
+                      : event.status === &quot;scheduled&quot;
+                        ? &quot;Upcoming&quot;
+                        : event.status === &quot;completed&quot;
+                          ? &quot;Finished&quot;
+                          : &quot;Cancelled&quot;}
                   </span>
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 mt-4">
-                <Button variant="outline" size="sm">
+              <div className=&quot;flex justify-end space-x-2 mt-4&quot;>
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
                   View Details
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
                   Manage Staff
                 </Button>
-                {event.status === "scheduled" && (
-                  <Button variant="outline" size="sm">
+                {event.status === &quot;scheduled&quot; && (
+                  <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
                     Edit Event
                   </Button>
                 )}
@@ -224,8 +224,8 @@ export default function EventsManagement() {
       </div>
 
       {filteredEvents.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">
+        <div className=&quot;text-center py-12&quot;>
+          <p className=&quot;text-muted-foreground">
             No events found matching your criteria.
           </p>
         </div>

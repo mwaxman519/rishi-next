@@ -1,9 +1,9 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect, useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Loader2, Search } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import React, { useEffect, useRef, useState } from &quot;react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Loader2, Search } from &quot;lucide-react&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
 
 // Augment Window interface to add Google Maps properties
 declare global {
@@ -29,7 +29,7 @@ interface FixedAddressPickerProps {
 
 export default function FixedAddressPicker({
   onAddressSelect,
-  className = "",
+  className = "&quot;,
 }: FixedAddressPickerProps): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
   const [googleInitialized, setGoogleInitialized] = useState(false);
@@ -51,13 +51,13 @@ export default function FixedAddressPicker({
   const initializeMap = (location: { lat: number; lng: number }) => {
     if (!mapRef.current || !window.google?.maps) {
       console.error(
-        "FixedAddressPicker: Map container or Google Maps not available",
+        &quot;FixedAddressPicker: Map container or Google Maps not available&quot;,
       );
       return;
     }
 
     console.log(
-      "FixedAddressPicker: Initializing map with location:",
+      &quot;FixedAddressPicker: Initializing map with location:&quot;,
       location,
     );
 
@@ -74,34 +74,34 @@ export default function FixedAddressPicker({
 
       // Create or reuse map
       if (!mapInstanceRef.current) {
-        console.log("FixedAddressPicker: Creating new map instance");
+        console.log(&quot;FixedAddressPicker: Creating new map instance&quot;);
         mapInstanceRef.current = new window.google.maps.Map(
           mapRef.current,
           mapOptions,
         );
       } else {
-        console.log("FixedAddressPicker: Reusing existing map instance");
+        console.log(&quot;FixedAddressPicker: Reusing existing map instance&quot;);
         mapInstanceRef.current.setCenter(location);
       }
 
       // Create or reuse marker
       if (!markerRef.current) {
-        console.log("FixedAddressPicker: Creating new marker");
+        console.log(&quot;FixedAddressPicker: Creating new marker&quot;);
         markerRef.current = new window.google.maps.Marker({
           position: location,
           map: mapInstanceRef.current,
           animation: window.google.maps.Animation.DROP,
         });
       } else {
-        console.log("FixedAddressPicker: Updating existing marker");
+        console.log(&quot;FixedAddressPicker: Updating existing marker&quot;);
         markerRef.current.setPosition(location);
       }
     } catch (error) {
-      console.error("FixedAddressPicker: Error initializing map:", error);
+      console.error(&quot;FixedAddressPicker: Error initializing map:&quot;, error);
       toast({
-        title: "Map Error",
-        description: "Could not display the map",
-        variant: "destructive",
+        title: &quot;Map Error&quot;,
+        description: &quot;Could not display the map&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -111,17 +111,17 @@ export default function FixedAddressPicker({
     // Define the initialization function
     function initializeServices() {
       try {
-        console.log("FixedAddressPicker: Initializing Google services...");
+        console.log(&quot;FixedAddressPicker: Initializing Google services...&quot;);
 
         if (autocompleteContainerRef.current && window.google?.maps?.places) {
           // Check if PlaceAutocompleteElement is available
           if (window.google.maps.places.PlaceAutocompleteElement) {
             // Create configuration for the element - using only supported properties
             const config = {
-              // The PlaceAutocompleteElement doesn't accept fields directly
+              // The PlaceAutocompleteElement doesn&apos;t accept fields directly
               // We'll need to extract the fields from the place after selection
-              types: ["address", "establishment", "geocode"],
-              componentRestrictions: { country: "us" },
+              types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
+              componentRestrictions: { country: &quot;us&quot; },
             };
 
             // Create the element
@@ -133,14 +133,14 @@ export default function FixedAddressPicker({
             autocompleteContainerRef.current.appendChild(autocompleteElement);
 
             // Add styling to match the app
-            autocompleteElement.style.width = "100%";
+            autocompleteElement.style.width = &quot;100%&quot;;
 
             // After creating the element, find its input and add styles
             setTimeout(() => {
               const shadowRoot = autocompleteElement.shadowRoot;
               if (shadowRoot) {
                 // Try to apply styles to the shadow DOM
-                const style = document.createElement("style");
+                const style = document.createElement(&quot;style&quot;);
                 style.textContent = `
                   :host {
                     --gmpx-color-primary: var(--primary);
@@ -168,10 +168,10 @@ export default function FixedAddressPicker({
             }, 100);
 
             // Add the search icon
-            const iconContainer = document.createElement("div");
+            const iconContainer = document.createElement(&quot;div&quot;);
             iconContainer.className =
-              "absolute left-2.5 top-2.5 z-10 pointer-events-none";
-            iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search text-muted-foreground"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>`;
+              &quot;absolute left-2.5 top-2.5 z-10 pointer-events-none&quot;;
+            iconContainer.innerHTML = `<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-search text-muted-foreground&quot;><circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;></circle><path d=&quot;m21 21-4.3-4.3&quot;></path></svg>`;
             autocompleteContainerRef.current.insertBefore(
               iconContainer,
               autocompleteElement,
@@ -179,35 +179,35 @@ export default function FixedAddressPicker({
 
             // Handle place selection events
             autocompleteElement.addEventListener(
-              "gmp-placeselect",
+              &quot;gmp-placeselect&quot;,
               (event: any) => {
-                console.log("Place select event:", event);
+                console.log(&quot;Place select event:&quot;, event);
 
                 // Get the place details with the complete data we need
-                // Since PlaceAutocompleteElement doesn't support the fields parameter,
+                // Since PlaceAutocompleteElement doesn&apos;t support the fields parameter,
                 // we need to fetch the place details separately
                 const placeId = event.place.id;
 
                 if (placeId) {
-                  console.log("Got place ID:", placeId);
+                  console.log(&quot;Got place ID:&quot;, placeId);
                   fetchPlaceDetails(placeId);
                 } else {
-                  console.error("No place ID found in selection");
+                  console.error(&quot;No place ID found in selection&quot;);
                   toast({
-                    title: "Error",
-                    description: "Could not identify the selected location",
-                    variant: "destructive",
+                    title: &quot;Error&quot;,
+                    description: &quot;Could not identify the selected location&quot;,
+                    variant: &quot;destructive&quot;,
                   });
                 }
               },
             );
 
             console.log(
-              "FixedAddressPicker: PlaceAutocompleteElement initialized",
+              &quot;FixedAddressPicker: PlaceAutocompleteElement initialized&quot;,
             );
           } else {
             console.error(
-              "FixedAddressPicker: PlaceAutocompleteElement not available",
+              &quot;FixedAddressPicker: PlaceAutocompleteElement not available&quot;,
             );
             fallbackToRegularAutocomplete();
           }
@@ -215,36 +215,36 @@ export default function FixedAddressPicker({
 
         setGoogleInitialized(true);
         console.log(
-          "FixedAddressPicker: Google services initialized successfully",
+          &quot;FixedAddressPicker: Google services initialized successfully&quot;,
         );
       } catch (error) {
         console.error(
-          "FixedAddressPicker: Error initializing Google services:",
+          &quot;FixedAddressPicker: Error initializing Google services:&quot;,
           error,
         );
         fallbackToRegularAutocomplete();
       }
     }
 
-    // Fallback to regular Autocomplete if the modern element isn't available
+    // Fallback to regular Autocomplete if the modern element isn&apos;t available
     function fallbackToRegularAutocomplete() {
       try {
         if (autocompleteContainerRef.current) {
           // Create a standard input element
-          const input = document.createElement("input");
-          input.type = "text";
-          input.placeholder = "Search for a location";
+          const input = document.createElement(&quot;input&quot;);
+          input.type = &quot;text&quot;;
+          input.placeholder = &quot;Search for a location&quot;;
           input.className =
-            "w-full h-10 px-3 py-2 pl-9 border rounded-md border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+            &quot;w-full h-10 px-3 py-2 pl-9 border rounded-md border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50&quot;;
 
           // Add the input to DOM
           autocompleteContainerRef.current.appendChild(input);
 
           // Add the search icon
-          const iconContainer = document.createElement("div");
+          const iconContainer = document.createElement(&quot;div&quot;);
           iconContainer.className =
-            "absolute left-2.5 top-2.5 z-10 pointer-events-none";
-          iconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search text-muted-foreground"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>`;
+            &quot;absolute left-2.5 top-2.5 z-10 pointer-events-none&quot;;
+          iconContainer.innerHTML = `<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; class=&quot;lucide lucide-search text-muted-foreground&quot;><circle cx=&quot;11&quot; cy=&quot;11&quot; r=&quot;8&quot;></circle><path d=&quot;m21 21-4.3-4.3&quot;></path></svg>`;
           autocompleteContainerRef.current.insertBefore(iconContainer, input);
 
           // Initialize standard autocomplete
@@ -252,36 +252,36 @@ export default function FixedAddressPicker({
             const autocomplete = new window.google.maps.places.Autocomplete(
               input,
               {
-                types: ["address", "establishment", "geocode"],
-                componentRestrictions: { country: "us" },
+                types: [&quot;address&quot;, &quot;establishment&quot;, &quot;geocode&quot;],
+                componentRestrictions: { country: &quot;us&quot; },
                 fields: [
-                  "place_id",
-                  "geometry",
-                  "name",
-                  "formatted_address",
-                  "address_components",
+                  &quot;place_id&quot;,
+                  &quot;geometry&quot;,
+                  &quot;name&quot;,
+                  &quot;formatted_address&quot;,
+                  &quot;address_components&quot;,
                 ],
               },
             );
 
             // Listen for place selection
-            autocomplete.addListener("place_changed", () => {
+            autocomplete.addListener(&quot;place_changed&quot;, () => {
               const place = autocomplete.getPlace();
               handlePlaceSelection(place);
             });
 
-            console.log("FixedAddressPicker: Regular Autocomplete initialized");
+            console.log(&quot;FixedAddressPicker: Regular Autocomplete initialized&quot;);
           }
         }
       } catch (error) {
         console.error(
-          "FixedAddressPicker: Error initializing fallback autocomplete:",
+          &quot;FixedAddressPicker: Error initializing fallback autocomplete:&quot;,
           error,
         );
         toast({
-          title: "Error",
-          description: "Could not initialize location search",
-          variant: "destructive",
+          title: &quot;Error&quot;,
+          description: &quot;Could not initialize location search&quot;,
+          variant: &quot;destructive&quot;,
         });
       }
     }
@@ -291,7 +291,7 @@ export default function FixedAddressPicker({
       setIsLoading(true);
 
       // Create a PlacesService with a temporary div
-      const tempDiv = document.createElement("div");
+      const tempDiv = document.createElement(&quot;div&quot;);
       const placesService = new window.google.maps.places.PlacesService(
         tempDiv,
       );
@@ -301,10 +301,10 @@ export default function FixedAddressPicker({
         {
           placeId: placeId,
           fields: [
-            "name",
-            "formatted_address",
-            "geometry",
-            "address_components",
+            &quot;name&quot;,
+            &quot;formatted_address&quot;,
+            &quot;geometry&quot;,
+            &quot;address_components&quot;,
           ],
         },
         (placeResult: any, status: any) => {
@@ -316,11 +316,11 @@ export default function FixedAddressPicker({
           ) {
             handlePlaceSelection(placeResult);
           } else {
-            console.error("Error fetching place details:", status);
+            console.error(&quot;Error fetching place details:&quot;, status);
             toast({
-              title: "Error",
-              description: "Could not get location details",
-              variant: "destructive",
+              title: &quot;Error&quot;,
+              description: &quot;Could not get location details&quot;,
+              variant: &quot;destructive&quot;,
             });
           }
         },
@@ -329,14 +329,14 @@ export default function FixedAddressPicker({
 
     // Set up callback for script loading
     window.initGoogleMaps = () => {
-      console.log("[FixedAddressPicker] Google Maps initialized via callback");
+      console.log(&quot;[FixedAddressPicker] Google Maps initialized via callback&quot;);
       initializeServices();
     };
 
     // First check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.places) {
       console.log(
-        "[FixedAddressPicker] Google Maps already loaded, initializing services",
+        &quot;[FixedAddressPicker] Google Maps already loaded, initializing services&quot;,
       );
       initializeServices();
       return;
@@ -344,33 +344,33 @@ export default function FixedAddressPicker({
 
     // Check if script is already in document but not fully loaded
     const existingScript = document.querySelector(
-      'script[src*="maps.googleapis.com/maps/api"]',
+      'script[src*=&quot;maps.googleapis.com/maps/api&quot;]',
     );
     if (existingScript) {
       console.log(
-        "[FixedAddressPicker] Google Maps script already exists, waiting for load",
+        &quot;[FixedAddressPicker] Google Maps script already exists, waiting for load&quot;,
       );
       return; // The callback will handle initialization
     }
 
     // Load the script
-    console.log("[FixedAddressPicker] Loading Google Maps script...");
+    console.log(&quot;[FixedAddressPicker] Loading Google Maps script...&quot;);
     const apiKey =
       process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
-      "AIzaSyB3BcM_Y6ASCfnr5Nm9V7-ZGf2oSCjgDww";
+      &quot;AIzaSyB3BcM_Y6ASCfnr5Nm9V7-ZGf2oSCjgDww&quot;;
     console.log(
-      "[FixedAddressPicker] Using Google Maps API Key:",
-      apiKey ? "Key found" : "Key missing",
+      &quot;[FixedAddressPicker] Using Google Maps API Key:&quot;,
+      apiKey ? &quot;Key found&quot; : &quot;Key missing&quot;,
     );
-    const script = document.createElement("script");
+    const script = document.createElement(&quot;script&quot;);
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&callback=initGoogleMaps&loading=async&v=beta`;
     script.async = true;
     script.onerror = () => {
-      console.error("[FixedAddressPicker] Failed to load Google Maps script");
+      console.error(&quot;[FixedAddressPicker] Failed to load Google Maps script&quot;);
       toast({
-        title: "Error",
-        description: "Failed to load Google Maps service",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to load Google Maps service&quot;,
+        variant: &quot;destructive&quot;,
       });
     };
     document.head.appendChild(script);
@@ -391,11 +391,11 @@ export default function FixedAddressPicker({
   // Handle place selection from the autocomplete element
   const handlePlaceSelection = (place: any) => {
     if (!place || !place.geometry) {
-      console.error("FixedAddressPicker: No place details returned");
+      console.error(&quot;FixedAddressPicker: No place details returned&quot;);
       toast({
-        title: "Error",
-        description: "Could not get location details",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Could not get location details&quot;,
+        variant: &quot;destructive&quot;,
       });
       return;
     }
@@ -403,19 +403,19 @@ export default function FixedAddressPicker({
     setIsLoading(true);
 
     try {
-      console.log("FixedAddressPicker: Place selected:", place);
+      console.log(&quot;FixedAddressPicker: Place selected:&quot;, place);
 
       // Extract the location coordinates
       const location = place.geometry.location;
 
       // Get the latitude and longitude (these might be methods or properties)
       const latitude =
-        typeof location.lat === "function" ? location.lat() : location.lat;
+        typeof location.lat === &quot;function&quot; ? location.lat() : location.lat;
       const longitude =
-        typeof location.lng === "function" ? location.lng() : location.lng;
+        typeof location.lng === &quot;function&quot; ? location.lng() : location.lng;
 
       console.log(
-        "FixedAddressPicker: Location coordinates:",
+        &quot;FixedAddressPicker: Location coordinates:&quot;,
         latitude,
         longitude,
       );
@@ -431,12 +431,12 @@ export default function FixedAddressPicker({
 
       // Prepare the address data
       const addressData: AddressData = {
-        formatted_address: place.formatted_address || "",
+        formatted_address: place.formatted_address || &quot;&quot;,
         address_components: place.address_components || [],
         latitude,
         longitude,
-        place_id: place.place_id || "",
-        name: place.name || "",
+        place_id: place.place_id || &quot;&quot;,
+        name: place.name || &quot;&quot;,
       };
 
       // Pass the data to the parent component
@@ -444,27 +444,27 @@ export default function FixedAddressPicker({
 
       setIsLoading(false);
     } catch (error) {
-      console.error("FixedAddressPicker: Error processing place data:", error);
+      console.error(&quot;FixedAddressPicker: Error processing place data:&quot;, error);
       setIsLoading(false);
 
       toast({
-        title: "Error",
-        description: "Failed to process location data",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to process location data&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
 
   return (
     <div className={`${className} relative`}>
-      <div ref={autocompleteContainerRef} className="relative">
+      <div ref={autocompleteContainerRef} className=&quot;relative&quot;>
         {!googleInitialized && (
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <div className=&quot;relative&quot;>
+            <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
             <Input
-              type="text"
-              placeholder="Loading location search..."
-              className="pl-9"
+              type=&quot;text&quot;
+              placeholder=&quot;Loading location search...&quot;
+              className=&quot;pl-9&quot;
               disabled={true}
             />
           </div>
@@ -472,18 +472,18 @@ export default function FixedAddressPicker({
       </div>
 
       {isLoading && (
-        <div className="absolute right-2.5 top-2.5 z-10">
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+        <div className=&quot;absolute right-2.5 top-2.5 z-10&quot;>
+          <Loader2 className=&quot;h-4 w-4 animate-spin text-muted-foreground&quot; />
         </div>
       )}
 
       {/* Map container */}
       {showMap && selectedLocation && (
-        <div className="mt-4">
+        <div className=&quot;mt-4&quot;>
           <div
             ref={mapRef}
-            className="w-full h-[250px] rounded-md border"
-            aria-label="Map showing selected location"
+            className=&quot;w-full h-[250px] rounded-md border&quot;
+            aria-label=&quot;Map showing selected location"
           />
         </div>
       )}

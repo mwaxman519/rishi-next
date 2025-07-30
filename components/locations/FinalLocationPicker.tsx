@@ -1,9 +1,9 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useRef, useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Search, Loader2, MapPin } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import React, { useRef, useState, useEffect } from &quot;react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Search, Loader2, MapPin } from &quot;lucide-react&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
 
 // Make sure Google Maps is only loaded once
 let googleMapsLoaded = false;
@@ -31,9 +31,9 @@ export default function FinalLocationPicker({
   onLocationSelected,
   filterApprovedOnly,
   excludeLocationIds,
-  className = "",
+  className = "&quot;,
 }: Props): React.ReactNode {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(&quot;&quot;);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number;
@@ -51,8 +51,8 @@ export default function FinalLocationPicker({
   // Add styles and fix dropdown positioning
   useEffect(() => {
     // Add custom styles for the Google Maps autocomplete dropdown
-    const style = document.createElement("style");
-    style.type = "text/css";
+    const style = document.createElement(&quot;style&quot;);
+    style.type = &quot;text/css&quot;;
     style.innerHTML = `
       /* Style the autocomplete dropdown to match our UI */
       .pac-container {
@@ -165,7 +165,7 @@ export default function FinalLocationPicker({
 
     // Fix dropdown width with MutationObserver
     const observer = new MutationObserver((mutations) => {
-      const pacContainers = document.querySelectorAll(".pac-container");
+      const pacContainers = document.querySelectorAll(&quot;.pac-container&quot;);
       if (pacContainers.length > 0 && inputRef.current) {
         pacContainers.forEach((container) => {
           // Only proceed if inputRef.current is not null
@@ -194,32 +194,32 @@ export default function FinalLocationPicker({
 
             // Apply all styles at once to prevent any possible race conditions
             (container as HTMLElement).setAttribute(
-              "style",
-              `${(container as HTMLElement).getAttribute("style") || ""}; ${containerStyle}`,
+              &quot;style&quot;,
+              `${(container as HTMLElement).getAttribute(&quot;style&quot;) || &quot;&quot;}; ${containerStyle}`,
             );
 
             // Apply styles to child elements too
-            const items = container.querySelectorAll(".pac-item");
+            const items = container.querySelectorAll(&quot;.pac-item&quot;);
             items.forEach((item) => {
               const itemEl = item as HTMLElement;
-              itemEl.style.backgroundColor = "rgb(var(--popover))";
-              itemEl.style.color = "rgb(var(--foreground))";
+              itemEl.style.backgroundColor = &quot;rgb(var(--popover))&quot;;
+              itemEl.style.color = &quot;rgb(var(--foreground))&quot;;
 
               // Add event listeners to ensure hover states have solid backgrounds
-              itemEl.addEventListener("mouseenter", () => {
-                itemEl.style.backgroundColor = "rgb(var(--muted))";
-                itemEl.style.opacity = "1";
-                itemEl.style.borderColor = "rgb(var(--border))";
-                itemEl.style.margin = "0";
-                itemEl.style.padding = "0.5rem 1rem";
+              itemEl.addEventListener(&quot;mouseenter&quot;, () => {
+                itemEl.style.backgroundColor = &quot;rgb(var(--muted))&quot;;
+                itemEl.style.opacity = &quot;1&quot;;
+                itemEl.style.borderColor = &quot;rgb(var(--border))&quot;;
+                itemEl.style.margin = &quot;0&quot;;
+                itemEl.style.padding = &quot;0.5rem 1rem&quot;;
               });
 
-              itemEl.addEventListener("mouseleave", () => {
-                itemEl.style.backgroundColor = "rgb(var(--popover))";
-                itemEl.style.opacity = "1";
-                itemEl.style.borderColor = "rgb(var(--border))";
-                itemEl.style.margin = "0";
-                itemEl.style.padding = "0.5rem 1rem";
+              itemEl.addEventListener(&quot;mouseleave&quot;, () => {
+                itemEl.style.backgroundColor = &quot;rgb(var(--popover))&quot;;
+                itemEl.style.opacity = &quot;1&quot;;
+                itemEl.style.borderColor = &quot;rgb(var(--border))&quot;;
+                itemEl.style.margin = &quot;0&quot;;
+                itemEl.style.padding = &quot;0.5rem 1rem&quot;;
               });
             });
           }
@@ -246,9 +246,9 @@ export default function FinalLocationPicker({
     if (!selectedLocation || !mapContainerRef.current || !window.google?.maps)
       return;
 
-    // Create the map if it doesn't exist
+    // Create the map if it doesn&apos;t exist
     if (!mapInstanceRef.current) {
-      console.log("Creating new map with location:", selectedLocation);
+      console.log(&quot;Creating new map with location:&quot;, selectedLocation);
 
       mapInstanceRef.current = new window.google.maps.Map(
         mapContainerRef.current,
@@ -270,7 +270,7 @@ export default function FinalLocationPicker({
       });
     } else {
       // Update existing map and marker
-      console.log("Updating map with new location:", selectedLocation);
+      console.log(&quot;Updating map with new location:&quot;, selectedLocation);
       mapInstanceRef.current.setCenter(selectedLocation);
 
       if (markerRef.current) {
@@ -292,11 +292,11 @@ export default function FinalLocationPicker({
       googleMapsLoaded = true;
 
       window.initMap = function () {
-        console.log("Google Maps API loaded via callback");
+        console.log(&quot;Google Maps API loaded via callback&quot;);
         setupAutocomplete();
       };
 
-      const script = document.createElement("script");
+      const script = document.createElement(&quot;script&quot;);
       script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PPMg1ZVIB8ih7JIsTVahbPzlAhwJ70Q&libraries=places&callback=initMap&loading=async&v=weekly`;
       script.async = true;
       script.defer = true;
@@ -316,11 +316,11 @@ export default function FinalLocationPicker({
         );
 
         // Add place_changed listener
-        autocompleteRef.current.addListener("place_changed", () => {
+        autocompleteRef.current.addListener(&quot;place_changed&quot;, () => {
           const place = autocompleteRef.current.getPlace();
 
           if (!place.geometry) {
-            console.log("Place selected but no geometry data");
+            console.log(&quot;Place selected but no geometry data&quot;);
             return;
           }
 
@@ -335,8 +335,8 @@ export default function FinalLocationPicker({
           // Determine if this is an establishment or business
           const isBusinessOrPlace =
             place.types &&
-            (place.types.includes("establishment") ||
-              place.types.includes("point_of_interest"));
+            (place.types.includes(&quot;establishment&quot;) ||
+              place.types.includes(&quot;point_of_interest&quot;));
 
           // Create address object
           const addressData: AddressData = {
@@ -344,19 +344,19 @@ export default function FinalLocationPicker({
             address_components: place.address_components || [],
             latitude: lat,
             longitude: lng,
-            place_id: place.place_id || "",
+            place_id: place.place_id || &quot;&quot;,
             name: isBusinessOrPlace ? place.name : place.name || address,
             types: place.types || [],
           };
 
-          console.log("Selected address data:", addressData);
+          console.log(&quot;Selected address data:&quot;, addressData);
 
           // Update input value with the place name for businesses or formatted address
           if (
             place.name &&
             place.types &&
-            (place.types.includes("establishment") ||
-              place.types.includes("point_of_interest"))
+            (place.types.includes(&quot;establishment&quot;) ||
+              place.types.includes(&quot;point_of_interest&quot;))
           ) {
             // For businesses/establishments, show the name followed by the address
             setAddress(`${place.name} - ${place.formatted_address}`);
@@ -370,14 +370,14 @@ export default function FinalLocationPicker({
         });
 
         setIsLoading(false);
-        console.log("Autocomplete initialized");
+        console.log(&quot;Autocomplete initialized&quot;);
       } catch (error) {
-        console.error("Error setting up autocomplete:", error);
+        console.error(&quot;Error setting up autocomplete:&quot;, error);
         setIsLoading(false);
         toast({
-          title: "Error",
-          description: "Failed to initialize location search",
-          variant: "destructive",
+          title: &quot;Error&quot;,
+          description: &quot;Failed to initialize location search&quot;,
+          variant: &quot;destructive&quot;,
         });
       }
     };
@@ -386,7 +386,7 @@ export default function FinalLocationPicker({
     setIsLoading(true);
 
     if (window.google?.maps?.places) {
-      console.log("Google Maps already loaded, setting up autocomplete");
+      console.log(&quot;Google Maps already loaded, setting up autocomplete&quot;);
       setupAutocomplete();
     } else {
       loadGoogleMaps();
@@ -410,26 +410,26 @@ export default function FinalLocationPicker({
   return (
     <div className={className}>
       {/* Search input */}
-      <div id="autocomplete-container" className="relative mb-4 max-w-md">
-        <div className="relative rounded-md shadow-sm">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+      <div id=&quot;autocomplete-container&quot; className=&quot;relative mb-4 max-w-md&quot;>
+        <div className=&quot;relative rounded-md shadow-sm&quot;>
+          <div className=&quot;pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3&quot;>
             <Search
-              className="h-4 w-4 text-muted-foreground"
-              aria-hidden="true"
+              className=&quot;h-4 w-4 text-muted-foreground&quot;
+              aria-hidden=&quot;true&quot;
             />
           </div>
           <Input
             ref={inputRef}
-            type="text"
+            type=&quot;text&quot;
             value={address}
             onChange={handleInputChange}
-            placeholder="Search for addresses, businesses, or places..."
-            className="pl-10 h-12 focus-visible:ring-2 focus-visible:ring-primary rounded-lg shadow-md"
+            placeholder=&quot;Search for addresses, businesses, or places...&quot;
+            className=&quot;pl-10 h-12 focus-visible:ring-2 focus-visible:ring-primary rounded-lg shadow-md&quot;
             disabled={isLoading}
           />
           {isLoading && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <div className=&quot;absolute inset-y-0 right-0 flex items-center pr-3&quot;>
+              <Loader2 className=&quot;h-4 w-4 animate-spin text-primary&quot; />
             </div>
           )}
         </div>
@@ -438,13 +438,13 @@ export default function FinalLocationPicker({
       {/* Map container */}
       <div
         ref={mapContainerRef}
-        className={`w-full h-[350px] rounded-md border border-input relative ${!selectedLocation ? "bg-muted/40 flex items-center justify-center" : ""}`}
+        className={`w-full h-[350px] rounded-md border border-input relative ${!selectedLocation ? &quot;bg-muted/40 flex items-center justify-center&quot; : &quot;&quot;}`}
       >
         {!selectedLocation && (
-          <div className="text-center text-muted-foreground flex flex-col items-center">
-            <MapPin className="h-12 w-12 mb-3 text-muted-foreground/60" />
-            <p className="text-lg">Search for a location to see the map</p>
-            <p className="text-sm text-muted-foreground/80 mt-1 max-w-xs">
+          <div className=&quot;text-center text-muted-foreground flex flex-col items-center&quot;>
+            <MapPin className=&quot;h-12 w-12 mb-3 text-muted-foreground/60&quot; />
+            <p className=&quot;text-lg&quot;>Search for a location to see the map</p>
+            <p className=&quot;text-sm text-muted-foreground/80 mt-1 max-w-xs">
               Try searching for businesses, landmarks, or addresses
             </p>
           </div>

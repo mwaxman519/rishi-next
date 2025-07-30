@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { format } from "date-fns";
+import { useState } from &quot;react&quot;;
+import { format } from &quot;date-fns&quot;;
 import {
   Calendar,
   Clock,
@@ -8,8 +8,8 @@ import {
   MoreHorizontal,
   Plus,
   Trash,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
@@ -17,9 +17,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +27,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from &quot;@/components/ui/dropdown-menu&quot;;
 import {
   AlertDialog,
   AlertDialogAction,
@@ -38,8 +38,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Activity, ActivityType } from "@shared/schema";
+} from &quot;@/components/ui/alert-dialog&quot;;
+import { Activity, ActivityType } from &quot;@shared/schema&quot;;
 
 interface ActivityListProps {
   activities: Activity[];
@@ -77,7 +77,7 @@ export function ActivityList({
   const groupedActivities: Record<string, Activity[]> = {};
 
   activities.forEach((activity) => {
-    const date = format(new Date(activity.startDateTime), "yyyy-MM-dd");
+    const date = format(new Date(activity.startDateTime), &quot;yyyy-MM-dd&quot;);
     if (!groupedActivities[date]) {
       groupedActivities[date] = [];
     }
@@ -95,40 +95,40 @@ export function ActivityList({
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Activities</h3>
-        <Button onClick={onAddActivity} size="sm">
-          <Plus className="mr-2 h-4 w-4" /> Add Activity
+    <div className=&quot;space-y-6&quot;>
+      <div className=&quot;flex justify-between items-center&quot;>
+        <h3 className=&quot;text-lg font-semibold&quot;>Activities</h3>
+        <Button onClick={onAddActivity} size=&quot;sm&quot;>
+          <Plus className=&quot;mr-2 h-4 w-4&quot; /> Add Activity
         </Button>
       </div>
 
       {activities.length === 0 ? (
-        <Card className="border-dashed">
-          <CardContent className="pt-6 text-center">
-            <div className="flex flex-col items-center space-y-2">
-              <Calendar className="h-10 w-10 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">No activities yet</p>
-              <Button variant="outline" onClick={onAddActivity}>
-                <Plus className="mr-2 h-4 w-4" /> Add first activity
+        <Card className=&quot;border-dashed&quot;>
+          <CardContent className=&quot;pt-6 text-center&quot;>
+            <div className=&quot;flex flex-col items-center space-y-2&quot;>
+              <Calendar className=&quot;h-10 w-10 text-muted-foreground&quot; />
+              <p className=&quot;text-sm text-muted-foreground&quot;>No activities yet</p>
+              <Button variant=&quot;outline&quot; onClick={onAddActivity}>
+                <Plus className=&quot;mr-2 h-4 w-4&quot; /> Add first activity
               </Button>
             </div>
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-6">
+        <div className=&quot;space-y-6&quot;>
           {Object.entries(groupedActivities).map(([date, dateActivities]) => (
-            <div key={date} className="space-y-2">
-              <h4 className="text-sm font-medium text-muted-foreground">
-                {format(new Date(date), "EEEE, MMMM d, yyyy")}
+            <div key={date} className=&quot;space-y-2&quot;>
+              <h4 className=&quot;text-sm font-medium text-muted-foreground&quot;>
+                {format(new Date(date), &quot;EEEE, MMMM d, yyyy&quot;)}
               </h4>
-              <div className="space-y-2">
+              <div className=&quot;space-y-2&quot;>
                 {dateActivities.map((activity) => (
                   <ActivityCard
                     key={activity.id}
                     activity={activity}
                     activityType={
-                      activityTypes[activity.typeId]?.name || "Activity"
+                      activityTypes[activity.typeId]?.name || &quot;Activity&quot;
                     }
                     onEdit={() => onEditActivity(activity)}
                     onDelete={() => handleDeleteClick(activity.id)}
@@ -159,7 +159,7 @@ export function ActivityList({
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmDelete}
-              className="bg-destructive text-destructive-foreground"
+              className=&quot;bg-destructive text-destructive-foreground&quot;
             >
               Delete
             </AlertDialogAction>
@@ -184,51 +184,51 @@ function ActivityCard({
   onDelete,
 }: ActivityCardProps) {
   // Format times for display
-  const startTime = format(new Date(activity.startDateTime), "h:mm a");
-  const endTime = format(new Date(activity.endDateTime), "h:mm a");
+  const startTime = format(new Date(activity.startDateTime), &quot;h:mm a&quot;);
+  const endTime = format(new Date(activity.endDateTime), &quot;h:mm a&quot;);
 
   return (
-    <Card className="relative group">
-      <CardHeader className="pb-2 flex flex-row justify-between items-start space-y-0">
+    <Card className=&quot;relative group&quot;>
+      <CardHeader className=&quot;pb-2 flex flex-row justify-between items-start space-y-0&quot;>
         <div>
-          <CardTitle className="text-base">{activity.title}</CardTitle>
+          <CardTitle className=&quot;text-base&quot;>{activity.title}</CardTitle>
           <CardDescription>{activityType}</CardDescription>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Open menu</span>
+            <Button variant=&quot;ghost&quot; className=&quot;h-8 w-8 p-0&quot;>
+              <MoreHorizontal className=&quot;h-4 w-4&quot; />
+              <span className=&quot;sr-only&quot;>Open menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align=&quot;end&quot;>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={onEdit}>
-              <Edit className="mr-2 h-4 w-4" /> Edit activity
+              <Edit className=&quot;mr-2 h-4 w-4&quot; /> Edit activity
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={onDelete} className="text-destructive">
-              <Trash className="mr-2 h-4 w-4" /> Delete activity
+            <DropdownMenuItem onClick={onDelete} className=&quot;text-destructive&quot;>
+              <Trash className=&quot;mr-2 h-4 w-4&quot; /> Delete activity
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center text-muted-foreground">
-            <Clock className="mr-2 h-4 w-4" />
+        <div className=&quot;space-y-2 text-sm&quot;>
+          <div className=&quot;flex items-center text-muted-foreground&quot;>
+            <Clock className=&quot;mr-2 h-4 w-4&quot; />
             <span>
               {startTime} - {endTime}
             </span>
           </div>
           {activity.locationId && (
-            <div className="flex items-center text-muted-foreground">
-              <MapPin className="mr-2 h-4 w-4" />
+            <div className=&quot;flex items-center text-muted-foreground&quot;>
+              <MapPin className=&quot;mr-2 h-4 w-4&quot; />
               <span>Location details</span>
             </div>
           )}
           {activity.description && (
-            <p className="text-sm mt-2">{activity.description}</p>
+            <p className=&quot;text-sm mt-2&quot;>{activity.description}</p>
           )}
         </div>
       </CardContent>

@@ -157,7 +157,7 @@ export const db = createDatabaseConnection();
 // Export test connection function
 export async function testConnection() {
   try {
-    const result = await db.execute("SELECT 1 as test");
+    const result = await db.execute(&quot;SELECT 1 as test&quot;);
     return { success: true, result };
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };

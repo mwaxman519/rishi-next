@@ -2,15 +2,15 @@
  * Enhanced Location Repository with geocoding support
  * Extends the base repository with additional fields for geocoding data
  */
-import { LocationRepository as BaseLocationRepository } from "../locations_core/repository";
-import { db } from "../../../lib/db-connection";
-import { locations } from "../../../shared/schema";
-import { eq } from "drizzle-orm";
+import { LocationRepository as BaseLocationRepository } from &quot;../locations_core/repository&quot;;
+import { db } from &quot;../../../lib/db-connection&quot;;
+import { locations } from &quot;../../../shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 import {
   LocationDTO,
   CreateLocationParams,
   UpdateLocationParams,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class LocationRepository extends BaseLocationRepository {
   /**
@@ -26,10 +26,10 @@ export class LocationRepository extends BaseLocationRepository {
   ): Promise<LocationDTO> {
     try {
       // Update the location with geocoding information
-      // Note: Since we don't have a metadata JSON column, we store relevant data in notes field
-      const geocodingInfo = `Place ID: ${metadata.placeId || "N/A"}, 
-        Formatted Address: ${metadata.formattedAddress || "N/A"}, 
-        Accuracy: ${metadata.geocodingAccuracy || "N/A"},
+      // Note: Since we don&apos;t have a metadata JSON column, we store relevant data in notes field
+      const geocodingInfo = `Place ID: ${metadata.placeId || &quot;N/A&quot;}, 
+        Formatted Address: ${metadata.formattedAddress || &quot;N/A&quot;}, 
+        Accuracy: ${metadata.geocodingAccuracy || &quot;N/A&quot;},
         Last Geocoded: ${new Date().toISOString()}`;
 
       const [updatedLocation] = await db
@@ -87,7 +87,7 @@ export class LocationRepository extends BaseLocationRepository {
           };
         }
       } catch (error) {
-        console.warn("Error parsing geocoding data from notes:", error);
+        console.warn(&quot;Error parsing geocoding data from notes:&quot;, error);
       }
     }
 

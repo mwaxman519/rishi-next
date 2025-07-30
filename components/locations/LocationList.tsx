@@ -1,6 +1,6 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from &quot;react&quot;;
 import {
   MapPin,
   Building2,
@@ -19,19 +19,19 @@ import {
   CheckCircle2,
   XCircle,
   CircleSlash,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+} from &quot;lucide-react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import Link from &quot;next/link&quot;;
+import Image from &quot;next/image&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from &quot;@/components/ui/card&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +39,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from &quot;@/components/ui/dropdown-menu&quot;;
 import {
   Table,
   TableBody,
@@ -47,7 +47,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from &quot;@/components/ui/table&quot;;
 import {
   Pagination,
   PaginationContent,
@@ -55,12 +55,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LocationFilter, type LocationFilterValues } from "./LocationFilter";
-import { cn } from "@/lib/utils";
+} from &quot;@/components/ui/pagination&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { LocationFilter, type LocationFilterValues } from &quot;./LocationFilter&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
 
-import { Location as MapLocation } from "./LocationMap";
+import { Location as MapLocation } from &quot;./LocationMap&quot;;
 
 // Extended location type with additional fields beyond what the map needs
 export interface Location extends MapLocation {
@@ -98,7 +98,7 @@ export interface LocationListProps {
   baseUrl?: string;
   className?: string;
   emptyStateMessage?: string;
-  initialView?: "grid" | "table" | "map";
+  initialView?: &quot;grid&quot; | &quot;table&quot; | &quot;map&quot;;
 }
 
 export function LocationList({
@@ -117,24 +117,24 @@ export function LocationList({
   showStatus = true,
   showFilters = true,
   showActions = true,
-  baseUrl = "/locations",
+  baseUrl = &quot;/locations&quot;,
   className,
-  emptyStateMessage = "No locations found",
-  initialView = "grid",
+  emptyStateMessage = &quot;No locations found&quot;,
+  initialView = &quot;grid&quot;,
 }: LocationListProps) {
   const router = useRouter();
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
     null,
   );
-  const [viewMode, setViewMode] = useState<"grid" | "table" | "map">(
+  const [viewMode, setViewMode] = useState<&quot;grid&quot; | &quot;table&quot; | &quot;map&quot;>(
     initialView,
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(12);
-  const [sortField, setSortField] = useState<keyof Location>("name");
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [sortField, setSortField] = useState<keyof Location>(&quot;name&quot;);
+  const [sortDirection, setSortDirection] = useState<&quot;asc&quot; | &quot;desc&quot;>(&quot;asc&quot;);
   const [filters, setFilters] = useState<LocationFilterValues>({
-    search: "",
+    search: "&quot;,
     states: [],
     cities: [],
     zipCodes: [],
@@ -153,7 +153,7 @@ export function LocationList({
   const handleSort = useCallback(
     (field: keyof Location) => {
       setSortDirection((current) =>
-        sortField === field && current === "asc" ? "desc" : "asc",
+        sortField === field && current === &quot;asc&quot; ? &quot;desc&quot; : &quot;asc&quot;,
       );
       setSortField(field);
     },
@@ -234,19 +234,19 @@ export function LocationList({
       const aValue = a[sortField];
       const bValue = b[sortField];
 
-      if (aValue === undefined) return sortDirection === "asc" ? -1 : 1;
-      if (bValue === undefined) return sortDirection === "asc" ? 1 : -1;
+      if (aValue === undefined) return sortDirection === &quot;asc&quot; ? -1 : 1;
+      if (bValue === undefined) return sortDirection === &quot;asc&quot; ? 1 : -1;
 
       // Handle string comparison
-      if (typeof aValue === "string" && typeof bValue === "string") {
-        return sortDirection === "asc"
+      if (typeof aValue === &quot;string&quot; && typeof bValue === &quot;string&quot;) {
+        return sortDirection === &quot;asc&quot;
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       }
 
       // Handle number and boolean comparison
-      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+      if (aValue < bValue) return sortDirection === &quot;asc&quot; ? -1 : 1;
+      if (aValue > bValue) return sortDirection === &quot;asc&quot; ? 1 : -1;
       return 0;
     });
 
@@ -267,43 +267,43 @@ export function LocationList({
     if (!status) return null;
 
     let variant:
-      | "default"
-      | "secondary"
-      | "destructive"
-      | "outline"
+      | &quot;default&quot;
+      | &quot;secondary&quot;
+      | &quot;destructive&quot;
+      | &quot;outline&quot;
       | null
-      | undefined = "secondary";
+      | undefined = &quot;secondary&quot;;
     let icon = null;
 
     switch (status.toLowerCase()) {
-      case "active":
-        variant = "default";
-        icon = <CheckCircle2 className="h-3 w-3 mr-1" />;
+      case &quot;active&quot;:
+        variant = &quot;default&quot;;
+        icon = <CheckCircle2 className=&quot;h-3 w-3 mr-1&quot; />;
         break;
-      case "inactive":
-        variant = "secondary";
-        icon = <CircleSlash className="h-3 w-3 mr-1" />;
+      case &quot;inactive&quot;:
+        variant = &quot;secondary&quot;;
+        icon = <CircleSlash className=&quot;h-3 w-3 mr-1&quot; />;
         break;
-      case "pending":
-        variant = "outline";
-        icon = <Clock className="h-3 w-3 mr-1" />;
+      case &quot;pending&quot;:
+        variant = &quot;outline&quot;;
+        icon = <Clock className=&quot;h-3 w-3 mr-1&quot; />;
         break;
-      case "rejected":
-        variant = "destructive";
-        icon = <XCircle className="h-3 w-3 mr-1" />;
+      case &quot;rejected&quot;:
+        variant = &quot;destructive&quot;;
+        icon = <XCircle className=&quot;h-3 w-3 mr-1&quot; />;
         break;
       default:
         if (approved === true) {
-          variant = "default";
-          icon = <CheckCircle2 className="h-3 w-3 mr-1" />;
+          variant = &quot;default&quot;;
+          icon = <CheckCircle2 className=&quot;h-3 w-3 mr-1&quot; />;
         } else if (approved === false) {
-          variant = "outline";
-          icon = <Clock className="h-3 w-3 mr-1" />;
+          variant = &quot;outline&quot;;
+          icon = <Clock className=&quot;h-3 w-3 mr-1&quot; />;
         }
     }
 
     return (
-      <Badge variant={variant} className="ml-2 text-xs">
+      <Badge variant={variant} className=&quot;ml-2 text-xs&quot;>
         {icon}
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </Badge>
@@ -315,7 +315,7 @@ export function LocationList({
     if (!locationType) return null;
 
     return (
-      <Badge variant="outline" className="text-xs font-normal">
+      <Badge variant=&quot;outline&quot; className=&quot;text-xs font-normal&quot;>
         {locationType.charAt(0).toUpperCase() + locationType.slice(1)}
       </Badge>
     );
@@ -328,16 +328,16 @@ export function LocationList({
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
+          <Button variant=&quot;ghost&quot; className=&quot;h-8 w-8 p-0&quot;>
+            <span className=&quot;sr-only&quot;>Open menu</span>
+            <MoreHorizontal className=&quot;h-4 w-4&quot; />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align=&quot;end&quot;>
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}/${location.id}`} className="cursor-pointer">
-              <Eye className="mr-2 h-4 w-4" />
+            <Link href={`${baseUrl}/${location.id}`} className=&quot;cursor-pointer&quot;>
+              <Eye className=&quot;mr-2 h-4 w-4&quot; />
               View Details
             </Link>
           </DropdownMenuItem>
@@ -347,9 +347,9 @@ export function LocationList({
               <DropdownMenuItem asChild>
                 <Link
                   href={`${baseUrl}/${location.id}/edit`}
-                  className="cursor-pointer"
+                  className=&quot;cursor-pointer&quot;
                 >
-                  <PencilLine className="mr-2 h-4 w-4" />
+                  <PencilLine className=&quot;mr-2 h-4 w-4&quot; />
                   Edit
                 </Link>
               </DropdownMenuItem>
@@ -357,16 +357,16 @@ export function LocationList({
               {isAdmin && (
                 <>
                   <DropdownMenuSeparator />
-                  {location.status === "pending" && (
+                  {location.status === &quot;pending&quot; && (
                     <>
                       {onApproveLocation && location.id && (
                         <DropdownMenuItem
                           onClick={() =>
                             onApproveLocation(location.id as string)
                           }
-                          className="text-green-600 focus:text-green-600"
+                          className=&quot;text-green-600 focus:text-green-600&quot;
                         >
-                          <CheckCircle2 className="mr-2 h-4 w-4" />
+                          <CheckCircle2 className=&quot;mr-2 h-4 w-4&quot; />
                           Approve
                         </DropdownMenuItem>
                       )}
@@ -376,9 +376,9 @@ export function LocationList({
                           onClick={() =>
                             onRejectLocation(location.id as string)
                           }
-                          className="text-red-600 focus:text-red-600"
+                          className=&quot;text-red-600 focus:text-red-600&quot;
                         >
-                          <XCircle className="mr-2 h-4 w-4" />
+                          <XCircle className=&quot;mr-2 h-4 w-4&quot; />
                           Reject
                         </DropdownMenuItem>
                       )}
@@ -388,9 +388,9 @@ export function LocationList({
                   {onDeleteLocation && location.id && (
                     <DropdownMenuItem
                       onClick={() => onDeleteLocation(location.id as string)}
-                      className="text-red-600 focus:text-red-600"
+                      className=&quot;text-red-600 focus:text-red-600&quot;
                     >
-                      <Trash2 className="mr-2 h-4 w-4" />
+                      <Trash2 className=&quot;mr-2 h-4 w-4&quot; />
                       Delete
                     </DropdownMenuItem>
                   )}
@@ -406,12 +406,12 @@ export function LocationList({
   // Loading state
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="animate-spin">
-            <MapPin className="h-8 w-8 text-muted-foreground" />
+      <div className=&quot;flex items-center justify-center h-64&quot;>
+        <div className=&quot;flex flex-col items-center space-y-2&quot;>
+          <div className=&quot;animate-spin&quot;>
+            <MapPin className=&quot;h-8 w-8 text-muted-foreground&quot; />
           </div>
-          <p className="text-sm text-muted-foreground">Loading locations...</p>
+          <p className=&quot;text-sm text-muted-foreground&quot;>Loading locations...</p>
         </div>
       </div>
     );
@@ -420,14 +420,14 @@ export function LocationList({
   // Error state
   if (error) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="flex flex-col items-center space-y-2 max-w-md text-center">
-          <XCircle className="h-8 w-8 text-destructive" />
-          <h3 className="font-semibold">Error loading locations</h3>
-          <p className="text-sm text-muted-foreground">{error.message}</p>
+      <div className=&quot;flex items-center justify-center h-64&quot;>
+        <div className=&quot;flex flex-col items-center space-y-2 max-w-md text-center&quot;>
+          <XCircle className=&quot;h-8 w-8 text-destructive&quot; />
+          <h3 className=&quot;font-semibold&quot;>Error loading locations</h3>
+          <p className=&quot;text-sm text-muted-foreground&quot;>{error.message}</p>
           <Button
-            variant="outline"
-            size="sm"
+            variant=&quot;outline&quot;
+            size=&quot;sm&quot;
             onClick={() => window.location.reload()}
           >
             Try Again
@@ -440,7 +440,7 @@ export function LocationList({
   // Empty state
   if (locations.length === 0 || filteredLocations.length === 0) {
     return (
-      <div className={cn("space-y-4", className)}>
+      <div className={cn(&quot;space-y-4&quot;, className)}>
         {showFilters && (
           <LocationFilter
             onFilterChange={handleFilterChange}
@@ -451,16 +451,16 @@ export function LocationList({
           />
         )}
 
-        <div className="flex flex-col items-center justify-center h-64 border border-dashed rounded-lg p-8 text-center">
-          <MapPin className="h-10 w-10 text-muted-foreground mb-4" />
-          <h3 className="font-medium text-lg mb-2">No locations found</h3>
-          <p className="text-sm text-muted-foreground max-w-md mb-6">
+        <div className=&quot;flex flex-col items-center justify-center h-64 border border-dashed rounded-lg p-8 text-center&quot;>
+          <MapPin className=&quot;h-10 w-10 text-muted-foreground mb-4&quot; />
+          <h3 className=&quot;font-medium text-lg mb-2&quot;>No locations found</h3>
+          <p className=&quot;text-sm text-muted-foreground max-w-md mb-6&quot;>
             {emptyStateMessage}
           </p>
           {!viewOnly && (
             <Button asChild>
               <Link href={`${baseUrl}/add`}>
-                <MapPin className="mr-2 h-4 w-4" />
+                <MapPin className=&quot;mr-2 h-4 w-4&quot; />
                 Add New Location
               </Link>
             </Button>
@@ -471,7 +471,7 @@ export function LocationList({
   }
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn(&quot;space-y-4&quot;, className)}>
       {/* Filters */}
       {showFilters && (
         <LocationFilter
@@ -484,32 +484,32 @@ export function LocationList({
       )}
 
       {/* View toggle and total count */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Showing{" "}
-          <span className="font-medium">{filteredLocations.length}</span> of{" "}
-          <span className="font-medium">{locations.length}</span> locations
+      <div className=&quot;flex items-center justify-between&quot;>
+        <p className=&quot;text-sm text-muted-foreground&quot;>
+          Showing{&quot; &quot;}
+          <span className=&quot;font-medium&quot;>{filteredLocations.length}</span> of{&quot; &quot;}
+          <span className=&quot;font-medium&quot;>{locations.length}</span> locations
         </p>
 
-        <div className="flex items-center space-x-2">
+        <div className=&quot;flex items-center space-x-2&quot;>
           <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as any)}>
-            <TabsList className="grid w-[200px] grid-cols-3">
-              <TabsTrigger value="grid">
-                <div className="flex items-center">
-                  <Building2 className="h-3.5 w-3.5 mr-1" />
-                  <span className="hidden sm:inline">Grid</span>
+            <TabsList className=&quot;grid w-[200px] grid-cols-3&quot;>
+              <TabsTrigger value=&quot;grid&quot;>
+                <div className=&quot;flex items-center&quot;>
+                  <Building2 className=&quot;h-3.5 w-3.5 mr-1&quot; />
+                  <span className=&quot;hidden sm:inline&quot;>Grid</span>
                 </div>
               </TabsTrigger>
-              <TabsTrigger value="table">
-                <div className="flex items-center">
-                  <ArrowUpDown className="h-3.5 w-3.5 mr-1" />
-                  <span className="hidden sm:inline">Table</span>
+              <TabsTrigger value=&quot;table&quot;>
+                <div className=&quot;flex items-center&quot;>
+                  <ArrowUpDown className=&quot;h-3.5 w-3.5 mr-1&quot; />
+                  <span className=&quot;hidden sm:inline&quot;>Table</span>
                 </div>
               </TabsTrigger>
-              <TabsTrigger value="map">
-                <div className="flex items-center">
-                  <MapIcon className="h-3.5 w-3.5 mr-1" />
-                  <span className="hidden sm:inline">Map</span>
+              <TabsTrigger value=&quot;map&quot;>
+                <div className=&quot;flex items-center&quot;>
+                  <MapIcon className=&quot;h-3.5 w-3.5 mr-1&quot; />
+                  <span className=&quot;hidden sm:inline&quot;>Map</span>
                 </div>
               </TabsTrigger>
             </TabsList>
@@ -520,34 +520,34 @@ export function LocationList({
       {/* Views */}
       <div>
         {/* Grid View */}
-        {viewMode === "grid" && (
+        {viewMode === &quot;grid&quot; && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4">
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-4&quot;>
               {paginatedLocations.map((location) => (
                 <Card
                   key={location.id}
                   className={cn(
-                    "overflow-hidden transition-all duration-300",
+                    &quot;overflow-hidden transition-all duration-300&quot;,
                     selectedLocationId === location.id
-                      ? "ring-2 ring-primary ring-offset-2 scale-[1.02] shadow-lg"
-                      : "hover:scale-[1.03] hover:shadow-lg hover:-translate-y-1 hover:border-primary/40",
+                      ? &quot;ring-2 ring-primary ring-offset-2 scale-[1.02] shadow-lg&quot;
+                      : &quot;hover:scale-[1.03] hover:shadow-lg hover:-translate-y-1 hover:border-primary/40&quot;,
                   )}
                   style={{
-                    transformOrigin: "center",
+                    transformOrigin: &quot;center&quot;,
                     animation:
                       selectedLocationId === location.id
-                        ? "pulse 2s infinite"
-                        : "none",
+                        ? &quot;pulse 2s infinite&quot;
+                        : &quot;none&quot;,
                   }}
                   onClick={() =>
                     allowSelection && handleSelectLocation(location)
                   }
                 >
-                  <CardHeader className="p-0">
-                    <div className="bg-muted h-32 flex items-center justify-center relative">
-                      <MapPin className="h-8 w-8 text-muted-foreground" />
+                  <CardHeader className=&quot;p-0&quot;>
+                    <div className=&quot;bg-muted h-32 flex items-center justify-center relative&quot;>
+                      <MapPin className=&quot;h-8 w-8 text-muted-foreground&quot; />
                       {showStatus && location.status && (
-                        <div className="absolute top-2 right-2">
+                        <div className=&quot;absolute top-2 right-2&quot;>
                           {renderStatusBadge(
                             location.status,
                             location.approved,
@@ -556,10 +556,10 @@ export function LocationList({
                       )}
                     </div>
                   </CardHeader>
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="space-y-1">
-                        <CardTitle className="text-base">
+                  <CardContent className=&quot;p-4&quot;>
+                    <div className=&quot;flex justify-between items-start mb-2&quot;>
+                      <div className=&quot;space-y-1&quot;>
+                        <CardTitle className=&quot;text-base&quot;>
                           {location.name}
                         </CardTitle>
                         {location.locationType && (
@@ -570,17 +570,17 @@ export function LocationList({
                       </div>
                       {renderActionMenu(location)}
                     </div>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
+                    <p className=&quot;text-sm text-muted-foreground line-clamp-2&quot;>
                       {location.address}
                     </p>
                     {location.city && location.state && (
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className=&quot;text-sm text-muted-foreground mt-1&quot;>
                         {location.city}, {location.state} {location.zipCode}
                       </p>
                     )}
                   </CardContent>
-                  <CardFooter className="p-4 pt-0 flex justify-between">
-                    <Button variant="outline" size="sm" asChild>
+                  <CardFooter className=&quot;p-4 pt-0 flex justify-between&quot;>
+                    <Button variant=&quot;outline&quot; size=&quot;sm&quot; asChild>
                       <Link href={`${baseUrl}/${location.id}`}>
                         View Details
                       </Link>
@@ -592,13 +592,13 @@ export function LocationList({
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <Pagination className="mt-8">
+              <Pagination className=&quot;mt-8&quot;>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       className={cn(
-                        currentPage === 1 && "pointer-events-none opacity-50",
+                        currentPage === 1 && &quot;pointer-events-none opacity-50&quot;,
                       )}
                     />
                   </PaginationItem>
@@ -641,7 +641,7 @@ export function LocationList({
                     ) {
                       return (
                         <PaginationItem key={`ellipsis-${i}`}>
-                          <span className="h-9 w-9 flex items-center justify-center">
+                          <span className=&quot;h-9 w-9 flex items-center justify-center&quot;>
                             ...
                           </span>
                         </PaginationItem>
@@ -667,7 +667,7 @@ export function LocationList({
                       }
                       className={cn(
                         currentPage === totalPages &&
-                          "pointer-events-none opacity-50",
+                          &quot;pointer-events-none opacity-50&quot;,
                       )}
                     />
                   </PaginationItem>
@@ -678,60 +678,60 @@ export function LocationList({
         )}
 
         {/* Table View */}
-        {viewMode === "table" && (
+        {viewMode === &quot;table&quot; && (
           <>
-            <div className="rounded-md border">
+            <div className=&quot;rounded-md border&quot;>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[300px]">
+                    <TableHead className=&quot;w-[300px]&quot;>
                       <Button
-                        variant="ghost"
-                        onClick={() => handleSort("name")}
-                        className="flex items-center gap-1 hover:bg-transparent hover:underline"
+                        variant=&quot;ghost&quot;
+                        onClick={() => handleSort(&quot;name&quot;)}
+                        className=&quot;flex items-center gap-1 hover:bg-transparent hover:underline&quot;
                       >
                         Location
-                        {sortField === "name" && (
-                          <span className="ml-1">
-                            {sortDirection === "asc" ? "↑" : "↓"}
+                        {sortField === &quot;name&quot; && (
+                          <span className=&quot;ml-1&quot;>
+                            {sortDirection === &quot;asc&quot; ? &quot;↑&quot; : &quot;↓&quot;}
                           </span>
                         )}
                       </Button>
                     </TableHead>
                     <TableHead>
                       <Button
-                        variant="ghost"
-                        onClick={() => handleSort("locationType")}
-                        className="flex items-center gap-1 hover:bg-transparent hover:underline"
+                        variant=&quot;ghost&quot;
+                        onClick={() => handleSort(&quot;locationType&quot;)}
+                        className=&quot;flex items-center gap-1 hover:bg-transparent hover:underline&quot;
                       >
                         Type
-                        {sortField === "locationType" && (
-                          <span className="ml-1">
-                            {sortDirection === "asc" ? "↑" : "↓"}
+                        {sortField === &quot;locationType&quot; && (
+                          <span className=&quot;ml-1&quot;>
+                            {sortDirection === &quot;asc&quot; ? &quot;↑&quot; : &quot;↓&quot;}
                           </span>
                         )}
                       </Button>
                     </TableHead>
-                    <TableHead className="hidden md:table-cell">
+                    <TableHead className=&quot;hidden md:table-cell&quot;>
                       Address
                     </TableHead>
                     {showStatus && (
-                      <TableHead className="w-[100px]">
+                      <TableHead className=&quot;w-[100px]&quot;>
                         <Button
-                          variant="ghost"
-                          onClick={() => handleSort("status")}
-                          className="flex items-center gap-1 hover:bg-transparent hover:underline"
+                          variant=&quot;ghost&quot;
+                          onClick={() => handleSort(&quot;status&quot;)}
+                          className=&quot;flex items-center gap-1 hover:bg-transparent hover:underline&quot;
                         >
                           Status
-                          {sortField === "status" && (
-                            <span className="ml-1">
-                              {sortDirection === "asc" ? "↑" : "↓"}
+                          {sortField === &quot;status&quot; && (
+                            <span className=&quot;ml-1&quot;>
+                              {sortDirection === &quot;asc&quot; ? &quot;↑&quot; : &quot;↓&quot;}
                             </span>
                           )}
                         </Button>
                       </TableHead>
                     )}
-                    <TableHead className="w-[100px] text-right">
+                    <TableHead className=&quot;w-[100px] text-right&quot;>
                       Actions
                     </TableHead>
                   </TableRow>
@@ -741,11 +741,11 @@ export function LocationList({
                     <TableRow
                       key={location.id}
                       className={cn(
-                        "transition-colors duration-200",
-                        allowSelection && "cursor-pointer",
+                        &quot;transition-colors duration-200&quot;,
+                        allowSelection && &quot;cursor-pointer&quot;,
                         selectedLocationId === location.id
-                          ? "bg-primary/10 border-l-2 border-l-primary"
-                          : "hover:bg-muted/30",
+                          ? &quot;bg-primary/10 border-l-2 border-l-primary&quot;
+                          : &quot;hover:bg-muted/30&quot;,
                       )}
                       onClick={() =>
                         allowSelection && handleSelectLocation(location)
@@ -753,22 +753,22 @@ export function LocationList({
                       style={{
                         animation:
                           selectedLocationId === location.id
-                            ? "pulse-subtle 2s infinite"
-                            : "none",
+                            ? &quot;pulse-subtle 2s infinite&quot;
+                            : &quot;none&quot;,
                       }}
                     >
-                      <TableCell className="font-medium">
+                      <TableCell className=&quot;font-medium&quot;>
                         {location.name}
                       </TableCell>
                       <TableCell>
                         {renderLocationTypeBadge(location.locationType)}
                       </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        <div className="truncate max-w-xs">
+                      <TableCell className=&quot;hidden md:table-cell&quot;>
+                        <div className=&quot;truncate max-w-xs&quot;>
                           {location.address}
                           {location.city && location.state && (
-                            <span className="block text-xs text-muted-foreground">
-                              {location.city}, {location.state}{" "}
+                            <span className=&quot;block text-xs text-muted-foreground&quot;>
+                              {location.city}, {location.state}{&quot; &quot;}
                               {location.zipCode}
                             </span>
                           )}
@@ -782,7 +782,7 @@ export function LocationList({
                           )}
                         </TableCell>
                       )}
-                      <TableCell className="text-right">
+                      <TableCell className=&quot;text-right&quot;>
                         {renderActionMenu(location)}
                       </TableCell>
                     </TableRow>
@@ -793,13 +793,13 @@ export function LocationList({
 
             {/* Pagination for table view */}
             {totalPages > 1 && (
-              <Pagination className="mt-8">
+              <Pagination className=&quot;mt-8&quot;>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
                       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                       className={cn(
-                        currentPage === 1 && "pointer-events-none opacity-50",
+                        currentPage === 1 && &quot;pointer-events-none opacity-50&quot;,
                       )}
                     />
                   </PaginationItem>
@@ -837,7 +837,7 @@ export function LocationList({
                     ) {
                       return (
                         <PaginationItem key={`ellipsis-${i}`}>
-                          <span className="h-9 w-9 flex items-center justify-center">
+                          <span className=&quot;h-9 w-9 flex items-center justify-center&quot;>
                             ...
                           </span>
                         </PaginationItem>
@@ -863,7 +863,7 @@ export function LocationList({
                       }
                       className={cn(
                         currentPage === totalPages &&
-                          "pointer-events-none opacity-50",
+                          &quot;pointer-events-none opacity-50&quot;,
                       )}
                     />
                   </PaginationItem>
@@ -874,12 +874,12 @@ export function LocationList({
         )}
 
         {/* Map View */}
-        {viewMode === "map" && (
-          <div className="bg-muted/30 rounded-md border h-[600px] flex items-center justify-center">
-            <div className="text-center">
-              <MapIcon className="h-10 w-10 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium">Map View</h3>
-              <p className="text-sm text-muted-foreground max-w-md mx-auto mt-2">
+        {viewMode === &quot;map&quot; && (
+          <div className=&quot;bg-muted/30 rounded-md border h-[600px] flex items-center justify-center&quot;>
+            <div className=&quot;text-center&quot;>
+              <MapIcon className=&quot;h-10 w-10 mx-auto text-muted-foreground mb-4&quot; />
+              <h3 className=&quot;text-lg font-medium&quot;>Map View</h3>
+              <p className=&quot;text-sm text-muted-foreground max-w-md mx-auto mt-2">
                 The map view will be implemented using the LocationMap component
                 to display all locations visually.
               </p>

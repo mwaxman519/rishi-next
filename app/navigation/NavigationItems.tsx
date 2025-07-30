@@ -1,12 +1,12 @@
-"use client";
+&quot;use client&quot;;
 
 /**
  * Navigation Items with React Components
  * This file contains the actual navigation items with their React components
  */
-import React from "react";
-import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
-import { v4 as uuidv4 } from "uuid";
+import React from &quot;react&quot;;
+import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 
 // Import the navigation configuration from shared navigation structure
 import {
@@ -15,7 +15,7 @@ import {
   fieldManagerNavigation,
   brandAgentNavigation,
   clientUserNavigation,
-} from "@shared/navigation-structure";
+} from &quot;@shared/navigation-structure&quot;;
 
 // Helper function to ensure all navigation items have href property and unique IDs
 function processNavigationItems(
@@ -53,37 +53,37 @@ function processNavigationItems(
 
 // Function to initialize navigation at runtime
 export function initializeNavigation() {
-  console.log("Navigation initialization starting...");
+  console.log(&quot;Navigation initialization starting...&quot;);
 
   // Navigation is now defined directly in shared/navigation-structure.tsx
   console.log(
-    "Navigation structure already defined in shared/navigation-structure.tsx",
+    &quot;Navigation structure already defined in shared/navigation-structure.tsx&quot;,
   );
 
   // Apply the processNavigationItems function to the existing navigation structures
   // This adds unique IDs and ensures href/path consistency to all navigation items
-  console.log("Processing navigation items with unique IDs...");
+  console.log(&quot;Processing navigation items with unique IDs...&quot;);
 
   // Process each navigation array with its role prefix
   const processedSuperAdmin = processNavigationItems(
     superAdminNavigation,
-    "super-admin",
+    &quot;super-admin&quot;,
   );
   const processedInternalAdmin = processNavigationItems(
     internalAdminNavigation,
-    "internal-admin",
+    &quot;internal-admin&quot;,
   );
   const processedFieldManager = processNavigationItems(
     fieldManagerNavigation,
-    "field-manager",
+    &quot;field-manager&quot;,
   );
   const processedBrandAgent = processNavigationItems(
     brandAgentNavigation,
-    "brand-agent",
+    &quot;brand-agent&quot;,
   );
   const processedClientUser = processNavigationItems(
     clientUserNavigation,
-    "client-user",
+    &quot;client-user&quot;,
   );
 
   // Clear the original arrays
@@ -100,5 +100,5 @@ export function initializeNavigation() {
   brandAgentNavigation.push(...processedBrandAgent);
   clientUserNavigation.push(...processedClientUser);
 
-  console.log("Navigation items processed successfully");
+  console.log(&quot;Navigation items processed successfully&quot;);
 }

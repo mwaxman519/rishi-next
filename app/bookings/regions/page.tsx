@@ -1,105 +1,105 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { MapPin, Users, Calendar, Plus, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useState } from &quot;react&quot;;
+import { MapPin, Users, Calendar, Plus, Search } from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import Link from "next/link";
+} from &quot;@/components/ui/select&quot;;
+import Link from &quot;next/link&quot;;
 
 // Mock regions data
 const mockRegions = [
   {
     id: 1,
-    name: "San Francisco Bay Area",
-    code: "SF-BAY",
-    manager: "Sarah Johnson",
+    name: &quot;San Francisco Bay Area&quot;,
+    code: &quot;SF-BAY&quot;,
+    manager: &quot;Sarah Johnson&quot;,
     activeBookings: 12,
     totalLocations: 45,
     staffCount: 8,
-    status: "active",
+    status: &quot;active&quot;,
     monthlyRevenue: 45600,
-    areas: ["Downtown SF", "Mission Bay", "SOMA", "Castro", "Marina"]
+    areas: [&quot;Downtown SF&quot;, &quot;Mission Bay&quot;, &quot;SOMA&quot;, &quot;Castro&quot;, &quot;Marina&quot;]
   },
   {
     id: 2,
-    name: "Los Angeles Metro",
-    code: "LA-METRO",
-    manager: "Mike Chen",
+    name: &quot;Los Angeles Metro&quot;,
+    code: &quot;LA-METRO&quot;,
+    manager: &quot;Mike Chen&quot;,
     activeBookings: 18,
     totalLocations: 67,
     staffCount: 12,
-    status: "active",
+    status: &quot;active&quot;,
     monthlyRevenue: 67800,
-    areas: ["Hollywood", "Santa Monica", "Beverly Hills", "Venice", "West Hollywood"]
+    areas: [&quot;Hollywood&quot;, &quot;Santa Monica&quot;, &quot;Beverly Hills&quot;, &quot;Venice&quot;, &quot;West Hollywood&quot;]
   },
   {
     id: 3,
-    name: "Orange County",
-    code: "OC",
-    manager: "Jessica Smith",
+    name: &quot;Orange County&quot;,
+    code: &quot;OC&quot;,
+    manager: &quot;Jessica Smith&quot;,
     activeBookings: 9,
     totalLocations: 23,
     staffCount: 6,
-    status: "active",
+    status: &quot;active&quot;,
     monthlyRevenue: 32400,
-    areas: ["Irvine", "Newport Beach", "Anaheim", "Costa Mesa"]
+    areas: [&quot;Irvine&quot;, &quot;Newport Beach&quot;, &quot;Anaheim&quot;, &quot;Costa Mesa&quot;]
   },
   {
     id: 4,
-    name: "San Diego County",
-    code: "SD",
-    manager: "Alex Rodriguez",
+    name: &quot;San Diego County&quot;,
+    code: &quot;SD&quot;,
+    manager: &quot;Alex Rodriguez&quot;,
     activeBookings: 14,
     totalLocations: 38,
     staffCount: 9,
-    status: "active",
+    status: &quot;active&quot;,
     monthlyRevenue: 51200,
-    areas: ["Downtown SD", "La Jolla", "Mission Valley", "Gaslamp"]
+    areas: [&quot;Downtown SD&quot;, &quot;La Jolla&quot;, &quot;Mission Valley&quot;, &quot;Gaslamp&quot;]
   }
 ];
 
 export default function BookingRegionsPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("&quot;);
+  const [statusFilter, setStatusFilter] = useState(&quot;all&quot;);
 
   const filteredRegions = mockRegions.filter(region => {
     const matchesSearch = region.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          region.code.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || region.status === statusFilter;
+    const matchesStatus = statusFilter === &quot;all&quot; || region.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className=&quot;flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center">
-            <MapPin className="h-8 w-8 mr-3 text-primary" />
+          <h1 className=&quot;text-3xl font-bold tracking-tight flex items-center&quot;>
+            <MapPin className=&quot;h-8 w-8 mr-3 text-primary&quot; />
             Booking Regions
           </h1>
-          <p className="text-muted-foreground mt-1">
+          <p className=&quot;text-muted-foreground mt-1&quot;>
             Manage booking regions and territory assignments
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline">
-            <Plus className="h-4 w-4 mr-2" />
+        <div className=&quot;flex gap-2&quot;>
+          <Button variant=&quot;outline&quot;>
+            <Plus className=&quot;h-4 w-4 mr-2&quot; />
             Add Region
           </Button>
         </div>
@@ -108,30 +108,30 @@ export default function BookingRegionsPage() {
       {/* Filters and Search */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Region Filters</CardTitle>
+          <CardTitle className=&quot;text-lg&quot;>Region Filters</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+          <div className=&quot;flex flex-col sm:flex-row gap-4&quot;>
+            <div className=&quot;flex-1&quot;>
+              <div className=&quot;relative&quot;>
+                <Search className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
                 <Input
-                  placeholder="Search regions..."
+                  placeholder=&quot;Search regions...&quot;
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className=&quot;pl-10&quot;
                 />
               </div>
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-40">
-                <SelectValue placeholder="Filter by status" />
+              <SelectTrigger className=&quot;w-40&quot;>
+                <SelectValue placeholder=&quot;Filter by status&quot; />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value=&quot;all&quot;>All Status</SelectItem>
+                <SelectItem value=&quot;active&quot;>Active</SelectItem>
+                <SelectItem value=&quot;inactive&quot;>Inactive</SelectItem>
+                <SelectItem value=&quot;pending&quot;>Pending</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -139,82 +139,82 @@ export default function BookingRegionsPage() {
       </Card>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
         <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold">{mockRegions.length}</div>
-            <div className="text-sm text-muted-foreground">Total Regions</div>
+          <CardContent className=&quot;p-4&quot;>
+            <div className=&quot;text-2xl font-bold&quot;>{mockRegions.length}</div>
+            <div className=&quot;text-sm text-muted-foreground&quot;>Total Regions</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-green-600">
+          <CardContent className=&quot;p-4&quot;>
+            <div className=&quot;text-2xl font-bold text-green-600&quot;>
               {mockRegions.reduce((sum, region) => sum + region.activeBookings, 0)}
             </div>
-            <div className="text-sm text-muted-foreground">Active Bookings</div>
+            <div className=&quot;text-sm text-muted-foreground&quot;>Active Bookings</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-blue-600">
+          <CardContent className=&quot;p-4&quot;>
+            <div className=&quot;text-2xl font-bold text-blue-600&quot;>
               {mockRegions.reduce((sum, region) => sum + region.staffCount, 0)}
             </div>
-            <div className="text-sm text-muted-foreground">Total Staff</div>
+            <div className=&quot;text-sm text-muted-foreground&quot;>Total Staff</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-purple-600">
+          <CardContent className=&quot;p-4&quot;>
+            <div className=&quot;text-2xl font-bold text-purple-600&quot;>
               ${mockRegions.reduce((sum, region) => sum + region.monthlyRevenue, 0).toLocaleString()}
             </div>
-            <div className="text-sm text-muted-foreground">Monthly Revenue</div>
+            <div className=&quot;text-sm text-muted-foreground&quot;>Monthly Revenue</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Regions Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
         {filteredRegions.map((region) => (
-          <Card key={region.id} className="hover:shadow-md transition-shadow">
+          <Card key={region.id} className=&quot;hover:shadow-md transition-shadow&quot;>
             <CardHeader>
-              <div className="flex justify-between items-start">
+              <div className=&quot;flex justify-between items-start&quot;>
                 <div>
-                  <CardTitle className="flex items-center">
-                    <MapPin className="h-5 w-5 mr-2 text-primary" />
+                  <CardTitle className=&quot;flex items-center&quot;>
+                    <MapPin className=&quot;h-5 w-5 mr-2 text-primary&quot; />
                     {region.name}
                   </CardTitle>
                   <CardDescription>
                     Code: {region.code} • Manager: {region.manager}
                   </CardDescription>
                 </div>
-                <Badge variant="outline" className="bg-green-50 text-green-700">
+                <Badge variant=&quot;outline&quot; className=&quot;bg-green-50 text-green-700&quot;>
                   {region.status}
                 </Badge>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className=&quot;space-y-4&quot;>
               {/* Key Metrics */}
-              <div className="grid grid-cols-3 gap-4 text-center">
+              <div className=&quot;grid grid-cols-3 gap-4 text-center&quot;>
                 <div>
-                  <div className="text-2xl font-bold text-blue-600">{region.activeBookings}</div>
-                  <div className="text-xs text-muted-foreground">Active Bookings</div>
+                  <div className=&quot;text-2xl font-bold text-blue-600&quot;>{region.activeBookings}</div>
+                  <div className=&quot;text-xs text-muted-foreground&quot;>Active Bookings</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-green-600">{region.totalLocations}</div>
-                  <div className="text-xs text-muted-foreground">Locations</div>
+                  <div className=&quot;text-2xl font-bold text-green-600&quot;>{region.totalLocations}</div>
+                  <div className=&quot;text-xs text-muted-foreground&quot;>Locations</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold text-purple-600">{region.staffCount}</div>
-                  <div className="text-xs text-muted-foreground">Staff Members</div>
+                  <div className=&quot;text-2xl font-bold text-purple-600&quot;>{region.staffCount}</div>
+                  <div className=&quot;text-xs text-muted-foreground&quot;>Staff Members</div>
                 </div>
               </div>
 
               {/* Areas */}
               <div>
-                <div className="text-sm font-medium mb-2">Coverage Areas:</div>
-                <div className="flex flex-wrap gap-1">
+                <div className=&quot;text-sm font-medium mb-2&quot;>Coverage Areas:</div>
+                <div className=&quot;flex flex-wrap gap-1&quot;>
                   {region.areas.map((area, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
+                    <Badge key={index} variant=&quot;secondary&quot; className=&quot;text-xs&quot;>
                       {area}
                     </Badge>
                   ))}
@@ -222,24 +222,24 @@ export default function BookingRegionsPage() {
               </div>
 
               {/* Revenue */}
-              <div className="flex justify-between items-center pt-2 border-t">
-                <span className="text-sm text-muted-foreground">Monthly Revenue:</span>
-                <span className="text-lg font-semibold text-green-600">
+              <div className=&quot;flex justify-between items-center pt-2 border-t&quot;>
+                <span className=&quot;text-sm text-muted-foreground&quot;>Monthly Revenue:</span>
+                <span className=&quot;text-lg font-semibold text-green-600&quot;>
                   ${region.monthlyRevenue.toLocaleString()}
                 </span>
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2 pt-2">
-                <Link href={`/bookings?region=${region.code}`} className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Calendar className="h-4 w-4 mr-2" />
+              <div className=&quot;flex gap-2 pt-2&quot;>
+                <Link href={`/bookings?region=${region.code}`} className=&quot;flex-1&quot;>
+                  <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;w-full&quot;>
+                    <Calendar className=&quot;h-4 w-4 mr-2&quot; />
                     View Bookings
                   </Button>
                 </Link>
-                <Link href={`/staff?region=${region.code}`} className="flex-1">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Users className="h-4 w-4 mr-2" />
+                <Link href={`/staff?region=${region.code}`} className=&quot;flex-1&quot;>
+                  <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;w-full&quot;>
+                    <Users className=&quot;h-4 w-4 mr-2" />
                     Manage Staff
                   </Button>
                 </Link>

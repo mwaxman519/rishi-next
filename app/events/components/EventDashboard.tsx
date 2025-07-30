@@ -1,36 +1,36 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React, { useState } from &quot;react&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PlusCircle, Calendar as CalendarIcon, List } from "lucide-react";
-import Link from "next/link";
-import EventCalendarView from "./EventCalendarView";
-import EventListView from "./EventListView";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { PlusCircle, Calendar as CalendarIcon, List } from &quot;lucide-react&quot;;
+import Link from &quot;next/link&quot;;
+import EventCalendarView from &quot;./EventCalendarView&quot;;
+import EventListView from &quot;./EventListView&quot;;
 
 export default function EventDashboard() {
-  const [view, setView] = useState<"list" | "calendar">("calendar");
+  const [view, setView] = useState<&quot;list&quot; | &quot;calendar&quot;>(&quot;calendar&quot;);
 
   return (
-    <Card className="w-full">
-      <CardHeader className="pb-3">
-        <div className="flex justify-between items-center">
+    <Card className=&quot;w-full&quot;>
+      <CardHeader className=&quot;pb-3&quot;>
+        <div className=&quot;flex justify-between items-center&quot;>
           <div>
             <CardTitle>Events Dashboard</CardTitle>
             <CardDescription>
               Schedule and manage events across all locations
             </CardDescription>
           </div>
-          <Link href="/events/create">
+          <Link href=&quot;/events/create&quot;>
             <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
+              <PlusCircle className=&quot;mr-2 h-4 w-4&quot; />
               Create Event
             </Button>
           </Link>
@@ -39,26 +39,26 @@ export default function EventDashboard() {
       <CardContent>
         <Tabs
           defaultValue={view}
-          onValueChange={(v) => setView(v as "list" | "calendar")}
+          onValueChange={(v) => setView(v as &quot;list&quot; | &quot;calendar&quot;)}
         >
-          <div className="flex justify-between items-center mb-6">
+          <div className=&quot;flex justify-between items-center mb-6&quot;>
             <TabsList>
-              <TabsTrigger value="calendar">
-                <CalendarIcon className="h-4 w-4 mr-2" />
+              <TabsTrigger value=&quot;calendar&quot;>
+                <CalendarIcon className=&quot;h-4 w-4 mr-2&quot; />
                 Calendar View
               </TabsTrigger>
-              <TabsTrigger value="list">
-                <List className="h-4 w-4 mr-2" />
+              <TabsTrigger value=&quot;list&quot;>
+                <List className=&quot;h-4 w-4 mr-2&quot; />
                 List View
               </TabsTrigger>
             </TabsList>
           </div>
 
-          <TabsContent value="calendar" className="mt-0">
+          <TabsContent value=&quot;calendar&quot; className=&quot;mt-0&quot;>
             <EventCalendarView />
           </TabsContent>
 
-          <TabsContent value="list" className="mt-0">
+          <TabsContent value=&quot;list&quot; className=&quot;mt-0&quot;>
             <EventListView />
           </TabsContent>
         </Tabs>

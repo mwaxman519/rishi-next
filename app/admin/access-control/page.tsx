@@ -1,35 +1,35 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
-import Link from "next/link";
-import { Shield, Settings, Users, Building2 } from "lucide-react";
+import React from &quot;react&quot;;
+import Link from &quot;next/link&quot;;
+import { Shield, Settings, Users, Building2 } from &quot;lucide-react&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from &quot;@/components/ui/card&quot;;
 
 export default function AccessControlPage() {
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="flex items-center space-x-2 mb-6">
-        <Shield className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-bold">Access Control</h1>
+    <div className=&quot;container mx-auto p-6 max-w-6xl&quot;>
+      <div className=&quot;flex items-center space-x-2 mb-6&quot;>
+        <Shield className=&quot;h-6 w-6 text-primary&quot; />
+        <h1 className=&quot;text-2xl font-bold&quot;>Access Control</h1>
       </div>
 
-      <p className="text-muted-foreground mb-8">
+      <p className=&quot;text-muted-foreground mb-8&quot;>
         Manage role-based access control settings across the platform. Configure
         system-wide defaults and organization-specific permissions.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
         {/* System Defaults */}
-        <Card className="hover:shadow-lg transition-shadow">
+        <Card className=&quot;hover:shadow-lg transition-shadow&quot;>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Settings className="h-5 w-5 text-primary" />
+            <CardTitle className=&quot;flex items-center space-x-2&quot;>
+              <Settings className=&quot;h-5 w-5 text-primary&quot; />
               <span>System Defaults</span>
             </CardTitle>
             <CardDescription>
@@ -38,8 +38,8 @@ export default function AccessControlPage() {
           </CardHeader>
           <CardContent>
             <Link
-              href="/admin/rbac-defaults"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+              href=&quot;/admin/rbac-defaults&quot;
+              className=&quot;inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full&quot;
             >
               Manage System Defaults
             </Link>
@@ -47,10 +47,10 @@ export default function AccessControlPage() {
         </Card>
 
         {/* Organization Settings */}
-        <Card className="hover:shadow-lg transition-shadow">
+        <Card className=&quot;hover:shadow-lg transition-shadow&quot;>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Building2 className="h-5 w-5 text-primary" />
+            <CardTitle className=&quot;flex items-center space-x-2&quot;>
+              <Building2 className=&quot;h-5 w-5 text-primary&quot; />
               <span>Organization Settings</span>
             </CardTitle>
             <CardDescription>
@@ -59,8 +59,8 @@ export default function AccessControlPage() {
           </CardHeader>
           <CardContent>
             <Link
-              href="/settings/rbac"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+              href=&quot;/settings/rbac&quot;
+              className=&quot;inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full&quot;
             >
               Manage Org Settings
             </Link>
@@ -68,10 +68,10 @@ export default function AccessControlPage() {
         </Card>
 
         {/* Permission Matrix */}
-        <Card className="hover:shadow-lg transition-shadow">
+        <Card className=&quot;hover:shadow-lg transition-shadow&quot;>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Users className="h-5 w-5 text-primary" />
+            <CardTitle className=&quot;flex items-center space-x-2&quot;>
+              <Users className=&quot;h-5 w-5 text-primary&quot; />
               <span>Permission Matrix</span>
             </CardTitle>
             <CardDescription>
@@ -81,8 +81,8 @@ export default function AccessControlPage() {
           </CardHeader>
           <CardContent>
             <Link
-              href="/admin/rbac"
-              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+              href=&quot;/admin/rbac&quot;
+              className=&quot;inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full&quot;
             >
               View Permission Matrix
             </Link>
@@ -91,20 +91,20 @@ export default function AccessControlPage() {
       </div>
 
       {/* Quick Actions Section */}
-      <div className="mt-12">
-        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className=&quot;mt-12&quot;>
+        <h2 className=&quot;text-lg font-semibold mb-4&quot;>Quick Actions</h2>
+        <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Recent Changes</CardTitle>
+              <CardTitle className=&quot;text-base&quot;>Recent Changes</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className=&quot;text-sm text-muted-foreground mb-4&quot;>
                 View recent permission changes and role modifications
               </p>
               <Link
-                href="/admin/monitoring/audit"
-                className="text-primary hover:underline text-sm"
+                href=&quot;/admin/monitoring/audit&quot;
+                className=&quot;text-primary hover:underline text-sm&quot;
               >
                 View Audit Logs →
               </Link>
@@ -113,15 +113,15 @@ export default function AccessControlPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">User Management</CardTitle>
+              <CardTitle className=&quot;text-base&quot;>User Management</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className=&quot;text-sm text-muted-foreground mb-4&quot;>
                 Manage users and assign roles across organizations
               </p>
               <Link
-                href="/admin/users"
-                className="text-primary hover:underline text-sm"
+                href=&quot;/admin/users&quot;
+                className=&quot;text-primary hover:underline text-sm&quot;
               >
                 Manage Users →
               </Link>

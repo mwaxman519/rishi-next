@@ -1,31 +1,31 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * API endpoint to list all features for an organization
  */
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentAuthUser } from "@/lib/auth-server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getCurrentAuthUser } from &quot;@/lib/auth-server&quot;;
 import {
   isUserInOrganization,
   getOrganizationById,
-} from "@/lib/organization-server";
+} from &quot;@/lib/organization-server&quot;;
 import {
   FeatureModuleRegistry,
   getAllModules,
   isFeatureAvailableForTier,
-} from "@shared/features/registry";
+} from &quot;@shared/features/registry&quot;;
 
 export async function GET(request: NextRequest) {
   try {
     // Get the organization ID from query parameters
     const searchParams = request.nextUrl.searchParams;
-    const organizationId = (searchParams.get("organizationId") || undefined) || undefined;
+    const organizationId = (searchParams.get(&quot;organizationId&quot;) || undefined) || undefined;
 
     if (!organizationId) {
       return NextResponse.json(
-        { error: "organizationId parameter is required" },
+        { error: &quot;organizationId parameter is required&quot; },
         { status: 400 },
       );
     }
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     const user = await getCurrentAuthUser();
     if (!user) {
       return NextResponse.json(
-        { error: "Authentication required" },
+        { error: &quot;Authentication required&quot; },
         { status: 401 },
       );
     }
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     const isMember = await isUserInOrganization(user.id, organizationId);
     if (!isMember) {
       return NextResponse.json(
-        { error: "You do not have access to this organization" },
+        { error: &quot;You do not have access to this organization&quot; },
         { status: 403 },
       );
     }
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     const organization = await getOrganizationById(organizationId);
     if (!organization) {
       return NextResponse.json(
-        { error: "Organization not found" },
+        { error: &quot;Organization not found&quot; },
         { status: 404 },
       );
     }
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     // Check if each feature is enabled for this organization
     const featuresWithStatus = featureModules.map((module) => {
       const orgTier =
-        ((organization.tier || "tier_1") as "tier_1" | "tier_2" | "tier_3") || "tier_1";
+        ((organization.tier || &quot;tier_1&quot;) as &quot;tier_1&quot; | &quot;tier_2&quot; | &quot;tier_3&quot;) || &quot;tier_1&quot;;
       const enabled = isFeatureAvailableForTier(module.id, orgTier);
 
       return {
@@ -82,13 +82,13 @@ export async function GET(request: NextRequest) {
       organization: {
         id: organization.id,
         name: organization.name,
-        tier: (organization.tier || "tier_1") || "tier_1",
+        tier: (organization.tier || &quot;tier_1&quot;) || &quot;tier_1&quot;,
       },
     });
   } catch (error) {
-    console.error("Error fetching features:", error);
+    console.error(&quot;Error fetching features:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch features" },
+      { error: &quot;Failed to fetch features&quot; },
       { status: 500 },
     );
   }

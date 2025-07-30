@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from &quot;react&quot;;
 
 /**
  * Hook for checking if a feature is enabled
@@ -19,7 +19,7 @@ export function useFeature(featureName: string): boolean {
         }
       } catch (error) {
         console.error(`Error checking feature ${featureName}:`, error);
-        // Default to false if there's an error
+        // Default to false if there&apos;s an error
         setIsEnabled(false);
       }
     };

@@ -11,7 +11,7 @@
  * These utilities are used by the OrganizationProvider and other components
  * to implement organization context switching and permission-based UI elements.
  */
-import { JwtPayload } from "../../shared/types";
+import { JwtPayload } from &quot;../../shared/types&quot;;
 
 /**
  * Sign a JWT token with payload
@@ -21,7 +21,7 @@ import { JwtPayload } from "../../shared/types";
 export async function signJwt(payload: JwtPayload): Promise<string> {
   // For development, we'll just return the stringified payload
   // In production, this would sign the payload with a secret key
-  if ((process.env.NODE_ENV as string) === "development") {
+  if ((process.env.NODE_ENV as string) === &quot;development&quot;) {
     return JSON.stringify(payload);
   }
 
@@ -60,16 +60,16 @@ export async function hasPermission(
 
     // Production implementation - validate role against actual permissions
     // In production, this would check against the backend
-    if ((process.env.NODE_ENV as string) === "development") {
+    if ((process.env.NODE_ENV as string) === &quot;development&quot;) {
       console.log(
-        `DEV MODE: Permission check for ${permission}${organizationId ? ` in org ${organizationId}` : ""} => true`,
+        `DEV MODE: Permission check for ${permission}${organizationId ? ` in org ${organizationId}` : "&quot;} => true`,
       );
       return true;
     }
 
     // Real implementation would call the API
     const response = await fetch(
-      `/api/permissions/check?permission=${permission}${organizationId ? `&organizationId=${organizationId}` : ""}`,
+      `/api/permissions/check?permission=${permission}${organizationId ? `&organizationId=${organizationId}` : &quot;&quot;}`,
     );
 
     if (!response.ok) {
@@ -79,7 +79,7 @@ export async function hasPermission(
     const data = await response.json();
     return data.hasPermission === true;
   } catch (error) {
-    console.error("Error checking permission:", error);
+    console.error(&quot;Error checking permission:", error);
     return false;
   }
 }

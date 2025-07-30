@@ -1,39 +1,39 @@
 
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
 import {
   activities,
   insertActivitySchema,
   activityTypes,
   locations,
   bookings,
-} from "@shared/schema";
-import { getCurrentUser } from "@/lib/auth-server";
-import { v4 as uuidv4 } from "uuid";
-import { eq, and, gte, lte } from "drizzle-orm";
+} from &quot;@shared/schema&quot;;
+import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
+import { eq, and, gte, lte } from &quot;drizzle-orm&quot;;
 
 // GET /api/activities
 export async function GET(request: NextRequest) {
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const searchParams = request.nextUrl.searchParams;
     const organizationId =
-      (searchParams.get("organizationId") || undefined) || (user as any).organizationId;
-    const typeId = (searchParams.get("typeId") || undefined) || undefined;
-    const status = (searchParams.get("status") || undefined) || undefined;
-    const startDate = (searchParams.get("startDate") || undefined) || undefined;
-    const endDate = (searchParams.get("endDate") || undefined) || undefined;
+      (searchParams.get(&quot;organizationId&quot;) || undefined) || (user as any).organizationId;
+    const typeId = (searchParams.get(&quot;typeId&quot;) || undefined) || undefined;
+    const status = (searchParams.get(&quot;status&quot;) || undefined) || undefined;
+    const startDate = (searchParams.get(&quot;startDate&quot;) || undefined) || undefined;
+    const endDate = (searchParams.get(&quot;endDate&quot;) || undefined) || undefined;
 
     // Build the query with joins to get related data
-    // Activities don't have organizationId - filter through parent booking
+    // Activities don&apos;t have organizationId - filter through parent booking
     const conditions = [];
     
     if (typeId) {
@@ -104,9 +104,9 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error) {
-    console.error("Error fetching activities:", error);
+    console.error(&quot;Error fetching activities:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch activities" },
+      { error: &quot;Failed to fetch activities&quot; },
       { status: 500 },
     );
   }
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
   try {
     const user = await getCurrentUser();
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const body = await request.json();
@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
     // Check if activity data was found after creation
     if (!activity) {
       return NextResponse.json(
-        { error: "Activity not found after creation" },
+        { error: &quot;Activity not found after creation&quot; },
         { status: 500 },
       );
     }
@@ -192,25 +192,25 @@ export async function POST(request: NextRequest) {
       {
         data: formattedActivity,
         status: 201,
-        message: "Activity created successfully",
+        message: &quot;Activity created successfully&quot;,
       },
       {
         status: 201,
       },
     );
   } catch (error: any) {
-    console.error("Error creating activity:", error);
+    console.error(&quot;Error creating activity:&quot;, error);
 
     // Handle validation errors
-    if (error.name === "ZodError") {
+    if (error.name === &quot;ZodError&quot;) {
       return NextResponse.json(
-        { error: "Validation error", details: error.errors },
+        { error: &quot;Validation error&quot;, details: error.errors },
         { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: "Failed to create activity" },
+      { error: &quot;Failed to create activity&quot; },
       { status: 500 },
     );
   }

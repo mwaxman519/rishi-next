@@ -5,23 +5,23 @@
  * real-time bidirectional communication with connected clients.
  */
 
-import { Server as WebSocketServer } from "ws";
-import { v4 as uuidv4 } from "uuid";
-import type { Server } from "http";
-import { webSocketEventSubscriber } from "../infrastructure/messaging/webSocketEventSubscriber";
+import { Server as WebSocketServer } from &quot;ws&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
+import type { Server } from &quot;http&quot;;
+import { webSocketEventSubscriber } from &quot;../infrastructure/messaging/webSocketEventSubscriber&quot;;
 
 /**
  * Initialize and set up WebSocket server
  * @param httpServer The HTTP server to attach the WebSocket server to
  */
 export function setupWebSocketServer(httpServer: Server) {
-  console.log("[WebSocketServer] Setting up WebSocket server");
+  console.log(&quot;[WebSocketServer] Setting up WebSocket server&quot;);
 
   // Create WebSocket server attached to the HTTP server with a specific path
   // to avoid conflicts with other WebSocket connections (like Next.js HMR)
   const wss = new WebSocketServer({
     server: httpServer,
-    path: "/ws",
+    path: &quot;/ws&quot;,
     // Skip client verification in dev but would be added in production
     verifyClient: (info, callback) => {
       // In production, we would validate the client's auth token here
@@ -31,17 +31,17 @@ export function setupWebSocketServer(httpServer: Server) {
   });
 
   // Handle new WebSocket connections
-  wss.on("connection", (ws, req) => {
+  wss.on(&quot;connection&quot;, (ws, req) => {
     // Generate a unique ID for this client
     const clientId = uuidv4();
-    const ip = req.socket.remoteAddress || "unknown";
+    const ip = req.socket.remoteAddress || &quot;unknown&quot;;
 
     console.log(`[WebSocketServer] Client connected: ${clientId} from ${ip}`);
 
     // Extract auth information (in a real app, we'd validate the token here)
-    const params = new URLSearchParams(req.url?.split("?")[1] || "");
-    const userId = params.get("userId") || undefined;
-    const organizationId = params.get("organizationId") || undefined;
+    const params = new URLSearchParams(req.url?.split(&quot;?&quot;)[1] || "&quot;);
+    const userId = params.get(&quot;userId&quot;) || undefined;
+    const organizationId = params.get(&quot;organizationId&quot;) || undefined;
 
     // Keep track of authentication state
     let isAuthenticated = !!userId;
@@ -59,14 +59,14 @@ export function setupWebSocketServer(httpServer: Server) {
         userId,
         organizationId,
         // Events this client is interested in (or empty for all)
-        initialSubscriptions: params.get("events")?.split(","),
+        initialSubscriptions: params.get(&quot;events&quot;)?.split(&quot;,&quot;),
       },
     );
 
     // Send initial connection confirmation
     ws.send(
       JSON.stringify({
-        type: "connected",
+        type: &quot;connected&quot;,
         clientId,
         authenticated: isAuthenticated,
         timestamp: new Date().toISOString(),
@@ -81,7 +81,7 @@ export function setupWebSocketServer(httpServer: Server) {
         return;
       }
 
-      // Check if we haven't received a pong in too long
+      // Check if we haven&apos;t received a pong in too long
       if (Date.now() - lastHeartbeat > 30000) {
         // 30 seconds
         console.log(`[WebSocketServer] Client ${clientId} timed out`);
@@ -95,12 +95,12 @@ export function setupWebSocketServer(httpServer: Server) {
     }, 15000); // Every 15 seconds
 
     // Handle pong responses
-    ws.on("pong", () => {
+    ws.on(&quot;pong&quot;, () => {
       lastHeartbeat = Date.now();
     });
 
     // Handle incoming messages from the client
-    ws.on("message", (message) => {
+    ws.on(&quot;message&quot;, (message) => {
       try {
         const data = JSON.parse(message.toString());
         console.log(
@@ -120,15 +120,15 @@ export function setupWebSocketServer(httpServer: Server) {
         );
         ws.send(
           JSON.stringify({
-            type: "error",
-            error: "Invalid message format",
+            type: &quot;error&quot;,
+            error: &quot;Invalid message format&quot;,
           }),
         );
       }
     });
 
     // Handle disconnection
-    ws.on("close", () => {
+    ws.on(&quot;close&quot;, () => {
       console.log(`[WebSocketServer] Client disconnected: ${clientId}`);
 
       // Clean up resources
@@ -137,17 +137,17 @@ export function setupWebSocketServer(httpServer: Server) {
     });
 
     // Handle errors
-    ws.on("error", (error) => {
+    ws.on(&quot;error&quot;, (error) => {
       console.error(`[WebSocketServer] Error with client ${clientId}:`, error);
     });
   });
 
   // Server-level error handler
-  wss.on("error", (error) => {
-    console.error("[WebSocketServer] Server error:", error);
+  wss.on(&quot;error&quot;, (error) => {
+    console.error(&quot;[WebSocketServer] Server error:&quot;, error);
   });
 
-  console.log("[WebSocketServer] WebSocket server initialized");
+  console.log(&quot;[WebSocketServer] WebSocket server initialized&quot;);
   return wss;
 }
 
@@ -164,7 +164,7 @@ function handleClientMessage(
   },
 ) {
   switch (message.type) {
-    case "subscribe":
+    case &quot;subscribe&quot;:
       // Update client's event subscriptions
       if (Array.isArray(message.events)) {
         webSocketEventSubscriber.updateClientSubscriptions(
@@ -174,15 +174,15 @@ function handleClientMessage(
       }
       break;
 
-    case "auth":
+    case &quot;auth&quot;:
       // In a real app, we'd validate the token and update the client's auth status
       // This is a simplified example
       console.log(`[WebSocketServer] Client ${clientId} auth attempt`);
       break;
 
-    case "heartbeat":
+    case &quot;heartbeat":
       // Client can send heartbeats to keep the connection alive
-      // We don't need to do anything here as the connection is already active
+      // We don&apos;t need to do anything here as the connection is already active
       break;
 
     default:

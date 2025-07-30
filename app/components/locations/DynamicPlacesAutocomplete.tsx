@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useState, useRef } from "react";
-import { Input } from "@/components/ui/input";
+import { useEffect, useState, useRef } from &quot;react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 
 interface PlacesAutocompleteProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
@@ -10,7 +10,7 @@ interface PlacesAutocompleteProps {
 
 export default function DynamicPlacesAutocomplete({
   onPlaceSelect,
-  placeholder = "Search for a location",
+  placeholder = &quot;Search for a location&quot;,
 }: PlacesAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -19,7 +19,7 @@ export default function DynamicPlacesAutocomplete({
 
   useEffect(() => {
     // Skip server-side rendering
-    if (typeof window === "undefined") return;
+    if (typeof window === &quot;undefined&quot;) return;
 
     // Check if we already have Google Maps loaded
     if (window.google && window.google.maps && window.google.maps.places) {
@@ -36,9 +36,9 @@ export default function DynamicPlacesAutocomplete({
 
     // Handle authentication failures
     window.gm_authFailure = () => {
-      console.error("Google Maps authentication failed!");
+      console.error(&quot;Google Maps authentication failed!&quot;);
       setError(
-        "Google Maps authentication failed. Your API key may be invalid or restricted.",
+        &quot;Google Maps authentication failed. Your API key may be invalid or restricted.&quot;,
       );
     };
 
@@ -46,19 +46,19 @@ export default function DynamicPlacesAutocomplete({
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     if (!apiKey) {
-      setError("Google Maps API key is missing!");
+      setError(&quot;Google Maps API key is missing!&quot;);
       return;
     }
 
     // Load the Google Maps script via our own proxy API to avoid CSP issues
-    const script = document.createElement("script");
+    const script = document.createElement(&quot;script&quot;);
     script.src = `/api/maps/proxy-js-api?libraries=places&callback=initAutocomplete`;
     script.async = true;
     script.defer = true;
     script.onerror = (error) => {
-      console.error("Error loading Google Maps script:", error);
+      console.error(&quot;Error loading Google Maps script:&quot;, error);
       setError(
-        "Failed to load Google Maps script. Check your internet connection and API key.",
+        &quot;Failed to load Google Maps script. Check your internet connection and API key.&quot;,
       );
     };
 
@@ -80,13 +80,13 @@ export default function DynamicPlacesAutocomplete({
       autocompleteRef.current = new window.google.maps.places.Autocomplete(
         inputRef.current,
         {
-          types: ["geocode", "establishment"],
+          types: [&quot;geocode&quot;, &quot;establishment&quot;],
         },
       );
 
       // Add a listener for place changes
       if (autocompleteRef.current) {
-        autocompleteRef.current.addListener("place_changed", () => {
+        autocompleteRef.current.addListener(&quot;place_changed&quot;, () => {
           const autocomplete = autocompleteRef.current;
           if (autocomplete) {
             const place = autocomplete.getPlace();
@@ -97,7 +97,7 @@ export default function DynamicPlacesAutocomplete({
         });
       }
     } catch (err) {
-      console.error("Error initializing Places Autocomplete:", err);
+      console.error(&quot;Error initializing Places Autocomplete:&quot;, err);
       setError(
         `Error initializing Places Autocomplete: ${err instanceof Error ? err.message : String(err)}`,
       );
@@ -105,19 +105,19 @@ export default function DynamicPlacesAutocomplete({
   };
 
   return (
-    <div className="relative w-full">
+    <div className=&quot;relative w-full&quot;>
       <Input
         ref={inputRef}
-        type="text"
+        type=&quot;text&quot;
         placeholder={placeholder}
-        className={error ? "border-red-500" : ""}
+        className={error ? &quot;border-red-500&quot; : "&quot;}
         disabled={!loaded}
       />
 
-      {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+      {error && <div className=&quot;text-red-500 text-sm mt-1&quot;>{error}</div>}
 
       {!loaded && !error && (
-        <div className="text-gray-500 text-sm mt-1">
+        <div className=&quot;text-gray-500 text-sm mt-1">
           Loading Places Autocomplete...
         </div>
       )}

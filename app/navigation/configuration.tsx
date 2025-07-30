@@ -8,15 +8,15 @@
  * IMPORTANT: All exports in this file are commented out and replaced with
  * local variables prefixed with underscore (_) to avoid duplicates.
  */
-import React from "react";
-import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
+import React from &quot;react&quot;;
+import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
 import {
   superAdminNavigation,
   internalAdminNavigation,
   fieldManagerNavigation,
   brandAgentNavigation,
   clientUserNavigation,
-} from "@shared/navigation-structure";
+} from &quot;@shared/navigation-structure&quot;;
 import {
   Settings,
   Shield,
@@ -56,7 +56,7 @@ import {
   GraduationCap,
   ClipboardList,
   BookOpenCheck,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 // Super Admin Navigation - export disabled to avoid conflicts with shared/navigation-structure.tsx
 // export const superAdminNavigation: NavItem[] = [
@@ -64,40 +64,40 @@ const _superAdminNavigation: NavItem[] = [
   // Dashboard Section
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Dashboard",
-    href: "/",
-    icon: <LayoutDashboard className="h-5 w-5" />,
+    label: &quot;Dashboard&quot;,
+    href: &quot;/&quot;,
+    icon: <LayoutDashboard className=&quot;h-5 w-5&quot; />,
   },
 
   // Booking Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Booking Management",
-    icon: <BookOpenCheck className="h-5 w-5" />,
+    label: &quot;Booking Management&quot;,
+    icon: <BookOpenCheck className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Bookings",
-        href: "/bookings",
-        icon: <ClipboardList className="h-5 w-5" />,
+        label: &quot;Bookings&quot;,
+        href: &quot;/bookings&quot;,
+        icon: <ClipboardList className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Calendar",
-        href: "/calendar",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Calendar&quot;,
+        href: &quot;/calendar&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Events",
-        href: "/events",
-        icon: <Clock className="h-5 w-5" />,
+        label: &quot;Events&quot;,
+        href: &quot;/events&quot;,
+        icon: <Clock className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Reports",
-        href: "/reports",
-        icon: <BarChart className="h-5 w-5" />,
+        label: &quot;Reports&quot;,
+        href: &quot;/reports&quot;,
+        icon: <BarChart className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -105,32 +105,32 @@ const _superAdminNavigation: NavItem[] = [
   // Staff Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Staff Management",
-    icon: <Users className="h-5 w-5" />,
+    label: &quot;Staff Management&quot;,
+    icon: <Users className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Managers",
-        href: "/staff/managers",
-        icon: <UserCog className="h-5 w-5" />,
+        label: &quot;Managers&quot;,
+        href: &quot;/staff/managers&quot;,
+        icon: <UserCog className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Brand Agents",
-        href: "/staff/agents",
-        icon: <BadgeCheck className="h-5 w-5" />,
+        label: &quot;Brand Agents&quot;,
+        href: &quot;/staff/agents&quot;,
+        icon: <BadgeCheck className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Schedule",
-        href: "/staff/schedule",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Schedule&quot;,
+        href: &quot;/staff/schedule&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Onboarding",
-        href: "/staff/onboarding",
-        icon: <UserPlus className="h-5 w-5" />,
+        label: &quot;Onboarding&quot;,
+        href: &quot;/staff/onboarding&quot;,
+        icon: <UserPlus className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -138,26 +138,26 @@ const _superAdminNavigation: NavItem[] = [
   // Location Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Location Management",
-    icon: <MapPin className="h-5 w-5" />,
+    label: &quot;Location Management&quot;,
+    icon: <MapPin className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Locations Map",
-        href: "/locations",
-        icon: <Globe className="h-5 w-5" />,
+        label: &quot;Locations Map&quot;,
+        href: &quot;/locations&quot;,
+        icon: <Globe className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Directory",
-        href: "/locations/directory",
-        icon: <Building className="h-5 w-5" />,
+        label: &quot;Directory&quot;,
+        href: &quot;/locations/directory&quot;,
+        icon: <Building className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Admin",
-        href: "/admin/locations",
-        icon: <Cog className="h-5 w-5" />,
+        label: &quot;Admin&quot;,
+        href: &quot;/admin/locations&quot;,
+        icon: <Cog className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -165,26 +165,26 @@ const _superAdminNavigation: NavItem[] = [
   // Client Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Client Management",
-    icon: <Briefcase className="h-5 w-5" />,
+    label: &quot;Client Management&quot;,
+    icon: <Briefcase className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Organizations",
-        href: "/clients/organizations",
-        icon: <Network className="h-5 w-5" />,
+        label: &quot;Organizations&quot;,
+        href: &quot;/clients/organizations&quot;,
+        icon: <Network className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Contacts",
-        href: "/clients/contacts",
-        icon: <Users className="h-5 w-5" />,
+        label: &quot;Contacts&quot;,
+        href: &quot;/clients/contacts&quot;,
+        icon: <Users className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Analytics",
-        href: "/clients/analytics",
-        icon: <LineChart className="h-5 w-5" />,
+        label: &quot;Analytics&quot;,
+        href: &quot;/clients/analytics&quot;,
+        icon: <LineChart className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -192,26 +192,26 @@ const _superAdminNavigation: NavItem[] = [
   // Inventory Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Inventory",
-    icon: <Package className="h-5 w-5" />,
+    label: &quot;Inventory&quot;,
+    icon: <Package className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Kit Templates",
-        href: "/inventory/kits",
-        icon: <Layers className="h-5 w-5" />,
+        label: &quot;Kit Templates&quot;,
+        href: &quot;/inventory/kits&quot;,
+        icon: <Layers className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Items",
-        href: "/inventory/items",
-        icon: <Package className="h-5 w-5" />,
+        label: &quot;Items&quot;,
+        href: &quot;/inventory/items&quot;,
+        icon: <Package className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Stock",
-        href: "/inventory/stock",
-        icon: <HardDrive className="h-5 w-5" />,
+        label: &quot;Stock&quot;,
+        href: &quot;/inventory/stock&quot;,
+        icon: <HardDrive className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -219,26 +219,26 @@ const _superAdminNavigation: NavItem[] = [
   // Analytics Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Analytics",
-    icon: <PieChart className="h-5 w-5" />,
+    label: &quot;Analytics&quot;,
+    icon: <PieChart className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Dashboard",
-        href: "/analytics",
-        icon: <LayoutDashboard className="h-5 w-5" />,
+        label: &quot;Dashboard&quot;,
+        href: &quot;/analytics&quot;,
+        icon: <LayoutDashboard className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Reports",
-        href: "/analytics/reports",
-        icon: <FileText className="h-5 w-5" />,
+        label: &quot;Reports&quot;,
+        href: &quot;/analytics/reports&quot;,
+        icon: <FileText className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Raw Data",
-        href: "/analytics/data",
-        icon: <Table className="h-5 w-5" />,
+        label: &quot;Raw Data&quot;,
+        href: &quot;/analytics/data&quot;,
+        icon: <Table className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -246,20 +246,20 @@ const _superAdminNavigation: NavItem[] = [
   // Learning Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Learning",
-    icon: <GraduationCap className="h-5 w-5" />,
+    label: &quot;Learning&quot;,
+    icon: <GraduationCap className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Courses",
-        href: "/learning/courses",
-        icon: <BookOpenCheck className="h-5 w-5" />,
+        label: &quot;Courses&quot;,
+        href: &quot;/learning/courses&quot;,
+        icon: <BookOpenCheck className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Certifications",
-        href: "/learning/certifications",
-        icon: <CheckSquare className="h-5 w-5" />,
+        label: &quot;Certifications&quot;,
+        href: &quot;/learning/certifications&quot;,
+        icon: <CheckSquare className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -267,38 +267,38 @@ const _superAdminNavigation: NavItem[] = [
   // Platform Administration
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Platform Administration",
-    icon: <Shield className="h-5 w-5" />,
+    label: &quot;Platform Administration&quot;,
+    icon: <Shield className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Users",
-        href: "/admin/users",
-        icon: <UsersRound className="h-5 w-5" />,
+        label: &quot;Users&quot;,
+        href: &quot;/admin/users&quot;,
+        icon: <UsersRound className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Roles",
-        href: "/admin/roles",
-        icon: <KeySquare className="h-5 w-5" />,
+        label: &quot;Roles&quot;,
+        href: &quot;/admin/roles&quot;,
+        icon: <KeySquare className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Settings",
-        href: "/admin/settings",
-        icon: <Settings className="h-5 w-5" />,
+        label: &quot;Settings&quot;,
+        href: &quot;/admin/settings&quot;,
+        icon: <Settings className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Integrations",
-        href: "/admin/integrations",
-        icon: <Server className="h-5 w-5" />,
+        label: &quot;Integrations&quot;,
+        href: &quot;/admin/integrations&quot;,
+        icon: <Server className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "System Status",
-        href: "/admin/status",
-        icon: <AlertCircle className="h-5 w-5" />,
+        label: &quot;System Status&quot;,
+        href: &quot;/admin/status&quot;,
+        icon: <AlertCircle className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -310,34 +310,34 @@ const _internalAdminNavigation: NavItem[] = [
   // Dashboard
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Dashboard",
-    href: "/",
-    icon: <LayoutDashboard className="h-5 w-5" />,
+    label: &quot;Dashboard&quot;,
+    href: &quot;/&quot;,
+    icon: <LayoutDashboard className=&quot;h-5 w-5&quot; />,
   },
 
   // Booking Management Section
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Booking Management",
-    icon: <BookOpenCheck className="h-5 w-5" />,
+    label: &quot;Booking Management&quot;,
+    icon: <BookOpenCheck className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Bookings",
-        href: "/bookings",
-        icon: <ClipboardList className="h-5 w-5" />,
+        label: &quot;Bookings&quot;,
+        href: &quot;/bookings&quot;,
+        icon: <ClipboardList className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Calendar",
-        href: "/calendar",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Calendar&quot;,
+        href: &quot;/calendar&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Events",
-        href: "/events",
-        icon: <Clock className="h-5 w-5" />,
+        label: &quot;Events&quot;,
+        href: &quot;/events&quot;,
+        icon: <Clock className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -345,26 +345,26 @@ const _internalAdminNavigation: NavItem[] = [
   // Staff management
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Staff Management",
-    icon: <Users className="h-5 w-5" />,
+    label: &quot;Staff Management&quot;,
+    icon: <Users className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Field Managers",
-        href: "/staff/managers",
-        icon: <UserCog className="h-5 w-5" />,
+        label: &quot;Field Managers&quot;,
+        href: &quot;/staff/managers&quot;,
+        icon: <UserCog className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Brand Agents",
-        href: "/staff/agents",
-        icon: <BadgeCheck className="h-5 w-5" />,
+        label: &quot;Brand Agents&quot;,
+        href: &quot;/staff/agents&quot;,
+        icon: <BadgeCheck className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Schedule",
-        href: "/staff/schedule",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Schedule&quot;,
+        href: &quot;/staff/schedule&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -372,26 +372,26 @@ const _internalAdminNavigation: NavItem[] = [
   // Locations
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Locations",
-    icon: <MapPin className="h-5 w-5" />,
+    label: &quot;Locations&quot;,
+    icon: <MapPin className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Map",
-        href: "/locations",
-        icon: <Globe className="h-5 w-5" />,
+        label: &quot;Map&quot;,
+        href: &quot;/locations&quot;,
+        icon: <Globe className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Directory",
-        href: "/locations/directory",
-        icon: <Building className="h-5 w-5" />,
+        label: &quot;Directory&quot;,
+        href: &quot;/locations/directory&quot;,
+        icon: <Building className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Admin",
-        href: "/admin/locations",
-        icon: <Cog className="h-5 w-5" />,
+        label: &quot;Admin&quot;,
+        href: &quot;/admin/locations&quot;,
+        icon: <Cog className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -399,20 +399,20 @@ const _internalAdminNavigation: NavItem[] = [
   // Client Management
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Clients",
-    icon: <Briefcase className="h-5 w-5" />,
+    label: &quot;Clients&quot;,
+    icon: <Briefcase className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Organizations",
-        href: "/clients/organizations",
-        icon: <Network className="h-5 w-5" />,
+        label: &quot;Organizations&quot;,
+        href: &quot;/clients/organizations&quot;,
+        icon: <Network className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Contacts",
-        href: "/clients/contacts",
-        icon: <Users className="h-5 w-5" />,
+        label: &quot;Contacts&quot;,
+        href: &quot;/clients/contacts&quot;,
+        icon: <Users className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -424,34 +424,34 @@ const _fieldManagerNavigation: NavItem[] = [
   // Dashboard
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Dashboard",
-    href: "/",
-    icon: <LayoutDashboard className="h-5 w-5" />,
+    label: &quot;Dashboard&quot;,
+    href: &quot;/&quot;,
+    icon: <LayoutDashboard className=&quot;h-5 w-5&quot; />,
   },
 
   // Events
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Events",
-    icon: <Calendar className="h-5 w-5" />,
+    label: &quot;Events&quot;,
+    icon: <Calendar className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Calendar",
-        href: "/calendar",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Calendar&quot;,
+        href: &quot;/calendar&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Bookings",
-        href: "/bookings",
-        icon: <ClipboardList className="h-5 w-5" />,
+        label: &quot;Bookings&quot;,
+        href: &quot;/bookings&quot;,
+        icon: <ClipboardList className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Event Management",
-        href: "/events",
-        icon: <Clock className="h-5 w-5" />,
+        label: &quot;Event Management&quot;,
+        href: &quot;/events&quot;,
+        icon: <Clock className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -459,26 +459,26 @@ const _fieldManagerNavigation: NavItem[] = [
   // Staff
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Brand Agents",
-    icon: <Users className="h-5 w-5" />,
+    label: &quot;Brand Agents&quot;,
+    icon: <Users className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Team",
-        href: "/staff/agents",
-        icon: <BadgeCheck className="h-5 w-5" />,
+        label: &quot;Team&quot;,
+        href: &quot;/staff/agents&quot;,
+        icon: <BadgeCheck className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Schedule",
-        href: "/staff/schedule",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Schedule&quot;,
+        href: &quot;/staff/schedule&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Performance",
-        href: "/staff/performance",
-        icon: <BarChart className="h-5 w-5" />,
+        label: &quot;Performance&quot;,
+        href: &quot;/staff/performance&quot;,
+        icon: <BarChart className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -486,20 +486,20 @@ const _fieldManagerNavigation: NavItem[] = [
   // Locations
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Locations",
-    icon: <MapPin className="h-5 w-5" />,
+    label: &quot;Locations&quot;,
+    icon: <MapPin className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Map",
-        href: "/locations",
-        icon: <Globe className="h-5 w-5" />,
+        label: &quot;Map&quot;,
+        href: &quot;/locations&quot;,
+        icon: <Globe className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Directory",
-        href: "/locations/directory",
-        icon: <Building className="h-5 w-5" />,
+        label: &quot;Directory&quot;,
+        href: &quot;/locations/directory&quot;,
+        icon: <Building className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -511,41 +511,41 @@ const _brandAgentNavigation: NavItem[] = [
   // Dashboard
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Dashboard",
-    href: "/",
-    icon: <LayoutDashboard className="h-5 w-5" />,
+    label: &quot;Dashboard&quot;,
+    href: &quot;/&quot;,
+    icon: <LayoutDashboard className=&quot;h-5 w-5&quot; />,
   },
 
   // Schedule
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "My Schedule",
-    href: "/schedule",
-    icon: <Calendar className="h-5 w-5" />,
+    label: &quot;My Schedule&quot;,
+    href: &quot;/schedule&quot;,
+    icon: <Calendar className=&quot;h-5 w-5&quot; />,
   },
 
   // Events
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Events",
-    href: "/events",
-    icon: <Clock className="h-5 w-5" />,
+    label: &quot;Events&quot;,
+    href: &quot;/events&quot;,
+    icon: <Clock className=&quot;h-5 w-5&quot; />,
   },
 
   // Locations
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Locations",
-    href: "/locations",
-    icon: <MapPin className="h-5 w-5" />,
+    label: &quot;Locations&quot;,
+    href: &quot;/locations&quot;,
+    icon: <MapPin className=&quot;h-5 w-5&quot; />,
   },
 
   // Tasks
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Tasks",
-    href: "/tasks",
-    icon: <CheckSquare className="h-5 w-5" />,
+    label: &quot;Tasks&quot;,
+    href: &quot;/tasks&quot;,
+    icon: <CheckSquare className=&quot;h-5 w-5&quot; />,
   },
 ];
 
@@ -555,34 +555,34 @@ const _clientUserNavigation: NavItem[] = [
   // Dashboard
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Dashboard",
-    href: "/",
-    icon: <LayoutDashboard className="h-5 w-5" />,
+    label: &quot;Dashboard&quot;,
+    href: &quot;/&quot;,
+    icon: <LayoutDashboard className=&quot;h-5 w-5&quot; />,
   },
 
   // Bookings
   {
     type: NAV_ITEM_TYPES.SECTION,
-    label: "Booking Management",
-    icon: <BookOpenCheck className="h-5 w-5" />,
+    label: &quot;Booking Management&quot;,
+    icon: <BookOpenCheck className=&quot;h-5 w-5&quot; />,
     children: [
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "All Bookings",
-        href: "/bookings",
-        icon: <ClipboardList className="h-5 w-5" />,
+        label: &quot;All Bookings&quot;,
+        href: &quot;/bookings&quot;,
+        icon: <ClipboardList className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Create Booking",
-        href: "/bookings/new",
-        icon: <FileText className="h-5 w-5" />,
+        label: &quot;Create Booking&quot;,
+        href: &quot;/bookings/new&quot;,
+        icon: <FileText className=&quot;h-5 w-5&quot; />,
       },
       {
         type: NAV_ITEM_TYPES.LINK,
-        label: "Calendar",
-        href: "/calendar",
-        icon: <Calendar className="h-5 w-5" />,
+        label: &quot;Calendar&quot;,
+        href: &quot;/calendar&quot;,
+        icon: <Calendar className=&quot;h-5 w-5&quot; />,
       },
     ],
   },
@@ -590,24 +590,24 @@ const _clientUserNavigation: NavItem[] = [
   // Events
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Events",
-    href: "/events",
-    icon: <Clock className="h-5 w-5" />,
+    label: &quot;Events&quot;,
+    href: &quot;/events&quot;,
+    icon: <Clock className=&quot;h-5 w-5&quot; />,
   },
 
   // Locations
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Locations",
-    href: "/locations",
-    icon: <MapPin className="h-5 w-5" />,
+    label: &quot;Locations&quot;,
+    href: &quot;/locations&quot;,
+    icon: <MapPin className=&quot;h-5 w-5&quot; />,
   },
 
   // Analytics
   {
     type: NAV_ITEM_TYPES.LINK,
-    label: "Analytics",
-    href: "/analytics",
-    icon: <BarChart className="h-5 w-5" />,
+    label: &quot;Analytics&quot;,
+    href: &quot;/analytics&quot;,
+    icon: <BarChart className=&quot;h-5 w-5&quot; />,
   },
 ];

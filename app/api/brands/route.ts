@@ -1,15 +1,15 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Brands API Routes
  */
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
-import { db } from "@/db";
-import { brands, organizations, userOrganizations } from "@/shared/schema";
-import { eq, and, or, inArray } from "drizzle-orm";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { db } from &quot;@/db&quot;;
+import { brands, organizations, userOrganizations } from &quot;@/shared/schema&quot;;
+import { eq, and, or, inArray } from &quot;drizzle-orm&quot;;
 
 /**
  * GET /api/brands
@@ -20,12 +20,12 @@ export async function GET(req: NextRequest) {
     // Get authenticated user
     const user = await getCurrentUser(req);
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Parse query parameters
     const { searchParams } = new URL(req.url);
-    const organizationId = searchParams.get("organizationId");
+    const organizationId = searchParams.get(&quot;organizationId&quot;);
 
     let brandsQuery = db
       .select({
@@ -47,9 +47,9 @@ export async function GET(req: NextRequest) {
       );
 
     // Apply role-based filtering
-    if (user.role === "super_admin" || user.role === "internal_admin") {
+    if (user.role === &quot;super_admin&quot; || user.role === &quot;internal_admin&quot;) {
       // Super admins and internal admins can see all brands
-    } else if (user.role === "internal_field_manager") {
+    } else if (user.role === &quot;internal_field_manager&quot;) {
       // Internal field managers can see brands from organizations they have access to
       const userOrgs = await db
         .select({ organizationId: userOrganizations.organizationId })
@@ -83,10 +83,10 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(brandsData);
   } catch (error) {
-    console.error("Error fetching brands:", error);
+    console.error(&quot;Error fetching brands:&quot;, error);
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : "An unknown error occurred",
+        error: error instanceof Error ? error.message : &quot;An unknown error occurred&quot;,
       },
       { status: 500 }
     );

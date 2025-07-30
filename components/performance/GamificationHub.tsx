@@ -1,12 +1,12 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from &quot;react&quot;;
+import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Progress } from &quot;@/components/ui/progress&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 import { 
   Trophy, 
   Crown, 
@@ -27,7 +27,7 @@ import {
   ArrowUp,
   ArrowDown,
   Plus
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 interface Achievement {
   id: string;
@@ -36,7 +36,7 @@ interface Achievement {
   icon: string;
   category: string;
   points: number;
-  rarity: "common" | "uncommon" | "rare" | "legendary";
+  rarity: &quot;common&quot; | &quot;uncommon&quot; | &quot;rare&quot; | &quot;legendary&quot;;
   unlocked: boolean;
   progress: number;
   maxProgress: number;
@@ -66,72 +66,72 @@ interface Challenge {
   endDate: string;
   participants: number;
   completed: number;
-  status: "active" | "upcoming" | "completed";
+  status: &quot;active&quot; | &quot;upcoming&quot; | &quot;completed&quot;;
 }
 
 export default function GamificationHub() {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [activeTab, setActiveTab] = useState(&quot;overview&quot;);
+  const [selectedCategory, setSelectedCategory] = useState(&quot;all&quot;);
 
   const achievements: Achievement[] = [
     {
-      id: "1",
-      name: "Cannabis Expert",
-      description: "Complete 100 product knowledge assessments",
-      icon: "🌿",
-      category: "Knowledge",
+      id: &quot;1&quot;,
+      name: &quot;Cannabis Expert&quot;,
+      description: &quot;Complete 100 product knowledge assessments&quot;,
+      icon: &quot;🌿&quot;,
+      category: &quot;Knowledge&quot;,
       points: 500,
-      rarity: "legendary",
+      rarity: &quot;legendary&quot;,
       unlocked: true,
       progress: 100,
       maxProgress: 100,
-      unlockedDate: "2025-01-10"
+      unlockedDate: &quot;2025-01-10&quot;
     },
     {
-      id: "2",
-      name: "Customer Champion",
-      description: "Achieve 95% customer satisfaction rating",
-      icon: "🏆",
-      category: "Service",
+      id: &quot;2&quot;,
+      name: &quot;Customer Champion&quot;,
+      description: &quot;Achieve 95% customer satisfaction rating&quot;,
+      icon: &quot;🏆&quot;,
+      category: &quot;Service&quot;,
       points: 300,
-      rarity: "rare",
+      rarity: &quot;rare&quot;,
       unlocked: true,
       progress: 95,
       maxProgress: 100,
-      unlockedDate: "2025-01-08"
+      unlockedDate: &quot;2025-01-08&quot;
     },
     {
-      id: "3",
-      name: "Team Player",
-      description: "Collaborate on 50 team projects",
-      icon: "🤝",
-      category: "Collaboration",
+      id: &quot;3&quot;,
+      name: &quot;Team Player&quot;,
+      description: &quot;Collaborate on 50 team projects&quot;,
+      icon: &quot;🤝&quot;,
+      category: &quot;Collaboration&quot;,
       points: 200,
-      rarity: "uncommon",
+      rarity: &quot;uncommon&quot;,
       unlocked: false,
       progress: 38,
       maxProgress: 50
     },
     {
-      id: "4",
-      name: "Innovation Star",
-      description: "Submit 10 improvement suggestions",
-      icon: "💡",
-      category: "Innovation",
+      id: &quot;4&quot;,
+      name: &quot;Innovation Star&quot;,
+      description: &quot;Submit 10 improvement suggestions&quot;,
+      icon: &quot;💡&quot;,
+      category: &quot;Innovation&quot;,
       points: 150,
-      rarity: "uncommon",
+      rarity: &quot;uncommon&quot;,
       unlocked: false,
       progress: 7,
       maxProgress: 10
     },
     {
-      id: "5",
-      name: "Sales Superstar",
-      description: "Exceed monthly sales target for 6 consecutive months",
-      icon: "💰",
-      category: "Sales",
+      id: &quot;5&quot;,
+      name: &quot;Sales Superstar&quot;,
+      description: &quot;Exceed monthly sales target for 6 consecutive months&quot;,
+      icon: &quot;💰&quot;,
+      category: &quot;Sales&quot;,
       points: 750,
-      rarity: "legendary",
+      rarity: &quot;legendary&quot;,
       unlocked: false,
       progress: 4,
       maxProgress: 6
@@ -140,240 +140,240 @@ export default function GamificationHub() {
 
   const leaderboard: LeaderboardEntry[] = [
     {
-      id: "1",
-      name: "Sarah Chen",
-      role: "Senior Brand Agent",
-      avatar: "/api/placeholder/40/40",
+      id: &quot;1&quot;,
+      name: &quot;Sarah Chen&quot;,
+      role: &quot;Senior Brand Agent&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
       points: 2850,
       rank: 1,
       previousRank: 2,
-      badges: ["Cannabis Expert", "Customer Champion", "Team Player"],
+      badges: [&quot;Cannabis Expert&quot;, &quot;Customer Champion&quot;, &quot;Team Player&quot;],
       streak: 12
     },
     {
-      id: "2",
-      name: "Mike Rodriguez",
-      role: "Field Manager",
-      avatar: "/api/placeholder/40/40",
+      id: &quot;2&quot;,
+      name: &quot;Mike Rodriguez&quot;,
+      role: &quot;Field Manager&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
       points: 2720,
       rank: 2,
       previousRank: 1,
-      badges: ["Leadership Star", "Innovation Award", "Mentor"],
+      badges: [&quot;Leadership Star&quot;, &quot;Innovation Award&quot;, &quot;Mentor&quot;],
       streak: 8
     },
     {
-      id: "3",
-      name: "Jennifer Kim",
-      role: "Brand Agent",
-      avatar: "/api/placeholder/40/40",
+      id: &quot;3&quot;,
+      name: &quot;Jennifer Kim&quot;,
+      role: &quot;Brand Agent&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
       points: 2460,
       rank: 3,
       previousRank: 4,
-      badges: ["Rising Star", "Quick Learner", "Reliable"],
+      badges: [&quot;Rising Star&quot;, &quot;Quick Learner&quot;, &quot;Reliable&quot;],
       streak: 15
     },
     {
-      id: "4",
-      name: "David Park",
-      role: "Brand Agent",
-      avatar: "/api/placeholder/40/40",
+      id: &quot;4&quot;,
+      name: &quot;David Park&quot;,
+      role: &quot;Brand Agent&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
       points: 2280,
       rank: 4,
       previousRank: 3,
-      badges: ["Customer Focus", "Team Spirit"],
+      badges: [&quot;Customer Focus&quot;, &quot;Team Spirit&quot;],
       streak: 6
     },
     {
-      id: "5",
-      name: "Lisa Wang",
-      role: "Field Manager",
-      avatar: "/api/placeholder/40/40",
+      id: &quot;5&quot;,
+      name: &quot;Lisa Wang&quot;,
+      role: &quot;Field Manager&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
       points: 2150,
       rank: 5,
       previousRank: 5,
-      badges: ["Problem Solver", "Efficiency Expert"],
+      badges: [&quot;Problem Solver&quot;, &quot;Efficiency Expert&quot;],
       streak: 10
     }
   ];
 
   const challenges: Challenge[] = [
     {
-      id: "1",
-      name: "January Excellence Sprint",
-      description: "Complete all monthly objectives with 95% accuracy",
-      icon: "🎯",
-      category: "Performance",
+      id: &quot;1&quot;,
+      name: &quot;January Excellence Sprint&quot;,
+      description: &quot;Complete all monthly objectives with 95% accuracy&quot;,
+      icon: &quot;🎯&quot;,
+      category: &quot;Performance&quot;,
       points: 400,
-      startDate: "2025-01-01",
-      endDate: "2025-01-31",
+      startDate: &quot;2025-01-01&quot;,
+      endDate: &quot;2025-01-31&quot;,
       participants: 45,
       completed: 12,
-      status: "active"
+      status: &quot;active&quot;
     },
     {
-      id: "2",
-      name: "Customer Satisfaction Boost",
-      description: "Improve team customer satisfaction score by 10%",
-      icon: "😊",
-      category: "Service",
+      id: &quot;2&quot;,
+      name: &quot;Customer Satisfaction Boost&quot;,
+      description: &quot;Improve team customer satisfaction score by 10%&quot;,
+      icon: &quot;😊&quot;,
+      category: &quot;Service&quot;,
       points: 300,
-      startDate: "2025-01-15",
-      endDate: "2025-02-15",
+      startDate: &quot;2025-01-15&quot;,
+      endDate: &quot;2025-02-15&quot;,
       participants: 28,
       completed: 8,
-      status: "active"
+      status: &quot;active&quot;
     },
     {
-      id: "3",
-      name: "Innovation Challenge",
-      description: "Submit creative improvement ideas for operations",
-      icon: "💡",
-      category: "Innovation",
+      id: &quot;3&quot;,
+      name: &quot;Innovation Challenge&quot;,
+      description: &quot;Submit creative improvement ideas for operations&quot;,
+      icon: &quot;💡&quot;,
+      category: &quot;Innovation&quot;,
       points: 250,
-      startDate: "2025-02-01",
-      endDate: "2025-02-28",
+      startDate: &quot;2025-02-01&quot;,
+      endDate: &quot;2025-02-28&quot;,
       participants: 0,
       completed: 0,
-      status: "upcoming"
+      status: &quot;upcoming&quot;
     }
   ];
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case "legendary": return "bg-gradient-to-r from-purple-500 to-pink-500 text-white";
-      case "rare": return "bg-gradient-to-r from-teal-500 to-purple-500 text-white";
-      case "uncommon": return "bg-gradient-to-r from-green-500 to-teal-500 text-white";
-      case "common": return "bg-gradient-to-r from-gray-400 to-gray-600 text-white";
-      default: return "bg-gray-100 text-gray-800";
+      case &quot;legendary&quot;: return &quot;bg-gradient-to-r from-purple-500 to-pink-500 text-white&quot;;
+      case &quot;rare&quot;: return &quot;bg-gradient-to-r from-teal-500 to-purple-500 text-white&quot;;
+      case &quot;uncommon&quot;: return &quot;bg-gradient-to-r from-green-500 to-teal-500 text-white&quot;;
+      case &quot;common&quot;: return &quot;bg-gradient-to-r from-gray-400 to-gray-600 text-white&quot;;
+      default: return &quot;bg-gray-100 text-gray-800&quot;;
     }
   };
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
-      case 1: return <Crown className="w-5 h-5 text-yellow-500" />;
-      case 2: return <Medal className="w-5 h-5 text-gray-400" />;
-      case 3: return <Award className="w-5 h-5 text-amber-600" />;
-      default: return <span className="text-sm font-bold">{rank}</span>;
+      case 1: return <Crown className=&quot;w-5 h-5 text-yellow-500&quot; />;
+      case 2: return <Medal className=&quot;w-5 h-5 text-gray-400&quot; />;
+      case 3: return <Award className=&quot;w-5 h-5 text-amber-600&quot; />;
+      default: return <span className=&quot;text-sm font-bold&quot;>{rank}</span>;
     }
   };
 
   const getRankChange = (current: number, previous: number) => {
-    if (current < previous) return <ArrowUp className="w-4 h-4 text-green-500" />;
-    if (current > previous) return <ArrowDown className="w-4 h-4 text-red-500" />;
-    return <span className="text-gray-400">-</span>;
+    if (current < previous) return <ArrowUp className=&quot;w-4 h-4 text-green-500&quot; />;
+    if (current > previous) return <ArrowDown className=&quot;w-4 h-4 text-red-500&quot; />;
+    return <span className=&quot;text-gray-400&quot;>-</span>;
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active": return "bg-green-100 text-green-800";
-      case "upcoming": return "bg-teal-100 text-teal-800";
-      case "completed": return "bg-gray-100 text-gray-800";
-      default: return "bg-gray-100 text-gray-800";
+      case &quot;active&quot;: return &quot;bg-green-100 text-green-800&quot;;
+      case &quot;upcoming&quot;: return &quot;bg-teal-100 text-teal-800&quot;;
+      case &quot;completed&quot;: return &quot;bg-gray-100 text-gray-800&quot;;
+      default: return &quot;bg-gray-100 text-gray-800&quot;;
     }
   };
 
-  const filteredAchievements = selectedCategory === "all" 
+  const filteredAchievements = selectedCategory === &quot;all&quot; 
     ? achievements 
     : achievements.filter(a => a.category.toLowerCase() === selectedCategory);
 
   return (
-    <div className="space-y-6">
+    <div className=&quot;space-y-6&quot;>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Gamification Hub</h2>
-          <p className="text-gray-600">Achievements, leaderboards, and recognition system</p>
+          <h2 className=&quot;text-2xl font-bold text-gray-900&quot;>Gamification Hub</h2>
+          <p className=&quot;text-gray-600&quot;>Achievements, leaderboards, and recognition system</p>
         </div>
-        <Button className="gap-2 bg-gradient-to-r from-purple-500 to-pink-600">
-          <Plus className="w-4 h-4" />
+        <Button className=&quot;gap-2 bg-gradient-to-r from-purple-500 to-pink-600&quot;>
+          <Plus className=&quot;w-4 h-4&quot; />
           Create Challenge
         </Button>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="achievements">Achievements</TabsTrigger>
-          <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-          <TabsTrigger value="challenges">Challenges</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className=&quot;space-y-6&quot;>
+        <TabsList className=&quot;grid w-full grid-cols-4&quot;>
+          <TabsTrigger value=&quot;overview&quot;>Overview</TabsTrigger>
+          <TabsTrigger value=&quot;achievements&quot;>Achievements</TabsTrigger>
+          <TabsTrigger value=&quot;leaderboard&quot;>Leaderboard</TabsTrigger>
+          <TabsTrigger value=&quot;challenges&quot;>Challenges</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value=&quot;overview&quot; className=&quot;space-y-6&quot;>
           {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+          <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
+            <Card className=&quot;bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-yellow-600 mb-1">Total Points</p>
-                    <p className="text-2xl font-bold text-yellow-800">12,460</p>
+                    <p className=&quot;text-sm text-yellow-600 mb-1&quot;>Total Points</p>
+                    <p className=&quot;text-2xl font-bold text-yellow-800&quot;>12,460</p>
                   </div>
-                  <Star className="w-8 h-8 text-yellow-500" />
+                  <Star className=&quot;w-8 h-8 text-yellow-500&quot; />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+            <Card className=&quot;bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-purple-600 mb-1">Achievements</p>
-                    <p className="text-2xl font-bold text-purple-800">8/20</p>
+                    <p className=&quot;text-sm text-purple-600 mb-1&quot;>Achievements</p>
+                    <p className=&quot;text-2xl font-bold text-purple-800&quot;>8/20</p>
                   </div>
-                  <Trophy className="w-8 h-8 text-purple-500" />
+                  <Trophy className=&quot;w-8 h-8 text-purple-500&quot; />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+            <Card className=&quot;bg-gradient-to-br from-green-50 to-green-100 border-green-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-green-600 mb-1">Streak</p>
-                    <p className="text-2xl font-bold text-green-800">15 days</p>
+                    <p className=&quot;text-sm text-green-600 mb-1&quot;>Streak</p>
+                    <p className=&quot;text-2xl font-bold text-green-800&quot;>15 days</p>
                   </div>
-                  <Fire className="w-8 h-8 text-green-500" />
+                  <Fire className=&quot;w-8 h-8 text-green-500&quot; />
                 </div>
               </CardContent>
             </Card>
             
-            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
+            <Card className=&quot;bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200&quot;>
+              <CardContent className=&quot;p-4&quot;>
+                <div className=&quot;flex items-center justify-between&quot;>
                   <div>
-                    <p className="text-sm text-blue-600 mb-1">Rank</p>
-                    <p className="text-2xl font-bold text-blue-800">#3</p>
+                    <p className=&quot;text-sm text-blue-600 mb-1&quot;>Rank</p>
+                    <p className=&quot;text-2xl font-bold text-blue-800&quot;>#3</p>
                   </div>
-                  <Medal className="w-8 h-8 text-blue-500" />
+                  <Medal className=&quot;w-8 h-8 text-blue-500&quot; />
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Recent Activity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;>
             {/* Recent Achievements */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Award className="w-5 h-5" />
+                <CardTitle className=&quot;flex items-center gap-2&quot;>
+                  <Award className=&quot;w-5 h-5&quot; />
                   Recent Achievements
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {achievements.filter(a => a.unlocked).slice(0, 3).map((achievement) => (
-                    <div key={achievement.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="text-2xl">{achievement.icon}</div>
-                      <div className="flex-1">
-                        <p className="font-semibold">{achievement.name}</p>
-                        <p className="text-sm text-gray-600">{achievement.description}</p>
-                        <div className="flex items-center gap-2 mt-1">
+                    <div key={achievement.id} className=&quot;flex items-center gap-3 p-3 bg-gray-50 rounded-lg&quot;>
+                      <div className=&quot;text-2xl&quot;>{achievement.icon}</div>
+                      <div className=&quot;flex-1&quot;>
+                        <p className=&quot;font-semibold&quot;>{achievement.name}</p>
+                        <p className=&quot;text-sm text-gray-600&quot;>{achievement.description}</p>
+                        <div className=&quot;flex items-center gap-2 mt-1&quot;>
                           <Badge className={getRarityColor(achievement.rarity)}>
                             {achievement.rarity}
                           </Badge>
-                          <span className="text-sm text-gray-500">+{achievement.points} points</span>
+                          <span className=&quot;text-sm text-gray-500&quot;>+{achievement.points} points</span>
                         </div>
                       </div>
                     </div>
@@ -385,35 +385,35 @@ export default function GamificationHub() {
             {/* Top Performers */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Crown className="w-5 h-5" />
+                <CardTitle className=&quot;flex items-center gap-2&quot;>
+                  <Crown className=&quot;w-5 h-5&quot; />
                   Top Performers
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {leaderboard.slice(0, 3).map((performer) => (
-                    <div key={performer.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                    <div key={performer.id} className=&quot;flex items-center gap-3 p-3 bg-gray-50 rounded-lg&quot;>
+                      <div className=&quot;flex items-center gap-3&quot;>
+                        <div className=&quot;w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center&quot;>
                           {getRankIcon(performer.rank)}
                         </div>
-                        <Avatar className="w-10 h-10">
+                        <Avatar className=&quot;w-10 h-10&quot;>
                           <AvatarImage src={performer.avatar} alt={performer.name} />
                           <AvatarFallback>{performer.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                       </div>
-                      <div className="flex-1">
-                        <p className="font-semibold">{performer.name}</p>
-                        <p className="text-sm text-gray-600">{performer.role}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Fire className="w-4 h-4 text-orange-500" />
-                          <span className="text-sm text-gray-500">{performer.streak} day streak</span>
+                      <div className=&quot;flex-1&quot;>
+                        <p className=&quot;font-semibold&quot;>{performer.name}</p>
+                        <p className=&quot;text-sm text-gray-600&quot;>{performer.role}</p>
+                        <div className=&quot;flex items-center gap-2 mt-1&quot;>
+                          <Fire className=&quot;w-4 h-4 text-orange-500&quot; />
+                          <span className=&quot;text-sm text-gray-500&quot;>{performer.streak} day streak</span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-lg">{performer.points.toLocaleString()}</p>
-                        <div className="flex items-center gap-1">
+                      <div className=&quot;text-right&quot;>
+                        <p className=&quot;font-bold text-lg&quot;>{performer.points.toLocaleString()}</p>
+                        <div className=&quot;flex items-center gap-1&quot;>
                           {getRankChange(performer.rank, performer.previousRank)}
                         </div>
                       </div>
@@ -426,14 +426,14 @@ export default function GamificationHub() {
         </TabsContent>
 
         {/* Achievements Tab */}
-        <TabsContent value="achievements" className="space-y-6">
+        <TabsContent value=&quot;achievements&quot; className=&quot;space-y-6&quot;>
           {/* Category Filter */}
-          <div className="flex gap-2 flex-wrap">
-            {["all", "knowledge", "service", "collaboration", "innovation", "sales"].map((category) => (
+          <div className=&quot;flex gap-2 flex-wrap&quot;>
+            {[&quot;all&quot;, &quot;knowledge&quot;, &quot;service&quot;, &quot;collaboration&quot;, &quot;innovation&quot;, &quot;sales&quot;].map((category) => (
               <Button
                 key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
-                size="sm"
+                variant={selectedCategory === category ? &quot;default&quot; : &quot;outline&quot;}
+                size=&quot;sm&quot;
                 onClick={() => setSelectedCategory(category)}
               >
                 {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -442,7 +442,7 @@ export default function GamificationHub() {
           </div>
 
           {/* Achievements Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4&quot;>
             {filteredAchievements.map((achievement) => (
               <Card 
                 key={achievement.id} 
@@ -450,40 +450,40 @@ export default function GamificationHub() {
                   achievement.unlocked ? 'border-green-200 bg-green-50' : 'border-gray-200'
                 }`}
               >
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="text-3xl">{achievement.icon}</div>
+                <CardContent className=&quot;p-4&quot;>
+                  <div className=&quot;flex items-center justify-between mb-3&quot;>
+                    <div className=&quot;text-3xl&quot;>{achievement.icon}</div>
                     {achievement.unlocked && (
-                      <CheckCircle className="w-6 h-6 text-green-500" />
+                      <CheckCircle className=&quot;w-6 h-6 text-green-500&quot; />
                     )}
                   </div>
                   
-                  <h3 className="font-semibold mb-2">{achievement.name}</h3>
-                  <p className="text-sm text-gray-600 mb-3">{achievement.description}</p>
+                  <h3 className=&quot;font-semibold mb-2&quot;>{achievement.name}</h3>
+                  <p className=&quot;text-sm text-gray-600 mb-3&quot;>{achievement.description}</p>
                   
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
+                  <div className=&quot;space-y-2&quot;>
+                    <div className=&quot;flex items-center justify-between&quot;>
                       <Badge className={getRarityColor(achievement.rarity)}>
                         {achievement.rarity}
                       </Badge>
-                      <span className="text-sm font-medium">+{achievement.points} points</span>
+                      <span className=&quot;text-sm font-medium&quot;>+{achievement.points} points</span>
                     </div>
                     
                     {!achievement.unlocked && (
-                      <div className="space-y-1">
-                        <div className="flex justify-between text-sm">
+                      <div className=&quot;space-y-1&quot;>
+                        <div className=&quot;flex justify-between text-sm&quot;>
                           <span>Progress</span>
                           <span>{achievement.progress}/{achievement.maxProgress}</span>
                         </div>
                         <Progress 
                           value={(achievement.progress / achievement.maxProgress) * 100} 
-                          className="h-2"
+                          className=&quot;h-2&quot;
                         />
                       </div>
                     )}
                     
                     {achievement.unlocked && achievement.unlockedDate && (
-                      <p className="text-xs text-gray-500">
+                      <p className=&quot;text-xs text-gray-500&quot;>
                         Unlocked on {achievement.unlockedDate}
                       </p>
                     )}
@@ -495,48 +495,48 @@ export default function GamificationHub() {
         </TabsContent>
 
         {/* Leaderboard Tab */}
-        <TabsContent value="leaderboard" className="space-y-6">
+        <TabsContent value=&quot;leaderboard&quot; className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Trophy className="w-5 h-5" />
+              <CardTitle className=&quot;flex items-center gap-2&quot;>
+                <Trophy className=&quot;w-5 h-5&quot; />
                 Performance Leaderboard
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className=&quot;space-y-4&quot;>
                 {leaderboard.map((performer) => (
-                  <div key={performer.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                  <div key={performer.id} className=&quot;flex items-center gap-4 p-4 bg-gray-50 rounded-lg&quot;>
+                    <div className=&quot;flex items-center gap-3&quot;>
+                      <div className=&quot;w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center&quot;>
                         {getRankIcon(performer.rank)}
                       </div>
-                      <Avatar className="w-12 h-12">
+                      <Avatar className=&quot;w-12 h-12&quot;>
                         <AvatarImage src={performer.avatar} alt={performer.name} />
                         <AvatarFallback>{performer.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                     </div>
                     
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold">{performer.name}</p>
+                    <div className=&quot;flex-1&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <p className=&quot;font-semibold&quot;>{performer.name}</p>
                         {getRankChange(performer.rank, performer.previousRank)}
                       </div>
-                      <p className="text-sm text-gray-600">{performer.role}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Fire className="w-4 h-4 text-orange-500" />
-                        <span className="text-sm text-gray-500">{performer.streak} day streak</span>
+                      <p className=&quot;text-sm text-gray-600&quot;>{performer.role}</p>
+                      <div className=&quot;flex items-center gap-2 mt-1&quot;>
+                        <Fire className=&quot;w-4 h-4 text-orange-500&quot; />
+                        <span className=&quot;text-sm text-gray-500&quot;>{performer.streak} day streak</span>
                       </div>
                     </div>
                     
-                    <div className="flex flex-col items-end">
-                      <p className="font-bold text-xl">{performer.points.toLocaleString()}</p>
-                      <p className="text-sm text-gray-500">points</p>
+                    <div className=&quot;flex flex-col items-end&quot;>
+                      <p className=&quot;font-bold text-xl&quot;>{performer.points.toLocaleString()}</p>
+                      <p className=&quot;text-sm text-gray-500&quot;>points</p>
                     </div>
                     
-                    <div className="flex flex-col gap-1">
+                    <div className=&quot;flex flex-col gap-1&quot;>
                       {performer.badges.slice(0, 2).map((badge, i) => (
-                        <Badge key={i} variant="outline" className="text-xs">
+                        <Badge key={i} variant=&quot;outline&quot; className=&quot;text-xs&quot;>
                           {badge}
                         </Badge>
                       ))}
@@ -549,14 +549,14 @@ export default function GamificationHub() {
         </TabsContent>
 
         {/* Challenges Tab */}
-        <TabsContent value="challenges" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value=&quot;challenges&quot; className=&quot;space-y-6&quot;>
+          <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
             {challenges.map((challenge) => (
               <Card key={challenge.id}>
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2">
-                      <span className="text-xl">{challenge.icon}</span>
+                  <div className=&quot;flex items-center justify-between&quot;>
+                    <CardTitle className=&quot;flex items-center gap-2&quot;>
+                      <span className=&quot;text-xl&quot;>{challenge.icon}</span>
                       {challenge.name}
                     </CardTitle>
                     <Badge className={getStatusColor(challenge.status)}>
@@ -565,53 +565,53 @@ export default function GamificationHub() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    <p className="text-gray-600">{challenge.description}</p>
+                  <div className=&quot;space-y-4&quot;>
+                    <p className=&quot;text-gray-600&quot;>{challenge.description}</p>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className=&quot;grid grid-cols-2 gap-4&quot;>
                       <div>
-                        <p className="text-sm text-gray-500">Participants</p>
-                        <p className="font-semibold">{challenge.participants}</p>
+                        <p className=&quot;text-sm text-gray-500&quot;>Participants</p>
+                        <p className=&quot;font-semibold&quot;>{challenge.participants}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500">Completed</p>
-                        <p className="font-semibold">{challenge.completed}</p>
+                        <p className=&quot;text-sm text-gray-500&quot;>Completed</p>
+                        <p className=&quot;font-semibold&quot;>{challenge.completed}</p>
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-sm">Progress</span>
-                        <span className="text-sm font-medium">
+                    <div className=&quot;space-y-2&quot;>
+                      <div className=&quot;flex justify-between&quot;>
+                        <span className=&quot;text-sm&quot;>Progress</span>
+                        <span className=&quot;text-sm font-medium&quot;>
                           {challenge.participants > 0 ? Math.round((challenge.completed / challenge.participants) * 100) : 0}%
                         </span>
                       </div>
                       <Progress 
                         value={challenge.participants > 0 ? (challenge.completed / challenge.participants) * 100 : 0} 
-                        className="h-2"
+                        className=&quot;h-2&quot;
                       />
                     </div>
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-gray-500" />
-                        <span className="text-sm text-gray-600">
+                    <div className=&quot;flex items-center justify-between&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <Calendar className=&quot;w-4 h-4 text-gray-500&quot; />
+                        <span className=&quot;text-sm text-gray-600&quot;>
                           {challenge.startDate} - {challenge.endDate}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Star className="w-4 h-4 text-yellow-500" />
-                        <span className="text-sm font-medium">+{challenge.points} points</span>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
+                        <span className=&quot;text-sm font-medium&quot;>+{challenge.points} points</span>
                       </div>
                     </div>
                     
                     <Button 
-                      className="w-full" 
-                      variant={challenge.status === "active" ? "default" : "outline"}
-                      disabled={challenge.status === "completed"}
+                      className=&quot;w-full&quot; 
+                      variant={challenge.status === &quot;active&quot; ? &quot;default&quot; : &quot;outline&quot;}
+                      disabled={challenge.status === &quot;completed&quot;}
                     >
-                      {challenge.status === "active" ? "Join Challenge" : 
-                       challenge.status === "upcoming" ? "Coming Soon" : "Completed"}
+                      {challenge.status === &quot;active&quot; ? &quot;Join Challenge&quot; : 
+                       challenge.status === &quot;upcoming&quot; ? &quot;Coming Soon&quot; : &quot;Completed&quot;}
                     </Button>
                   </div>
                 </CardContent>

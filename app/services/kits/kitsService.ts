@@ -1,7 +1,7 @@
 /**
  * Kit Management Service - Business logic for kit management and assignments
  */
-import { KitRepository } from "./repository";
+import { KitRepository } from &quot;./repository&quot;;
 import {
   KitTemplateDTO,
   KitDTO,
@@ -24,7 +24,7 @@ import {
   updateActivityKitSchema,
   KitTemplateStatus,
   KitStatus,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class KitsService {
   private repository: KitRepository;
@@ -87,7 +87,7 @@ export class KitsService {
       !validatedParams.active
     ) {
       throw new Error(
-        "Cannot update an approved template except for its active status",
+        &quot;Cannot update an approved template except for its active status&quot;,
       );
     }
 
@@ -112,7 +112,7 @@ export class KitsService {
     userId: string,
   ): Promise<KitTemplateDTO> {
     const { id, notes } = params;
-    // Convert id to string if it's a number
+    // Convert id to string if it&apos;s a number
     const templateId = id.toString();
 
     // Check if template exists
@@ -123,7 +123,7 @@ export class KitsService {
 
     // Check template status
     if (template.approval_status === KitTemplateStatus.APPROVED) {
-      throw new Error("Template is already approved");
+      throw new Error(&quot;Template is already approved&quot;);
     }
 
     // Approve template in database
@@ -138,7 +138,7 @@ export class KitsService {
     userId: string,
   ): Promise<KitTemplateDTO> {
     const { id, reason } = params;
-    // Convert id to string if it's a number
+    // Convert id to string if it&apos;s a number
     const templateId = id.toString();
 
     // Check if template exists
@@ -149,12 +149,12 @@ export class KitsService {
 
     // Check template status
     if (template.approval_status === KitTemplateStatus.REJECTED) {
-      throw new Error("Template is already rejected");
+      throw new Error(&quot;Template is already rejected&quot;);
     }
 
     // A reason is required for rejection
     if (!reason) {
-      throw new Error("A reason must be provided when rejecting a template");
+      throw new Error(&quot;A reason must be provided when rejecting a template&quot;);
     }
 
     // Reject template in database
@@ -186,7 +186,7 @@ export class KitsService {
     // Ensure template_id is a string
     const templateId = validatedParams.template_id;
     if (!templateId) {
-      throw new Error("Template ID is required");
+      throw new Error(&quot;Template ID is required&quot;);
     }
 
     const template = await this.repository.findTemplateById(templateId);
@@ -196,7 +196,7 @@ export class KitsService {
 
     if (template.approval_status !== KitTemplateStatus.APPROVED) {
       throw new Error(
-        "Cannot create a kit from a template that is not approved",
+        &quot;Cannot create a kit from a template that is not approved&quot;,
       );
     }
 
@@ -228,7 +228,7 @@ export class KitsService {
 
     // Only allow updating status field for active kits
     if (kit.active && kit.status === KitStatus.ACTIVE && !params.status) {
-      throw new Error("Cannot update an active kit except for its status");
+      throw new Error(&quot;Cannot update an active kit except for its status&quot;);
     }
 
     // Update kit in database
@@ -240,7 +240,7 @@ export class KitsService {
    */
   async approveKit(params: ApproveKitParams, userId: string): Promise<KitDTO> {
     const { id, notes } = params;
-    // Convert id to string if it's a number
+    // Convert id to string if it&apos;s a number
     const kitId = id.toString();
 
     // Check if kit exists
@@ -251,7 +251,7 @@ export class KitsService {
 
     // Check kit status
     if (kit.status === KitStatus.ACTIVE) {
-      throw new Error("Kit is already active");
+      throw new Error(&quot;Kit is already active&quot;);
     }
 
     // Approve kit in database
@@ -263,7 +263,7 @@ export class KitsService {
    */
   async rejectKit(params: RejectKitParams, userId: string): Promise<KitDTO> {
     const { id, reason } = params;
-    // Convert id to string if it's a number
+    // Convert id to string if it&apos;s a number
     const kitId = id.toString();
 
     // Check if kit exists
@@ -279,7 +279,7 @@ export class KitsService {
 
     // A reason is required for rejection
     if (!reason) {
-      throw new Error("A reason must be provided when rejecting a kit");
+      throw new Error(&quot;A reason must be provided when rejecting a kit&quot;);
     }
 
     // Reject kit in database
@@ -314,7 +314,7 @@ export class KitsService {
     // Either kit template or kit instance is required
     if (!validatedParams.kit_template_id && !validatedParams.kit_instance_id) {
       throw new Error(
-        "Either kit_template_id or kit_instance_id must be provided",
+        &quot;Either kit_template_id or kit_instance_id must be provided&quot;,
       );
     }
 
@@ -330,7 +330,7 @@ export class KitsService {
 
       // Check if kit status is active
       if (kit.status !== KitStatus.ACTIVE) {
-        throw new Error("Cannot assign a kit that is not active");
+        throw new Error(&quot;Cannot assign a kit that is not active&quot;);
       }
     }
 
@@ -346,7 +346,7 @@ export class KitsService {
 
       // Check if template is approved
       if (template.approval_status !== KitTemplateStatus.APPROVED) {
-        throw new Error("Cannot assign a kit template that is not approved");
+        throw new Error(&quot;Cannot assign a kit template that is not approved&quot;);
       }
     }
 

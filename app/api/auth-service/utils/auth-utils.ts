@@ -3,9 +3,9 @@
  * Provides helper functions for authentication in API endpoints
  */
 
-import { NextRequest } from "next/server";
-import { getUserById } from "../models/user-repository";
-import { verifyToken } from "./jwt";
+import { NextRequest } from &quot;next/server&quot;;
+import { getUserById } from &quot;../models/user-repository&quot;;
+import { verifyToken } from &quot;./jwt&quot;;
 
 /**
  * Get current user from request
@@ -15,15 +15,15 @@ import { verifyToken } from "./jwt";
 export async function getCurrentUser(req: NextRequest) {
   try {
     // Get the authorization header
-    const authHeader = req.headers.get("Authorization");
+    const authHeader = req.headers.get(&quot;Authorization&quot;);
     let token: string | null = null;
 
-    if (authHeader && authHeader.startsWith("Bearer ")) {
+    if (authHeader && authHeader.startsWith(&quot;Bearer &quot;)) {
       token = authHeader.substring(7);
     } else {
       // Check for token in cookies
       const cookies = req.cookies;
-      token = cookies.get("auth_token")?.value || null;
+      token = cookies.get(&quot;auth_token&quot;)?.value || null;
     }
 
     if (!token) {
@@ -40,7 +40,7 @@ export async function getCurrentUser(req: NextRequest) {
     const user = await getUserById(payload.sub as string);
     return user;
   } catch (error) {
-    console.error("Error getting current user:", error);
+    console.error(&quot;Error getting current user:&quot;, error);
     return null;
   }
 }

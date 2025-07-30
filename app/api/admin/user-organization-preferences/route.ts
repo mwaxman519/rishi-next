@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "@/lib/db";
-import { and, eq, ne } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
-import { userOrganizationPreferences } from "@shared/schema";
+import { db } from &quot;@/lib/db&quot;;
+import { and, eq, ne } from &quot;drizzle-orm&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { userOrganizationPreferences } from &quot;@shared/schema&quot;;
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from "@/lib/rbac-enhanced";
+} from &quot;@/lib/rbac-enhanced&quot;;
 
 // POST /api/admin/user-organization-preferences - Create/update user organization preferences
 export async function POST(request: NextRequest) {
@@ -18,12 +18,12 @@ export async function POST(request: NextRequest) {
     // Check authentication and authorization
     const authUser = await getCurrentUser();
     if (!authUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Only users with proper permissions can manage organization preferences
-    if (!hasEnhancedPermission("manage:organization_users", authUser.role)) {
-      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
+    if (!hasEnhancedPermission(&quot;manage:organization_users&quot;, authUser.role)) {
+      return NextResponse.json({ error: &quot;Permission denied&quot; }, { status: 403 });
     }
 
     // Get data from request body
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     // Basic validation
     if (!data.user_id || !data.organization_id) {
       return NextResponse.json(
-        { error: "User ID and organization ID are required" },
+        { error: &quot;User ID and organization ID are required&quot; },
         { status: 400 },
       );
     }
@@ -105,9 +105,9 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(createdPreference, { status: 201 });
   } catch (error) {
-    console.error("Error setting user organization preferences:", error);
+    console.error(&quot;Error setting user organization preferences:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to set user organization preferences" },
+      { error: &quot;Failed to set user organization preferences&quot; },
       { status: 500 },
     );
   }

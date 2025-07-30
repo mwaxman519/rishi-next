@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from &quot;react&quot;;
 
 export interface NotificationOptions {
   duration?: number;
-  type?: "info" | "success" | "warning" | "error";
+  type?: &quot;info&quot; | &quot;success&quot; | &quot;warning&quot; | &quot;error&quot;;
 }
 
 export interface NotificationEvent {

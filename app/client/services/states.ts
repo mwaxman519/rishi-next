@@ -4,8 +4,8 @@
  * Client-side adapter for interacting with the states service.
  */
 
-import { ApiError } from "@/lib/errors";
-import { type State, type Region } from "@/services/states/models";
+import { ApiError } from &quot;@/lib/errors&quot;;
+import { type State, type Region } from &quot;@/services/states/models&quot;;
 
 /**
  * States service client adapter
@@ -17,16 +17,16 @@ export class StatesServiceClient {
    */
   async getAllStates(): Promise<State[]> {
     try {
-      const response = await fetch("/api/states", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/states&quot;, {
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to fetch states",
+          error.message || &quot;Failed to fetch states&quot;,
           response.status,
           error.details,
         );
@@ -38,7 +38,7 @@ export class StatesServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to fetch states", 500);
+      throw new ApiError(&quot;Failed to fetch states&quot;, 500);
     }
   }
 
@@ -48,16 +48,16 @@ export class StatesServiceClient {
    */
   async getActiveStates(): Promise<State[]> {
     try {
-      const response = await fetch("/api/states?active=true", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/states?active=true&quot;, {
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to fetch active states",
+          error.message || &quot;Failed to fetch active states&quot;,
           response.status,
           error.details,
         );
@@ -69,7 +69,7 @@ export class StatesServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to fetch active states", 500);
+      throw new ApiError(&quot;Failed to fetch active states&quot;, 500);
     }
   }
 
@@ -81,9 +81,9 @@ export class StatesServiceClient {
   async getStateById(id: string): Promise<State | null> {
     try {
       const response = await fetch(`/api/states/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (response.status === 404) {
@@ -117,9 +117,9 @@ export class StatesServiceClient {
   async getStateByCode(code: string): Promise<State | null> {
     try {
       const response = await fetch(`/api/states/code/${code}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (response.status === 404) {
@@ -151,16 +151,16 @@ export class StatesServiceClient {
    */
   async getAllRegions(): Promise<Region[]> {
     try {
-      const response = await fetch("/api/states/regions", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/states/regions&quot;, {
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to fetch regions",
+          error.message || &quot;Failed to fetch regions&quot;,
           response.status,
           error.details,
         );
@@ -172,7 +172,7 @@ export class StatesServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to fetch regions", 500);
+      throw new ApiError(&quot;Failed to fetch regions&quot;, 500);
     }
   }
 
@@ -184,9 +184,9 @@ export class StatesServiceClient {
   async getRegionById(id: string): Promise<Region | null> {
     try {
       const response = await fetch(`/api/states/regions/${id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        method: &quot;GET&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
       });
 
       if (response.status === 404) {

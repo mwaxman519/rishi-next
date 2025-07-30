@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
@@ -8,31 +8,31 @@ export async function GET() {
   try {
     // Return basic documentation info
     return NextResponse.json({
-      title: "Rishi Platform Documentation",
-      description: "Comprehensive documentation for the Rishi Platform",
-      version: "1.0.0",
+      title: &quot;Rishi Platform Documentation&quot;,
+      description: &quot;Comprehensive documentation for the Rishi Platform&quot;,
+      version: &quot;1.0.0&quot;,
       sections: [
         {
-          id: "getting-started",
-          title: "Getting Started",
-          description: "Basic setup and introduction to the platform"
+          id: &quot;getting-started&quot;,
+          title: &quot;Getting Started&quot;,
+          description: &quot;Basic setup and introduction to the platform&quot;
         },
         {
-          id: "api-reference",
-          title: "API Reference",
-          description: "Complete API documentation"
+          id: &quot;api-reference&quot;,
+          title: &quot;API Reference&quot;,
+          description: &quot;Complete API documentation&quot;
         },
         {
-          id: "user-guide",
-          title: "User Guide",
-          description: "End-user documentation and tutorials"
+          id: &quot;user-guide&quot;,
+          title: &quot;User Guide&quot;,
+          description: &quot;End-user documentation and tutorials&quot;
         }
       ]
     });
   } catch (error) {
-    console.error("Error loading documentation:", error);
+    console.error(&quot;Error loading documentation:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to load documentation" },
+      { error: &quot;Failed to load documentation&quot; },
       { status: 500 }
     );
   }

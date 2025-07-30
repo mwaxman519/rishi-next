@@ -1,15 +1,15 @@
-"use client";
+&quot;use client&quot;;
 
-import { useAuth } from "./useAuth";
-import { useState, useEffect } from "react";
-import { NavItem } from "../../shared/navigation-constants";
+import { useAuth } from &quot;./useAuth&quot;;
+import { useState, useEffect } from &quot;react&quot;;
+import { NavItem } from &quot;../../shared/navigation-constants&quot;;
 import {
   BRAND_AGENT_NAV,
   BRAND_AGENT_MOBILE_NAV,
-} from "../components/navigation/BrandAgentNav";
-import { FIELD_MANAGER_NAV } from "../components/navigation/FieldManagerNav";
-import { CLIENT_USER_NAV } from "../components/navigation/ClientUserNav";
-import { RISHI_MANAGEMENT_NAV } from "../components/navigation/RishiManagementNav";
+} from &quot;../components/navigation/BrandAgentNav&quot;;
+import { FIELD_MANAGER_NAV } from &quot;../components/navigation/FieldManagerNav&quot;;
+import { CLIENT_USER_NAV } from &quot;../components/navigation/ClientUserNav&quot;;
+import { RISHI_MANAGEMENT_NAV } from &quot;../components/navigation/RishiManagementNav&quot;;
 
 /**
  * Navigation hook that provides role-based navigation items
@@ -34,16 +34,16 @@ export function useNavigation() {
     const role = user.role.toLowerCase();
 
     // Set desktop navigation based on role
-    if (role === "super_admin" || role === "internal_admin") {
+    if (role === &quot;super_admin&quot; || role === &quot;internal_admin&quot;) {
       setDesktopNavItems(RISHI_MANAGEMENT_NAV);
     } else if (
-      role === "internal_field_manager" ||
-      role === "field_coordinator"
+      role === &quot;internal_field_manager&quot; ||
+      role === &quot;field_coordinator&quot;
     ) {
       setDesktopNavItems(FIELD_MANAGER_NAV);
-    } else if (role === "brand_agent") {
+    } else if (role === &quot;brand_agent&quot;) {
       setDesktopNavItems(BRAND_AGENT_NAV);
-    } else if (role === "client_manager" || role === "client_user") {
+    } else if (role === &quot;client_manager&quot; || role === &quot;client_user&quot;) {
       setDesktopNavItems(CLIENT_USER_NAV);
     } else {
       // Default to brand agent
@@ -56,14 +56,14 @@ export function useNavigation() {
 
   // Helper functions to determine user type for navigation
   const isRishiManagement =
-    user?.role === "internal_admin" || user?.role === "super_admin";
+    user?.role === &quot;internal_admin&quot; || user?.role === &quot;super_admin&quot;;
   const isFieldManager =
-    user?.role === "internal_field_manager" ||
-    user?.role === "field_coordinator";
-  const isBrandAgent = user?.role === "brand_agent";
+    user?.role === &quot;internal_field_manager&quot; ||
+    user?.role === &quot;field_coordinator&quot;;
+  const isBrandAgent = user?.role === &quot;brand_agent&quot;;
   const isClientUser =
-    user?.role === "client_manager" || user?.role === "client_user";
-  const isSuperAdmin = user?.role === "super_admin";
+    user?.role === &quot;client_manager&quot; || user?.role === &quot;client_user&quot;;
+  const isSuperAdmin = user?.role === &quot;super_admin&quot;;
 
   return {
     mobileNavItems,

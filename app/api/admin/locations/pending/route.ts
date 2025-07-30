@@ -1,14 +1,14 @@
 
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
-import { eq, desc } from "drizzle-orm";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@shared/schema&quot;;
+import { eq, desc } from &quot;drizzle-orm&quot;;
 
 export async function GET(req: NextRequest) {
   try {
@@ -16,13 +16,13 @@ export async function GET(req: NextRequest) {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to manage locations
-    if (!(await checkPermission(req, "update:locations"))) {
+    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -32,12 +32,12 @@ export async function GET(req: NextRequest) {
       const pendingLocations = await db
         .select()
         .from(locations)
-        .where(eq(locations.status, "pending"))
+        .where(eq(locations.status, &quot;pending&quot;))
         .orderBy(desc(locations.created_at));
 
       return NextResponse.json(pendingLocations);
     } catch (dbError) {
-      console.error("Database error:", dbError);
+      console.error(&quot;Database error:&quot;, dbError);
       return NextResponse.json(
         {
           error: `Database error: ${dbError instanceof Error ? dbError.message : String(dbError)}`,
@@ -46,13 +46,13 @@ export async function GET(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.error("Error fetching pending locations:", error);
+    console.error(&quot;Error fetching pending locations:&quot;, error);
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to fetch pending locations",
+            : &quot;Failed to fetch pending locations&quot;,
       },
       { status: 500 },
     );

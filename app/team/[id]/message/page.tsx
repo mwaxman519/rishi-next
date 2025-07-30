@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, use } from "react";
-import { useRouter } from "next/navigation";
+import { useState, use } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 import {
   ArrowLeft,
   Send,
@@ -10,30 +10,30 @@ import {
   Bell,
   CheckSquare,
   Calendar,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from &quot;@/components/ui/card&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useToast } from "@/hooks/use-toast";
-import { Checkbox } from "@/components/ui/checkbox";
-import Link from "next/link";
+} from &quot;@/components/ui/select&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
+import Link from &quot;next/link&quot;;
 
 interface MessageTeamMemberProps {
   params: Promise<{
@@ -44,44 +44,44 @@ interface MessageTeamMemberProps {
 // Message templates
 const messageTemplates = [
   {
-    id: "welcome",
-    name: "Welcome Message",
-    subject: "Welcome to the Team!",
-    body: "Hi {name},\n\nWelcome to our team! We're excited to have you on board. Please let me know if you have any questions about your upcoming assignments.\n\nBest regards,\nYour Manager",
+    id: &quot;welcome&quot;,
+    name: &quot;Welcome Message&quot;,
+    subject: &quot;Welcome to the Team!&quot;,
+    body: &quot;Hi {name},\n\nWelcome to our team! We're excited to have you on board. Please let me know if you have any questions about your upcoming assignments.\n\nBest regards,\nYour Manager&quot;,
   },
   {
-    id: "assignment",
-    name: "New Assignment",
-    subject: "New Event Assignment - {eventName}",
-    body: "Hi {name},\n\nYou have been assigned to a new event: {eventName}\n\nEvent Details:\n- Date: {eventDate}\n- Location: {eventLocation}\n- Compensation: {compensation}\n\nPlease confirm your availability by replying to this message.\n\nThanks!",
+    id: &quot;assignment&quot;,
+    name: &quot;New Assignment&quot;,
+    subject: &quot;New Event Assignment - {eventName}&quot;,
+    body: &quot;Hi {name},\n\nYou have been assigned to a new event: {eventName}\n\nEvent Details:\n- Date: {eventDate}\n- Location: {eventLocation}\n- Compensation: {compensation}\n\nPlease confirm your availability by replying to this message.\n\nThanks!&quot;,
   },
   {
-    id: "reminder",
-    name: "Event Reminder",
-    subject: "Reminder: Upcoming Event - {eventName}",
-    body: "Hi {name},\n\nThis is a friendly reminder about your upcoming event:\n\n{eventName}\nDate: {eventDate}\nTime: {eventTime}\nLocation: {eventLocation}\n\nPlease arrive 15 minutes early and bring all required materials.\n\nSee you there!",
+    id: &quot;reminder&quot;,
+    name: &quot;Event Reminder&quot;,
+    subject: &quot;Reminder: Upcoming Event - {eventName}&quot;,
+    body: &quot;Hi {name},\n\nThis is a friendly reminder about your upcoming event:\n\n{eventName}\nDate: {eventDate}\nTime: {eventTime}\nLocation: {eventLocation}\n\nPlease arrive 15 minutes early and bring all required materials.\n\nSee you there!&quot;,
   },
   {
-    id: "performance",
-    name: "Performance Feedback",
-    subject: "Performance Review - Great Work!",
-    body: "Hi {name},\n\nI wanted to take a moment to acknowledge your excellent performance on recent events. Your professionalism and attention to detail have been outstanding.\n\nKeep up the great work!\n\nBest regards",
+    id: &quot;performance&quot;,
+    name: &quot;Performance Feedback&quot;,
+    subject: &quot;Performance Review - Great Work!&quot;,
+    body: &quot;Hi {name},\n\nI wanted to take a moment to acknowledge your excellent performance on recent events. Your professionalism and attention to detail have been outstanding.\n\nKeep up the great work!\n\nBest regards&quot;,
   },
   {
-    id: "custom",
-    name: "Custom Message",
-    subject: "",
-    body: "",
+    id: &quot;custom&quot;,
+    name: &quot;Custom Message&quot;,
+    subject: "&quot;,
+    body: &quot;&quot;,
   },
 ];
 
 // Mock team member data
 const getTeamMemberById = (id: string) => {
   const members = {
-    "1": { id: "1", name: "Sarah Johnson", email: "sarah.johnson@example.com" },
-    "2": { id: "2", name: "Michael Chen", email: "michael.chen@example.com" },
-    "3": { id: "3", name: "Emily Davis", email: "emily.davis@example.com" },
-    "4": { id: "4", name: "David Wilson", email: "david.wilson@example.com" },
+    &quot;1&quot;: { id: &quot;1&quot;, name: &quot;Sarah Johnson&quot;, email: &quot;sarah.johnson@example.com&quot; },
+    &quot;2&quot;: { id: &quot;2&quot;, name: &quot;Michael Chen&quot;, email: &quot;michael.chen@example.com&quot; },
+    &quot;3&quot;: { id: &quot;3&quot;, name: &quot;Emily Davis&quot;, email: &quot;emily.davis@example.com&quot; },
+    &quot;4&quot;: { id: &quot;4&quot;, name: &quot;David Wilson&quot;, email: &quot;david.wilson@example.com&quot; },
   };
   return members[id as keyof typeof members] || null;
 };
@@ -96,32 +96,32 @@ export default function MessageTeamMemberPage({
   const member = getTeamMemberById(id);
 
   const [messageData, setMessageData] = useState({
-    template: "",
-    subject: "",
-    body: "",
-    priority: "normal",
-    deliveryMethod: "email",
+    template: &quot;&quot;,
+    subject: &quot;&quot;,
+    body: &quot;&quot;,
+    priority: &quot;normal&quot;,
+    deliveryMethod: &quot;email&quot;,
     scheduleDelivery: false,
-    scheduleDate: "",
-    scheduleTime: "",
+    scheduleDate: &quot;&quot;,
+    scheduleTime: &quot;&quot;,
     requiresResponse: false,
     createTask: false,
-    taskTitle: "",
-    taskDueDate: "",
+    taskTitle: &quot;&quot;,
+    taskDueDate: &quot;&quot;,
   });
 
   const [isSending, setIsSending] = useState(false);
 
   if (!member) {
     return (
-      <div className="container mx-auto p-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-muted-foreground">
+      <div className=&quot;container mx-auto p-6&quot;>
+        <div className=&quot;text-center&quot;>
+          <h1 className=&quot;text-2xl font-bold text-muted-foreground&quot;>
             Team Member Not Found
           </h1>
-          <Link href="/team">
-            <Button variant="outline" className="mt-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+          <Link href=&quot;/team&quot;>
+            <Button variant=&quot;outline&quot; className=&quot;mt-4&quot;>
+              <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
               Back to Team
             </Button>
           </Link>
@@ -136,8 +136,8 @@ export default function MessageTeamMemberPage({
       setMessageData((prev) => ({
         ...prev,
         template: templateId,
-        subject: template.subject.replace("{name}", member.name),
-        body: template.body.replace("{name}", member.name),
+        subject: template.subject.replace(&quot;{name}&quot;, member.name),
+        body: template.body.replace(&quot;{name}&quot;, member.name),
       }));
     }
   };
@@ -149,9 +149,9 @@ export default function MessageTeamMemberPage({
   const handleSendMessage = async () => {
     if (!messageData.subject.trim() || !messageData.body.trim()) {
       toast({
-        title: "Incomplete Message",
-        description: "Please provide both subject and message content.",
-        variant: "destructive",
+        title: &quot;Incomplete Message&quot;,
+        description: &quot;Please provide both subject and message content.&quot;,
+        variant: &quot;destructive&quot;,
       });
       return;
     }
@@ -160,9 +160,9 @@ export default function MessageTeamMemberPage({
 
     try {
       // Send message
-      const messageResponse = await fetch("/api/messages/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const messageResponse = await fetch(&quot;/api/messages/send&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify({
           recipientId: id,
           recipientEmail: member.email,
@@ -174,38 +174,38 @@ export default function MessageTeamMemberPage({
           scheduleDate: messageData.scheduleDate,
           scheduleTime: messageData.scheduleTime,
           requiresResponse: messageData.requiresResponse,
-          sentBy: "current-user-id",
+          sentBy: &quot;current-user-id&quot;,
         }),
       });
 
       if (!messageResponse.ok) {
-        throw new Error("Failed to send message");
+        throw new Error(&quot;Failed to send message&quot;);
       }
 
       // Create task if requested
       if (messageData.createTask && messageData.taskTitle.trim()) {
-        await fetch("/api/tasks", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        await fetch(&quot;/api/tasks&quot;, {
+          method: &quot;POST&quot;,
+          headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
           body: JSON.stringify({
             title: messageData.taskTitle,
             description: `Follow up on message: ${messageData.subject}`,
-            type: "follow_up",
+            type: &quot;follow_up&quot;,
             assignedTo: id,
-            assignedBy: "current-user-id",
+            assignedBy: &quot;current-user-id&quot;,
             dueDate: messageData.taskDueDate,
             priority: messageData.priority,
-            status: "assigned",
+            status: &quot;assigned&quot;,
           }),
         });
       }
 
       // Publish message sent event
-      await fetch("/api/events/publish", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      await fetch(&quot;/api/events/publish&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify({
-          eventType: "team.message.sent",
+          eventType: &quot;team.message.sent&quot;,
           payload: {
             recipientId: id,
             recipientName: member.name,
@@ -213,24 +213,24 @@ export default function MessageTeamMemberPage({
             priority: messageData.priority,
             deliveryMethod: messageData.deliveryMethod,
             requiresResponse: messageData.requiresResponse,
-            sentBy: "current-user-id",
-            organizationId: "current-org-id",
+            sentBy: &quot;current-user-id&quot;,
+            organizationId: &quot;current-org-id&quot;,
           },
           timestamp: new Date().toISOString(),
         }),
       });
 
       toast({
-        title: "Message Sent",
+        title: &quot;Message Sent&quot;,
         description: `Your message has been sent to ${member.name}.`,
       });
 
       router.push(`/team/${id}`);
     } catch (error) {
       toast({
-        title: "Send Failed",
-        description: "There was an error sending your message.",
-        variant: "destructive",
+        title: &quot;Send Failed&quot;,
+        description: &quot;There was an error sending your message.&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSending(false);
@@ -238,52 +238,52 @@ export default function MessageTeamMemberPage({
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+      <div className=&quot;flex items-center justify-between&quot;>
+        <div className=&quot;flex items-center space-x-4&quot;>
           <Link href={`/team/${id}`}>
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+            <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+              <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
               Back to Profile
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold">Send Message</h1>
-            <p className="text-muted-foreground">
+            <h1 className=&quot;text-3xl font-bold&quot;>Send Message</h1>
+            <p className=&quot;text-muted-foreground&quot;>
               Send a message to {member.name}
             </p>
           </div>
         </div>
         <Button onClick={handleSendMessage} disabled={isSending}>
-          <Send className="h-4 w-4 mr-2" />
-          {isSending ? "Sending..." : "Send Message"}
+          <Send className=&quot;h-4 w-4 mr-2&quot; />
+          {isSending ? &quot;Sending...&quot; : &quot;Send Message&quot;}
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-6&quot;>
         {/* Message Composition */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className=&quot;lg:col-span-2 space-y-6&quot;>
           {/* Template Selection */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <MessageSquare className="h-5 w-5 mr-2" />
+              <CardTitle className=&quot;flex items-center&quot;>
+                <MessageSquare className=&quot;h-5 w-5 mr-2&quot; />
                 Message Template
               </CardTitle>
               <CardDescription>
                 Choose a template or create a custom message
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="template">Template</Label>
+            <CardContent className=&quot;space-y-4&quot;>
+              <div className=&quot;space-y-2&quot;>
+                <Label htmlFor=&quot;template&quot;>Template</Label>
                 <Select
                   value={messageData.template}
                   onValueChange={handleTemplateChange}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a template" />
+                    <SelectValue placeholder=&quot;Select a template&quot; />
                   </SelectTrigger>
                   <SelectContent>
                     {messageTemplates.map((template) => (
@@ -303,23 +303,23 @@ export default function MessageTeamMemberPage({
               <CardTitle>Message Content</CardTitle>
               <CardDescription>Compose your message</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
+            <CardContent className=&quot;space-y-4&quot;>
+              <div className=&quot;space-y-2&quot;>
+                <Label htmlFor=&quot;subject&quot;>Subject</Label>
                 <Input
-                  id="subject"
+                  id=&quot;subject&quot;
                   value={messageData.subject}
-                  onChange={(e) => handleInputChange("subject", e.target.value)}
-                  placeholder="Enter message subject"
+                  onChange={(e) => handleInputChange(&quot;subject&quot;, e.target.value)}
+                  placeholder=&quot;Enter message subject&quot;
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="body">Message</Label>
+              <div className=&quot;space-y-2&quot;>
+                <Label htmlFor=&quot;body&quot;>Message</Label>
                 <Textarea
-                  id="body"
+                  id=&quot;body&quot;
                   value={messageData.body}
-                  onChange={(e) => handleInputChange("body", e.target.value)}
-                  placeholder="Enter your message"
+                  onChange={(e) => handleInputChange(&quot;body&quot;, e.target.value)}
+                  placeholder=&quot;Enter your message&quot;
                   rows={8}
                 />
               </div>
@@ -329,130 +329,130 @@ export default function MessageTeamMemberPage({
           {/* Delivery Options */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Clock className="h-5 w-5 mr-2" />
+              <CardTitle className=&quot;flex items-center&quot;>
+                <Clock className=&quot;h-5 w-5 mr-2&quot; />
                 Delivery Options
               </CardTitle>
               <CardDescription>
                 Configure message delivery settings
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="priority">Priority</Label>
+            <CardContent className=&quot;space-y-4&quot;>
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+                <div className=&quot;space-y-2&quot;>
+                  <Label htmlFor=&quot;priority&quot;>Priority</Label>
                   <Select
                     value={messageData.priority}
                     onValueChange={(value) =>
-                      handleInputChange("priority", value)
+                      handleInputChange(&quot;priority&quot;, value)
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select priority" />
+                      <SelectValue placeholder=&quot;Select priority&quot; />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
-                      <SelectItem value="normal">Normal</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                      <SelectItem value="urgent">Urgent</SelectItem>
+                      <SelectItem value=&quot;low&quot;>Low</SelectItem>
+                      <SelectItem value=&quot;normal&quot;>Normal</SelectItem>
+                      <SelectItem value=&quot;high&quot;>High</SelectItem>
+                      <SelectItem value=&quot;urgent&quot;>Urgent</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="deliveryMethod">Delivery Method</Label>
+                <div className=&quot;space-y-2&quot;>
+                  <Label htmlFor=&quot;deliveryMethod&quot;>Delivery Method</Label>
                   <Select
                     value={messageData.deliveryMethod}
                     onValueChange={(value) =>
-                      handleInputChange("deliveryMethod", value)
+                      handleInputChange(&quot;deliveryMethod&quot;, value)
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select method" />
+                      <SelectValue placeholder=&quot;Select method&quot; />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="email">Email</SelectItem>
-                      <SelectItem value="sms">SMS</SelectItem>
-                      <SelectItem value="app">In-App Notification</SelectItem>
+                      <SelectItem value=&quot;email&quot;>Email</SelectItem>
+                      <SelectItem value=&quot;sms&quot;>SMS</SelectItem>
+                      <SelectItem value=&quot;app&quot;>In-App Notification</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className=&quot;flex items-center space-x-2&quot;>
                 <Checkbox
-                  id="scheduleDelivery"
+                  id=&quot;scheduleDelivery&quot;
                   checked={messageData.scheduleDelivery}
                   onCheckedChange={(checked) =>
-                    handleInputChange("scheduleDelivery", checked as boolean)
+                    handleInputChange(&quot;scheduleDelivery&quot;, checked as boolean)
                   }
                 />
-                <Label htmlFor="scheduleDelivery">Schedule delivery</Label>
+                <Label htmlFor=&quot;scheduleDelivery&quot;>Schedule delivery</Label>
               </div>
 
               {messageData.scheduleDelivery && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="scheduleDate">Date</Label>
+                <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+                  <div className=&quot;space-y-2&quot;>
+                    <Label htmlFor=&quot;scheduleDate&quot;>Date</Label>
                     <Input
-                      id="scheduleDate"
-                      type="date"
+                      id=&quot;scheduleDate&quot;
+                      type=&quot;date&quot;
                       value={messageData.scheduleDate}
                       onChange={(e) =>
-                        handleInputChange("scheduleDate", e.target.value)
+                        handleInputChange(&quot;scheduleDate&quot;, e.target.value)
                       }
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="scheduleTime">Time</Label>
+                  <div className=&quot;space-y-2&quot;>
+                    <Label htmlFor=&quot;scheduleTime&quot;>Time</Label>
                     <Input
-                      id="scheduleTime"
-                      type="time"
+                      id=&quot;scheduleTime&quot;
+                      type=&quot;time&quot;
                       value={messageData.scheduleTime}
                       onChange={(e) =>
-                        handleInputChange("scheduleTime", e.target.value)
+                        handleInputChange(&quot;scheduleTime&quot;, e.target.value)
                       }
                     />
                   </div>
                 </div>
               )}
 
-              <div className="flex items-center space-x-2">
+              <div className=&quot;flex items-center space-x-2&quot;>
                 <Checkbox
-                  id="requiresResponse"
+                  id=&quot;requiresResponse&quot;
                   checked={messageData.requiresResponse}
                   onCheckedChange={(checked) =>
-                    handleInputChange("requiresResponse", checked as boolean)
+                    handleInputChange(&quot;requiresResponse&quot;, checked as boolean)
                   }
                 />
-                <Label htmlFor="requiresResponse">Requires response</Label>
+                <Label htmlFor=&quot;requiresResponse&quot;>Requires response</Label>
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Right Sidebar */}
-        <div className="space-y-6">
+        <div className=&quot;space-y-6&quot;>
           {/* Recipient Info */}
           <Card>
             <CardHeader>
               <CardTitle>Recipient</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-3">
+              <div className=&quot;flex items-center space-x-3&quot;>
                 <Avatar>
                   <AvatarImage
-                    src={`/avatars/${member.name.toLowerCase().replace(" ", "-")}.jpg`}
+                    src={`/avatars/${member.name.toLowerCase().replace(&quot; &quot;, &quot;-&quot;)}.jpg`}
                   />
                   <AvatarFallback>
                     {member.name
-                      .split(" ")
+                      .split(&quot; &quot;)
                       .map((n) => n[0])
-                      .join("")}
+                      .join(&quot;&quot;)}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">{member.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className=&quot;font-medium&quot;>{member.name}</p>
+                  <p className=&quot;text-sm text-muted-foreground&quot;>
                     {member.email}
                   </p>
                 </div>
@@ -463,47 +463,47 @@ export default function MessageTeamMemberPage({
           {/* Follow-up Task */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <CheckSquare className="h-5 w-5 mr-2" />
+              <CardTitle className=&quot;flex items-center&quot;>
+                <CheckSquare className=&quot;h-5 w-5 mr-2&quot; />
                 Follow-up Task
               </CardTitle>
               <CardDescription>
                 Create a task to follow up on this message
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center space-x-2">
+            <CardContent className=&quot;space-y-4&quot;>
+              <div className=&quot;flex items-center space-x-2&quot;>
                 <Checkbox
-                  id="createTask"
+                  id=&quot;createTask&quot;
                   checked={messageData.createTask}
                   onCheckedChange={(checked) =>
-                    handleInputChange("createTask", checked as boolean)
+                    handleInputChange(&quot;createTask&quot;, checked as boolean)
                   }
                 />
-                <Label htmlFor="createTask">Create follow-up task</Label>
+                <Label htmlFor=&quot;createTask&quot;>Create follow-up task</Label>
               </div>
 
               {messageData.createTask && (
                 <>
-                  <div className="space-y-2">
-                    <Label htmlFor="taskTitle">Task Title</Label>
+                  <div className=&quot;space-y-2&quot;>
+                    <Label htmlFor=&quot;taskTitle&quot;>Task Title</Label>
                     <Input
-                      id="taskTitle"
+                      id=&quot;taskTitle&quot;
                       value={messageData.taskTitle}
                       onChange={(e) =>
-                        handleInputChange("taskTitle", e.target.value)
+                        handleInputChange(&quot;taskTitle&quot;, e.target.value)
                       }
-                      placeholder="Enter task title"
+                      placeholder=&quot;Enter task title&quot;
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="taskDueDate">Due Date</Label>
+                  <div className=&quot;space-y-2&quot;>
+                    <Label htmlFor=&quot;taskDueDate&quot;>Due Date</Label>
                     <Input
-                      id="taskDueDate"
-                      type="date"
+                      id=&quot;taskDueDate&quot;
+                      type=&quot;date&quot;
                       value={messageData.taskDueDate}
                       onChange={(e) =>
-                        handleInputChange("taskDueDate", e.target.value)
+                        handleInputChange(&quot;taskDueDate&quot;, e.target.value)
                       }
                     />
                   </div>
@@ -521,18 +521,18 @@ export default function MessageTeamMemberPage({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <div className="text-sm space-y-1">
-                  <p className="font-medium">Event Assignment Confirmation</p>
-                  <p className="text-muted-foreground">2 days ago</p>
+              <div className=&quot;space-y-3&quot;>
+                <div className=&quot;text-sm space-y-1&quot;>
+                  <p className=&quot;font-medium&quot;>Event Assignment Confirmation</p>
+                  <p className=&quot;text-muted-foreground&quot;>2 days ago</p>
                 </div>
-                <div className="text-sm space-y-1">
-                  <p className="font-medium">Welcome Message</p>
-                  <p className="text-muted-foreground">1 week ago</p>
+                <div className=&quot;text-sm space-y-1&quot;>
+                  <p className=&quot;font-medium&quot;>Welcome Message</p>
+                  <p className=&quot;text-muted-foreground&quot;>1 week ago</p>
                 </div>
-                <div className="text-sm space-y-1">
-                  <p className="font-medium">Performance Feedback</p>
-                  <p className="text-muted-foreground">2 weeks ago</p>
+                <div className=&quot;text-sm space-y-1&quot;>
+                  <p className=&quot;font-medium&quot;>Performance Feedback</p>
+                  <p className=&quot;text-muted-foreground">2 weeks ago</p>
                 </div>
               </div>
             </CardContent>

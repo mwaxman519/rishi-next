@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import fs from "fs/promises";
-import path from "path";
+import fs from &quot;fs/promises&quot;;
+import path from &quot;path&quot;;
 // Using direct values instead of problematic imports
-// import { extractFirstParagraph, getDocsDirectory } from "@/lib/utils";
+// import { extractFirstParagraph, getDocsDirectory } from &quot;@/lib/utils&quot;;
 
 // Type definitions
 interface DocMetadata {
@@ -24,13 +24,13 @@ interface DocMetadata {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const docPath = (searchParams.get("path") || undefined) || undefined;
+    const docPath = (searchParams.get(&quot;path&quot;) || undefined) || undefined;
 
     console.log(
       `[DOCS CONTENT API] Received request for document path: ${docPath}`,
     );
     console.log(
-      `[DOCS CONTENT API] Environment: ${process.env.NODE_ENV || "unknown"}`,
+      `[DOCS CONTENT API] Environment: ${process.env.NODE_ENV || &quot;unknown&quot;}`,
     );
     console.log(
       `[DOCS CONTENT API] Current working directory: ${process.cwd()}`,
@@ -39,13 +39,13 @@ export async function GET(request: Request) {
     // If path is missing, return error
     if (!docPath) {
       return NextResponse.json(
-        { error: "Document path is required" },
+        { error: &quot;Document path is required&quot; },
         { status: 400 },
       );
     }
 
     // Normalize path for consistency
-    const normalizedPath = docPath.replace(/^\/+/, "");
+    const normalizedPath = docPath.replace(/^\/+/, "&quot;);
     console.log(`[DOCS CONTENT API] Normalized path: ${normalizedPath}`);
 
     // List important Docs directory locations for debugging
@@ -62,7 +62,7 @@ export async function GET(request: Request) {
 
     if (allDocFiles.length > 0) {
       console.log(
-        `[DOCS CONTENT API] First few doc files: ${allDocFiles.slice(0, 5).join(", ")}`,
+        `[DOCS CONTENT API] First few doc files: ${allDocFiles.slice(0, 5).join(&quot;, &quot;)}`,
       );
     }
 
@@ -77,7 +77,7 @@ export async function GET(request: Request) {
       // Return detailed 404 with complete information
       return NextResponse.json(
         {
-          error: "Document not found",
+          error: &quot;Document not found&quot;,
           path: normalizedPath,
           searchedDirectories: docsDirectories,
           availableFiles:
@@ -88,9 +88,9 @@ export async function GET(request: Request) {
         {
           status: 404,
           headers: {
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            Pragma: "no-cache",
-            Expires: "0",
+            &quot;Cache-Control&quot;: &quot;no-cache, no-store, must-revalidate&quot;,
+            Pragma: &quot;no-cache&quot;,
+            Expires: &quot;0&quot;,
           },
         },
       );
@@ -109,9 +109,9 @@ export async function GET(request: Request) {
     // Add cache control headers to prevent caching
     return NextResponse.json(document, {
       headers: {
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
+        &quot;Cache-Control&quot;: &quot;no-cache, no-store, must-revalidate&quot;,
+        Pragma: &quot;no-cache&quot;,
+        Expires: &quot;0&quot;,
       },
     });
   } catch (error) {
@@ -120,7 +120,7 @@ export async function GET(request: Request) {
     // Return detailed error information
     return NextResponse.json(
       {
-        error: "Error processing document request",
+        error: &quot;Error processing document request&quot;,
         message: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
         timestamp: new Date().toISOString(),
@@ -128,9 +128,9 @@ export async function GET(request: Request) {
       {
         status: 500,
         headers: {
-          "Cache-Control": "no-cache, no-store, must-revalidate",
-          Pragma: "no-cache",
-          Expires: "0",
+          &quot;Cache-Control&quot;: &quot;no-cache, no-store, must-revalidate&quot;,
+          Pragma: &quot;no-cache&quot;,
+          Expires: &quot;0&quot;,
         },
       },
     );
@@ -146,7 +146,7 @@ async function listAllDocumentFiles(directories: string[]): Promise<string[]> {
 
   for (const dir of directories) {
     try {
-      await traverseDirectory(dir, "");
+      await traverseDirectory(dir, &quot;&quot;);
     } catch (error) {
       console.error(
         `[DOCS CONTENT API] Error traversing directory ${dir}:`,
@@ -161,7 +161,7 @@ async function listAllDocumentFiles(directories: string[]): Promise<string[]> {
 
       for (const entry of entries) {
         // Skip hidden files/directories
-        if (entry.name.startsWith(".")) continue;
+        if (entry.name.startsWith(&quot;.&quot;)) continue;
 
         const entryPath = path.join(dir, entry.name);
         const entryRelativePath = relativePath
@@ -173,7 +173,7 @@ async function listAllDocumentFiles(directories: string[]): Promise<string[]> {
           await traverseDirectory(entryPath, entryRelativePath);
         } else if (
           entry.isFile() &&
-          (entry.name.endsWith(".md") || entry.name.endsWith(".mdx"))
+          (entry.name.endsWith(&quot;.md&quot;) || entry.name.endsWith(&quot;.mdx&quot;))
         ) {
           // Add markdown files to the list
           allFiles.push(entryRelativePath);
@@ -196,12 +196,12 @@ async function listAllDocumentFiles(directories: string[]): Promise<string[]> {
  */
 async function findDocsDirectories(): Promise<string[]> {
   const possibleDirs = [
-    path.join(process.cwd(), "Docs"),
-    path.join(process.cwd(), "docs"),
-    path.join(process.cwd(), "docs-new"),
-    path.join(process.cwd(), "public/Docs"),
-    "/home/runner/Docs",
-    "/home/runner/workspace/Docs",
+    path.join(process.cwd(), &quot;Docs&quot;),
+    path.join(process.cwd(), &quot;docs&quot;),
+    path.join(process.cwd(), &quot;docs-new&quot;),
+    path.join(process.cwd(), &quot;public/Docs&quot;),
+    &quot;/home/runner/Docs&quot;,
+    &quot;/home/runner/workspace/Docs&quot;,
   ];
 
   const foundDirs: string[] = [];
@@ -260,7 +260,7 @@ async function getDocumentContent(
   docPath: string,
 ): Promise<{ content: string; metadata: DocMetadata } | null> {
   // Normalize the path - remove leading slashes and handle empty paths
-  const normalizedPath = docPath.replace(/^\/+/, "").trim();
+  const normalizedPath = docPath.replace(/^\/+/, &quot;&quot;).trim();
   if (!normalizedPath) {
     console.log(`[DOCS CONTENT] Empty document path after normalization`);
     return null;
@@ -285,37 +285,37 @@ async function getDocumentContent(
     mainDocsDirectory,
 
     // Project root locations
-    path.join(cwd, "Docs"),
-    path.join(cwd, "docs"),
-    path.join(cwd, "docs-new"),
-    path.join(cwd, "public/Docs"),
+    path.join(cwd, &quot;Docs&quot;),
+    path.join(cwd, &quot;docs&quot;),
+    path.join(cwd, &quot;docs-new&quot;),
+    path.join(cwd, &quot;public/Docs&quot;),
 
     // Next.js-specific locations
-    path.join(cwd, ".next/standalone/Docs"),
-    path.join(cwd, ".next/server/Docs"),
-    path.join(cwd, ".next/static/Docs"),
-    path.join(cwd, ".next/server/app/Docs"),
+    path.join(cwd, &quot;.next/standalone/Docs&quot;),
+    path.join(cwd, &quot;.next/server/Docs&quot;),
+    path.join(cwd, &quot;.next/static/Docs&quot;),
+    path.join(cwd, &quot;.next/server/app/Docs&quot;),
 
     // Replit-specific locations
-    "/home/runner/Docs",
-    "/home/runner/workspace/Docs",
-    "/home/runner/workspace/public/Docs",
+    &quot;/home/runner/Docs&quot;,
+    &quot;/home/runner/workspace/Docs&quot;,
+    &quot;/home/runner/workspace/public/Docs&quot;,
 
     // For Next.js standalone mode
-    "/home/runner/workspace/.next/standalone/Docs",
-    "/home/runner/workspace/.next/server/Docs",
+    &quot;/home/runner/workspace/.next/standalone/Docs&quot;,
+    &quot;/home/runner/workspace/.next/server/Docs&quot;,
 
     // Additional Replit locations
-    "/home/runner/workspace/.next/standalone/.next/server/app/Docs",
-    "/home/runner/workspace/.next/standalone/.next/server/chunks/Docs",
+    &quot;/home/runner/workspace/.next/standalone/.next/server/app/Docs&quot;,
+    &quot;/home/runner/workspace/.next/standalone/.next/server/chunks/Docs&quot;,
 
     // Deep standalone nesting
-    path.join(cwd, "../Docs"),
-    path.join(cwd, "../../Docs"),
+    path.join(cwd, &quot;../Docs&quot;),
+    path.join(cwd, &quot;../../Docs&quot;),
 
     // Possible public directories in various environments
-    "/app/public/Docs",
-    "/public/Docs",
+    &quot;/app/public/Docs&quot;,
+    &quot;/public/Docs&quot;,
   ];
 
   // Deduplicate the paths using Set
@@ -326,12 +326,12 @@ async function getDocumentContent(
 
   // Handle variations of the path (with/without extensions)
   let filePath = normalizedPath;
-  let fullFilePath = "";
+  let fullFilePath = &quot;&quot;;
   let foundFile = false;
 
   // First, determine if the path includes a file extension
   const hasExtension =
-    normalizedPath.endsWith(".md") || normalizedPath.endsWith(".mdx");
+    normalizedPath.endsWith(&quot;.md&quot;) || normalizedPath.endsWith(&quot;.mdx&quot;);
 
   // For paths without extensions, we'll try multiple variations but DON'T include .md in the path parameter
   const pathVariations = hasExtension
@@ -360,14 +360,14 @@ async function getDocumentContent(
           break;
         }
       } catch (error) {
-        // File doesn't exist at this path, continue to next variation
+        // File doesn&apos;t exist at this path, continue to next variation
       }
     }
 
     if (foundFile) break;
   }
 
-  // Second pass: if no direct file match, check if it's a directory path looking for README
+  // Second pass: if no direct file match, check if it&apos;s a directory path looking for README
   if (!foundFile) {
     for (const rootDir of uniqueRootDirs) {
       // Skip invalid directories
@@ -382,10 +382,10 @@ async function getDocumentContent(
 
           // This is a directory - try README files in various formats
           const readmeVariations = [
-            path.join(dirPath, "README.md"),
-            path.join(dirPath, "README.mdx"),
-            path.join(dirPath, "index.md"),
-            path.join(dirPath, "index.mdx"),
+            path.join(dirPath, &quot;README.md&quot;),
+            path.join(dirPath, &quot;README.mdx&quot;),
+            path.join(dirPath, &quot;index.md&quot;),
+            path.join(dirPath, &quot;index.mdx&quot;),
           ];
 
           for (const readmePath of readmeVariations) {
@@ -396,24 +396,24 @@ async function getDocumentContent(
                   `[DOCS CONTENT] ✅ Found directory index file: ${readmePath}`,
                 );
                 fullFilePath = readmePath;
-                filePath = normalizedPath + "/" + path.basename(readmePath);
+                filePath = normalizedPath + &quot;/&quot; + path.basename(readmePath);
                 foundFile = true;
                 break;
               }
             } catch (error) {
-              // This README variation doesn't exist, try next
+              // This README variation doesn&apos;t exist, try next
             }
           }
 
           if (foundFile) break;
         }
       } catch (error) {
-        // Not a directory or doesn't exist, continue to next root dir
+        // Not a directory or doesn&apos;t exist, continue to next root dir
       }
     }
   }
 
-  // If still no file is found, we won't use fallbacks
+  // If still no file is found, we won&apos;t use fallbacks
   if (!foundFile || !fullFilePath) {
     console.log(
       `[DOCS CONTENT] ❌ Document not found after checking all possible locations: ${normalizedPath}`,
@@ -429,7 +429,7 @@ async function getDocumentContent(
   console.log(`[DOCS CONTENT] Reading file content: ${fullFilePath}`);
 
   try {
-    const content = await fs.readFile(fullFilePath, "utf-8");
+    const content = await fs.readFile(fullFilePath, &quot;utf-8&quot;);
     const stat = await fs.stat(fullFilePath);
 
     console.log(
@@ -461,11 +461,11 @@ async function getDocumentContent(
 
       if (tagsArrayMatch && tagsArrayMatch[1]) {
         tags = tagsArrayMatch[1]
-          .split(",")
-          .map((tag) => tag.trim().replace(/["']/g, ""));
+          .split(&quot;,&quot;)
+          .map((tag) => tag.trim().replace(/[&quot;']/g, "&quot;));
       } else if (tagsLineMatch && tagsLineMatch[1]) {
-        // This handles non-array format like "tags: api, authentication"
-        tags = tagsLineMatch[1].split(",").map((tag) => tag.trim());
+        // This handles non-array format like &quot;tags: api, authentication&quot;
+        tags = tagsLineMatch[1].split(&quot;,&quot;).map((tag) => tag.trim());
       }
 
       // Extract lastUpdated
@@ -510,11 +510,11 @@ async function getDocumentContent(
  */
 async function getHomedir(): Promise<string> {
   try {
-    const os = await import("os");
+    const os = await import(&quot;os&quot;);
     return os.homedir();
   } catch (error) {
     // Fallback for environments where os might not be available
-    return "/home/runner";
+    return &quot;/home/runner";
   }
 }
 

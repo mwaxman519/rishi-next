@@ -1,4 +1,4 @@
-import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
 import {
   LayoutDashboard,
   Calendar,
@@ -15,143 +15,143 @@ import {
   Shield,
   CalendarPlus,
   CalendarClock,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 /**
  * Desktop navigation items for Rishi Management (Internal Admins)
  */
 export const RISHI_MANAGEMENT_NAV: NavItem[] = [
   {
-    label: "Dashboard",
-    path: "/dashboard",
+    label: &quot;Dashboard&quot;,
+    path: &quot;/dashboard&quot;,
     icon: <LayoutDashboard size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Organizations",
-    path: "/admin/organizations",
+    label: &quot;Organizations&quot;,
+    path: &quot;/admin/organizations&quot;,
     icon: <Building size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: "Organization Directory",
-        path: "/admin/organizations",
+        label: &quot;Organization Directory&quot;,
+        path: &quot;/admin/organizations&quot;,
         icon: <Building size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: "Organization Settings",
-        path: "/admin/organizations/settings",
+        label: &quot;Organization Settings&quot;,
+        path: &quot;/admin/organizations/settings&quot;,
         icon: <Settings size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: "Users",
-    path: "/admin/users",
+    label: &quot;Users&quot;,
+    path: &quot;/admin/users&quot;,
     icon: <Users size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: "User Directory",
-        path: "/admin/users",
+        label: &quot;User Directory&quot;,
+        path: &quot;/admin/users&quot;,
         icon: <Users size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: "Create User",
-        path: "/users/new",
+        label: &quot;Create User&quot;,
+        path: &quot;/users/new&quot;,
         icon: <Users size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: "Schedule",
-    path: "/team-schedule",
+    label: &quot;Schedule&quot;,
+    path: &quot;/team-schedule&quot;,
     icon: <Calendar size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Bookings",
-    path: "/bookings",
+    label: &quot;Bookings&quot;,
+    path: &quot;/bookings&quot;,
     icon: <CalendarClock size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: "All Bookings",
-        path: "/bookings",
+        label: &quot;All Bookings&quot;,
+        path: &quot;/bookings&quot;,
         icon: <Calendar size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: "Create Booking",
-        path: "/bookings/new",
+        label: &quot;Create Booking&quot;,
+        path: &quot;/bookings/new&quot;,
         icon: <CalendarPlus size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: "Approval Queue",
-        path: "/bookings/approval-queue",
+        label: &quot;Approval Queue&quot;,
+        path: &quot;/bookings/approval-queue&quot;,
         icon: <CheckSquare size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: "Locations",
-    path: "/admin/locations",
+    label: &quot;Locations&quot;,
+    path: &quot;/admin/locations&quot;,
     icon: <MapPin size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
     children: [
       {
-        label: "Location Management",
-        path: "/admin/locations",
+        label: &quot;Location Management&quot;,
+        path: &quot;/admin/locations&quot;,
         icon: <MapPin size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
       {
-        label: "Approval Queue",
-        path: "/admin/locations/approval-queue",
+        label: &quot;Approval Queue&quot;,
+        path: &quot;/admin/locations/approval-queue&quot;,
         icon: <CheckSquare size={20} />,
         type: NAV_ITEM_TYPES.PRIMARY,
       },
     ],
   },
   {
-    label: "Analytics",
-    path: "/admin/analytics",
+    label: &quot;Analytics&quot;,
+    path: &quot;/admin/analytics&quot;,
     icon: <BarChart size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Billing",
-    path: "/admin/billing",
+    label: &quot;Billing&quot;,
+    path: &quot;/admin/billing&quot;,
     icon: <CreditCard size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Documentation",
-    path: "/docs",
+    label: &quot;Documentation&quot;,
+    path: &quot;/docs&quot;,
     icon: <FileText size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
   {
-    label: "System",
-    path: "/admin/system",
+    label: &quot;System&quot;,
+    path: &quot;/admin/system&quot;,
     icon: <Database size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
     children: [
       {
-        label: "Settings",
-        path: "/admin/system/settings",
+        label: &quot;Settings&quot;,
+        path: &quot;/admin/system/settings&quot;,
         icon: <Settings size={20} />,
         type: NAV_ITEM_TYPES.SECONDARY,
       },
       {
-        label: "RBAC",
-        path: "/admin/system/rbac",
+        label: &quot;RBAC&quot;,
+        path: &quot;/admin/system/rbac&quot;,
         icon: <Shield size={20} />,
         type: NAV_ITEM_TYPES.SECONDARY,
       },
@@ -164,14 +164,14 @@ export const RISHI_MANAGEMENT_NAV: NavItem[] = [
  */
 export const RISHI_MANAGEMENT_SECONDARY_NAV: NavItem[] = [
   {
-    label: "Documentation",
-    path: "/docs",
+    label: &quot;Documentation&quot;,
+    path: &quot;/docs&quot;,
     icon: <FileText size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
   {
-    label: "System Settings",
-    path: "/admin/system/settings",
+    label: &quot;System Settings&quot;,
+    path: &quot;/admin/system/settings&quot;,
     icon: <Settings size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },

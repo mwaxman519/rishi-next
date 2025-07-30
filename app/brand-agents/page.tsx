@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import { Metadata } from &quot;next&quot;;
 import {
   Users,
   Plus,
@@ -8,148 +8,148 @@ import {
   MapPin,
   Phone,
   Mail,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
 
 export const metadata: Metadata = {
-  title: "Brand Agents | Rishi Workforce Management",
-  description: "Manage your brand agent team and assignments",
+  title: &quot;Brand Agents | Rishi Workforce Management&quot;,
+  description: &quot;Manage your brand agent team and assignments&quot;,
 };
 
 const mockAgents = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    email: "sarah.johnson@email.com",
-    phone: "+1 (555) 123-4567",
-    status: "active",
+    name: &quot;Sarah Johnson&quot;,
+    email: &quot;sarah.johnson@email.com&quot;,
+    phone: &quot;+1 (555) 123-4567&quot;,
+    status: &quot;active&quot;,
     rating: 4.8,
     completedEvents: 24,
-    location: "New York, NY",
-    skills: ["Product Demo", "Customer Service", "Sales"],
+    location: &quot;New York, NY&quot;,
+    skills: [&quot;Product Demo&quot;, &quot;Customer Service&quot;, &quot;Sales&quot;],
     avatar: null,
   },
   {
     id: 2,
-    name: "Michael Chen",
-    email: "michael.chen@email.com",
-    phone: "+1 (555) 234-5678",
-    status: "active",
+    name: &quot;Michael Chen&quot;,
+    email: &quot;michael.chen@email.com&quot;,
+    phone: &quot;+1 (555) 234-5678&quot;,
+    status: &quot;active&quot;,
     rating: 4.9,
     completedEvents: 31,
-    location: "Los Angeles, CA",
-    skills: ["Event Setup", "Logistics", "Team Lead"],
+    location: &quot;Los Angeles, CA&quot;,
+    skills: [&quot;Event Setup&quot;, &quot;Logistics&quot;, &quot;Team Lead&quot;],
     avatar: null,
   },
   {
     id: 3,
-    name: "Emily Rodriguez",
-    email: "emily.rodriguez@email.com",
-    phone: "+1 (555) 345-6789",
-    status: "unavailable",
+    name: &quot;Emily Rodriguez&quot;,
+    email: &quot;emily.rodriguez@email.com&quot;,
+    phone: &quot;+1 (555) 345-6789&quot;,
+    status: &quot;unavailable&quot;,
     rating: 4.7,
     completedEvents: 18,
-    location: "Chicago, IL",
-    skills: ["Brand Activation", "Social Media", "Photography"],
+    location: &quot;Chicago, IL&quot;,
+    skills: [&quot;Brand Activation&quot;, &quot;Social Media&quot;, &quot;Photography&quot;],
     avatar: null,
   },
   {
     id: 4,
-    name: "David Thompson",
-    email: "david.thompson@email.com",
-    phone: "+1 (555) 456-7890",
-    status: "active",
+    name: &quot;David Thompson&quot;,
+    email: &quot;david.thompson@email.com&quot;,
+    phone: &quot;+1 (555) 456-7890&quot;,
+    status: &quot;active&quot;,
     rating: 4.6,
     completedEvents: 22,
-    location: "Houston, TX",
-    skills: ["Technical Support", "Training", "Equipment"],
+    location: &quot;Houston, TX&quot;,
+    skills: [&quot;Technical Support&quot;, &quot;Training&quot;, &quot;Equipment&quot;],
     avatar: null,
   },
 ];
 
 export default function BrandAgentsPage() {
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className=&quot;flex justify-between items-center&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Brand Agents</h1>
-          <p className="text-muted-foreground">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Brand Agents</h1>
+          <p className=&quot;text-muted-foreground&quot;>
             Manage your brand agent team and assignments
           </p>
         </div>
         <Button>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className=&quot;h-4 w-4 mr-2&quot; />
           Add Agent
         </Button>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input placeholder="Search agents..." className="pl-10" />
+      <div className=&quot;flex gap-4&quot;>
+        <div className=&quot;relative flex-1&quot;>
+          <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4&quot; />
+          <Input placeholder=&quot;Search agents...&quot; className=&quot;pl-10&quot; />
         </div>
-        <Button variant="outline">
-          <Filter className="h-4 w-4 mr-2" />
+        <Button variant=&quot;outline&quot;>
+          <Filter className=&quot;h-4 w-4 mr-2&quot; />
           Filter
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Agents</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Total Agents</CardTitle>
+            <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24</div>
-            <p className="text-xs text-muted-foreground">+2 from last month</p>
+            <div className=&quot;text-2xl font-bold&quot;>24</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>+2 from last month</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Today</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Active Today</CardTitle>
+            <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">18</div>
-            <p className="text-xs text-muted-foreground">75% availability</p>
+            <div className=&quot;text-2xl font-bold&quot;>18</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>75% availability</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Rating</CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Avg Rating</CardTitle>
+            <Star className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4.7</div>
-            <p className="text-xs text-muted-foreground">
+            <div className=&quot;text-2xl font-bold&quot;>4.7</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>
               Based on client feedback
             </p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>
               Events This Month
             </CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">142</div>
-            <p className="text-xs text-muted-foreground">
+            <div className=&quot;text-2xl font-bold&quot;>142</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>
               +12% from last month
             </p>
           </CardContent>
@@ -157,80 +157,80 @@ export default function BrandAgentsPage() {
       </div>
 
       {/* Agents Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
         {mockAgents.map((agent) => (
-          <Card key={agent.id} className="hover:shadow-md transition-shadow">
+          <Card key={agent.id} className=&quot;hover:shadow-md transition-shadow&quot;>
             <CardHeader>
-              <div className="flex items-center space-x-4">
-                <Avatar className="h-12 w-12">
+              <div className=&quot;flex items-center space-x-4&quot;>
+                <Avatar className=&quot;h-12 w-12&quot;>
                   <AvatarImage
                     src={agent.avatar || undefined}
                     alt={agent.name}
                   />
                   <AvatarFallback>
                     {agent.name
-                      .split(" ")
+                      .split(&quot; &quot;)
                       .map((n) => n[0])
-                      .join("")}
+                      .join("&quot;)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex-1">
-                  <CardTitle className="text-lg">{agent.name}</CardTitle>
-                  <div className="flex items-center space-x-2">
+                <div className=&quot;flex-1&quot;>
+                  <CardTitle className=&quot;text-lg&quot;>{agent.name}</CardTitle>
+                  <div className=&quot;flex items-center space-x-2&quot;>
                     <Badge
                       variant={
-                        agent.status === "active" ? "default" : "secondary"
+                        agent.status === &quot;active&quot; ? &quot;default&quot; : &quot;secondary&quot;
                       }
                     >
                       {agent.status}
                     </Badge>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Star className="h-3 w-3 mr-1 fill-current text-yellow-500" />
+                    <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
+                      <Star className=&quot;h-3 w-3 mr-1 fill-current text-yellow-500&quot; />
                       {agent.rating}
                     </div>
                   </div>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4 mr-2" />
+            <CardContent className=&quot;space-y-4&quot;>
+              <div className=&quot;space-y-2&quot;>
+                <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
+                  <MapPin className=&quot;h-4 w-4 mr-2&quot; />
                   {agent.location}
                 </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Mail className="h-4 w-4 mr-2" />
+                <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
+                  <Mail className=&quot;h-4 w-4 mr-2&quot; />
                   {agent.email}
                 </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Phone className="h-4 w-4 mr-2" />
+                <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
+                  <Phone className=&quot;h-4 w-4 mr-2&quot; />
                   {agent.phone}
                 </div>
               </div>
 
               <div>
-                <p className="text-sm font-medium mb-2">Skills</p>
-                <div className="flex flex-wrap gap-1">
+                <p className=&quot;text-sm font-medium mb-2&quot;>Skills</p>
+                <div className=&quot;flex flex-wrap gap-1&quot;>
                   {agent.skills.map((skill) => (
-                    <Badge key={skill} variant="outline" className="text-xs">
+                    <Badge key={skill} variant=&quot;outline&quot; className=&quot;text-xs&quot;>
                       {skill}
                     </Badge>
                   ))}
                 </div>
               </div>
 
-              <div className="pt-2 border-t">
-                <p className="text-sm text-muted-foreground">
-                  <span className="font-medium">{agent.completedEvents}</span>{" "}
+              <div className=&quot;pt-2 border-t&quot;>
+                <p className=&quot;text-sm text-muted-foreground&quot;>
+                  <span className=&quot;font-medium&quot;>{agent.completedEvents}</span>{&quot; &quot;}
                   events completed
                 </p>
               </div>
 
-              <div className="flex gap-2 pt-2">
-                <Button variant="outline" size="sm" className="flex-1">
+              <div className=&quot;flex gap-2 pt-2&quot;>
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;flex-1&quot;>
                   View Profile
                 </Button>
-                <Button variant="outline" size="sm" className="flex-1">
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;flex-1">
                   Assign Event
                 </Button>
               </div>

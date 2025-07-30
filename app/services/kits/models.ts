@@ -1,42 +1,42 @@
 /**
  * Kit Management Service Models
  */
-import { z } from "zod";
+import { z } from &quot;zod&quot;;
 
 // Kit Template Status
 export enum KitTemplateStatus {
-  PENDING = "pending",
-  APPROVED = "approved",
-  REJECTED = "rejected",
+  PENDING = &quot;pending&quot;,
+  APPROVED = &quot;approved&quot;,
+  REJECTED = &quot;rejected&quot;,
 }
 
 // Kit Status
 export enum KitStatus {
-  ACTIVE = "active",
-  INACTIVE = "inactive",
-  DAMAGED = "damaged",
-  LOST = "lost",
-  RETIRED = "retired",
+  ACTIVE = &quot;active&quot;,
+  INACTIVE = &quot;inactive&quot;,
+  DAMAGED = &quot;damaged&quot;,
+  LOST = &quot;lost&quot;,
+  RETIRED = &quot;retired&quot;,
 }
 
 // Kit Assignment Status
 export enum KitAssignmentStatus {
-  NEEDED = "needed",
-  ALLOCATED = "allocated",
-  PREPARED = "prepared",
-  DELIVERED = "delivered",
-  RETURNED = "returned",
+  NEEDED = &quot;needed&quot;,
+  ALLOCATED = &quot;allocated&quot;,
+  PREPARED = &quot;prepared&quot;,
+  DELIVERED = &quot;delivered&quot;,
+  RETURNED = &quot;returned&quot;,
 }
 
 // Component type enum for kit components
 export enum ComponentType {
-  HARDWARE = "hardware",
-  MATERIAL = "material",
-  DISPLAY = "display",
-  MERCHANDISE = "merchandise",
-  PROMOTIONAL = "promotional",
-  LITERATURE = "literature",
-  OTHER = "other",
+  HARDWARE = &quot;hardware&quot;,
+  MATERIAL = &quot;material&quot;,
+  DISPLAY = &quot;display&quot;,
+  MERCHANDISE = &quot;merchandise&quot;,
+  PROMOTIONAL = &quot;promotional&quot;,
+  LITERATURE = &quot;literature&quot;,
+  OTHER = &quot;other&quot;,
 }
 
 // Component DTO
@@ -138,17 +138,17 @@ export interface ActivityKitDTO {
 
 // Create Kit Template Parameters Schema
 export const createKitTemplateSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, &quot;Name is required&quot;),
   description: z.string().optional(),
   organization_id: z.string().optional(),
   brand_id: z.string().optional(),
   components: z
     .array(
       z.object({
-        name: z.string().min(1, "Component name is required"),
+        name: z.string().min(1, &quot;Component name is required&quot;),
         type: z.nativeEnum(ComponentType),
         description: z.string().optional(),
-        quantity: z.number().int().positive("Quantity must be positive"),
+        quantity: z.number().int().positive(&quot;Quantity must be positive&quot;),
         unitCost: z.number().optional(),
         imageUrl: z.string().optional(),
         sku: z.string().optional(),
@@ -159,7 +159,7 @@ export const createKitTemplateSchema = z.object({
         isRequired: z.boolean().default(true),
       }),
     )
-    .min(1, "At least one component is required"),
+    .min(1, &quot;At least one component is required&quot;),
   instructions: z.string().optional(),
 });
 
@@ -174,11 +174,11 @@ export const updateKitTemplateSchema = createKitTemplateSchema
 
 // Create Kit Parameters Schema
 export const createKitSchema = z.object({
-  name: z.string().min(1, "Kit name is required"),
+  name: z.string().min(1, &quot;Kit name is required&quot;),
   description: z.string().optional(),
-  organization_id: z.string().min(1, "Organization is required"),
-  location_id: z.string().min(1, "Location is required"),
-  template_id: z.string().min(1, "Template is required"),
+  organization_id: z.string().min(1, &quot;Organization is required&quot;),
+  location_id: z.string().min(1, &quot;Location is required&quot;),
+  template_id: z.string().min(1, &quot;Template is required&quot;),
   notes: z.string().optional(),
   status: z.nativeEnum(KitStatus).optional(),
 });
@@ -193,7 +193,7 @@ export const updateKitSchema = createKitSchema
 
 // Create Activity Kit Parameters Schema
 export const createActivityKitSchema = z.object({
-  activity_id: z.string().min(1, "Activity ID is required"),
+  activity_id: z.string().min(1, &quot;Activity ID is required&quot;),
   kit_template_id: z.string().optional(),
   kit_instance_id: z.string().optional(),
   quantity: z.number().int().positive().default(1),

@@ -118,12 +118,12 @@ export default function BrandAgentPerformancePage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className=&quot;container mx-auto px-4 py-8&quot;>
+        <div className=&quot;animate-pulse&quot;>
+          <div className=&quot;h-8 bg-gray-200 rounded w-1/4 mb-6&quot;></div>
+          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-64 bg-gray-200 rounded-lg"></div>
+              <div key={i} className=&quot;h-64 bg-gray-200 rounded-lg&quot;></div>
             ))}
           </div>
         </div>
@@ -133,17 +133,17 @@ export default function BrandAgentPerformancePage() {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <Card className="border-red-200 bg-red-50">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2 text-red-600">
-              <span className="font-medium">Error:</span>
+      <div className=&quot;container mx-auto px-4 py-8&quot;>
+        <Card className=&quot;border-red-200 bg-red-50&quot;>
+          <CardContent className=&quot;pt-6&quot;>
+            <div className=&quot;flex items-center gap-2 text-red-600&quot;>
+              <span className=&quot;font-medium&quot;>Error:</span>
               <span>{error}</span>
             </div>
             <Button 
               onClick={fetchPerformanceData} 
-              className="mt-4"
-              variant="outline"
+              className=&quot;mt-4&quot;
+              variant=&quot;outline&quot;
             >
               Try Again
             </Button>
@@ -154,39 +154,39 @@ export default function BrandAgentPerformancePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8">
+    <div className=&quot;container mx-auto px-4 py-8&quot;>
+      <div className=&quot;flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8&quot;>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Brand Agent Performance</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className=&quot;text-3xl font-bold text-gray-900&quot;>Brand Agent Performance</h1>
+          <p className=&quot;text-gray-600 mt-2&quot;>
             Track and analyze performance metrics for brand agents
           </p>
         </div>
         
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-gray-500" />
+        <div className=&quot;flex items-center gap-4&quot;>
+          <div className=&quot;flex items-center gap-2&quot;>
+            <Calendar className=&quot;h-4 w-4 text-gray-500&quot; />
             <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-              <SelectTrigger className="w-32">
+              <SelectTrigger className=&quot;w-32&quot;>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="monthly">Monthly</SelectItem>
-                <SelectItem value="quarterly">Quarterly</SelectItem>
-                <SelectItem value="yearly">Yearly</SelectItem>
+                <SelectItem value=&quot;monthly&quot;>Monthly</SelectItem>
+                <SelectItem value=&quot;quarterly&quot;>Quarterly</SelectItem>
+                <SelectItem value=&quot;yearly&quot;>Yearly</SelectItem>
               </SelectContent>
             </Select>
           </div>
           
           <input
-            type="month"
+            type=&quot;month&quot;
             value={selectedPeriodValue}
             onChange={(e) => setSelectedPeriodValue(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className=&quot;px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500&quot;
           />
           
-          <Button onClick={fetchPerformanceData} variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-2" />
+          <Button onClick={fetchPerformanceData} variant=&quot;outline&quot; size=&quot;sm&quot;>
+            <Filter className=&quot;h-4 w-4 mr-2&quot; />
             Refresh
           </Button>
         </div>
@@ -194,112 +194,112 @@ export default function BrandAgentPerformancePage() {
 
       {performanceData?.brandAgents.length === 0 ? (
         <Card>
-          <CardContent className="pt-6">
-            <div className="text-center py-8">
-              <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No Brand Agents Found</h3>
-              <p className="text-gray-600">
+          <CardContent className=&quot;pt-6&quot;>
+            <div className=&quot;text-center py-8&quot;>
+              <Users className=&quot;h-16 w-16 text-gray-400 mx-auto mb-4&quot; />
+              <h3 className=&quot;text-lg font-medium text-gray-900 mb-2&quot;>No Brand Agents Found</h3>
+              <p className=&quot;text-gray-600&quot;>
                 No brand agents found for the selected period. Check your filters or try a different time period.
               </p>
             </div>
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6&quot;>
           {performanceData?.brandAgents.map((agent) => {
             const badge = getPerformanceBadge(agent.overallPerformanceScore);
             
             return (
-              <Card key={agent.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-12 w-12">
+              <Card key={agent.id} className=&quot;hover:shadow-lg transition-shadow&quot;>
+                <CardHeader className=&quot;pb-4&quot;>
+                  <div className=&quot;flex items-center gap-3&quot;>
+                    <Avatar className=&quot;h-12 w-12&quot;>
                       <AvatarImage src={agent.profileImageUrl} alt={agent.fullName} />
-                      <AvatarFallback className="bg-purple-100 text-purple-600 font-semibold">
+                      <AvatarFallback className=&quot;bg-purple-100 text-purple-600 font-semibold&quot;>
                         {agent.fullName.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1">
-                      <CardTitle className="text-lg">{agent.fullName}</CardTitle>
-                      <CardDescription className="text-sm">{agent.email}</CardDescription>
+                    <div className=&quot;flex-1&quot;>
+                      <CardTitle className=&quot;text-lg&quot;>{agent.fullName}</CardTitle>
+                      <CardDescription className=&quot;text-sm&quot;>{agent.email}</CardDescription>
                     </div>
                   </div>
                   
-                  <div className="flex items-center justify-between mt-4">
-                    <Badge variant={badge.variant} className="text-xs">
+                  <div className=&quot;flex items-center justify-between mt-4&quot;>
+                    <Badge variant={badge.variant} className=&quot;text-xs&quot;>
                       {badge.label}
                     </Badge>
-                    <div className="flex items-center gap-1">
-                      <Trophy className="h-4 w-4 text-yellow-500" />
-                      <span className="text-sm font-medium">
+                    <div className=&quot;flex items-center gap-1&quot;>
+                      <Trophy className=&quot;h-4 w-4 text-yellow-500&quot; />
+                      <span className=&quot;text-sm font-medium&quot;>
                         {formatRating(agent.overallPerformanceScore)}
                       </span>
                     </div>
                   </div>
                 </CardHeader>
                 
-                <CardContent className="space-y-4">
+                <CardContent className=&quot;space-y-4&quot;>
                   {/* Performance Metrics */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Star className="h-4 w-4 text-yellow-500" />
-                        <span className="text-sm font-medium">Manager Review</span>
+                  <div className=&quot;grid grid-cols-2 gap-4&quot;>
+                    <div className=&quot;space-y-2&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <Star className=&quot;h-4 w-4 text-yellow-500&quot; />
+                        <span className=&quot;text-sm font-medium&quot;>Manager Review</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className=&quot;flex items-center gap-2&quot;>
                         <Progress 
                           value={agent.avgManagerReview ? (agent.avgManagerReview / 5) * 100 : 0} 
-                          className="h-2 flex-1"
+                          className=&quot;h-2 flex-1&quot;
                         />
-                        <span className="text-sm text-gray-600 min-w-[3rem]">
+                        <span className=&quot;text-sm text-gray-600 min-w-[3rem]&quot;>
                           {formatRating(agent.avgManagerReview)}
                         </span>
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-blue-500" />
-                        <span className="text-sm font-medium">On-Time</span>
+                    <div className=&quot;space-y-2&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <Clock className=&quot;h-4 w-4 text-blue-500&quot; />
+                        <span className=&quot;text-sm font-medium&quot;>On-Time</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className=&quot;flex items-center gap-2&quot;>
                         <Progress 
                           value={agent.onTimePercentage || 0} 
-                          className="h-2 flex-1"
+                          className=&quot;h-2 flex-1&quot;
                         />
-                        <span className="text-sm text-gray-600 min-w-[3rem]">
+                        <span className=&quot;text-sm text-gray-600 min-w-[3rem]&quot;>
                           {formatPercentage(agent.onTimePercentage)}
                         </span>
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-green-500" />
-                        <span className="text-sm font-medium">Location</span>
+                    <div className=&quot;space-y-2&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <MapPin className=&quot;h-4 w-4 text-green-500&quot; />
+                        <span className=&quot;text-sm font-medium&quot;>Location</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className=&quot;flex items-center gap-2&quot;>
                         <Progress 
                           value={agent.locationCompliancePercentage || 0} 
-                          className="h-2 flex-1"
+                          className=&quot;h-2 flex-1&quot;
                         />
-                        <span className="text-sm text-gray-600 min-w-[3rem]">
+                        <span className=&quot;text-sm text-gray-600 min-w-[3rem]&quot;>
                           {formatPercentage(agent.locationCompliancePercentage)}
                         </span>
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-purple-500" />
-                        <span className="text-sm font-medium">Activities</span>
+                    <div className=&quot;space-y-2&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <CheckCircle className=&quot;h-4 w-4 text-purple-500&quot; />
+                        <span className=&quot;text-sm font-medium&quot;>Activities</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className=&quot;flex items-center gap-2&quot;>
                         <Progress 
                           value={agent.activityCompletionPercentage || 0} 
-                          className="h-2 flex-1"
+                          className=&quot;h-2 flex-1&quot;
                         />
-                        <span className="text-sm text-gray-600 min-w-[3rem]">
+                        <span className=&quot;text-sm text-gray-600 min-w-[3rem]&quot;>
                           {formatPercentage(agent.activityCompletionPercentage)}
                         </span>
                       </div>
@@ -307,14 +307,14 @@ export default function BrandAgentPerformancePage() {
                   </div>
                   
                   {/* Action Buttons */}
-                  <div className="flex gap-2 pt-4 border-t">
+                  <div className=&quot;flex gap-2 pt-4 border-t&quot;>
                     <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="flex-1"
+                      variant=&quot;outline&quot; 
+                      size=&quot;sm&quot; 
+                      className=&quot;flex-1&quot;
                       onClick={() => window.open(`/performance/brand-agents/${agent.id}`, '_blank')}
                     >
-                      <TrendingUp className="h-4 w-4 mr-2" />
+                      <TrendingUp className=&quot;h-4 w-4 mr-2&quot; />
                       View Details
                     </Button>
                   </div>

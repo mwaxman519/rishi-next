@@ -1,4 +1,4 @@
-import { UserRole, PermissionMap } from ".";
+import { UserRole, PermissionMap } from &quot;.&quot;;
 
 /**
  * Returns the permissions for a specific role
@@ -8,99 +8,99 @@ import { UserRole, PermissionMap } from ".";
  */
 export function getRolePermissions(role: UserRole): PermissionMap {
   switch (role) {
-    case "super_admin":
+    case &quot;super_admin&quot;:
       return {
         locations: [
-          "create",
-          "read",
-          "update",
-          "delete",
-          "approve",
-          "reject",
-          "manage",
-          "export",
+          &quot;create&quot;,
+          &quot;read&quot;,
+          &quot;update&quot;,
+          &quot;delete&quot;,
+          &quot;approve&quot;,
+          &quot;reject&quot;,
+          &quot;manage&quot;,
+          &quot;export&quot;,
         ],
         bookings: [
-          "create",
-          "read",
-          "update",
-          "delete",
-          "approve",
-          "reject",
-          "manage",
-          "export",
+          &quot;create&quot;,
+          &quot;read&quot;,
+          &quot;update&quot;,
+          &quot;delete&quot;,
+          &quot;approve&quot;,
+          &quot;reject&quot;,
+          &quot;manage&quot;,
+          &quot;export&quot;,
         ],
         organizations: [
-          "create",
-          "read",
-          "update",
-          "delete",
-          "manage",
-          "export",
+          &quot;create&quot;,
+          &quot;read&quot;,
+          &quot;update&quot;,
+          &quot;delete&quot;,
+          &quot;manage&quot;,
+          &quot;export&quot;,
         ],
-        users: ["create", "read", "update", "delete", "manage", "export"],
-        reports: ["create", "read", "update", "delete", "manage", "export"],
+        users: [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;delete&quot;, &quot;manage&quot;, &quot;export&quot;],
+        reports: [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;delete&quot;, &quot;manage&quot;, &quot;export&quot;],
       };
 
-    case "admin":
+    case &quot;admin&quot;:
       return {
         locations: [
-          "create",
-          "read",
-          "update",
-          "delete",
-          "approve",
-          "reject",
-          "manage",
-          "export",
+          &quot;create&quot;,
+          &quot;read&quot;,
+          &quot;update&quot;,
+          &quot;delete&quot;,
+          &quot;approve&quot;,
+          &quot;reject&quot;,
+          &quot;manage&quot;,
+          &quot;export&quot;,
         ],
         bookings: [
-          "create",
-          "read",
-          "update",
-          "delete",
-          "approve",
-          "reject",
-          "manage",
-          "export",
+          &quot;create&quot;,
+          &quot;read&quot;,
+          &quot;update&quot;,
+          &quot;delete&quot;,
+          &quot;approve&quot;,
+          &quot;reject&quot;,
+          &quot;manage&quot;,
+          &quot;export&quot;,
         ],
-        organizations: ["read"],
-        users: ["create", "read", "update", "delete", "manage"],
-        reports: ["create", "read", "update", "export"],
+        organizations: [&quot;read&quot;],
+        users: [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;delete&quot;, &quot;manage&quot;],
+        reports: [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;export&quot;],
       };
 
-    case "manager":
+    case &quot;manager&quot;:
       return {
-        locations: ["create", "read", "update", "approve", "reject", "export"],
-        bookings: ["create", "read", "update", "approve", "reject", "export"],
-        organizations: ["read"],
-        users: ["read"],
-        reports: ["read", "export"],
+        locations: [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;approve&quot;, &quot;reject&quot;, &quot;export&quot;],
+        bookings: [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;approve&quot;, &quot;reject&quot;, &quot;export&quot;],
+        organizations: [&quot;read&quot;],
+        users: [&quot;read&quot;],
+        reports: [&quot;read&quot;, &quot;export&quot;],
       };
 
-    case "staff":
+    case &quot;staff&quot;:
       return {
-        locations: ["read", "create"],
-        bookings: ["read", "create", "update"],
-        organizations: ["read"],
-        users: ["read"],
-        reports: ["read"],
+        locations: [&quot;read&quot;, &quot;create&quot;],
+        bookings: [&quot;read&quot;, &quot;create&quot;, &quot;update&quot;],
+        organizations: [&quot;read&quot;],
+        users: [&quot;read&quot;],
+        reports: [&quot;read&quot;],
       };
 
-    case "client":
+    case &quot;client&quot;:
       return {
-        locations: ["read"],
-        bookings: ["read", "create"],
+        locations: [&quot;read&quot;],
+        bookings: [&quot;read&quot;, &quot;create&quot;],
         organizations: [],
         users: [],
         reports: [],
       };
 
-    case "user":
+    case &quot;user&quot;:
     default:
       return {
-        locations: ["read"],
-        bookings: ["read"],
+        locations: [&quot;read&quot;],
+        bookings: [&quot;read&quot;],
         organizations: [],
         users: [],
         reports: [],

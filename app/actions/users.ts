@@ -1,4 +1,4 @@
-"use server";
+&quot;use server&quot;;
 
 import {
   getAllUsers as getUsersService,
@@ -7,7 +7,7 @@ import {
   updateUser as updateUserService,
   deleteUser as deleteUserService,
   getUsersByRole as getUsersByRoleService,
-} from "../services/users/userService";
+} from &quot;../services/users/userService&quot;;
 
 import {
   UserProfile,
@@ -15,10 +15,10 @@ import {
   UserResponse,
   UpdateUserRequest,
   CreateUserRequest,
-} from "../services/users/models";
+} from &quot;../services/users/models&quot;;
 
-import { hasPermission } from "../lib/rbac";
-import { getCurrentUser } from "../lib/auth";
+import { hasPermission } from &quot;../lib/rbac&quot;;
+import { getCurrentUser } from &quot;../lib/auth&quot;;
 
 // Server action for fetching all users with permission check
 export async function getAllUsers(): Promise<UsersResponse> {
@@ -27,10 +27,10 @@ export async function getAllUsers(): Promise<UsersResponse> {
     // The frontend components should handle authentication state and permissions
     return await getUsersService();
   } catch (error) {
-    console.error("Error in getAllUsers server action:", error);
+    console.error(&quot;Error in getAllUsers server action:&quot;, error);
     return {
       success: false,
-      error: "An error occurred while fetching users",
+      error: &quot;An error occurred while fetching users&quot;,
     };
   }
 }

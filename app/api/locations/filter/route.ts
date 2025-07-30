@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@shared/schema&quot;;
 
 export interface LocationFilterParams {
   search?: string;
@@ -23,7 +23,7 @@ export interface LocationFilterParams {
   page?: number;
   pageSize?: number;
   sortBy?: string;
-  sortDirection?: "asc" | "desc";
+  sortDirection?: &quot;asc&quot; | &quot;desc&quot;;
 }
 
 export async function POST(req: NextRequest) {
@@ -32,13 +32,13 @@ export async function POST(req: NextRequest) {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to view locations
-    if (!(await checkPermission(req, "view:locations"))) {
+    if (!(await checkPermission(req, &quot;view:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
     const page = filters.page || 1;
     const pageSize = filters.pageSize || 20;
     const skipPending = filters.skipPending !== false; // Default to true
-    const sortBy = filters.sortBy || "name";
-    const sortDirection = filters.sortDirection || "asc";
+    const sortBy = filters.sortBy || &quot;name&quot;;
+    const sortDirection = filters.sortDirection || &quot;asc&quot;;
 
     try {
       // Get all locations from database using Drizzle ORM
@@ -64,9 +64,9 @@ export async function POST(req: NextRequest) {
       if (skipPending) {
         filteredLocations = filteredLocations.filter(
           (loc) =>
-            loc.status === "active" ||
-            (loc.status !== "pending" &&
-              loc.status !== "rejected"),
+            loc.status === &quot;active&quot; ||
+            (loc.status !== &quot;pending&quot; &&
+              loc.status !== &quot;rejected&quot;),
         );
       }
 
@@ -168,19 +168,19 @@ export async function POST(req: NextRequest) {
         // @ts-ignore - Dynamic property access
         const bValue = b[sortBy];
 
-        if (aValue === undefined) return sortDirection === "asc" ? -1 : 1;
-        if (bValue === undefined) return sortDirection === "asc" ? 1 : -1;
+        if (aValue === undefined) return sortDirection === &quot;asc&quot; ? -1 : 1;
+        if (bValue === undefined) return sortDirection === &quot;asc&quot; ? 1 : -1;
 
         // Handle string comparison
-        if (typeof aValue === "string" && typeof bValue === "string") {
-          return sortDirection === "asc"
+        if (typeof aValue === &quot;string&quot; && typeof bValue === &quot;string&quot;) {
+          return sortDirection === &quot;asc&quot;
             ? aValue.localeCompare(bValue)
             : bValue.localeCompare(aValue);
         }
 
         // Handle number and boolean comparison
-        if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-        if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
+        if (aValue < bValue) return sortDirection === &quot;asc&quot; ? -1 : 1;
+        if (aValue > bValue) return sortDirection === &quot;asc&quot; ? 1 : -1;
         return 0;
       });
 
@@ -204,7 +204,7 @@ export async function POST(req: NextRequest) {
         },
       });
     } catch (dbError) {
-      console.error("Database error:", dbError);
+      console.error(&quot;Database error:&quot;, dbError);
       return NextResponse.json(
         {
           error: `Database error: ${dbError instanceof Error ? dbError.message : String(dbError)}`,
@@ -213,11 +213,11 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.error("Error filtering locations:", error);
+    console.error(&quot;Error filtering locations:&quot;, error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "Failed to filter locations",
+          error instanceof Error ? error.message : &quot;Failed to filter locations&quot;,
       },
       { status: 500 },
     );

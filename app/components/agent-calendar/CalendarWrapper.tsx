@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect, useCallback, memo, useRef } from "react";
-import AgentCalendar from "./AgentCalendar";
-import { useTheme } from "@/hooks/useTheme";
-import { useSidebarState } from "@/hooks/useSidebarState";
-import ErrorBoundary from "../ErrorBoundary";
+import React, { useState, useEffect, useCallback, memo, useRef } from &quot;react&quot;;
+import AgentCalendar from &quot;./AgentCalendar&quot;;
+import { useTheme } from &quot;@/hooks/useTheme&quot;;
+import { useSidebarState } from &quot;@/hooks/useSidebarState&quot;;
+import ErrorBoundary from &quot;../ErrorBoundary&quot;;
 
 interface CalendarWrapperProps {
   userId: number;
@@ -58,22 +58,22 @@ function CalendarWrapper({
 
   // Only render the calendar once, when the component mounts and userId is available
   useEffect(() => {
-    console.log("Calendar: useEffect triggered with userId:", userId);
+    console.log(&quot;Calendar: useEffect triggered with userId:&quot;, userId);
 
     // Always set mounted status
     mountedRef.current = true;
 
     if (userId) {
-      console.log("Calendar: Initial mount with userId:", userId);
+      console.log(&quot;Calendar: Initial mount with userId:&quot;, userId);
 
       // Immediately render the calendar when userId is available
-      console.log("Calendar: Immediate render starting...");
+      console.log(&quot;Calendar: Immediate render starting...&quot;);
       setShouldRender(true);
       setHasError(false);
 
       // Cleanup function to handle unmounting
       return () => {
-        console.log("Calendar: Cleanup called");
+        console.log(&quot;Calendar: Cleanup called&quot;);
         mountedRef.current = false;
         setShouldRender(false);
       };
@@ -83,7 +83,7 @@ function CalendarWrapper({
   // Handle sidebar collapse state changes
   useEffect(() => {
     if (shouldRender && calendarRef.current) {
-      console.log("Sidebar state changed, updating calendar size");
+      console.log(&quot;Sidebar state changed, updating calendar size&quot;);
       // Update calendar size when sidebar changes
       const calendarApi = calendarRef.current.getApi();
       setTimeout(() => {
@@ -120,24 +120,24 @@ function CalendarWrapper({
   }, []);
 
   console.log(
-    "CalendarWrapper: Rendering with userId:",
+    &quot;CalendarWrapper: Rendering with userId:&quot;,
     userId,
-    "shouldRender:",
+    &quot;shouldRender:&quot;,
     shouldRender,
-    "isLoading:",
+    &quot;isLoading:&quot;,
     isLoading,
   );
 
   return (
-    <div className="calendar-wrapper w-full">
+    <div className=&quot;calendar-wrapper w-full&quot;>
       {/* Error display (if needed) */}
       {hasError && (
-        <div className="mb-4 w-full">
-          <p className="text-red-600">
+        <div className=&quot;mb-4 w-full&quot;>
+          <p className=&quot;text-red-600&quot;>
             There was a problem loading the calendar data.
             <button
               onClick={refreshCalendar}
-              className="ml-2 text-sm underline hover:text-red-800"
+              className=&quot;ml-2 text-sm underline hover:text-red-800&quot;
             >
               Try again
             </button>
@@ -149,30 +149,30 @@ function CalendarWrapper({
       {shouldRender && (
         <div
           key={instanceKey}
-          className={`${theme === "dark" ? "bg-gray-800 fc-theme-dark" : "bg-white"} rounded-lg shadow w-full`}
+          className={`${theme === &quot;dark&quot; ? &quot;bg-gray-800 fc-theme-dark&quot; : &quot;bg-white&quot;} rounded-lg shadow w-full`}
           data-theme={theme}
         >
           <ErrorBoundary
             onError={(error) => {
-              console.error("Calendar error caught by boundary:", error);
+              console.error(&quot;Calendar error caught by boundary:&quot;, error);
               handleError();
             }}
             errorComponent={(error, reset) => (
-              <div className="p-4 border border-red-300 rounded bg-red-50 text-red-700 dark:bg-red-900/30 dark:border-red-800 dark:text-red-200">
-                <h3 className="font-bold mb-2">Calendar Error</h3>
-                <p className="mb-4">
+              <div className=&quot;p-4 border border-red-300 rounded bg-red-50 text-red-700 dark:bg-red-900/30 dark:border-red-800 dark:text-red-200&quot;>
+                <h3 className=&quot;font-bold mb-2&quot;>Calendar Error</h3>
+                <p className=&quot;mb-4&quot;>
                   There was a problem loading the calendar component.
                 </p>
-                <div className="flex space-x-4">
+                <div className=&quot;flex space-x-4&quot;>
                   <button
                     onClick={reset}
-                    className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    className=&quot;px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700&quot;
                   >
                     Try Again
                   </button>
                   <button
                     onClick={refreshCalendar}
-                    className="px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    className=&quot;px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700&quot;
                   >
                     Reload Calendar
                   </button>
@@ -196,11 +196,11 @@ function CalendarWrapper({
       {/* Loading/error state */}
       {(!shouldRender || isLoading) && (
         <div
-          className={`flex justify-center items-center h-64 w-full ${theme === "dark" ? "bg-gray-800" : "bg-white"} rounded-lg shadow p-4`}
+          className={`flex justify-center items-center h-64 w-full ${theme === &quot;dark&quot; ? &quot;bg-gray-800&quot; : &quot;bg-white&quot;} rounded-lg shadow p-4`}
         >
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500&quot;></div>
           {false && (
-            <div className="ml-3 text-sm text-gray-600 dark:text-gray-300">
+            <div className=&quot;ml-3 text-sm text-gray-600 dark:text-gray-300&quot;>
               Loading calendar (userId: {userId})
             </div>
           )}

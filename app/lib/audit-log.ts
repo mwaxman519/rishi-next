@@ -5,11 +5,11 @@
  * which track important actions in the system for security and compliance.
  */
 
-import { NextRequest } from "next/server";
-import { db } from "./db";
-import { auditLogs } from "../../shared/schema";
-import { InsertAuditLog } from "../../shared/schema";
-import { eq, gte, lte, desc } from "drizzle-orm";
+import { NextRequest } from &quot;next/server&quot;;
+import { db } from &quot;./db&quot;;
+import { auditLogs } from &quot;../../shared/schema&quot;;
+import { InsertAuditLog } from &quot;../../shared/schema&quot;;
+import { eq, gte, lte, desc } from &quot;drizzle-orm&quot;;
 
 interface AuditLogParams {
   user_id?: string;
@@ -45,10 +45,10 @@ export async function auditLog(params: AuditLogParams) {
 
     if (request) {
       ip_address =
-        request.headers.get("x-forwarded-for") ||
-        request.headers.get("x-real-ip") ||
-        "unknown";
-      user_agent = request.headers.get("user-agent") || null;
+        request.headers.get(&quot;x-forwarded-for&quot;) ||
+        request.headers.get(&quot;x-real-ip&quot;) ||
+        &quot;unknown&quot;;
+      user_agent = request.headers.get(&quot;user-agent&quot;) || null;
     }
 
     // Create the audit log entry
@@ -68,8 +68,8 @@ export async function auditLog(params: AuditLogParams) {
 
     return logEntry[0];
   } catch (error) {
-    // Log the error but don't throw - audit logging should not break functionality
-    console.error("Error creating audit log:", error);
+    // Log the error but don&apos;t throw - audit logging should not break functionality
+    console.error(&quot;Error creating audit log:&quot;, error);
     return null;
   }
 }
@@ -141,7 +141,7 @@ export async function getAuditLogs({
 
     return await query;
   } catch (error) {
-    console.error("Error retrieving audit logs:", error);
+    console.error(&quot;Error retrieving audit logs:&quot;, error);
     return [];
   }
 }

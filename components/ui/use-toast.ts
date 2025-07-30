@@ -1,7 +1,7 @@
 // Inspired by react-hot-toast library
-import * as React from "react";
+import * as React from &quot;react&quot;;
 
-import type { ToastActionElement, ToastProps } from "./toast";
+import type { ToastActionElement, ToastProps } from &quot;./toast&quot;;
 
 const TOAST_LIMIT = 5;
 const TOAST_REMOVE_DELAY = 1000000;
@@ -14,10 +14,10 @@ type ToasterToast = ToastProps & {
 };
 
 const actionTypes = {
-  ADD_TOAST: "ADD_TOAST",
-  UPDATE_TOAST: "UPDATE_TOAST",
-  DISMISS_TOAST: "DISMISS_TOAST",
-  REMOVE_TOAST: "REMOVE_TOAST",
+  ADD_TOAST: &quot;ADD_TOAST&quot;,
+  UPDATE_TOAST: &quot;UPDATE_TOAST&quot;,
+  DISMISS_TOAST: &quot;DISMISS_TOAST&quot;,
+  REMOVE_TOAST: &quot;REMOVE_TOAST&quot;,
 } as const;
 
 let count = 0;
@@ -31,20 +31,20 @@ type ActionType = typeof actionTypes;
 
 type Action =
   | {
-      type: ActionType["ADD_TOAST"];
+      type: ActionType[&quot;ADD_TOAST&quot;];
       toast: ToasterToast;
     }
   | {
-      type: ActionType["UPDATE_TOAST"];
+      type: ActionType[&quot;UPDATE_TOAST&quot;];
       toast: Partial<ToasterToast>;
     }
   | {
-      type: ActionType["DISMISS_TOAST"];
-      toastId?: ToasterToast["id"];
+      type: ActionType[&quot;DISMISS_TOAST&quot;];
+      toastId?: ToasterToast[&quot;id&quot;];
     }
   | {
-      type: ActionType["REMOVE_TOAST"];
-      toastId?: ToasterToast["id"];
+      type: ActionType[&quot;REMOVE_TOAST&quot;];
+      toastId?: ToasterToast[&quot;id&quot;];
     };
 
 interface State {
@@ -139,7 +139,7 @@ function dispatchInternal(action: Action) {
   });
 }
 
-type Toast = Omit<ToasterToast, "id">;
+type Toast = Omit<ToasterToast, &quot;id&quot;>;
 
 function toast({ ...props }: Toast) {
   const id = genId();

@@ -8,14 +8,14 @@
  * - Integration with circuit breakers
  */
 
-import { CircuitBreaker, CircuitState } from "./circuitBreaker";
+import { CircuitBreaker, CircuitState } from &quot;./circuitBreaker&quot;;
 
 // Service health status
 export enum HealthStatus {
-  HEALTHY = "HEALTHY",
-  DEGRADED = "DEGRADED",
-  UNHEALTHY = "UNHEALTHY",
-  UNKNOWN = "UNKNOWN",
+  HEALTHY = &quot;HEALTHY&quot;,
+  DEGRADED = &quot;DEGRADED&quot;,
+  UNHEALTHY = &quot;UNHEALTHY&quot;,
+  UNKNOWN = &quot;UNKNOWN&quot;,
 }
 
 // Health check options
@@ -32,7 +32,7 @@ export interface ServiceDescriptor {
   id: string; // Unique service identifier
   name: string; // Display name
   description?: string; // Service description
-  category?: string; // Service category (e.g., "core", "api")
+  category?: string; // Service category (e.g., &quot;core&quot;, &quot;api&quot;)
   dependencies?: string[]; // IDs of services this depends on
   tags?: string[]; // Tags for grouping/filtering
   healthEndpoint?: string; // URL to check health
@@ -219,7 +219,7 @@ export class ServiceHealthMonitor {
           service.healthCheck(),
           new Promise<boolean>((_, reject) => {
             setTimeout(
-              () => reject(new Error("Health check timed out")),
+              () => reject(new Error(&quot;Health check timed out&quot;)),
               options.timeout,
             );
           }),
@@ -232,12 +232,12 @@ export class ServiceHealthMonitor {
 
         const response = await Promise.race([
           fetch(service.healthEndpoint, {
-            method: "GET",
-            headers: { Accept: "application/json" },
+            method: &quot;GET&quot;,
+            headers: { Accept: &quot;application/json&quot; },
           }),
           new Promise<Response>((_, reject) => {
             setTimeout(
-              () => reject(new Error("Health check timed out")),
+              () => reject(new Error(&quot;Health check timed out&quot;)),
               options.timeout,
             );
           }),
@@ -250,7 +250,7 @@ export class ServiceHealthMonitor {
         isHealthy = service.circuitBreaker.getState() === CircuitState.CLOSED;
       } else {
         // No health check method available
-        health.message = "No health check method configured";
+        health.message = &quot;No health check method configured&quot;;
         this.updateHealthStatus(serviceId, HealthStatus.UNKNOWN);
         return;
       }
@@ -348,7 +348,7 @@ export class ServiceHealthMonitor {
       this.sendAlert(
         serviceId,
         status,
-        health.message || "Service health status changed",
+        health.message || &quot;Service health status changed&quot;,
       );
     }
   }
@@ -528,7 +528,7 @@ export class ServiceHealthMonitor {
       this.sendAlert(
         serviceId,
         status,
-        health.message || "Service health status manually changed",
+        health.message || &quot;Service health status manually changed&quot;,
       );
     }
   }

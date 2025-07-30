@@ -3,24 +3,24 @@
  * Type definitions aligned with platform architecture
  */
 
-import { z } from "zod";
+import { z } from &quot;zod&quot;;
 
 export const ExpenseType = z.enum([
-  "mileage",
-  "meals",
-  "parking",
-  "supplies",
-  "lodging",
-  "transportation",
-  "other",
+  &quot;mileage&quot;,
+  &quot;meals&quot;,
+  &quot;parking&quot;,
+  &quot;supplies&quot;,
+  &quot;lodging&quot;,
+  &quot;transportation&quot;,
+  &quot;other&quot;,
 ]);
 
 export const ExpenseStatus = z.enum([
-  "draft",
-  "submitted",
-  "approved",
-  "rejected",
-  "paid",
+  &quot;draft&quot;,
+  &quot;submitted&quot;,
+  &quot;approved&quot;,
+  &quot;rejected&quot;,
+  &quot;paid&quot;,
 ]);
 
 export const MileageDataSchema = z.object({
@@ -36,7 +36,7 @@ export const ExpenseSubmissionSchema = z.object({
   shiftId: z.string().uuid().optional(),
   expenseType: ExpenseType,
   amount: z.string(),
-  currency: z.string().default("USD"),
+  currency: z.string().default(&quot;USD&quot;),
   description: z.string().min(1),
   expenseDate: z.string(),
   receiptUrl: z.string().optional(),

@@ -1,4 +1,4 @@
-import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
+import { NavItem, NAV_ITEM_TYPES } from &quot;@shared/navigation-constants&quot;;
 import {
   Home,
   LayoutDashboard,
@@ -11,51 +11,51 @@ import {
   ChevronRight,
   MessageSquare,
   User,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 /**
  * Desktop navigation items for Brand Agents
  */
 export const BRAND_AGENT_NAV: NavItem[] = [
   {
-    label: "Dashboard",
-    path: "/dashboard",
+    label: &quot;Dashboard&quot;,
+    path: &quot;/dashboard&quot;,
     icon: <LayoutDashboard size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "My Availability",
-    path: "/availability",
+    label: &quot;My Availability&quot;,
+    path: &quot;/availability&quot;,
     icon: <Clock size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Events",
-    path: "/events",
+    label: &quot;Events&quot;,
+    path: &quot;/events&quot;,
     icon: <Calendar size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Requests",
-    path: "/requests",
+    label: &quot;Requests&quot;,
+    path: &quot;/requests&quot;,
     icon: <CheckSquare size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Locations",
-    path: "/locations",
+    label: &quot;Locations&quot;,
+    path: &quot;/locations&quot;,
     icon: <MapPin size={20} />,
     type: NAV_ITEM_TYPES.PRIMARY,
   },
   {
-    label: "Documentation",
-    path: "/docs",
+    label: &quot;Documentation&quot;,
+    path: &quot;/docs&quot;,
     icon: <FileText size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
   {
-    label: "Settings",
-    path: "/profile/settings",
+    label: &quot;Settings&quot;,
+    path: &quot;/profile/settings&quot;,
     icon: <Settings size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
@@ -66,32 +66,32 @@ export const BRAND_AGENT_NAV: NavItem[] = [
  */
 export const BRAND_AGENT_MOBILE_NAV: NavItem[] = [
   {
-    label: "Home",
-    path: "/",
+    label: &quot;Home&quot;,
+    path: &quot;/&quot;,
     icon: <Home size={20} />,
     type: NAV_ITEM_TYPES.MOBILE,
   },
   {
-    label: "Events",
-    path: "/events",
+    label: &quot;Events&quot;,
+    path: &quot;/events&quot;,
     icon: <Calendar size={20} />,
     type: NAV_ITEM_TYPES.MOBILE,
   },
   {
-    label: "Availability",
-    path: "/availability",
+    label: &quot;Availability&quot;,
+    path: &quot;/availability&quot;,
     icon: <Clock size={20} />,
     type: NAV_ITEM_TYPES.MOBILE,
   },
   {
-    label: "Requests",
-    path: "/requests",
+    label: &quot;Requests&quot;,
+    path: &quot;/requests&quot;,
     icon: <CheckSquare size={20} />,
     type: NAV_ITEM_TYPES.MOBILE,
   },
   {
-    label: "Profile",
-    path: "/profile",
+    label: &quot;Profile&quot;,
+    path: &quot;/profile&quot;,
     icon: <User size={20} />,
     type: NAV_ITEM_TYPES.MOBILE,
   },
@@ -102,14 +102,14 @@ export const BRAND_AGENT_MOBILE_NAV: NavItem[] = [
  */
 export const BRAND_AGENT_SECONDARY_NAV: NavItem[] = [
   {
-    label: "Documentation",
-    path: "/docs",
+    label: &quot;Documentation&quot;,
+    path: &quot;/docs&quot;,
     icon: <FileText size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },
   {
-    label: "Profile Settings",
-    path: "/profile/settings",
+    label: &quot;Profile Settings&quot;,
+    path: &quot;/profile/settings&quot;,
     icon: <Settings size={20} />,
     type: NAV_ITEM_TYPES.SECONDARY,
   },

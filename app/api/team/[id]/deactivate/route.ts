@@ -1,13 +1,13 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../../../lib/db-connection";
-import { users, systemSystemEvents } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;../../../../../lib/db-connection&quot;;
+import { users, systemSystemEvents } from &quot;@shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 export async function POST(
   request: NextRequest,
@@ -31,7 +31,7 @@ export async function POST(
       return NextResponse.json(
         {
           error:
-            "Missing required fields: reason, effectiveDate, deactivatedBy",
+            &quot;Missing required fields: reason, effectiveDate, deactivatedBy&quot;,
         },
         { status: 400 },
       );
@@ -44,9 +44,9 @@ export async function POST(
 
     // Log deactivation event to system events
     await db.insert(systemEvents).values({
-      source: "team_management",
-      eventType: "team.member.deactivated",
-      eventName: "Team Member Deactivated",
+      source: &quot;team_management&quot;,
+      eventType: &quot;team.member.deactivated&quot;,
+      eventName: &quot;Team Member Deactivated&quot;,
       payload: {
         memberId: id,
         reason,
@@ -57,7 +57,7 @@ export async function POST(
         deactivatedBy,
         deactivatedAt: timestamp.toISOString(),
       },
-      status: "completed",
+      status: &quot;completed&quot;,
       createdAt: timestamp,
       updatedAt: timestamp,
     });
@@ -75,16 +75,16 @@ export async function POST(
 
       // Log assignment transfer event
       await db.insert(systemEvents).values({
-        source: "team_management",
-        eventType: "assignments.transferred",
-        eventName: "Assignments Transferred",
+        source: &quot;team_management&quot;,
+        eventType: &quot;assignments.transferred&quot;,
+        eventName: &quot;Assignments Transferred&quot;,
         payload: {
           fromMemberId: id,
           toMemberId: transferTo,
           transferredBy: deactivatedBy,
           transferredAt: timestamp.toISOString(),
         },
-        status: "completed",
+        status: &quot;completed&quot;,
         createdAt: timestamp,
         updatedAt: timestamp,
       });
@@ -93,16 +93,16 @@ export async function POST(
     return NextResponse.json({
       success: true,
       memberId: id,
-      status: "deactivated",
+      status: &quot;deactivated&quot;,
       effectiveDate,
       transferAssignments,
       transferTo,
       timestamp: timestamp.toISOString(),
     });
   } catch (error) {
-    console.error("Error deactivating team member:", error);
+    console.error(&quot;Error deactivating team member:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to deactivate team member" },
+      { error: &quot;Failed to deactivate team member&quot; },
       { status: 500 },
     );
   }

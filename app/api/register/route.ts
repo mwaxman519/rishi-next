@@ -1,34 +1,34 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Registration API Endpoint
  * Handles user registration with proper validation and error handling
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db-connection";
-import { users } from "@shared/schema";
-import { scrypt, randomBytes, timingSafeEqual } from "crypto";
-import { promisify } from "util";
-import { getEnvironment } from "@/lib/db-connection";
-import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;../../../lib/db-connection&quot;;
+import { users } from &quot;@shared/schema&quot;;
+import { scrypt, randomBytes, timingSafeEqual } from &quot;crypto&quot;;
+import { promisify } from &quot;util&quot;;
+import { getEnvironment } from &quot;@/lib/db-connection&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 // Convert scrypt to a promise-based function
 const scryptAsync = promisify(scrypt);
 
 // Function to hash passwords securely
 async function hashPassword(password: string) {
-  const salt = randomBytes(16).toString("hex");
+  const salt = randomBytes(16).toString(&quot;hex&quot;);
   const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-  return `${buf.toString("hex")}.${salt}`;
+  return `${buf.toString(&quot;hex&quot;)}.${salt}`;
 }
 
 // Registration handler
 export async function POST(request: NextRequest) {
   try {
-    console.log("Processing registration request...");
+    console.log(&quot;Processing registration request...&quot;);
 
     // Parse the request body
     const body = await request.json();
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     // Basic validation
     if (!username || !password) {
       return NextResponse.json(
-        { error: "Username and password are required" },
+        { error: &quot;Username and password are required&quot; },
         { status: 400 },
       );
     }
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     if (existingUser.length > 0) {
       return NextResponse.json(
-        { error: "Username already exists" },
+        { error: &quot;Username already exists&quot; },
         { status: 400 },
       );
     }
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       .values({
         username,
         password: hashedPassword,
-        role: role || "user",
+        role: role || &quot;user&quot;,
         fullName: fullName || username,
         email: email || username, // Use email if provided, otherwise use username
       })
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.error("Error in registration process:", error);
+    console.error(&quot;Error in registration process:&quot;, error);
 
     // Log detailed error information for debugging
     const env = getEnvironment();
@@ -110,8 +110,8 @@ export async function POST(request: NextRequest) {
     // Return appropriate error response
     return NextResponse.json(
       {
-        error: "Failed to register user",
-        details: error instanceof Error ? error.message : "Unknown error",
+        error: &quot;Failed to register user&quot;,
+        details: error instanceof Error ? error.message : &quot;Unknown error&quot;,
       },
       { status: 500 },
     );

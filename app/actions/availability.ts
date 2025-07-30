@@ -1,46 +1,46 @@
-"use server";
+&quot;use server&quot;;
 
-import { getUsersByRole } from "../services/users/userService";
-import { UserProfile, UsersResponse } from "../services/users/models";
-import { USER_ROLES } from "../../shared/rbac/roles";
-import { hasPermission } from "../lib/rbac";
-import { getCurrentUser } from "../lib/auth-utils";
+import { getUsersByRole } from &quot;../services/users/userService&quot;;
+import { UserProfile, UsersResponse } from &quot;../services/users/models&quot;;
+import { USER_ROLES } from &quot;../../shared/rbac/roles&quot;;
+import { hasPermission } from &quot;../lib/rbac&quot;;
+import { getCurrentUser } from &quot;../lib/auth-utils&quot;;
 
 // Server action for fetching all team members
 export async function getTeamMembers(): Promise<UsersResponse> {
   try {
-    console.log("[availability.ts] getTeamMembers - Starting");
+    console.log(&quot;[availability.ts] getTeamMembers - Starting&quot;);
 
     // Get current user from the server-side auth context
     const currentUser = await getCurrentUser();
 
     // If no user is authenticated, return unauthorized
     if (!currentUser) {
-      console.log("[availability.ts] getTeamMembers - No authenticated user");
+      console.log(&quot;[availability.ts] getTeamMembers - No authenticated user&quot;);
       return {
         success: false,
-        error: "You must be logged in to view team members",
+        error: &quot;You must be logged in to view team members&quot;,
       };
     }
 
     // Check if user has permission to view users
-    if (!(await hasPermission("view:users", currentUser.role))) {
-      console.log("[availability.ts] getTeamMembers - User lacks permission");
+    if (!(await hasPermission(&quot;view:users&quot;, currentUser.role))) {
+      console.log(&quot;[availability.ts] getTeamMembers - User lacks permission&quot;);
       return {
         success: false,
-        error: "You do not have permission to view team members",
+        error: &quot;You do not have permission to view team members&quot;,
       };
     }
 
-    console.log("[availability.ts] getTeamMembers - Fetching agents");
+    console.log(&quot;[availability.ts] getTeamMembers - Fetching agents&quot;);
 
     // Get all agents (brand agents)
     const agentsResponse = await getUsersByRole(USER_ROLES.BRAND_AGENT);
 
     // If at admin level, also get managers
-    if (await hasPermission("view:managers", currentUser.role)) {
+    if (await hasPermission(&quot;view:managers&quot;, currentUser.role)) {
       console.log(
-        "[availability.ts] getTeamMembers - User has admin permission, fetching managers",
+        &quot;[availability.ts] getTeamMembers - User has admin permission, fetching managers&quot;,
       );
 
       const managersResponse = await getUsersByRole(
@@ -73,12 +73,12 @@ export async function getTeamMembers(): Promise<UsersResponse> {
     return agentsResponse;
   } catch (error) {
     console.error(
-      "[availability.ts] Error in getTeamMembers server action:",
+      &quot;[availability.ts] Error in getTeamMembers server action:&quot;,
       error,
     );
     return {
       success: false,
-      error: "An error occurred while fetching team members",
+      error: &quot;An error occurred while fetching team members&quot;,
     };
   }
 }

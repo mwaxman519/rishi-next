@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { BOOKING_STATUS, bookings, locations, activityTypes } from "@shared/schema";
-import { db } from "@/lib/db";
-import { getCurrentUser } from "@/lib/auth-server";
-import { count, eq, and, gte, lte, desc, sql } from "drizzle-orm";
+import { BOOKING_STATUS, bookings, locations, activityTypes } from &quot;@shared/schema&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { count, eq, and, gte, lte, desc, sql } from &quot;drizzle-orm&quot;;
 
 export async function GET(request: NextRequest) {
   try {
@@ -17,9 +17,9 @@ export async function GET(request: NextRequest) {
 
     // Get query parameters for filtering
     const { searchParams } = new URL(request.url);
-    const organizationId = searchParams.get("organizationId");
-    const startDate = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate");
+    const organizationId = searchParams.get(&quot;organizationId&quot;);
+    const startDate = searchParams.get(&quot;startDate&quot;);
+    const endDate = searchParams.get(&quot;endDate&quot;);
 
     // Build base query conditions
     const conditions = [];

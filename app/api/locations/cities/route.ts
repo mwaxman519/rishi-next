@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentUser } from "@/lib/auth-server";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
-import { eq, and, count, inArray } from "drizzle-orm";
+import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@shared/schema&quot;;
+import { eq, and, count, inArray } from &quot;drizzle-orm&quot;;
 
 /**
  * GET /api/locations/cities
@@ -18,15 +18,15 @@ export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json(
-        { error: "Authentication required" },
+        { error: &quot;Authentication required&quot; },
         { status: 401 },
       );
     }
 
     // Parse state filter from query params
     const { searchParams } = new URL(request.url);
-    const statesParam = searchParams.get("states");
-    const stateFilters = statesParam ? statesParam.split(",") : [];
+    const statesParam = searchParams.get(&quot;states&quot;);
+    const stateFilters = statesParam ? statesParam.split(&quot;,&quot;) : [];
 
     // Query database for cities with location counts
     let query = db
@@ -53,9 +53,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ cities });
   } catch (error) {
-    console.error("Error retrieving cities:", error);
+    console.error(&quot;Error retrieving cities:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to retrieve cities" },
+      { error: &quot;Failed to retrieve cities&quot; },
       { status: 500 },
     );
   }

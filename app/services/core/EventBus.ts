@@ -41,7 +41,7 @@ export class EventBus implements IEventBus {
       console.log(`[EventBus] Publishing event: ${event}`, {
         timestamp: new Date().toISOString(),
         dataKeys:
-          typeof data === "object" ? Object.keys(data as any) : "primitive",
+          typeof data === &quot;object&quot; ? Object.keys(data as any) : &quot;primitive&quot;,
       });
 
       // Add to history
@@ -143,7 +143,7 @@ export class EventBus implements IEventBus {
    */
   clearAllSubscribers(): void {
     this.subscribers.clear();
-    console.log("[EventBus] Cleared all subscribers");
+    console.log(&quot;[EventBus] Cleared all subscribers&quot;);
   }
 
   /**

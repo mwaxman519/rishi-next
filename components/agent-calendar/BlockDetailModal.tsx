@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import SimpleDialog from "@/components/ui/SimpleDialog";
+import React, { useState } from &quot;react&quot;;
+import { format } from &quot;date-fns&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import SimpleDialog from &quot;@/components/ui/SimpleDialog&quot;;
 
 interface BlockDetailModalProps {
   isOpen: boolean;
@@ -43,31 +43,31 @@ export default function BlockDetailModal({
   const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteRecurringMode, setDeleteRecurringMode] = useState<
-    "single" | "series" | null
+    &quot;single&quot; | &quot;series&quot; | null
   >(null);
   const [isConfirmMergedDeleteOpen, setIsConfirmMergedDeleteOpen] =
     useState(false);
-  const [confirmMergedDeleteText, setConfirmMergedDeleteText] = useState("");
+  const [confirmMergedDeleteText, setConfirmMergedDeleteText] = useState("&quot;);
 
   // Format dates for display
   const startDate = new Date(block.start);
   const endDate = new Date(block.end);
-  const formattedDate = format(startDate, "EEEE, MMMM d, yyyy");
-  const formattedStartTime = format(startDate, "h:mm a");
-  const formattedEndTime = format(endDate, "h:mm a");
+  const formattedDate = format(startDate, &quot;EEEE, MMMM d, yyyy&quot;);
+  const formattedStartTime = format(startDate, &quot;h:mm a&quot;);
+  const formattedEndTime = format(endDate, &quot;h:mm a&quot;);
 
   // Day of week names for recurring events
   const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    &quot;Sunday&quot;,
+    &quot;Monday&quot;,
+    &quot;Tuesday&quot;,
+    &quot;Wednesday&quot;,
+    &quot;Thursday&quot;,
+    &quot;Friday&quot;,
+    &quot;Saturday&quot;,
   ];
   const dayOfWeek =
-    block.dayOfWeek !== undefined ? dayNames[block.dayOfWeek] : "";
+    block.dayOfWeek !== undefined ? dayNames[block.dayOfWeek] : &quot;&quot;;
 
   // Status display with nicer formatting
   const statusDisplay =
@@ -81,7 +81,7 @@ export default function BlockDetailModal({
       setIsConfirmDeleteOpen(true);
     } else {
       // For non-recurring blocks, go straight to confirmation
-      setDeleteRecurringMode("single");
+      setDeleteRecurringMode(&quot;single&quot;);
       setIsConfirmDeleteOpen(true);
     }
   };
@@ -112,17 +112,17 @@ export default function BlockDetailModal({
       setIsConfirmDeleteOpen(false);
       onClose();
     } catch (error) {
-      console.error("Error deleting block:", error);
+      console.error(&quot;Error deleting block:&quot;, error);
     } finally {
       setIsDeleting(false);
     }
   };
 
   const detailModalTitle = (
-    <div className="flex items-center">
-      <span>{block.title || "Availability Block"}</span>
+    <div className=&quot;flex items-center&quot;>
+      <span>{block.title || &quot;Availability Block&quot;}</span>
       {block.isRecurring && (
-        <span className="ml-2 text-sm bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded-full text-blue-600 dark:text-blue-300">
+        <span className=&quot;ml-2 text-sm bg-blue-100 dark:bg-blue-900 px-2 py-1 rounded-full text-blue-600 dark:text-blue-300&quot;>
           Recurring 🔄
         </span>
       )}
@@ -130,16 +130,16 @@ export default function BlockDetailModal({
   );
 
   const detailModalFooter = (
-    <div className="flex justify-between w-full">
-      <Button variant="destructive" onClick={handleDeleteClick}>
+    <div className=&quot;flex justify-between w-full&quot;>
+      <Button variant=&quot;destructive&quot; onClick={handleDeleteClick}>
         Delete
       </Button>
       <div>
-        <Button variant="outline" onClick={onClose} className="mr-2">
+        <Button variant=&quot;outline&quot; onClick={onClose} className=&quot;mr-2&quot;>
           Cancel
         </Button>
         <Button
-          variant="default"
+          variant=&quot;default&quot;
           onClick={() => {
             // Check if this is a merged block
             const isMergedBlock =
@@ -183,13 +183,13 @@ Would you like to delete this block now?`;
       <SimpleDialog
         isOpen={isOpen}
         onClose={onClose}
-        title={block.title || "Availability Block"}
+        title={block.title || &quot;Availability Block&quot;}
         footer={detailModalFooter}
       >
-        <div className="space-y-4">
+        <div className=&quot;space-y-4&quot;>
           {block.isRecurring && (
-            <div className="rounded-md bg-blue-50 dark:bg-blue-900/30 p-2 text-blue-800 dark:text-blue-200 flex items-center mb-4">
-              <span className="mr-2">🔄</span>
+            <div className=&quot;rounded-md bg-blue-50 dark:bg-blue-900/30 p-2 text-blue-800 dark:text-blue-200 flex items-center mb-4&quot;>
+              <span className=&quot;mr-2&quot;>🔄</span>
               <span>This is a recurring availability block</span>
             </div>
           )}
@@ -199,38 +199,38 @@ Would you like to delete this block now?`;
             (block.extendedProps?.mergedIds &&
               block.extendedProps.mergedIds.length > 1) ||
             (block.mergedIds && block.mergedIds.length > 1)) && (
-            <div className="rounded-md bg-violet-50 dark:bg-violet-900/30 p-3 text-violet-800 dark:text-violet-200 mb-4">
-              <div className="flex items-center font-medium mb-1">
-                <span className="mr-2 text-lg">🔗</span>
+            <div className=&quot;rounded-md bg-violet-50 dark:bg-violet-900/30 p-3 text-violet-800 dark:text-violet-200 mb-4&quot;>
+              <div className=&quot;flex items-center font-medium mb-1&quot;>
+                <span className=&quot;mr-2 text-lg&quot;>🔗</span>
                 <span>Combined View of Multiple Time Blocks</span>
               </div>
-              <p className="text-sm ml-6">
-                This is a visual representation of{" "}
+              <p className=&quot;text-sm ml-6&quot;>
+                This is a visual representation of{&quot; &quot;}
                 {block.mergedIds?.length ||
                   block.extendedProps?.mergedIds?.length ||
-                  0}{" "}
+                  0}{&quot; &quot;}
                 adjacent unavailable time blocks combined into a single view.
                 You can edit or delete individual blocks.
               </p>
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="font-medium">Date:</div>
+          <div className=&quot;grid grid-cols-2 gap-3&quot;>
+            <div className=&quot;font-medium&quot;>Date:</div>
             <div>{formattedDate}</div>
 
-            <div className="font-medium">Time:</div>
+            <div className=&quot;font-medium&quot;>Time:</div>
             <div>
               {formattedStartTime} - {formattedEndTime}
             </div>
 
-            <div className="font-medium">Status:</div>
+            <div className=&quot;font-medium&quot;>Status:</div>
             <div>
               <span
                 className={`px-2 py-0.5 rounded ${
-                  block.status === "available"
-                    ? "bg-teal-100 text-teal-700 dark:bg-teal-900 dark:text-teal-300"
-                    : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
+                  block.status === &quot;available&quot;
+                    ? &quot;bg-teal-100 text-teal-700 dark:bg-teal-900 dark:text-teal-300&quot;
+                    : &quot;bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300&quot;
                 }`}
               >
                 {statusDisplay}
@@ -242,9 +242,9 @@ Would you like to delete this block now?`;
               (block.extendedProps?.mergedIds &&
                 block.extendedProps.mergedIds.length > 1)) && (
               <>
-                <div className="font-medium">Contains blocks:</div>
-                <div className="rounded-md bg-gray-50 dark:bg-gray-800 p-2 text-sm text-gray-600 dark:text-gray-300 mt-1 mb-2">
-                  <ul className="list-disc pl-5 space-y-1">
+                <div className=&quot;font-medium&quot;>Contains blocks:</div>
+                <div className=&quot;rounded-md bg-gray-50 dark:bg-gray-800 p-2 text-sm text-gray-600 dark:text-gray-300 mt-1 mb-2&quot;>
+                  <ul className=&quot;list-disc pl-5 space-y-1&quot;>
                     {(block.extendedProps?.mergedBlockData || []).map(
                       (
                         subBlock: { id: number; start: Date; end: Date },
@@ -253,14 +253,14 @@ Would you like to delete this block now?`;
                         const subStart = new Date(
                           subBlock.start,
                         ).toLocaleTimeString([], {
-                          hour: "numeric",
-                          minute: "2-digit",
+                          hour: &quot;numeric&quot;,
+                          minute: &quot;2-digit&quot;,
                         });
                         const subEnd = new Date(
                           subBlock.end,
                         ).toLocaleTimeString([], {
-                          hour: "numeric",
-                          minute: "2-digit",
+                          hour: &quot;numeric&quot;,
+                          minute: &quot;2-digit&quot;,
                         });
                         return (
                           <li key={`sub-block-${index}`}>
@@ -285,12 +285,12 @@ Would you like to delete this block now?`;
 
             {block.isRecurring && (
               <>
-                <div className="font-medium">Repeats:</div>
+                <div className=&quot;font-medium&quot;>Repeats:</div>
                 <div>Weekly on {dayOfWeek}</div>
 
                 {block.recurrencePattern && (
                   <>
-                    <div className="font-medium">Pattern:</div>
+                    <div className=&quot;font-medium&quot;>Pattern:</div>
                     <div>{block.recurrencePattern}</div>
                   </>
                 )}
@@ -304,49 +304,49 @@ Would you like to delete this block now?`;
       <SimpleDialog
         isOpen={isConfirmDeleteOpen}
         onClose={() => setIsConfirmDeleteOpen(false)}
-        title="Confirm Deletion"
+        title=&quot;Confirm Deletion&quot;
         footer={
-          <div className="flex justify-end space-x-3 w-full">
+          <div className=&quot;flex justify-end space-x-3 w-full&quot;>
             <Button
-              variant="outline"
+              variant=&quot;outline&quot;
               onClick={() => setIsConfirmDeleteOpen(false)}
               disabled={isDeleting}
             >
               Cancel
             </Button>
             <Button
-              variant="destructive"
+              variant=&quot;destructive&quot;
               disabled={
                 isDeleting || (block.isRecurring && !deleteRecurringMode)
               }
               onClick={() =>
-                handleConfirmDelete(deleteRecurringMode === "series")
+                handleConfirmDelete(deleteRecurringMode === &quot;series&quot;)
               }
             >
-              {isDeleting ? "Deleting..." : "Delete"}
+              {isDeleting ? &quot;Deleting...&quot; : &quot;Delete&quot;}
             </Button>
           </div>
         }
       >
         {block.isRecurring ? (
-          <div className="space-y-4">
+          <div className=&quot;space-y-4&quot;>
             <p>This is a recurring block. Would you like to delete:</p>
-            <div className="flex flex-col space-y-3">
+            <div className=&quot;flex flex-col space-y-3&quot;>
               <div
                 className={`p-3 rounded-md cursor-pointer border ${
-                  deleteRecurringMode === "single"
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30"
-                    : "border-gray-200 dark:border-gray-700"
+                  deleteRecurringMode === &quot;single&quot;
+                    ? &quot;border-blue-500 bg-blue-50 dark:bg-blue-900/30&quot;
+                    : &quot;border-gray-200 dark:border-gray-700&quot;
                 }`}
-                onClick={() => setDeleteRecurringMode("single")}
+                onClick={() => setDeleteRecurringMode(&quot;single&quot;)}
               >
-                <div className="flex items-start">
-                  <span className="bg-red-100 text-red-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 shrink-0">
+                <div className=&quot;flex items-start&quot;>
+                  <span className=&quot;bg-red-100 text-red-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 shrink-0&quot;>
                     1
                   </span>
                   <div>
-                    <div className="font-medium">Just this occurrence</div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className=&quot;font-medium&quot;>Just this occurrence</div>
+                    <div className=&quot;text-sm text-gray-600 dark:text-gray-300&quot;>
                       Only remove this specific date and time slot
                     </div>
                   </div>
@@ -355,21 +355,21 @@ Would you like to delete this block now?`;
 
               <div
                 className={`p-3 rounded-md cursor-pointer border ${
-                  deleteRecurringMode === "series"
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30"
-                    : "border-gray-200 dark:border-gray-700"
+                  deleteRecurringMode === &quot;series&quot;
+                    ? &quot;border-blue-500 bg-blue-50 dark:bg-blue-900/30&quot;
+                    : &quot;border-gray-200 dark:border-gray-700&quot;
                 }`}
-                onClick={() => setDeleteRecurringMode("series")}
+                onClick={() => setDeleteRecurringMode(&quot;series&quot;)}
               >
-                <div className="flex items-start">
-                  <span className="bg-red-100 text-red-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 shrink-0">
+                <div className=&quot;flex items-start&quot;>
+                  <span className=&quot;bg-red-100 text-red-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 shrink-0&quot;>
                     ∞
                   </span>
                   <div>
-                    <div className="font-medium">
+                    <div className=&quot;font-medium&quot;>
                       The entire recurring series
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className=&quot;text-sm text-gray-600 dark:text-gray-300&quot;>
                       Remove all instances of this recurring block
                     </div>
                   </div>
@@ -380,7 +380,7 @@ Would you like to delete this block now?`;
         ) : (
           <p>Are you sure you want to delete this availability block?</p>
         )}
-        <p className="mt-4 text-sm text-red-600 dark:text-red-400">
+        <p className=&quot;mt-4 text-sm text-red-600 dark:text-red-400&quot;>
           This action cannot be undone.
         </p>
       </SimpleDialog>
@@ -389,17 +389,17 @@ Would you like to delete this block now?`;
       <SimpleDialog
         isOpen={isConfirmMergedDeleteOpen}
         onClose={() => setIsConfirmMergedDeleteOpen(false)}
-        title="Multi-Block Edit"
+        title=&quot;Multi-Block Edit&quot;
         footer={
-          <div className="flex justify-end space-x-3 w-full">
+          <div className=&quot;flex justify-end space-x-3 w-full&quot;>
             <Button
-              variant="outline"
+              variant=&quot;outline&quot;
               onClick={() => setIsConfirmMergedDeleteOpen(false)}
             >
               Cancel
             </Button>
             <Button
-              variant="destructive"
+              variant=&quot;destructive&quot;
               onClick={() => {
                 setIsConfirmMergedDeleteOpen(false);
                 handleDeleteClick();
@@ -410,13 +410,13 @@ Would you like to delete this block now?`;
           </div>
         }
       >
-        <div className="space-y-4">
-          <div className="rounded-md bg-amber-50 dark:bg-amber-900/30 p-3 text-amber-700 dark:text-amber-300 mb-2">
-            <div className="flex items-start">
-              <span className="mr-2 text-lg">⚠️</span>
+        <div className=&quot;space-y-4&quot;>
+          <div className=&quot;rounded-md bg-amber-50 dark:bg-amber-900/30 p-3 text-amber-700 dark:text-amber-300 mb-2&quot;>
+            <div className=&quot;flex items-start&quot;>
+              <span className=&quot;mr-2 text-lg&quot;>⚠️</span>
               <div>
-                <p className="font-medium">This is a combined time block</p>
-                <p className="text-sm mt-1">{confirmMergedDeleteText}</p>
+                <p className=&quot;font-medium&quot;>This is a combined time block</p>
+                <p className=&quot;text-sm mt-1">{confirmMergedDeleteText}</p>
               </div>
             </div>
           </div>

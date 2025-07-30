@@ -1,39 +1,39 @@
-"use client";
+&quot;use client&quot;;
 
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { useSearchParams } from &quot;next/navigation&quot;;
+import { Suspense } from &quot;react&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import EventForm from "../components/EventForm";
+} from &quot;@/components/ui/card&quot;;
+import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
+import EventForm from &quot;../components/EventForm&quot;;
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { CalendarPlus } from "lucide-react";
+} from &quot;@/components/ui/breadcrumb&quot;;
+import { CalendarPlus } from &quot;lucide-react&quot;;
 
 function EventCreateContent() {
   const searchParams = useSearchParams();
-  const organizationId = searchParams.get("organizationId") || undefined;
+  const organizationId = searchParams.get(&quot;organizationId&quot;) || undefined;
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <Breadcrumb className="mb-6">
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+      <Breadcrumb className=&quot;mb-6&quot;>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink href=&quot;/dashboard&quot;>Dashboard</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/events">Events</BreadcrumbLink>
+            <BreadcrumbLink href=&quot;/events&quot;>Events</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -44,8 +44,8 @@ function EventCreateContent() {
 
       <Card>
         <CardHeader>
-          <div className="flex items-center space-x-2">
-            <CalendarPlus className="h-6 w-6" />
+          <div className=&quot;flex items-center space-x-2&quot;>
+            <CalendarPlus className=&quot;h-6 w-6&quot; />
             <div>
               <CardTitle>Create New Event</CardTitle>
               <CardDescription>
@@ -55,7 +55,7 @@ function EventCreateContent() {
           </div>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<Skeleton className="w-full h-[600px]" />}>
+          <Suspense fallback={<Skeleton className=&quot;w-full h-[600px]&quot; />}>
             <EventForm organizationId={organizationId} />
           </Suspense>
         </CardContent>
@@ -68,8 +68,8 @@ function EventCreatePage() {
   return (
     <Suspense
       fallback={
-        <div className="container mx-auto py-6">
-          <Skeleton className="w-full h-[800px]" />
+        <div className=&quot;container mx-auto py-6&quot;>
+          <Skeleton className=&quot;w-full h-[800px]&quot; />
         </div>
       }
     >

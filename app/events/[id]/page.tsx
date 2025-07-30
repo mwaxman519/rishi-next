@@ -1,14 +1,14 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
-import { format } from "date-fns";
+import React, { useState } from &quot;react&quot;;
+import { useParams, useRouter } from &quot;next/navigation&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
+import Link from &quot;next/link&quot;;
+import { format } from &quot;date-fns&quot;;
 
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
 import {
   Card,
   CardContent,
@@ -16,21 +16,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from &quot;@/components/ui/card&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from &quot;@/components/ui/breadcrumb&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from &quot;@/components/ui/dropdown-menu&quot;;
 import {
   AlertCircle,
   ArrowLeft,
@@ -49,16 +49,16 @@ import {
   User,
   Users,
   X,
-} from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+} from &quot;lucide-react&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
+import { useToast } from &quot;@/components/ui/use-toast&quot;;
+import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
 
 export default function EventDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState(&quot;overview&quot;);
   const eventId = params.id as string;
 
   // Fetch event details
@@ -67,13 +67,13 @@ export default function EventDetailPage() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["events", eventId],
+    queryKey: [&quot;events&quot;, eventId],
     queryFn: async () => {
       const response = await fetch(`/api/events/${eventId}`);
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to fetch event details");
+        throw new Error(errorData.error || &quot;Failed to fetch event details&quot;);
       }
 
       return await response.json();
@@ -82,7 +82,7 @@ export default function EventDetailPage() {
 
   // Fetch staff assignments
   const { data: staffAssignments = [], isLoading: isLoadingStaff } = useQuery({
-    queryKey: ["events", eventId, "staff"],
+    queryKey: [&quot;events&quot;, eventId, &quot;staff&quot;],
     queryFn: async () => {
       const response = await fetch(`/api/events/${eventId}/staff`);
 
@@ -97,7 +97,7 @@ export default function EventDetailPage() {
 
   // Fetch event activities
   const { data: activities = [], isLoading: isLoadingActivities } = useQuery({
-    queryKey: ["events", eventId, "activities"],
+    queryKey: [&quot;events&quot;, eventId, &quot;activities&quot;],
     queryFn: async () => {
       const response = await fetch(`/api/events/${eventId}/activities`);
 
@@ -112,46 +112,46 @@ export default function EventDetailPage() {
 
   // Format date for display
   const formatDateTime = (dateString: string) => {
-    if (!dateString) return "";
-    return format(new Date(dateString), "PPpp");
+    if (!dateString) return "&quot;;
+    return format(new Date(dateString), &quot;PPpp&quot;);
   };
 
   // Format date only for display
   const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    return format(new Date(dateString), "PPP");
+    if (!dateString) return &quot;&quot;;
+    return format(new Date(dateString), &quot;PPP&quot;);
   };
 
   // Format time only for display
   const formatTime = (dateString: string) => {
-    if (!dateString) return "";
-    return format(new Date(dateString), "p");
+    if (!dateString) return &quot;&quot;;
+    return format(new Date(dateString), &quot;p&quot;);
   };
 
   // Format event status for display
   const formatStatus = (status: string) => {
-    if (!status) return "";
+    if (!status) return &quot;&quot;;
     return status
-      .split("_")
+      .split(&quot;_&quot;)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+      .join(&quot; &quot;);
   };
 
   // Get badge variant based on status
   const getBadgeVariant = (status: string) => {
-    if (!status) return "outline";
+    if (!status) return &quot;outline&quot;;
 
     switch (status) {
-      case "scheduled":
-        return "default";
-      case "in_progress":
-        return "secondary";
-      case "completed":
-        return "success";
-      case "canceled":
-        return "destructive";
+      case &quot;scheduled&quot;:
+        return &quot;default&quot;;
+      case &quot;in_progress&quot;:
+        return &quot;secondary&quot;;
+      case &quot;completed&quot;:
+        return &quot;success&quot;;
+      case &quot;canceled&quot;:
+        return &quot;destructive&quot;;
       default:
-        return "outline";
+        return &quot;outline&quot;;
     }
   };
 
@@ -159,29 +159,29 @@ export default function EventDetailPage() {
   const handleStartEvent = async () => {
     try {
       const response = await fetch(`/api/events/${eventId}/start`, {
-        method: "POST",
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to start event");
+        throw new Error(errorData.error || &quot;Failed to start event&quot;);
       }
 
       toast({
-        title: "Event Started",
-        description: "The event has been successfully started.",
+        title: &quot;Event Started&quot;,
+        description: &quot;The event has been successfully started.&quot;,
       });
 
       // Refetch event data
       // In a real implementation, you would use queryClient.invalidateQueries(['events', eventId])
     } catch (error) {
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description: (error as Error).message,
-        variant: "destructive",
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -190,29 +190,29 @@ export default function EventDetailPage() {
   const handleCompleteEvent = async () => {
     try {
       const response = await fetch(`/api/events/${eventId}/complete`, {
-        method: "POST",
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to complete event");
+        throw new Error(errorData.error || &quot;Failed to complete event&quot;);
       }
 
       toast({
-        title: "Event Completed",
-        description: "The event has been successfully completed.",
+        title: &quot;Event Completed&quot;,
+        description: &quot;The event has been successfully completed.&quot;,
       });
 
       // Refetch event data
       // In a real implementation, you would use queryClient.invalidateQueries(['events', eventId])
     } catch (error) {
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description: (error as Error).message,
-        variant: "destructive",
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -221,40 +221,40 @@ export default function EventDetailPage() {
   const handleCancelEvent = async () => {
     try {
       const response = await fetch(`/api/events/${eventId}`, {
-        method: "DELETE",
+        method: &quot;DELETE&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to cancel event");
+        throw new Error(errorData.error || &quot;Failed to cancel event&quot;);
       }
 
       toast({
-        title: "Event Cancelled",
-        description: "The event has been successfully cancelled.",
+        title: &quot;Event Cancelled&quot;,
+        description: &quot;The event has been successfully cancelled.&quot;,
       });
 
       // Navigate back to events list
-      router.push("/events");
+      router.push(&quot;/events&quot;);
     } catch (error) {
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description: (error as Error).message,
-        variant: "destructive",
+        variant: &quot;destructive&quot;,
       });
     }
   };
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-6 space-y-8">
-        <Skeleton className="h-[28px] w-[250px] mb-6" />
-        <div className="space-y-6">
-          <Skeleton className="h-[300px] w-full" />
-          <Skeleton className="h-[400px] w-full" />
+      <div className=&quot;container mx-auto py-6 space-y-8&quot;>
+        <Skeleton className=&quot;h-[28px] w-[250px] mb-6&quot; />
+        <div className=&quot;space-y-6&quot;>
+          <Skeleton className=&quot;h-[300px] w-full&quot; />
+          <Skeleton className=&quot;h-[400px] w-full&quot; />
         </div>
       </div>
     );
@@ -262,17 +262,17 @@ export default function EventDetailPage() {
 
   if (error || !event) {
     return (
-      <div className="container mx-auto py-6">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+      <div className=&quot;container mx-auto py-6&quot;>
+        <Alert variant=&quot;destructive&quot;>
+          <AlertCircle className=&quot;h-4 w-4&quot; />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            {error ? (error as Error).message : "Failed to load event details"}
+            {error ? (error as Error).message : &quot;Failed to load event details&quot;}
           </AlertDescription>
         </Alert>
-        <div className="mt-4">
-          <Button variant="outline" onClick={() => router.push("/events")}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
+        <div className=&quot;mt-4&quot;>
+          <Button variant=&quot;outline&quot; onClick={() => router.push(&quot;/events&quot;)}>
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
             Back to Events
           </Button>
         </div>
@@ -281,16 +281,16 @@ export default function EventDetailPage() {
   }
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
       {/* Breadcrumbs */}
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink href=&quot;/dashboard&quot;>Dashboard</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/events">Events</BreadcrumbLink>
+            <BreadcrumbLink href=&quot;/events&quot;>Events</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -300,63 +300,63 @@ export default function EventDetailPage() {
       </Breadcrumb>
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className=&quot;flex flex-col md:flex-row justify-between items-start md:items-center gap-4&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{event.title}</h1>
-          <div className="flex items-center mt-2 space-x-2">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>{event.title}</h1>
+          <div className=&quot;flex items-center mt-2 space-x-2&quot;>
             <Badge variant={getBadgeVariant(event.status)}>
               {formatStatus(event.status)}
             </Badge>
             {event.isSeriesParent && (
-              <Badge variant="outline">Recurring Event</Badge>
+              <Badge variant=&quot;outline&quot;>Recurring Event</Badge>
             )}
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          {event.status !== "canceled" && event.status !== "completed" && (
+        <div className=&quot;flex items-center space-x-2&quot;>
+          {event.status !== &quot;canceled&quot; && event.status !== &quot;completed&quot; && (
             <>
               <Link href={`/events/${eventId}/edit`}>
-                <Button variant="outline">
-                  <Edit className="mr-2 h-4 w-4" />
+                <Button variant=&quot;outline&quot;>
+                  <Edit className=&quot;mr-2 h-4 w-4&quot; />
                   Edit
                 </Button>
               </Link>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline">
+                  <Button variant=&quot;outline&quot;>
                     Actions
-                    <ChevronDown className="ml-2 h-4 w-4" />
+                    <ChevronDown className=&quot;ml-2 h-4 w-4&quot; />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align=&quot;end&quot;>
                   <Link href={`/events/${eventId}/staff`}>
                     <DropdownMenuItem>
-                      <Users className="mr-2 h-4 w-4" />
+                      <Users className=&quot;mr-2 h-4 w-4&quot; />
                       Manage Staff
                     </DropdownMenuItem>
                   </Link>
 
-                  {event.status === "scheduled" && (
+                  {event.status === &quot;scheduled&quot; && (
                     <DropdownMenuItem onSelect={handleStartEvent}>
-                      <PlayCircle className="mr-2 h-4 w-4" />
+                      <PlayCircle className=&quot;mr-2 h-4 w-4&quot; />
                       Start Event
                     </DropdownMenuItem>
                   )}
 
-                  {event.status === "in_progress" && (
+                  {event.status === &quot;in_progress&quot; && (
                     <DropdownMenuItem onSelect={handleCompleteEvent}>
-                      <CheckCircle className="mr-2 h-4 w-4" />
+                      <CheckCircle className=&quot;mr-2 h-4 w-4&quot; />
                       Complete Event
                     </DropdownMenuItem>
                   )}
 
                   <DropdownMenuItem
-                    className="text-destructive focus:text-destructive"
+                    className=&quot;text-destructive focus:text-destructive&quot;
                     onSelect={handleCancelEvent}
                   >
-                    <X className="mr-2 h-4 w-4" />
+                    <X className=&quot;mr-2 h-4 w-4&quot; />
                     Cancel Event
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -364,9 +364,9 @@ export default function EventDetailPage() {
             </>
           )}
 
-          {(event.status === "canceled" || event.status === "completed") && (
-            <Button variant="outline" onClick={() => router.push("/events")}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
+          {(event.status === &quot;canceled&quot; || event.status === &quot;completed&quot;) && (
+            <Button variant=&quot;outline&quot; onClick={() => router.push(&quot;/events&quot;)}>
+              <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
               Back to Events
             </Button>
           )}
@@ -375,67 +375,67 @@ export default function EventDetailPage() {
 
       {/* Tabs */}
       <Tabs
-        defaultValue="overview"
+        defaultValue=&quot;overview&quot;
         onValueChange={setActiveTab}
-        className="space-y-4"
+        className=&quot;space-y-4&quot;
       >
         <TabsList>
-          <TabsTrigger value="overview">
-            <ScrollText className="mr-2 h-4 w-4" />
+          <TabsTrigger value=&quot;overview&quot;>
+            <ScrollText className=&quot;mr-2 h-4 w-4&quot; />
             Overview
           </TabsTrigger>
-          <TabsTrigger value="staff">
-            <Users className="mr-2 h-4 w-4" />
+          <TabsTrigger value=&quot;staff&quot;>
+            <Users className=&quot;mr-2 h-4 w-4&quot; />
             Staff ({staffAssignments.length})
           </TabsTrigger>
-          <TabsTrigger value="activities">
-            <CheckCircle className="mr-2 h-4 w-4" />
+          <TabsTrigger value=&quot;activities&quot;>
+            <CheckCircle className=&quot;mr-2 h-4 w-4&quot; />
             Activities ({activities.length})
           </TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-6">
+        <TabsContent value=&quot;overview&quot; className=&quot;space-y-6&quot;>
           {/* Event Details Card */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Calendar className="mr-2 h-5 w-5" />
+              <CardTitle className=&quot;flex items-center&quot;>
+                <Calendar className=&quot;mr-2 h-5 w-5&quot; />
                 Event Details
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className=&quot;space-y-6&quot;>
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
                 {/* Date & Time */}
                 <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base font-medium flex items-center">
-                      <CalendarClock className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <CardHeader className=&quot;pb-2&quot;>
+                    <CardTitle className=&quot;text-base font-medium flex items-center&quot;>
+                      <CalendarClock className=&quot;mr-2 h-4 w-4 text-muted-foreground&quot; />
                       Date & Time
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2">
+                    <div className=&quot;space-y-2&quot;>
                       <div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className=&quot;text-sm text-muted-foreground&quot;>
                           Start:
                         </span>
                         <p>{formatDateTime(event.startDateTime)}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className=&quot;text-sm text-muted-foreground&quot;>
                           End:
                         </span>
                         <p>{formatDateTime(event.endDateTime)}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className=&quot;text-sm text-muted-foreground&quot;>
                           Duration:
                         </span>
                         <p>
                           {event.duration
                             ? `${event.duration} hours`
-                            : "Not specified"}
+                            : &quot;Not specified&quot;}
                         </p>
                       </div>
                     </div>
@@ -444,31 +444,31 @@ export default function EventDetailPage() {
 
                 {/* Location */}
                 <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base font-medium flex items-center">
-                      <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <CardHeader className=&quot;pb-2&quot;>
+                    <CardTitle className=&quot;text-base font-medium flex items-center&quot;>
+                      <MapPin className=&quot;mr-2 h-4 w-4 text-muted-foreground&quot; />
                       Location
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2">
+                    <div className=&quot;space-y-2&quot;>
                       <div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className=&quot;text-sm text-muted-foreground&quot;>
                           Name:
                         </span>
-                        <p>{event.location?.name || "No location specified"}</p>
+                        <p>{event.location?.name || &quot;No location specified&quot;}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-muted-foreground">
+                        <span className=&quot;text-sm text-muted-foreground&quot;>
                           Address:
                         </span>
                         <p>
-                          {event.location?.address || "No address available"}
+                          {event.location?.address || &quot;No address available&quot;}
                         </p>
                       </div>
                       {event.location?.notes && (
                         <div>
-                          <span className="text-sm text-muted-foreground">
+                          <span className=&quot;text-sm text-muted-foreground&quot;>
                             Notes:
                           </span>
                           <p>{event.location.notes}</p>
@@ -481,26 +481,26 @@ export default function EventDetailPage() {
 
               {/* Description & Notes */}
               <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base font-medium">
+                <CardHeader className=&quot;pb-2&quot;>
+                  <CardTitle className=&quot;text-base font-medium&quot;>
                     Description & Notes
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className=&quot;space-y-4&quot;>
                     <div>
-                      <h4 className="text-sm font-medium mb-1">Description</h4>
-                      <p className="text-sm">
-                        {event.description || "No description provided"}
+                      <h4 className=&quot;text-sm font-medium mb-1&quot;>Description</h4>
+                      <p className=&quot;text-sm&quot;>
+                        {event.description || &quot;No description provided&quot;}
                       </p>
                     </div>
 
                     <Separator />
 
                     <div>
-                      <h4 className="text-sm font-medium mb-1">Notes</h4>
-                      <p className="text-sm">
-                        {event.notes || "No additional notes"}
+                      <h4 className=&quot;text-sm font-medium mb-1&quot;>Notes</h4>
+                      <p className=&quot;text-sm&quot;>
+                        {event.notes || &quot;No additional notes&quot;}
                       </p>
                     </div>
                   </div>
@@ -509,23 +509,23 @@ export default function EventDetailPage() {
 
               {/* Organization & Attendance */}
               <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base font-medium">
+                <CardHeader className=&quot;pb-2&quot;>
+                  <CardTitle className=&quot;text-base font-medium&quot;>
                     Organization & Attendance
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
                     <div>
-                      <h4 className="text-sm font-medium mb-1">Organization</h4>
-                      <p>{event.organization?.name || "Not specified"}</p>
+                      <h4 className=&quot;text-sm font-medium mb-1&quot;>Organization</h4>
+                      <p>{event.organization?.name || &quot;Not specified&quot;}</p>
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-medium mb-1">
+                      <h4 className=&quot;text-sm font-medium mb-1&quot;>
                         Expected Attendees
                       </h4>
-                      <p>{event.expectedAttendees || "Not specified"}</p>
+                      <p>{event.expectedAttendees || &quot;Not specified&quot;}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -534,31 +534,31 @@ export default function EventDetailPage() {
               {/* Recurring Event Information (if applicable) */}
               {event.isSeriesParent && (
                 <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base font-medium flex items-center">
-                      <CalendarClock className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <CardHeader className=&quot;pb-2&quot;>
+                    <CardTitle className=&quot;text-base font-medium flex items-center&quot;>
+                      <CalendarClock className=&quot;mr-2 h-4 w-4 text-muted-foreground&quot; />
                       Recurring Event Information
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;>
                       <div>
-                        <h4 className="text-sm font-medium mb-1">Pattern</h4>
-                        <p className="capitalize">
-                          {event.recurringPattern || "Not specified"}
+                        <h4 className=&quot;text-sm font-medium mb-1&quot;>Pattern</h4>
+                        <p className=&quot;capitalize&quot;>
+                          {event.recurringPattern || &quot;Not specified&quot;}
                         </p>
                       </div>
 
                       <div>
-                        <h4 className="text-sm font-medium mb-1">Frequency</h4>
-                        <p>{event.recurringFrequency || "Not specified"}</p>
+                        <h4 className=&quot;text-sm font-medium mb-1&quot;>Frequency</h4>
+                        <p>{event.recurringFrequency || &quot;Not specified&quot;}</p>
                       </div>
 
                       <div>
-                        <h4 className="text-sm font-medium mb-1">
+                        <h4 className=&quot;text-sm font-medium mb-1&quot;>
                           Occurrences
                         </h4>
-                        <p>{event.numberOfOccurrences || "Not specified"}</p>
+                        <p>{event.numberOfOccurrences || &quot;Not specified&quot;}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -569,9 +569,9 @@ export default function EventDetailPage() {
         </TabsContent>
 
         {/* Staff Tab */}
-        <TabsContent value="staff" className="space-y-6">
+        <TabsContent value=&quot;staff&quot; className=&quot;space-y-6&quot;>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className=&quot;flex flex-row items-center justify-between&quot;>
               <div>
                 <CardTitle>Staff Assignments</CardTitle>
                 <CardDescription>
@@ -579,10 +579,10 @@ export default function EventDetailPage() {
                 </CardDescription>
               </div>
 
-              {event.status !== "canceled" && event.status !== "completed" && (
+              {event.status !== &quot;canceled&quot; && event.status !== &quot;completed&quot; && (
                 <Link href={`/events/${eventId}/staff`}>
                   <Button>
-                    <Users className="mr-2 h-4 w-4" />
+                    <Users className=&quot;mr-2 h-4 w-4&quot; />
                     Manage Staff
                   </Button>
                 </Link>
@@ -590,43 +590,43 @@ export default function EventDetailPage() {
             </CardHeader>
             <CardContent>
               {isLoadingStaff ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-12 w-full" />
-                  <Skeleton className="h-12 w-full" />
-                  <Skeleton className="h-12 w-full" />
+                <div className=&quot;space-y-2&quot;>
+                  <Skeleton className=&quot;h-12 w-full&quot; />
+                  <Skeleton className=&quot;h-12 w-full&quot; />
+                  <Skeleton className=&quot;h-12 w-full&quot; />
                 </div>
               ) : staffAssignments.length > 0 ? (
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {staffAssignments.map((staff: any) => (
                     <div
                       key={staff.id}
-                      className="flex items-center justify-between p-4 border rounded-md"
+                      className=&quot;flex items-center justify-between p-4 border rounded-md&quot;
                     >
-                      <div className="flex items-center">
-                        <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                          <User className="h-5 w-5" />
+                      <div className=&quot;flex items-center&quot;>
+                        <div className=&quot;h-10 w-10 rounded-full bg-muted flex items-center justify-center&quot;>
+                          <User className=&quot;h-5 w-5&quot; />
                         </div>
-                        <div className="ml-4">
-                          <p className="font-medium">{staff.user?.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {staff.role || "No role specified"}
+                        <div className=&quot;ml-4&quot;>
+                          <p className=&quot;font-medium&quot;>{staff.user?.name}</p>
+                          <p className=&quot;text-sm text-muted-foreground&quot;>
+                            {staff.role || &quot;No role specified&quot;}
                           </p>
                         </div>
                       </div>
-                      <Badge>{staff.status || "Assigned"}</Badge>
+                      <Badge>{staff.status || &quot;Assigned&quot;}</Badge>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium">No Staff Assigned</h3>
-                  <p className="text-muted-foreground mb-4">
-                    This event doesn't have any staff members assigned yet.
+                <div className=&quot;text-center py-8&quot;>
+                  <Users className=&quot;h-12 w-12 mx-auto text-muted-foreground mb-4&quot; />
+                  <h3 className=&quot;text-lg font-medium&quot;>No Staff Assigned</h3>
+                  <p className=&quot;text-muted-foreground mb-4&quot;>
+                    This event doesn&apos;t have any staff members assigned yet.
                   </p>
 
-                  {event.status !== "canceled" &&
-                    event.status !== "completed" && (
+                  {event.status !== &quot;canceled&quot; &&
+                    event.status !== &quot;completed&quot; && (
                       <Link href={`/events/${eventId}/staff`}>
                         <Button>Assign Staff</Button>
                       </Link>
@@ -638,9 +638,9 @@ export default function EventDetailPage() {
         </TabsContent>
 
         {/* Activities Tab */}
-        <TabsContent value="activities" className="space-y-6">
+        <TabsContent value=&quot;activities&quot; className=&quot;space-y-6&quot;>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className=&quot;flex flex-row items-center justify-between&quot;>
               <div>
                 <CardTitle>Event Activities</CardTitle>
                 <CardDescription>
@@ -648,10 +648,10 @@ export default function EventDetailPage() {
                 </CardDescription>
               </div>
 
-              {event.status !== "canceled" && event.status !== "completed" && (
+              {event.status !== &quot;canceled&quot; && event.status !== &quot;completed&quot; && (
                 <Link href={`/events/${eventId}/activities/new`}>
                   <Button>
-                    <PenSquare className="mr-2 h-4 w-4" />
+                    <PenSquare className=&quot;mr-2 h-4 w-4&quot; />
                     Add Activity
                   </Button>
                 </Link>
@@ -659,18 +659,18 @@ export default function EventDetailPage() {
             </CardHeader>
             <CardContent>
               {isLoadingActivities ? (
-                <div className="space-y-2">
-                  <Skeleton className="h-16 w-full" />
-                  <Skeleton className="h-16 w-full" />
-                  <Skeleton className="h-16 w-full" />
+                <div className=&quot;space-y-2&quot;>
+                  <Skeleton className=&quot;h-16 w-full&quot; />
+                  <Skeleton className=&quot;h-16 w-full&quot; />
+                  <Skeleton className=&quot;h-16 w-full&quot; />
                 </div>
               ) : activities.length > 0 ? (
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {activities.map((activity: any) => (
                     <Card key={activity.id}>
-                      <CardHeader className="pb-2">
-                        <div className="flex justify-between items-start">
-                          <CardTitle className="text-base">
+                      <CardHeader className=&quot;pb-2&quot;>
+                        <div className=&quot;flex justify-between items-start&quot;>
+                          <CardTitle className=&quot;text-base&quot;>
                             {activity.title}
                           </CardTitle>
                           <Badge variant={getBadgeVariant(activity.status)}>
@@ -680,21 +680,21 @@ export default function EventDetailPage() {
                         <CardDescription>
                           {activity.startTime && activity.endTime
                             ? `${formatTime(activity.startTime)} - ${formatTime(activity.endTime)}`
-                            : "No time specified"}
+                            : &quot;No time specified&quot;}
                         </CardDescription>
                       </CardHeader>
-                      <CardContent className="pb-2">
-                        <p className="text-sm">
-                          {activity.description || "No description provided"}
+                      <CardContent className=&quot;pb-2&quot;>
+                        <p className=&quot;text-sm&quot;>
+                          {activity.description || &quot;No description provided&quot;}
                         </p>
                       </CardContent>
-                      <CardFooter className="pt-0">
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <User className="h-4 w-4 mr-1" />
+                      <CardFooter className=&quot;pt-0&quot;>
+                        <div className=&quot;flex items-center text-sm text-muted-foreground&quot;>
+                          <User className=&quot;h-4 w-4 mr-1&quot; />
                           <span>
                             {activity.assignedTo
                               ? activity.assignedTo.name
-                              : "Unassigned"}
+                              : &quot;Unassigned&quot;}
                           </span>
                         </div>
                       </CardFooter>
@@ -702,15 +702,15 @@ export default function EventDetailPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <CheckCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium">No Activities</h3>
-                  <p className="text-muted-foreground mb-4">
-                    This event doesn't have any activities defined yet.
+                <div className=&quot;text-center py-8&quot;>
+                  <CheckCircle className=&quot;h-12 w-12 mx-auto text-muted-foreground mb-4&quot; />
+                  <h3 className=&quot;text-lg font-medium&quot;>No Activities</h3>
+                  <p className=&quot;text-muted-foreground mb-4&quot;>
+                    This event doesn&apos;t have any activities defined yet.
                   </p>
 
-                  {event.status !== "canceled" &&
-                    event.status !== "completed" && (
+                  {event.status !== &quot;canceled&quot; &&
+                    event.status !== &quot;completed" && (
                       <Link href={`/events/${eventId}/activities/new`}>
                         <Button>Add Activity</Button>
                       </Link>

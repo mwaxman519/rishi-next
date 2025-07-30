@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { ReactNode } from "react";
-import { useRBAC } from "@/hooks/useRBAC";
+import React, { ReactNode } from &quot;react&quot;;
+import { useRBAC } from &quot;@/hooks/useRBAC&quot;;
 
 interface PermissionGuardProps {
   /** Permission required to view the guarded content */

@@ -9,8 +9,8 @@
  * @version 1.0.0
  */
 
-import { eq, and, desc, inArray, like, sql } from "drizzle-orm";
-import { db } from "../../db";
+import { eq, and, desc, inArray, like, sql } from &quot;drizzle-orm&quot;;
+import { db } from &quot;../../db&quot;;
 import {
   brandAgentAssignments,
   agentSkills,
@@ -20,19 +20,19 @@ import {
   userOrganizations,
   type BrandAgentAssignment,
   type InsertBrandAgentAssignment,
-} from "../../../shared/schema";
-import { EventBus } from "../core/EventBus";
-import { AuditService } from "../core/AuditService";
+} from &quot;../../../shared/schema&quot;;
+import { EventBus } from &quot;../core/EventBus&quot;;
+import { AuditService } from &quot;../core/AuditService&quot;;
 import {
   RosterEvents,
   type AgentAssignedToBrandEvent,
   type RosterUpdatedEvent,
-} from "./events";
+} from &quot;./events&quot;;
 import {
   validateBrandAgentAssignment,
   type AgentSearchCriteria,
   type BrandAgent,
-} from "./types";
+} from &quot;./types&quot;;
 
 /**
  * Interface defining roster management operations
@@ -140,8 +140,8 @@ export class RosterService implements IRosterService {
 
       return Array.from(agentMap.values());
     } catch (error) {
-      console.error("Error retrieving brand agents:", error);
-      throw new Error("Failed to retrieve brand agents");
+      console.error(&quot;Error retrieving brand agents:&quot;, error);
+      throw new Error(&quot;Failed to retrieve brand agents&quot;);
     }
   }
 
@@ -191,7 +191,7 @@ export class RosterService implements IRosterService {
         .limit(1);
 
       if (agent.length === 0) {
-        throw new Error("Agent not found or not active");
+        throw new Error(&quot;Agent not found or not active&quot;);
       }
 
       const brand = await db
@@ -206,7 +206,7 @@ export class RosterService implements IRosterService {
         .limit(1);
 
       if (brand.length === 0) {
-        throw new Error("Brand not found or not active");
+        throw new Error(&quot;Brand not found or not active&quot;);
       }
 
       const [createdAssignment] = await db
@@ -234,8 +234,8 @@ export class RosterService implements IRosterService {
       );
 
       await this.auditService.log({
-        action: "AGENT_ASSIGNED_TO_BRAND",
-        entityType: "BRAND_AGENT_ASSIGNMENT",
+        action: &quot;AGENT_ASSIGNED_TO_BRAND&quot;,
+        entityType: &quot;BRAND_AGENT_ASSIGNMENT&quot;,
         entityId: createdAssignment.id,
         userId: assignedBy,
         details: {
@@ -248,7 +248,7 @@ export class RosterService implements IRosterService {
 
       return createdAssignment;
     } catch (error) {
-      console.error("Error assigning agent to brand:", error);
+      console.error(&quot;Error assigning agent to brand:&quot;, error);
       throw error;
     }
   }
@@ -274,7 +274,7 @@ export class RosterService implements IRosterService {
         .limit(1);
 
       if (assignment.length === 0) {
-        throw new Error("Assignment not found");
+        throw new Error(&quot;Assignment not found&quot;);
       }
 
       await db
@@ -294,7 +294,7 @@ export class RosterService implements IRosterService {
         role: assignment[0].role,
         assignedBy: removedBy,
         timestamp: new Date().toISOString(),
-        action: "removed",
+        action: &quot;removed&quot;,
       };
 
       await this.eventBus.publish(
@@ -303,8 +303,8 @@ export class RosterService implements IRosterService {
       );
 
       await this.auditService.log({
-        action: "AGENT_REMOVED_FROM_BRAND",
-        entityType: "BRAND_AGENT_ASSIGNMENT",
+        action: &quot;AGENT_REMOVED_FROM_BRAND&quot;,
+        entityType: &quot;BRAND_AGENT_ASSIGNMENT&quot;,
         entityId: assignmentId,
         userId: removedBy,
         details: {
@@ -314,7 +314,7 @@ export class RosterService implements IRosterService {
         },
       });
     } catch (error) {
-      console.error("Error removing agent from brand:", error);
+      console.error(&quot;Error removing agent from brand:&quot;, error);
       throw error;
     }
   }
@@ -334,8 +334,8 @@ export class RosterService implements IRosterService {
 
       return assignments;
     } catch (error) {
-      console.error("Error retrieving agent assignments:", error);
-      throw new Error("Failed to retrieve agent assignments");
+      console.error(&quot;Error retrieving agent assignments:&quot;, error);
+      throw new Error(&quot;Failed to retrieve agent assignments&quot;);
     }
   }
 
@@ -357,7 +357,7 @@ export class RosterService implements IRosterService {
           and(
             eq(users.isActive, true),
             eq(userOrganizations.isActive, true),
-            eq(userOrganizations.role, "brand_agent"),
+            eq(userOrganizations.role, &quot;brand_agent&quot;),
           ),
         );
 
@@ -368,7 +368,7 @@ export class RosterService implements IRosterService {
       }
 
       if (criteria.searchTerm) {
-        const searchCondition = sql`LOWER(${users.firstName}) LIKE ${"%" + criteria.searchTerm.toLowerCase() + "%"} OR LOWER(${users.lastName}) LIKE ${"%" + criteria.searchTerm.toLowerCase() + "%"} OR LOWER(${users.email}) LIKE ${"%" + criteria.searchTerm.toLowerCase() + "%"}`;
+        const searchCondition = sql`LOWER(${users.firstName}) LIKE ${&quot;%&quot; + criteria.searchTerm.toLowerCase() + &quot;%&quot;} OR LOWER(${users.lastName}) LIKE ${&quot;%&quot; + criteria.searchTerm.toLowerCase() + &quot;%&quot;} OR LOWER(${users.email}) LIKE ${&quot;%&quot; + criteria.searchTerm.toLowerCase() + &quot;%&quot;}`;
         query = query.where(searchCondition);
       }
 
@@ -389,7 +389,7 @@ export class RosterService implements IRosterService {
           brandAssignments: assignments.map((a) => ({
             assignmentId: a.id,
             brandId: a.brandId,
-            brandName: "",
+            brandName: "&quot;,
             role: a.assignmentRole,
             startDate: a.startDate,
             endDate: a.endDate,
@@ -403,8 +403,8 @@ export class RosterService implements IRosterService {
 
       return agents;
     } catch (error) {
-      console.error("Error searching available agents:", error);
-      throw new Error("Failed to search available agents");
+      console.error(&quot;Error searching available agents:&quot;, error);
+      throw new Error(&quot;Failed to search available agents&quot;);
     }
   }
 
@@ -418,7 +418,7 @@ export class RosterService implements IRosterService {
 
       return skills;
     } catch (error) {
-      console.error("Error retrieving agent skills:", error);
+      console.error(&quot;Error retrieving agent skills:&quot;, error);
       return [];
     }
   }
@@ -430,8 +430,8 @@ export class RosterService implements IRosterService {
   ): Promise<void> {
     try {
       await this.auditService.log({
-        action: "AGENT_SKILLS_UPDATED",
-        entityType: "AGENT_SKILLS",
+        action: &quot;AGENT_SKILLS_UPDATED&quot;,
+        entityType: &quot;AGENT_SKILLS&quot;,
         entityId: agentId,
         userId: updatedBy,
         details: { skillsCount: skills.length },
@@ -439,14 +439,14 @@ export class RosterService implements IRosterService {
 
       const rosterEvent: RosterUpdatedEvent = {
         agentId,
-        updateType: "skills",
+        updateType: &quot;skills&quot;,
         updatedBy,
         timestamp: new Date().toISOString(),
       };
 
       await this.eventBus.publish(RosterEvents.ROSTER_UPDATED, rosterEvent);
     } catch (error) {
-      console.error("Error updating agent skills:", error);
+      console.error(&quot;Error updating agent skills:", error);
       throw error;
     }
   }

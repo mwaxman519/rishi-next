@@ -9,15 +9,15 @@
  * - Proper security checks and token validation
  */
 
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext } from &quot;react&quot;;
 import {
   useAuthService,
   UserSession,
   LoginCredentials,
   RegisterData,
-} from "./useAuthService";
+} from &quot;./useAuthService&quot;;
 
 // Define registration result interface
 interface RegisterResult {
@@ -62,12 +62,12 @@ const AuthContext = createContext<AuthContextType>({
     /* Default implementation */
   },
   login: async () => {
-    console.error("Login not implemented in default context");
+    console.error(&quot;Login not implemented in default context&quot;);
     return false;
   },
   register: async () => {
-    console.error("Register not implemented in default context");
-    return { success: false, error: "Registration not implemented" };
+    console.error(&quot;Register not implemented in default context&quot;);
+    return { success: false, error: &quot;Registration not implemented&quot; };
   },
 });
 
@@ -83,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Load the user on initial mount
   useEffect(() => {
     // Skip during static generation
-    if (typeof window === "undefined") {
+    if (typeof window === &quot;undefined&quot;) {
       setIsLoading(false);
       return;
     }
@@ -96,9 +96,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { user: sessionUser } = await authService.getSession();
         setUser(sessionUser);
       } catch (err) {
-        console.error("Error loading user:", err);
+        console.error(&quot;Error loading user:&quot;, err);
         setError(
-          err instanceof Error ? err : new Error("Unknown error loading user"),
+          err instanceof Error ? err : new Error(&quot;Unknown error loading user&quot;),
         );
       } finally {
         setIsLoading(false);
@@ -114,14 +114,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Super admins have all permissions
     if (
-      user.role === "super_admin" ||
-      (user.roles && user.roles.includes("SUPER_ADMIN"))
+      user.role === &quot;super_admin&quot; ||
+      (user.roles && user.roles.includes(&quot;SUPER_ADMIN&quot;))
     ) {
       return true;
     }
 
     // Development mode: grant all permissions
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === &quot;development&quot;) {
       return true;
     }
 
@@ -132,11 +132,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Helper properties to identify user types
   const isRishiManagement =
-    user?.role === "internal_admin" || user?.role === "super_admin";
-  const isFieldManager = user?.role === "internal_field_manager";
-  const isBrandAgent = user?.role === "brand_agent";
-  const isClientUser = user?.role === "client_user";
-  const isSuperAdmin = user?.role === "super_admin";
+    user?.role === &quot;internal_admin&quot; || user?.role === &quot;super_admin&quot;;
+  const isFieldManager = user?.role === &quot;internal_field_manager&quot;;
+  const isBrandAgent = user?.role === &quot;brand_agent&quot;;
+  const isClientUser = user?.role === &quot;client_user&quot;;
+  const isSuperAdmin = user?.role === &quot;super_admin&quot;;
 
   // Logout function implementation
   const logout = async (): Promise<void> => {
@@ -149,9 +149,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Clear user state
       setUser(null);
     } catch (err) {
-      console.error("Error during logout:", err);
+      console.error(&quot;Error during logout:&quot;, err);
       setError(
-        err instanceof Error ? err : new Error("Unknown error during logout"),
+        err instanceof Error ? err : new Error(&quot;Unknown error during logout&quot;),
       );
     } finally {
       setIsLoading(false);
@@ -181,15 +181,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(refreshedUser);
           }
         } catch (refreshError) {
-          console.error("Session refresh error:", refreshError);
+          console.error(&quot;Session refresh error:&quot;, refreshError);
         }
       }, 100);
 
       return true;
     } catch (err) {
-      console.error("Login error:", err);
+      console.error(&quot;Login error:&quot;, err);
       setError(
-        err instanceof Error ? err : new Error("Unknown error during login"),
+        err instanceof Error ? err : new Error(&quot;Unknown error during login&quot;),
       );
       return false;
     } finally {
@@ -211,7 +211,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // Password validation
       if (password !== confirmPassword) {
-        return { success: false, error: "Passwords do not match" };
+        return { success: false, error: &quot;Passwords do not match&quot; };
       }
 
       try {
@@ -224,7 +224,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           role,
         };
 
-        // Only add the passcode if it's provided
+        // Only add the passcode if it&apos;s provided
         if (registrationPasscode) {
           (registerData as any).registrationPasscode = registrationPasscode;
         }
@@ -236,63 +236,63 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         return { success: true };
       } catch (serviceError: any) {
-        console.error("Auth service registration error:", serviceError);
+        console.error(&quot;Auth service registration error:&quot;, serviceError);
 
         // Create user-friendly error messages based on the error type
-        let errorMessage = serviceError.message || "Registration failed";
+        let errorMessage = serviceError.message || &quot;Registration failed&quot;;
 
         // Handle network errors
         if (
-          serviceError.name === "TypeError" &&
-          serviceError.message.includes("Failed to fetch")
+          serviceError.name === &quot;TypeError&quot; &&
+          serviceError.message.includes(&quot;Failed to fetch&quot;)
         ) {
           errorMessage =
-            "Cannot connect to the registration service. Please check your internet connection.";
+            &quot;Cannot connect to the registration service. Please check your internet connection.&quot;;
         }
         // Handle database errors
         else if (
-          errorMessage.includes("database") ||
-          errorMessage.includes("Database") ||
-          errorMessage.includes("connection") ||
-          errorMessage.includes("not been initialized")
+          errorMessage.includes(&quot;database&quot;) ||
+          errorMessage.includes(&quot;Database&quot;) ||
+          errorMessage.includes(&quot;connection&quot;) ||
+          errorMessage.includes(&quot;not been initialized&quot;)
         ) {
           errorMessage =
-            "The registration system is currently experiencing database issues. Please try again later.";
+            &quot;The registration system is currently experiencing database issues. Please try again later.&quot;;
         }
         // Handle Bad Gateway errors
         else if (
-          errorMessage.includes("502") ||
-          errorMessage.includes("Bad Gateway")
+          errorMessage.includes(&quot;502&quot;) ||
+          errorMessage.includes(&quot;Bad Gateway&quot;)
         ) {
           errorMessage =
-            "The registration service is temporarily unavailable. Our team has been notified.";
+            &quot;The registration service is temporarily unavailable. Our team has been notified.&quot;;
         }
         // Handle JSON parsing errors
         else if (
-          errorMessage.includes("JSON") ||
-          errorMessage.includes("Unexpected end")
+          errorMessage.includes(&quot;JSON&quot;) ||
+          errorMessage.includes(&quot;Unexpected end&quot;)
         ) {
           errorMessage =
-            "The registration service returned an invalid response. Please try again later.";
+            &quot;The registration service returned an invalid response. Please try again later.&quot;;
         }
         // Handle timeout errors
         else if (
-          errorMessage.includes("timeout") ||
-          errorMessage.includes("timed out")
+          errorMessage.includes(&quot;timeout&quot;) ||
+          errorMessage.includes(&quot;timed out&quot;)
         ) {
           errorMessage =
-            "The registration request timed out. Please try again later.";
+            &quot;The registration request timed out. Please try again later.&quot;;
         }
 
         setError(new Error(errorMessage));
         return { success: false, error: errorMessage };
       }
     } catch (err) {
-      console.error("Registration error:", err);
+      console.error(&quot;Registration error:&quot;, err);
       const errorMessage =
         err instanceof Error
           ? err.message
-          : "An unexpected error occurred during registration";
+          : &quot;An unexpected error occurred during registration&quot;;
       setError(err instanceof Error ? err : new Error(errorMessage));
 
       return {

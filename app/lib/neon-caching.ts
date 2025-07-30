@@ -5,14 +5,14 @@
  * for Neon Postgres specifically for documentation and other read-heavy operations.
  */
 
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import * as schema from "@shared/schema";
+import { neon } from &quot;@neondatabase/serverless&quot;;
+import { drizzle } from &quot;drizzle-orm/neon-http&quot;;
+import * as schema from &quot;@shared/schema&quot;;
 
 // Verify DATABASE_URL is set
 if (!process.env.DATABASE_URL) {
   throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
+    &quot;DATABASE_URL must be set. Did you forget to provision a database?&quot;,
   );
 }
 

@@ -5,17 +5,17 @@
  * to prevent cascading failures and provide graceful degradation
  */
 
-import { circuitBreakerRegistry } from "../infrastructure/patterns/circuitBreaker";
-import { LocationDTO } from "./models";
+import { circuitBreakerRegistry } from &quot;../infrastructure/patterns/circuitBreaker&quot;;
+import { LocationDTO } from &quot;./models&quot;;
 
 // Circuit breakers for different location service operations
 const LOCATION_SERVICE_CIRCUITS = {
-  GEOCODING: "location-service.geocoding",
-  CREATE: "location-service.create",
-  UPDATE: "location-service.update",
-  APPROVAL: "location-service.approval",
-  FETCH: "location-service.fetch",
-  DELETE: "location-service.delete",
+  GEOCODING: &quot;location-service.geocoding&quot;,
+  CREATE: &quot;location-service.create&quot;,
+  UPDATE: &quot;location-service.update&quot;,
+  APPROVAL: &quot;location-service.approval&quot;,
+  FETCH: &quot;location-service.fetch&quot;,
+  DELETE: &quot;location-service.delete&quot;,
 };
 
 /**
@@ -90,13 +90,13 @@ export class LocationCircuitBreaker {
       LOCATION_SERVICE_CIRCUITS.GEOCODING,
     );
     if (!circuit) {
-      throw new Error("Geocoding circuit breaker not initialized");
+      throw new Error(&quot;Geocoding circuit breaker not initialized&quot;);
     }
 
     const result = await circuit.execute(operation);
 
     if (!result.success) {
-      throw result.error || new Error("Geocoding operation failed");
+      throw result.error || new Error(&quot;Geocoding operation failed&quot;);
     }
 
     return result.data!;
@@ -110,13 +110,13 @@ export class LocationCircuitBreaker {
       LOCATION_SERVICE_CIRCUITS.CREATE,
     );
     if (!circuit) {
-      throw new Error("Create location circuit breaker not initialized");
+      throw new Error(&quot;Create location circuit breaker not initialized&quot;);
     }
 
     const result = await circuit.execute(operation);
 
     if (!result.success) {
-      throw result.error || new Error("Create location operation failed");
+      throw result.error || new Error(&quot;Create location operation failed&quot;);
     }
 
     return result.data!;
@@ -130,13 +130,13 @@ export class LocationCircuitBreaker {
       LOCATION_SERVICE_CIRCUITS.UPDATE,
     );
     if (!circuit) {
-      throw new Error("Update location circuit breaker not initialized");
+      throw new Error(&quot;Update location circuit breaker not initialized&quot;);
     }
 
     const result = await circuit.execute(operation);
 
     if (!result.success) {
-      throw result.error || new Error("Update location operation failed");
+      throw result.error || new Error(&quot;Update location operation failed&quot;);
     }
 
     return result.data!;
@@ -150,13 +150,13 @@ export class LocationCircuitBreaker {
       LOCATION_SERVICE_CIRCUITS.APPROVAL,
     );
     if (!circuit) {
-      throw new Error("Approval circuit breaker not initialized");
+      throw new Error(&quot;Approval circuit breaker not initialized&quot;);
     }
 
     const result = await circuit.execute(operation);
 
     if (!result.success) {
-      throw result.error || new Error("Approval operation failed");
+      throw result.error || new Error(&quot;Approval operation failed&quot;);
     }
 
     return result.data!;
@@ -168,13 +168,13 @@ export class LocationCircuitBreaker {
   async executeFetchOperation<T>(operation: () => Promise<T>): Promise<T> {
     const circuit = circuitBreakerRegistry.get(LOCATION_SERVICE_CIRCUITS.FETCH);
     if (!circuit) {
-      throw new Error("Fetch circuit breaker not initialized");
+      throw new Error(&quot;Fetch circuit breaker not initialized&quot;);
     }
 
     const result = await circuit.execute(operation);
 
     if (!result.success) {
-      throw result.error || new Error("Fetch operation failed");
+      throw result.error || new Error(&quot;Fetch operation failed&quot;);
     }
 
     return result.data!;
@@ -188,13 +188,13 @@ export class LocationCircuitBreaker {
       LOCATION_SERVICE_CIRCUITS.DELETE,
     );
     if (!circuit) {
-      throw new Error("Delete circuit breaker not initialized");
+      throw new Error(&quot;Delete circuit breaker not initialized&quot;);
     }
 
     const result = await circuit.execute(operation);
 
     if (!result.success) {
-      throw result.error || new Error("Delete operation failed");
+      throw result.error || new Error(&quot;Delete operation failed&quot;);
     }
 
     return result.data!;
@@ -213,7 +213,7 @@ export class LocationCircuitBreaker {
             ...circuit.getHealth(),
           };
         } else {
-          status[circuitName] = { state: "not-initialized" };
+          status[circuitName] = { state: &quot;not-initialized&quot; };
         }
         return status;
       },

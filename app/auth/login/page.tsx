@@ -66,7 +66,7 @@ export default function LoginPage() {
             window.location.href = '/dashboard';
           }
           
-          return; // Ensure we don't continue processing
+          return; // Ensure we don&apos;t continue processing
         } else {
           setError(result.error || result.message || 'Login failed');
         }
@@ -84,14 +84,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 dark:from-slate-900 dark:to-slate-800 p-4">
-      <Card className="w-full max-w-md shadow-2xl border-0 rounded-2xl">
-        <CardHeader className="space-y-4 text-center pb-6">
-          <div className="flex flex-col items-center justify-center mb-4">
+    <div className=&quot;min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-teal-50 dark:from-slate-900 dark:to-slate-800 p-4&quot;>
+      <Card className=&quot;w-full max-w-md shadow-2xl border-0 rounded-2xl&quot;>
+        <CardHeader className=&quot;space-y-4 text-center pb-6&quot;>
+          <div className=&quot;flex flex-col items-center justify-center mb-4&quot;>
             <img 
-              src="/assets/logos/rishi-logo-main.png" 
-              alt="Rishi Platform" 
-              className="w-48 h-auto mb-6"
+              src=&quot;/assets/logos/rishi-logo-main.png&quot; 
+              alt=&quot;Rishi Platform&quot; 
+              className=&quot;w-48 h-auto mb-6&quot;
               onError={(e) => {
                 console.log('Main logo failed, trying icon');
                 e.currentTarget.src = '/assets/logos/rishi-logo-icon.png';
@@ -99,55 +99,55 @@ export default function LoginPage() {
               }}
             />
           </div>
-          <CardDescription className="text-slate-600 dark:text-slate-400 text-lg">
+          <CardDescription className=&quot;text-slate-600 dark:text-slate-400 text-lg&quot;>
             Sign in to your account
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="username" className="text-slate-700 dark:text-slate-300 font-medium">Username</Label>
+        <CardContent className=&quot;space-y-6&quot;>
+          <form onSubmit={handleSubmit} className=&quot;space-y-5&quot;>
+            <div className=&quot;space-y-2&quot;>
+              <Label htmlFor=&quot;username&quot; className=&quot;text-slate-700 dark:text-slate-300 font-medium&quot;>Username</Label>
               <Input
-                id="username"
-                type="text"
+                id=&quot;username&quot;
+                type=&quot;text&quot;
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your username"
+                placeholder=&quot;Enter your username&quot;
                 required
                 disabled={isLoading}
-                className="h-12 border-2 border-slate-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-xl transition-all duration-200"
+                className=&quot;h-12 border-2 border-slate-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-xl transition-all duration-200&quot;
               />
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-700 dark:text-slate-300 font-medium">Password</Label>
+            <div className=&quot;space-y-2&quot;>
+              <Label htmlFor=&quot;password&quot; className=&quot;text-slate-700 dark:text-slate-300 font-medium&quot;>Password</Label>
               <Input
-                id="password"
-                type="password"
+                id=&quot;password&quot;
+                type=&quot;password&quot;
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
+                placeholder=&quot;Enter your password&quot;
                 required
                 disabled={isLoading}
-                className="h-12 border-2 border-slate-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-xl transition-all duration-200"
+                className=&quot;h-12 border-2 border-slate-200 focus:border-purple-500 focus:ring-purple-500/20 rounded-xl transition-all duration-200&quot;
               />
             </div>
 
             {error && (
-              <Alert variant="destructive" className="border-red-200 bg-red-50 text-red-800 rounded-xl">
-                <AlertCircle className="h-4 w-4" />
+              <Alert variant=&quot;destructive&quot; className=&quot;border-red-200 bg-red-50 text-red-800 rounded-xl&quot;>
+                <AlertCircle className=&quot;h-4 w-4&quot; />
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
             <Button
-              type="submit"
-              className="w-full h-12 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+              type=&quot;submit&quot;
+              className=&quot;w-full h-12 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]&quot;
               disabled={isLoading}
             >
               {isLoading ? (
-                <div className="flex items-center space-x-2">
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className=&quot;flex items-center space-x-2&quot;>
+                  <div className=&quot;w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin&quot;></div>
                   <span>Signing in...</span>
                 </div>
               ) : (
@@ -156,16 +156,16 @@ export default function LoginPage() {
             </Button>
           </form>
 
-          <div className="pt-6 border-t border-slate-200 dark:border-slate-700">
-            <div className="text-center space-y-3">
-              <div className="flex items-center justify-center space-x-4 text-sm text-slate-500">
-                <a href="#" className="hover:text-purple-600 transition-colors">Terms</a>
+          <div className=&quot;pt-6 border-t border-slate-200 dark:border-slate-700&quot;>
+            <div className=&quot;text-center space-y-3&quot;>
+              <div className=&quot;flex items-center justify-center space-x-4 text-sm text-slate-500&quot;>
+                <a href=&quot;#&quot; className=&quot;hover:text-purple-600 transition-colors&quot;>Terms</a>
                 <span>•</span>
-                <a href="#" className="hover:text-purple-600 transition-colors">Privacy</a>
+                <a href=&quot;#&quot; className=&quot;hover:text-purple-600 transition-colors&quot;>Privacy</a>
                 <span>•</span>
-                <a href="#" className="hover:text-purple-600 transition-colors">Help</a>
+                <a href=&quot;#&quot; className=&quot;hover:text-purple-600 transition-colors&quot;>Help</a>
               </div>
-              <p className="text-xs text-slate-400">© 2025 Rishi Platform. All rights reserved.</p>
+              <p className=&quot;text-xs text-slate-400&quot;>© 2025 Rishi Platform. All rights reserved.</p>
             </div>
           </div>
         </CardContent>

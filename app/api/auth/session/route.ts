@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { authOptions } from &quot;@/lib/auth-options&quot;;
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(session);
   } catch (error) {
-    console.error("Session error:", error);
+    console.error(&quot;Session error:&quot;, error);
     return NextResponse.json({
       user: null,
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
@@ -24,4 +24,4 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export const dynamic = "force-dynamic";
+export const dynamic = &quot;force-dynamic&quot;;

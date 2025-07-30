@@ -1,6 +1,6 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
+import { useState } from &quot;react&quot;;
 import {
   Building,
   ChevronDown,
@@ -10,9 +10,9 @@ import {
   Settings,
   Briefcase,
   BuildingIcon,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
-import { Button } from "@/components/ui/button";
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,10 +26,10 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useOrganization } from "@/contexts/OrganizationProvider";
-import { toast } from "@/hooks/use-toast";
+} from &quot;@/components/ui/dropdown-menu&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { useOrganization } from &quot;@/contexts/OrganizationProvider&quot;;
+import { toast } from &quot;@/hooks/use-toast&quot;;
 
 export function OrganizationSwitcher() {
   const {
@@ -47,36 +47,36 @@ export function OrganizationSwitcher() {
     // Default styles if type is undefined
     if (!type) {
       return {
-        icon: <BuildingIcon className="h-4 w-4 text-gray-500" />,
-        bgColor: "bg-gray-100",
-        textColor: "text-gray-700",
+        icon: <BuildingIcon className=&quot;h-4 w-4 text-gray-500&quot; />,
+        bgColor: &quot;bg-gray-100&quot;,
+        textColor: &quot;text-gray-700&quot;,
       };
     }
 
     switch (type.toLowerCase()) {
-      case "internal":
+      case &quot;internal&quot;:
         return {
-          icon: <Building className="h-4 w-4 text-purple-500" />,
-          bgColor: "bg-purple-100",
-          textColor: "text-purple-700",
+          icon: <Building className=&quot;h-4 w-4 text-purple-500&quot; />,
+          bgColor: &quot;bg-purple-100&quot;,
+          textColor: &quot;text-purple-700&quot;,
         };
-      case "client":
+      case &quot;client&quot;:
         return {
-          icon: <Briefcase className="h-4 w-4 text-teal-500" />,
-          bgColor: "bg-teal-100",
-          textColor: "text-teal-700",
+          icon: <Briefcase className=&quot;h-4 w-4 text-teal-500&quot; />,
+          bgColor: &quot;bg-teal-100&quot;,
+          textColor: &quot;text-teal-700&quot;,
         };
-      case "partner":
+      case &quot;partner&quot;:
         return {
-          icon: <Users className="h-4 w-4 text-green-500" />,
-          bgColor: "bg-green-100",
-          textColor: "text-green-700",
+          icon: <Users className=&quot;h-4 w-4 text-green-500&quot; />,
+          bgColor: &quot;bg-green-100&quot;,
+          textColor: &quot;text-green-700&quot;,
         };
       default:
         return {
-          icon: <BuildingIcon className="h-4 w-4 text-gray-500" />,
-          bgColor: "bg-gray-100",
-          textColor: "text-gray-700",
+          icon: <BuildingIcon className=&quot;h-4 w-4 text-gray-500&quot; />,
+          bgColor: &quot;bg-gray-100&quot;,
+          textColor: &quot;text-gray-700&quot;,
         };
     }
   };
@@ -86,18 +86,18 @@ export function OrganizationSwitcher() {
     if (!tier) return null;
 
     const tierColors: Record<string, string> = {
-      "1": "bg-gray-100 text-gray-800",
-      "2": "bg-teal-100 text-teal-800",
-      "3": "bg-purple-100 text-purple-800",
+      &quot;1&quot;: &quot;bg-gray-100 text-gray-800&quot;,
+      &quot;2&quot;: &quot;bg-teal-100 text-teal-800&quot;,
+      &quot;3&quot;: &quot;bg-purple-100 text-purple-800&quot;,
     };
 
     const tierNames: Record<string, string> = {
-      "1": "Tier 1",
-      "2": "Tier 2",
-      "3": "Tier 3",
+      &quot;1&quot;: &quot;Tier 1&quot;,
+      &quot;2&quot;: &quot;Tier 2&quot;,
+      &quot;3&quot;: &quot;Tier 3&quot;,
     };
 
-    const bgColor = tierColors[tier] || "bg-gray-100 text-gray-800";
+    const bgColor = tierColors[tier] || &quot;bg-gray-100 text-gray-800&quot;;
     const name = tierNames[tier] || `Tier ${tier}`;
 
     return (
@@ -113,19 +113,19 @@ export function OrganizationSwitcher() {
       setIsSwitching(true);
       await switchOrganization(orgId);
       toast({
-        title: "Organization switched",
-        description: "Successfully switched organization context",
+        title: &quot;Organization switched&quot;,
+        description: &quot;Successfully switched organization context&quot;,
       });
       setIsOpen(false);
     } catch (error) {
-      console.error("Error switching organization:", error);
+      console.error(&quot;Error switching organization:&quot;, error);
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
           error instanceof Error
             ? error.message
-            : "Failed to switch organization",
-        variant: "destructive",
+            : &quot;Failed to switch organization&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSwitching(false);
@@ -136,13 +136,13 @@ export function OrganizationSwitcher() {
   if (isLoading) {
     return (
       <Button
-        variant="outline"
-        size="sm"
-        className="w-[240px] justify-start opacity-70"
+        variant=&quot;outline&quot;
+        size=&quot;sm&quot;
+        className=&quot;w-[240px] justify-start opacity-70&quot;
         disabled
       >
-        <div className="h-4 w-4 mr-2 rounded animate-pulse bg-muted"></div>
-        <div className="h-4 w-32 rounded animate-pulse bg-muted"></div>
+        <div className=&quot;h-4 w-4 mr-2 rounded animate-pulse bg-muted&quot;></div>
+        <div className=&quot;h-4 w-32 rounded animate-pulse bg-muted&quot;></div>
       </Button>
     );
   }
@@ -151,12 +151,12 @@ export function OrganizationSwitcher() {
   if (!currentOrganization) {
     return (
       <Button
-        variant="outline"
-        size="sm"
-        className="w-[240px] justify-start text-muted-foreground"
+        variant=&quot;outline&quot;
+        size=&quot;sm&quot;
+        className=&quot;w-[240px] justify-start text-muted-foreground&quot;
         disabled
       >
-        <Building className="mr-2 h-4 w-4" />
+        <Building className=&quot;mr-2 h-4 w-4&quot; />
         <span>No organization selected</span>
       </Button>
     );
@@ -169,13 +169,13 @@ export function OrganizationSwitcher() {
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
-          size="sm"
-          className="w-[240px] justify-start pl-3"
+          variant=&quot;outline&quot;
+          size=&quot;sm&quot;
+          className=&quot;w-[240px] justify-start pl-3&quot;
           disabled={isSwitching}
         >
-          <div className="flex items-center flex-1 space-x-2 overflow-hidden">
-            <Avatar className="h-5 w-5">
+          <div className=&quot;flex items-center flex-1 space-x-2 overflow-hidden&quot;>
+            <Avatar className=&quot;h-5 w-5&quot;>
               <AvatarImage
                 src={`https://avatar.vercel.sh/${currentOrganization.id}.png`}
                 alt={currentOrganization.name}
@@ -184,20 +184,20 @@ export function OrganizationSwitcher() {
                 {currentOrganization.name.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1 overflow-hidden">
-              <p className="text-sm font-medium truncate">
+            <div className=&quot;flex-1 overflow-hidden&quot;>
+              <p className=&quot;text-sm font-medium truncate&quot;>
                 {currentOrganization.name}
               </p>
             </div>
-            <ChevronDown className="h-4 w-4 opacity-50" />
+            <ChevronDown className=&quot;h-4 w-4 opacity-50&quot; />
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[240px]" align="start">
+      <DropdownMenuContent className=&quot;w-[240px]&quot; align=&quot;start&quot;>
         <DropdownMenuLabel>Organization Context</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
-        <div className="max-h-[300px] overflow-auto">
+        <div className=&quot;max-h-[300px] overflow-auto&quot;>
           {userOrganizations.map((org) => {
             const isActive = currentOrganization.id === org.id;
             const styles = getOrgTypeStyles(org.type);
@@ -207,10 +207,10 @@ export function OrganizationSwitcher() {
                 checked={isActive}
                 onSelect={() => handleSwitchOrg(org.id)}
                 disabled={isSwitching}
-                className="cursor-pointer"
+                className=&quot;cursor-pointer&quot;
               >
-                <div className="flex items-center w-full">
-                  <Avatar className="h-5 w-5 mr-2">
+                <div className=&quot;flex items-center w-full&quot;>
+                  <Avatar className=&quot;h-5 w-5 mr-2&quot;>
                     <AvatarImage
                       src={`https://avatar.vercel.sh/${org.id}.png`}
                       alt={org.name}
@@ -219,9 +219,9 @@ export function OrganizationSwitcher() {
                       {org.name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="flex-1 truncate">
-                    <span className="text-sm">{org.name}</span>
-                    <div className="flex items-center space-x-1 mt-0.5">
+                  <div className=&quot;flex-1 truncate&quot;>
+                    <span className=&quot;text-sm&quot;>{org.name}</span>
+                    <div className=&quot;flex items-center space-x-1 mt-0.5&quot;>
                       <span className={`text-xs ${styles.textColor}`}>
                         {org.type}
                       </span>
@@ -237,10 +237,10 @@ export function OrganizationSwitcher() {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <a
-            href="/settings/organizations"
-            className="cursor-pointer flex w-full items-center"
+            href=&quot;/settings/organizations&quot;
+            className=&quot;cursor-pointer flex w-full items-center&quot;
           >
-            <Settings className="mr-2 h-4 w-4" />
+            <Settings className=&quot;mr-2 h-4 w-4&quot; />
             <span>Manage Organizations</span>
           </a>
         </DropdownMenuItem>

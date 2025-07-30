@@ -1,7 +1,7 @@
 // Browser-compatible auth client utilities
 // This file has no server-only utilities like scrypt to avoid client-side errors
 
-import { UserRole } from "./schema";
+import { UserRole } from &quot;./schema&quot;;
 
 // We only export the interface and not the implementation
 export interface JwtPayload {

@@ -9,7 +9,7 @@
  * @since Phase 7 Implementation
  */
 
-import { PlatformKPIs, TimePeriod } from "../models";
+import { PlatformKPIs, TimePeriod } from &quot;../models&quot;;
 
 export class MetricsCalculator {
   /**
@@ -30,19 +30,19 @@ export class MetricsCalculator {
         activeUsers: {
           daily: await this.calculateActiveUsers(
             organizationId,
-            "daily",
+            &quot;daily&quot;,
             startDate,
             endDate,
           ),
           weekly: await this.calculateActiveUsers(
             organizationId,
-            "weekly",
+            &quot;weekly&quot;,
             startDate,
             endDate,
           ),
           monthly: await this.calculateActiveUsers(
             organizationId,
-            "monthly",
+            &quot;monthly&quot;,
             startDate,
             endDate,
           ),
@@ -125,8 +125,8 @@ export class MetricsCalculator {
 
       return kpis;
     } catch (error) {
-      console.error("Error calculating platform KPIs:", error);
-      throw new Error("Failed to calculate platform KPIs");
+      console.error(&quot;Error calculating platform KPIs:&quot;, error);
+      throw new Error(&quot;Failed to calculate platform KPIs&quot;);
     }
   }
 
@@ -135,14 +135,14 @@ export class MetricsCalculator {
    */
   private async calculateActiveUsers(
     organizationId: string,
-    period: "daily" | "weekly" | "monthly",
+    period: &quot;daily&quot; | &quot;weekly&quot; | &quot;monthly&quot;,
     startDate: Date,
     endDate: Date,
   ): Promise<number> {
     // Placeholder calculation - would query user activity data
     const baseValue = 100;
     const periodMultiplier =
-      period === "daily" ? 1 : period === "weekly" ? 7 : 30;
+      period === &quot;daily&quot; ? 1 : period === &quot;weekly&quot; ? 7 : 30;
     return Math.floor(baseValue * periodMultiplier * Math.random());
   }
 

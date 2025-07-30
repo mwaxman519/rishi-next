@@ -4,8 +4,8 @@
  * Aligned with platform architecture patterns
  */
 
-import { LocationRepository } from "./repository";
-import { locationEventPublisher } from "./events";
+import { LocationRepository } from &quot;./repository&quot;;
+import { locationEventPublisher } from &quot;./events&quot;;
 import {
   LocationDTO,
   CreateLocationParams,
@@ -15,7 +15,7 @@ import {
   createLocationSchema,
   updateLocationSchema,
   LocationStatus,
-} from "./models";
+} from &quot;./models&quot;;
 
 export interface ServiceResponse<T> {
   success: boolean;
@@ -56,11 +56,11 @@ export class LocationsService {
         data: locations,
       };
     } catch (error) {
-      console.error("LocationsService.getAllLocations error:", error);
+      console.error(&quot;LocationsService.getAllLocations error:&quot;, error);
       return {
         success: false,
-        error: "Failed to get locations",
-        code: "GET_LOCATIONS_FAILED",
+        error: &quot;Failed to get locations&quot;,
+        code: &quot;GET_LOCATIONS_FAILED&quot;,
       };
     }
   }
@@ -80,8 +80,8 @@ export class LocationsService {
       if (!location) {
         return {
           success: false,
-          error: "Location not found",
-          code: "NOT_FOUND",
+          error: &quot;Location not found&quot;,
+          code: &quot;NOT_FOUND&quot;,
         };
       }
 
@@ -96,8 +96,8 @@ export class LocationsService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;ACCESS_DENIED&quot;,
         };
       }
 
@@ -112,8 +112,8 @@ export class LocationsService {
       );
       return {
         success: false,
-        error: "Failed to get location",
-        code: "GET_LOCATION_FAILED",
+        error: &quot;Failed to get location&quot;,
+        code: &quot;GET_LOCATION_FAILED&quot;,
       };
     }
   }
@@ -149,11 +149,11 @@ export class LocationsService {
         data: location,
       };
     } catch (error) {
-      console.error("LocationsService.createLocation error:", error);
+      console.error(&quot;LocationsService.createLocation error:&quot;, error);
       return {
         success: false,
-        error: "Failed to create location",
-        code: "CREATE_FAILED",
+        error: &quot;Failed to create location&quot;,
+        code: &quot;CREATE_FAILED&quot;,
       };
     }
   }
@@ -174,8 +174,8 @@ export class LocationsService {
       if (!existingLocation) {
         return {
           success: false,
-          error: "Location not found",
-          code: "NOT_FOUND",
+          error: &quot;Location not found&quot;,
+          code: &quot;NOT_FOUND&quot;,
         };
       }
 
@@ -190,8 +190,8 @@ export class LocationsService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;ACCESS_DENIED&quot;,
         };
       }
 
@@ -220,8 +220,8 @@ export class LocationsService {
       );
       return {
         success: false,
-        error: "Failed to update location",
-        code: "UPDATE_FAILED",
+        error: &quot;Failed to update location&quot;,
+        code: &quot;UPDATE_FAILED&quot;,
       };
     }
   }
@@ -241,8 +241,8 @@ export class LocationsService {
       if (!existingLocation) {
         return {
           success: false,
-          error: "Location not found",
-          code: "NOT_FOUND",
+          error: &quot;Location not found&quot;,
+          code: &quot;NOT_FOUND&quot;,
         };
       }
 
@@ -257,8 +257,8 @@ export class LocationsService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;ACCESS_DENIED&quot;,
         };
       }
 
@@ -283,8 +283,8 @@ export class LocationsService {
       );
       return {
         success: false,
-        error: "Failed to delete location",
-        code: "DELETE_FAILED",
+        error: &quot;Failed to delete location&quot;,
+        code: &quot;DELETE_FAILED&quot;,
       };
     }
   }
@@ -303,8 +303,8 @@ export class LocationsService {
       if (!this.hasApprovalPermissions(userRole)) {
         return {
           success: false,
-          error: "Insufficient permissions for approval",
-          code: "APPROVAL_PERMISSION_DENIED",
+          error: &quot;Insufficient permissions for approval&quot;,
+          code: &quot;APPROVAL_PERMISSION_DENIED&quot;,
         };
       }
 
@@ -315,8 +315,8 @@ export class LocationsService {
       if (!existingLocation) {
         return {
           success: false,
-          error: "Location not found",
-          code: "NOT_FOUND",
+          error: &quot;Location not found&quot;,
+          code: &quot;NOT_FOUND&quot;,
         };
       }
 
@@ -324,8 +324,8 @@ export class LocationsService {
       if (existingLocation.status !== LocationStatus.PENDING_APPROVAL) {
         return {
           success: false,
-          error: "Location is not in a state that can be approved",
-          code: "INVALID_STATE_FOR_APPROVAL",
+          error: &quot;Location is not in a state that can be approved&quot;,
+          code: &quot;INVALID_STATE_FOR_APPROVAL&quot;,
         };
       }
 
@@ -352,11 +352,11 @@ export class LocationsService {
         data: updatedLocation,
       };
     } catch (error) {
-      console.error("LocationsService.approveLocation error:", error);
+      console.error(&quot;LocationsService.approveLocation error:&quot;, error);
       return {
         success: false,
-        error: "Failed to approve location",
-        code: "APPROVAL_FAILED",
+        error: &quot;Failed to approve location&quot;,
+        code: &quot;APPROVAL_FAILED&quot;,
       };
     }
   }
@@ -375,8 +375,8 @@ export class LocationsService {
       if (!this.hasApprovalPermissions(userRole)) {
         return {
           success: false,
-          error: "Insufficient permissions for rejection",
-          code: "REJECTION_PERMISSION_DENIED",
+          error: &quot;Insufficient permissions for rejection&quot;,
+          code: &quot;REJECTION_PERMISSION_DENIED&quot;,
         };
       }
 
@@ -387,8 +387,8 @@ export class LocationsService {
       if (!existingLocation) {
         return {
           success: false,
-          error: "Location not found",
-          code: "NOT_FOUND",
+          error: &quot;Location not found&quot;,
+          code: &quot;NOT_FOUND&quot;,
         };
       }
 
@@ -417,11 +417,11 @@ export class LocationsService {
         data: updatedLocation,
       };
     } catch (error) {
-      console.error("LocationsService.rejectLocation error:", error);
+      console.error(&quot;LocationsService.rejectLocation error:&quot;, error);
       return {
         success: false,
-        error: "Failed to reject location",
-        code: "REJECTION_FAILED",
+        error: &quot;Failed to reject location&quot;,
+        code: &quot;REJECTION_FAILED&quot;,
       };
     }
   }
@@ -436,7 +436,7 @@ export class LocationsService {
     organizationId: string,
   ): Record<string, any> {
     switch (userRole) {
-      case "brand_agent":
+      case &quot;brand_agent&quot;:
         // Brand agents can only see approved locations in their organization
         return {
           ...filters,
@@ -444,15 +444,15 @@ export class LocationsService {
           status: LocationStatus.APPROVED,
         };
 
-      case "internal_field_manager":
-      case "organization_admin":
+      case &quot;internal_field_manager&quot;:
+      case &quot;organization_admin&quot;:
         // Field managers and org admins can see organization locations
         return {
           ...filters,
           organizationId,
         };
 
-      case "super_admin":
+      case &quot;super_admin&quot;:
         // Super admins can see all locations
         return filters;
 
@@ -476,16 +476,16 @@ export class LocationsService {
     organizationId: string,
   ): boolean {
     switch (userRole) {
-      case "brand_agent":
+      case &quot;brand_agent&quot;:
         // Brand agents can only access approved locations in their organization
         return location.status === LocationStatus.APPROVED;
 
-      case "internal_field_manager":
-      case "organization_admin":
+      case &quot;internal_field_manager&quot;:
+      case &quot;organization_admin&quot;:
         // Field managers and org admins can access organization locations
         return true;
 
-      case "super_admin":
+      case &quot;super_admin&quot;:
         return true;
 
       default:
@@ -498,9 +498,9 @@ export class LocationsService {
    */
   private hasApprovalPermissions(userRole: string): boolean {
     return [
-      "internal_field_manager",
-      "organization_admin",
-      "super_admin",
+      &quot;internal_field_manager&quot;,
+      &quot;organization_admin&quot;,
+      &quot;super_admin&quot;,
     ].includes(userRole);
   }
 }

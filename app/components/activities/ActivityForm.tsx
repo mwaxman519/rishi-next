@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { format } from "date-fns";
-import { CalendarIcon, Clock, MapPin, Plus, X } from "lucide-react";
+import { useState, useEffect } from &quot;react&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { format } from &quot;date-fns&quot;;
+import { CalendarIcon, Clock, MapPin, Plus, X } from &quot;lucide-react&quot;;
 
-import { Button } from "@/components/ui/button";
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Form,
   FormControl,
@@ -14,17 +14,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { Calendar } from &quot;@/components/ui/calendar&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from &quot;@/components/ui/select&quot;;
 import {
   Card,
   CardContent,
@@ -32,18 +32,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from &quot;@/components/ui/card&quot;;
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+} from &quot;@/components/ui/popover&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
 import {
   insertActivitySchema,
   InsertActivity,
   DEFAULT_ACTIVITY_TYPES,
-} from "@shared/schema";
+} from &quot;@shared/schema&quot;;
 
 // Extend the insert schema with additional validation
 const activityFormSchema = insertActivitySchema.extend({
@@ -51,7 +51,7 @@ const activityFormSchema = insertActivitySchema.extend({
   endTime: z.string().optional(),
   // Ensure dates are valid Date objects
   date: z.date({
-    required_error: "A date is required",
+    required_error: &quot;A date is required&quot;,
   }),
 });
 
@@ -80,13 +80,13 @@ export function ActivityForm({
   const form = useForm<ActivityFormValues>({
     resolver: zodResolver(activityFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: "&quot;,
+      description: &quot;&quot;,
       eventId,
-      locationId: locationId || "",
-      typeId: "",
-      startTime: "09:00",
-      endTime: "17:00",
+      locationId: locationId || &quot;&quot;,
+      typeId: &quot;&quot;,
+      startTime: &quot;09:00&quot;,
+      endTime: &quot;17:00&quot;,
       date: new Date(),
     },
   });
@@ -100,9 +100,9 @@ export function ActivityForm({
       const { date, startTime, endTime, ...rest } = values;
 
       // Create ISO date strings
-      const dateStr = format(date, "yyyy-MM-dd");
-      const startDateTimeStr = `${dateStr}T${startTime || "00:00"}:00`;
-      const endDateTimeStr = `${dateStr}T${endTime || "23:59"}:00`;
+      const dateStr = format(date, &quot;yyyy-MM-dd&quot;);
+      const startDateTimeStr = `${dateStr}T${startTime || &quot;00:00&quot;}:00`;
+      const endDateTimeStr = `${dateStr}T${endTime || &quot;23:59&quot;}:00`;
 
       // Create the activity data to save
       const activityData: InsertActivity = {
@@ -113,30 +113,30 @@ export function ActivityForm({
 
       onSave(activityData);
     } catch (error) {
-      console.error("Error saving activity:", error);
+      console.error(&quot;Error saving activity:&quot;, error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Card className="w-full">
+    <Card className=&quot;w-full&quot;>
       <CardHeader>
         <CardTitle>Add Activity</CardTitle>
         <CardDescription>Create a new activity for this event</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-6&quot;>
             {/* Activity Title */}
             <FormField
               control={form.control}
-              name="title"
+              name=&quot;title&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Activity Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter activity title" {...field} />
+                    <Input placeholder=&quot;Enter activity title&quot; {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -146,7 +146,7 @@ export function ActivityForm({
             {/* Activity Type */}
             <FormField
               control={form.control}
-              name="typeId"
+              name=&quot;typeId&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Activity Type</FormLabel>
@@ -156,7 +156,7 @@ export function ActivityForm({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select activity type" />
+                        <SelectValue placeholder=&quot;Select activity type&quot; />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -173,36 +173,36 @@ export function ActivityForm({
             />
 
             {/* Date and Time */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
               {/* Date */}
               <FormField
                 control={form.control}
-                name="date"
+                name=&quot;date&quot;
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem className=&quot;flex flex-col&quot;>
                     <FormLabel>Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
+                            variant={&quot;outline&quot;}
                             className={cn(
-                              "w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground",
+                              &quot;w-full pl-3 text-left font-normal&quot;,
+                              !field.value && &quot;text-muted-foreground&quot;,
                             )}
                           >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, &quot;PPP&quot;)
                             ) : (
                               <span>Pick a date</span>
                             )}
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
                         <Calendar
-                          mode="single"
+                          mode=&quot;single&quot;
                           selected={field.value}
                           onSelect={field.onChange}
                           initialFocus
@@ -215,29 +215,29 @@ export function ActivityForm({
               />
 
               {/* Time range */}
-              <div className="flex items-center space-x-2">
+              <div className=&quot;flex items-center space-x-2&quot;>
                 <FormField
                   control={form.control}
-                  name="startTime"
+                  name=&quot;startTime&quot;
                   render={({ field }) => (
-                    <FormItem className="flex-1">
+                    <FormItem className=&quot;flex-1&quot;>
                       <FormLabel>Start Time</FormLabel>
                       <FormControl>
-                        <Input type="time" {...field} />
+                        <Input type=&quot;time&quot; {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <span className="mt-8">-</span>
+                <span className=&quot;mt-8&quot;>-</span>
                 <FormField
                   control={form.control}
-                  name="endTime"
+                  name=&quot;endTime&quot;
                   render={({ field }) => (
-                    <FormItem className="flex-1">
+                    <FormItem className=&quot;flex-1&quot;>
                       <FormLabel>End Time</FormLabel>
                       <FormControl>
-                        <Input type="time" {...field} />
+                        <Input type=&quot;time&quot; {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -250,7 +250,7 @@ export function ActivityForm({
             {!locationId && (
               <FormField
                 control={form.control}
-                name="locationId"
+                name=&quot;locationId&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Location</FormLabel>
@@ -260,13 +260,13 @@ export function ActivityForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select location" />
+                          <SelectValue placeholder=&quot;Select location&quot; />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {/* Location options would go here */}
-                        <SelectItem value="location-1">Location 1</SelectItem>
-                        <SelectItem value="location-2">Location 2</SelectItem>
+                        <SelectItem value=&quot;location-1&quot;>Location 1</SelectItem>
+                        <SelectItem value=&quot;location-2&quot;>Location 2</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -278,13 +278,13 @@ export function ActivityForm({
             {/* Description */}
             <FormField
               control={form.control}
-              name="description"
+              name=&quot;description&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter activity details"
+                      placeholder=&quot;Enter activity details&quot;
                       {...field}
                       rows={3}
                     />
@@ -295,17 +295,17 @@ export function ActivityForm({
             />
 
             {/* Submit and Cancel Buttons */}
-            <div className="flex justify-end space-x-2">
+            <div className=&quot;flex justify-end space-x-2&quot;>
               <Button
-                type="button"
-                variant="outline"
+                type=&quot;button&quot;
+                variant=&quot;outline&quot;
                 onClick={onCancel}
                 disabled={isSubmitting}
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving..." : "Save Activity"}
+              <Button type=&quot;submit&quot; disabled={isSubmitting}>
+                {isSubmitting ? &quot;Saving...&quot; : &quot;Save Activity"}
               </Button>
             </div>
           </form>

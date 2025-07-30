@@ -4,8 +4,8 @@
  * Aligned with platform architecture patterns
  */
 
-import { ExpenseRepository } from "./repository";
-import { expenseEventPublisher } from "./events";
+import { ExpenseRepository } from &quot;./repository&quot;;
+import { expenseEventPublisher } from &quot;./events&quot;;
 import {
   ExpenseSubmissionSchema,
   ExpenseUpdateSchema,
@@ -18,7 +18,7 @@ import {
   type ExpenseFilters,
   type ExpenseSummary,
   type ServiceResponse,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class ExpenseService {
   private repository: ExpenseRepository;
@@ -42,9 +42,9 @@ export class ExpenseService {
       // Create expense record
       const expenseData = {
         ...validatedData,
-        status: "submitted" as const,
+        status: &quot;submitted&quot; as const,
         submittedAt: new Date(),
-        currency: validatedData.currency || "USD",
+        currency: validatedData.currency || &quot;USD&quot;,
       };
 
       const result = await this.repository.create(expenseData);
@@ -62,11 +62,11 @@ export class ExpenseService {
 
       return result;
     } catch (error) {
-      console.error("[ExpenseService] Error submitting expense:", error);
+      console.error(&quot;[ExpenseService] Error submitting expense:&quot;, error);
       return {
         success: false,
-        error: "Failed to submit expense",
-        code: "SUBMISSION_FAILED",
+        error: &quot;Failed to submit expense&quot;,
+        code: &quot;SUBMISSION_FAILED&quot;,
       };
     }
   }
@@ -83,8 +83,8 @@ export class ExpenseService {
       // For drafts, make validation more lenient
       const expenseData = {
         ...submission,
-        status: "draft" as const,
-        currency: submission.currency || "USD",
+        status: &quot;draft&quot; as const,
+        currency: submission.currency || &quot;USD&quot;,
       };
 
       const result = await this.repository.create(expenseData);
@@ -96,11 +96,11 @@ export class ExpenseService {
       // No events published for drafts
       return result;
     } catch (error) {
-      console.error("[ExpenseService] Error saving draft:", error);
+      console.error(&quot;[ExpenseService] Error saving draft:&quot;, error);
       return {
         success: false,
-        error: "Failed to save draft",
-        code: "DRAFT_SAVE_FAILED",
+        error: &quot;Failed to save draft&quot;,
+        code: &quot;DRAFT_SAVE_FAILED&quot;,
       };
     }
   }
@@ -137,11 +137,11 @@ export class ExpenseService {
 
       return await this.repository.findMany(accessControlledFilters);
     } catch (error) {
-      console.error("[ExpenseService] Error getting expenses:", error);
+      console.error(&quot;[ExpenseService] Error getting expenses:&quot;, error);
       return {
         success: false,
-        error: "Failed to get expenses",
-        code: "GET_EXPENSES_FAILED",
+        error: &quot;Failed to get expenses&quot;,
+        code: &quot;GET_EXPENSES_FAILED&quot;,
       };
     }
   }
@@ -173,18 +173,18 @@ export class ExpenseService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;ACCESS_DENIED&quot;,
         };
       }
 
       return result;
     } catch (error) {
-      console.error("[ExpenseService] Error getting expense by ID:", error);
+      console.error(&quot;[ExpenseService] Error getting expense by ID:&quot;, error);
       return {
         success: false,
-        error: "Failed to get expense",
-        code: "GET_EXPENSE_FAILED",
+        error: &quot;Failed to get expense&quot;,
+        code: &quot;GET_EXPENSE_FAILED&quot;,
       };
     }
   }
@@ -219,8 +219,8 @@ export class ExpenseService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;ACCESS_DENIED&quot;,
         };
       }
 
@@ -244,11 +244,11 @@ export class ExpenseService {
 
       return result;
     } catch (error) {
-      console.error("[ExpenseService] Error updating expense:", error);
+      console.error(&quot;[ExpenseService] Error updating expense:&quot;, error);
       return {
         success: false,
-        error: "Failed to update expense",
-        code: "UPDATE_FAILED",
+        error: &quot;Failed to update expense&quot;,
+        code: &quot;UPDATE_FAILED&quot;,
       };
     }
   }
@@ -270,8 +270,8 @@ export class ExpenseService {
       if (!this.hasApprovalPermissions(userRole)) {
         return {
           success: false,
-          error: "Insufficient permissions for approval",
-          code: "APPROVAL_PERMISSION_DENIED",
+          error: &quot;Insufficient permissions for approval&quot;,
+          code: &quot;APPROVAL_PERMISSION_DENIED&quot;,
         };
       }
 
@@ -286,19 +286,19 @@ export class ExpenseService {
       const existingExpense = existingResult.data;
 
       // Check if expense can be approved
-      if (existingExpense.status !== "submitted") {
+      if (existingExpense.status !== &quot;submitted&quot;) {
         return {
           success: false,
-          error: "Expense is not in a state that can be approved",
-          code: "INVALID_STATE_FOR_APPROVAL",
+          error: &quot;Expense is not in a state that can be approved&quot;,
+          code: &quot;INVALID_STATE_FOR_APPROVAL&quot;,
         };
       }
 
       // Prepare update data
       const updateData = {
         status: validatedApproval.approved
-          ? ("approved" as const)
-          : ("rejected" as const),
+          ? (&quot;approved&quot; as const)
+          : (&quot;rejected&quot; as const),
         approvedBy: approverUserId,
         approvedAt: new Date(),
         rejectionReason: validatedApproval.approved
@@ -327,18 +327,18 @@ export class ExpenseService {
         await expenseEventPublisher.publishExpenseRejected(
           result.data,
           approverUserId,
-          validatedApproval.rejectionReason || "No reason provided",
+          validatedApproval.rejectionReason || &quot;No reason provided&quot;,
           organizationId,
         );
       }
 
       return result;
     } catch (error) {
-      console.error("[ExpenseService] Error processing approval:", error);
+      console.error(&quot;[ExpenseService] Error processing approval:&quot;, error);
       return {
         success: false,
-        error: "Failed to process approval",
-        code: "APPROVAL_PROCESSING_FAILED",
+        error: &quot;Failed to process approval&quot;,
+        code: &quot;APPROVAL_PROCESSING_FAILED&quot;,
       };
     }
   }
@@ -358,8 +358,8 @@ export class ExpenseService {
       if (!existingResult.success || !existingResult.data) {
         return {
           success: false,
-          error: "Expense not found",
-          code: "NOT_FOUND",
+          error: &quot;Expense not found&quot;,
+          code: &quot;NOT_FOUND&quot;,
         };
       }
 
@@ -376,20 +376,20 @@ export class ExpenseService {
       ) {
         return {
           success: false,
-          error: "Access denied",
-          code: "ACCESS_DENIED",
+          error: &quot;Access denied&quot;,
+          code: &quot;ACCESS_DENIED&quot;,
         };
       }
 
       // Check if expense can be deleted
       if (
-        existingExpense.status === "approved" ||
-        existingExpense.status === "paid"
+        existingExpense.status === &quot;approved&quot; ||
+        existingExpense.status === &quot;paid&quot;
       ) {
         return {
           success: false,
-          error: "Cannot delete approved or paid expenses",
-          code: "INVALID_STATE_FOR_DELETION",
+          error: &quot;Cannot delete approved or paid expenses&quot;,
+          code: &quot;INVALID_STATE_FOR_DELETION&quot;,
         };
       }
 
@@ -409,11 +409,11 @@ export class ExpenseService {
 
       return result;
     } catch (error) {
-      console.error("[ExpenseService] Error deleting expense:", error);
+      console.error(&quot;[ExpenseService] Error deleting expense:&quot;, error);
       return {
         success: false,
-        error: "Failed to delete expense",
-        code: "DELETE_FAILED",
+        error: &quot;Failed to delete expense&quot;,
+        code: &quot;DELETE_FAILED&quot;,
       };
     }
   }
@@ -437,11 +437,11 @@ export class ExpenseService {
 
       return await this.repository.getSummary(accessControlledFilters);
     } catch (error) {
-      console.error("[ExpenseService] Error getting expense summary:", error);
+      console.error(&quot;[ExpenseService] Error getting expense summary:&quot;, error);
       return {
         success: false,
-        error: "Failed to get expense summary",
-        code: "SUMMARY_FAILED",
+        error: &quot;Failed to get expense summary&quot;,
+        code: &quot;SUMMARY_FAILED&quot;,
       };
     }
   }
@@ -469,11 +469,11 @@ export class ExpenseService {
         },
       };
     } catch (error) {
-      console.error("[ExpenseService] Error calculating mileage:", error);
+      console.error(&quot;[ExpenseService] Error calculating mileage:&quot;, error);
       return {
         success: false,
-        error: "Failed to calculate mileage",
-        code: "MILEAGE_CALCULATION_FAILED",
+        error: &quot;Failed to calculate mileage&quot;,
+        code: &quot;MILEAGE_CALCULATION_FAILED&quot;,
       };
     }
   }
@@ -487,20 +487,20 @@ export class ExpenseService {
     userRole: string,
   ): ExpenseFilters {
     switch (userRole) {
-      case "brand_agent":
+      case &quot;brand_agent&quot;:
         // Brand agents can only see their own expenses
         return {
           ...filters,
           agentId: requestingUserId,
         };
 
-      case "internal_field_manager":
-      case "organization_admin":
+      case &quot;internal_field_manager&quot;:
+      case &quot;organization_admin&quot;:
         // Field managers and org admins can see organization expenses
         // organizationId filter is already applied
         return filters;
 
-      case "super_admin":
+      case &quot;super_admin&quot;:
         // Super admins can see all expenses
         return filters;
 
@@ -523,15 +523,15 @@ export class ExpenseService {
     organizationId: string,
   ): boolean {
     switch (userRole) {
-      case "brand_agent":
+      case &quot;brand_agent&quot;:
         return expense.agentId === requestingUserId;
 
-      case "internal_field_manager":
-      case "organization_admin":
+      case &quot;internal_field_manager&quot;:
+      case &quot;organization_admin&quot;:
         // Would need to check organization membership in real implementation
         return true;
 
-      case "super_admin":
+      case &quot;super_admin&quot;:
         return true;
 
       default:
@@ -544,9 +544,9 @@ export class ExpenseService {
    */
   private hasApprovalPermissions(userRole: string): boolean {
     return [
-      "internal_field_manager",
-      "organization_admin",
-      "super_admin",
+      &quot;internal_field_manager&quot;,
+      &quot;organization_admin&quot;,
+      &quot;super_admin&quot;,
     ].includes(userRole);
   }
 }

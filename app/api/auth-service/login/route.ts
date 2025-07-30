@@ -1,31 +1,31 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Login API for Auth Microservice
  *
  * Handles user authentication.
  */
-import { NextRequest } from "next/server";
-import { z } from "zod";
-import { createToken } from "../utils/jwt";
-import { comparePasswords } from "../utils/password";
+import { NextRequest } from &quot;next/server&quot;;
+import { z } from &quot;zod&quot;;
+import { createToken } from &quot;../utils/jwt&quot;;
+import { comparePasswords } from &quot;../utils/password&quot;;
 import {
   errorResponse,
   responseWithAuthCookie,
   successResponse,
-} from "../utils/response";
+} from &quot;../utils/response&quot;;
 import {
   getUserByUsername,
   getUserOrganizations,
-} from "../models/user-repository";
-import { AUTH_CONFIG } from "../config";
+} from &quot;../models/user-repository&quot;;
+import { AUTH_CONFIG } from &quot;../config&quot;;
 
 // Login request schema
 const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
+  username: z.string().min(1, &quot;Username is required&quot;),
+  password: z.string().min(1, &quot;Password is required&quot;),
 });
 
 /**
@@ -34,42 +34,42 @@ const loginSchema = z.object({
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log("[Auth Service] Login attempt");
+    console.log(&quot;[Auth Service] Login attempt&quot;);
 
     // Development mode bypass
     if (AUTH_CONFIG.DEV_MODE) {
       const urlParams = new URL(request.url).searchParams;
-      if (urlParams.get("dev_mode") === "true") {
+      if (urlParams.get(&quot;dev_mode&quot;) === &quot;true&quot;) {
         console.log(
-          "[Auth Service] DEVELOPMENT MODE: Simulating successful login",
+          &quot;[Auth Service] DEVELOPMENT MODE: Simulating successful login&quot;,
         );
 
         // Create a token for the mock user
-        const token = await createToken("00000000-0000-0000-0000-000000000001");
+        const token = await createToken(&quot;00000000-0000-0000-0000-000000000001&quot;);
 
         return responseWithAuthCookie(
           {
             user: {
-              id: "00000000-0000-0000-0000-000000000001",
-              username: "admin",
-              email: "admin@example.com",
-              fullName: "Admin User",
-              role: "super_admin",
-              roles: ["SUPER_ADMIN"],
+              id: &quot;00000000-0000-0000-0000-000000000001&quot;,
+              username: &quot;admin&quot;,
+              email: &quot;admin@example.com&quot;,
+              fullName: &quot;Admin User&quot;,
+              role: &quot;super_admin&quot;,
+              roles: [&quot;SUPER_ADMIN&quot;],
               organizations: [
                 {
-                  orgId: "00000000-0000-0000-0000-000000000001",
-                  orgName: "Rishi Internal",
-                  orgType: "internal",
-                  role: "super_admin",
+                  orgId: &quot;00000000-0000-0000-0000-000000000001&quot;,
+                  orgName: &quot;Rishi Internal&quot;,
+                  orgType: &quot;internal&quot;,
+                  role: &quot;super_admin&quot;,
                   isDefault: true,
                 },
               ],
               currentOrganization: {
-                orgId: "00000000-0000-0000-0000-000000000001",
-                orgName: "Rishi Internal",
-                orgType: "internal",
-                role: "super_admin",
+                orgId: &quot;00000000-0000-0000-0000-000000000001&quot;,
+                orgName: &quot;Rishi Internal&quot;,
+                orgType: &quot;internal&quot;,
+                role: &quot;super_admin&quot;,
                 isDefault: true,
               },
             },
@@ -84,17 +84,17 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json();
     } catch (parseError) {
-      console.error("[Auth Service] JSON parse error:", parseError);
-      return errorResponse("Invalid request format", 400, "VALIDATION_ERROR");
+      console.error(&quot;[Auth Service] JSON parse error:&quot;, parseError);
+      return errorResponse(&quot;Invalid request format&quot;, 400, &quot;VALIDATION_ERROR&quot;);
     }
 
     // Validate login data
     const result = loginSchema.safeParse(body);
     if (!result.success) {
       return errorResponse(
-        "Invalid login data",
+        &quot;Invalid login data&quot;,
         400,
-        "VALIDATION_ERROR",
+        &quot;VALIDATION_ERROR&quot;,
         result.error.issues,
       );
     }
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       console.log(`[Auth Service] User not found: ${username}`);
-      return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
+      return errorResponse(&quot;Invalid username or password&quot;, 401, &quot;AUTH_ERROR&quot;);
     }
 
     console.log(`[Auth Service] User found: ${username}, role: ${user.role}`);
@@ -138,16 +138,16 @@ export async function POST(request: NextRequest) {
         `[Auth Service] Password verification error for ${username}:`,
         passwordError,
       );
-      return errorResponse("Authentication error", 401, "AUTH_ERROR");
+      return errorResponse(&quot;Authentication error&quot;, 401, &quot;AUTH_ERROR&quot;);
     }
 
     if (!validPassword) {
-      return errorResponse("Invalid username or password", 401, "AUTH_ERROR");
+      return errorResponse(&quot;Invalid username or password&quot;, 401, &quot;AUTH_ERROR&quot;);
     }
 
     // Check if user is active
     if (!user.active) {
-      return errorResponse("Account is disabled", 403, "ACCOUNT_DISABLED");
+      return errorResponse(&quot;Account is disabled&quot;, 403, &quot;ACCOUNT_DISABLED&quot;);
     }
 
     // Get user organizations
@@ -160,12 +160,12 @@ export async function POST(request: NextRequest) {
       );
 
       // Create a default organization based on the user's role
-      if (user.role === "super_admin" || user.role === "admin") {
+      if (user.role === &quot;super_admin&quot; || user.role === &quot;admin&quot;) {
         userOrgs = [
           {
-            orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-            orgName: "Rishi Internal",
-            orgType: "internal",
+            orgId: &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;,
+            orgName: &quot;Rishi Internal&quot;,
+            orgType: &quot;internal&quot;,
             role: user.role,
             isPrimary: true,
           },
@@ -173,10 +173,10 @@ export async function POST(request: NextRequest) {
       } else {
         userOrgs = [
           {
-            orgId: "00000000-0000-0000-0000-000000000002",
-            orgName: "Default Organization",
-            orgType: "client",
-            role: user.role || "brand_agent",
+            orgId: &quot;00000000-0000-0000-0000-000000000002&quot;,
+            orgName: &quot;Default Organization&quot;,
+            orgType: &quot;client&quot;,
+            role: user.role || &quot;brand_agent&quot;,
             isPrimary: true,
           },
         ];
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
       username: user.username,
       email: user.email || null,
       fullName: user.fullName || null,
-      role: user.role || "brand_agent",
+      role: user.role || &quot;brand_agent&quot;,
       active: Boolean(user.active !== false),
     };
 
@@ -217,13 +217,13 @@ export async function POST(request: NextRequest) {
       token,
     );
   } catch (error) {
-    console.error("[Auth Service] Login error:", error);
+    console.error(&quot;[Auth Service] Login error:&quot;, error);
 
     return errorResponse(
-      "Authentication failed",
+      &quot;Authentication failed&quot;,
       500,
-      "SERVER_ERROR",
-      process.env.NODE_ENV === "development" ? String(error) : undefined,
+      &quot;SERVER_ERROR&quot;,
+      process.env.NODE_ENV === &quot;development&quot; ? String(error) : undefined,
     );
   }
 }

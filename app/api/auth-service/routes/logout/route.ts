@@ -1,18 +1,18 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Logout API for Auth Microservice
  *
  * Handles user logout by clearing authentication cookies.
  */
-import { NextRequest } from "next/server";
+import { NextRequest } from &quot;next/server&quot;;
 import {
   errorResponse,
   responseWithClearAuthCookie,
-} from "../../utils/response";
-import { AUTH_CONFIG } from "../../config";
+} from &quot;../../utils/response&quot;;
+import { AUTH_CONFIG } from &quot;../../config&quot;;
 
 /**
  * Handle POST /api/auth-service/routes/logout
@@ -20,36 +20,36 @@ import { AUTH_CONFIG } from "../../config";
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log("[Auth Service] Logout request");
+    console.log(&quot;[Auth Service] Logout request&quot;);
 
     // Development mode option
     if (AUTH_CONFIG.DEV_MODE) {
       const urlParams = new URL(request.url).searchParams;
-      const devModeParam = urlParams.get("dev_mode");
+      const devModeParam = urlParams.get(&quot;dev_mode&quot;);
 
-      if (devModeParam === "true") {
+      if (devModeParam === &quot;true&quot;) {
         console.log(
-          "[Auth Service] DEVELOPMENT MODE: Simulating successful logout",
+          &quot;[Auth Service] DEVELOPMENT MODE: Simulating successful logout&quot;,
         );
 
         return responseWithClearAuthCookie({
-          message: "Successfully logged out",
+          message: &quot;Successfully logged out&quot;,
         });
       }
     }
 
     // For real logout, just clear the auth cookie
     return responseWithClearAuthCookie({
-      message: "Successfully logged out",
+      message: &quot;Successfully logged out&quot;,
     });
   } catch (error) {
-    console.error("[Auth Service] Logout error:", error);
+    console.error(&quot;[Auth Service] Logout error:&quot;, error);
 
     return errorResponse(
-      "Logout failed",
+      &quot;Logout failed&quot;,
       500,
-      "SERVER_ERROR",
-      process.env.NODE_ENV === "development" ? String(error) : undefined,
+      &quot;SERVER_ERROR&quot;,
+      process.env.NODE_ENV === &quot;development&quot; ? String(error) : undefined,
     );
   }
 }

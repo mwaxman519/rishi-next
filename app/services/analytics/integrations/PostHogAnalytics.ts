@@ -15,7 +15,7 @@ export class PostHogAnalytics {
   constructor() {
     // PostHog will be initialized when needed
     this.isEnabled =
-      process.env.NODE_ENV === "production" && !!process.env.POSTHOG_API_KEY;
+      process.env.NODE_ENV === &quot;production&quot; && !!process.env.POSTHOG_API_KEY;
   }
 
   /**

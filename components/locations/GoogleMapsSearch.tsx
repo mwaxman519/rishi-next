@@ -1,29 +1,29 @@
-"use client";
+&quot;use client&quot;;
 
-import { useRef, useState, useEffect, useCallback } from "react";
-import { Loader2, MapPin, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { useStates } from "@/hooks/useStates";
+import { useRef, useState, useEffect, useCallback } from &quot;react&quot;;
+import { Loader2, MapPin, Search } from &quot;lucide-react&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Card, CardContent } from &quot;@/components/ui/card&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useStates } from &quot;@/hooks/useStates&quot;;
 import {
   GoogleMap,
   useJsApiLoader,
   Marker,
   Autocomplete,
-} from "@react-google-maps/api";
+} from &quot;@react-google-maps/api&quot;;
 
 // Default map center (United States)
 const DEFAULT_CENTER = { lat: 37.0902, lng: -95.7129 };
 
 // Google Maps API libraries to load
-const LIBRARIES = ["places"] as const;
+const LIBRARIES = [&quot;places&quot;] as const;
 
 // Container style for the map
 const CONTAINER_STYLE = {
-  width: "100%",
-  height: "300px",
+  width: &quot;100%&quot;,
+  height: &quot;300px&quot;,
 };
 
 // Map Options
@@ -58,8 +58,8 @@ export default function GoogleMapsSearch({
 }: GoogleMapsSearchProps) {
   // Google Maps API loader
   const { isLoaded, loadError } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    id: &quot;google-map-script&quot;,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "&quot;,
     libraries: LIBRARIES,
   });
 
@@ -83,49 +83,49 @@ export default function GoogleMapsSearch({
     (autocomplete: google.maps.places.Autocomplete) => {
       try {
         if (!autocomplete) {
-          console.error("Autocomplete reference is null or undefined");
+          console.error(&quot;Autocomplete reference is null or undefined&quot;);
           return;
         }
 
         autocompleteRef.current = autocomplete;
 
         // Add listener for place selection with error handling
-        autocomplete.addListener("place_changed", () => {
+        autocomplete.addListener(&quot;place_changed&quot;, () => {
           try {
             if (!autocompleteRef.current) {
-              console.error("Autocomplete reference lost");
+              console.error(&quot;Autocomplete reference lost&quot;);
               return;
             }
 
             const place = autocompleteRef.current.getPlace();
 
             // Validate place object before proceeding
-            if (!place || typeof place !== "object") {
-              console.error("Invalid place object returned", place);
+            if (!place || typeof place !== &quot;object&quot;) {
+              console.error(&quot;Invalid place object returned&quot;, place);
               toast({
-                title: "Selection Error",
-                description: "The selected location data is invalid",
-                variant: "destructive",
+                title: &quot;Selection Error&quot;,
+                description: &quot;The selected location data is invalid&quot;,
+                variant: &quot;destructive&quot;,
               });
               return;
             }
 
             handlePlaceSelection(place);
           } catch (listenerError) {
-            console.error("Error in place_changed listener:", listenerError);
+            console.error(&quot;Error in place_changed listener:&quot;, listenerError);
             toast({
-              title: "Place Selection Error",
-              description: "Failed to process the selected location",
-              variant: "destructive",
+              title: &quot;Place Selection Error&quot;,
+              description: &quot;Failed to process the selected location&quot;,
+              variant: &quot;destructive&quot;,
             });
           }
         });
       } catch (error) {
-        console.error("Error setting up autocomplete:", error);
+        console.error(&quot;Error setting up autocomplete:&quot;, error);
         toast({
-          title: "Setup Error",
-          description: "Failed to initialize address search",
-          variant: "destructive",
+          title: &quot;Setup Error&quot;,
+          description: &quot;Failed to initialize address search&quot;,
+          variant: &quot;destructive&quot;,
         });
       }
     },
@@ -137,22 +137,22 @@ export default function GoogleMapsSearch({
     try {
       // Validate place object
       if (!place) {
-        console.error("Place object is null or undefined");
+        console.error(&quot;Place object is null or undefined&quot;);
         toast({
-          title: "Selection Error",
-          description: "No place data was returned",
-          variant: "destructive",
+          title: &quot;Selection Error&quot;,
+          description: &quot;No place data was returned&quot;,
+          variant: &quot;destructive&quot;,
         });
         return;
       }
 
       // Validate geometry data
       if (!place.geometry || !place.geometry.location) {
-        console.error("Place has no geometry or location:", place);
+        console.error(&quot;Place has no geometry or location:&quot;, place);
         toast({
-          title: "No details available",
-          description: "Please select a location from the dropdown list",
-          variant: "destructive",
+          title: &quot;No details available&quot;,
+          description: &quot;Please select a location from the dropdown list&quot;,
+          variant: &quot;destructive&quot;,
         });
         return;
       }
@@ -173,7 +173,7 @@ export default function GoogleMapsSearch({
             mapRef.current.setZoom(17);
           }
         } catch (mapError) {
-          console.error("Error centering map:", mapError);
+          console.error(&quot;Error centering map:&quot;, mapError);
           // Continue despite map centering error
         }
       }
@@ -185,20 +185,20 @@ export default function GoogleMapsSearch({
       if (locationData.address1 && locationData.city) {
         findStateIdAndComplete(locationData, place);
       } else {
-        console.warn("Incomplete location data extracted:", locationData);
+        console.warn(&quot;Incomplete location data extracted:&quot;, locationData);
         toast({
-          title: "Incomplete Location",
+          title: &quot;Incomplete Location&quot;,
           description:
-            "The selected location is missing essential address information",
-          variant: "destructive",
+            &quot;The selected location is missing essential address information&quot;,
+          variant: &quot;destructive&quot;,
         });
       }
     } catch (error) {
-      console.error("Error handling place selection:", error);
+      console.error(&quot;Error handling place selection:&quot;, error);
       toast({
-        title: "Processing Error",
-        description: "Failed to process the selected location",
-        variant: "destructive",
+        title: &quot;Processing Error&quot;,
+        description: &quot;Failed to process the selected location&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -216,7 +216,7 @@ export default function GoogleMapsSearch({
       geocoder.geocode({ location: event.latLng }, (results, status) => {
         try {
           if (
-            status === "OK" &&
+            status === &quot;OK&quot; &&
             results &&
             Array.isArray(results) &&
             results.length > 0
@@ -224,8 +224,8 @@ export default function GoogleMapsSearch({
             // Validate result
             const firstResult = results[0];
 
-            if (!firstResult || typeof firstResult !== "object") {
-              throw new Error("Invalid geocoding result structure");
+            if (!firstResult || typeof firstResult !== &quot;object&quot;) {
+              throw new Error(&quot;Invalid geocoding result structure&quot;);
             }
 
             setSelectedPlace(firstResult);
@@ -239,28 +239,28 @@ export default function GoogleMapsSearch({
               mapRef.current.setCenter(event.latLng);
             }
           } else {
-            console.warn("Geocoding API returned status:", status);
+            console.warn(&quot;Geocoding API returned status:&quot;, status);
             toast({
-              title: "Geocoding failed",
+              title: &quot;Geocoding failed&quot;,
               description: `Could not find address for this location: ${status}`,
-              variant: "destructive",
+              variant: &quot;destructive&quot;,
             });
           }
         } catch (callbackError) {
-          console.error("Error processing geocoding result:", callbackError);
+          console.error(&quot;Error processing geocoding result:&quot;, callbackError);
           toast({
-            title: "Geocoding error",
-            description: "An error occurred while processing the location data",
-            variant: "destructive",
+            title: &quot;Geocoding error&quot;,
+            description: &quot;An error occurred while processing the location data&quot;,
+            variant: &quot;destructive&quot;,
           });
         }
       });
     } catch (error) {
-      console.error("Geocoding failed with exception:", error);
+      console.error(&quot;Geocoding failed with exception:&quot;, error);
       toast({
-        title: "Geocoding error",
-        description: "The geocoding service failed to process your request",
-        variant: "destructive",
+        title: &quot;Geocoding error&quot;,
+        description: &quot;The geocoding service failed to process your request&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
@@ -270,11 +270,11 @@ export default function GoogleMapsSearch({
     place: google.maps.places.PlaceResult,
   ): LocationData {
     const locationData: LocationData = {
-      address1: "",
-      city: "",
-      state: "",
-      stateId: "",
-      zipcode: "",
+      address1: &quot;&quot;,
+      city: &quot;&quot;,
+      state: &quot;&quot;,
+      stateId: &quot;&quot;,
+      zipcode: &quot;&quot;,
     };
 
     // Get name if available
@@ -287,45 +287,45 @@ export default function GoogleMapsSearch({
       // Get street number and route for address1
       const streetNumber =
         place.address_components.find((component) =>
-          component.types.includes("street_number"),
-        )?.long_name || "";
+          component.types.includes(&quot;street_number&quot;),
+        )?.long_name || &quot;&quot;;
 
       const route =
         place.address_components.find((component) =>
-          component.types.includes("route"),
-        )?.long_name || "";
+          component.types.includes(&quot;route&quot;),
+        )?.long_name || &quot;&quot;;
 
       // Combine street number and route for address1
       locationData.address1 =
         streetNumber && route
           ? `${streetNumber} ${route}`
-          : place.formatted_address?.split(",")[0] || "";
+          : place.formatted_address?.split(&quot;,&quot;)[0] || &quot;&quot;;
 
       // Get city (locality)
       locationData.city =
         place.address_components.find((component) =>
-          component.types.includes("locality"),
-        )?.long_name || "";
+          component.types.includes(&quot;locality&quot;),
+        )?.long_name || &quot;&quot;;
 
       // If no locality, try administrative_area_level_2 (county)
       if (!locationData.city) {
         locationData.city =
           place.address_components.find((component) =>
-            component.types.includes("administrative_area_level_2"),
-          )?.long_name || "";
+            component.types.includes(&quot;administrative_area_level_2&quot;),
+          )?.long_name || &quot;&quot;;
       }
 
       // Get state (administrative_area_level_1)
       const stateComponent = place.address_components.find((component) =>
-        component.types.includes("administrative_area_level_1"),
+        component.types.includes(&quot;administrative_area_level_1&quot;),
       );
-      locationData.state = stateComponent?.long_name || "";
+      locationData.state = stateComponent?.long_name || &quot;&quot;;
 
       // Get ZIP code (postal_code)
       locationData.zipcode =
         place.address_components.find((component) =>
-          component.types.includes("postal_code"),
-        )?.long_name || "";
+          component.types.includes(&quot;postal_code&quot;),
+        )?.long_name || &quot;&quot;;
     }
 
     // Get coordinates
@@ -352,39 +352,39 @@ export default function GoogleMapsSearch({
     try {
       // Find the state abbreviation from address components
       if (!place.address_components) {
-        console.warn("No address components in place object");
+        console.warn(&quot;No address components in place object&quot;);
         onLocationSelect(locationData);
         return;
       }
 
       const stateComponent = place.address_components.find((component) =>
-        component.types.includes("administrative_area_level_1"),
+        component.types.includes(&quot;administrative_area_level_1&quot;),
       );
 
-      const stateAbbreviation = stateComponent?.short_name || "";
+      const stateAbbreviation = stateComponent?.short_name || &quot;&quot;;
 
       if (!stateAbbreviation) {
-        console.warn("No state abbreviation found in address");
+        console.warn(&quot;No state abbreviation found in address&quot;);
         onLocationSelect(locationData);
         return;
       }
 
-      console.log("Found state abbreviation:", stateAbbreviation);
+      console.log(&quot;Found state abbreviation:&quot;, stateAbbreviation);
 
       // Use our local states data to get the state ID
       const stateId = findStateIdByAbbreviation(stateAbbreviation);
 
       if (stateId) {
-        console.log("Found state ID:", stateId);
+        console.log(&quot;Found state ID:&quot;, stateId);
         locationData.stateId = stateId;
       } else {
-        console.warn("No state ID found for abbreviation:", stateAbbreviation);
+        console.warn(&quot;No state ID found for abbreviation:&quot;, stateAbbreviation);
       }
 
       // Always proceed with the location selection
       onLocationSelect(locationData);
     } catch (error) {
-      console.error("Error in findStateIdAndComplete:", error);
+      console.error(&quot;Error in findStateIdAndComplete:&quot;, error);
       // Continue with the process anyway, even without the state ID
       onLocationSelect(locationData);
     }
@@ -393,18 +393,18 @@ export default function GoogleMapsSearch({
   // Check if API failed to load
   if (loadError) {
     return (
-      <div className="space-y-4">
-        <div className="text-red-500 p-4 border border-red-200 rounded-md bg-red-50">
-          <p className="font-medium">Error loading Google Maps</p>
-          <p className="text-sm mt-2">{loadError.message}</p>
-          <p className="text-sm mt-2">
+      <div className=&quot;space-y-4&quot;>
+        <div className=&quot;text-red-500 p-4 border border-red-200 rounded-md bg-red-50&quot;>
+          <p className=&quot;font-medium&quot;>Error loading Google Maps</p>
+          <p className=&quot;text-sm mt-2&quot;>{loadError.message}</p>
+          <p className=&quot;text-sm mt-2&quot;>
             Please check your Google Maps API key configuration or try manual
             entry instead.
           </p>
           <Button
-            variant="outline"
+            variant=&quot;outline&quot;
             onClick={onToggleManualEntry}
-            className="mt-4 w-full"
+            className=&quot;mt-4 w-full&quot;
           >
             Enter Address Manually
           </Button>
@@ -416,52 +416,52 @@ export default function GoogleMapsSearch({
   // Show loading state
   if (!isLoaded) {
     return (
-      <div className="flex items-center justify-center p-6">
-        <Loader2 className="h-6 w-6 animate-spin text-primary mr-2" />
+      <div className=&quot;flex items-center justify-center p-6&quot;>
+        <Loader2 className=&quot;h-6 w-6 animate-spin text-primary mr-2&quot; />
         <p>Loading Google Maps...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className=&quot;space-y-4&quot;>
       {/* Search input with autocomplete */}
-      <div className="relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+      <div className=&quot;relative&quot;>
+        <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
         <Autocomplete
           onLoad={onAutocompleteLoad}
           options={{
-            types: ["address", "establishment"],
+            types: [&quot;address&quot;, &quot;establishment&quot;],
             fields: [
-              "address_components",
-              "formatted_address",
-              "geometry",
-              "name",
-              "place_id",
+              &quot;address_components&quot;,
+              &quot;formatted_address&quot;,
+              &quot;geometry&quot;,
+              &quot;name&quot;,
+              &quot;place_id&quot;,
             ],
           }}
         >
           <Input
             ref={inputRef}
-            type="text"
-            placeholder="Search for a location or enter an address..."
-            className="pl-8 w-full"
+            type=&quot;text&quot;
+            placeholder=&quot;Search for a location or enter an address...&quot;
+            className=&quot;pl-8 w-full&quot;
           />
         </Autocomplete>
       </div>
 
       {/* Toggle to manual entry button */}
       <Button
-        variant="outline"
+        variant=&quot;outline&quot;
         onClick={onToggleManualEntry}
-        type="button"
-        className="w-full"
+        type=&quot;button&quot;
+        className=&quot;w-full&quot;
       >
         Enter Address Manually
       </Button>
 
       {/* Google Map */}
-      <div className="w-full">
+      <div className=&quot;w-full&quot;>
         <GoogleMap
           mapContainerStyle={CONTAINER_STYLE}
           center={DEFAULT_CENTER}
@@ -476,18 +476,18 @@ export default function GoogleMapsSearch({
 
       {/* Selected place information */}
       {selectedPlace && selectedPlace.formatted_address && (
-        <Card className="mt-4">
-          <CardContent className="p-4">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 mt-1">
-                <MapPin className="h-5 w-5 text-primary" />
+        <Card className=&quot;mt-4&quot;>
+          <CardContent className=&quot;p-4&quot;>
+            <div className=&quot;flex items-start space-x-3&quot;>
+              <div className=&quot;flex-shrink-0 mt-1&quot;>
+                <MapPin className=&quot;h-5 w-5 text-primary&quot; />
               </div>
               <div>
-                <div className="font-medium">
+                <div className=&quot;font-medium&quot;>
                   {selectedPlace.name ||
-                    selectedPlace.formatted_address.split(",")[0]}
+                    selectedPlace.formatted_address.split(&quot;,&quot;)[0]}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <div className=&quot;text-sm text-gray-600 dark:text-gray-400 mt-1">
                   {selectedPlace.formatted_address}
                 </div>
               </div>

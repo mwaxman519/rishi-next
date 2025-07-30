@@ -1,7 +1,7 @@
 export interface Notification {
   id: string;
   userId: string;
-  type: "info" | "success" | "warning" | "error";
+  type: &quot;info&quot; | &quot;success&quot; | &quot;warning&quot; | &quot;error&quot;;
   title: string;
   message: string;
   timestamp: Date;
@@ -24,7 +24,7 @@ export class NotificationService {
   }
 
   async sendNotification(
-    notification: Omit<Notification, "id" | "timestamp" | "read">,
+    notification: Omit<Notification, &quot;id&quot; | &quot;timestamp&quot; | &quot;read&quot;>,
   ): Promise<void> {
     const newNotification: Notification = {
       ...notification,
@@ -36,7 +36,7 @@ export class NotificationService {
     this.notifications.push(newNotification);
 
     // In development, just log
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === &quot;development&quot;) {
       console.log(
         `[Notification] ${notification.type.toUpperCase()}: ${notification.title} - ${notification.message}`,
       );

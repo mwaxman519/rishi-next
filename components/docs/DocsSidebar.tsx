@@ -1,11 +1,11 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { BookOpen, RefreshCw, AlertTriangle } from "lucide-react";
-import { TableOfContents } from "./table-of-contents";
-import type { DocTree } from "@/components/../lib/docs";
+import React, { useEffect, useState } from &quot;react&quot;;
+import Link from &quot;next/link&quot;;
+import Image from &quot;next/image&quot;;
+import { BookOpen, RefreshCw, AlertTriangle } from &quot;lucide-react&quot;;
+import { TableOfContents } from &quot;./table-of-contents&quot;;
+import type { DocTree } from &quot;@/components/../lib/docs&quot;;
 
 // Using the logo via direct path instead of import
 // Next.js will still optimize it through the Image component
@@ -20,7 +20,7 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
 
   // Check if docTree is valid
   const isValidTree =
-    docTree && typeof docTree === "object" && Object.keys(docTree).length > 0;
+    docTree && typeof docTree === &quot;object&quot; && Object.keys(docTree).length > 0;
 
   // Reinitialize docs if needed
   const handleReinitializeDocs = async () => {
@@ -28,9 +28,9 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("/api/docs/init", {
-        method: "POST",
-        cache: "no-store",
+      const response = await fetch(&quot;/api/docs/init&quot;, {
+        method: &quot;POST&quot;,
+        cache: &quot;no-store&quot;,
       });
 
       if (!response.ok) {
@@ -40,43 +40,43 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
       // Reload the page to reflect changes
       window.location.reload();
     } catch (err) {
-      console.error("Error reinitializing docs:", err);
-      setError(err instanceof Error ? err.message : "Unknown error occurred");
+      console.error(&quot;Error reinitializing docs:&quot;, err);
+      setError(err instanceof Error ? err.message : &quot;Unknown error occurred&quot;);
       setIsLoading(false);
     }
   };
 
   return (
     // Only visible on desktop
-    <aside className="hidden lg:block w-64 border-r border-[rgb(var(--border))] h-screen overflow-y-auto sticky top-0">
-      <div className="p-4 border-b border-[rgb(var(--border))]">
-        <Link href="/" className="flex items-center mb-4">
+    <aside className=&quot;hidden lg:block w-64 border-r border-[rgb(var(--border))] h-screen overflow-y-auto sticky top-0&quot;>
+      <div className=&quot;p-4 border-b border-[rgb(var(--border))]&quot;>
+        <Link href=&quot;/&quot; className=&quot;flex items-center mb-4&quot;>
           <Image
-            src="/favicon.ico"
-            alt="Rishi Logo"
+            src=&quot;/favicon.ico&quot;
+            alt=&quot;Rishi Logo&quot;
             width={120}
             height={40}
-            className="h-8 w-auto"
+            className=&quot;h-8 w-auto&quot;
             priority
           />
         </Link>
-        <h3 className="text-lg font-semibold flex items-center gap-2 text-[rgb(var(--primary))]">
-          <BookOpen className="w-5 h-5" />
+        <h3 className=&quot;text-lg font-semibold flex items-center gap-2 text-[rgb(var(--primary))]&quot;>
+          <BookOpen className=&quot;w-5 h-5&quot; />
           <span>Documentation</span>
         </h3>
       </div>
 
-      <div className="p-4 overflow-y-auto">
+      <div className=&quot;p-4 overflow-y-auto&quot;>
         {!isValidTree ? (
-          <div className="space-y-4">
-            <div className="p-3 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-md">
-              <div className="flex items-start gap-2 text-amber-700 dark:text-amber-400">
-                <AlertTriangle className="h-5 w-5 flex-shrink-0" />
+          <div className=&quot;space-y-4&quot;>
+            <div className=&quot;p-3 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-md&quot;>
+              <div className=&quot;flex items-start gap-2 text-amber-700 dark:text-amber-400&quot;>
+                <AlertTriangle className=&quot;h-5 w-5 flex-shrink-0&quot; />
                 <div>
-                  <p className="text-sm font-medium">
+                  <p className=&quot;text-sm font-medium&quot;>
                     Documentation tree is empty
                   </p>
-                  <p className="text-xs mt-1">
+                  <p className=&quot;text-xs mt-1&quot;>
                     No documentation structure was found or loaded.
                   </p>
                 </div>
@@ -86,43 +86,43 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
             <button
               onClick={handleReinitializeDocs}
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 py-2 px-3 text-sm bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800 rounded-md transition-colors"
+              className=&quot;w-full flex items-center justify-center gap-2 py-2 px-3 text-sm bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 border border-blue-200 dark:border-blue-800 rounded-md transition-colors&quot;
             >
               {isLoading ? (
                 <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  <RefreshCw className=&quot;h-4 w-4 animate-spin&quot; />
                   <span>Reinitializing...</span>
                 </>
               ) : (
                 <>
-                  <RefreshCw className="h-4 w-4" />
+                  <RefreshCw className=&quot;h-4 w-4&quot; />
                   <span>Reinitialize Documentation</span>
                 </>
               )}
             </button>
 
             {error && (
-              <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-md">
-                <p className="text-xs text-red-700 dark:text-red-400">
+              <div className=&quot;p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-md&quot;>
+                <p className=&quot;text-xs text-red-700 dark:text-red-400&quot;>
                   {error}
                 </p>
               </div>
             )}
 
-            <div className="pt-3 border-t border-gray-200 dark:border-gray-800 mt-4">
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+            <div className=&quot;pt-3 border-t border-gray-200 dark:border-gray-800 mt-4&quot;>
+              <p className=&quot;text-xs text-gray-500 dark:text-gray-400&quot;>
                 Try refreshing the page or navigating to a specific document.
               </p>
-              <div className="mt-2 space-y-1">
+              <div className=&quot;mt-2 space-y-1&quot;>
                 <Link
-                  href="/docs"
-                  className="block text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                  href=&quot;/docs&quot;
+                  className=&quot;block text-xs text-blue-600 dark:text-blue-400 hover:underline&quot;
                 >
                   Documentation Home
                 </Link>
                 <Link
-                  href="/docs/api"
-                  className="block text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                  href=&quot;/docs/api&quot;
+                  className=&quot;block text-xs text-blue-600 dark:text-blue-400 hover:underline&quot;
                 >
                   API Documentation
                 </Link>

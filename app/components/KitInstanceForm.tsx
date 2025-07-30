@@ -1,27 +1,27 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, Save, X, Package } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from &quot;react&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from &quot;@/components/ui/form&quot;;
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from &quot;@/components/ui/select&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { Loader2, Save, X, Package } from &quot;lucide-react&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
 
 const kitInstanceSchema = z.object({
-  name: z.string().min(1, "Name is required").max(255, "Name must be less than 255 characters"),
+  name: z.string().min(1, &quot;Name is required&quot;).max(255, &quot;Name must be less than 255 characters&quot;),
   description: z.string().optional(),
-  template_id: z.string().uuid("Please select a template").optional(),
-  location_id: z.string().uuid("Please select a location").optional(),
-  organization_id: z.string().uuid("Please select an organization"),
-  status: z.enum(["available", "in_use", "maintenance", "needs_replenishment", "retired"]).default("available"),
+  template_id: z.string().uuid(&quot;Please select a template&quot;).optional(),
+  location_id: z.string().uuid(&quot;Please select a location&quot;).optional(),
+  organization_id: z.string().uuid(&quot;Please select an organization&quot;),
+  status: z.enum([&quot;available&quot;, &quot;in_use&quot;, &quot;maintenance&quot;, &quot;needs_replenishment&quot;, &quot;retired&quot;]).default(&quot;available&quot;),
   active: z.boolean().default(true),
 });
 
@@ -68,11 +68,11 @@ interface KitInstanceFormProps {
 }
 
 const statusOptions = [
-  { value: "available", label: "Available", color: "bg-green-100 text-green-800" },
-  { value: "in_use", label: "In Use", color: "bg-blue-100 text-blue-800" },
-  { value: "maintenance", label: "Maintenance", color: "bg-yellow-100 text-yellow-800" },
-  { value: "needs_replenishment", label: "Needs Replenishment", color: "bg-red-100 text-red-800" },
-  { value: "retired", label: "Retired", color: "bg-gray-100 text-gray-800" },
+  { value: &quot;available&quot;, label: &quot;Available&quot;, color: &quot;bg-green-100 text-green-800&quot; },
+  { value: &quot;in_use&quot;, label: &quot;In Use&quot;, color: &quot;bg-blue-100 text-blue-800&quot; },
+  { value: &quot;maintenance&quot;, label: &quot;Maintenance&quot;, color: &quot;bg-yellow-100 text-yellow-800&quot; },
+  { value: &quot;needs_replenishment&quot;, label: &quot;Needs Replenishment&quot;, color: &quot;bg-red-100 text-red-800&quot; },
+  { value: &quot;retired&quot;, label: &quot;Retired&quot;, color: &quot;bg-gray-100 text-gray-800&quot; },
 ];
 
 export default function KitInstanceForm({
@@ -84,43 +84,43 @@ export default function KitInstanceForm({
 }: KitInstanceFormProps) {
   const { toast } = useToast();
   const [selectedOrganization, setSelectedOrganization] = useState<string>(
-    initialData?.organization_id || ""
+    initialData?.organization_id || "&quot;
   );
 
   const form = useForm<KitInstanceFormData>({
     resolver: zodResolver(kitInstanceSchema),
     defaultValues: {
-      name: initialData?.name || "",
-      description: initialData?.description || "",
-      template_id: initialData?.template_id || "",
-      location_id: initialData?.location_id || "",
-      organization_id: initialData?.organization_id || "",
-      status: initialData?.status || "available",
+      name: initialData?.name || &quot;&quot;,
+      description: initialData?.description || &quot;&quot;,
+      template_id: initialData?.template_id || &quot;&quot;,
+      location_id: initialData?.location_id || &quot;&quot;,
+      organization_id: initialData?.organization_id || &quot;&quot;,
+      status: initialData?.status || &quot;available&quot;,
       active: initialData?.active ?? true,
     },
   });
 
   // Fetch organizations
   const { data: organizations = [] } = useQuery<Organization[]>({
-    queryKey: ["/api/user-organizations"],
+    queryKey: [&quot;/api/user-organizations&quot;],
     queryFn: async () => {
-      const response = await fetch("/api/user-organizations");
-      if (!response.ok) throw new Error("Failed to fetch organizations");
+      const response = await fetch(&quot;/api/user-organizations&quot;);
+      if (!response.ok) throw new Error(&quot;Failed to fetch organizations&quot;);
       return response.json();
     },
   });
 
   // Fetch templates for selected organization
   const { data: templates = [] } = useQuery<KitTemplate[]>({
-    queryKey: ["/api/kits/templates", { organizationId: selectedOrganization }],
+    queryKey: [&quot;/api/kits/templates&quot;, { organizationId: selectedOrganization }],
     queryFn: async () => {
       if (!selectedOrganization) return [];
       const params = new URLSearchParams();
-      params.append("organizationId", selectedOrganization);
-      params.append("status", "active");
+      params.append(&quot;organizationId&quot;, selectedOrganization);
+      params.append(&quot;status&quot;, &quot;active&quot;);
       
       const response = await fetch(`/api/kits/templates?${params}`);
-      if (!response.ok) throw new Error("Failed to fetch templates");
+      if (!response.ok) throw new Error(&quot;Failed to fetch templates&quot;);
       return response.json();
     },
     enabled: !!selectedOrganization,
@@ -128,14 +128,14 @@ export default function KitInstanceForm({
 
   // Fetch locations for selected organization
   const { data: locations = [] } = useQuery<Location[]>({
-    queryKey: ["/api/locations", { organizationId: selectedOrganization }],
+    queryKey: [&quot;/api/locations&quot;, { organizationId: selectedOrganization }],
     queryFn: async () => {
       if (!selectedOrganization) return [];
       const params = new URLSearchParams();
-      params.append("organizationId", selectedOrganization);
+      params.append(&quot;organizationId&quot;, selectedOrganization);
       
       const response = await fetch(`/api/locations?${params}`);
-      if (!response.ok) throw new Error("Failed to fetch locations");
+      if (!response.ok) throw new Error(&quot;Failed to fetch locations&quot;);
       return response.json();
     },
     enabled: !!selectedOrganization,
@@ -145,48 +145,48 @@ export default function KitInstanceForm({
     try {
       await onSubmit(data);
       toast({
-        title: "Success",
-        description: `Kit instance ${isEditing ? "updated" : "created"} successfully`,
+        title: &quot;Success&quot;,
+        description: `Kit instance ${isEditing ? &quot;updated&quot; : &quot;created&quot;} successfully`,
       });
     } catch (error) {
-      console.error("Form submission error:", error);
+      console.error(&quot;Form submission error:&quot;, error);
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to save kit instance",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: error instanceof Error ? error.message : &quot;Failed to save kit instance&quot;,
+        variant: &quot;destructive&quot;,
       });
     }
   };
 
   const handleOrganizationChange = (organizationId: string) => {
     setSelectedOrganization(organizationId);
-    form.setValue("organization_id", organizationId);
-    form.setValue("template_id", ""); // Reset template selection
-    form.setValue("location_id", ""); // Reset location selection
+    form.setValue(&quot;organization_id&quot;, organizationId);
+    form.setValue(&quot;template_id&quot;, &quot;&quot;); // Reset template selection
+    form.setValue(&quot;location_id&quot;, &quot;&quot;); // Reset location selection
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className=&quot;w-full max-w-2xl mx-auto&quot;>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Package className="h-5 w-5" />
-          {isEditing ? "Edit Kit Instance" : "Create New Kit Instance"}
+        <CardTitle className=&quot;flex items-center gap-2&quot;>
+          <Package className=&quot;h-5 w-5&quot; />
+          {isEditing ? &quot;Edit Kit Instance&quot; : &quot;Create New Kit Instance&quot;}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className=&quot;space-y-6&quot;>
             {/* Basic Information */}
-            <div className="space-y-4">
+            <div className=&quot;space-y-4&quot;>
               <FormField
                 control={form.control}
-                name="name"
+                name=&quot;name&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Kit Name *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter kit instance name"
+                        placeholder=&quot;Enter kit instance name&quot;
                         {...field}
                         disabled={isLoading}
                       />
@@ -198,13 +198,13 @@ export default function KitInstanceForm({
 
               <FormField
                 control={form.control}
-                name="description"
+                name=&quot;description&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Enter kit instance description"
+                        placeholder=&quot;Enter kit instance description&quot;
                         rows={3}
                         {...field}
                         disabled={isLoading}
@@ -219,7 +219,7 @@ export default function KitInstanceForm({
             {/* Organization Selection */}
             <FormField
               control={form.control}
-              name="organization_id"
+              name=&quot;organization_id&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Organization *</FormLabel>
@@ -230,7 +230,7 @@ export default function KitInstanceForm({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select organization" />
+                        <SelectValue placeholder=&quot;Select organization&quot; />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -247,10 +247,10 @@ export default function KitInstanceForm({
             />
 
             {/* Template and Location Selection */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
               <FormField
                 control={form.control}
-                name="template_id"
+                name=&quot;template_id&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Kit Template</FormLabel>
@@ -261,16 +261,16 @@ export default function KitInstanceForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select template (optional)" />
+                          <SelectValue placeholder=&quot;Select template (optional)&quot; />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">No template</SelectItem>
+                        <SelectItem value=&quot;&quot;>No template</SelectItem>
                         {templates.map((template) => (
                           <SelectItem key={template.id} value={template.id}>
                             {template.name}
                             {template.brand && (
-                              <span className="text-muted-foreground ml-2">
+                              <span className=&quot;text-muted-foreground ml-2&quot;>
                                 ({template.brand.name})
                               </span>
                             )}
@@ -285,7 +285,7 @@ export default function KitInstanceForm({
 
               <FormField
                 control={form.control}
-                name="location_id"
+                name=&quot;location_id&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Location</FormLabel>
@@ -296,15 +296,15 @@ export default function KitInstanceForm({
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select location (optional)" />
+                          <SelectValue placeholder=&quot;Select location (optional)&quot; />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="">No location</SelectItem>
+                        <SelectItem value=&quot;&quot;>No location</SelectItem>
                         {locations.map((location) => (
                           <SelectItem key={location.id} value={location.id}>
                             {location.name}
-                            <span className="text-muted-foreground ml-2">
+                            <span className=&quot;text-muted-foreground ml-2&quot;>
                               ({location.city}, {location.state})
                             </span>
                           </SelectItem>
@@ -320,7 +320,7 @@ export default function KitInstanceForm({
             {/* Status Selection */}
             <FormField
               control={form.control}
-              name="status"
+              name=&quot;status&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
@@ -331,13 +331,13 @@ export default function KitInstanceForm({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select status" />
+                        <SelectValue placeholder=&quot;Select status&quot; />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {statusOptions.map((option) => (
                         <SelectItem key={option.value} value={option.value}>
-                          <div className="flex items-center gap-2">
+                          <div className=&quot;flex items-center gap-2&quot;>
                             <div className={`w-3 h-3 rounded-full ${option.color}`} />
                             {option.label}
                           </div>
@@ -351,26 +351,26 @@ export default function KitInstanceForm({
             />
 
             {/* Form Actions */}
-            <div className="flex gap-3 pt-4">
+            <div className=&quot;flex gap-3 pt-4&quot;>
               <Button
-                type="submit"
+                type=&quot;submit&quot;
                 disabled={isLoading}
-                className="flex-1"
+                className=&quot;flex-1&quot;
               >
                 {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  <Loader2 className=&quot;h-4 w-4 animate-spin mr-2&quot; />
                 ) : (
-                  <Save className="h-4 w-4 mr-2" />
+                  <Save className=&quot;h-4 w-4 mr-2&quot; />
                 )}
-                {isEditing ? "Update Instance" : "Create Instance"}
+                {isEditing ? &quot;Update Instance&quot; : &quot;Create Instance&quot;}
               </Button>
               <Button
-                type="button"
-                variant="outline"
+                type=&quot;button&quot;
+                variant=&quot;outline&quot;
                 onClick={onCancel}
                 disabled={isLoading}
               >
-                <X className="h-4 w-4 mr-2" />
+                <X className=&quot;h-4 w-4 mr-2" />
                 Cancel
               </Button>
             </div>

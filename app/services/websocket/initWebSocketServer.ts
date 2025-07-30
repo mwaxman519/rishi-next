@@ -5,10 +5,10 @@
  * and integrates with the event system.
  */
 
-import { Server } from "http";
-import { setupWebSocketServer } from "./websocketServer";
-import { webSocketEventSubscriber } from "../infrastructure/messaging/webSocketEventSubscriber";
-import { eventBus } from "../infrastructure/messaging/distributedEventBus";
+import { Server } from &quot;http&quot;;
+import { setupWebSocketServer } from &quot;./websocketServer&quot;;
+import { webSocketEventSubscriber } from &quot;../infrastructure/messaging/webSocketEventSubscriber&quot;;
+import { eventBus } from &quot;../infrastructure/messaging/distributedEventBus&quot;;
 
 /**
  * Initialize WebSocket server and connect it to event bus
@@ -16,7 +16,7 @@ import { eventBus } from "../infrastructure/messaging/distributedEventBus";
  * @param httpServer The HTTP server instance to attach WebSocket server to
  */
 export function initializeWebSocketService(httpServer: Server): void {
-  console.log("[WebSocketService] Initializing WebSocket service");
+  console.log(&quot;[WebSocketService] Initializing WebSocket service&quot;);
 
   try {
     // Create and set up the WebSocket server
@@ -26,16 +26,16 @@ export function initializeWebSocketService(httpServer: Server): void {
     if (!eventBus.hasSubscriber(webSocketEventSubscriber)) {
       eventBus.subscribe(webSocketEventSubscriber);
       console.log(
-        "[WebSocketService] WebSocket event subscriber registered with event bus",
+        &quot;[WebSocketService] WebSocket event subscriber registered with event bus&quot;,
       );
     }
 
     console.log(
-      "[WebSocketService] WebSocket service successfully initialized",
+      &quot;[WebSocketService] WebSocket service successfully initialized&quot;,
     );
   } catch (error) {
     console.error(
-      "[WebSocketService] Failed to initialize WebSocket service:",
+      &quot;[WebSocketService] Failed to initialize WebSocket service:&quot;,
       error,
     );
     // In a production app, we would have more sophisticated error handling here

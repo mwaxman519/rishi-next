@@ -1,8 +1,8 @@
-import { db } from "../lib/db-connection";
-import { organizations } from "@shared/schema";
-import { EventBusService } from "./EventBusService";
-import { ServiceRegistry } from "./ServiceRegistry";
-import { v4 as uuidv4 } from "uuid";
+import { db } from &quot;../lib/db-connection&quot;;
+import { organizations } from &quot;@shared/schema&quot;;
+import { EventBusService } from &quot;./EventBusService&quot;;
+import { ServiceRegistry } from &quot;./ServiceRegistry&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 
 export interface OrganizationServiceInterface {
   getAllOrganizations(userId: string, correlationId?: string): Promise<any[]>;
@@ -34,13 +34,13 @@ export class OrganizationService implements OrganizationServiceInterface {
     try {
       // Publish event for organization query
       await this.eventBus.publish({
-        type: "organization.query.started",
+        type: &quot;organization.query.started&quot;,
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "getAllOrganizations",
-          queryType: "list"
+          action: &quot;getAllOrganizations&quot;,
+          queryType: &quot;list&quot;
         }
       });
 
@@ -57,12 +57,12 @@ export class OrganizationService implements OrganizationServiceInterface {
 
       // Publish success event
       await this.eventBus.publish({
-        type: "organization.query.completed",
+        type: &quot;organization.query.completed&quot;,
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "getAllOrganizations",
+          action: &quot;getAllOrganizations&quot;,
           resultCount: allOrganizations.length
         }
       });
@@ -71,13 +71,13 @@ export class OrganizationService implements OrganizationServiceInterface {
     } catch (error) {
       // Publish error event
       await this.eventBus.publish({
-        type: "organization.query.failed",
+        type: &quot;organization.query.failed&quot;,
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "getAllOrganizations",
-          error: error instanceof Error ? error.message : "Unknown error"
+          action: &quot;getAllOrganizations&quot;,
+          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
         }
       });
       
@@ -90,13 +90,13 @@ export class OrganizationService implements OrganizationServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: "organization.query.started",
+        type: &quot;organization.query.started&quot;,
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "getOrganizationById",
+          action: &quot;getOrganizationById&quot;,
           targetId: organizationId
         }
       });
@@ -108,13 +108,13 @@ export class OrganizationService implements OrganizationServiceInterface {
         .limit(1);
 
       await this.eventBus.publish({
-        type: "organization.query.completed",
+        type: &quot;organization.query.completed&quot;,
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "getOrganizationById",
+          action: &quot;getOrganizationById&quot;,
           found: !!organization
         }
       });
@@ -122,14 +122,14 @@ export class OrganizationService implements OrganizationServiceInterface {
       return organization;
     } catch (error) {
       await this.eventBus.publish({
-        type: "organization.query.failed",
+        type: &quot;organization.query.failed&quot;,
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "getOrganizationById",
-          error: error instanceof Error ? error.message : "Unknown error"
+          action: &quot;getOrganizationById&quot;,
+          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
         }
       });
       
@@ -143,12 +143,12 @@ export class OrganizationService implements OrganizationServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: "organization.create.started",
+        type: &quot;organization.create.started&quot;,
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "createOrganization",
+          action: &quot;createOrganization&quot;,
           organizationName: data.name
         }
       });
@@ -164,13 +164,13 @@ export class OrganizationService implements OrganizationServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: "organization.created",
+        type: &quot;organization.created&quot;,
         userId,
         organizationId: newOrganization.id,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "createOrganization",
+          action: &quot;createOrganization&quot;,
           organizationName: newOrganization.name,
           organizationType: newOrganization.type,
           organizationTier: newOrganization.tier
@@ -180,13 +180,13 @@ export class OrganizationService implements OrganizationServiceInterface {
       return newOrganization;
     } catch (error) {
       await this.eventBus.publish({
-        type: "organization.create.failed",
+        type: &quot;organization.create.failed&quot;,
         userId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "createOrganization",
-          error: error instanceof Error ? error.message : "Unknown error"
+          action: &quot;createOrganization&quot;,
+          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
         }
       });
       
@@ -199,13 +199,13 @@ export class OrganizationService implements OrganizationServiceInterface {
     
     try {
       await this.eventBus.publish({
-        type: "organization.update.started",
+        type: &quot;organization.update.started&quot;,
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "updateOrganization",
+          action: &quot;updateOrganization&quot;,
           updates: Object.keys(data)
         }
       });
@@ -220,13 +220,13 @@ export class OrganizationService implements OrganizationServiceInterface {
         .returning();
 
       await this.eventBus.publish({
-        type: "organization.updated",
+        type: &quot;organization.updated&quot;,
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "updateOrganization",
+          action: &quot;updateOrganization&quot;,
           changes: Object.keys(data)
         }
       });
@@ -234,14 +234,14 @@ export class OrganizationService implements OrganizationServiceInterface {
       return updatedOrganization;
     } catch (error) {
       await this.eventBus.publish({
-        type: "organization.update.failed",
+        type: &quot;organization.update.failed&quot;,
         userId,
         organizationId,
         timestamp: new Date(),
         correlationId: eventCorrelationId,
         metadata: {
-          action: "updateOrganization",
-          error: error instanceof Error ? error.message : "Unknown error"
+          action: &quot;updateOrganization&quot;,
+          error: error instanceof Error ? error.message : &quot;Unknown error&quot;
         }
       });
       
@@ -251,4 +251,4 @@ export class OrganizationService implements OrganizationServiceInterface {
 }
 
 // Missing import fix
-import { eq } from "drizzle-orm";
+import { eq } from &quot;drizzle-orm&quot;;

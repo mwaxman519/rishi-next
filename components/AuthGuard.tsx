@@ -1,4 +1,4 @@
-"use client"
+&quot;use client&quot;
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -52,8 +52,8 @@ export function AuthGuard({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      <div className=&quot;flex items-center justify-center min-h-screen&quot;>
+        <div className=&quot;animate-spin rounded-full h-32 w-32 border-b-2 border-primary&quot;></div>
       </div>
     );
   }

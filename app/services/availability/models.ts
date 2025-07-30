@@ -1,7 +1,7 @@
 import {
   AvailabilityBlock,
   InsertAvailabilityBlock,
-} from "../../../shared/schema";
+} from &quot;../../../shared/schema&quot;;
 
 /**
  * AvailabilityDTO - Used for transferring availability data between services
@@ -12,12 +12,12 @@ export interface AvailabilityDTO {
   title: string;
   startDate: Date | string;
   endDate: Date | string;
-  status: "available" | "unavailable" | "tentative";
+  status: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
   recurrenceGroup?: string;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
   createdAt: Date | string;
@@ -32,11 +32,11 @@ export interface CreateAvailabilityRequest {
   title?: string;
   startDate: Date | string;
   endDate: Date | string;
-  status?: "available" | "unavailable" | "tentative";
+  status?: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring?: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
 }
@@ -48,11 +48,11 @@ export interface UpdateAvailabilityRequest {
   title?: string;
   startDate?: Date | string;
   endDate?: Date | string;
-  status?: "available" | "unavailable" | "tentative";
+  status?: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring?: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
 }
@@ -64,7 +64,7 @@ export interface AvailabilityQueryOptions {
   userId: number;
   startDate?: Date | string | undefined;
   endDate?: Date | string | undefined;
-  status?: "available" | "unavailable" | "tentative" | undefined;
+  status?: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot; | undefined;
 }
 
 /**
@@ -81,7 +81,7 @@ export interface ServiceResponse<T> {
  */
 export interface AvailabilityConflict {
   existingBlock: AvailabilityDTO;
-  conflictType: "overlap" | "adjacent" | "contained";
+  conflictType: &quot;overlap&quot; | &quot;adjacent&quot; | &quot;contained&quot;;
 }
 
 /**

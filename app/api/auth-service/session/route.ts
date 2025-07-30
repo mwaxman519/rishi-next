@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { successResponse, errorResponse } from "../utils/response";
-import { AUTH_CONFIG } from "../config";
-import { getUserById } from "../models/user-repository";
-import * as jwt from "jsonwebtoken";
+import { successResponse, errorResponse } from &quot;../utils/response&quot;;
+import { AUTH_CONFIG } from &quot;../config&quot;;
+import { getUserById } from &quot;../models/user-repository&quot;;
+import * as jwt from &quot;jsonwebtoken&quot;;
 
 /**
  * GET /api/auth-service/session
@@ -14,13 +14,13 @@ import * as jwt from "jsonwebtoken";
  */
 export async function GET(request: NextRequest) {
   try {
-    console.log("[Auth Service] Session request received");
+    console.log(&quot;[Auth Service] Session request received&quot;);
 
     // Get the auth token from cookies (check both cookie names for compatibility)
-    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME) || request.cookies.get("auth-token");
+    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME) || request.cookies.get(&quot;auth-token&quot;);
     
     if (!authToken) {
-      console.log("[Auth Service] No auth token found in cookies");
+      console.log(&quot;[Auth Service] No auth token found in cookies&quot;);
       return successResponse({ user: null }, 200);
     }
 
@@ -29,12 +29,12 @@ export async function GET(request: NextRequest) {
     try {
       payload = jwt.verify(authToken.value, process.env.JWT_SECRET!) as { id: string, username: string };
     } catch (error) {
-      console.log("[Auth Service] Invalid token:", error);
+      console.log(&quot;[Auth Service] Invalid token:&quot;, error);
       return successResponse({ user: null }, 200);
     }
     
     if (!payload || !payload.id) {
-      console.log("[Auth Service] Invalid token payload");
+      console.log(&quot;[Auth Service] Invalid token payload&quot;);
       return successResponse({ user: null }, 200);
     }
 
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     const user = await getUserById(payload.id);
     
     if (!user) {
-      console.log("[Auth Service] User not found for token");
+      console.log(&quot;[Auth Service] User not found for token&quot;);
       return successResponse({ user: null }, 200);
     }
 
@@ -52,31 +52,31 @@ export async function GET(request: NextRequest) {
       username: user.username,
       email: user.email || null,
       fullName: user.fullName || null,
-      role: user.role || "brand_agent",
+      role: user.role || &quot;brand_agent&quot;,
       active: Boolean(user.active !== false),
       organizations: [
         {
-          orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-          orgName: "Rishi Internal",
-          orgType: "internal",
+          orgId: &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;,
+          orgName: &quot;Rishi Internal&quot;,
+          orgType: &quot;internal&quot;,
           role: user.role,
           isPrimary: true,
         },
       ],
       currentOrganization: {
-        orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-        orgName: "Rishi Internal",
-        orgType: "internal",
+        orgId: &quot;ec83b1b1-af6e-4465-806e-8d51a1449e86&quot;,
+        orgName: &quot;Rishi Internal&quot;,
+        orgType: &quot;internal&quot;,
         role: user.role,
         isPrimary: true,
       },
     };
 
-    console.log("[Auth Service] Session found for user:", user.username, "role:", user.role);
+    console.log(&quot;[Auth Service] Session found for user:&quot;, user.username, &quot;role:&quot;, user.role);
 
     return successResponse({ user: sessionUser }, 200);
   } catch (error) {
-    console.error("[Auth Service] Session check error:", error);
+    console.error(&quot;[Auth Service] Session check error:&quot;, error);
     return successResponse({ user: null }, 200);
   }
 }

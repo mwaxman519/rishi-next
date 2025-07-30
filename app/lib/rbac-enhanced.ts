@@ -5,15 +5,15 @@
  * and implements the enhanced permission model with features and scopes.
  */
 
-import { USER_ROLES, UserRole } from "../../shared/rbac/roles";
+import { USER_ROLES, UserRole } from &quot;../../shared/rbac/roles&quot;;
 import {
   PermissionFeature,
   featureToString,
   parseFeature,
   permissionCovers,
   PERMISSION_SCOPES,
-} from "../../shared/rbac/features";
-import { ROLE_HIERARCHY, ROLE_PERMISSIONS } from "../../shared/rbac/roles";
+} from &quot;../../shared/rbac/features&quot;;
+import { ROLE_HIERARCHY, ROLE_PERMISSIONS } from &quot;../../shared/rbac/roles&quot;;
 
 /**
  * Type for organization-aware permission checking context
@@ -89,7 +89,7 @@ export function hasEnhancedPermission(
         roleFeature.scope === PERMISSION_SCOPES.ORGANIZATION &&
         !context.organizationId
       ) {
-        continue; // Skip this permission if it's org-scoped but no org context provided
+        continue; // Skip this permission if it&apos;s org-scoped but no org context provided
       }
 
       // If the permission has a region scope but no region context provided, deny
@@ -158,13 +158,13 @@ export function hasRoutePermission(
     return hasEnhancedPermission(routePermissions[route], role, context);
   }
 
-  // Try to match dynamic routes (e.g., "/users/123" should match "/users/[id]")
-  const pathSegments = route.split("/").filter(Boolean);
+  // Try to match dynamic routes (e.g., &quot;/users/123&quot; should match &quot;/users/[id]&quot;)
+  const pathSegments = route.split(&quot;/&quot;).filter(Boolean);
 
   for (const [routePath, permission] of Object.entries(routePermissions)) {
-    const routeSegments = routePath.split("/").filter(Boolean);
+    const routeSegments = routePath.split(&quot;/&quot;).filter(Boolean);
 
-    // Skip if segment count doesn't match
+    // Skip if segment count doesn&apos;t match
     if (pathSegments.length !== routeSegments.length) continue;
 
     let matches = true;
@@ -180,9 +180,9 @@ export function hasRoutePermission(
       const segment = routeSegments[i];
       if (
         segment &&
-        typeof segment === "string" &&
-        segment.startsWith("[") &&
-        segment.endsWith("]")
+        typeof segment === &quot;string&quot; &&
+        segment.startsWith(&quot;[&quot;) &&
+        segment.endsWith(&quot;]&quot;)
       ) {
         continue;
       }

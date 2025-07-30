@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 import { checkPermission } from '@/lib/rbac';
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const organizationData = await getOrganizationHeaderData(request);
 
     // Check if user has permission to view locations
-    const hasPermission = await checkPermission(request, "read:staff");
+    const hasPermission = await checkPermission(request, &quot;read:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     let whereConditions = [];
 
-    // Filter by organization if provided (locations table doesn't have organizationId)
+    // Filter by organization if provided (locations table doesn&apos;t have organizationId)
     // For now, return all locations and filter client-side if needed
     
     const locationList = await db

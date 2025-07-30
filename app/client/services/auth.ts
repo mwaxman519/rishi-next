@@ -4,7 +4,7 @@
  * Client-side adapter for interacting with the authentication service.
  */
 
-import { ApiError } from "@/lib/errors";
+import { ApiError } from &quot;@/lib/errors&quot;;
 
 /**
  * Interface for a login request
@@ -64,17 +64,17 @@ export class AuthServiceClient {
     credentials: LoginRequest,
   ): Promise<{ user: UserInfo; tokens: AuthTokens }> {
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/auth/login&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify(credentials),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Login failed",
+          error.message || &quot;Login failed&quot;,
           response.status,
           error.details,
         );
@@ -85,7 +85,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to login", 500);
+      throw new ApiError(&quot;Failed to login&quot;, 500);
     }
   }
 
@@ -96,17 +96,17 @@ export class AuthServiceClient {
    */
   async register(userData: RegisterRequest): Promise<UserInfo> {
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/auth/register&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Registration failed",
+          error.message || &quot;Registration failed&quot;,
           response.status,
           error.details,
         );
@@ -117,7 +117,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to register", 500);
+      throw new ApiError(&quot;Failed to register&quot;, 500);
     }
   }
 
@@ -126,15 +126,15 @@ export class AuthServiceClient {
    */
   async logout(): Promise<void> {
     try {
-      const response = await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
+      const response = await fetch(&quot;/api/auth/logout&quot;, {
+        method: &quot;POST&quot;,
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Logout failed",
+          error.message || &quot;Logout failed&quot;,
           response.status,
           error.details,
         );
@@ -143,7 +143,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to logout", 500);
+      throw new ApiError(&quot;Failed to logout&quot;, 500);
     }
   }
 
@@ -153,8 +153,8 @@ export class AuthServiceClient {
    */
   async getCurrentUser(): Promise<UserInfo | null> {
     try {
-      const response = await fetch("/api/auth/me", {
-        credentials: "include",
+      const response = await fetch(&quot;/api/auth/me&quot;, {
+        credentials: &quot;include&quot;,
       });
 
       if (response.status === 401) {
@@ -164,7 +164,7 @@ export class AuthServiceClient {
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Failed to get user",
+          error.message || &quot;Failed to get user&quot;,
           response.status,
           error.details,
         );
@@ -175,7 +175,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to get user information", 500);
+      throw new ApiError(&quot;Failed to get user information&quot;, 500);
     }
   }
 
@@ -185,15 +185,15 @@ export class AuthServiceClient {
    */
   async refreshToken(): Promise<AuthTokens> {
     try {
-      const response = await fetch("/api/auth/refresh", {
-        method: "POST",
-        credentials: "include",
+      const response = await fetch(&quot;/api/auth/refresh&quot;, {
+        method: &quot;POST&quot;,
+        credentials: &quot;include&quot;,
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Token refresh failed",
+          error.message || &quot;Token refresh failed&quot;,
           response.status,
           error.details,
         );
@@ -204,7 +204,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to refresh token", 500);
+      throw new ApiError(&quot;Failed to refresh token&quot;, 500);
     }
   }
 
@@ -218,17 +218,17 @@ export class AuthServiceClient {
     newPassword: string,
   ): Promise<void> {
     try {
-      const response = await fetch("/api/auth/change-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const response = await fetch(&quot;/api/auth/change-password&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        credentials: &quot;include&quot;,
         body: JSON.stringify({ currentPassword, newPassword }),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Password change failed",
+          error.message || &quot;Password change failed&quot;,
           response.status,
           error.details,
         );
@@ -237,7 +237,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to change password", 500);
+      throw new ApiError(&quot;Failed to change password&quot;, 500);
     }
   }
 
@@ -247,16 +247,16 @@ export class AuthServiceClient {
    */
   async requestPasswordReset(email: string): Promise<void> {
     try {
-      const response = await fetch("/api/auth/request-reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch(&quot;/api/auth/request-reset&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify({ email }),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Password reset request failed",
+          error.message || &quot;Password reset request failed&quot;,
           response.status,
           error.details,
         );
@@ -265,7 +265,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to request password reset", 500);
+      throw new ApiError(&quot;Failed to request password reset&quot;, 500);
     }
   }
 
@@ -276,16 +276,16 @@ export class AuthServiceClient {
    */
   async resetPassword(token: string, newPassword: string): Promise<void> {
     try {
-      const response = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch(&quot;/api/auth/reset-password&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify({ token, newPassword }),
       });
 
       if (!response.ok) {
         const error = await response.json();
         throw new ApiError(
-          error.message || "Password reset failed",
+          error.message || &quot;Password reset failed&quot;,
           response.status,
           error.details,
         );
@@ -294,7 +294,7 @@ export class AuthServiceClient {
       if (error instanceof ApiError) {
         throw error;
       }
-      throw new ApiError("Failed to reset password", 500);
+      throw new ApiError(&quot;Failed to reset password&quot;, 500);
     }
   }
 }

@@ -15,7 +15,7 @@ export class GA4Analytics {
   constructor() {
     // GA4 will be initialized when needed
     this.isEnabled =
-      process.env.NODE_ENV === "production" && !!process.env.GA4_MEASUREMENT_ID;
+      process.env.NODE_ENV === &quot;production&quot; && !!process.env.GA4_MEASUREMENT_ID;
   }
 
   /**

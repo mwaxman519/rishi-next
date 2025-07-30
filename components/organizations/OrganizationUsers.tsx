@@ -1,19 +1,19 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { useState } from &quot;react&quot;;
+import { useMutation, useQuery, useQueryClient } from &quot;@tanstack/react-query&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { z } from &quot;zod&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+} from &quot;@/components/ui/card&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from &quot;@/components/ui/table&quot;;
 import {
   Form,
   FormControl,
@@ -29,16 +29,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { useToast } from &quot;@/components/ui/use-toast&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from &quot;@/components/ui/select&quot;;
 import {
   Dialog,
   DialogContent,
@@ -47,16 +47,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { USER_ROLES } from "@/lib/constants";
-import { apiRequest } from "@/lib/api";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, Mail, UserPlus, X } from "lucide-react";
+} from &quot;@/components/ui/dialog&quot;;
+import { USER_ROLES } from &quot;@/lib/constants&quot;;
+import { apiRequest } from &quot;@/lib/api&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { Loader2, Mail, UserPlus, X } from &quot;lucide-react&quot;;
 
 // Form validation schema for inviting users
 const invitationFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  role: z.string({ required_error: "Please select a role" }),
+  email: z.string().email({ message: &quot;Please enter a valid email address&quot; }),
+  role: z.string({ required_error: &quot;Please select a role&quot; }),
 });
 
 type InvitationFormValues = z.infer<typeof invitationFormSchema>;
@@ -105,8 +105,8 @@ export function OrganizationUsers({
   const form = useForm<InvitationFormValues>({
     resolver: zodResolver(invitationFormSchema),
     defaultValues: {
-      email: "",
-      role: "",
+      email: "&quot;,
+      role: &quot;&quot;,
     },
   });
 
@@ -129,14 +129,14 @@ export function OrganizationUsers({
   // Mutation for sending invitations
   const sendInvitationMutation = useMutation({
     mutationFn: async (values: InvitationFormValues) => {
-      return apiRequest("POST", "/api/organizations/invitations", {
+      return apiRequest(&quot;POST&quot;, &quot;/api/organizations/invitations&quot;, {
         ...values,
         organizationId,
       });
     },
     onSuccess: () => {
       toast({
-        title: "Invitation Sent",
+        title: &quot;Invitation Sent&quot;,
         description: `An invitation has been sent to ${form.getValues().email}`,
       });
       setIsInviteDialogOpen(false);
@@ -150,9 +150,9 @@ export function OrganizationUsers({
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to send invitation",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: error.message || &quot;Failed to send invitation&quot;,
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -161,14 +161,14 @@ export function OrganizationUsers({
   const cancelInvitationMutation = useMutation({
     mutationFn: async (invitationId: string) => {
       return apiRequest(
-        "DELETE",
+        &quot;DELETE&quot;,
         `/api/organizations/invitations?id=${invitationId}`,
       );
     },
     onSuccess: () => {
       toast({
-        title: "Invitation Cancelled",
-        description: "The invitation has been cancelled successfully",
+        title: &quot;Invitation Cancelled&quot;,
+        description: &quot;The invitation has been cancelled successfully&quot;,
       });
       // Invalidate invitations query to refresh the list
       queryClient.invalidateQueries({
@@ -179,9 +179,9 @@ export function OrganizationUsers({
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to cancel invitation",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: error.message || &quot;Failed to cancel invitation&quot;,
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -190,15 +190,15 @@ export function OrganizationUsers({
   const removeUserMutation = useMutation({
     mutationFn: async (userId: string) => {
       return apiRequest(
-        "DELETE",
+        &quot;DELETE&quot;,
         `/api/organizations/users?userId=${userId}&organizationId=${organizationId}`,
       );
     },
     onSuccess: () => {
       toast({
-        title: "User Removed",
+        title: &quot;User Removed&quot;,
         description:
-          "The user has been removed from the organization successfully",
+          &quot;The user has been removed from the organization successfully&quot;,
       });
       // Invalidate users query to refresh the list
       queryClient.invalidateQueries({
@@ -207,9 +207,9 @@ export function OrganizationUsers({
     },
     onError: (error: Error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to remove user",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: error.message || &quot;Failed to remove user&quot;,
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -222,9 +222,9 @@ export function OrganizationUsers({
   // Helper function to get initials from name
   const getInitials = (name: string) => {
     return name
-      .split(" ")
+      .split(&quot; &quot;)
       .map((n) => n[0])
-      .join("")
+      .join(&quot;&quot;)
       .toUpperCase()
       .substring(0, 2);
   };
@@ -232,24 +232,24 @@ export function OrganizationUsers({
   // Helper function to format role names
   function formatRoleName(role: string) {
     return role
-      .split("_")
+      .split(&quot;_&quot;)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+      .join(&quot; &quot;);
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className=&quot;space-y-6&quot;>
+      <div className=&quot;flex justify-between items-center&quot;>
         <div>
-          <h3 className="text-lg font-medium">{organizationName} Users</h3>
-          <p className="text-sm text-muted-foreground">
+          <h3 className=&quot;text-lg font-medium&quot;>{organizationName} Users</h3>
+          <p className=&quot;text-sm text-muted-foreground&quot;>
             Manage users who have access to this organization
           </p>
         </div>
         <Dialog open={isInviteDialogOpen} onOpenChange={setIsInviteDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
-              <UserPlus className="h-4 w-4" />
+            <Button className=&quot;gap-2&quot;>
+              <UserPlus className=&quot;h-4 w-4&quot; />
               <span>Invite User</span>
             </Button>
           </DialogTrigger>
@@ -264,16 +264,16 @@ export function OrganizationUsers({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
+                className=&quot;space-y-4&quot;
               >
                 <FormField
                   control={form.control}
-                  name="email"
+                  name=&quot;email&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="user@example.com" {...field} />
+                        <Input placeholder=&quot;user@example.com&quot; {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -281,7 +281,7 @@ export function OrganizationUsers({
                 />
                 <FormField
                   control={form.control}
-                  name="role"
+                  name=&quot;role&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Role</FormLabel>
@@ -291,7 +291,7 @@ export function OrganizationUsers({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
+                            <SelectValue placeholder=&quot;Select a role&quot; />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -308,18 +308,18 @@ export function OrganizationUsers({
                 />
                 <DialogFooter>
                   <Button
-                    type="button"
-                    variant="outline"
+                    type=&quot;button&quot;
+                    variant=&quot;outline&quot;
                     onClick={() => setIsInviteDialogOpen(false)}
                   >
                     Cancel
                   </Button>
                   <Button
-                    type="submit"
+                    type=&quot;submit&quot;
                     disabled={sendInvitationMutation.isPending}
                   >
                     {sendInvitationMutation.isPending && (
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                     )}
                     Send Invitation
                   </Button>
@@ -341,8 +341,8 @@ export function OrganizationUsers({
         </CardHeader>
         <CardContent>
           {isUsersLoading ? (
-            <div className="flex justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <div className=&quot;flex justify-center py-8&quot;>
+              <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
             </div>
           ) : (
             <Table>
@@ -351,16 +351,16 @@ export function OrganizationUsers({
                   <TableHead>User</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Primary Organization</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className=&quot;text-right&quot;>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {usersData?.users && usersData.users.length > 0 ? (
                   usersData.users.map((user: User) => (
                     <TableRow key={user.id}>
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-2">
-                          <Avatar className="h-8 w-8">
+                      <TableCell className=&quot;font-medium&quot;>
+                        <div className=&quot;flex items-center gap-2&quot;>
+                          <Avatar className=&quot;h-8 w-8&quot;>
                             {user.avatar_url ? (
                               <AvatarImage
                                 src={user.avatar_url}
@@ -378,31 +378,31 @@ export function OrganizationUsers({
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         {user.is_primary ? (
-                          <span className="text-green-600 font-medium">
+                          <span className=&quot;text-green-600 font-medium&quot;>
                             Primary
                           </span>
                         ) : (
-                          <span className="text-muted-foreground">
+                          <span className=&quot;text-muted-foreground&quot;>
                             Secondary
                           </span>
                         )}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className=&quot;text-right&quot;>
                         <Button
-                          variant="ghost"
-                          size="sm"
+                          variant=&quot;ghost&quot;
+                          size=&quot;sm&quot;
                           onClick={() => removeUserMutation.mutate(user.id)}
                           disabled={
                             user.is_primary || removeUserMutation.isPending
                           }
-                          className="h-8 w-8 p-0"
+                          className=&quot;h-8 w-8 p-0&quot;
                         >
                           {removeUserMutation.isPending ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <Loader2 className=&quot;h-4 w-4 animate-spin&quot; />
                           ) : (
-                            <X className="h-4 w-4" />
+                            <X className=&quot;h-4 w-4&quot; />
                           )}
-                          <span className="sr-only">Remove</span>
+                          <span className=&quot;sr-only&quot;>Remove</span>
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -411,7 +411,7 @@ export function OrganizationUsers({
                   <TableRow>
                     <TableCell
                       colSpan={4}
-                      className="text-center py-6 text-muted-foreground"
+                      className=&quot;text-center py-6 text-muted-foreground&quot;
                     >
                       No users found for this organization
                     </TableCell>
@@ -432,8 +432,8 @@ export function OrganizationUsers({
         </CardHeader>
         <CardContent>
           {isInvitationsLoading ? (
-            <div className="flex justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <div className=&quot;flex justify-center py-8&quot;>
+              <Loader2 className=&quot;h-8 w-8 animate-spin text-primary&quot; />
             </div>
           ) : (
             <Table>
@@ -442,7 +442,7 @@ export function OrganizationUsers({
                   <TableHead>Email</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Sent At</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className=&quot;text-right&quot;>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -451,9 +451,9 @@ export function OrganizationUsers({
                 invitationsData.invitations.length > 0 ? (
                   invitationsData.invitations.map((invitation: Invitation) => (
                     <TableRow key={invitation.id}>
-                      <TableCell className="font-medium">
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-muted-foreground" />
+                      <TableCell className=&quot;font-medium&quot;>
+                        <div className=&quot;flex items-center gap-2&quot;>
+                          <Mail className=&quot;h-4 w-4 text-muted-foreground&quot; />
                           <span>{invitation.email}</span>
                         </div>
                       </TableCell>
@@ -461,22 +461,22 @@ export function OrganizationUsers({
                       <TableCell>
                         {new Date(invitation.created_at).toLocaleDateString()}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className=&quot;text-right&quot;>
                         <Button
-                          variant="ghost"
-                          size="sm"
+                          variant=&quot;ghost&quot;
+                          size=&quot;sm&quot;
                           onClick={() =>
                             cancelInvitationMutation.mutate(invitation.id)
                           }
                           disabled={cancelInvitationMutation.isPending}
-                          className="h-8 w-8 p-0"
+                          className=&quot;h-8 w-8 p-0&quot;
                         >
                           {cancelInvitationMutation.isPending ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
+                            <Loader2 className=&quot;h-4 w-4 animate-spin&quot; />
                           ) : (
-                            <X className="h-4 w-4" />
+                            <X className=&quot;h-4 w-4&quot; />
                           )}
-                          <span className="sr-only">Cancel</span>
+                          <span className=&quot;sr-only&quot;>Cancel</span>
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -485,7 +485,7 @@ export function OrganizationUsers({
                   <TableRow>
                     <TableCell
                       colSpan={4}
-                      className="text-center py-6 text-muted-foreground"
+                      className=&quot;text-center py-6 text-muted-foreground"
                     >
                       No pending invitations
                     </TableCell>

@@ -3,10 +3,10 @@
  *
  * Centralizes user data access and manipulation for the auth service.
  */
-import { dbManager } from "../utils/db-connection";
-import { eq, and, isNull } from "drizzle-orm";
-import * as schema from "@shared/schema";
-import { v4 as uuidv4 } from "uuid";
+import { dbManager } from &quot;../utils/db-connection&quot;;
+import { eq, and, isNull } from &quot;drizzle-orm&quot;;
+import * as schema from &quot;@shared/schema&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 
 /**
  * Get a user by ID using robust database connection
@@ -30,7 +30,7 @@ export async function getUserById(id: string) {
   );
 
   if (result === null) {
-    console.error("[Auth Service] Database connection failed during user lookup by ID");
+    console.error(&quot;[Auth Service] Database connection failed during user lookup by ID&quot;);
   }
 
   return result;
@@ -72,7 +72,7 @@ export async function getUserByUsername(
   );
 
   if (result === null && !options.checkOnly) {
-    console.error("[Auth Service] Database connection failed during user lookup");
+    console.error(&quot;[Auth Service] Database connection failed during user lookup&quot;);
   }
 
   return result;
@@ -96,7 +96,7 @@ export async function getUserByEmail(email: string) {
   );
 
   if (result === null) {
-    console.error("[Auth Service] Database connection failed during user lookup by email");
+    console.error(&quot;[Auth Service] Database connection failed during user lookup by email&quot;);
   }
 
   return result;
@@ -113,10 +113,10 @@ export async function createUser(
   try {
     // Validate the required fields
     if (!userData.username) {
-      return { user: null, error: "Username is required" };
+      return { user: null, error: &quot;Username is required&quot; };
     }
     if (!userData.password) {
-      return { user: null, error: "Password is required" };
+      return { user: null, error: &quot;Password is required&quot; };
     }
 
     // Insert the new user into the database
@@ -134,11 +134,11 @@ export async function createUser(
       if (!user) {
         return {
           user: null,
-          error: "Failed to create user: No user returned from database",
+          error: &quot;Failed to create user: No user returned from database&quot;,
         };
       }
 
-      console.log("[Auth Service] User created successfully:", {
+      console.log(&quot;[Auth Service] User created successfully:&quot;, {
         id: user.id,
         username: user.username,
       });
@@ -147,32 +147,32 @@ export async function createUser(
       // Handle database-specific errors with user-friendly messages
       const errorMessage =
         dbError instanceof Error ? dbError.message : String(dbError);
-      console.error("[Auth Service] Database error creating user:", {
+      console.error(&quot;[Auth Service] Database error creating user:&quot;, {
         error: errorMessage,
         user: userData.username,
       });
 
       // Provide more specific error messages for common database issues
       if (
-        errorMessage.includes("duplicate key") &&
-        errorMessage.includes("username")
+        errorMessage.includes(&quot;duplicate key&quot;) &&
+        errorMessage.includes(&quot;username&quot;)
       ) {
-        return { user: null, error: "Username already exists" };
+        return { user: null, error: &quot;Username already exists&quot; };
       }
       if (
-        errorMessage.includes("duplicate key") &&
-        errorMessage.includes("email")
+        errorMessage.includes(&quot;duplicate key&quot;) &&
+        errorMessage.includes(&quot;email&quot;)
       ) {
-        return { user: null, error: "Email already exists" };
+        return { user: null, error: &quot;Email already exists&quot; };
       }
       if (
-        errorMessage.includes("password authentication") ||
-        errorMessage.includes("neondb_owner")
+        errorMessage.includes(&quot;password authentication&quot;) ||
+        errorMessage.includes(&quot;neondb_owner&quot;)
       ) {
         return {
           user: null,
           error:
-            "The registration service is experiencing database authentication issues",
+            &quot;The registration service is experiencing database authentication issues&quot;,
         };
       }
 
@@ -180,21 +180,21 @@ export async function createUser(
       return {
         user: null,
         error:
-          "The registration service is experiencing database issues. Please try again later.",
+          &quot;The registration service is experiencing database issues. Please try again later.&quot;,
       };
     }
   } catch (error) {
     // Handle other unexpected errors
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(
-      "[Auth Service] Unexpected error creating user:",
+      &quot;[Auth Service] Unexpected error creating user:&quot;,
       errorMessage,
     );
 
     return {
       user: null,
       error:
-        "An unexpected error occurred during registration. Please try again later.",
+        &quot;An unexpected error occurred during registration. Please try again later.&quot;,
     };
   }
 }
@@ -245,7 +245,7 @@ export async function getDefaultOrganization() {
       const [org] = await db
         .select()
         .from(schema.organizations)
-        .where(eq(schema.organizations.type, "internal"))
+        .where(eq(schema.organizations.type, &quot;internal&quot;))
         .limit(1);
 
       // If not found, get the first organization
@@ -292,7 +292,7 @@ export async function createOrganization(orgData: any) {
 export async function assignUserToOrganization(
   userId: string,
   organizationId: string,
-  role: string = "user",
+  role: string = &quot;user&quot;,
   isPrimary: boolean = true,
 ) {
   const userOrg = await dbManager.executeQuery(
@@ -335,24 +335,24 @@ export async function setupUserOrganization(
     // For non-production environments, create a mock organization connection
     // This helps bypass database errors in staging environments
     const isNonProduction =
-      process.env.NODE_ENV !== "production" ||
-      process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ||
-      process.env.VERCEL_ENV === "preview";
+      process.env.NODE_ENV !== &quot;production&quot; ||
+      process.env.NEXT_PUBLIC_VERCEL_ENV === &quot;preview&quot; ||
+      process.env.VERCEL_ENV === &quot;preview&quot;;
 
     // Generate default organization ID for simulated responses
-    const defaultOrgId = "00000000-0000-0000-0000-000000000001";
+    const defaultOrgId = &quot;00000000-0000-0000-0000-000000000001&quot;;
 
     // If in non-production environment, provide simulated organization assignment
     if (isNonProduction) {
       console.log(
-        "[Auth Service] Using simulated organization setup in non-production environment",
+        &quot;[Auth Service] Using simulated organization setup in non-production environment&quot;,
       );
 
       // Create a simulated userOrg object
       const mockUserOrg = {
         user_id: userId,
         organization_id: options.orgId || defaultOrgId,
-        role: options.role || "brand_agent",
+        role: options.role || &quot;brand_agent&quot;,
         is_default: true,
         created_at: new Date(),
       };
@@ -365,13 +365,13 @@ export async function setupUserOrganization(
     let userOrg = null;
     let errorMessage: string | undefined = undefined;
 
-    // Special handling for super_admin role - always ensure they're part of Rishi Internal
-    const isSuperAdmin = options.role === "super_admin";
+    // Special handling for super_admin role - always ensure they&apos;re part of Rishi Internal
+    const isSuperAdmin = options.role === &quot;super_admin&quot;;
 
     // If user is a super_admin, we need to make sure they are assigned to the Rishi Internal org
     if (isSuperAdmin) {
       console.log(
-        "[Auth Service] User has super_admin role, ensuring assignment to Rishi Internal organization",
+        &quot;[Auth Service] User has super_admin role, ensuring assignment to Rishi Internal organization&quot;,
       );
 
       // Find the Rishi Internal organization
@@ -381,7 +381,7 @@ export async function setupUserOrganization(
           const [org] = await db
             .select()
             .from(schema.organizations)
-            .where(eq(schema.organizations.type, "internal"))
+            .where(eq(schema.organizations.type, &quot;internal&quot;))
             .limit(1);
           return org;
         },
@@ -393,7 +393,7 @@ export async function setupUserOrganization(
         userOrg = await assignUserToOrganization(
           userId,
           rishiInternalOrg.id,
-          "super_admin",
+          &quot;super_admin&quot;,
           true, // is primary
         );
 
@@ -402,14 +402,14 @@ export async function setupUserOrganization(
           return { userOrg: null, error: errorMessage };
         }
 
-        // If there's also a specific organization requested, add that as a secondary organization
+        // If there&apos;s also a specific organization requested, add that as a secondary organization
         if (organizationId && organizationId !== rishiInternalOrg.id) {
           const secondaryOrg = await getOrganizationById(organizationId);
           if (secondaryOrg) {
             const secondaryUserOrg = await assignUserToOrganization(
               userId,
               organizationId,
-              "super_admin",
+              &quot;super_admin&quot;,
               false, // not primary
             );
 
@@ -422,7 +422,7 @@ export async function setupUserOrganization(
         }
 
         // Super admin has been assigned to Rishi Internal, return success
-        // Return without error property when there's no error
+        // Return without error property when there&apos;s no error
         if (userOrg) {
           return { userOrg };
         } else {
@@ -430,7 +430,7 @@ export async function setupUserOrganization(
         }
       } else {
         errorMessage =
-          "Rishi Internal organization not found. Super admins must be assigned to this organization.";
+          &quot;Rishi Internal organization not found. Super admins must be assigned to this organization.&quot;;
         return { userOrg: null, error: errorMessage };
       }
     }
@@ -443,7 +443,7 @@ export async function setupUserOrganization(
         userOrg = await assignUserToOrganization(
           userId,
           organizationId,
-          options.role || "user",
+          options.role || &quot;user&quot;,
           true,
         );
 
@@ -461,7 +461,7 @@ export async function setupUserOrganization(
         userOrg = await assignUserToOrganization(
           userId,
           defaultOrg.id,
-          options.role || "user",
+          options.role || &quot;user&quot;,
           true,
         );
 
@@ -469,21 +469,21 @@ export async function setupUserOrganization(
           errorMessage = `Failed to assign user to default organization (${defaultOrg.id})`;
         }
       } else {
-        errorMessage = "Default organization not found";
+        errorMessage = &quot;Default organization not found&quot;;
       }
     }
     // Or create a new org if specified
     else if (options.createNewOrg && options.orgName) {
       const newOrg = await createOrganization({
         name: options.orgName,
-        type: options.orgType || "client",
+        type: options.orgType || &quot;client&quot;,
       });
 
       if (newOrg) {
         userOrg = await assignUserToOrganization(
           userId,
           newOrg.id,
-          options.role || "admin",
+          options.role || &quot;admin&quot;,
           true,
         );
 
@@ -502,7 +502,7 @@ export async function setupUserOrganization(
           userOrg = await assignUserToOrganization(
             userId,
             defaultOrg.id,
-            options.role || "brand_agent",
+            options.role || &quot;brand_agent&quot;,
             true,
           );
 
@@ -510,37 +510,37 @@ export async function setupUserOrganization(
             errorMessage = `Failed to assign user to default organization as brand agent`;
           }
         } else {
-          errorMessage = "No suitable organization found for user assignment";
+          errorMessage = &quot;No suitable organization found for user assignment&quot;;
         }
       } catch (dbError) {
         console.error(
-          "[Auth Service] Error finding default organization:",
+          &quot;[Auth Service] Error finding default organization:&quot;,
           dbError,
         );
-        errorMessage = "Database error while finding organization";
+        errorMessage = &quot;Database error while finding organization&quot;;
       }
     }
 
     return { userOrg, error: errorMessage };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[Auth Service] Error setting up user organization:", error);
+    console.error(&quot;[Auth Service] Error setting up user organization:&quot;, error);
 
     // More helpful error message for database connection issues
     if (
-      message.includes("password authentication") ||
-      message.includes("neondb_owner")
+      message.includes(&quot;password authentication&quot;) ||
+      message.includes(&quot;neondb_owner&quot;)
     ) {
       return {
         userOrg: null,
         error:
-          "The registration service is experiencing database authentication issues",
+          &quot;The registration service is experiencing database authentication issues&quot;,
       };
     }
 
     return {
       userOrg: null,
-      error: "Database error occurred while setting up organization",
+      error: &quot;Database error occurred while setting up organization&quot;,
     };
   }
 }

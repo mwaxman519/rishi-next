@@ -1,29 +1,29 @@
-const fs = require("fs");
+const fs = require(&quot;fs&quot;);
 
 // Update the locations service import in the API route
-const apiLocationRoute = "./api/locations/route.ts";
+const apiLocationRoute = &quot;./api/locations/route.ts&quot;;
 if (fs.existsSync(apiLocationRoute)) {
-  let content = fs.readFileSync(apiLocationRoute, "utf8");
+  let content = fs.readFileSync(apiLocationRoute, &quot;utf8&quot;);
   content = content.replace(
-    'import { locationsService } from "@/services/locations";',
-    'import { locationsService } from "@/services/locations_core";',
+    'import { locationsService } from &quot;@/services/locations&quot;;',
+    'import { locationsService } from &quot;@/services/locations_core&quot;;',
   );
   fs.writeFileSync(apiLocationRoute, content);
-  console.log("Updated locations import in API route");
+  console.log(&quot;Updated locations import in API route&quot;);
 }
 
 // Update client-side service imports if needed
-const clientLocationService = "./client/services/locations.ts";
+const clientLocationService = &quot;./client/services/locations.ts&quot;;
 if (fs.existsSync(clientLocationService)) {
-  let content = fs.readFileSync(clientLocationService, "utf8");
-  if (content.includes("@/services/locations")) {
+  let content = fs.readFileSync(clientLocationService, &quot;utf8&quot;);
+  if (content.includes(&quot;@/services/locations&quot;)) {
     content = content.replace(
       /@\/services\/locations/g,
-      "@/services/locations_core",
+      &quot;@/services/locations_core&quot;,
     );
     fs.writeFileSync(clientLocationService, content);
-    console.log("Updated client-side locations service import");
+    console.log(&quot;Updated client-side locations service import&quot;);
   }
 }
 
-console.log("Import paths updated to use core locations service");
+console.log(&quot;Import paths updated to use core locations service&quot;);

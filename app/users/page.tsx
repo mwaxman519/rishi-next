@@ -1,22 +1,22 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthorization } from "@/hooks/useAuthorization";
-import { useToast } from "@/hooks/use-toast";
-import SidebarLayout from "@/components/SidebarLayout";
-import Link from "next/link";
-import { getAllUsers } from "@/actions/users";
-import { UserProfile } from "@/services/users/models";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from &quot;react&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import SidebarLayout from &quot;@/components/SidebarLayout&quot;;
+import Link from &quot;next/link&quot;;
+import { getAllUsers } from &quot;@/actions/users&quot;;
+import { UserProfile } from &quot;@/services/users/models&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs-fixed"; // Using fixed UI component without cn
-import UsersTable from "@/components/users/UsersTable";
-import UserDetailPanel from "@/components/users/UserDetailPanel";
+} from &quot;@/components/ui/tabs-fixed&quot;; // Using fixed UI component without cn
+import UsersTable from &quot;@/components/users/UsersTable&quot;;
+import UserDetailPanel from &quot;@/components/users/UserDetailPanel&quot;;
 
 export default function UsersPage() {
   const { user, loading: isAuthLoading } = useAuth();
@@ -46,14 +46,14 @@ export default function UsersPage() {
           setUsers(response.data);
         } else {
           if (!response.error) {
-            setError("Failed to load users data - no error details provided");
+            setError(&quot;Failed to load users data - no error details provided&quot;);
           } else {
             setError(response.error);
           }
         }
       } catch (error) {
-        console.error("Failed to load users:", error);
-        setError("Error fetching users. Please try again.");
+        console.error(&quot;Failed to load users:&quot;, error);
+        setError(&quot;Error fetching users. Please try again.&quot;);
       } finally {
         setIsLoading(false);
       }
@@ -79,11 +79,11 @@ export default function UsersPage() {
   const confirmDeleteUser = async (userId: string) => {
     try {
       const response = await fetch(`/api/users/${userId}`, {
-        method: "DELETE",
+        method: &quot;DELETE&quot;,
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete user");
+        throw new Error(&quot;Failed to delete user&quot;);
       }
 
       // Remove user from the list
@@ -95,18 +95,18 @@ export default function UsersPage() {
       }
 
       toast({
-        title: "Success",
-        description: "User deleted successfully",
-        variant: "default",
+        title: &quot;Success&quot;,
+        description: &quot;User deleted successfully&quot;,
+        variant: &quot;default&quot;,
       });
     } catch (err) {
-      console.error("Error deleting user:", err);
+      console.error(&quot;Error deleting user:&quot;, err);
 
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          err instanceof Error ? err.message : "Failed to delete user",
-        variant: "destructive",
+          err instanceof Error ? err.message : &quot;Failed to delete user&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setShowDeleteConfirm(null);
@@ -117,8 +117,8 @@ export default function UsersPage() {
   if (isAuthLoading) {
     return (
       <SidebarLayout>
-        <div className="p-6 flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className=&quot;p-6 flex justify-center items-center h-64&quot;>
+          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
         </div>
       </SidebarLayout>
     );
@@ -128,12 +128,12 @@ export default function UsersPage() {
   if (!user) {
     return (
       <SidebarLayout>
-        <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        <div className=&quot;p-6&quot;>
+          <h1 className=&quot;text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100&quot;>
             User Management
           </h1>
-          <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded">
-            <p className="text-red-700 dark:text-red-300">
+          <div className=&quot;bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded&quot;>
+            <p className=&quot;text-red-700 dark:text-red-300&quot;>
               You need to be logged in to view this page.
             </p>
           </div>
@@ -144,23 +144,23 @@ export default function UsersPage() {
 
   return (
     <SidebarLayout>
-      <div className="p-6">
+      <div className=&quot;p-6&quot;>
         {/* Header section */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <div className=&quot;flex justify-between items-center mb-6&quot;>
+          <h1 className=&quot;text-2xl font-bold text-gray-900 dark:text-gray-100&quot;>
             User Management
           </h1>
-          <div className="flex space-x-2">
+          <div className=&quot;flex space-x-2&quot;>
             <Link
-              href="/users/agents"
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition"
+              href=&quot;/users/agents&quot;
+              className=&quot;px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition&quot;
             >
               Manage Agents
             </Link>
-            {checkPermission("edit:users") && (
+            {checkPermission(&quot;edit:users&quot;) && (
               <Link
-                href="/users/new"
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition"
+                href=&quot;/users/new&quot;
+                className=&quot;px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition&quot;
               >
                 Add User
               </Link>
@@ -170,18 +170,18 @@ export default function UsersPage() {
 
         {/* Delete confirmation dialog */}
         {showDeleteConfirm && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded">
-            <h3 className="text-lg font-medium text-red-800 dark:text-red-300">
+          <div className=&quot;mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded&quot;>
+            <h3 className=&quot;text-lg font-medium text-red-800 dark:text-red-300&quot;>
               Confirm Deletion
             </h3>
-            <p className="mt-1 text-sm text-red-700 dark:text-red-400">
+            <p className=&quot;mt-1 text-sm text-red-700 dark:text-red-400&quot;>
               Are you sure you want to delete this user? This action cannot be
               undone.
             </p>
-            <div className="mt-3 flex justify-end space-x-3">
+            <div className=&quot;mt-3 flex justify-end space-x-3&quot;>
               <button
                 onClick={() => setShowDeleteConfirm(null)}
-                className="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none"
+                className=&quot;inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none&quot;
               >
                 Cancel
               </button>
@@ -191,7 +191,7 @@ export default function UsersPage() {
                     confirmDeleteUser(showDeleteConfirm);
                   }
                 }}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none"
+                className=&quot;inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none&quot;
               >
                 Delete User
               </button>
@@ -201,41 +201,41 @@ export default function UsersPage() {
 
         {/* Main content */}
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <div className=&quot;flex justify-center items-center h-64&quot;>
+            <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
           </div>
         ) : error ? (
-          <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-6 rounded">
-            <h3 className="text-lg font-semibold text-red-800 dark:text-red-300 mb-2">
+          <div className=&quot;bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-6 rounded&quot;>
+            <h3 className=&quot;text-lg font-semibold text-red-800 dark:text-red-300 mb-2&quot;>
               Error
             </h3>
-            <p className="text-red-700 dark:text-red-400">{error}</p>
+            <p className=&quot;text-red-700 dark:text-red-400&quot;>{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-4 px-4 py-2 bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200 rounded hover:bg-red-200 dark:hover:bg-red-700 transition"
+              className=&quot;mt-4 px-4 py-2 bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-200 rounded hover:bg-red-200 dark:hover:bg-red-700 transition&quot;
             >
               Try Again
             </button>
           </div>
         ) : users.length === 0 ? (
-          <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded text-center">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+          <div className=&quot;bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded text-center&quot;>
+            <h3 className=&quot;text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2&quot;>
               No Users Found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className=&quot;text-gray-600 dark:text-gray-400&quot;>
               There are no users in the system yet.
             </p>
-            {checkPermission("create:users") && (
+            {checkPermission(&quot;create:users&quot;) && (
               <Link
-                href="/users/new"
-                className="mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-opacity-90 transition"
+                href=&quot;/users/new&quot;
+                className=&quot;mt-4 inline-block px-4 py-2 bg-primary text-white rounded hover:bg-opacity-90 transition&quot;
               >
                 Add First User
               </Link>
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6">
+          <div className=&quot;grid grid-cols-1 gap-6&quot;>
             {/* If a user is selected, show the detail panel */}
             {selectedUserId ? (
               <UserDetailPanel
@@ -248,7 +248,7 @@ export default function UsersPage() {
                 users={users}
                 onViewUser={handleViewUser}
                 onDeleteUser={
-                  checkPermission("delete:users") ? handleDeleteUser : undefined
+                  checkPermission(&quot;delete:users&quot;) ? handleDeleteUser : undefined
                 }
               />
             )}

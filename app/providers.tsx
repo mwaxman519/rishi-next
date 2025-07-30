@@ -1,16 +1,16 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./lib/queryClient";
-import { AuthProvider, useAuth } from "./hooks/useAuth";
-import { RBACProvider } from "./contexts/RBACProvider";
-import { OrganizationProvider } from "./contexts/OrganizationProvider";
-import { NavigationProvider } from "./navigation/NavigationProvider";
-import { GoogleMapsProvider } from "./components/maps/GoogleMapsContext";
-import { SidebarProvider } from "./hooks/useSidebarState";
-import { ThemeProvider } from "./hooks/useTheme";
-import { ToastProvider } from "./components/ui/toast-context";
+import React from &quot;react&quot;;
+import { QueryClientProvider } from &quot;@tanstack/react-query&quot;;
+import { queryClient } from &quot;./lib/queryClient&quot;;
+import { AuthProvider, useAuth } from &quot;./hooks/useAuth&quot;;
+import { RBACProvider } from &quot;./contexts/RBACProvider&quot;;
+import { OrganizationProvider } from &quot;./contexts/OrganizationProvider&quot;;
+import { NavigationProvider } from &quot;./navigation/NavigationProvider&quot;;
+import { GoogleMapsProvider } from &quot;./components/maps/GoogleMapsContext&quot;;
+import { SidebarProvider } from &quot;./hooks/useSidebarState&quot;;
+import { ThemeProvider } from &quot;./hooks/useTheme&quot;;
+import { ToastProvider } from &quot;./components/ui/toast-context&quot;;
 
 // NotificationProvider removed to fix webpack issues
 

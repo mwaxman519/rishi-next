@@ -1,11 +1,11 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { kitsClient } from "@/client/services/kits";
-import { KitTemplateDTO, ComponentType } from "@/services/kits";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import Link from &quot;next/link&quot;;
+import { kitsClient } from &quot;@/client/services/kits&quot;;
+import { KitTemplateDTO, ComponentType } from &quot;@/services/kits&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Card,
   CardContent,
@@ -13,9 +13,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+} from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
 import {
   Package,
   ArrowLeft,
@@ -32,7 +32,7 @@ import {
   Box,
   FileText,
   MoreHorizontal,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,7 +42,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from &quot;@/components/ui/alert-dialog&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,11 +50,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
+} from &quot;@/components/ui/dropdown-menu&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { format } from &quot;date-fns&quot;;
+import { useSession } from &quot;next-auth/react&quot;;
 import {
   Table,
   TableBody,
@@ -63,12 +63,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from &quot;@/components/ui/table&quot;;
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "../../../components/ui/collapsible";
+} from &quot;../../../components/ui/collapsible&quot;;
 
 interface KitTemplateDetailProps {
   templateId: number;
@@ -87,7 +87,7 @@ export default function KitTemplateDetail({
   const [error, setError] = useState<string | null>(null);
   const [approvalDialogOpen, setApprovalDialogOpen] = useState(false);
   const [rejectionDialogOpen, setRejectionDialogOpen] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState("");
+  const [rejectionReason, setRejectionReason] = useState("&quot;);
   const [processingApproval, setProcessingApproval] = useState(false);
 
   // Fetch template data
@@ -99,12 +99,12 @@ export default function KitTemplateDetail({
         setTemplate(data);
         setError(null);
       } catch (err) {
-        console.error("Error fetching template:", err);
-        setError("Failed to load template data. Please try again.");
+        console.error(&quot;Error fetching template:&quot;, err);
+        setError(&quot;Failed to load template data. Please try again.&quot;);
         toast({
-          title: "Error",
-          description: "Failed to load template details",
-          variant: "destructive",
+          title: &quot;Error&quot;,
+          description: &quot;Failed to load template details&quot;,
+          variant: &quot;destructive&quot;,
         });
       } finally {
         setLoading(false);
@@ -126,25 +126,25 @@ export default function KitTemplateDetail({
         prev
           ? {
               ...prev,
-              approvalStatus: "approved",
+              approvalStatus: &quot;approved&quot;,
               approvedById: session?.user?.id,
             }
           : null,
       );
 
       toast({
-        title: "Success",
-        description: "Template approved successfully",
-        variant: "success",
+        title: &quot;Success&quot;,
+        description: &quot;Template approved successfully&quot;,
+        variant: &quot;success&quot;,
       });
 
       setApprovalDialogOpen(false);
     } catch (err) {
-      console.error("Error approving template:", err);
+      console.error(&quot;Error approving template:&quot;, err);
       toast({
-        title: "Error",
-        description: "Failed to approve template",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to approve template&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setProcessingApproval(false);
@@ -163,26 +163,26 @@ export default function KitTemplateDetail({
         prev
           ? {
               ...prev,
-              approvalStatus: "rejected",
+              approvalStatus: &quot;rejected&quot;,
               approvalNotes: rejectionReason,
             }
           : null,
       );
 
       toast({
-        title: "Template Rejected",
-        description: "Template has been rejected with feedback",
-        variant: "default",
+        title: &quot;Template Rejected&quot;,
+        description: &quot;Template has been rejected with feedback&quot;,
+        variant: &quot;default&quot;,
       });
 
       setRejectionDialogOpen(false);
-      setRejectionReason("");
+      setRejectionReason(&quot;&quot;);
     } catch (err) {
-      console.error("Error rejecting template:", err);
+      console.error(&quot;Error rejecting template:&quot;, err);
       toast({
-        title: "Error",
-        description: "Failed to reject template",
-        variant: "destructive",
+        title: &quot;Error&quot;,
+        description: &quot;Failed to reject template&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setProcessingApproval(false);
@@ -193,36 +193,36 @@ export default function KitTemplateDetail({
   const getComponentTypeIcon = (type: ComponentType) => {
     switch (type) {
       case ComponentType.HARDWARE:
-        return <Server className="h-4 w-4" />;
+        return <Server className=&quot;h-4 w-4&quot; />;
       case ComponentType.TOOL:
-        return <Wrench className="h-4 w-4" />;
+        return <Wrench className=&quot;h-4 w-4&quot; />;
       case ComponentType.CONSUMABLE:
-        return <ShoppingBag className="h-4 w-4" />;
+        return <ShoppingBag className=&quot;h-4 w-4&quot; />;
       case ComponentType.PACKAGING:
-        return <Box className="h-4 w-4" />;
+        return <Box className=&quot;h-4 w-4&quot; />;
       case ComponentType.DOCUMENTATION:
-        return <FileText className="h-4 w-4" />;
+        return <FileText className=&quot;h-4 w-4&quot; />;
       default:
-        return <Package className="h-4 w-4" />;
+        return <Package className=&quot;h-4 w-4&quot; />;
     }
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[500px]">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em]"></div>
-        <p className="ml-2">Loading template details...</p>
+      <div className=&quot;flex justify-center items-center min-h-[500px]&quot;>
+        <div className=&quot;inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em]&quot;></div>
+        <p className=&quot;ml-2&quot;>Loading template details...</p>
       </div>
     );
   }
 
   if (error || !template) {
     return (
-      <div className="rounded-md bg-destructive/15 p-4 text-destructive">
-        <p>{error || "Template not found"}</p>
-        <Button variant="outline" className="mt-4" asChild>
-          <Link href="/inventory/templates">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Templates
+      <div className=&quot;rounded-md bg-destructive/15 p-4 text-destructive&quot;>
+        <p>{error || &quot;Template not found&quot;}</p>
+        <Button variant=&quot;outline&quot; className=&quot;mt-4&quot; asChild>
+          <Link href=&quot;/inventory/templates&quot;>
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; /> Back to Templates
           </Link>
         </Button>
       </div>
@@ -231,25 +231,25 @@ export default function KitTemplateDetail({
 
   const renderApprovalStatus = () => {
     switch (template.approvalStatus) {
-      case "approved":
+      case &quot;approved&quot;:
         return (
-          <div className="flex items-center text-green-600">
-            <CheckCircle className="h-5 w-5 mr-2" />
+          <div className=&quot;flex items-center text-green-600&quot;>
+            <CheckCircle className=&quot;h-5 w-5 mr-2&quot; />
             <span>Approved</span>
           </div>
         );
-      case "rejected":
+      case &quot;rejected&quot;:
         return (
-          <div className="flex items-center text-red-600">
-            <XCircle className="h-5 w-5 mr-2" />
+          <div className=&quot;flex items-center text-red-600&quot;>
+            <XCircle className=&quot;h-5 w-5 mr-2&quot; />
             <span>Rejected</span>
           </div>
         );
-      case "pending":
+      case &quot;pending&quot;:
       default:
         return (
-          <div className="flex items-center text-amber-600">
-            <AlertCircle className="h-5 w-5 mr-2" />
+          <div className=&quot;flex items-center text-amber-600&quot;>
+            <AlertCircle className=&quot;h-5 w-5 mr-2&quot; />
             <span>Pending Review</span>
           </div>
         );
@@ -257,40 +257,40 @@ export default function KitTemplateDetail({
   };
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" asChild>
-            <Link href="/inventory/templates">
-              <ArrowLeft className="h-4 w-4" />
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
+        <div className=&quot;flex items-center gap-2&quot;>
+          <Button variant=&quot;outline&quot; size=&quot;icon&quot; asChild>
+            <Link href=&quot;/inventory/templates&quot;>
+              <ArrowLeft className=&quot;h-4 w-4&quot; />
             </Link>
           </Button>
-          <h1 className="text-3xl font-bold tracking-tight">{template.name}</h1>
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>{template.name}</h1>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" asChild>
+        <div className=&quot;flex gap-2&quot;>
+          <Button variant=&quot;outline&quot; asChild>
             <Link href={`/inventory/templates/${templateId}/edit`}>
-              <Edit className="mr-2 h-4 w-4" /> Edit
+              <Edit className=&quot;mr-2 h-4 w-4&quot; /> Edit
             </Link>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
-                <MoreHorizontal className="h-4 w-4" />
-                <span className="sr-only">More options</span>
+              <Button variant=&quot;outline&quot; size=&quot;icon&quot;>
+                <MoreHorizontal className=&quot;h-4 w-4&quot; />
+                <span className=&quot;sr-only&quot;>More options</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align=&quot;end&quot;>
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href={`/inventory/templates/${templateId}/edit`}>
-                  <Edit className="mr-2 h-4 w-4" />
+                  <Edit className=&quot;mr-2 h-4 w-4&quot; />
                   Edit Template
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => {}}>
-                <Copy className="mr-2 h-4 w-4" />
+                <Copy className=&quot;mr-2 h-4 w-4&quot; />
                 Duplicate Template
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -298,22 +298,22 @@ export default function KitTemplateDetail({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 space-y-6">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-6&quot;>
+        <div className=&quot;md:col-span-2 space-y-6&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Template Details</CardTitle>
               {template.description && (
-                <CardDescription className="mt-2">
+                <CardDescription className=&quot;mt-2&quot;>
                   {template.description}
                 </CardDescription>
               )}
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className=&quot;space-y-4&quot;>
+                <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">
+                    <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                       Brand
                     </div>
                     <div>
@@ -321,18 +321,18 @@ export default function KitTemplateDetail({
                     </div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">
+                    <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                       Status
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className=&quot;flex items-center gap-3&quot;>
                       {renderApprovalStatus()}
-                      <Separator orientation="vertical" className="h-4" />
+                      <Separator orientation=&quot;vertical&quot; className=&quot;h-4&quot; />
                       {template.active ? (
-                        <Badge variant="secondary">Active</Badge>
+                        <Badge variant=&quot;secondary&quot;>Active</Badge>
                       ) : (
                         <Badge
-                          variant="outline"
-                          className="text-muted-foreground"
+                          variant=&quot;outline&quot;
+                          className=&quot;text-muted-foreground&quot;
                         >
                           Inactive
                         </Badge>
@@ -343,22 +343,22 @@ export default function KitTemplateDetail({
 
                 {template.instructions && (
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">
+                    <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                       Instructions
                     </div>
-                    <div className="mt-1 p-3 bg-muted rounded-md whitespace-pre-wrap">
+                    <div className=&quot;mt-1 p-3 bg-muted rounded-md whitespace-pre-wrap&quot;>
                       {template.instructions}
                     </div>
                   </div>
                 )}
 
-                {template.approvalStatus === "rejected" &&
+                {template.approvalStatus === &quot;rejected&quot; &&
                   template.approvalNotes && (
-                    <div className="bg-destructive/10 p-3 rounded-md border border-destructive/20">
-                      <div className="text-sm font-medium text-destructive">
+                    <div className=&quot;bg-destructive/10 p-3 rounded-md border border-destructive/20&quot;>
+                      <div className=&quot;text-sm font-medium text-destructive&quot;>
                         Rejection Reason
                       </div>
-                      <div className="mt-1 text-destructive">
+                      <div className=&quot;mt-1 text-destructive&quot;>
                         {template.approvalNotes}
                       </div>
                     </div>
@@ -368,53 +368,53 @@ export default function KitTemplateDetail({
           </Card>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className=&quot;flex flex-row items-center justify-between&quot;>
               <CardTitle>
                 Components ({template.components?.length || 0})
               </CardTitle>
             </CardHeader>
             <CardContent>
               {template.components && template.components.length > 0 ? (
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {template.components.map((component, index) => (
                     <Collapsible key={component.id || index}>
-                      <CollapsibleTrigger className="flex items-center justify-between w-full p-3 hover:bg-accent rounded-md">
-                        <div className="flex items-center">
+                      <CollapsibleTrigger className=&quot;flex items-center justify-between w-full p-3 hover:bg-accent rounded-md&quot;>
+                        <div className=&quot;flex items-center&quot;>
                           {getComponentTypeIcon(component.type)}
-                          <span className="ml-2 font-medium">
+                          <span className=&quot;ml-2 font-medium&quot;>
                             {component.name}
                           </span>
                           {component.isRequired === false && (
-                            <Badge variant="outline" className="ml-2">
+                            <Badge variant=&quot;outline&quot; className=&quot;ml-2&quot;>
                               Optional
                             </Badge>
                           )}
                         </div>
-                        <div className="flex items-center gap-3">
-                          <Badge variant="outline">
-                            {component.quantity}{" "}
-                            {component.quantity > 1 ? "units" : "unit"}
+                        <div className=&quot;flex items-center gap-3&quot;>
+                          <Badge variant=&quot;outline&quot;>
+                            {component.quantity}{&quot; &quot;}
+                            {component.quantity > 1 ? &quot;units&quot; : &quot;unit&quot;}
                           </Badge>
-                          <ChevronRight className="h-4 w-4 transition-transform ui-expanded:rotate-90" />
+                          <ChevronRight className=&quot;h-4 w-4 transition-transform ui-expanded:rotate-90&quot; />
                         </div>
                       </CollapsibleTrigger>
-                      <CollapsibleContent className="p-3 pl-8 bg-muted/50 rounded-md mt-1">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <CollapsibleContent className=&quot;p-3 pl-8 bg-muted/50 rounded-md mt-1&quot;>
+                        <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
                           <div>
-                            <div className="text-sm font-medium text-muted-foreground">
+                            <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                               Type
                             </div>
                             <div>{component.type}</div>
                           </div>
                           <div>
-                            <div className="text-sm font-medium text-muted-foreground">
+                            <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                               Quantity
                             </div>
                             <div>{component.quantity}</div>
                           </div>
                           {component.unitCost !== undefined && (
                             <div>
-                              <div className="text-sm font-medium text-muted-foreground">
+                              <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                                 Unit Cost
                               </div>
                               <div>${component.unitCost?.toFixed(2)}</div>
@@ -422,7 +422,7 @@ export default function KitTemplateDetail({
                           )}
                           {component.sku && (
                             <div>
-                              <div className="text-sm font-medium text-muted-foreground">
+                              <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                                 SKU
                               </div>
                               <div>{component.sku}</div>
@@ -430,23 +430,23 @@ export default function KitTemplateDetail({
                           )}
                           {component.barcode && (
                             <div>
-                              <div className="text-sm font-medium text-muted-foreground">
+                              <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                                 Barcode
                               </div>
                               <div>{component.barcode}</div>
                             </div>
                           )}
                           {component.description && (
-                            <div className="md:col-span-2">
-                              <div className="text-sm font-medium text-muted-foreground">
+                            <div className=&quot;md:col-span-2&quot;>
+                              <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                                 Description
                               </div>
                               <div>{component.description}</div>
                             </div>
                           )}
                           {component.notes && (
-                            <div className="md:col-span-2">
-                              <div className="text-sm font-medium text-muted-foreground">
+                            <div className=&quot;md:col-span-2&quot;>
+                              <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                                 Notes
                               </div>
                               <div>{component.notes}</div>
@@ -458,9 +458,9 @@ export default function KitTemplateDetail({
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8 border border-dashed rounded-md">
-                  <Package className="h-10 w-10 mx-auto text-muted-foreground" />
-                  <p className="mt-2 text-muted-foreground">
+                <div className=&quot;text-center py-8 border border-dashed rounded-md&quot;>
+                  <Package className=&quot;h-10 w-10 mx-auto text-muted-foreground&quot; />
+                  <p className=&quot;mt-2 text-muted-foreground&quot;>
                     No components defined
                   </p>
                 </div>
@@ -469,27 +469,27 @@ export default function KitTemplateDetail({
           </Card>
         </div>
 
-        <div className="space-y-6">
+        <div className=&quot;space-y-6&quot;>
           <Card>
             <CardHeader>
               <CardTitle>Status</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className=&quot;space-y-4&quot;>
               <div>
-                <div className="text-sm font-medium text-muted-foreground">
+                <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Created
                 </div>
-                <div>{format(new Date(template.createdAt), "PPP")}</div>
+                <div>{format(new Date(template.createdAt), &quot;PPP&quot;)}</div>
               </div>
               <div>
-                <div className="text-sm font-medium text-muted-foreground">
+                <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Last Updated
                 </div>
-                <div>{format(new Date(template.updatedAt), "PPP")}</div>
+                <div>{format(new Date(template.updatedAt), &quot;PPP&quot;)}</div>
               </div>
               {template.approvedById && (
                 <div>
-                  <div className="text-sm font-medium text-muted-foreground">
+                  <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                     Approved By
                   </div>
                   <div>User ID: {template.approvedById}</div>
@@ -497,29 +497,29 @@ export default function KitTemplateDetail({
               )}
               {template.approvalDate && (
                 <div>
-                  <div className="text-sm font-medium text-muted-foreground">
+                  <div className=&quot;text-sm font-medium text-muted-foreground&quot;>
                     Approval Date
                   </div>
-                  <div>{format(new Date(template.approvalDate), "PPP")}</div>
+                  <div>{format(new Date(template.approvalDate), &quot;PPP&quot;)}</div>
                 </div>
               )}
             </CardContent>
-            {canApprove && template.approvalStatus === "pending" && (
-              <CardFooter className="border-t pt-5 flex flex-col gap-2">
+            {canApprove && template.approvalStatus === &quot;pending&quot; && (
+              <CardFooter className=&quot;border-t pt-5 flex flex-col gap-2&quot;>
                 <Button
-                  className="w-full"
-                  variant="default"
+                  className=&quot;w-full&quot;
+                  variant=&quot;default&quot;
                   onClick={() => setApprovalDialogOpen(true)}
                 >
-                  <CheckCircle className="mr-2 h-4 w-4" />
+                  <CheckCircle className=&quot;mr-2 h-4 w-4&quot; />
                   Approve Template
                 </Button>
                 <Button
-                  className="w-full"
-                  variant="outline"
+                  className=&quot;w-full&quot;
+                  variant=&quot;outline&quot;
                   onClick={() => setRejectionDialogOpen(true)}
                 >
-                  <XCircle className="mr-2 h-4 w-4" />
+                  <XCircle className=&quot;mr-2 h-4 w-4&quot; />
                   Reject Template
                 </Button>
               </CardFooter>
@@ -535,16 +535,16 @@ export default function KitTemplateDetail({
                 <Table>
                   <TableBody>
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className=&quot;font-medium&quot;>
                         Total Components
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className=&quot;text-right&quot;>
                         {template.components.length}
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="font-medium">Total Items</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className=&quot;font-medium&quot;>Total Items</TableCell>
+                      <TableCell className=&quot;text-right&quot;>
                         {template.components.reduce(
                           (sum, comp) => sum + (comp.quantity || 0),
                           0,
@@ -552,8 +552,8 @@ export default function KitTemplateDetail({
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="font-medium">Total Cost</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className=&quot;font-medium&quot;>Total Cost</TableCell>
+                      <TableCell className=&quot;text-right&quot;>
                         $
                         {template.components
                           .reduce(
@@ -575,17 +575,17 @@ export default function KitTemplateDetail({
               <CardTitle>Kit Instances</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-4">
-                <p className="text-muted-foreground">
+              <div className=&quot;text-center py-4&quot;>
+                <p className=&quot;text-muted-foreground&quot;>
                   No kit instances created yet
                 </p>
                 <Button
-                  className="mt-2"
-                  size="sm"
-                  variant="outline"
+                  className=&quot;mt-2&quot;
+                  size=&quot;sm&quot;
+                  variant=&quot;outline&quot;
                   onClick={() => {}}
                 >
-                  <Package className="mr-2 h-4 w-4" />
+                  <Package className=&quot;mr-2 h-4 w-4&quot; />
                   Create Kit Instance
                 </Button>
               </div>
@@ -617,11 +617,11 @@ export default function KitTemplateDetail({
             >
               {processingApproval ? (
                 <>
-                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] mr-2"></span>
+                  <span className=&quot;inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] mr-2&quot;></span>
                   Processing...
                 </>
               ) : (
-                "Approve"
+                &quot;Approve&quot;
               )}
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -641,12 +641,12 @@ export default function KitTemplateDetail({
               will be visible to the template creator.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <div className="py-4">
+          <div className=&quot;py-4&quot;>
             <Textarea
-              placeholder="Enter rejection reason..."
+              placeholder=&quot;Enter rejection reason...&quot;
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
-              className="min-h-[100px]"
+              className=&quot;min-h-[100px]&quot;
             />
           </div>
           <AlertDialogFooter>
@@ -659,11 +659,11 @@ export default function KitTemplateDetail({
             >
               {processingApproval ? (
                 <>
-                  <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] mr-2"></span>
+                  <span className=&quot;inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] mr-2&quot;></span>
                   Processing...
                 </>
               ) : (
-                "Reject"
+                &quot;Reject"
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

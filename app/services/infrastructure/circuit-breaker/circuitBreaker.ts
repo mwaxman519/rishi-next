@@ -15,9 +15,9 @@
  * - HALF_OPEN: Testing if the service has recovered
  */
 export enum CircuitState {
-  CLOSED = "CLOSED",
-  OPEN = "OPEN",
-  HALF_OPEN = "HALF_OPEN",
+  CLOSED = &quot;CLOSED&quot;,
+  OPEN = &quot;OPEN&quot;,
+  HALF_OPEN = &quot;HALF_OPEN&quot;,
 }
 
 // Circuit breaker options
@@ -102,7 +102,7 @@ export class CircuitBreaker<T = any> {
   async execute(...args: any[]): Promise<T> {
     this.totalCalls++;
 
-    // If circuit is open, don't call the service
+    // If circuit is open, don&apos;t call the service
     if (this.state === CircuitState.OPEN) {
       this.rejectedCalls++;
 

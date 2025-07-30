@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "../../../../lib/db-connection";
-import { locations, brandLocations } from "@shared/schema";
-import { eq, and, not, inArray, like, ilike, SQL } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { sql } from "drizzle-orm";
+import { db } from &quot;../../../../lib/db-connection&quot;;
+import { locations, brandLocations } from &quot;@shared/schema&quot;;
+import { eq, and, not, inArray, like, ilike, SQL } from &quot;drizzle-orm&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { sql } from &quot;drizzle-orm&quot;;
 
 // Get all approved locations
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -16,22 +16,22 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to view locations
-    if (!(await checkPermission(req, "view:locations"))) {
+    if (!(await checkPermission(req, &quot;view:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
 
     // Parse query parameters
     const url = new URL(req.url);
-    const excludeBrandId = url.searchParams.get("excludeBrandId") || undefined;
-    const stateId = url.searchParams.get("stateId") || undefined;
-    const searchTerm = url.searchParams.get("search") || undefined;
+    const excludeBrandId = url.searchParams.get(&quot;excludeBrandId&quot;) || undefined;
+    const stateId = url.searchParams.get(&quot;stateId&quot;) || undefined;
+    const searchTerm = url.searchParams.get(&quot;search&quot;) || undefined;
 
     // Build the query with only columns that exist in the database
     let baseQuery = db
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       .from(locations);
 
     // Create the where conditions
-    const whereConditions = [eq(locations.status, "approved")];
+    const whereConditions = [eq(locations.status, &quot;approved&quot;)];
 
     // Add filters if provided
     if (stateId) {
@@ -106,7 +106,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   } catch (error) {
     console.error(`Error fetching approved locations:`, error);
     return NextResponse.json(
-      { error: "Failed to fetch approved locations" },
+      { error: &quot;Failed to fetch approved locations&quot; },
       { status: 500 },
     );
   }

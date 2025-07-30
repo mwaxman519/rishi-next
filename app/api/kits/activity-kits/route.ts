@@ -1,14 +1,14 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Activity Kit Assignment API Routes
  */
-import { NextRequest, NextResponse } from "next/server";
-import { kitsService } from "../../../services/kits";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { kitsService } from &quot;../../../services/kits&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { authOptions } from &quot;@/lib/auth-server&quot;;
 
 /**
  * GET /api/kits/activity-kits
@@ -21,24 +21,24 @@ export async function GET(req: NextRequest) {
     const filters: Record<string, any> = {};
 
     // Extract filter parameters
-    if (searchParams.has("activityId")) {
-      filters.activityId = (searchParams.get("activityId") || undefined);
+    if (searchParams.has(&quot;activityId&quot;)) {
+      filters.activityId = (searchParams.get(&quot;activityId&quot;) || undefined);
     }
 
-    if (searchParams.has("kitTemplateId")) {
-      filters.kitTemplateId = (searchParams.get("kitTemplateId") || undefined);
+    if (searchParams.has(&quot;kitTemplateId&quot;)) {
+      filters.kitTemplateId = (searchParams.get(&quot;kitTemplateId&quot;) || undefined);
     }
 
-    if (searchParams.has("kitInstanceId")) {
-      filters.kitInstanceId = (searchParams.get("kitInstanceId") || undefined);
+    if (searchParams.has(&quot;kitInstanceId&quot;)) {
+      filters.kitInstanceId = (searchParams.get(&quot;kitInstanceId&quot;) || undefined);
     }
 
-    if (searchParams.has("status")) {
-      filters.status = (searchParams.get("status") || undefined);
+    if (searchParams.has(&quot;status&quot;)) {
+      filters.status = (searchParams.get(&quot;status&quot;) || undefined);
     }
 
-    if (searchParams.has("assignedToId")) {
-      filters.assignedToId = (searchParams.get("assignedToId") || undefined);
+    if (searchParams.has(&quot;assignedToId&quot;)) {
+      filters.assignedToId = (searchParams.get(&quot;assignedToId&quot;) || undefined);
     }
 
     // Get all activity kits with filters
@@ -46,11 +46,11 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(activityKits);
   } catch (error) {
-    console.error("Error fetching activity kits:", error);
+    console.error(&quot;Error fetching activity kits:&quot;, error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "An unknown error occurred",
+          error instanceof Error ? error.message : &quot;An unknown error occurred&quot;,
       },
       { status: 500 },
     );
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
     // Get the current user from the session
     const session = await getServerSession(authOptions);
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Parse request body
@@ -77,11 +77,11 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(activityKit, { status: 201 });
   } catch (error) {
-    console.error("Error creating activity kit assignment:", error);
+    console.error(&quot;Error creating activity kit assignment:&quot;, error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "An unknown error occurred",
+          error instanceof Error ? error.message : &quot;An unknown error occurred&quot;,
       },
       { status: 400 },
     );

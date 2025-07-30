@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useCallback, useEffect, useRef } from "react";
-import { useGoogleMaps } from "../contexts/GoogleMapsContext";
+import { useState, useCallback, useEffect, useRef } from &quot;react&quot;;
+import { useGoogleMaps } from &quot;../contexts/GoogleMapsContext&quot;;
 
 interface PlacesAutocompleteOptions {
   componentRestrictions?: { country: string | string[] };
@@ -44,16 +44,16 @@ export function usePlacesAutocomplete(
         new google.maps.places.AutocompleteService();
 
       // Create a dummy element for PlacesService
-      const dummyElement = document.createElement("div");
+      const dummyElement = document.createElement(&quot;div&quot;);
       placesService.current = new google.maps.places.PlacesService(
         dummyElement,
       );
     } catch (err) {
-      console.error("Error initializing Places services:", err);
+      console.error(&quot;Error initializing Places services:&quot;, err);
       setError(
         err instanceof Error
           ? err
-          : new Error("Failed to initialize Google Places services"),
+          : new Error(&quot;Failed to initialize Google Places services&quot;),
       );
     }
   }, [isLoaded, google]);
@@ -85,7 +85,7 @@ export function usePlacesAutocomplete(
             request,
             (predictions, status) => {
               if (status !== google.maps.places.PlacesServiceStatus.OK) {
-                console.warn("Places API returned status:", status);
+                console.warn(&quot;Places API returned status:&quot;, status);
                 reject(new Error(`Places API returned status: ${status}`));
                 return;
               }
@@ -103,9 +103,9 @@ export function usePlacesAutocomplete(
         setPredictions(results);
         return results;
       } catch (err) {
-        console.error("Error fetching place predictions:", err);
+        console.error(&quot;Error fetching place predictions:&quot;, err);
         setError(
-          err instanceof Error ? err : new Error("Failed to fetch predictions"),
+          err instanceof Error ? err : new Error(&quot;Failed to fetch predictions&quot;),
         );
         setPredictions([]);
         return [];
@@ -133,17 +133,17 @@ export function usePlacesAutocomplete(
             const request = {
               placeId,
               fields: [
-                "address_components",
-                "formatted_address",
-                "geometry",
-                "name",
-                "place_id",
+                &quot;address_components&quot;,
+                &quot;formatted_address&quot;,
+                &quot;geometry&quot;,
+                &quot;name&quot;,
+                &quot;place_id&quot;,
               ],
             };
 
             placesService.current!.getDetails(request, (result, status) => {
               if (status !== google.maps.places.PlacesServiceStatus.OK) {
-                console.warn("Places Details API returned status:", status);
+                console.warn(&quot;Places Details API returned status:&quot;, status);
                 reject(
                   new Error(`Places Details API returned status: ${status}`),
                 );
@@ -160,11 +160,11 @@ export function usePlacesAutocomplete(
           },
         );
       } catch (err) {
-        console.error("Error fetching place details:", err);
+        console.error(&quot;Error fetching place details:&quot;, err);
         setError(
           err instanceof Error
             ? err
-            : new Error("Failed to fetch place details"),
+            : new Error(&quot;Failed to fetch place details&quot;),
         );
         return null;
       } finally {

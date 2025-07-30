@@ -1,7 +1,7 @@
-"use server";
+&quot;use server&quot;;
 
-import { db } from "../lib/db";
-import { items } from "../../shared/schema";
+import { db } from &quot;../lib/db&quot;;
+import { items } from &quot;../../shared/schema&quot;;
 
 /**
  * Get all items from the database
@@ -13,7 +13,7 @@ export async function getItems() {
     const allItems = await db.select().from(items);
     return allItems;
   } catch (error) {
-    console.error("Error fetching items:", error);
+    console.error(&quot;Error fetching items:&quot;, error);
     return [];
   }
 }

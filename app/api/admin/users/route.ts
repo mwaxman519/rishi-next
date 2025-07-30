@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "@/lib/db";
-import { getCurrentUser } from "@/lib/auth";
-import { users } from "@shared/schema";
+import { db } from &quot;@/lib/db&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { users } from &quot;@shared/schema&quot;;
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from "@/lib/rbac-enhanced";
-import { desc } from "drizzle-orm";
+} from &quot;@/lib/rbac-enhanced&quot;;
+import { desc } from &quot;drizzle-orm&quot;;
 
 // GET /api/admin/users - Get all users
 export async function GET(request: NextRequest) {
@@ -18,12 +18,12 @@ export async function GET(request: NextRequest) {
     // Check authentication and authorization
     const authUser = await getCurrentUser();
     if (!authUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Only users with proper permissions can access all users
-    if (!hasEnhancedPermission("view:users", authUser.role)) {
-      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
+    if (!hasEnhancedPermission(&quot;view:users&quot;, authUser.role)) {
+      return NextResponse.json({ error: &quot;Permission denied&quot; }, { status: 403 });
     }
 
     // Get users
@@ -43,9 +43,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(allUsers);
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error(&quot;Error fetching users:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch users" },
+      { error: &quot;Failed to fetch users&quot; },
       { status: 500 },
     );
   }

@@ -8,8 +8,8 @@
  * - Location deletion
  */
 
-import { v4 as uuidv4 } from "uuid";
-import { publishEvent } from "../infrastructure/messaging/distributedEventBus";
+import { v4 as uuidv4 } from &quot;uuid&quot;;
+import { publishEvent } from &quot;../infrastructure/messaging/distributedEventBus&quot;;
 import {
   AppEvent,
   LocationCreatedPayload,
@@ -17,7 +17,7 @@ import {
   LocationApprovalPayload,
   LocationRejectionPayload,
   LocationDeletedPayload,
-} from "../infrastructure/messaging/eventTypes";
+} from &quot;../infrastructure/messaging/eventTypes&quot;;
 
 /**
  * Create payload for location creation event
@@ -98,7 +98,7 @@ export async function publishLocationCreatedEvent(
   try {
     const result = await publishEvent(AppEvent.LOCATION_CREATED, payload, {
       correlationId: uuidv4(),
-      eventSource: "location-service",
+      eventSource: &quot;location-service&quot;,
     });
 
     if (!result.success) {
@@ -138,7 +138,7 @@ export async function publishLocationUpdatedEvent(
   try {
     const result = await publishEvent(AppEvent.LOCATION_UPDATED, payload, {
       correlationId: uuidv4(),
-      eventSource: "location-service",
+      eventSource: &quot;location-service&quot;,
     });
 
     if (!result.success) {
@@ -180,8 +180,8 @@ export async function publishLocationApprovedEvent(
   try {
     const result = await publishEvent(AppEvent.LOCATION_APPROVED, payload, {
       correlationId: uuidv4(),
-      eventSource: "location-service",
-      priority: "high", // High priority for approval events to trigger notifications
+      eventSource: &quot;location-service&quot;,
+      priority: &quot;high&quot;, // High priority for approval events to trigger notifications
     });
 
     if (!result.success) {
@@ -224,8 +224,8 @@ export async function publishLocationRejectedEvent(
   try {
     const result = await publishEvent(AppEvent.LOCATION_REJECTED, payload, {
       correlationId: uuidv4(),
-      eventSource: "location-service",
-      priority: "high", // High priority for rejection events to trigger notifications
+      eventSource: &quot;location-service&quot;,
+      priority: &quot;high&quot;, // High priority for rejection events to trigger notifications
     });
 
     if (!result.success) {
@@ -265,7 +265,7 @@ export async function publishLocationDeletedEvent(
   try {
     const result = await publishEvent(AppEvent.LOCATION_DELETED, payload, {
       correlationId: uuidv4(),
-      eventSource: "location-service",
+      eventSource: &quot;location-service&quot;,
     });
 
     if (!result.success) {

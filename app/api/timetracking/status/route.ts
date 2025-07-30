@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { simpleTimeTrackingService } from "../../../services/timetracking/SimpleTimeTrackingService";
+import { simpleTimeTrackingService } from &quot;../../../services/timetracking/SimpleTimeTrackingService&quot;;
 
 // Use the exported instance
 const timeTrackingService = simpleTimeTrackingService;
@@ -12,11 +12,11 @@ const timeTrackingService = simpleTimeTrackingService;
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const agentId = (searchParams.get("agentId") || undefined);
+    const agentId = (searchParams.get(&quot;agentId&quot;) || undefined);
 
     if (!agentId) {
       return NextResponse.json(
-        { error: "Agent ID is required" },
+        { error: &quot;Agent ID is required&quot; },
         { status: 400 },
       );
     }
@@ -28,12 +28,12 @@ export async function GET(request: NextRequest) {
       data: status,
     });
   } catch (error) {
-    console.error("Error getting agent status:", error);
+    console.error(&quot;Error getting agent status:&quot;, error);
     return NextResponse.json(
       {
         success: false,
         error:
-          error instanceof Error ? error.message : "Failed to get agent status",
+          error instanceof Error ? error.message : &quot;Failed to get agent status&quot;,
       },
       { status: 500 },
     );

@@ -1,17 +1,17 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
-import { publishLocationRejectedEvent } from "../../../../../services/locations/locationEventPublisher";
-import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@shared/schema&quot;;
+import { publishLocationRejectedEvent } from &quot;../../../../../services/locations/locationEventPublisher&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 export async function POST(
   req: NextRequest,
@@ -24,13 +24,13 @@ export async function POST(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to manage locations
-    if (!(await checkPermission(req, "update:locations"))) {
+    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -39,22 +39,22 @@ export async function POST(
       // Get additional rejection details from request body (optional)
       const { rejectionReason } = await req
         .json()
-        .catch(() => ({ rejectionReason: "" }));
+        .catch(() => ({ rejectionReason: "&quot; }));
 
       // Get the location using Drizzle ORM
       const [location] = await db.select().from(locations).where(eq(locations.id, locationId));
 
       if (!location) {
         return NextResponse.json(
-          { error: "Location not found" },
+          { error: &quot;Location not found&quot; },
           { status: 404 },
         );
       }
 
-      if (location.status !== "pending") {
+      if (location.status !== &quot;pending&quot;) {
         return NextResponse.json(
           {
-            error: "Location is not in pending status and cannot be rejected",
+            error: &quot;Location is not in pending status and cannot be rejected&quot;,
           },
           { status: 400 },
         );
@@ -64,17 +64,17 @@ export async function POST(
       const [updatedLocation] = await db
         .update(locations)
         .set({
-          status: "rejected",
+          status: &quot;rejected&quot;,
           reviewed_by: user.id,
           review_date: new Date(),
-          notes: rejectionReason || "Rejected by administrator",
+          notes: rejectionReason || &quot;Rejected by administrator&quot;,
         })
         .where(eq(locations.id, locationId))
         .returning();
 
       if (!updatedLocation) {
         return NextResponse.json(
-          { error: "Failed to update location" },
+          { error: &quot;Failed to update location&quot; },
           { status: 500 },
         );
       }
@@ -83,21 +83,21 @@ export async function POST(
       try {
         await publishLocationRejectedEvent({
           locationId: updatedLocation.id,
-          name: updatedLocation.name || "Unknown location",
+          name: updatedLocation.name || &quot;Unknown location&quot;,
           rejectedById: user.id,
-          rejectedByName: user.fullName || user.username || "Unknown user",
+          rejectedByName: user.fullName || user.username || &quot;Unknown user&quot;,
           rejectedAt: updatedLocation.review_date?.toISOString() || new Date().toISOString(),
-          rejectionReason: rejectionReason || "Rejected by administrator",
-          submittedById: updatedLocation.requested_by || "unknown",
+          rejectionReason: rejectionReason || &quot;Rejected by administrator&quot;,
+          submittedById: updatedLocation.requested_by || &quot;unknown&quot;,
         });
       } catch (eventError) {
-        console.error("Failed to publish location rejected event:", eventError);
+        console.error(&quot;Failed to publish location rejected event:&quot;, eventError);
         // We continue even if event publishing fails, but log the error
       }
 
       return NextResponse.json(updatedLocation);
     } catch (dbError) {
-      console.error("Database error:", dbError);
+      console.error(&quot;Database error:&quot;, dbError);
       return NextResponse.json(
         {
           error: `Database error: ${dbError instanceof Error ? dbError.message : String(dbError)}`,
@@ -106,11 +106,11 @@ export async function POST(
       );
     }
   } catch (error) {
-    console.error("Error rejecting location:", error);
+    console.error(&quot;Error rejecting location:&quot;, error);
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "Failed to reject location",
+          error instanceof Error ? error.message : &quot;Failed to reject location",
       },
       { status: 500 },
     );

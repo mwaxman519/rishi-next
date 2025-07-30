@@ -1,7 +1,7 @@
-import React, { useId } from "react";
-import { Input } from "./input";
-import { Label } from "./label";
-import { cn } from "../../lib/utils";
+import React, { useId } from &quot;react&quot;;
+import { Input } from &quot;./input&quot;;
+import { Label } from &quot;./label&quot;;
+import { cn } from &quot;../../lib/utils&quot;;
 
 export interface LabeledInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -16,18 +16,18 @@ const LabeledInput = React.forwardRef<HTMLInputElement, LabeledInputProps>(
     const generatedId = useId();
     const inputId =
       id ||
-      `input-${name || label.toLowerCase().replace(/\s+/g, "-")}-${generatedId}`;
+      `input-${name || label.toLowerCase().replace(/\s+/g, &quot;-&quot;)}-${generatedId}`;
 
     return (
-      <div className={cn("space-y-2", fullWidth && "w-full")}>
-        <Label htmlFor={inputId} className="text-sm font-medium">
+      <div className={cn(&quot;space-y-2&quot;, fullWidth && &quot;w-full&quot;)}>
+        <Label htmlFor={inputId} className=&quot;text-sm font-medium&quot;>
           {label}
         </Label>
         <Input
           id={inputId}
-          className={cn(className, fullWidth && "w-full")}
+          className={cn(className, fullWidth && &quot;w-full&quot;)}
           ref={ref}
-          name={name || label.toLowerCase().replace(/\s+/g, "-")}
+          name={name || label.toLowerCase().replace(/\s+/g, &quot;-&quot;)}
           {...props}
         />
       </div>
@@ -35,6 +35,6 @@ const LabeledInput = React.forwardRef<HTMLInputElement, LabeledInputProps>(
   },
 );
 
-LabeledInput.displayName = "LabeledInput";
+LabeledInput.displayName = &quot;LabeledInput&quot;;
 
 export { LabeledInput };

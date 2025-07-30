@@ -1,17 +1,17 @@
 
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { z } from "zod";
-import { db } from "@/lib/db";
-import { locations } from "@/shared/schema";
-import { eq, inArray } from "drizzle-orm";
-import { authOptions } from "@/lib/auth-options";
-import { hasPermission, type PermissionLevel } from "@/lib/rbac/hasPermission";
-import { locationEventBus } from "../../../../services/infrastructure/messaging/locationEvents";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { z } from &quot;zod&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@/shared/schema&quot;;
+import { eq, inArray } from &quot;drizzle-orm&quot;;
+import { authOptions } from &quot;@/lib/auth-options&quot;;
+import { hasPermission, type PermissionLevel } from &quot;@/lib/rbac/hasPermission&quot;;
+import { locationEventBus } from &quot;../../../../services/infrastructure/messaging/locationEvents&quot;;
 
 // Define the shape of the request body
 const BulkUpdateSchema = z.object({
@@ -33,20 +33,20 @@ export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
   }
 
   // Verify user has permissions to update locations
   const userRole = (session.user as any).role || 'client_user';
   const userHasPermission = hasPermission(
     userRole,
-    "locations",
-    "write" as PermissionLevel
+    &quot;locations&quot;,
+    &quot;write&quot; as PermissionLevel
   );
 
   if (!userHasPermission) {
     return NextResponse.json(
-      { error: "Forbidden: Insufficient permissions" },
+      { error: &quot;Forbidden: Insufficient permissions&quot; },
       { status: 403 },
     );
   }
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     if (!validationResult.success) {
       return NextResponse.json(
         {
-          error: "Invalid request data",
+          error: &quot;Invalid request data&quot;,
           details: validationResult.error.format(),
         },
         { status: 400 },
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
 
     if (locationIds.length === 0) {
       return NextResponse.json(
-        { error: "No location IDs provided" },
+        { error: &quot;No location IDs provided&quot; },
         { status: 400 },
       );
     }
@@ -96,8 +96,8 @@ export async function POST(req: NextRequest) {
 
     // Get user info for event metadata
     // Get authenticated user from session
-    const userId = (session.user as any).id || "unknown";
-    const organizationId = (session.user as any).organizationId || "unknown";
+    const userId = (session.user as any).id || &quot;unknown&quot;;
+    const organizationId = (session.user as any).organizationId || &quot;unknown&quot;;
 
     // Publish events for each updated location
     const eventPromises = locationIds.map((locationId) => {
@@ -110,11 +110,11 @@ export async function POST(req: NextRequest) {
       const changedFields = [];
 
       if (updates.status && locationBefore?.status !== updates.status) {
-        changedFields.push("status");
+        changedFields.push(&quot;status&quot;);
 
         // Publish a status-specific event
         locationEventBus.publish(
-          "location.status.updated",
+          &quot;location.status.updated&quot;,
           {
             locationId,
             newStatus: updates.status,
@@ -133,16 +133,16 @@ export async function POST(req: NextRequest) {
         updates.type &&
         locationBefore?.type !== updates.type
       ) {
-        changedFields.push("type");
+        changedFields.push(&quot;type&quot;);
       }
 
       if (updates.notes) {
-        changedFields.push("notes");
+        changedFields.push(&quot;notes&quot;);
       }
 
       // Publish a general update event
       return locationEventBus.publish(
-        "location.updated",
+        &quot;location.updated&quot;,
         {
           locationId,
           updatedBy: userId,
@@ -165,11 +165,11 @@ export async function POST(req: NextRequest) {
       count: locationIds.length,
     });
   } catch (error) {
-    console.error("Error in bulk location update:", error);
+    console.error(&quot;Error in bulk location update:&quot;, error);
     return NextResponse.json(
       {
-        error: "Failed to update locations",
-        details: error instanceof Error ? error.message : "Unknown error",
+        error: &quot;Failed to update locations&quot;,
+        details: error instanceof Error ? error.message : &quot;Unknown error&quot;,
       },
       { status: 500 },
     );

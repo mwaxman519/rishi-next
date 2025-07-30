@@ -1,11 +1,11 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
+import React from &quot;react&quot;;
 
 export default function BookingsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="container py-6">{children}</div>;
+  return <div className=&quot;container py-6&quot;>{children}</div>;
 }

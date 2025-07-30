@@ -1,4 +1,4 @@
-"use client";
+&quot;use client&quot;;
 
 import React, {
   createContext,
@@ -7,10 +7,10 @@ import React, {
   useCallback,
   useEffect,
   ReactNode,
-} from "react";
-import { AvailabilityDTO } from "../../models/availability";
-import { useTheme } from "@/hooks/useTheme";
-import { useSidebarState } from "@/hooks/useSidebarState";
+} from &quot;react&quot;;
+import { AvailabilityDTO } from &quot;../../models/availability&quot;;
+import { useTheme } from &quot;@/hooks/useTheme&quot;;
+import { useSidebarState } from &quot;@/hooks/useSidebarState&quot;;
 
 // Define the shape of the context
 interface CalendarContextType {
@@ -19,7 +19,7 @@ interface CalendarContextType {
   availabilityBlocks: AvailabilityDTO[];
   refreshAvailability: () => Promise<void>;
   refreshKey: number;
-  theme: "light" | "dark";
+  theme: &quot;light&quot; | &quot;dark&quot;;
   sidebarCollapsed: boolean;
   setError: (error: Error | null) => void;
 }
@@ -31,7 +31,7 @@ const CalendarContext = createContext<CalendarContextType>({
   availabilityBlocks: [],
   refreshAvailability: async () => {},
   refreshKey: 0,
-  theme: "light",
+  theme: &quot;light&quot;,
   sidebarCollapsed: false,
   setError: () => {},
 });
@@ -59,7 +59,7 @@ export function CalendarProvider({ children, userId }: CalendarProviderProps) {
   // Function to refresh availability data
   const refreshAvailability = useCallback(async () => {
     if (!userId) {
-      setError(new Error("No user ID provided"));
+      setError(new Error(&quot;No user ID provided&quot;));
       setIsLoading(false);
       return;
     }
@@ -73,15 +73,15 @@ export function CalendarProvider({ children, userId }: CalendarProviderProps) {
       const endDate = new Date();
       endDate.setDate(today.getDate() + 90);
 
-      const startDateStr = today.toISOString().split("T")[0];
-      const endDateStr = endDate.toISOString().split("T")[0];
+      const startDateStr = today.toISOString().split(&quot;T&quot;)[0];
+      const endDateStr = endDate.toISOString().split(&quot;T&quot;)[0];
 
       // Fetch availability data
       const response = await fetch(
         `/api/availability?userId=${userId}&startDate=${startDateStr}&endDate=${endDateStr}`,
         {
           headers: {
-            "Content-Type": "application/json",
+            &quot;Content-Type&quot;: &quot;application/json&quot;,
           },
         },
       );
@@ -103,11 +103,11 @@ export function CalendarProvider({ children, userId }: CalendarProviderProps) {
         setAvailabilityBlocks([]);
       }
     } catch (err) {
-      console.error("Error fetching availability:", err);
+      console.error(&quot;Error fetching availability:&quot;, err);
       setError(
         err instanceof Error
           ? err
-          : new Error("Failed to fetch availability data"),
+          : new Error(&quot;Failed to fetch availability data&quot;),
       );
     } finally {
       setIsLoading(false);
@@ -145,7 +145,7 @@ export function useCalendar() {
   const context = useContext(CalendarContext);
 
   if (context === undefined) {
-    throw new Error("useCalendar must be used within a CalendarProvider");
+    throw new Error(&quot;useCalendar must be used within a CalendarProvider&quot;);
   }
 
   return context;

@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import { createServiceProvider } from "../infrastructure/serviceRegistry";
-import { IAvailabilityService } from "./serviceAdapter";
+import { createServiceProvider } from &quot;../infrastructure/serviceRegistry&quot;;
+import { IAvailabilityService } from &quot;./serviceAdapter&quot;;
 import {
   AvailabilityDTO,
   AvailabilityQueryOptions,
@@ -11,10 +11,10 @@ import {
   ConflictCheckResponse,
   CreateAvailabilityRequest,
   UpdateAvailabilityRequest,
-} from "./models";
+} from &quot;./models&quot;;
 
 // Export all the service models and interfaces for use in other modules
-export * from "./models";
+export * from &quot;./models&quot;;
 
 /**
  * ClientAvailabilityService
@@ -30,14 +30,14 @@ class ClientAvailabilityService implements IAvailabilityService {
     try {
       // Build query string from options
       const queryParams = new URLSearchParams();
-      queryParams.append("userId", options.userId.toString());
+      queryParams.append(&quot;userId&quot;, options.userId.toString());
 
       if (options.startDate) {
         const startDate =
           options.startDate instanceof Date
             ? options.startDate.toISOString()
             : options.startDate;
-        queryParams.append("startDate", startDate);
+        queryParams.append(&quot;startDate&quot;, startDate);
       }
 
       if (options.endDate) {
@@ -45,11 +45,11 @@ class ClientAvailabilityService implements IAvailabilityService {
           options.endDate instanceof Date
             ? options.endDate.toISOString()
             : options.endDate;
-        queryParams.append("endDate", endDate);
+        queryParams.append(&quot;endDate&quot;, endDate);
       }
 
       if (options.status) {
-        queryParams.append("status", options.status);
+        queryParams.append(&quot;status&quot;, options.status);
       }
 
       // Call API endpoint
@@ -74,13 +74,13 @@ class ClientAvailabilityService implements IAvailabilityService {
               : [],
       };
     } catch (error) {
-      console.error("Error in getAvailabilityBlocks:", error);
+      console.error(&quot;Error in getAvailabilityBlocks:&quot;, error);
       return {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : "Failed to fetch availability blocks",
+            : &quot;Failed to fetch availability blocks&quot;,
       };
     }
   }
@@ -107,7 +107,7 @@ class ClientAvailabilityService implements IAvailabilityService {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to fetch availability block",
+            : &quot;Failed to fetch availability block&quot;,
       };
     }
   }
@@ -116,10 +116,10 @@ class ClientAvailabilityService implements IAvailabilityService {
     data: CreateAvailabilityRequest,
   ): Promise<AvailabilityResponse> {
     try {
-      const response = await fetch("/api/availability", {
-        method: "POST",
+      const response = await fetch(&quot;/api/availability&quot;, {
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify(data),
       });
@@ -141,13 +141,13 @@ class ClientAvailabilityService implements IAvailabilityService {
             : responseData,
       };
     } catch (error) {
-      console.error("Error in createAvailabilityBlock:", error);
+      console.error(&quot;Error in createAvailabilityBlock:&quot;, error);
       return {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : "Failed to create availability block",
+            : &quot;Failed to create availability block&quot;,
       };
     }
   }
@@ -158,9 +158,9 @@ class ClientAvailabilityService implements IAvailabilityService {
   ): Promise<AvailabilityResponse> {
     try {
       const response = await fetch(`/api/availability/${id}`, {
-        method: "PUT",
+        method: &quot;PUT&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify(data),
       });
@@ -188,7 +188,7 @@ class ClientAvailabilityService implements IAvailabilityService {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to update availability block",
+            : &quot;Failed to update availability block&quot;,
       };
     }
   }
@@ -203,7 +203,7 @@ class ClientAvailabilityService implements IAvailabilityService {
         : `/api/availability/${id}`;
 
       const response = await fetch(url, {
-        method: "DELETE",
+        method: &quot;DELETE&quot;,
       });
 
       if (!response.ok) {
@@ -216,7 +216,7 @@ class ClientAvailabilityService implements IAvailabilityService {
 
       // Parse the response to get deletion details
       const result = await response.json();
-      console.log("Client received delete response:", JSON.stringify(result));
+      console.log(&quot;Client received delete response:&quot;, JSON.stringify(result));
 
       // Normalize the result structure to ensure consistent format
       let responseData: { success: boolean; count?: number } = {
@@ -249,7 +249,7 @@ class ClientAvailabilityService implements IAvailabilityService {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to delete availability block",
+            : &quot;Failed to delete availability block&quot;,
       };
     }
   }
@@ -267,10 +267,10 @@ class ClientAvailabilityService implements IAvailabilityService {
       const formattedEndDate =
         endDate instanceof Date ? endDate.toISOString() : endDate;
 
-      const response = await fetch("/api/availability/conflicts", {
-        method: "POST",
+      const response = await fetch(&quot;/api/availability/conflicts&quot;, {
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify({
           userId,
@@ -297,13 +297,13 @@ class ClientAvailabilityService implements IAvailabilityService {
         },
       };
     } catch (error) {
-      console.error("Error in checkForConflicts:", error);
+      console.error(&quot;Error in checkForConflicts:&quot;, error);
       return {
         success: false,
         error:
           error instanceof Error
             ? error.message
-            : "Failed to check for conflicts",
+            : &quot;Failed to check for conflicts&quot;,
       };
     }
   }

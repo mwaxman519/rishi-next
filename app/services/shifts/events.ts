@@ -3,8 +3,8 @@
  * Event publishers and handlers for shift-related operations
  */
 
-import { EventBus } from "../core/EventBus";
-import { ShiftDTO, AssignmentStatus } from "./models";
+import { EventBus } from &quot;../core/EventBus&quot;;
+import { ShiftDTO, AssignmentStatus } from &quot;./models&quot;;
 
 export interface ShiftEvent {
   type: string;
@@ -15,7 +15,7 @@ export interface ShiftEvent {
 }
 
 export interface ShiftCreatedEvent extends ShiftEvent {
-  type: "shift.created";
+  type: &quot;shift.created&quot;;
   payload: {
     shift: ShiftDTO;
     createdBy: string;
@@ -23,7 +23,7 @@ export interface ShiftCreatedEvent extends ShiftEvent {
 }
 
 export interface ShiftUpdatedEvent extends ShiftEvent {
-  type: "shift.updated";
+  type: &quot;shift.updated&quot;;
   payload: {
     shift: ShiftDTO;
     updatedBy: string;
@@ -32,7 +32,7 @@ export interface ShiftUpdatedEvent extends ShiftEvent {
 }
 
 export interface ShiftDeletedEvent extends ShiftEvent {
-  type: "shift.deleted";
+  type: &quot;shift.deleted&quot;;
   payload: {
     shiftId: string;
     deletedBy: string;
@@ -40,7 +40,7 @@ export interface ShiftDeletedEvent extends ShiftEvent {
 }
 
 export interface ShiftAssignedEvent extends ShiftEvent {
-  type: "shift.assigned";
+  type: &quot;shift.assigned&quot;;
   payload: {
     shift: ShiftDTO;
     agentId: string;
@@ -50,7 +50,7 @@ export interface ShiftAssignedEvent extends ShiftEvent {
 }
 
 export interface ShiftUnassignedEvent extends ShiftEvent {
-  type: "shift.unassigned";
+  type: &quot;shift.unassigned&quot;;
   payload: {
     shift: ShiftDTO;
     agentId: string;
@@ -59,7 +59,7 @@ export interface ShiftUnassignedEvent extends ShiftEvent {
 }
 
 export interface ShiftStartedEvent extends ShiftEvent {
-  type: "shift.started";
+  type: &quot;shift.started&quot;;
   payload: {
     shift: ShiftDTO;
     startedBy: string;
@@ -68,7 +68,7 @@ export interface ShiftStartedEvent extends ShiftEvent {
 }
 
 export interface ShiftCompletedEvent extends ShiftEvent {
-  type: "shift.completed";
+  type: &quot;shift.completed&quot;;
   payload: {
     shift: ShiftDTO;
     completedBy: string;
@@ -77,7 +77,7 @@ export interface ShiftCompletedEvent extends ShiftEvent {
 }
 
 export interface ShiftCancelledEvent extends ShiftEvent {
-  type: "shift.cancelled";
+  type: &quot;shift.cancelled&quot;;
   payload: {
     shift: ShiftDTO;
     cancelledBy: string;
@@ -98,7 +98,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftCreatedEvent = {
-      type: "shift.created",
+      type: &quot;shift.created&quot;,
       payload: {
         shift,
         createdBy,
@@ -118,7 +118,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftUpdatedEvent = {
-      type: "shift.updated",
+      type: &quot;shift.updated&quot;,
       payload: {
         shift,
         updatedBy,
@@ -138,7 +138,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftDeletedEvent = {
-      type: "shift.deleted",
+      type: &quot;shift.deleted&quot;,
       payload: {
         shiftId,
         deletedBy,
@@ -159,7 +159,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftAssignedEvent = {
-      type: "shift.assigned",
+      type: &quot;shift.assigned&quot;,
       payload: {
         shift,
         agentId,
@@ -181,7 +181,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftUnassignedEvent = {
-      type: "shift.unassigned",
+      type: &quot;shift.unassigned&quot;,
       payload: {
         shift,
         agentId,
@@ -202,7 +202,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftStartedEvent = {
-      type: "shift.started",
+      type: &quot;shift.started&quot;,
       payload: {
         shift,
         startedBy,
@@ -223,7 +223,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftCompletedEvent = {
-      type: "shift.completed",
+      type: &quot;shift.completed&quot;,
       payload: {
         shift,
         completedBy,
@@ -244,7 +244,7 @@ export class ShiftEventPublisher {
     organizationId: string,
   ): Promise<void> {
     const event: ShiftCancelledEvent = {
-      type: "shift.cancelled",
+      type: &quot;shift.cancelled&quot;,
       payload: {
         shift,
         cancelledBy,

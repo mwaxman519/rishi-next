@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 
 interface User {
   id: string;
@@ -42,7 +42,7 @@ export function useAuth() {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("/api/auth-service/session");
+      const response = await fetch(&quot;/api/auth-service/session&quot;);
       if (response.ok) {
         const sessionData = await response.json();
         if (sessionData.success && sessionData.user) {
@@ -54,7 +54,7 @@ export function useAuth() {
         setUser(null);
       }
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error(&quot;Error fetching user:&quot;, error);
       setUser(null);
     } finally {
       setLoading(false);
@@ -63,10 +63,10 @@ export function useAuth() {
   };
 
   const login = async (username: string, password: string) => {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
+    const response = await fetch(&quot;/api/auth/login&quot;, {
+      method: &quot;POST&quot;,
       headers: {
-        "Content-Type": "application/json",
+        &quot;Content-Type&quot;: &quot;application/json&quot;,
       },
       body: JSON.stringify({ username, password }),
     });
@@ -74,7 +74,7 @@ export function useAuth() {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error || "Login failed");
+      throw new Error(data.error || &quot;Login failed&quot;);
     }
 
     setUser(data.user);
@@ -86,8 +86,8 @@ export function useAuth() {
       setLoggingOut(true);
       
       // Make the logout API call using the auth service
-      const response = await fetch("/api/auth-service/logout", {
-        method: "POST",
+      const response = await fetch(&quot;/api/auth-service/logout&quot;, {
+        method: &quot;POST&quot;,
       });
       
       if (response.ok) {
@@ -95,28 +95,28 @@ export function useAuth() {
         setUser(null);
         
         // Clear any client-side storage that might persist session
-        localStorage.removeItem("user");
-        localStorage.removeItem("auth-token");
-        localStorage.removeItem("session");
+        localStorage.removeItem(&quot;user&quot;);
+        localStorage.removeItem(&quot;auth-token&quot;);
+        localStorage.removeItem(&quot;session&quot;);
         
         // Use replace to prevent user from going back to logged in state
-        router.replace("/auth/login");
+        router.replace(&quot;/auth/login&quot;);
       } else {
         // If logout fails, still clear user state for security
         setUser(null);
-        localStorage.removeItem("user");
-        localStorage.removeItem("auth-token");
-        localStorage.removeItem("session");
-        router.replace("/auth/login");
+        localStorage.removeItem(&quot;user&quot;);
+        localStorage.removeItem(&quot;auth-token&quot;);
+        localStorage.removeItem(&quot;session&quot;);
+        router.replace(&quot;/auth/login&quot;);
       }
     } catch (error) {
-      console.error("Error logging out:", error);
+      console.error(&quot;Error logging out:&quot;, error);
       // Even if the API call fails, we still want to clear the user state
       setUser(null);
-      localStorage.removeItem("user");
-      localStorage.removeItem("auth-token");
-      localStorage.removeItem("session");
-      router.replace("/auth/login");
+      localStorage.removeItem(&quot;user&quot;);
+      localStorage.removeItem(&quot;auth-token&quot;);
+      localStorage.removeItem(&quot;session&quot;);
+      router.replace(&quot;/auth/login&quot;);
     } finally {
       setLoggingOut(false);
     }

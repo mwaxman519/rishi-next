@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Badge } from "../../components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from &quot;../../components/ui/card&quot;;
+import { Button } from &quot;../../components/ui/button&quot;;
+import { Badge } from &quot;../../components/ui/badge&quot;;
 import {
   Calendar,
   Users,
@@ -30,9 +30,9 @@ import {
   CreditCard,
   FileText,
   Zap,
-} from "lucide-react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+} from &quot;lucide-react&quot;;
+import Link from &quot;next/link&quot;;
+import { useState, useEffect } from &quot;react&quot;;
 
 // Production implementation - all data fetched from real APIs
 
@@ -85,34 +85,34 @@ export default function ClientUserDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+      <div className=&quot;min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center&quot;>
+        <div className=&quot;text-center&quot;>
+          <div className=&quot;animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4&quot;></div>
+          <p className=&quot;text-gray-600&quot;>Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50">
-      <div className="container mx-auto p-6 space-y-8">
+    <div className=&quot;min-h-screen bg-gradient-to-br from-emerald-50 via-white to-blue-50&quot;>
+      <div className=&quot;container mx-auto p-6 space-y-8&quot;>
         {/* Header */}
-        <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl p-8 text-white overflow-hidden">
-          <div className="absolute inset-0 bg-black/10 backdrop-blur-sm"></div>
-          <div className="relative z-10">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0">
+        <div className=&quot;relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl p-8 text-white overflow-hidden&quot;>
+          <div className=&quot;absolute inset-0 bg-black/10 backdrop-blur-sm&quot;></div>
+          <div className=&quot;relative z-10&quot;>
+            <div className=&quot;flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0&quot;>
               <div>
-                <h1 className="text-4xl font-bold mb-2">Client Dashboard</h1>
-                <p className="text-blue-100 text-lg">Manage your events and team performance</p>
+                <h1 className=&quot;text-4xl font-bold mb-2&quot;>Client Dashboard</h1>
+                <p className=&quot;text-blue-100 text-lg&quot;>Manage your events and team performance</p>
               </div>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                  <Plus className="h-5 w-5 mr-2" />
+              <div className=&quot;flex flex-wrap gap-3&quot;>
+                <Button variant=&quot;outline&quot; size=&quot;lg&quot; className=&quot;border-white text-white hover:bg-white/10&quot;>
+                  <Plus className=&quot;h-5 w-5 mr-2&quot; />
                   Request Event
                 </Button>
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
-                  <Bell className="h-5 w-5 mr-2" />
+                <Button variant=&quot;outline&quot; size=&quot;lg&quot; className=&quot;border-white text-white hover:bg-white/10&quot;>
+                  <Bell className=&quot;h-5 w-5 mr-2&quot; />
                   Notifications
                 </Button>
               </div>
@@ -121,80 +121,80 @@ export default function ClientUserDashboard() {
         </div>
 
         {/* Performance Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-0 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+        <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-6&quot;>
+          <Card className=&quot;bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-0 shadow-xl&quot;>
+            <CardContent className=&quot;p-6&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-emerald-100 font-medium">Total Events</p>
-                  <p className="text-3xl font-bold">{upcomingEvents.length}</p>
+                  <p className=&quot;text-emerald-100 font-medium&quot;>Total Events</p>
+                  <p className=&quot;text-3xl font-bold&quot;>{upcomingEvents.length}</p>
                 </div>
-                <Calendar className="h-8 w-8 text-emerald-200" />
+                <Calendar className=&quot;h-8 w-8 text-emerald-200&quot; />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-500 to-cyan-600 text-white border-0 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className=&quot;bg-gradient-to-br from-blue-500 to-cyan-600 text-white border-0 shadow-xl&quot;>
+            <CardContent className=&quot;p-6&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-blue-100 font-medium">Team Members</p>
-                  <p className="text-3xl font-bold">{teamMembers.length}</p>
+                  <p className=&quot;text-blue-100 font-medium&quot;>Team Members</p>
+                  <p className=&quot;text-3xl font-bold&quot;>{teamMembers.length}</p>
                 </div>
-                <Users className="h-8 w-8 text-blue-200" />
+                <Users className=&quot;h-8 w-8 text-blue-200&quot; />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500 to-pink-600 text-white border-0 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className=&quot;bg-gradient-to-br from-purple-500 to-pink-600 text-white border-0 shadow-xl&quot;>
+            <CardContent className=&quot;p-6&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-purple-100 font-medium">Completed</p>
-                  <p className="text-3xl font-bold">{recentBookings.length}</p>
+                  <p className=&quot;text-purple-100 font-medium&quot;>Completed</p>
+                  <p className=&quot;text-3xl font-bold&quot;>{recentBookings.length}</p>
                 </div>
-                <CheckCircle className="h-8 w-8 text-purple-200" />
+                <CheckCircle className=&quot;h-8 w-8 text-purple-200&quot; />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-orange-500 to-red-600 text-white border-0 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+          <Card className=&quot;bg-gradient-to-br from-orange-500 to-red-600 text-white border-0 shadow-xl&quot;>
+            <CardContent className=&quot;p-6&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-orange-100 font-medium">Pending</p>
-                  <p className="text-3xl font-bold">{pendingRequests.length}</p>
+                  <p className=&quot;text-orange-100 font-medium&quot;>Pending</p>
+                  <p className=&quot;text-3xl font-bold&quot;>{pendingRequests.length}</p>
                 </div>
-                <AlertCircle className="h-8 w-8 text-orange-200" />
+                <AlertCircle className=&quot;h-8 w-8 text-orange-200&quot; />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-8&quot;>
           {/* Upcoming Events */}
-          <div className="lg:col-span-2">
-            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+          <div className=&quot;lg:col-span-2&quot;>
+            <Card className=&quot;shadow-xl border-0 bg-white/80 backdrop-blur-sm&quot;>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Calendar className="h-5 w-5 mr-2 text-blue-600" />
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <Calendar className=&quot;h-5 w-5 mr-2 text-blue-600&quot; />
                   Upcoming Events
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {upcomingEvents.map((event) => (
-                    <div key={event.id} className="p-4 bg-gray-50 rounded-lg">
-                      <h3 className="font-semibold text-gray-900">{event.title}</h3>
-                      <p className="text-sm text-gray-600">{event.date} • {event.location}</p>
-                      <Badge variant="outline" className="mt-2">
+                    <div key={event.id} className=&quot;p-4 bg-gray-50 rounded-lg&quot;>
+                      <h3 className=&quot;font-semibold text-gray-900&quot;>{event.title}</h3>
+                      <p className=&quot;text-sm text-gray-600&quot;>{event.date} • {event.location}</p>
+                      <Badge variant=&quot;outline&quot; className=&quot;mt-2&quot;>
                         {event.status}
                       </Badge>
                     </div>
                   ))}
                   {upcomingEvents.length === 0 && (
-                    <p className="text-gray-500 text-center py-8">No upcoming events</p>
+                    <p className=&quot;text-gray-500 text-center py-8&quot;>No upcoming events</p>
                   )}
                 </div>
               </CardContent>
@@ -203,26 +203,26 @@ export default function ClientUserDashboard() {
 
           {/* Recent Bookings */}
           <div>
-            <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+            <Card className=&quot;shadow-xl border-0 bg-white/80 backdrop-blur-sm&quot;>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
+                <CardTitle className=&quot;flex items-center&quot;>
+                  <CheckCircle className=&quot;h-5 w-5 mr-2 text-green-600&quot; />
                   Recent Bookings
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className=&quot;space-y-3&quot;>
                   {recentBookings.map((booking) => (
-                    <div key={booking.id} className="p-3 bg-gray-50 rounded-lg">
-                      <p className="font-medium text-gray-900">{booking.eventName}</p>
-                      <p className="text-sm text-gray-600">{booking.date}</p>
-                      <Badge variant="outline" className="mt-1">
+                    <div key={booking.id} className=&quot;p-3 bg-gray-50 rounded-lg&quot;>
+                      <p className=&quot;font-medium text-gray-900&quot;>{booking.eventName}</p>
+                      <p className=&quot;text-sm text-gray-600&quot;>{booking.date}</p>
+                      <Badge variant=&quot;outline&quot; className=&quot;mt-1&quot;>
                         {booking.status}
                       </Badge>
                     </div>
                   ))}
                   {recentBookings.length === 0 && (
-                    <p className="text-gray-500 text-center py-8">No recent bookings</p>
+                    <p className=&quot;text-gray-500 text-center py-8&quot;>No recent bookings</p>
                   )}
                 </div>
               </CardContent>

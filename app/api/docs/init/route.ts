@@ -1,18 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import fs from "fs/promises";
-import path from "path";
-import { existsSync, mkdirSync, statSync, readdirSync, copyFileSync } from "fs";
-import { getDocsDirectory } from "@/lib/utils";
+import fs from &quot;fs/promises&quot;;
+import path from &quot;path&quot;;
+import { existsSync, mkdirSync, statSync, readdirSync, copyFileSync } from &quot;fs&quot;;
+import { getDocsDirectory } from &quot;@/lib/utils&quot;;
 
 /**
  * Copy directory recursively
  */
 function copyDir(src: string, dest: string): void {
-  // Create destination directory if it doesn't exist
+  // Create destination directory if it doesn&apos;t exist
   if (!existsSync(dest)) {
     mkdirSync(dest, { recursive: true });
   }
@@ -22,7 +22,7 @@ function copyDir(src: string, dest: string): void {
     const entries = readdirSync(src, { withFileTypes: true });
 
     for (const entry of entries) {
-      if (entry.name.startsWith(".")) continue;
+      if (entry.name.startsWith(&quot;.&quot;)) continue;
 
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
@@ -73,7 +73,7 @@ function findDocsDirectory(): string | null {
   ];
 
   console.log(
-    "[DOCS INIT] Searching for Docs directory in all potential locations...",
+    &quot;[DOCS INIT] Searching for Docs directory in all potential locations...&quot;,
   );
 
   // First find directories with actual content (preferred)
@@ -92,11 +92,11 @@ function findDocsDirectory(): string | null {
         try {
           const files = readdirSync(dirPath);
           const mdFiles = files.filter(
-            (f) => f.endsWith(".md") || f.endsWith(".mdx"),
+            (f) => f.endsWith(&quot;.md&quot;) || f.endsWith(&quot;.mdx&quot;),
           );
           const directories = files.filter((f) => {
             try {
-              return statSync(dirPath + "/" + f).isDirectory();
+              return statSync(dirPath + &quot;/&quot; + f).isDirectory();
             } catch (e) {
               return false;
             }
@@ -108,7 +108,7 @@ function findDocsDirectory(): string | null {
               `[DOCS INIT] - Contains ${files.length} entries (${mdFiles.length} markdown files, ${directories.length} subdirectories)`,
             );
             console.log(
-              `[DOCS INIT] - First few items: ${files.slice(0, 5).join(", ")}`,
+              `[DOCS INIT] - First few items: ${files.slice(0, 5).join(&quot;, &quot;)}`,
             );
 
             // Directory has content - add to valid directories
@@ -124,7 +124,7 @@ function findDocsDirectory(): string | null {
           }
         } catch (readErr) {
           console.error(
-            `[DOCS INIT] Directory exists but cannot be read: ${dirPath} - ${readErr instanceof Error ? readErr.message : "Unknown error"}`,
+            `[DOCS INIT] Directory exists but cannot be read: ${dirPath} - ${readErr instanceof Error ? readErr.message : &quot;Unknown error&quot;}`,
           );
         }
       }
@@ -138,7 +138,7 @@ function findDocsDirectory(): string | null {
     // Sort by number of markdown files (most relevant indicator)
     validDirectories.sort((a, b) => b.mdCount - a.mdCount);
 
-    // The array is non-empty as we're inside the if-block - add non-null assertion
+    // The array is non-empty as we&apos;re inside the if-block - add non-null assertion
     const bestDir = validDirectories[0]!;
     const dirPath = bestDir.path;
     const fileCount = bestDir.fileCount;
@@ -163,7 +163,7 @@ function findDocsDirectory(): string | null {
   }
 
   console.error(
-    "[DOCS INIT] Could not find a valid Docs directory in any location",
+    &quot;[DOCS INIT] Could not find a valid Docs directory in any location&quot;,
   );
 
   // Create a new directory as last resort
@@ -174,7 +174,7 @@ function findDocsDirectory(): string | null {
     return newDir;
   } catch (createErr) {
     console.error(
-      `[DOCS INIT] Failed to create new Docs directory: ${createErr instanceof Error ? createErr.message : "Unknown error"}`,
+      `[DOCS INIT] Failed to create new Docs directory: ${createErr instanceof Error ? createErr.message : &quot;Unknown error&quot;}`,
     );
     return null;
   }
@@ -196,7 +196,7 @@ function createSampleDocumentation(targetDir: string): boolean {
     }
 
     // Create the README.md file
-    const readmePath = path.join(targetDir, "README.md");
+    const readmePath = path.join(targetDir, &quot;README.md&quot;);
     const readmeContent = `# Documentation Home
     
 ## Welcome to the Documentation Portal
@@ -216,7 +216,7 @@ This is a generated placeholder for the documentation. The actual documentation 
 - **Development Guides**: Placeholder for development guides
 `;
     try {
-      copyFileSync(readmePath, readmePath + ".bak");
+      copyFileSync(readmePath, readmePath + &quot;.bak&quot;);
     } catch (e) {
       // Ignore backup error
     }
@@ -224,11 +224,11 @@ This is a generated placeholder for the documentation. The actual documentation 
 
     // Create basic directory structure
     const directories = [
-      "api",
-      "architecture",
-      "development-guides",
-      "features",
-      "getting-started",
+      &quot;api&quot;,
+      &quot;architecture&quot;,
+      &quot;development-guides&quot;,
+      &quot;features&quot;,
+      &quot;getting-started&quot;,
     ];
 
     for (const dir of directories) {
@@ -238,10 +238,10 @@ This is a generated placeholder for the documentation. The actual documentation 
       }
 
       // Create a README.md in each directory
-      const dirReadmePath = path.join(dirPath, "README.md");
-      const dirReadmeContent = `# ${dir.charAt(0).toUpperCase() + dir.slice(1).replace(/-/g, " ")}
+      const dirReadmePath = path.join(dirPath, &quot;README.md&quot;);
+      const dirReadmeContent = `# ${dir.charAt(0).toUpperCase() + dir.slice(1).replace(/-/g, &quot; &quot;)}
 
-This section contains documentation about ${dir.replace(/-/g, " ")}.
+This section contains documentation about ${dir.replace(/-/g, &quot; &quot;)}.
 
 ## Contents
 
@@ -256,7 +256,7 @@ Documentation for this section is being prepared.
     return true;
   } catch (error) {
     console.error(
-      `[DOCS INIT] Error creating sample documentation: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `[DOCS INIT] Error creating sample documentation: ${error instanceof Error ? error.message : &quot;Unknown error&quot;}`,
     );
     return false;
   }
@@ -267,39 +267,39 @@ Documentation for this section is being prepared.
  * @param forceInit Whether to force reinitialization regardless of current state
  */
 async function initDocs(forceInit: boolean = false) {
-  console.log("=== Documentation Initialization ===");
-  console.log(`Force initialization: ${forceInit ? "YES" : "NO"}`);
+  console.log(&quot;=== Documentation Initialization ===&quot;);
+  console.log(`Force initialization: ${forceInit ? &quot;YES&quot; : &quot;NO&quot;}`);
 
   // First, find the source Docs directory
   const sourceDir = findDocsDirectory();
 
-  // Setup mode - we're either copying real docs or creating samples
+  // Setup mode - we&apos;re either copying real docs or creating samples
   let isCreateMode = false;
   let workingSourceDir = sourceDir || null;
 
   // If force initialization is enabled, create sample documentation even if a source exists
   if (forceInit && sourceDir) {
     console.log(
-      "[DOCS INIT] Force initialization enabled - creating fresh documentation",
+      &quot;[DOCS INIT] Force initialization enabled - creating fresh documentation&quot;,
     );
 
     try {
       // Create sample documentation in the source directory
       if (createSampleDocumentation(sourceDir)) {
         console.log(
-          "[DOCS INIT] Created fresh sample documentation due to force flag",
+          &quot;[DOCS INIT] Created fresh sample documentation due to force flag&quot;,
         );
         isCreateMode = true;
       }
     } catch (err) {
       console.error(
-        `[DOCS INIT] Error creating fresh documentation: ${err instanceof Error ? err.message : "Unknown error"}`,
+        `[DOCS INIT] Error creating fresh documentation: ${err instanceof Error ? err.message : &quot;Unknown error&quot;}`,
       );
     }
   }
 
   if (!sourceDir) {
-    console.error("[DOCS INIT] Failed to find a source Docs directory.");
+    console.error(&quot;[DOCS INIT] Failed to find a source Docs directory.&quot;);
 
     // Create new directory for sample docs
     const baseDir = process.cwd();
@@ -312,19 +312,19 @@ async function initDocs(forceInit: boolean = false) {
       // Create sample documentation
       if (createSampleDocumentation(newDir)) {
         console.log(
-          "[DOCS INIT] Created sample documentation. Will use this as source.",
+          &quot;[DOCS INIT] Created sample documentation. Will use this as source.&quot;,
         );
         workingSourceDir = newDir;
         isCreateMode = true;
       } else {
         console.error(
-          "[DOCS INIT] Failed to create sample documentation. Process aborted.",
+          &quot;[DOCS INIT] Failed to create sample documentation. Process aborted.&quot;,
         );
         return false;
       }
     } catch (err) {
       console.error(
-        `[DOCS INIT] Failed to create directory: ${err instanceof Error ? err.message : "Unknown error"}`,
+        `[DOCS INIT] Failed to create directory: ${err instanceof Error ? err.message : &quot;Unknown error&quot;}`,
       );
       return false;
     }
@@ -338,14 +338,14 @@ async function initDocs(forceInit: boolean = false) {
         );
         if (createSampleDocumentation(workingSourceDir)) {
           console.log(
-            "[DOCS INIT] Created sample documentation in source directory.",
+            &quot;[DOCS INIT] Created sample documentation in source directory.&quot;,
           );
           isCreateMode = true;
         }
       }
     } catch (err) {
       console.error(
-        `[DOCS INIT] Error checking source directory: ${err instanceof Error ? err.message : "Unknown error"}`,
+        `[DOCS INIT] Error checking source directory: ${err instanceof Error ? err.message : &quot;Unknown error&quot;}`,
       );
     }
   }
@@ -357,27 +357,27 @@ async function initDocs(forceInit: boolean = false) {
   // Use proper type safety for TypeScript
   const potentialDirs: string[] = [
     // Standard locations - this is the primary location
-    path.join(baseDir, "Docs"),
+    path.join(baseDir, &quot;Docs&quot;),
 
     // Public directory for static serving
-    path.join(baseDir, "public/Docs"),
+    path.join(baseDir, &quot;public/Docs&quot;),
   ];
 
   // Only add production directories when in production
-  if (process.env.NODE_ENV === "production") {
-    potentialDirs.push(path.join(baseDir, ".next/standalone/Docs"));
+  if (process.env.NODE_ENV === &quot;production&quot;) {
+    potentialDirs.push(path.join(baseDir, &quot;.next/standalone/Docs&quot;));
   }
 
   // Only add Replit workspace location in Replit environment
   if (process.env.REPL_ID) {
-    potentialDirs.push("/home/runner/workspace/Docs");
+    potentialDirs.push(&quot;/home/runner/workspace/Docs&quot;);
   }
 
   // Filter out directories that match the source directory
   const targetDirs = potentialDirs.filter((dir) => {
     // Only include directories different from source
     // workingSourceDir is guaranteed to be a string, but might be empty
-    if (workingSourceDir === "") return true;
+    if (workingSourceDir === "&quot;) return true;
     const normalized1 = path.normalize(dir);
     const normalized2 = path.normalize(workingSourceDir);
     return normalized1 !== normalized2;
@@ -400,15 +400,15 @@ async function initDocs(forceInit: boolean = false) {
         try {
           mkdirSync(parentDir, { recursive: true });
         } catch (mkdirErr) {
-          // Ignore if we can't create parent directories
+          // Ignore if we can&apos;t create parent directories
           console.warn(
-            `[DOCS INIT] Could not create parent directory ${parentDir}: ${mkdirErr instanceof Error ? mkdirErr.message : "Unknown error"}`,
+            `[DOCS INIT] Could not create parent directory ${parentDir}: ${mkdirErr instanceof Error ? mkdirErr.message : &quot;Unknown error&quot;}`,
           );
         }
       }
 
       // Safety check for source directory
-      if (workingSourceDir === "") {
+      if (workingSourceDir === &quot;&quot;) {
         console.error(
           `[DOCS INIT] Cannot copy from empty source directory to ${targetDir}`,
         );
@@ -449,31 +449,31 @@ async function initDocs(forceInit: boolean = false) {
         }
       } catch (copyError) {
         console.error(
-          `[DOCS INIT] ✗ Error during copy process: ${copyError instanceof Error ? copyError.message : "Unknown error"}`,
+          `[DOCS INIT] ✗ Error during copy process: ${copyError instanceof Error ? copyError.message : &quot;Unknown error&quot;}`,
         );
         failCount++;
       }
     } catch (error) {
       console.error(
-        `[DOCS INIT] ✗ Error copying to ${targetDir}: ${error instanceof Error ? error.message : "Unknown error"}`,
+        `[DOCS INIT] ✗ Error copying to ${targetDir}: ${error instanceof Error ? error.message : &quot;Unknown error&quot;}`,
       );
       failCount++;
     }
   }
 
   // Summary
-  console.log("\n=== Copy Process Summary ===");
+  console.log(&quot;\n=== Copy Process Summary ===&quot;);
   console.log(`[DOCS INIT] Successfully copied to ${successCount} locations`);
   console.log(`[DOCS INIT] Failed to copy to ${failCount} locations`);
 
   if (successCount > 0) {
     console.log(
-      "[DOCS INIT] ✅ Documentation successfully copied to at least one location",
+      &quot;[DOCS INIT] ✅ Documentation successfully copied to at least one location&quot;,
     );
 
     if (isCreateMode) {
       console.log(
-        "[DOCS INIT] NOTE: Sample documentation was created since no actual docs were found",
+        &quot;[DOCS INIT] NOTE: Sample documentation was created since no actual docs were found&quot;,
       );
     }
 
@@ -481,7 +481,7 @@ async function initDocs(forceInit: boolean = false) {
     return true;
   } else {
     console.error(
-      "[DOCS INIT] ❌ Documentation copy process failed completely",
+      &quot;[DOCS INIT] ❌ Documentation copy process failed completely&quot;,
     );
     return false;
   }
@@ -492,25 +492,25 @@ async function initDocs(forceInit: boolean = false) {
  * This route initializes the documentation system
  */
 export async function GET(request: Request) {
-  console.log("[DOCS INIT API] Documentation initialization started");
+  console.log(&quot;[DOCS INIT API] Documentation initialization started&quot;);
 
   try {
     // Check request parameters
     const url = new URL(request.url);
-    const isEmergency = (url.searchParams.get("emergency") || undefined) === "true";
-    const forceInit = (url.searchParams.get("force") || undefined) === "true";
+    const isEmergency = (url.searchParams.get(&quot;emergency&quot;) || undefined) === &quot;true&quot;;
+    const forceInit = (url.searchParams.get(&quot;force&quot;) || undefined) === &quot;true&quot;;
 
     // Run in both production and development, but with different levels of verbosity
-    const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env.NODE_ENV === &quot;production&quot;;
 
     console.log(
-      `[DOCS INIT API] Running in ${isProduction ? "PRODUCTION" : "DEVELOPMENT"} mode${isEmergency ? " (EMERGENCY MODE)" : ""}${forceInit ? " (FORCE REINITIALIZATION)" : ""}`,
+      `[DOCS INIT API] Running in ${isProduction ? &quot;PRODUCTION&quot; : &quot;DEVELOPMENT&quot;} mode${isEmergency ? &quot; (EMERGENCY MODE)&quot; : &quot;&quot;}${forceInit ? &quot; (FORCE REINITIALIZATION)&quot; : &quot;&quot;}`,
     );
 
     // Get the current docs dir before initialization to compare
     const beforeDocsDir = await getDocsDirectory();
     console.log(
-      `[DOCS INIT API] Current docs directory before initialization: ${beforeDocsDir || "Not found"}`,
+      `[DOCS INIT API] Current docs directory before initialization: ${beforeDocsDir || &quot;Not found&quot;}`,
     );
 
     if (beforeDocsDir) {
@@ -520,11 +520,11 @@ export async function GET(request: Request) {
           `[DOCS INIT API] BEFORE: Directory contains ${beforeFiles.length} items`,
         );
         console.log(
-          `[DOCS INIT API] BEFORE: First few items: ${beforeFiles.slice(0, 5).join(", ")}`,
+          `[DOCS INIT API] BEFORE: First few items: ${beforeFiles.slice(0, 5).join(&quot;, &quot;)}`,
         );
       } catch (err) {
         console.error(
-          `[DOCS INIT API] Cannot read docs directory: ${err instanceof Error ? err.message : "Unknown error"}`,
+          `[DOCS INIT API] Cannot read docs directory: ${err instanceof Error ? err.message : &quot;Unknown error&quot;}`,
         );
       }
     }
@@ -533,8 +533,8 @@ export async function GET(request: Request) {
     // This is necessary because in some hosting environments, only the /public folder is reliably preserved
     if (isProduction || isEmergency) {
       try {
-        const publicDocsDir = path.join(process.cwd(), "public", "Docs");
-        const targetDir = path.join(process.cwd(), "Docs");
+        const publicDocsDir = path.join(process.cwd(), &quot;public&quot;, &quot;Docs&quot;);
+        const targetDir = path.join(process.cwd(), &quot;Docs&quot;);
 
         const publicDirExists = await fs
           .access(publicDocsDir)
@@ -567,7 +567,7 @@ export async function GET(request: Request) {
                 }
               } catch (e) {
                 console.error(
-                  `[DOCS INIT API] Error copying ${entry.name}: ${e instanceof Error ? e.message : "Unknown error"}`,
+                  `[DOCS INIT API] Error copying ${entry.name}: ${e instanceof Error ? e.message : &quot;Unknown error&quot;}`,
                 );
               }
             }
@@ -577,7 +577,7 @@ export async function GET(request: Request) {
             );
           } catch (e) {
             console.error(
-              `[DOCS INIT API] Error copying from public/Docs: ${e instanceof Error ? e.message : "Unknown error"}`,
+              `[DOCS INIT API] Error copying from public/Docs: ${e instanceof Error ? e.message : &quot;Unknown error&quot;}`,
             );
           }
         } else {
@@ -587,21 +587,21 @@ export async function GET(request: Request) {
         }
       } catch (e) {
         console.error(
-          `[DOCS INIT API] Error during public directory check: ${e instanceof Error ? e.message : "Unknown error"}`,
+          `[DOCS INIT API] Error during public directory check: ${e instanceof Error ? e.message : &quot;Unknown error&quot;}`,
         );
       }
     }
 
     // Always run initialization process, but log differently
     console.log(
-      `[DOCS INIT API] Running initialization in ${isProduction ? "PRODUCTION" : "DEVELOPMENT"} mode${forceInit ? " with FORCE flag" : ""}`,
+      `[DOCS INIT API] Running initialization in ${isProduction ? &quot;PRODUCTION&quot; : &quot;DEVELOPMENT&quot;} mode${forceInit ? &quot; with FORCE flag&quot; : &quot;&quot;}`,
     );
     const result = await initDocs(forceInit);
 
     if (result) {
       // Confirm current location of docs directory for the app
       const docsDir = await getDocsDirectory();
-      const docsDirPath = docsDir || "No docs directory found";
+      const docsDirPath = docsDir || &quot;No docs directory found&quot;;
       console.log(
         `[DOCS INIT API] Current docs directory after initialization: ${docsDirPath}`,
       );
@@ -614,7 +614,7 @@ export async function GET(request: Request) {
             `[DOCS INIT API] AFTER: Docs directory contains ${files.length} items`,
           );
           console.log(
-            `[DOCS INIT API] AFTER: First few items: ${files.slice(0, 5).join(", ")}`,
+            `[DOCS INIT API] AFTER: First few items: ${files.slice(0, 5).join(&quot;, &quot;)}`,
           );
 
           // In production, do more thorough validation of files
@@ -629,39 +629,39 @@ export async function GET(request: Request) {
             });
 
             console.log(
-              `[DOCS INIT API] Found ${allDirectories.length} subdirectories: ${allDirectories.join(", ")}`,
+              `[DOCS INIT API] Found ${allDirectories.length} subdirectories: ${allDirectories.join(&quot;, &quot;)}`,
             );
 
             // Check a few key files to ensure complete copy
             const keyFilesToCheck = [
-              "README.md",
-              "api/README.md",
-              "architecture/README.md",
-              "getting-started/README.md",
+              &quot;README.md&quot;,
+              &quot;api/README.md&quot;,
+              &quot;architecture/README.md&quot;,
+              &quot;getting-started/README.md&quot;,
             ];
 
             for (const keyFile of keyFilesToCheck) {
               const keyFilePath = path.join(docsDir, keyFile);
               const keyFileExists = existsSync(keyFilePath);
               console.log(
-                `[DOCS INIT API] Key file ${keyFile}: ${keyFileExists ? "EXISTS" : "MISSING"}`,
+                `[DOCS INIT API] Key file ${keyFile}: ${keyFileExists ? &quot;EXISTS&quot; : &quot;MISSING&quot;}`,
               );
             }
           }
         } catch (err) {
           console.error(
-            `[DOCS INIT API] Cannot read docs directory: ${err instanceof Error ? err.message : "Unknown error"}`,
+            `[DOCS INIT API] Cannot read docs directory: ${err instanceof Error ? err.message : &quot;Unknown error&quot;}`,
           );
         }
       } else {
         console.error(
-          "[DOCS INIT API] No docs directory was found to read from after initialization",
+          &quot;[DOCS INIT API] No docs directory was found to read from after initialization&quot;,
         );
       }
 
       return NextResponse.json({
         success: true,
-        message: `Documentation initialization completed successfully in ${isProduction ? "production" : "development"} mode`,
+        message: `Documentation initialization completed successfully in ${isProduction ? &quot;production&quot; : &quot;development&quot;} mode`,
         docsDirectory: docsDir,
         filesCount: docsDir
           ? (await fs.readdir(docsDir).catch(() => [])).length
@@ -670,15 +670,15 @@ export async function GET(request: Request) {
     } else {
       return NextResponse.json(
         {
-          error: `Documentation initialization failed in ${isProduction ? "production" : "development"} mode`,
+          error: `Documentation initialization failed in ${isProduction ? &quot;production&quot; : &quot;development&quot;} mode`,
         },
         { status: 500 },
       );
     }
   } catch (error) {
-    console.error("Error initializing documentation:", error);
+    console.error(&quot;Error initializing documentation:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to initialize documentation" },
+      { error: &quot;Failed to initialize documentation&quot; },
       { status: 500 },
     );
   }
@@ -690,7 +690,7 @@ export async function GET(request: Request) {
  */
 export async function POST(request: Request) {
   console.log(
-    "[DOCS INIT API] Documentation initialization started via POST request",
+    &quot;[DOCS INIT API] Documentation initialization started via POST request&quot;,
   );
 
   try {
@@ -701,11 +701,11 @@ export async function POST(request: Request) {
       const body = await request.json();
       forceInit = body?.force === true;
     } catch (e) {
-      // If JSON parsing fails, it's OK - we'll use default value
+      // If JSON parsing fails, it&apos;s OK - we'll use default value
     }
 
     console.log(
-      `[DOCS INIT API] POST request${forceInit ? " with FORCE flag" : ""}`,
+      `[DOCS INIT API] POST request${forceInit ? &quot; with FORCE flag&quot; : &quot;&quot;}`,
     );
 
     // Run docs initialization with same logic as GET handler
@@ -715,7 +715,7 @@ export async function POST(request: Request) {
       // Get the updated docs directory
       const docsDir = await getDocsDirectory();
       console.log(
-        `[DOCS INIT API] Docs directory after initialization: ${docsDir ?? "Not found"}`,
+        `[DOCS INIT API] Docs directory after initialization: ${docsDir ?? &quot;Not found&quot;}`,
       );
 
       // Check for key files to verify initialization worked
@@ -726,26 +726,26 @@ export async function POST(request: Request) {
             `[DOCS INIT API] AFTER: Directory contains ${filesAfter.length} items`,
           );
           console.log(
-            `[DOCS INIT API] AFTER: First few items: ${filesAfter.slice(0, 5).join(", ")}`,
+            `[DOCS INIT API] AFTER: First few items: ${filesAfter.slice(0, 5).join(&quot;, &quot;)}`,
           );
 
           // Check for key files that should exist in any docs setup
-          const keyFiles = ["README.md", "api", "getting-started"];
+          const keyFiles = [&quot;README.md&quot;, &quot;api&quot;, &quot;getting-started&quot;];
           for (const keyFile of keyFiles) {
             const keyFilePath = path.join(docsDir, keyFile);
             const keyFileExists = existsSync(keyFilePath);
             console.log(
-              `[DOCS INIT API] Key file ${keyFile}: ${keyFileExists ? "EXISTS" : "MISSING"}`,
+              `[DOCS INIT API] Key file ${keyFile}: ${keyFileExists ? &quot;EXISTS&quot; : &quot;MISSING&quot;}`,
             );
           }
         } catch (err) {
           console.error(
-            `[DOCS INIT API] Cannot read docs directory: ${err instanceof Error ? err.message : "Unknown error"}`,
+            `[DOCS INIT API] Cannot read docs directory: ${err instanceof Error ? err.message : &quot;Unknown error&quot;}`,
           );
         }
       } else {
         console.error(
-          "[DOCS INIT API] No docs directory was found to read from after initialization",
+          &quot;[DOCS INIT API] No docs directory was found to read from after initialization&quot;,
         );
       }
 
@@ -764,9 +764,9 @@ export async function POST(request: Request) {
       );
     }
   } catch (error) {
-    console.error("Error initializing documentation via POST:", error);
+    console.error(&quot;Error initializing documentation via POST:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to initialize documentation" },
+      { error: &quot;Failed to initialize documentation" },
       { status: 500 },
     );
   }

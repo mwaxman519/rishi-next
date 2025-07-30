@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { availabilityService } from "../../../services/availability/availabilityService";
-import { USER_ROLES } from "@shared/rbac/roles";
-import { verifyJwt } from "@/lib/auth-utils";
+import { availabilityService } from &quot;../../../services/availability/availabilityService&quot;;
+import { USER_ROLES } from &quot;@shared/rbac/roles&quot;;
+import { verifyJwt } from &quot;@/lib/auth-utils&quot;;
 
 /**
  * GET /api/availability/team - Get team members' availability blocks
@@ -18,19 +18,19 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const searchParams = request.nextUrl.searchParams;
 
   // Parse the date range parameters
-  const startDateParam = (searchParams.get("startDate") || undefined) || undefined;
-  const endDateParam = (searchParams.get("endDate") || undefined) || undefined;
+  const startDateParam = (searchParams.get(&quot;startDate&quot;) || undefined) || undefined;
+  const endDateParam = (searchParams.get(&quot;endDate&quot;) || undefined) || undefined;
 
   // Get the auth token and verify user
-  const authHeader = request.headers.get("authorization");
+  const authHeader = request.headers.get(&quot;authorization&quot;);
   const token =
-    authHeader?.split(" ")[1] || request.cookies.get("auth_token")?.value;
+    authHeader?.split(&quot; &quot;)[1] || request.cookies.get(&quot;auth_token&quot;)?.value;
 
   if (!token) {
     return NextResponse.json(
       {
         success: false,
-        error: "Authentication required",
+        error: &quot;Authentication required&quot;,
       },
       { status: 401 },
     );
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(
       {
         success: false,
-        error: "Invalid authentication token",
+        error: &quot;Invalid authentication token&quot;,
       },
       { status: 401 },
     );
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json(
       {
         success: false,
-        error: "You do not have permission to access team availability",
+        error: &quot;You do not have permission to access team availability&quot;,
       },
       { status: 403 },
     );
@@ -75,11 +75,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       data: [], // In the future we'll populate this with real data
     });
   } catch (error) {
-    console.error("Error fetching team availability:", error);
+    console.error(&quot;Error fetching team availability:&quot;, error);
     return NextResponse.json(
       {
         success: false,
-        error: "Failed to fetch team availability",
+        error: &quot;Failed to fetch team availability&quot;,
       },
       { status: 500 },
     );

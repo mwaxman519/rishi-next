@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import React from &quot;react&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Form,
   FormControl,
@@ -12,32 +12,32 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+} from &quot;@/components/ui/select&quot;;
+import { Switch } from &quot;@/components/ui/switch&quot;;
+import { Calendar } from &quot;@/components/ui/calendar&quot;;
+import { Popover, PopoverContent, PopoverTrigger } from &quot;@/components/ui/popover&quot;;
+import { CalendarIcon } from &quot;lucide-react&quot;;
+import { format } from &quot;date-fns&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
 
 const bookingSchema = z.object({
-  title: z.string().min(1, "Title is required"),
+  title: z.string().min(1, &quot;Title is required&quot;),
   date: z.date(),
-  startTime: z.string().min(1, "Start time is required"),
-  endTime: z.string().min(1, "End time is required"),
-  location: z.string().min(1, "Location is required"),
-  attendeeEstimate: z.number().min(1, "Attendee estimate must be at least 1"),
-  budget: z.number().min(0, "Budget must be non-negative"),
-  activityType: z.string().min(1, "Activity type is required"),
+  startTime: z.string().min(1, &quot;Start time is required&quot;),
+  endTime: z.string().min(1, &quot;End time is required&quot;),
+  location: z.string().min(1, &quot;Location is required&quot;),
+  attendeeEstimate: z.number().min(1, &quot;Attendee estimate must be at least 1&quot;),
+  budget: z.number().min(0, &quot;Budget must be non-negative&quot;),
+  activityType: z.string().min(1, &quot;Activity type is required&quot;),
   sendCalendarInvite: z.boolean(),
   isRecurring: z.boolean(),
   notes: z.string().optional(),
@@ -61,33 +61,33 @@ export function BookingForm({
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
-      title: "",
+      title: "&quot;,
       date: new Date(),
-      startTime: "",
-      endTime: "",
-      location: "",
+      startTime: &quot;&quot;,
+      endTime: &quot;&quot;,
+      location: &quot;&quot;,
       attendeeEstimate: 1,
       budget: 0,
-      activityType: "",
+      activityType: &quot;&quot;,
       sendCalendarInvite: false,
       isRecurring: false,
-      notes: "",
+      notes: &quot;&quot;,
       ...defaultValues,
     },
   });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-6&quot;>
+        <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
           <FormField
             control={form.control}
-            name="title"
+            name=&quot;title&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter booking title" {...field} />
+                  <Input placeholder=&quot;Enter booking title&quot; {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,7 +96,7 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="activityType"
+            name=&quot;activityType&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Activity Type</FormLabel>
@@ -106,14 +106,14 @@ export function BookingForm({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select activity type" />
+                      <SelectValue placeholder=&quot;Select activity type&quot; />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="demo">Product Demo</SelectItem>
-                    <SelectItem value="training">Staff Training</SelectItem>
-                    <SelectItem value="event">Special Event</SelectItem>
-                    <SelectItem value="consultation">Consultation</SelectItem>
+                    <SelectItem value=&quot;demo&quot;>Product Demo</SelectItem>
+                    <SelectItem value=&quot;training&quot;>Staff Training</SelectItem>
+                    <SelectItem value=&quot;event&quot;>Special Event</SelectItem>
+                    <SelectItem value=&quot;consultation&quot;>Consultation</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -123,36 +123,36 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="date"
+            name=&quot;date&quot;
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className=&quot;flex flex-col&quot;>
                 <FormLabel>Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        variant={"outline"}
+                        variant={&quot;outline&quot;}
                         className={cn(
-                          "w-full pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground",
+                          &quot;w-full pl-3 text-left font-normal&quot;,
+                          !field.value && &quot;text-muted-foreground&quot;,
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, &quot;PPP&quot;)
                         ) : (
                           <span>Pick a date</span>
                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
                     <Calendar
-                      mode="single"
+                      mode=&quot;single&quot;
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) =>
-                        date < new Date() || date < new Date("1900-01-01")
+                        date < new Date() || date < new Date(&quot;1900-01-01&quot;)
                       }
                       initialFocus
                     />
@@ -165,12 +165,12 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="location"
+            name=&quot;location&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter location" {...field} />
+                  <Input placeholder=&quot;Enter location&quot; {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -179,12 +179,12 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="startTime"
+            name=&quot;startTime&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Start Time</FormLabel>
                 <FormControl>
-                  <Input type="time" {...field} />
+                  <Input type=&quot;time&quot; {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -193,12 +193,12 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="endTime"
+            name=&quot;endTime&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>End Time</FormLabel>
                 <FormControl>
-                  <Input type="time" {...field} />
+                  <Input type=&quot;time&quot; {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -207,14 +207,14 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="attendeeEstimate"
+            name=&quot;attendeeEstimate&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Attendee Estimate</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
-                    placeholder="Number of attendees"
+                    type=&quot;number&quot;
+                    placeholder=&quot;Number of attendees&quot;
                     {...field}
                     onChange={(e) =>
                       field.onChange(parseInt(e.target.value) || 0)
@@ -228,14 +228,14 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="budget"
+            name=&quot;budget&quot;
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Budget ($)</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
-                    placeholder="Budget amount"
+                    type=&quot;number&quot;
+                    placeholder=&quot;Budget amount&quot;
                     {...field}
                     onChange={(e) =>
                       field.onChange(parseFloat(e.target.value) || 0)
@@ -250,14 +250,14 @@ export function BookingForm({
 
         <FormField
           control={form.control}
-          name="notes"
+          name=&quot;notes&quot;
           render={({ field }) => (
             <FormItem>
               <FormLabel>Notes (Optional)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Additional notes or requirements"
-                  className="resize-none"
+                  placeholder=&quot;Additional notes or requirements&quot;
+                  className=&quot;resize-none&quot;
                   {...field}
                 />
               </FormControl>
@@ -266,17 +266,17 @@ export function BookingForm({
           )}
         />
 
-        <div className="flex items-center space-x-6">
+        <div className=&quot;flex items-center space-x-6&quot;>
           <FormField
             control={form.control}
-            name="sendCalendarInvite"
+            name=&quot;sendCalendarInvite&quot;
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <FormLabel className="text-base">
+              <FormItem className=&quot;flex flex-row items-center justify-between rounded-lg border p-4&quot;>
+                <div className=&quot;space-y-0.5&quot;>
+                  <FormLabel className=&quot;text-base&quot;>
                     Send Calendar Invite
                   </FormLabel>
-                  <div className="text-sm text-muted-foreground">
+                  <div className=&quot;text-sm text-muted-foreground&quot;>
                     Send calendar invitations to attendees
                   </div>
                 </div>
@@ -292,12 +292,12 @@ export function BookingForm({
 
           <FormField
             control={form.control}
-            name="isRecurring"
+            name=&quot;isRecurring&quot;
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                <div className="space-y-0.5">
-                  <FormLabel className="text-base">Recurring Booking</FormLabel>
-                  <div className="text-sm text-muted-foreground">
+              <FormItem className=&quot;flex flex-row items-center justify-between rounded-lg border p-4&quot;>
+                <div className=&quot;space-y-0.5&quot;>
+                  <FormLabel className=&quot;text-base&quot;>Recurring Booking</FormLabel>
+                  <div className=&quot;text-sm text-muted-foreground&quot;>
                     Set up recurring schedule
                   </div>
                 </div>
@@ -312,15 +312,15 @@ export function BookingForm({
           />
         </div>
 
-        <div className="flex gap-4">
-          <Button type="submit" className="flex-1">
-            {editMode ? "Update Booking" : "Create Booking"}
+        <div className=&quot;flex gap-4&quot;>
+          <Button type=&quot;submit&quot; className=&quot;flex-1&quot;>
+            {editMode ? &quot;Update Booking&quot; : &quot;Create Booking&quot;}
           </Button>
           <Button
-            type="button"
-            variant="outline"
+            type=&quot;button&quot;
+            variant=&quot;outline&quot;
             onClick={onCancel}
-            className="flex-1"
+            className=&quot;flex-1"
           >
             Cancel
           </Button>

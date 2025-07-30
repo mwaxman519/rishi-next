@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-import { db } from "../../db";
+import { db } from &quot;../../db&quot;;
 
 export interface AuditLogEntry {
   action: string;
@@ -59,7 +59,7 @@ export class AuditService implements IAuditService {
       // Store audit log (would be database operation)
       this.storeAuditLog(auditEntry);
     } catch (error) {
-      console.error("[AuditService] Error logging audit entry:", error);
+      console.error(&quot;[AuditService] Error logging audit entry:&quot;, error);
       // Audit logging failures should not break the main operation
     }
   }
@@ -79,7 +79,7 @@ export class AuditService implements IAuditService {
       );
       return [];
     } catch (error) {
-      console.error("[AuditService] Error retrieving audit trail:", error);
+      console.error(&quot;[AuditService] Error retrieving audit trail:&quot;, error);
       return [];
     }
   }
@@ -96,7 +96,7 @@ export class AuditService implements IAuditService {
       console.log(`[AuditService] Retrieving user activity for: ${userId}`);
       return [];
     } catch (error) {
-      console.error("[AuditService] Error retrieving user activity:", error);
+      console.error(&quot;[AuditService] Error retrieving user activity:&quot;, error);
       return [];
     }
   }
@@ -109,10 +109,10 @@ export class AuditService implements IAuditService {
    */
   async getSystemActivity(limit: number = 100): Promise<any[]> {
     try {
-      console.log("[AuditService] Retrieving system activity");
+      console.log(&quot;[AuditService] Retrieving system activity&quot;);
       return [];
     } catch (error) {
-      console.error("[AuditService] Error retrieving system activity:", error);
+      console.error(&quot;[AuditService] Error retrieving system activity:&quot;, error);
       return [];
     }
   }
@@ -125,7 +125,7 @@ export class AuditService implements IAuditService {
   private storeAuditLog(entry: any): void {
     // In production, this would insert into audit_logs table
     // For now, we'll just log to console for visibility
-    console.log("[AuditService] Audit Entry:", {
+    console.log(&quot;[AuditService] Audit Entry:&quot;, {
       id: entry.id,
       action: entry.action,
       entityType: entry.entityType,

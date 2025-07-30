@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
-import { AppLayout } from "../components/app-layout";
+import React, { useState } from &quot;react&quot;;
+import { AppLayout } from &quot;../components/app-layout&quot;;
 import {
   Calendar,
   ChevronLeft,
@@ -15,113 +15,113 @@ import {
   TrendingUp,
   List,
   Grid,
-} from "lucide-react";
-import { Button } from "../../components/ui/button";
+} from &quot;lucide-react&quot;;
+import { Button } from &quot;../../components/ui/button&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-import { Badge } from "../../components/ui/badge";
+} from &quot;../../components/ui/card&quot;;
+import { Badge } from &quot;../../components/ui/badge&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/select";
+} from &quot;../../components/ui/select&quot;;
 
 // Cannabis booking data
 const mockBookings = [
   {
-    id: "550e8400-e29b-41d4-a716-446655440001",
-    title: "California Dispensary Product Demo",
-    date: "2024-12-18",
-    time: "10:00 AM",
-    location: "Bay Area Cannabis Collective, San Francisco, CA",
-    client: "Green Valley Dispensary",
-    status: "confirmed",
+    id: &quot;550e8400-e29b-41d4-a716-446655440001&quot;,
+    title: &quot;California Dispensary Product Demo&quot;,
+    date: &quot;2024-12-18&quot;,
+    time: &quot;10:00 AM&quot;,
+    location: &quot;Bay Area Cannabis Collective, San Francisco, CA&quot;,
+    client: &quot;Green Valley Dispensary&quot;,
+    status: &quot;confirmed&quot;,
     agents: 3,
-    priority: "high",
-    budget: "$2,500",
-    revenue: "$3,200",
-    rating: "4.8",
+    priority: &quot;high&quot;,
+    budget: &quot;$2,500&quot;,
+    revenue: &quot;$3,200&quot;,
+    rating: &quot;4.8&quot;,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440002",
-    title: "Colorado Cannabis Conference Booth",
-    date: "2024-12-19",
-    time: "09:00 AM",
-    location: "Denver Convention Center, Denver, CO",
-    client: "Rocky Mountain Events",
-    status: "staff_assigned",
+    id: &quot;550e8400-e29b-41d4-a716-446655440002&quot;,
+    title: &quot;Colorado Cannabis Conference Booth&quot;,
+    date: &quot;2024-12-19&quot;,
+    time: &quot;09:00 AM&quot;,
+    location: &quot;Denver Convention Center, Denver, CO&quot;,
+    client: &quot;Rocky Mountain Events&quot;,
+    status: &quot;staff_assigned&quot;,
     agents: 6,
-    priority: "medium",
-    budget: "$5,000",
-    revenue: "$6,800",
-    rating: "4.9",
+    priority: &quot;medium&quot;,
+    budget: &quot;$5,000&quot;,
+    revenue: &quot;$6,800&quot;,
+    rating: &quot;4.9&quot;,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440003",
-    title: "Oregon Cultivation Training",
-    date: "2024-12-20",
-    time: "1:00 PM",
-    location: "Portland Training Facility, Portland, OR",
-    client: "Pacific Northwest Growers",
-    status: "pending_approval",
+    id: &quot;550e8400-e29b-41d4-a716-446655440003&quot;,
+    title: &quot;Oregon Cultivation Training&quot;,
+    date: &quot;2024-12-20&quot;,
+    time: &quot;1:00 PM&quot;,
+    location: &quot;Portland Training Facility, Portland, OR&quot;,
+    client: &quot;Pacific Northwest Growers&quot;,
+    status: &quot;pending_approval&quot;,
     agents: 2,
-    priority: "low",
-    budget: "$1,800",
-    revenue: "$2,100",
+    priority: &quot;low&quot;,
+    budget: &quot;$1,800&quot;,
+    revenue: &quot;$2,100&quot;,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440004",
-    title: "Nevada Cannabis Trade Show",
-    date: "2024-12-21",
-    time: "11:00 AM",
-    location: "Las Vegas Convention Center, Las Vegas, NV",
-    client: "Desert Bloom Cannabis",
-    status: "completed",
+    id: &quot;550e8400-e29b-41d4-a716-446655440004&quot;,
+    title: &quot;Nevada Cannabis Trade Show&quot;,
+    date: &quot;2024-12-21&quot;,
+    time: &quot;11:00 AM&quot;,
+    location: &quot;Las Vegas Convention Center, Las Vegas, NV&quot;,
+    client: &quot;Desert Bloom Cannabis&quot;,
+    status: &quot;completed&quot;,
     agents: 4,
-    priority: "high",
-    budget: "$3,200",
-    revenue: "$4,100",
-    rating: "4.7",
+    priority: &quot;high&quot;,
+    budget: &quot;$3,200&quot;,
+    revenue: &quot;$4,100&quot;,
+    rating: &quot;4.7&quot;,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440005",
-    title: "Washington State Product Launch",
-    date: "2024-12-22",
-    time: "2:00 PM",
-    location: "Seattle Cannabis Center, Seattle, WA",
-    client: "Emerald City Cannabis",
-    status: "confirmed",
+    id: &quot;550e8400-e29b-41d4-a716-446655440005&quot;,
+    title: &quot;Washington State Product Launch&quot;,
+    date: &quot;2024-12-22&quot;,
+    time: &quot;2:00 PM&quot;,
+    location: &quot;Seattle Cannabis Center, Seattle, WA&quot;,
+    client: &quot;Emerald City Cannabis&quot;,
+    status: &quot;confirmed&quot;,
     agents: 5,
-    priority: "high",
-    budget: "$4,000",
-    revenue: "$5,200",
-    rating: "4.9",
+    priority: &quot;high&quot;,
+    budget: &quot;$4,000&quot;,
+    revenue: &quot;$5,200&quot;,
+    rating: &quot;4.9&quot;,
   },
   {
-    id: "550e8400-e29b-41d4-a716-446655440006",
-    title: "Arizona Dispensary Grand Opening",
-    date: "2024-12-23",
-    time: "3:00 PM",
-    location: "Phoenix Cannabis Collective, Phoenix, AZ",
-    client: "Desert Sun Dispensary",
-    status: "equipment_deployed",
+    id: &quot;550e8400-e29b-41d4-a716-446655440006&quot;,
+    title: &quot;Arizona Dispensary Grand Opening&quot;,
+    date: &quot;2024-12-23&quot;,
+    time: &quot;3:00 PM&quot;,
+    location: &quot;Phoenix Cannabis Collective, Phoenix, AZ&quot;,
+    client: &quot;Desert Sun Dispensary&quot;,
+    status: &quot;equipment_deployed&quot;,
     agents: 3,
-    priority: "medium",
-    budget: "$2,800",
-    revenue: "$3,600",
+    priority: &quot;medium&quot;,
+    budget: &quot;$2,800&quot;,
+    revenue: &quot;$3,600&quot;,
   },
 ];
 
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [view, setView] = useState("month");
+  const [view, setView] = useState(&quot;month&quot;);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const nextMonth = () => {
@@ -161,17 +161,17 @@ export default function CalendarPage() {
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return date.toLocaleDateString(&quot;en-US&quot;, {
+      weekday: &quot;long&quot;,
+      year: &quot;numeric&quot;,
+      month: &quot;long&quot;,
+      day: &quot;numeric&quot;,
     });
   };
 
   const formatTime = (hour: number) => {
-    if (hour === 0) return "12 AM";
-    if (hour === 12) return "12 PM";
+    if (hour === 0) return &quot;12 AM&quot;;
+    if (hour === 12) return &quot;12 PM&quot;;
     if (hour < 12) return `${hour} AM`;
     return `${hour - 12} PM`;
   };
@@ -190,8 +190,8 @@ export default function CalendarPage() {
   const getBookingsForHour = (date: Date, hour: number) => {
     const dayBookings = getBookingsForDate(date);
     return dayBookings.filter((booking) => {
-      const bookingHour = parseInt(booking.time.split(":")[0]);
-      const isPM = booking.time.includes("PM");
+      const bookingHour = parseInt(booking.time.split(&quot;:&quot;)[0]);
+      const isPM = booking.time.includes(&quot;PM&quot;);
       const adjustedHour =
         isPM && bookingHour !== 12
           ? bookingHour + 12
@@ -204,28 +204,28 @@ export default function CalendarPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
-        <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
+      <div className=&quot;space-y-6&quot;>
+        <div className=&quot;flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0&quot;>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
               Cannabis Operations Calendar
             </h1>
-            <p className="text-muted-foreground mt-1">
+            <p className=&quot;text-muted-foreground mt-1&quot;>
               Schedule and coordinate cannabis industry operational workflows
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className=&quot;flex gap-2&quot;>
             <Select value={view} onValueChange={setView}>
-              <SelectTrigger className="w-32">
+              <SelectTrigger className=&quot;w-32&quot;>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="month">Month</SelectItem>
-                <SelectItem value="list">List</SelectItem>
+                <SelectItem value=&quot;month&quot;>Month</SelectItem>
+                <SelectItem value=&quot;list&quot;>List</SelectItem>
               </SelectContent>
             </Select>
             <Button>
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className=&quot;mr-2 h-4 w-4&quot; />
               Schedule Operation
             </Button>
           </div>
@@ -234,42 +234,42 @@ export default function CalendarPage() {
         {/* Calendar Navigation */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Button variant="outline" size="sm" onClick={prevMonth}>
-                  <ChevronLeft className="h-4 w-4" />
+            <div className=&quot;flex items-center justify-between&quot;>
+              <div className=&quot;flex items-center space-x-4&quot;>
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={prevMonth}>
+                  <ChevronLeft className=&quot;h-4 w-4&quot; />
                 </Button>
-                <h2 className="text-xl font-semibold">
-                  {currentDate.toLocaleDateString("en-US", {
-                    month: "long",
-                    year: "numeric",
+                <h2 className=&quot;text-xl font-semibold&quot;>
+                  {currentDate.toLocaleDateString(&quot;en-US&quot;, {
+                    month: &quot;long&quot;,
+                    year: &quot;numeric&quot;,
                   })}
                 </h2>
-                <Button variant="outline" size="sm" onClick={nextMonth}>
-                  <ChevronRight className="h-4 w-4" />
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot; onClick={nextMonth}>
+                  <ChevronRight className=&quot;h-4 w-4&quot; />
                 </Button>
               </div>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm">
-                  <Filter className="mr-2 h-4 w-4" />
+              <div className=&quot;flex items-center space-x-2&quot;>
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+                  <Filter className=&quot;mr-2 h-4 w-4&quot; />
                   Filter
                 </Button>
-                <div className="flex border rounded-md">
+                <div className=&quot;flex border rounded-md&quot;>
                   <Button
-                    variant={view === "month" ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => setView("month")}
-                    className="rounded-r-none"
+                    variant={view === &quot;month&quot; ? &quot;default&quot; : &quot;ghost&quot;}
+                    size=&quot;sm&quot;
+                    onClick={() => setView(&quot;month&quot;)}
+                    className=&quot;rounded-r-none&quot;
                   >
-                    <Grid className="h-4 w-4" />
+                    <Grid className=&quot;h-4 w-4&quot; />
                   </Button>
                   <Button
-                    variant={view === "list" ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => setView("list")}
-                    className="rounded-l-none"
+                    variant={view === &quot;list&quot; ? &quot;default&quot; : &quot;ghost&quot;}
+                    size=&quot;sm&quot;
+                    onClick={() => setView(&quot;list&quot;)}
+                    className=&quot;rounded-l-none&quot;
                   >
-                    <List className="h-4 w-4" />
+                    <List className=&quot;h-4 w-4&quot; />
                   </Button>
                 </div>
               </div>
@@ -277,34 +277,34 @@ export default function CalendarPage() {
           </CardHeader>
         </Card>
 
-        {view === "month" ? (
+        {view === &quot;month&quot; ? (
           /* Month View with FullCalendar Style */
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-4 gap-6&quot;>
             {/* Full Calendar Grid */}
-            <div className="lg:col-span-3">
+            <div className=&quot;lg:col-span-3&quot;>
               <Card>
-                <CardHeader className="pb-4">
-                  <div className="grid grid-cols-7 gap-1 text-center text-sm font-medium text-muted-foreground">
-                    <div className="p-2">Sun</div>
-                    <div className="p-2">Mon</div>
-                    <div className="p-2">Tue</div>
-                    <div className="p-2">Wed</div>
-                    <div className="p-2">Thu</div>
-                    <div className="p-2">Fri</div>
-                    <div className="p-2">Sat</div>
+                <CardHeader className=&quot;pb-4&quot;>
+                  <div className=&quot;grid grid-cols-7 gap-1 text-center text-sm font-medium text-muted-foreground&quot;>
+                    <div className=&quot;p-2&quot;>Sun</div>
+                    <div className=&quot;p-2&quot;>Mon</div>
+                    <div className=&quot;p-2&quot;>Tue</div>
+                    <div className=&quot;p-2&quot;>Wed</div>
+                    <div className=&quot;p-2&quot;>Thu</div>
+                    <div className=&quot;p-2&quot;>Fri</div>
+                    <div className=&quot;p-2&quot;>Sat</div>
                   </div>
                 </CardHeader>
-                <CardContent className="p-0">
-                  <div className="grid grid-cols-7 border-t border-l">
+                <CardContent className=&quot;p-0&quot;>
+                  <div className=&quot;grid grid-cols-7 border-t border-l&quot;>
                     {generateCalendarDays().map((day, index) => (
                       <div
                         key={index}
                         className={`min-h-32 p-2 border-r border-b cursor-pointer transition-colors ${
                           day
                             ? day.toDateString() === selectedDate.toDateString()
-                              ? "bg-primary/10 border-primary"
-                              : "hover:bg-muted/50"
-                            : "bg-muted/20"
+                              ? &quot;bg-primary/10 border-primary&quot;
+                              : &quot;hover:bg-muted/50&quot;
+                            : &quot;bg-muted/20&quot;
                         }`}
                         onClick={() => day && setSelectedDate(day)}
                       >
@@ -313,33 +313,33 @@ export default function CalendarPage() {
                             <div
                               className={`text-sm font-medium mb-2 ${
                                 day.toDateString() === new Date().toDateString()
-                                  ? "bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs"
-                                  : ""
+                                  ? &quot;bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs&quot;
+                                  : "&quot;
                               }`}
                             >
                               {day.getDate()}
                             </div>
-                            <div className="space-y-1">
+                            <div className=&quot;space-y-1&quot;>
                               {getBookingsForDate(day)
                                 .slice(0, 3)
                                 .map((booking) => (
                                   <div
                                     key={booking.id}
                                     className={`text-xs p-1 rounded truncate ${
-                                      booking.status === "confirmed"
-                                        ? "bg-green-100 text-green-800"
-                                        : booking.status === "pending_approval"
-                                          ? "bg-yellow-100 text-yellow-800"
-                                          : booking.status === "completed"
-                                            ? "bg-blue-100 text-blue-800"
-                                            : "bg-gray-100 text-gray-800"
+                                      booking.status === &quot;confirmed&quot;
+                                        ? &quot;bg-green-100 text-green-800&quot;
+                                        : booking.status === &quot;pending_approval&quot;
+                                          ? &quot;bg-yellow-100 text-yellow-800&quot;
+                                          : booking.status === &quot;completed&quot;
+                                            ? &quot;bg-blue-100 text-blue-800&quot;
+                                            : &quot;bg-gray-100 text-gray-800&quot;
                                     }`}
                                   >
-                                    {booking.time.split(" ")[0]} {booking.title}
+                                    {booking.time.split(&quot; &quot;)[0]} {booking.title}
                                   </div>
                                 ))}
                               {getBookingsForDate(day).length > 3 && (
-                                <div className="text-xs text-muted-foreground">
+                                <div className=&quot;text-xs text-muted-foreground&quot;>
                                   +{getBookingsForDate(day).length - 3} more
                                 </div>
                               )}
@@ -354,10 +354,10 @@ export default function CalendarPage() {
             </div>
 
             {/* Selected Day Detail Panel with 24-Hour View */}
-            <div className="lg:col-span-1">
+            <div className=&quot;lg:col-span-1&quot;>
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">
+                  <CardTitle className=&quot;text-lg&quot;>
                     {formatDate(selectedDate)}
                   </CardTitle>
                   <CardDescription>
@@ -365,9 +365,9 @@ export default function CalendarPage() {
                     scheduled
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className=&quot;space-y-4&quot;>
                   {/* 24-Hour Timeline */}
-                  <div className="space-y-1 max-h-96 overflow-y-auto">
+                  <div className=&quot;space-y-1 max-h-96 overflow-y-auto&quot;>
                     {Array.from({ length: 24 }, (_, hour) => {
                       const hourBookings = getBookingsForHour(
                         selectedDate,
@@ -376,37 +376,37 @@ export default function CalendarPage() {
                       return (
                         <div
                           key={hour}
-                          className="flex items-start space-x-3 py-1 border-b border-muted"
+                          className=&quot;flex items-start space-x-3 py-1 border-b border-muted&quot;
                         >
-                          <div className="text-xs font-medium text-muted-foreground w-12 mt-1 flex-shrink-0">
+                          <div className=&quot;text-xs font-medium text-muted-foreground w-12 mt-1 flex-shrink-0&quot;>
                             {formatTime(hour)}
                           </div>
-                          <div className="flex-1 space-y-1 min-h-6">
+                          <div className=&quot;flex-1 space-y-1 min-h-6&quot;>
                             {hourBookings.length > 0 ? (
                               hourBookings.map((booking) => (
                                 <div
                                   key={booking.id}
-                                  className="p-2 rounded-md bg-primary/10 border-l-2 border-primary"
+                                  className=&quot;p-2 rounded-md bg-primary/10 border-l-2 border-primary&quot;
                                 >
-                                  <div className="text-sm font-medium truncate">
+                                  <div className=&quot;text-sm font-medium truncate&quot;>
                                     {booking.title}
                                   </div>
-                                  <div className="text-xs text-muted-foreground truncate">
+                                  <div className=&quot;text-xs text-muted-foreground truncate&quot;>
                                     {booking.client}
                                   </div>
-                                  <div className="text-xs text-muted-foreground truncate">
-                                    {booking.location.split(",")[0]}
+                                  <div className=&quot;text-xs text-muted-foreground truncate&quot;>
+                                    {booking.location.split(&quot;,&quot;)[0]}
                                   </div>
                                   <Badge
-                                    variant="outline"
-                                    className="text-xs mt-1"
+                                    variant=&quot;outline&quot;
+                                    className=&quot;text-xs mt-1&quot;
                                   >
                                     {booking.status}
                                   </Badge>
                                 </div>
                               ))
                             ) : (
-                              <div className="text-xs text-muted-foreground py-1 opacity-50">
+                              <div className=&quot;text-xs text-muted-foreground py-1 opacity-50&quot;>
                                 Available
                               </div>
                             )}
@@ -429,49 +429,49 @@ export default function CalendarPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className=&quot;space-y-4&quot;>
                 {mockBookings.map((booking) => (
                   <div
                     key={booking.id}
-                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                    className=&quot;flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors&quot;
                   >
-                    <div className="flex items-center space-x-4">
-                      <div className="text-center min-w-16">
-                        <div className="text-sm font-medium">
-                          {new Date(booking.date).toLocaleDateString("en-US", {
-                            month: "short",
+                    <div className=&quot;flex items-center space-x-4&quot;>
+                      <div className=&quot;text-center min-w-16&quot;>
+                        <div className=&quot;text-sm font-medium&quot;>
+                          {new Date(booking.date).toLocaleDateString(&quot;en-US&quot;, {
+                            month: &quot;short&quot;,
                           })}
                         </div>
-                        <div className="text-2xl font-bold">
+                        <div className=&quot;text-2xl font-bold&quot;>
                           {new Date(booking.date).getDate()}
                         </div>
                       </div>
                       <div>
-                        <h3 className="font-medium">{booking.title}</h3>
-                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                          <Clock className="h-4 w-4" />
+                        <h3 className=&quot;font-medium&quot;>{booking.title}</h3>
+                        <div className=&quot;flex items-center space-x-2 text-sm text-muted-foreground&quot;>
+                          <Clock className=&quot;h-4 w-4&quot; />
                           <span>{booking.time}</span>
-                          <MapPin className="h-4 w-4 ml-2" />
-                          <span>{booking.location.split(",")[0]}</span>
-                          <Users className="h-4 w-4 ml-2" />
+                          <MapPin className=&quot;h-4 w-4 ml-2&quot; />
+                          <span>{booking.location.split(&quot;,&quot;)[0]}</span>
+                          <Users className=&quot;h-4 w-4 ml-2&quot; />
                           <span>{booking.agents} agents</span>
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">
+                        <div className=&quot;text-sm text-muted-foreground mt-1&quot;>
                           Client: {booking.client}
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className=&quot;flex items-center space-x-2&quot;>
                       <Badge
                         variant={
-                          booking.status === "completed"
-                            ? "default"
-                            : "secondary"
+                          booking.status === &quot;completed&quot;
+                            ? &quot;default&quot;
+                            : &quot;secondary&quot;
                         }
                       >
                         {booking.status}
                       </Badge>
-                      <Button variant="outline" size="sm">
+                      <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
                         View Details
                       </Button>
                     </div>
@@ -483,59 +483,59 @@ export default function CalendarPage() {
         )}
 
         {/* Monthly Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6&quot;>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+            <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+              <CardTitle className=&quot;text-sm font-medium&quot;>
                 Total Cannabis Operations
               </CardTitle>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+              <Calendar className=&quot;h-4 w-4 text-muted-foreground&quot; />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">47</div>
-              <p className="text-xs text-muted-foreground">
+              <div className=&quot;text-2xl font-bold&quot;>47</div>
+              <p className=&quot;text-xs text-muted-foreground&quot;>
                 +12% from last month
               </p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+            <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+              <CardTitle className=&quot;text-sm font-medium&quot;>
                 Active States
               </CardTitle>
-              <MapPin className="h-4 w-4 text-muted-foreground" />
+              <MapPin className=&quot;h-4 w-4 text-muted-foreground&quot; />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">8</div>
-              <p className="text-xs text-muted-foreground">
+              <div className=&quot;text-2xl font-bold&quot;>8</div>
+              <p className=&quot;text-xs text-muted-foreground&quot;>
                 Across cannabis-legal jurisdictions
               </p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+            <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+              <CardTitle className=&quot;text-sm font-medium&quot;>
                 Staff Utilization
               </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">89%</div>
-              <p className="text-xs text-muted-foreground">
+              <div className=&quot;text-2xl font-bold&quot;>89%</div>
+              <p className=&quot;text-xs text-muted-foreground&quot;>
                 +5% from last month
               </p>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+            <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+              <CardTitle className=&quot;text-sm font-medium&quot;>
                 Completion Rate
               </CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <TrendingUp className=&quot;h-4 w-4 text-muted-foreground&quot; />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">96%</div>
-              <p className="text-xs text-muted-foreground">
+              <div className=&quot;text-2xl font-bold&quot;>96%</div>
+              <p className=&quot;text-xs text-muted-foreground">
                 +2% from last month
               </p>
             </CardContent>

@@ -1,20 +1,20 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Login API Endpoint
  * Handles user authentication with secure password verification
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "../../../lib/db-connection";
-import { users } from "@shared/schema";
-import { scrypt, timingSafeEqual } from "crypto";
-import { promisify } from "util";
-import { cookies } from "next/headers";
-import { getEnvironment } from "@/lib/db-connection";
-import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;../../../lib/db-connection&quot;;
+import { users } from &quot;@shared/schema&quot;;
+import { scrypt, timingSafeEqual } from &quot;crypto&quot;;
+import { promisify } from &quot;util&quot;;
+import { cookies } from &quot;next/headers&quot;;
+import { getEnvironment } from &quot;@/lib/db-connection&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 // Convert scrypt to a promise-based function
 const scryptAsync = promisify(scrypt);
@@ -26,16 +26,16 @@ async function verifyPassword(
 ): Promise<boolean> {
   try {
     // Split the stored hash and salt
-    const [hashed, salt] = stored.split(".");
+    const [hashed, salt] = stored.split(&quot;.&quot;);
 
     // Hash the supplied password with the same salt
-    const hashedBuf = Buffer.from(hashed, "hex");
+    const hashedBuf = Buffer.from(hashed, &quot;hex&quot;);
     const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
 
     // Compare the hashes using a timing-safe comparison
     return timingSafeEqual(hashedBuf, suppliedBuf);
   } catch (error) {
-    console.error("Error verifying password:", error);
+    console.error(&quot;Error verifying password:&quot;, error);
     return false;
   }
 }
@@ -43,7 +43,7 @@ async function verifyPassword(
 // Login handler
 export async function POST(request: NextRequest) {
   try {
-    console.log("Processing login request...");
+    console.log(&quot;Processing login request...&quot;);
 
     // Parse the request body
     const body = await request.json();
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     // Basic validation
     if (!username || !password) {
       return NextResponse.json(
-        { error: "Username and password are required" },
+        { error: &quot;Username and password are required&quot; },
         { status: 400 },
       );
     }
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "Invalid username or password" },
+        { error: &quot;Invalid username or password&quot; },
         { status: 401 },
       );
     }
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     if (!passwordValid) {
       return NextResponse.json(
-        { error: "Invalid username or password" },
+        { error: &quot;Invalid username or password&quot; },
         { status: 401 },
       );
     }
@@ -93,12 +93,12 @@ export async function POST(request: NextRequest) {
 
     // Set the session cookie
     const cookieStore = cookies();
-    cookieStore.set("session", JSON.stringify(session), {
+    cookieStore.set(&quot;session&quot;, JSON.stringify(session), {
       httpOnly: true,
-      secure: getEnvironment() !== "development",
-      sameSite: "lax",
+      secure: getEnvironment() !== &quot;development&quot;,
+      sameSite: &quot;lax&quot;,
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      path: "/",
+      path: &quot;/&quot;,
     });
 
     console.log(`User logged in successfully: ${user.username}`);
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error in login process:", error);
+    console.error(&quot;Error in login process:&quot;, error);
 
     // Log detailed error information for debugging
     const env = getEnvironment();
@@ -126,8 +126,8 @@ export async function POST(request: NextRequest) {
     // Return appropriate error response
     return NextResponse.json(
       {
-        error: "Failed to authenticate user",
-        details: error instanceof Error ? error.message : "Unknown error",
+        error: &quot;Failed to authenticate user&quot;,
+        details: error instanceof Error ? error.message : &quot;Unknown error&quot;,
       },
       { status: 500 },
     );

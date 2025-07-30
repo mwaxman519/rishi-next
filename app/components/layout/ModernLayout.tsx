@@ -1,15 +1,15 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { usePathname } from &quot;next/navigation&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useMediaQuery } from &quot;@/hooks/useMediaQuery&quot;;
 import {
   ModernNavigationProvider,
   useNavigation,
-} from "../navigation/ModernNavigationProvider";
-import ModernSidebar from "../navigation/ModernSidebar";
-import ModernMobileNavigation from "../navigation/ModernMobileNavigation";
+} from &quot;../navigation/ModernNavigationProvider&quot;;
+import ModernSidebar from &quot;../navigation/ModernSidebar&quot;;
+import ModernMobileNavigation from &quot;../navigation/ModernMobileNavigation&quot;;
 
 interface ModernLayoutProps {
   children: React.ReactNode;
@@ -30,21 +30,21 @@ function ModernLayoutInner({ children }: ModernLayoutProps) {
   // Show loading state if not mounted yet (prevents hydration mismatch)
   if (!mounted) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      <div className=&quot;flex h-screen w-full items-center justify-center&quot;>
+        <div className=&quot;h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent&quot;></div>
       </div>
     );
   }
 
   // Special case for full-width pages like login/register
   const isFullWidthPage =
-    pathname?.startsWith("/auth/") ||
-    pathname === "/login" ||
-    pathname === "/register" ||
-    pathname === "/unauthorized";
+    pathname?.startsWith(&quot;/auth/&quot;) ||
+    pathname === &quot;/login&quot; ||
+    pathname === &quot;/register&quot; ||
+    pathname === &quot;/unauthorized&quot;;
 
   if (isFullWidthPage) {
-    return <div className="min-h-screen">{children}</div>;
+    return <div className=&quot;min-h-screen&quot;>{children}</div>;
   }
 
   return (
@@ -54,12 +54,12 @@ function ModernLayoutInner({ children }: ModernLayoutProps) {
         <ModernSidebar navItems={navItems}>{children}</ModernSidebar>
       ) : (
         /* Mobile: Content with top and bottom navigation */
-        <div className="min-h-screen pb-20">
+        <div className=&quot;min-h-screen pb-20&quot;>
           {/* Mobile navigation with top header and bottom tabs */}
           <ModernMobileNavigation navItems={navItems} />
 
           {/* Main content area */}
-          <main className="max-w-screen-xl mx-auto px-4 pt-4 pb-20">
+          <main className=&quot;max-w-screen-xl mx-auto px-4 pt-4 pb-20&quot;>
             {children}
           </main>
         </div>

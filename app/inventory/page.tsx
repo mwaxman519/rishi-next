@@ -1,24 +1,24 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
+import React, { useState } from &quot;react&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from &quot;@/components/ui/select&quot;;
 import {
   Search,
   Package,
@@ -42,15 +42,15 @@ import {
   QrCode,
   BarChart3,
   X,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useToast } from "@/hooks/use-toast";
-import Link from "next/link";
+} from &quot;@/components/ui/dropdown-menu&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import Link from &quot;next/link&quot;;
 import {
   Sheet,
   SheetContent,
@@ -58,7 +58,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from &quot;@/components/ui/sheet&quot;;
 
 // Scalable inventory data structure for hundreds of kits across states/territories
 const inventoryData = {
@@ -72,58 +72,58 @@ const inventoryData = {
     criticalAlerts: 8,
   },
   brands: [
-    { id: "brand-001", name: "Elevated Essence", count: 245 },
-    { id: "brand-002", name: "Green Valley Collective", count: 189 },
-    { id: "brand-003", name: "Pacific Coast Cannabis", count: 342 },
-    { id: "brand-004", name: "Mountain High Brands", count: 128 },
-    { id: "brand-005", name: "Desert Bloom Co", count: 276 },
+    { id: &quot;brand-001&quot;, name: &quot;Elevated Essence&quot;, count: 245 },
+    { id: &quot;brand-002&quot;, name: &quot;Green Valley Collective&quot;, count: 189 },
+    { id: &quot;brand-003&quot;, name: &quot;Pacific Coast Cannabis&quot;, count: 342 },
+    { id: &quot;brand-004&quot;, name: &quot;Mountain High Brands&quot;, count: 128 },
+    { id: &quot;brand-005&quot;, name: &quot;Desert Bloom Co&quot;, count: 276 },
   ],
   states: [
-    { code: "CA", name: "California", territories: 28, kits: 892 },
-    { code: "CO", name: "Colorado", territories: 12, kits: 345 },
-    { code: "WA", name: "Washington", territories: 15, kits: 423 },
-    { code: "OR", name: "Oregon", territories: 10, kits: 287 },
-    { code: "NV", name: "Nevada", territories: 8, kits: 198 },
+    { code: &quot;CA&quot;, name: &quot;California&quot;, territories: 28, kits: 892 },
+    { code: &quot;CO&quot;, name: &quot;Colorado&quot;, territories: 12, kits: 345 },
+    { code: &quot;WA&quot;, name: &quot;Washington&quot;, territories: 15, kits: 423 },
+    { code: &quot;OR&quot;, name: &quot;Oregon&quot;, territories: 10, kits: 287 },
+    { code: &quot;NV&quot;, name: &quot;Nevada&quot;, territories: 8, kits: 198 },
   ],
   kitTemplates: [
     {
-      id: "KT-001",
-      name: "Product Demo Standard",
-      brand: "Elevated Essence",
-      brandId: "brand-001",
+      id: &quot;KT-001&quot;,
+      name: &quot;Product Demo Standard&quot;,
+      brand: &quot;Elevated Essence&quot;,
+      brandId: &quot;brand-001&quot;,
       activeInstances: 145,
       totalInstances: 245,
-      territories: ["CA-01", "CA-02", "CA-05", "NV-01"],
+      territories: [&quot;CA-01&quot;, &quot;CA-02&quot;, &quot;CA-05&quot;, &quot;NV-01&quot;],
       componentCount: 12,
       avgRating: 4.8,
-      status: "active",
-      lastModified: "2025-01-15",
+      status: &quot;active&quot;,
+      lastModified: &quot;2025-01-15&quot;,
     },
     {
-      id: "KT-002",
-      name: "Trade Show Premium",
-      brand: "Green Valley Collective",
-      brandId: "brand-002",
+      id: &quot;KT-002&quot;,
+      name: &quot;Trade Show Premium&quot;,
+      brand: &quot;Green Valley Collective&quot;,
+      brandId: &quot;brand-002&quot;,
       activeInstances: 89,
       totalInstances: 125,
-      territories: ["CO-01", "CO-03", "WA-02"],
+      territories: [&quot;CO-01&quot;, &quot;CO-03&quot;, &quot;WA-02&quot;],
       componentCount: 25,
       avgRating: 4.6,
-      status: "active",
-      lastModified: "2025-01-12",
+      status: &quot;active&quot;,
+      lastModified: &quot;2025-01-12&quot;,
     },
     {
-      id: "KT-003",
-      name: "Street Team Activation",
-      brand: "Pacific Coast Cannabis",
-      brandId: "brand-003",
+      id: &quot;KT-003&quot;,
+      name: &quot;Street Team Activation&quot;,
+      brand: &quot;Pacific Coast Cannabis&quot;,
+      brandId: &quot;brand-003&quot;,
       activeInstances: 234,
       totalInstances: 342,
-      territories: ["CA-03", "CA-08", "OR-01", "OR-02", "WA-01"],
+      territories: [&quot;CA-03&quot;, &quot;CA-08&quot;, &quot;OR-01&quot;, &quot;OR-02&quot;, &quot;WA-01&quot;],
       componentCount: 8,
       avgRating: 4.4,
-      status: "active",
-      lastModified: "2025-01-14",
+      status: &quot;active&quot;,
+      lastModified: &quot;2025-01-14&quot;,
     },
   ],
 };
@@ -139,15 +139,15 @@ const FilterSheet = ({
   onClose
 }) => {
   return (
-    <div className="space-y-6 p-1">
+    <div className=&quot;space-y-6 p-1&quot;>
       <div>
-        <h3 className="text-sm font-semibold mb-3">Brand</h3>
+        <h3 className=&quot;text-sm font-semibold mb-3&quot;>Brand</h3>
         <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All Brands" />
+          <SelectTrigger className=&quot;w-full&quot;>
+            <SelectValue placeholder=&quot;All Brands&quot; />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Brands</SelectItem>
+            <SelectItem value=&quot;all&quot;>All Brands</SelectItem>
             {inventoryData.brands.map((brand) => (
               <SelectItem key={brand.id} value={brand.id}>
                 {brand.name} ({brand.count})
@@ -158,13 +158,13 @@ const FilterSheet = ({
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">State/Region</h3>
+        <h3 className=&quot;text-sm font-semibold mb-3&quot;>State/Region</h3>
         <Select value={selectedState} onValueChange={setSelectedState}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All States" />
+          <SelectTrigger className=&quot;w-full&quot;>
+            <SelectValue placeholder=&quot;All States&quot; />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All States</SelectItem>
+            <SelectItem value=&quot;all&quot;>All States</SelectItem>
             {inventoryData.states.map((state) => (
               <SelectItem key={state.code} value={state.code}>
                 {state.name} ({state.kits} kits)
@@ -175,30 +175,30 @@ const FilterSheet = ({
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold mb-3">Status</h3>
+        <h3 className=&quot;text-sm font-semibold mb-3&quot;>Status</h3>
         <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All Status" />
+          <SelectTrigger className=&quot;w-full&quot;>
+            <SelectValue placeholder=&quot;All Status&quot; />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="low_stock">Low Stock</SelectItem>
-            <SelectItem value="critical">Critical</SelectItem>
-            <SelectItem value="inactive">Inactive</SelectItem>
+            <SelectItem value=&quot;all&quot;>All Status</SelectItem>
+            <SelectItem value=&quot;active&quot;>Active</SelectItem>
+            <SelectItem value=&quot;low_stock&quot;>Low Stock</SelectItem>
+            <SelectItem value=&quot;critical&quot;>Critical</SelectItem>
+            <SelectItem value=&quot;inactive&quot;>Inactive</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className="flex gap-2 pt-4">
-        <Button variant="outline" className="flex-1" onClick={() => {
-          setSelectedBrand("all");
-          setSelectedState("all");
-          setSelectedStatus("all");
+      <div className=&quot;flex gap-2 pt-4&quot;>
+        <Button variant=&quot;outline&quot; className=&quot;flex-1&quot; onClick={() => {
+          setSelectedBrand(&quot;all&quot;);
+          setSelectedState(&quot;all&quot;);
+          setSelectedStatus(&quot;all&quot;);
         }}>
           Reset Filters
         </Button>
-        <Button className="flex-1" onClick={onClose}>
+        <Button className=&quot;flex-1&quot; onClick={onClose}>
           Apply Filters
         </Button>
       </div>
@@ -210,56 +210,56 @@ const FilterSheet = ({
 const KitTemplateCard = ({ template, isMobile }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "active":
-        return "bg-green-50 text-green-700 border-green-200";
-      case "low_stock":
-        return "bg-yellow-50 text-yellow-700 border-yellow-200";
-      case "critical":
-        return "bg-red-50 text-red-700 border-red-200";
-      case "inactive":
-        return "bg-gray-50 text-gray-700 border-gray-200";
+      case &quot;active&quot;:
+        return &quot;bg-green-50 text-green-700 border-green-200&quot;;
+      case &quot;low_stock&quot;:
+        return &quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;;
+      case &quot;critical&quot;:
+        return &quot;bg-red-50 text-red-700 border-red-200&quot;;
+      case &quot;inactive&quot;:
+        return &quot;bg-gray-50 text-gray-700 border-gray-200&quot;;
       default:
-        return "bg-gray-50 text-gray-700 border-gray-200";
+        return &quot;bg-gray-50 text-gray-700 border-gray-200&quot;;
     }
   };
 
   const utilizationRate = Math.round((template.activeInstances / template.totalInstances) * 100);
 
   return (
-    <Card className="hover:shadow-md transition-all cursor-pointer">
-      <CardContent className="p-3 sm:p-4">
-        <div className="space-y-3">
+    <Card className=&quot;hover:shadow-md transition-all cursor-pointer&quot;>
+      <CardContent className=&quot;p-3 sm:p-4&quot;>
+        <div className=&quot;space-y-3&quot;>
           {/* Header */}
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-sm sm:text-base truncate">
+          <div className=&quot;flex items-start justify-between gap-2&quot;>
+            <div className=&quot;flex-1 min-w-0&quot;>
+              <h3 className=&quot;font-semibold text-sm sm:text-base truncate&quot;>
                 {template.name}
               </h3>
-              <p className="text-xs sm:text-sm text-gray-600 truncate">
+              <p className=&quot;text-xs sm:text-sm text-gray-600 truncate&quot;>
                 {template.brand} • {template.id}
               </p>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                  <MoreVertical className="h-4 w-4" />
+                <Button variant=&quot;ghost&quot; size=&quot;sm&quot; className=&quot;h-8 w-8 p-0&quot;>
+                  <MoreVertical className=&quot;h-4 w-4&quot; />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align=&quot;end&quot;>
                 <DropdownMenuItem>
-                  <Eye className="w-4 h-4 mr-2" />
+                  <Eye className=&quot;w-4 h-4 mr-2&quot; />
                   View Details
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Edit className="w-4 h-4 mr-2" />
+                  <Edit className=&quot;w-4 h-4 mr-2&quot; />
                   Edit Template
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Copy className="w-4 h-4 mr-2" />
+                  <Copy className=&quot;w-4 h-4 mr-2&quot; />
                   Duplicate
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <QrCode className="w-4 h-4 mr-2" />
+                  <QrCode className=&quot;w-4 h-4 mr-2&quot; />
                   Generate QR
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -267,41 +267,41 @@ const KitTemplateCard = ({ template, isMobile }) => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+          <div className=&quot;grid grid-cols-2 gap-2 text-xs sm:text-sm&quot;>
             <div>
-              <span className="text-gray-600">Active/Total</span>
-              <p className="font-semibold">
+              <span className=&quot;text-gray-600&quot;>Active/Total</span>
+              <p className=&quot;font-semibold&quot;>
                 {template.activeInstances}/{template.totalInstances}
               </p>
             </div>
             <div>
-              <span className="text-gray-600">Utilization</span>
-              <p className="font-semibold">{utilizationRate}%</p>
+              <span className=&quot;text-gray-600&quot;>Utilization</span>
+              <p className=&quot;font-semibold&quot;>{utilizationRate}%</p>
             </div>
           </div>
 
           {/* Utilization bar */}
-          <div className="w-full bg-gray-200 rounded-full h-1.5">
+          <div className=&quot;w-full bg-gray-200 rounded-full h-1.5&quot;>
             <div
               className={`h-1.5 rounded-full transition-all ${
-                utilizationRate > 80 ? "bg-green-500" : 
-                utilizationRate > 50 ? "bg-yellow-500" : "bg-red-500"
+                utilizationRate > 80 ? &quot;bg-green-500&quot; : 
+                utilizationRate > 50 ? &quot;bg-yellow-500&quot; : &quot;bg-red-500&quot;
               }`}
               style={{ width: `${utilizationRate}%` }}
             />
           </div>
 
           {/* Territories */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <MapPin className="w-3 h-3 text-gray-500" />
-            <div className="flex gap-1 flex-wrap">
+          <div className=&quot;flex items-center gap-2 flex-wrap&quot;>
+            <MapPin className=&quot;w-3 h-3 text-gray-500&quot; />
+            <div className=&quot;flex gap-1 flex-wrap&quot;>
               {template.territories.slice(0, 3).map((territory) => (
-                <Badge key={territory} variant="outline" className="text-xs px-1.5 py-0">
+                <Badge key={territory} variant=&quot;outline&quot; className=&quot;text-xs px-1.5 py-0&quot;>
                   {territory}
                 </Badge>
               ))}
               {template.territories.length > 3 && (
-                <Badge variant="outline" className="text-xs px-1.5 py-0">
+                <Badge variant=&quot;outline&quot; className=&quot;text-xs px-1.5 py-0&quot;>
                   +{template.territories.length - 3}
                 </Badge>
               )}
@@ -309,14 +309,14 @@ const KitTemplateCard = ({ template, isMobile }) => {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-2 border-t">
-            <div className="flex items-center gap-1">
-              <Box className="w-3 h-3 text-gray-500" />
-              <span className="text-xs text-gray-600">{template.componentCount} items</span>
+          <div className=&quot;flex items-center justify-between pt-2 border-t&quot;>
+            <div className=&quot;flex items-center gap-1&quot;>
+              <Box className=&quot;w-3 h-3 text-gray-500&quot; />
+              <span className=&quot;text-xs text-gray-600&quot;>{template.componentCount} items</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-yellow-600">★</span>
-              <span className="text-xs font-semibold">{template.avgRating}</span>
+            <div className=&quot;flex items-center gap-1&quot;>
+              <span className=&quot;text-xs text-yellow-600&quot;>★</span>
+              <span className=&quot;text-xs font-semibold&quot;>{template.avgRating}</span>
             </div>
           </div>
         </div>
@@ -326,11 +326,11 @@ const KitTemplateCard = ({ template, isMobile }) => {
 };
 
 export default function InventoryPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("templates");
-  const [selectedBrand, setSelectedBrand] = useState("all");
-  const [selectedState, setSelectedState] = useState("all");
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
+  const [activeTab, setActiveTab] = useState(&quot;templates&quot;);
+  const [selectedBrand, setSelectedBrand] = useState(&quot;all&quot;);
+  const [selectedState, setSelectedState] = useState(&quot;all&quot;);
+  const [selectedStatus, setSelectedStatus] = useState(&quot;all&quot;);
   const [filterOpen, setFilterOpen] = useState(false);
   const { toast } = useToast();
 
@@ -340,52 +340,52 @@ export default function InventoryPage() {
       template.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
       template.id.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesBrand =
-      selectedBrand === "all" || template.brandId === selectedBrand;
+      selectedBrand === &quot;all&quot; || template.brandId === selectedBrand;
     return matchesSearch && matchesBrand;
   });
 
   const activeFilters = [
-    selectedBrand !== "all" && selectedBrand,
-    selectedState !== "all" && selectedState,
-    selectedStatus !== "all" && selectedStatus,
+    selectedBrand !== &quot;all&quot; && selectedBrand,
+    selectedState !== &quot;all&quot; && selectedState,
+    selectedStatus !== &quot;all&quot; && selectedStatus,
   ].filter(Boolean).length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=&quot;min-h-screen bg-gray-50&quot;>
       {/* Mobile-first header */}
-      <div className="sticky top-0 z-20 bg-white border-b">
-        <div className="px-4 py-3">
-          <div className="flex items-center justify-between mb-3">
-            <h1 className="text-lg sm:text-xl font-bold">Inventory</h1>
-            <Button size="sm" className="h-8">
-              <Plus className="w-4 h-4 sm:mr-2" />
-              <span className="hidden sm:inline">New Kit</span>
+      <div className=&quot;sticky top-0 z-20 bg-white border-b&quot;>
+        <div className=&quot;px-4 py-3&quot;>
+          <div className=&quot;flex items-center justify-between mb-3&quot;>
+            <h1 className=&quot;text-lg sm:text-xl font-bold&quot;>Inventory</h1>
+            <Button size=&quot;sm&quot; className=&quot;h-8&quot;>
+              <Plus className=&quot;w-4 h-4 sm:mr-2&quot; />
+              <span className=&quot;hidden sm:inline&quot;>New Kit</span>
             </Button>
           </div>
 
           {/* Search bar with filter button */}
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <div className=&quot;flex gap-2&quot;>
+            <div className=&quot;relative flex-1&quot;>
+              <Search className=&quot;absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4&quot; />
               <Input
-                placeholder="Search kits, brands, territories..."
+                placeholder=&quot;Search kits, brands, territories...&quot;
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-3 h-9"
+                className=&quot;pl-9 pr-3 h-9&quot;
               />
             </div>
             <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="sm" className="h-9 px-3 relative">
-                  <Filter className="w-4 h-4" />
+                <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;h-9 px-3 relative&quot;>
+                  <Filter className=&quot;w-4 h-4&quot; />
                   {activeFilters > 0 && (
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600">
+                    <Badge className=&quot;absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center bg-purple-600&quot;>
                       {activeFilters}
                     </Badge>
                   )}
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetContent side=&quot;right&quot; className=&quot;w-[300px] sm:w-[400px]&quot;>
                 <SheetHeader>
                   <SheetTitle>Filters</SheetTitle>
                   <SheetDescription>
@@ -407,40 +407,40 @@ export default function InventoryPage() {
         </div>
 
         {/* Stats scroll */}
-        <div className="px-4 pb-3 overflow-x-auto">
-          <div className="flex gap-3 min-w-max">
-            <div className="bg-purple-50 rounded-lg px-3 py-2 min-w-[100px]">
-              <p className="text-xs text-purple-600">Templates</p>
-              <p className="text-lg font-bold text-purple-900">{inventoryData.stats.totalKitTemplates}</p>
+        <div className=&quot;px-4 pb-3 overflow-x-auto&quot;>
+          <div className=&quot;flex gap-3 min-w-max&quot;>
+            <div className=&quot;bg-purple-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
+              <p className=&quot;text-xs text-purple-600&quot;>Templates</p>
+              <p className=&quot;text-lg font-bold text-purple-900&quot;>{inventoryData.stats.totalKitTemplates}</p>
             </div>
-            <div className="bg-green-50 rounded-lg px-3 py-2 min-w-[100px]">
-              <p className="text-xs text-green-600">Active Kits</p>
-              <p className="text-lg font-bold text-green-900">{inventoryData.stats.activeInstances.toLocaleString()}</p>
+            <div className=&quot;bg-green-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
+              <p className=&quot;text-xs text-green-600&quot;>Active Kits</p>
+              <p className=&quot;text-lg font-bold text-green-900&quot;>{inventoryData.stats.activeInstances.toLocaleString()}</p>
             </div>
-            <div className="bg-yellow-50 rounded-lg px-3 py-2 min-w-[100px]">
-              <p className="text-xs text-yellow-600">Brands</p>
-              <p className="text-lg font-bold text-yellow-900">{inventoryData.stats.totalBrands}</p>
+            <div className=&quot;bg-yellow-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
+              <p className=&quot;text-xs text-yellow-600&quot;>Brands</p>
+              <p className=&quot;text-lg font-bold text-yellow-900&quot;>{inventoryData.stats.totalBrands}</p>
             </div>
-            <div className="bg-red-50 rounded-lg px-3 py-2 min-w-[100px]">
-              <p className="text-xs text-red-600">Alerts</p>
-              <p className="text-lg font-bold text-red-900">{inventoryData.stats.criticalAlerts}</p>
+            <div className=&quot;bg-red-50 rounded-lg px-3 py-2 min-w-[100px]&quot;>
+              <p className=&quot;text-xs text-red-600&quot;>Alerts</p>
+              <p className=&quot;text-lg font-bold text-red-900&quot;>{inventoryData.stats.criticalAlerts}</p>
             </div>
           </div>
         </div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="w-full justify-start rounded-none border-t h-10 p-0">
-            <TabsTrigger value="templates" className="flex-1 rounded-none text-xs sm:text-sm">
+          <TabsList className=&quot;w-full justify-start rounded-none border-t h-10 p-0&quot;>
+            <TabsTrigger value=&quot;templates&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
               Templates
             </TabsTrigger>
-            <TabsTrigger value="instances" className="flex-1 rounded-none text-xs sm:text-sm">
+            <TabsTrigger value=&quot;instances&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
               Active
             </TabsTrigger>
-            <TabsTrigger value="stock" className="flex-1 rounded-none text-xs sm:text-sm">
+            <TabsTrigger value=&quot;stock&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
               Stock
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex-1 rounded-none text-xs sm:text-sm">
+            <TabsTrigger value=&quot;analytics&quot; className=&quot;flex-1 rounded-none text-xs sm:text-sm&quot;>
               Analytics
             </TabsTrigger>
           </TabsList>
@@ -448,105 +448,105 @@ export default function InventoryPage() {
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className=&quot;p-4&quot;>
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsContent value="templates" className="mt-0 space-y-4">
+          <TabsContent value=&quot;templates&quot; className=&quot;mt-0 space-y-4&quot;>
             {/* Quick actions for mobile */}
-            <div className="grid grid-cols-2 gap-2 sm:hidden">
-              <Link href="/inventory/templates/new">
-                <Button variant="outline" className="w-full h-auto py-3">
-                  <Plus className="w-4 h-4 mb-1" />
-                  <span className="block text-xs">Create Template</span>
+            <div className=&quot;grid grid-cols-2 gap-2 sm:hidden&quot;>
+              <Link href=&quot;/inventory/templates/new&quot;>
+                <Button variant=&quot;outline&quot; className=&quot;w-full h-auto py-3&quot;>
+                  <Plus className=&quot;w-4 h-4 mb-1&quot; />
+                  <span className=&quot;block text-xs&quot;>Create Template</span>
                 </Button>
               </Link>
-              <Link href="/inventory/bulk-import">
-                <Button variant="outline" className="w-full h-auto py-3">
-                  <Archive className="w-4 h-4 mb-1" />
-                  <span className="block text-xs">Bulk Import</span>
+              <Link href=&quot;/inventory/bulk-import&quot;>
+                <Button variant=&quot;outline&quot; className=&quot;w-full h-auto py-3&quot;>
+                  <Archive className=&quot;w-4 h-4 mb-1&quot; />
+                  <span className=&quot;block text-xs&quot;>Bulk Import</span>
                 </Button>
               </Link>
             </div>
 
             {/* Template grid */}
-            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className=&quot;grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4&quot;>
               {filteredTemplates.map((template) => (
                 <KitTemplateCard key={template.id} template={template} isMobile={true} />
               ))}
             </div>
           </TabsContent>
 
-          <TabsContent value="instances" className="mt-0 space-y-4">
-            <Link href="/inventory/kit-instances">
-              <Card className="hover:shadow-md transition-all cursor-pointer">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <Package className="w-5 h-5 text-purple-600" />
+          <TabsContent value=&quot;instances&quot; className=&quot;mt-0 space-y-4&quot;>
+            <Link href=&quot;/inventory/kit-instances&quot;>
+              <Card className=&quot;hover:shadow-md transition-all cursor-pointer&quot;>
+                <CardContent className=&quot;p-4&quot;>
+                  <div className=&quot;flex items-center justify-between&quot;>
+                    <div className=&quot;flex items-center gap-3&quot;>
+                      <div className=&quot;w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center&quot;>
+                        <Package className=&quot;w-5 h-5 text-purple-600&quot; />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-sm">Active Kit Instances</h3>
-                        <p className="text-xs text-gray-600">{inventoryData.stats.activeInstances.toLocaleString()} kits deployed</p>
+                        <h3 className=&quot;font-semibold text-sm&quot;>Active Kit Instances</h3>
+                        <p className=&quot;text-xs text-gray-600&quot;>{inventoryData.stats.activeInstances.toLocaleString()} kits deployed</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className=&quot;w-5 h-5 text-gray-400&quot; />
                   </div>
                 </CardContent>
               </Card>
             </Link>
           </TabsContent>
 
-          <TabsContent value="stock" className="mt-0 space-y-4">
-            <Link href="/inventory/stock">
-              <Card className="hover:shadow-md transition-all cursor-pointer">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                        <Users className="w-5 h-5 text-green-600" />
+          <TabsContent value=&quot;stock&quot; className=&quot;mt-0 space-y-4&quot;>
+            <Link href=&quot;/inventory/stock&quot;>
+              <Card className=&quot;hover:shadow-md transition-all cursor-pointer&quot;>
+                <CardContent className=&quot;p-4&quot;>
+                  <div className=&quot;flex items-center justify-between&quot;>
+                    <div className=&quot;flex items-center gap-3&quot;>
+                      <div className=&quot;w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center&quot;>
+                        <Users className=&quot;w-5 h-5 text-green-600&quot; />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-sm">Stock Management</h3>
-                        <p className="text-xs text-gray-600">Track items assigned to agents</p>
+                        <h3 className=&quot;font-semibold text-sm&quot;>Stock Management</h3>
+                        <p className=&quot;text-xs text-gray-600&quot;>Track items assigned to agents</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className=&quot;w-5 h-5 text-gray-400&quot; />
                   </div>
                 </CardContent>
               </Card>
             </Link>
           </TabsContent>
 
-          <TabsContent value="analytics" className="mt-0 space-y-4">
-            <div className="grid gap-3">
+          <TabsContent value=&quot;analytics&quot; className=&quot;mt-0 space-y-4&quot;>
+            <div className=&quot;grid gap-3&quot;>
               {/* Territory heat map preview */}
               <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Territory Coverage</CardTitle>
-                  <CardDescription className="text-xs">Kit distribution across {inventoryData.stats.totalStates} states</CardDescription>
+                <CardHeader className=&quot;pb-3&quot;>
+                  <CardTitle className=&quot;text-base&quot;>Territory Coverage</CardTitle>
+                  <CardDescription className=&quot;text-xs&quot;>Kit distribution across {inventoryData.stats.totalStates} states</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-2">
+                  <div className=&quot;space-y-2&quot;>
                     {inventoryData.states.slice(0, 3).map((state) => (
-                      <div key={state.code} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-3 h-3 text-gray-500" />
-                          <span className="text-sm font-medium">{state.name}</span>
+                      <div key={state.code} className=&quot;flex items-center justify-between&quot;>
+                        <div className=&quot;flex items-center gap-2&quot;>
+                          <MapPin className=&quot;w-3 h-3 text-gray-500&quot; />
+                          <span className=&quot;text-sm font-medium&quot;>{state.name}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                        <div className=&quot;flex items-center gap-2&quot;>
+                          <div className=&quot;w-24 bg-gray-200 rounded-full h-2&quot;>
                             <div
-                              className="h-2 bg-purple-500 rounded-full"
+                              className=&quot;h-2 bg-purple-500 rounded-full&quot;
                               style={{ width: `${(state.kits / 1000) * 100}%` }}
                             />
                           </div>
-                          <span className="text-xs text-gray-600 min-w-[40px] text-right">{state.kits}</span>
+                          <span className=&quot;text-xs text-gray-600 min-w-[40px] text-right&quot;>{state.kits}</span>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <Button variant="outline" size="sm" className="w-full mt-3">
-                    <BarChart3 className="w-4 h-4 mr-2" />
+                  <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;w-full mt-3&quot;>
+                    <BarChart3 className=&quot;w-4 h-4 mr-2" />
                     View Full Analytics
                   </Button>
                 </CardContent>

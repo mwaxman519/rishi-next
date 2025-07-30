@@ -1,17 +1,17 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState } from "react";
+import React, { useState } from &quot;react&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Avatar, AvatarFallback } from &quot;@/components/ui/avatar&quot;;
 import {
   Search,
   User,
@@ -25,122 +25,122 @@ import {
   Star,
   Calendar,
   Filter,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+} from &quot;@/components/ui/dropdown-menu&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
 
 // Authentic contacts data with UUID format following architectural guidelines
 const contactsData = [
   {
-    id: "990e8400-e29b-41d4-a716-446655440001",
-    name: "Jennifer Walsh",
-    title: "VP of Marketing",
-    organizationId: "00000000-0000-0000-0000-000000000002",
-    organization: "Acme Corp",
-    email: "jennifer.walsh@acmecorp.com",
-    phone: "+1 (555) 100-2000",
-    mobile: "+1 (555) 100-2001",
-    location: "New York, NY",
-    department: "Marketing",
-    type: "primary",
-    status: "active",
-    lastContact: "2025-06-15T14:30:00Z",
-    preferredContact: "email",
-    timezone: "EST",
-    notes: "Prefers morning meetings. Key decision maker for event staffing.",
-    tags: ["Decision Maker", "Marketing", "Events"],
+    id: &quot;990e8400-e29b-41d4-a716-446655440001&quot;,
+    name: &quot;Jennifer Walsh&quot;,
+    title: &quot;VP of Marketing&quot;,
+    organizationId: &quot;00000000-0000-0000-0000-000000000002&quot;,
+    organization: &quot;Acme Corp&quot;,
+    email: &quot;jennifer.walsh@acmecorp.com&quot;,
+    phone: &quot;+1 (555) 100-2000&quot;,
+    mobile: &quot;+1 (555) 100-2001&quot;,
+    location: &quot;New York, NY&quot;,
+    department: &quot;Marketing&quot;,
+    type: &quot;primary&quot;,
+    status: &quot;active&quot;,
+    lastContact: &quot;2025-06-15T14:30:00Z&quot;,
+    preferredContact: &quot;email&quot;,
+    timezone: &quot;EST&quot;,
+    notes: &quot;Prefers morning meetings. Key decision maker for event staffing.&quot;,
+    tags: [&quot;Decision Maker&quot;, &quot;Marketing&quot;, &quot;Events&quot;],
     rating: 4.2,
     interactions: 23,
   },
   {
-    id: "990e8400-e29b-41d4-a716-446655440002",
-    name: "David Chen",
-    title: "Event Director",
-    organizationId: "00000000-0000-0000-0000-000000000003",
-    organization: "TechHub Events",
-    email: "david.chen@techhubevents.com",
-    phone: "+1 (555) 200-3000",
-    mobile: "+1 (555) 200-3001",
-    location: "Los Angeles, CA",
-    department: "Operations",
-    type: "primary",
-    status: "active",
-    lastContact: "2025-06-17T11:20:00Z",
-    preferredContact: "phone",
-    timezone: "PST",
-    notes: "Responsive and detail-oriented. Handles large-scale tech events.",
-    tags: ["Operations", "Tech Events", "Responsive"],
+    id: &quot;990e8400-e29b-41d4-a716-446655440002&quot;,
+    name: &quot;David Chen&quot;,
+    title: &quot;Event Director&quot;,
+    organizationId: &quot;00000000-0000-0000-0000-000000000003&quot;,
+    organization: &quot;TechHub Events&quot;,
+    email: &quot;david.chen@techhubevents.com&quot;,
+    phone: &quot;+1 (555) 200-3000&quot;,
+    mobile: &quot;+1 (555) 200-3001&quot;,
+    location: &quot;Los Angeles, CA&quot;,
+    department: &quot;Operations&quot;,
+    type: &quot;primary&quot;,
+    status: &quot;active&quot;,
+    lastContact: &quot;2025-06-17T11:20:00Z&quot;,
+    preferredContact: &quot;phone&quot;,
+    timezone: &quot;PST&quot;,
+    notes: &quot;Responsive and detail-oriented. Handles large-scale tech events.&quot;,
+    tags: [&quot;Operations&quot;, &quot;Tech Events&quot;, &quot;Responsive&quot;],
     rating: 4.8,
     interactions: 45,
   },
   {
-    id: "990e8400-e29b-41d4-a716-446655440003",
-    name: "Maria Rodriguez",
-    title: "Partnership Manager",
-    organizationId: "00000000-0000-0000-0000-000000000004",
-    organization: "Global Staffing Partners",
-    email: "maria.rodriguez@globalstaffing.com",
-    phone: "+1 (555) 300-4000",
-    mobile: "+1 (555) 300-4001",
-    location: "Chicago, IL",
-    department: "Partnerships",
-    type: "primary",
-    status: "active",
-    lastContact: "2025-06-16T16:45:00Z",
-    preferredContact: "email",
-    timezone: "CST",
+    id: &quot;990e8400-e29b-41d4-a716-446655440003&quot;,
+    name: &quot;Maria Rodriguez&quot;,
+    title: &quot;Partnership Manager&quot;,
+    organizationId: &quot;00000000-0000-0000-0000-000000000004&quot;,
+    organization: &quot;Global Staffing Partners&quot;,
+    email: &quot;maria.rodriguez@globalstaffing.com&quot;,
+    phone: &quot;+1 (555) 300-4000&quot;,
+    mobile: &quot;+1 (555) 300-4001&quot;,
+    location: &quot;Chicago, IL&quot;,
+    department: &quot;Partnerships&quot;,
+    type: &quot;primary&quot;,
+    status: &quot;active&quot;,
+    lastContact: &quot;2025-06-16T16:45:00Z&quot;,
+    preferredContact: &quot;email&quot;,
+    timezone: &quot;CST&quot;,
     notes:
-      "Strategic partner for staff augmentation. Weekly check-ins scheduled.",
-    tags: ["Partnership", "Strategic", "Weekly Meetings"],
+      &quot;Strategic partner for staff augmentation. Weekly check-ins scheduled.&quot;,
+    tags: [&quot;Partnership&quot;, &quot;Strategic&quot;, &quot;Weekly Meetings&quot;],
     rating: 4.1,
     interactions: 31,
   },
   {
-    id: "990e8400-e29b-41d4-a716-446655440004",
-    name: "Alexandra Sterling",
-    title: "CEO",
-    organizationId: "00000000-0000-0000-0000-000000000005",
-    organization: "Premium Events Ltd",
-    email: "alexandra.sterling@premiumevents.com",
-    phone: "+1 (555) 400-5000",
-    mobile: "+1 (555) 400-5001",
-    location: "Miami, FL",
-    department: "Executive",
-    type: "executive",
-    status: "active",
-    lastContact: "2025-06-17T09:30:00Z",
-    preferredContact: "phone",
-    timezone: "EST",
+    id: &quot;990e8400-e29b-41d4-a716-446655440004&quot;,
+    name: &quot;Alexandra Sterling&quot;,
+    title: &quot;CEO&quot;,
+    organizationId: &quot;00000000-0000-0000-0000-000000000005&quot;,
+    organization: &quot;Premium Events Ltd&quot;,
+    email: &quot;alexandra.sterling@premiumevents.com&quot;,
+    phone: &quot;+1 (555) 400-5000&quot;,
+    mobile: &quot;+1 (555) 400-5001&quot;,
+    location: &quot;Miami, FL&quot;,
+    department: &quot;Executive&quot;,
+    type: &quot;executive&quot;,
+    status: &quot;active&quot;,
+    lastContact: &quot;2025-06-17T09:30:00Z&quot;,
+    preferredContact: &quot;phone&quot;,
+    timezone: &quot;EST&quot;,
     notes:
-      "High-value client. Prefers direct communication for premium services.",
-    tags: ["Executive", "High Value", "Premium"],
+      &quot;High-value client. Prefers direct communication for premium services.&quot;,
+    tags: [&quot;Executive&quot;, &quot;High Value&quot;, &quot;Premium&quot;],
     rating: 4.9,
     interactions: 18,
   },
   {
-    id: "990e8400-e29b-41d4-a716-446655440005",
-    name: "Robert Kim",
-    title: "Operations Manager",
-    organizationId: "00000000-0000-0000-0000-000000000002",
-    organization: "Acme Corp",
-    email: "robert.kim@acmecorp.com",
-    phone: "+1 (555) 100-3000",
-    mobile: "+1 (555) 100-3001",
-    location: "San Francisco, CA",
-    department: "Operations",
-    type: "secondary",
-    status: "active",
-    lastContact: "2025-06-14T10:15:00Z",
-    preferredContact: "email",
-    timezone: "PST",
-    notes: "Handles day-to-day operations. Good for logistics coordination.",
-    tags: ["Operations", "Logistics", "Detail-oriented"],
+    id: &quot;990e8400-e29b-41d4-a716-446655440005&quot;,
+    name: &quot;Robert Kim&quot;,
+    title: &quot;Operations Manager&quot;,
+    organizationId: &quot;00000000-0000-0000-0000-000000000002&quot;,
+    organization: &quot;Acme Corp&quot;,
+    email: &quot;robert.kim@acmecorp.com&quot;,
+    phone: &quot;+1 (555) 100-3000&quot;,
+    mobile: &quot;+1 (555) 100-3001&quot;,
+    location: &quot;San Francisco, CA&quot;,
+    department: &quot;Operations&quot;,
+    type: &quot;secondary&quot;,
+    status: &quot;active&quot;,
+    lastContact: &quot;2025-06-14T10:15:00Z&quot;,
+    preferredContact: &quot;email&quot;,
+    timezone: &quot;PST&quot;,
+    notes: &quot;Handles day-to-day operations. Good for logistics coordination.&quot;,
+    tags: [&quot;Operations&quot;, &quot;Logistics&quot;, &quot;Detail-oriented&quot;],
     rating: 4.0,
     interactions: 19,
   },
@@ -177,30 +177,30 @@ const ContactCard = ({
 }) => {
   const getTypeColor = (type: string) => {
     switch (type) {
-      case "primary":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "executive":
-        return "bg-purple-100 text-purple-800 border-purple-200";
-      case "secondary":
-        return "bg-green-100 text-green-800 border-green-200";
+      case &quot;primary&quot;:
+        return &quot;bg-blue-100 text-blue-800 border-blue-200&quot;;
+      case &quot;executive&quot;:
+        return &quot;bg-purple-100 text-purple-800 border-purple-200&quot;;
+      case &quot;secondary&quot;:
+        return &quot;bg-green-100 text-green-800 border-green-200&quot;;
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return &quot;bg-gray-100 text-gray-800 border-gray-200&quot;;
     }
   };
 
   const getInitials = (name: string) => {
     return name
-      .split(" ")
+      .split(&quot; &quot;)
       .map((n) => n[0])
-      .join("")
+      .join("&quot;)
       .toUpperCase();
   };
 
   const getRatingColor = (rating: number) => {
-    if (rating >= 4.5) return "text-green-600";
-    if (rating >= 4.0) return "text-teal-600";
-    if (rating >= 3.5) return "text-yellow-600";
-    return "text-red-600";
+    if (rating >= 4.5) return &quot;text-green-600&quot;;
+    if (rating >= 4.0) return &quot;text-teal-600&quot;;
+    if (rating >= 3.5) return &quot;text-yellow-600&quot;;
+    return &quot;text-red-600&quot;;
   };
 
   const formatLastContact = (dateString: string) => {
@@ -209,30 +209,30 @@ const ContactCard = ({
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 1) return "Yesterday";
+    if (diffDays === 1) return &quot;Yesterday&quot;;
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.ceil(diffDays / 7)} weeks ago`;
     return `${Math.ceil(diffDays / 30)} months ago`;
   };
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-200">
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-3">
-            <Avatar className="h-12 w-12">
-              <AvatarFallback className="bg-purple-100 text-purple-600 font-semibold">
+    <Card className=&quot;hover:shadow-lg transition-all duration-200&quot;>
+      <CardHeader className=&quot;pb-4&quot;>
+        <div className=&quot;flex items-start justify-between&quot;>
+          <div className=&quot;flex items-start space-x-3&quot;>
+            <Avatar className=&quot;h-12 w-12&quot;>
+              <AvatarFallback className=&quot;bg-purple-100 text-purple-600 font-semibold&quot;>
                 {getInitials(contact.name)}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1">
-              <CardTitle className="text-lg">{contact.name}</CardTitle>
-              <CardDescription className="mt-1">
+            <div className=&quot;flex-1&quot;>
+              <CardTitle className=&quot;text-lg&quot;>{contact.name}</CardTitle>
+              <CardDescription className=&quot;mt-1&quot;>
                 {contact.title}
               </CardDescription>
-              <div className="flex items-center mt-1">
-                <Building className="h-3 w-3 mr-1 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">
+              <div className=&quot;flex items-center mt-1&quot;>
+                <Building className=&quot;h-3 w-3 mr-1 text-muted-foreground&quot; />
+                <span className=&quot;text-sm text-muted-foreground&quot;>
                   {contact.organization}
                 </span>
               </div>
@@ -244,66 +244,66 @@ const ContactCard = ({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
+      <CardContent className=&quot;space-y-4&quot;>
         {/* Contact Information */}
-        <div className="grid grid-cols-1 gap-2">
-          <div className="flex items-center text-sm">
-            <Mail className="h-4 w-4 mr-2 text-teal-500" />
-            <span className="truncate">{contact.email}</span>
+        <div className=&quot;grid grid-cols-1 gap-2&quot;>
+          <div className=&quot;flex items-center text-sm&quot;>
+            <Mail className=&quot;h-4 w-4 mr-2 text-teal-500&quot; />
+            <span className=&quot;truncate&quot;>{contact.email}</span>
           </div>
-          <div className="flex items-center text-sm">
-            <Phone className="h-4 w-4 mr-2 text-green-500" />
+          <div className=&quot;flex items-center text-sm&quot;>
+            <Phone className=&quot;h-4 w-4 mr-2 text-green-500&quot; />
             <span>{contact.phone}</span>
           </div>
-          <div className="flex items-center text-sm">
-            <MapPin className="h-4 w-4 mr-2 text-red-500" />
+          <div className=&quot;flex items-center text-sm&quot;>
+            <MapPin className=&quot;h-4 w-4 mr-2 text-red-500&quot; />
             <span>{contact.location}</span>
           </div>
         </div>
 
         {/* Performance Metrics */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="text-center bg-yellow-50 rounded-lg p-3">
+        <div className=&quot;grid grid-cols-2 gap-4&quot;>
+          <div className=&quot;text-center bg-yellow-50 rounded-lg p-3&quot;>
             <div
               className={`text-lg font-bold ${getRatingColor(contact.rating)} flex items-center justify-center`}
             >
-              <Star className="h-4 w-4 mr-1" />
+              <Star className=&quot;h-4 w-4 mr-1&quot; />
               {contact.rating}
             </div>
-            <div className="text-xs text-yellow-700">Rating</div>
+            <div className=&quot;text-xs text-yellow-700&quot;>Rating</div>
           </div>
-          <div className="text-center bg-teal-50 rounded-lg p-3">
-            <div className="text-lg font-bold text-teal-600">
+          <div className=&quot;text-center bg-teal-50 rounded-lg p-3&quot;>
+            <div className=&quot;text-lg font-bold text-teal-600&quot;>
               {contact.interactions}
             </div>
-            <div className="text-xs text-teal-700">Interactions</div>
+            <div className=&quot;text-xs text-teal-700&quot;>Interactions</div>
           </div>
         </div>
 
         {/* Last Contact */}
-        <div className="bg-gray-50 rounded-lg p-3">
-          <div className="flex items-center justify-between">
+        <div className=&quot;bg-gray-50 rounded-lg p-3&quot;>
+          <div className=&quot;flex items-center justify-between&quot;>
             <div>
-              <p className="text-sm font-medium">Last Contact</p>
-              <p className="text-xs text-muted-foreground">
+              <p className=&quot;text-sm font-medium&quot;>Last Contact</p>
+              <p className=&quot;text-xs text-muted-foreground&quot;>
                 {formatLastContact(contact.lastContact)}
               </p>
             </div>
-            <Calendar className="h-4 w-4 text-gray-500" />
+            <Calendar className=&quot;h-4 w-4 text-gray-500&quot; />
           </div>
         </div>
 
         {/* Tags */}
         <div>
-          <div className="text-sm font-medium mb-2">Tags</div>
-          <div className="flex flex-wrap gap-1">
+          <div className=&quot;text-sm font-medium mb-2&quot;>Tags</div>
+          <div className=&quot;flex flex-wrap gap-1&quot;>
             {contact.tags.slice(0, 2).map((tag, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
+              <Badge key={index} variant=&quot;outline&quot; className=&quot;text-xs&quot;>
                 {tag}
               </Badge>
             ))}
             {contact.tags.length > 2 && (
-              <Badge variant="outline" className="text-xs">
+              <Badge variant=&quot;outline&quot; className=&quot;text-xs&quot;>
                 +{contact.tags.length - 2} more
               </Badge>
             )}
@@ -311,51 +311,51 @@ const ContactCard = ({
         </div>
 
         {/* Notes Preview */}
-        <div className="bg-blue-50 rounded-lg p-3">
-          <div className="text-sm font-medium text-blue-800 mb-1">Notes</div>
-          <p className="text-xs text-blue-700 line-clamp-2">{contact.notes}</p>
+        <div className=&quot;bg-blue-50 rounded-lg p-3&quot;>
+          <div className=&quot;text-sm font-medium text-blue-800 mb-1&quot;>Notes</div>
+          <p className=&quot;text-xs text-blue-700 line-clamp-2&quot;>{contact.notes}</p>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex space-x-2 pt-2 border-t">
+        <div className=&quot;flex space-x-2 pt-2 border-t&quot;>
           <Button
-            size="sm"
-            className="flex-1"
-            onClick={() => onAction("view", contact.id)}
+            size=&quot;sm&quot;
+            className=&quot;flex-1&quot;
+            onClick={() => onAction(&quot;view&quot;, contact.id)}
           >
-            <User className="h-4 w-4 mr-1" />
+            <User className=&quot;h-4 w-4 mr-1&quot; />
             View
           </Button>
           <Button
-            size="sm"
-            variant="outline"
-            onClick={() => onAction("email", contact.id)}
+            size=&quot;sm&quot;
+            variant=&quot;outline&quot;
+            onClick={() => onAction(&quot;email&quot;, contact.id)}
           >
-            <Mail className="h-4 w-4" />
+            <Mail className=&quot;h-4 w-4&quot; />
           </Button>
           <Button
-            size="sm"
-            variant="outline"
-            onClick={() => onAction("call", contact.id)}
+            size=&quot;sm&quot;
+            variant=&quot;outline&quot;
+            onClick={() => onAction(&quot;call&quot;, contact.id)}
           >
-            <Phone className="h-4 w-4" />
+            <Phone className=&quot;h-4 w-4&quot; />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <MoreVertical className="h-4 w-4" />
+              <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+                <MoreVertical className=&quot;h-4 w-4&quot; />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem
-                onClick={() => onAction("schedule", contact.id)}
+                onClick={() => onAction(&quot;schedule&quot;, contact.id)}
               >
                 Schedule Meeting
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction("history", contact.id)}>
+              <DropdownMenuItem onClick={() => onAction(&quot;history&quot;, contact.id)}>
                 View History
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction("edit", contact.id)}>
+              <DropdownMenuItem onClick={() => onAction(&quot;edit&quot;, contact.id)}>
                 Edit Contact
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -367,9 +367,9 @@ const ContactCard = ({
 };
 
 export default function ContactsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState("all");
-  const [organizationFilter, setOrganizationFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState(&quot;&quot;);
+  const [typeFilter, setTypeFilter] = useState(&quot;all&quot;);
+  const [organizationFilter, setOrganizationFilter] = useState(&quot;all&quot;);
   const { toast } = useToast();
 
   const filteredContacts = contactsData.filter((contact) => {
@@ -378,9 +378,9 @@ export default function ContactsPage() {
       contact.organization.toLowerCase().includes(searchQuery.toLowerCase()) ||
       contact.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       contact.email.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = typeFilter === "all" || contact.type === typeFilter;
+    const matchesType = typeFilter === &quot;all&quot; || contact.type === typeFilter;
     const matchesOrg =
-      organizationFilter === "all" ||
+      organizationFilter === &quot;all&quot; ||
       contact.organization === organizationFilter;
     return matchesSearch && matchesType && matchesOrg;
   });
@@ -395,7 +395,7 @@ export default function ContactsPage() {
       contactId,
       contactName: contact?.name,
       organizationId: contact?.organizationId,
-      initiatedBy: "internal_admin",
+      initiatedBy: &quot;internal_admin&quot;,
       metadata: {
         contactType: contact?.type,
         organization: contact?.organization,
@@ -405,41 +405,41 @@ export default function ContactsPage() {
     };
 
     // In real implementation, this would publish to event bus
-    console.log("Publishing contact event:", eventPayload);
+    console.log(&quot;Publishing contact event:&quot;, eventPayload);
 
     switch (action) {
-      case "view":
+      case &quot;view&quot;:
         toast({
-          title: "Contact Details",
+          title: &quot;Contact Details&quot;,
           description: `Opening detailed view for ${contact?.name}`,
         });
         break;
-      case "email":
+      case &quot;email&quot;:
         if (contact?.email) {
           window.location.href = `mailto:${contact.email}`;
         }
         break;
-      case "call":
+      case &quot;call&quot;:
         toast({
-          title: "Initiating Call",
+          title: &quot;Initiating Call&quot;,
           description: `Calling ${contact?.name} at ${contact?.phone}`,
         });
         break;
-      case "schedule":
+      case &quot;schedule&quot;:
         toast({
-          title: "Schedule Meeting",
+          title: &quot;Schedule Meeting&quot;,
           description: `Opening calendar to schedule meeting with ${contact?.name}`,
         });
         break;
-      case "history":
+      case &quot;history&quot;:
         toast({
-          title: "Interaction History",
+          title: &quot;Interaction History&quot;,
           description: `Loading interaction history for ${contact?.name}`,
         });
         break;
-      case "edit":
+      case &quot;edit&quot;:
         toast({
-          title: "Edit Contact",
+          title: &quot;Edit Contact&quot;,
           description: `Opening edit form for ${contact?.name}`,
         });
         break;
@@ -448,10 +448,10 @@ export default function ContactsPage() {
 
   const totalContacts = contactsData.length;
   const primaryContacts = contactsData.filter(
-    (c) => c.type === "primary",
+    (c) => c.type === &quot;primary&quot;,
   ).length;
   const executiveContacts = contactsData.filter(
-    (c) => c.type === "executive",
+    (c) => c.type === &quot;executive&quot;,
   ).length;
   const averageRating = (
     contactsData.reduce((sum, c) => sum + c.rating, 0) / totalContacts
@@ -462,117 +462,117 @@ export default function ContactsPage() {
   ];
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className=&quot;container mx-auto py-6 space-y-6&quot;>
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className=&quot;flex justify-between items-center&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Contacts</h1>
-          <p className="text-muted-foreground">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Contacts</h1>
+          <p className=&quot;text-muted-foreground&quot;>
             Manage and maintain relationships with key contacts across all
             organizations
           </p>
         </div>
         <Button>
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className=&quot;mr-2 h-4 w-4&quot; />
           Add Contact
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4&quot;>
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className=&quot;p-6&quot;>
+            <div className=&quot;flex items-center justify-between&quot;>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Total Contacts
                 </p>
-                <p className="text-2xl font-bold">{totalContacts}</p>
+                <p className=&quot;text-2xl font-bold&quot;>{totalContacts}</p>
               </div>
-              <User className="h-8 w-8 text-indigo-600" />
+              <User className=&quot;h-8 w-8 text-indigo-600&quot; />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className=&quot;p-6&quot;>
+            <div className=&quot;flex items-center justify-between&quot;>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Primary Contacts
                 </p>
-                <p className="text-2xl font-bold text-blue-600">
+                <p className=&quot;text-2xl font-bold text-blue-600&quot;>
                   {primaryContacts}
                 </p>
               </div>
-              <Star className="h-8 w-8 text-blue-600" />
+              <Star className=&quot;h-8 w-8 text-blue-600&quot; />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className=&quot;p-6&quot;>
+            <div className=&quot;flex items-center justify-between&quot;>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Executives
                 </p>
-                <p className="text-2xl font-bold text-purple-600">
+                <p className=&quot;text-2xl font-bold text-purple-600&quot;>
                   {executiveContacts}
                 </p>
               </div>
-              <Building className="h-8 w-8 text-purple-600" />
+              <Building className=&quot;h-8 w-8 text-purple-600&quot; />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+          <CardContent className=&quot;p-6&quot;>
+            <div className=&quot;flex items-center justify-between&quot;>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className=&quot;text-sm font-medium text-muted-foreground&quot;>
                   Avg Rating
                 </p>
-                <p className="text-2xl font-bold text-yellow-600">
+                <p className=&quot;text-2xl font-bold text-yellow-600&quot;>
                   {averageRating}
                 </p>
               </div>
-              <Star className="h-8 w-8 text-yellow-600" />
+              <Star className=&quot;h-8 w-8 text-yellow-600&quot; />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col lg:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+      <div className=&quot;flex flex-col lg:flex-row gap-4&quot;>
+        <div className=&quot;relative flex-1&quot;>
+          <Search className=&quot;absolute left-3 top-3 h-4 w-4 text-muted-foreground&quot; />
           <Input
-            placeholder="Search contacts by name, organization, title, or email..."
+            placeholder=&quot;Search contacts by name, organization, title, or email...&quot;
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className=&quot;pl-10&quot;
           />
         </div>
-        <div className="flex gap-2">
+        <div className=&quot;flex gap-2&quot;>
           <Button
-            variant={typeFilter === "all" ? "default" : "outline"}
-            onClick={() => setTypeFilter("all")}
-            size="sm"
+            variant={typeFilter === &quot;all&quot; ? &quot;default&quot; : &quot;outline&quot;}
+            onClick={() => setTypeFilter(&quot;all&quot;)}
+            size=&quot;sm&quot;
           >
             All Types
           </Button>
           <Button
-            variant={typeFilter === "primary" ? "default" : "outline"}
-            onClick={() => setTypeFilter("primary")}
-            size="sm"
+            variant={typeFilter === &quot;primary&quot; ? &quot;default&quot; : &quot;outline&quot;}
+            onClick={() => setTypeFilter(&quot;primary&quot;)}
+            size=&quot;sm&quot;
           >
             Primary
           </Button>
           <Button
-            variant={typeFilter === "executive" ? "default" : "outline"}
-            onClick={() => setTypeFilter("executive")}
-            size="sm"
+            variant={typeFilter === &quot;executive&quot; ? &quot;default&quot; : &quot;outline&quot;}
+            onClick={() => setTypeFilter(&quot;executive&quot;)}
+            size=&quot;sm&quot;
           >
             Executive
           </Button>
@@ -580,14 +580,14 @@ export default function ContactsPage() {
       </div>
 
       {/* Contacts Grid */}
-      <Tabs value="grid" className="w-full">
+      <Tabs value=&quot;grid&quot; className=&quot;w-full&quot;>
         <TabsList>
-          <TabsTrigger value="grid">Grid View</TabsTrigger>
-          <TabsTrigger value="list">List View</TabsTrigger>
+          <TabsTrigger value=&quot;grid&quot;>Grid View</TabsTrigger>
+          <TabsTrigger value=&quot;list&quot;>List View</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="grid" className="mt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <TabsContent value=&quot;grid&quot; className=&quot;mt-6&quot;>
+          <div className=&quot;grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6&quot;>
             {filteredContacts.map((contact) => (
               <ContactCard
                 key={contact.id}
@@ -598,8 +598,8 @@ export default function ContactsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="list" className="mt-6">
-          <div className="space-y-4">
+        <TabsContent value=&quot;list&quot; className=&quot;mt-6&quot;>
+          <div className=&quot;space-y-4&quot;>
             {filteredContacts.map((contact) => (
               <ContactCard
                 key={contact.id}
@@ -612,10 +612,10 @@ export default function ContactsPage() {
       </Tabs>
 
       {filteredContacts.length === 0 && (
-        <div className="text-center py-12">
-          <User className="h-12 w-12 mx-auto text-muted-foreground/50" />
-          <h3 className="mt-4 text-lg font-medium">No contacts found</h3>
-          <p className="mt-2 text-muted-foreground">
+        <div className=&quot;text-center py-12&quot;>
+          <User className=&quot;h-12 w-12 mx-auto text-muted-foreground/50&quot; />
+          <h3 className=&quot;mt-4 text-lg font-medium&quot;>No contacts found</h3>
+          <p className=&quot;mt-2 text-muted-foreground">
             Try adjusting your search criteria or filters.
           </p>
         </div>

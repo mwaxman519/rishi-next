@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import React, { useState, useEffect } from &quot;react&quot;;
+import Link from &quot;next/link&quot;;
+import { usePathname } from &quot;next/navigation&quot;;
 import {
   X,
   Search,
@@ -11,9 +11,9 @@ import {
   Folder,
   ChevronRight,
   ExternalLink,
-} from "lucide-react";
-import { cn } from "@/components/../lib/client-utils";
-import type { DocTree } from "@/components/../lib/docs";
+} from &quot;lucide-react&quot;;
+import { cn } from &quot;@/components/../lib/client-utils&quot;;
+import type { DocTree } from &quot;@/components/../lib/docs&quot;;
 
 interface MobileNavProps {
   tree: DocTree;
@@ -29,13 +29,13 @@ export function MobileNav({
   currentPath,
 }: MobileNavProps) {
   const pathname = usePathname();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   // Reset search and active section when nav opens/closes
   useEffect(() => {
     if (!isOpen) {
-      setSearchQuery("");
+      setSearchQuery(&quot;&quot;);
       setActiveSection(null);
     }
   }, [isOpen]);
@@ -56,39 +56,39 @@ export function MobileNav({
 
   // Extract the current section (if any) from the pathname
   const getCurrentSection = () => {
-    const parts = pathname.split("/");
+    const parts = pathname.split(&quot;/&quot;);
     // /docs/section/... => section
     return parts.length > 2 ? parts[2] : null;
   };
 
   // Convert tree to flattened array for search
-  const getFlattenedItems = (tree: DocTree, basePath = "/docs") => {
-    let items: { title: string; path: string; type: "file" | "folder" }[] = [];
+  const getFlattenedItems = (tree: DocTree, basePath = &quot;/docs&quot;) => {
+    let items: { title: string; path: string; type: &quot;file&quot; | &quot;folder&quot; }[] = [];
 
     Object.entries(tree).forEach(([key, value]) => {
       if (value === null) {
         // It's a file
         const displayTitle =
-          key === "README.md" || key === "README.mdx"
-            ? "Overview"
-            : key.replace(/\.[^/.]+$/, "");
+          key === &quot;README.md&quot; || key === &quot;README.mdx&quot;
+            ? &quot;Overview&quot;
+            : key.replace(/\.[^/.]+$/, &quot;&quot;);
 
         const filePath =
-          key === "README.md" || key === "README.mdx"
+          key === &quot;README.md&quot; || key === &quot;README.mdx&quot;
             ? basePath
-            : `${basePath}/${key.replace(/\.[^/.]+$/, "")}`;
+            : `${basePath}/${key.replace(/\.[^/.]+$/, &quot;&quot;)}`;
 
         items.push({
           title: displayTitle,
           path: filePath,
-          type: "file",
+          type: &quot;file&quot;,
         });
       } else {
         // It's a directory
         items.push({
           title: key,
           path: `${basePath}/${key}`,
-          type: "folder",
+          type: &quot;folder&quot;,
         });
 
         // Recursively add items from subdirectory
@@ -106,7 +106,7 @@ export function MobileNav({
       .map(([key, value]) => ({
         title: key,
         hasReadme: Object.keys(value as DocTree).some(
-          (k) => k === "README.md" || k === "README.mdx",
+          (k) => k === &quot;README.md&quot; || k === &quot;README.mdx&quot;,
         ),
         path: `/docs/${key}`,
       }))
@@ -127,11 +127,11 @@ export function MobileNav({
     return Object.entries(value as DocTree)
       .filter(
         ([key, val]) =>
-          val === null && key !== "README.md" && key !== "README.mdx",
+          val === null && key !== &quot;README.md&quot; && key !== &quot;README.mdx&quot;,
       )
       .map(([key]) => ({
-        title: key.replace(/\.[^/.]+$/, ""),
-        path: `/docs/${activeSection}/${key.replace(/\.[^/.]+$/, "")}`,
+        title: key.replace(/\.[^/.]+$/, &quot;&quot;),
+        path: `/docs/${activeSection}/${key.replace(/\.[^/.]+$/, &quot;&quot;)}`,
       }))
       .sort((a, b) => a.title.localeCompare(b.title));
   };
@@ -150,39 +150,39 @@ export function MobileNav({
   return (
     <div
       className={cn(
-        "fixed inset-0 bg-white dark:bg-gray-950 z-[90] transition-transform duration-300 ease-in-out overflow-hidden",
-        isOpen ? "translate-y-0" : "translate-y-full",
+        &quot;fixed inset-0 bg-white dark:bg-gray-950 z-[90] transition-transform duration-300 ease-in-out overflow-hidden&quot;,
+        isOpen ? &quot;translate-y-0&quot; : &quot;translate-y-full&quot;,
       )}
     >
       {/* Header with search & close */}
-      <div className="sticky top-0 z-10 bg-gradient-to-r from-purple-600 to-teal-500 text-white p-4 shadow-md">
-        <div className="flex items-center justify-between">
+      <div className=&quot;sticky top-0 z-10 bg-gradient-to-r from-purple-600 to-teal-500 text-white p-4 shadow-md&quot;>
+        <div className=&quot;flex items-center justify-between&quot;>
           <Link
-            href="/docs"
-            className="flex items-center space-x-2"
+            href=&quot;/docs&quot;
+            className=&quot;flex items-center space-x-2&quot;
             onClick={onClose}
           >
-            <div className="w-8 h-8 rounded-md bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold shadow-lg">
+            <div className=&quot;w-8 h-8 rounded-md bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold shadow-lg&quot;>
               D
             </div>
-            <span className="font-semibold text-lg">Documentation</span>
+            <span className=&quot;font-semibold text-lg&quot;>Documentation</span>
           </Link>
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-            aria-label="Close navigation"
+            className=&quot;p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors&quot;
+            aria-label=&quot;Close navigation&quot;
           >
-            <X className="h-5 w-5" />
+            <X className=&quot;h-5 w-5&quot; />
           </button>
         </div>
 
         {/* Search box */}
-        <div className="mt-4 relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-white/70" />
+        <div className=&quot;mt-4 relative&quot;>
+          <Search className=&quot;absolute left-3 top-2.5 h-4 w-4 text-white/70&quot; />
           <input
-            type="text"
-            placeholder="Search documentation..."
-            className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 placeholder-white/70 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+            type=&quot;text&quot;
+            placeholder=&quot;Search documentation...&quot;
+            className=&quot;w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 placeholder-white/70 text-white focus:outline-none focus:ring-2 focus:ring-white/30&quot;
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -190,29 +190,29 @@ export function MobileNav({
       </div>
 
       {/* Content - conditionally show search results or menu */}
-      <div className="overflow-y-auto h-[calc(100%-135px)] p-4">
+      <div className=&quot;overflow-y-auto h-[calc(100%-135px)] p-4&quot;>
         {searchQuery ? (
           // Search results
           <div>
-            <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+            <h2 className=&quot;text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2&quot;>
               Search Results
             </h2>
 
             {filteredItems.length > 0 ? (
-              <ul className="space-y-2">
+              <ul className=&quot;space-y-2&quot;>
                 {filteredItems.map((item, i) => (
                   <li key={i}>
                     <Link
                       href={item.path}
-                      className="flex items-center gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors"
+                      className=&quot;flex items-center gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-900 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors&quot;
                       onClick={onClose}
                     >
-                      {item.type === "file" ? (
-                        <FileText className="h-4 w-4 text-teal-500" />
+                      {item.type === &quot;file&quot; ? (
+                        <FileText className=&quot;h-4 w-4 text-teal-500&quot; />
                       ) : (
-                        <Folder className="h-4 w-4 text-purple-500" />
+                        <Folder className=&quot;h-4 w-4 text-purple-500&quot; />
                       )}
-                      <span className="font-medium text-gray-700 dark:text-gray-200">
+                      <span className=&quot;font-medium text-gray-700 dark:text-gray-200&quot;>
                         {item.title}
                       </span>
                     </Link>
@@ -220,11 +220,11 @@ export function MobileNav({
                 ))}
               </ul>
             ) : (
-              <div className="text-center py-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4">
-                  <Search className="h-8 w-8 text-gray-400" />
+              <div className=&quot;text-center py-8&quot;>
+                <div className=&quot;inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 mb-4&quot;>
+                  <Search className=&quot;h-8 w-8 text-gray-400&quot; />
                 </div>
-                <p className="text-gray-500 dark:text-gray-400">
+                <p className=&quot;text-gray-500 dark:text-gray-400&quot;>
                   No results found
                 </p>
               </div>
@@ -234,28 +234,28 @@ export function MobileNav({
           // Navigation menu
           <div>
             {/* Quick links */}
-            <div className="mb-6">
-              <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+            <div className=&quot;mb-6&quot;>
+              <h2 className=&quot;text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2&quot;>
                 Quick Links
               </h2>
-              <div className="grid grid-cols-2 gap-2">
+              <div className=&quot;grid grid-cols-2 gap-2&quot;>
                 <Link
-                  href="/docs"
-                  className="flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r from-purple-50 to-teal-50 dark:from-purple-900/20 dark:to-teal-900/20 hover:shadow-md transition-shadow"
+                  href=&quot;/docs&quot;
+                  className=&quot;flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r from-purple-50 to-teal-50 dark:from-purple-900/20 dark:to-teal-900/20 hover:shadow-md transition-shadow&quot;
                   onClick={onClose}
                 >
-                  <Home className="h-5 w-5 text-purple-500 dark:text-purple-400" />
-                  <span className="font-medium text-gray-800 dark:text-gray-200">
+                  <Home className=&quot;h-5 w-5 text-purple-500 dark:text-purple-400&quot; />
+                  <span className=&quot;font-medium text-gray-800 dark:text-gray-200&quot;>
                     Home
                   </span>
                 </Link>
                 <Link
-                  href="/docs/getting-started"
-                  className="flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r from-teal-50 to-purple-50 dark:from-teal-900/20 dark:to-purple-900/20 hover:shadow-md transition-shadow"
+                  href=&quot;/docs/getting-started&quot;
+                  className=&quot;flex items-center gap-2 p-3 rounded-lg bg-gradient-to-r from-teal-50 to-purple-50 dark:from-teal-900/20 dark:to-purple-900/20 hover:shadow-md transition-shadow&quot;
                   onClick={onClose}
                 >
-                  <ChevronRight className="h-5 w-5 text-teal-500 dark:text-teal-400" />
-                  <span className="font-medium text-gray-800 dark:text-gray-200">
+                  <ChevronRight className=&quot;h-5 w-5 text-teal-500 dark:text-teal-400&quot; />
+                  <span className=&quot;font-medium text-gray-800 dark:text-gray-200&quot;>
                     Get Started
                   </span>
                 </Link>
@@ -263,59 +263,59 @@ export function MobileNav({
             </div>
 
             {/* Main sections */}
-            <div className="mb-6">
-              <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2">
+            <div className=&quot;mb-6&quot;>
+              <h2 className=&quot;text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2&quot;>
                 Documentation
               </h2>
-              <ul className="space-y-2">
+              <ul className=&quot;space-y-2&quot;>
                 {topSections.map((section, i) => (
                   <li key={i}>
                     <button
                       onClick={() => toggleSection(section.title)}
                       className={cn(
-                        "flex items-center justify-between w-full p-3 rounded-lg transition-colors",
+                        &quot;flex items-center justify-between w-full p-3 rounded-lg transition-colors&quot;,
                         section.title === currentSection
-                          ? "bg-gradient-to-r from-purple-100 to-teal-50 dark:from-purple-900/30 dark:to-teal-900/20"
-                          : "bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800",
+                          ? &quot;bg-gradient-to-r from-purple-100 to-teal-50 dark:from-purple-900/30 dark:to-teal-900/20&quot;
+                          : &quot;bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800&quot;,
                       )}
                     >
-                      <div className="flex items-center gap-2">
+                      <div className=&quot;flex items-center gap-2&quot;>
                         <Folder
                           className={cn(
-                            "h-5 w-5",
+                            &quot;h-5 w-5&quot;,
                             section.title === currentSection
-                              ? "text-purple-600 dark:text-purple-400"
-                              : "text-gray-400",
+                              ? &quot;text-purple-600 dark:text-purple-400&quot;
+                              : &quot;text-gray-400&quot;,
                           )}
                         />
-                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                        <span className=&quot;font-medium text-gray-800 dark:text-gray-200&quot;>
                           {section.title}
                         </span>
                       </div>
                       <ChevronRight
                         className={cn(
-                          "h-4 w-4 text-gray-400 transition-transform",
-                          activeSection === section.title && "rotate-90",
+                          &quot;h-4 w-4 text-gray-400 transition-transform&quot;,
+                          activeSection === section.title && &quot;rotate-90&quot;,
                         )}
                       />
                     </button>
 
                     {/* Section files */}
                     {activeSection === section.title && (
-                      <ul className="mt-2 ml-4 space-y-1">
+                      <ul className=&quot;mt-2 ml-4 space-y-1&quot;>
                         {section.hasReadme && (
                           <li>
                             <Link
                               href={section.path}
                               className={cn(
-                                "flex items-center gap-2 p-2 rounded-md",
+                                &quot;flex items-center gap-2 p-2 rounded-md&quot;,
                                 pathname === section.path
-                                  ? "bg-purple-50 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300"
-                                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50",
+                                  ? &quot;bg-purple-50 text-purple-700 dark:bg-purple-900/20 dark:text-purple-300&quot;
+                                  : &quot;text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50&quot;,
                               )}
                               onClick={onClose}
                             >
-                              <FileText className="h-4 w-4 text-gray-400" />
+                              <FileText className=&quot;h-4 w-4 text-gray-400&quot; />
                               <span>Overview</span>
                             </Link>
                           </li>
@@ -326,14 +326,14 @@ export function MobileNav({
                             <Link
                               href={file.path}
                               className={cn(
-                                "flex items-center gap-2 p-2 rounded-md",
+                                &quot;flex items-center gap-2 p-2 rounded-md&quot;,
                                 pathname === file.path
-                                  ? "bg-teal-50 text-teal-700 dark:bg-teal-900/20 dark:text-teal-300"
-                                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50",
+                                  ? &quot;bg-teal-50 text-teal-700 dark:bg-teal-900/20 dark:text-teal-300&quot;
+                                  : &quot;text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50&quot;,
                               )}
                               onClick={onClose}
                             >
-                              <FileText className="h-4 w-4 text-gray-400" />
+                              <FileText className=&quot;h-4 w-4 text-gray-400&quot; />
                               <span>{file.title}</span>
                             </Link>
                           </li>
@@ -349,15 +349,15 @@ export function MobileNav({
       </div>
 
       {/* Footer */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-4">
+      <div className=&quot;fixed bottom-0 left-0 right-0 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 p-4&quot;>
         <Link
-          href="https://github.com/yourusername/your-repo"
-          className="flex items-center justify-center gap-2 w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          target="_blank"
-          rel="noopener noreferrer"
+          href=&quot;https://github.com/yourusername/your-repo&quot;
+          className=&quot;flex items-center justify-center gap-2 w-full p-3 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors&quot;
+          target=&quot;_blank&quot;
+          rel=&quot;noopener noreferrer&quot;
           onClick={(e) => e.stopPropagation()}
         >
-          <ExternalLink className="h-4 w-4" />
+          <ExternalLink className=&quot;h-4 w-4" />
           <span>View on GitHub</span>
         </Link>
       </div>

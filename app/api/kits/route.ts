@@ -1,15 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { z } from "zod";
-import { db } from "@/lib/db";
-import { kitInstances, insertKitSchema, USER_ROLES, kits } from "@shared/schema";
-import { and, eq } from "drizzle-orm";
-import { getOrganizationHeaderData } from "@/lib/organization-context";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
+import { z } from &quot;zod&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { kitInstances, insertKitSchema, USER_ROLES, kits } from &quot;@shared/schema&quot;;
+import { and, eq } from &quot;drizzle-orm&quot;;
+import { getOrganizationHeaderData } from &quot;@/lib/organization-context&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
 
 // GET /api/kits
 export async function GET(req: NextRequest) {
@@ -24,10 +24,10 @@ export async function GET(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to view kits
-    const hasPermission = await checkPermission(req, "read:staff");
+    const hasPermission = await checkPermission(req, &quot;read:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json(
-        { error: "You do not have permission to view kits" },
+        { error: &quot;You do not have permission to view kits&quot; },
         { status: 403 },
       );
     }
@@ -35,9 +35,9 @@ export async function GET(req: NextRequest) {
     // Get query parameters
     const url = new URL(req.url);
     const searchParams = url.searchParams;
-    const brandRegionId = (searchParams.get("brandRegionId") || undefined);
-    const kitStatus = (searchParams.get("status") || undefined);
-    const approvalStatus = (searchParams.get("approvalStatus") || undefined);
+    const brandRegionId = (searchParams.get(&quot;brandRegionId&quot;) || undefined);
+    const kitStatus = (searchParams.get(&quot;status&quot;) || undefined);
+    const approvalStatus = (searchParams.get(&quot;approvalStatus&quot;) || undefined);
 
     // Build the query - use kits (alias for kitInstances)
     let query = db.select().from(kits);
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
       (user.role === USER_ROLES.CLIENT_USER ||
         user.role === USER_ROLES.CLIENT_MANAGER)
     ) {
-      query = query.where(eq(kits.status, "available"));
+      query = query.where(eq(kits.status, &quot;available&quot;));
     }
 
     // Execute the query
@@ -61,9 +61,9 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(allKits);
   } catch (error) {
-    console.error("Error fetching kits:", error);
+    console.error(&quot;Error fetching kits:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch kits" },
+      { error: &quot;Failed to fetch kits&quot; },
       { status: 500 },
     );
   }
@@ -76,10 +76,10 @@ export async function POST(req: NextRequest) {
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to create kits
-    const hasPermission = await checkPermission(req, "create:staff");
+    const hasPermission = await checkPermission(req, &quot;create:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json(
-        { error: "You do not have permission to create kits" },
+        { error: &quot;You do not have permission to create kits&quot; },
         { status: 403 },
       );
     }
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: &quot;User not authenticated&quot; },
         { status: 401 },
       );
     }
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
       USER_ROLES.INTERNAL_FIELD_MANAGER,
     ].includes(user.role);
 
-    const approvalStatus = isRishiStaff ? "approved" : "pending";
+    const approvalStatus = isRishiStaff ? &quot;approved&quot; : &quot;pending&quot;;
     const approvalData = {
       ...validatedData,
       approvalStatus,
@@ -123,15 +123,15 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(newKit, { status: 201 });
   } catch (error) {
-    console.error("Error creating kit:", error);
+    console.error(&quot;Error creating kit:&quot;, error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation error", details: error.errors },
+        { error: &quot;Validation error&quot;, details: error.errors },
         { status: 400 },
       );
     }
     return NextResponse.json(
-      { error: "Failed to create kit" },
+      { error: &quot;Failed to create kit&quot; },
       { status: 500 },
     );
   }
@@ -147,10 +147,10 @@ export async function PATCH(
     const organizationData = await getOrganizationHeaderData(req);
 
     // Check if user has permission to approve kits
-    const hasPermission = await checkPermission(req, "update:staff");
+    const hasPermission = await checkPermission(req, &quot;update:staff&quot;);
     if (!hasPermission) {
       return NextResponse.json(
-        { error: "You do not have permission to approve kits" },
+        { error: &quot;You do not have permission to approve kits&quot; },
         { status: 403 },
       );
     }
@@ -159,7 +159,7 @@ export async function PATCH(
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json(
-        { error: "User not authenticated" },
+        { error: &quot;User not authenticated&quot; },
         { status: 401 },
       );
     }
@@ -173,7 +173,7 @@ export async function PATCH(
 
     if (!isRishiStaff) {
       return NextResponse.json(
-        { error: "Only Rishi staff can approve kits" },
+        { error: &quot;Only Rishi staff can approve kits&quot; },
         { status: 403 },
       );
     }
@@ -181,19 +181,19 @@ export async function PATCH(
     // Parse request path to get kit ID
     const id = Number(params.id);
     if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid kit ID" }, { status: 400 });
+      return NextResponse.json({ error: &quot;Invalid kit ID&quot; }, { status: 400 });
     }
 
     // Parse and validate request body
     const body = await req.json();
     const updateSchema = z.object({
-      approvalStatus: z.enum(["approved", "rejected"]),
+      approvalStatus: z.enum([&quot;approved&quot;, &quot;rejected&quot;]),
       approvalNotes: z.string().optional(),
     });
 
     const { approvalStatus, approvalNotes } = updateSchema.parse(body);
 
-    // Update the kit's approval status
+    // Update the kit&apos;s approval status
     const [updatedKit] = await db
       .update(kits)
       .set({
@@ -207,20 +207,20 @@ export async function PATCH(
       .returning();
 
     if (!updatedKit) {
-      return NextResponse.json({ error: "Kit not found" }, { status: 404 });
+      return NextResponse.json({ error: &quot;Kit not found&quot; }, { status: 404 });
     }
 
     return NextResponse.json(updatedKit);
   } catch (error) {
-    console.error("Error approving kit:", error);
+    console.error(&quot;Error approving kit:&quot;, error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation error", details: error.errors },
+        { error: &quot;Validation error&quot;, details: error.errors },
         { status: 400 },
       );
     }
     return NextResponse.json(
-      { error: "Failed to approve kit" },
+      { error: &quot;Failed to approve kit&quot; },
       { status: 500 },
     );
   }

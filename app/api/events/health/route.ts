@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { hybridEventBus } from '../../../../services/infrastructure/messaging/hybridEventBus';
 
-export const dynamic = "force-dynamic";
+export const dynamic = &quot;force-dynamic&quot;;
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {

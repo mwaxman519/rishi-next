@@ -10,42 +10,42 @@
  * other components.
  */
 
-import { z } from "zod";
-import { startOfDay, parse, isAfter, isBefore, addHours } from "date-fns";
-import { bookingEvents } from "../events/booking-events";
-import { BookingErrorType, bookingErrorService } from "./booking-error-service";
-import { RecurrenceFrequency } from "./recurrence-engine";
+import { z } from &quot;zod&quot;;
+import { startOfDay, parse, isAfter, isBefore, addHours } from &quot;date-fns&quot;;
+import { bookingEvents } from &quot;../events/booking-events&quot;;
+import { BookingErrorType, bookingErrorService } from &quot;./booking-error-service&quot;;
+import { RecurrenceFrequency } from &quot;./recurrence-engine&quot;;
 
 // Base schema for booking validation
 export const bookingSchema = z.object({
   title: z
     .string()
-    .min(5, "Title must be at least 5 characters")
-    .max(100, "Title cannot exceed 100 characters"),
-  clientId: z.string().uuid("Valid client ID is required"),
+    .min(5, &quot;Title must be at least 5 characters&quot;)
+    .max(100, &quot;Title cannot exceed 100 characters&quot;),
+  clientId: z.string().uuid(&quot;Valid client ID is required&quot;),
   date: z.date({
-    required_error: "Date is required",
+    required_error: &quot;Date is required&quot;,
   }),
   startTime: z
     .string()
     .regex(
       /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-      "Start time must be in 24-hour format (HH:MM)",
+      &quot;Start time must be in 24-hour format (HH:MM)&quot;,
     ),
   endTime: z
     .string()
     .regex(
       /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-      "End time must be in 24-hour format (HH:MM)",
+      &quot;End time must be in 24-hour format (HH:MM)&quot;,
     ),
-  timezone: z.string().min(1, "Timezone is required"),
-  locationId: z.string().uuid("Valid location ID is required"),
-  activityType: z.string().min(1, "Activity type is required"),
+  timezone: z.string().min(1, &quot;Timezone is required&quot;),
+  locationId: z.string().uuid(&quot;Valid location ID is required&quot;),
+  activityType: z.string().min(1, &quot;Activity type is required&quot;),
   notes: z.string().optional(),
   isRecurring: z.boolean().default(false),
   attendeeCount: z
     .number()
-    .min(1, "At least one attendee is required")
+    .min(1, &quot;At least one attendee is required&quot;)
     .optional(),
 });
 
@@ -53,13 +53,13 @@ export const bookingSchema = z.object({
 export const recurringBookingSchema = bookingSchema.extend({
   recurringFrequency: z
     .nativeEnum(RecurrenceFrequency, {
-      errorMap: () => ({ message: "Please select a valid frequency" }),
+      errorMap: () => ({ message: &quot;Please select a valid frequency&quot; }),
     })
     .optional(),
   recurringCount: z
     .number()
-    .min(2, "Must have at least 2 occurrences")
-    .max(52, "Maximum 52 occurrences allowed")
+    .min(2, &quot;Must have at least 2 occurrences&quot;)
+    .max(52, &quot;Maximum 52 occurrences allowed&quot;)
     .optional(),
   recurringExceptions: z.array(z.date()).optional(),
 });
@@ -72,14 +72,14 @@ export const bookingFormSchema = recurringBookingSchema
       if (!data.date || !data.startTime || !data.endTime) return true;
 
       // Parse times to compare
-      const startDateTime = parse(data.startTime, "HH:mm", data.date);
-      const endDateTime = parse(data.endTime, "HH:mm", data.date);
+      const startDateTime = parse(data.startTime, &quot;HH:mm&quot;, data.date);
+      const endDateTime = parse(data.endTime, &quot;HH:mm&quot;, data.date);
 
       return isAfter(endDateTime, startDateTime);
     },
     {
-      message: "End time must be after start time",
-      path: ["endTime"],
+      message: &quot;End time must be after start time&quot;,
+      path: [&quot;endTime&quot;],
     },
   )
   .refine(
@@ -95,8 +95,8 @@ export const bookingFormSchema = recurringBookingSchema
     },
     {
       message:
-        "Recurring frequency and count are required for recurring bookings",
-      path: ["recurringFrequency"],
+        &quot;Recurring frequency and count are required for recurring bookings&quot;,
+      path: [&quot;recurringFrequency&quot;],
     },
   );
 
@@ -122,7 +122,7 @@ export const bookingValidationService = {
         // Format error messages into a more user-friendly structure
         const formattedErrors = error.errors.reduce(
           (acc, err) => {
-            const path = err.path.join(".");
+            const path = err.path.join(&quot;.&quot;);
             acc[path] = err.message;
             return acc;
           },
@@ -131,14 +131,14 @@ export const bookingValidationService = {
 
         // Log the validation error
         bookingErrorService.handleError(error, {
-          source: "booking-validation-service",
+          source: &quot;booking-validation-service&quot;,
           details: { formErrors: formattedErrors },
         });
 
         // Emit validation error event
         bookingEvents.publishError({
           type: BookingErrorType.VALIDATION_ERROR,
-          message: "Booking form validation failed",
+          message: &quot;Booking form validation failed&quot;,
           timestamp: new Date().toISOString(),
         });
 
@@ -151,7 +151,7 @@ export const bookingValidationService = {
 
       // Handle unexpected errors
       const bookingError = bookingErrorService.handleError(error, {
-        source: "booking-validation-service",
+        source: &quot;booking-validation-service&quot;,
       });
 
       return {
@@ -178,13 +178,13 @@ export const bookingValidationService = {
       if (error instanceof z.ZodError) {
         // Format API error response
         const formattedErrors = error.errors.map((err) => ({
-          path: err.path.join("."),
+          path: err.path.join(&quot;.&quot;),
           message: err.message,
         }));
 
         // Log the validation error
         bookingErrorService.handleError(error, {
-          source: "booking-validation-service.api",
+          source: &quot;booking-validation-service.api&quot;,
           details: { apiErrors: formattedErrors },
         });
 
@@ -197,13 +197,13 @@ export const bookingValidationService = {
 
       // Handle unexpected errors
       const bookingError = bookingErrorService.handleError(error, {
-        source: "booking-validation-service.api",
+        source: &quot;booking-validation-service.api&quot;,
       });
 
       return {
         success: false,
         data: null,
-        errors: [{ path: "_error", message: bookingError.userMessage }],
+        errors: [{ path: &quot;_error&quot;, message: bookingError.userMessage }],
       };
     }
   },
@@ -218,27 +218,27 @@ export const bookingValidationService = {
       if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(startTime)) {
         return {
           success: false,
-          error: "Invalid start time format. Use HH:MM (24-hour format)",
+          error: &quot;Invalid start time format. Use HH:MM (24-hour format)&quot;,
         };
       }
 
       if (!/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(endTime)) {
         return {
           success: false,
-          error: "Invalid end time format. Use HH:MM (24-hour format)",
+          error: &quot;Invalid end time format. Use HH:MM (24-hour format)&quot;,
         };
       }
 
       // Parse times to compare
       const baseDate = startOfDay(date);
-      const startDateTime = parse(startTime, "HH:mm", baseDate);
-      const endDateTime = parse(endTime, "HH:mm", baseDate);
+      const startDateTime = parse(startTime, &quot;HH:mm&quot;, baseDate);
+      const endDateTime = parse(endTime, &quot;HH:mm&quot;, baseDate);
 
       // End time must be after start time
       if (!isAfter(endDateTime, startDateTime)) {
         return {
           success: false,
-          error: "End time must be after start time",
+          error: &quot;End time must be after start time&quot;,
         };
       }
 
@@ -249,7 +249,7 @@ export const bookingValidationService = {
       if (isBefore(endDateTime, minimumDuration)) {
         return {
           success: false,
-          error: "Booking must be at least 1 hour in duration",
+          error: &quot;Booking must be at least 1 hour in duration&quot;,
         };
       }
 
@@ -258,7 +258,7 @@ export const bookingValidationService = {
       if (isAfter(endDateTime, maximumDuration)) {
         return {
           success: false,
-          error: "Booking cannot exceed 12 hours in duration",
+          error: &quot;Booking cannot exceed 12 hours in duration&quot;,
         };
       }
 
@@ -268,7 +268,7 @@ export const bookingValidationService = {
     } catch (error) {
       // Handle unexpected errors
       const bookingError = bookingErrorService.handleError(error, {
-        source: "booking-validation-service.timeConstraints",
+        source: &quot;booking-validation-service.timeConstraints&quot;,
       });
 
       return {

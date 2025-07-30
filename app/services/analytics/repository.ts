@@ -21,7 +21,7 @@ import {
   AnalyticsServiceResponse,
   TimePeriod,
   ExportConfig,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class AnalyticsRepository {
   // In-memory storage for development (would be replaced with database)
@@ -66,11 +66,11 @@ export class AnalyticsRepository {
 
       return { success: true, data: dashboards };
     } catch (error) {
-      console.error("Error finding dashboards:", error);
+      console.error(&quot;Error finding dashboards:&quot;, error);
       return {
         success: false,
-        error: "Failed to find dashboards",
-        code: "DASHBOARD_QUERY_ERROR",
+        error: &quot;Failed to find dashboards&quot;,
+        code: &quot;DASHBOARD_QUERY_ERROR&quot;,
       };
     }
   }
@@ -84,18 +84,18 @@ export class AnalyticsRepository {
       if (!dashboard) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
       return { success: true, data: dashboard };
     } catch (error) {
-      console.error("Error finding dashboard by ID:", error);
+      console.error(&quot;Error finding dashboard by ID:&quot;, error);
       return {
         success: false,
-        error: "Failed to find dashboard",
-        code: "DASHBOARD_QUERY_ERROR",
+        error: &quot;Failed to find dashboard&quot;,
+        code: &quot;DASHBOARD_QUERY_ERROR&quot;,
       };
     }
   }
@@ -118,11 +118,11 @@ export class AnalyticsRepository {
 
       return { success: true, data: dashboard };
     } catch (error) {
-      console.error("Error creating dashboard:", error);
+      console.error(&quot;Error creating dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to create dashboard",
-        code: "DASHBOARD_CREATE_ERROR",
+        error: &quot;Failed to create dashboard&quot;,
+        code: &quot;DASHBOARD_CREATE_ERROR&quot;,
       };
     }
   }
@@ -137,8 +137,8 @@ export class AnalyticsRepository {
       if (!existingDashboard) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
@@ -147,11 +147,11 @@ export class AnalyticsRepository {
 
       return { success: true, data: updatedDashboard };
     } catch (error) {
-      console.error("Error updating dashboard:", error);
+      console.error(&quot;Error updating dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to update dashboard",
-        code: "DASHBOARD_UPDATE_ERROR",
+        error: &quot;Failed to update dashboard&quot;,
+        code: &quot;DASHBOARD_UPDATE_ERROR&quot;,
       };
     }
   }
@@ -165,18 +165,18 @@ export class AnalyticsRepository {
       if (!success) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
       return { success: true, data: true };
     } catch (error) {
-      console.error("Error deleting dashboard:", error);
+      console.error(&quot;Error deleting dashboard:&quot;, error);
       return {
         success: false,
-        error: "Failed to delete dashboard",
-        code: "DASHBOARD_DELETE_ERROR",
+        error: &quot;Failed to delete dashboard&quot;,
+        code: &quot;DASHBOARD_DELETE_ERROR&quot;,
       };
     }
   }
@@ -191,8 +191,8 @@ export class AnalyticsRepository {
       if (!dashboard) {
         return {
           success: false,
-          error: "Dashboard not found",
-          code: "DASHBOARD_NOT_FOUND",
+          error: &quot;Dashboard not found&quot;,
+          code: &quot;DASHBOARD_NOT_FOUND&quot;,
         };
       }
 
@@ -206,11 +206,11 @@ export class AnalyticsRepository {
 
       return { success: true, data: true };
     } catch (error) {
-      console.error("Error updating dashboard view stats:", error);
+      console.error(&quot;Error updating dashboard view stats:&quot;, error);
       return {
         success: false,
-        error: "Failed to update view stats",
-        code: "DASHBOARD_UPDATE_ERROR",
+        error: &quot;Failed to update view stats&quot;,
+        code: &quot;DASHBOARD_UPDATE_ERROR&quot;,
       };
     }
   }
@@ -228,18 +228,18 @@ export class AnalyticsRepository {
       if (!template) {
         return {
           success: false,
-          error: "Report template not found",
-          code: "TEMPLATE_NOT_FOUND",
+          error: &quot;Report template not found&quot;,
+          code: &quot;TEMPLATE_NOT_FOUND&quot;,
         };
       }
 
       return { success: true, data: template };
     } catch (error) {
-      console.error("Error finding report template:", error);
+      console.error(&quot;Error finding report template:&quot;, error);
       return {
         success: false,
-        error: "Failed to find report template",
-        code: "TEMPLATE_QUERY_ERROR",
+        error: &quot;Failed to find report template&quot;,
+        code: &quot;TEMPLATE_QUERY_ERROR&quot;,
       };
     }
   }
@@ -266,11 +266,11 @@ export class AnalyticsRepository {
 
       return { success: true, data: metrics };
     } catch (error) {
-      console.error("Error getting real-time metrics:", error);
+      console.error(&quot;Error getting real-time metrics:&quot;, error);
       return {
         success: false,
-        error: "Failed to get real-time metrics",
-        code: "METRICS_QUERY_ERROR",
+        error: &quot;Failed to get real-time metrics&quot;,
+        code: &quot;METRICS_QUERY_ERROR&quot;,
       };
     }
   }
@@ -307,11 +307,11 @@ export class AnalyticsRepository {
         data: { downloadUrl, fileName, recordCount },
       };
     } catch (error) {
-      console.error("Error exporting data:", error);
+      console.error(&quot;Error exporting data:&quot;, error);
       return {
         success: false,
-        error: "Failed to export data",
-        code: "DATA_EXPORT_ERROR",
+        error: &quot;Failed to export data&quot;,
+        code: &quot;DATA_EXPORT_ERROR&quot;,
       };
     }
   }

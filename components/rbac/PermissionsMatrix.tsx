@@ -1,14 +1,14 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from &quot;react&quot;;
 import {
   UserRole,
   Permission,
   getAllPermissions,
   getPermissionsForRole,
   hasPermission,
-} from "@/components/../lib/rbac";
-import { USER_ROLES } from "@/components/../../shared/schema";
+} from &quot;@/components/../lib/rbac&quot;;
+import { USER_ROLES } from &quot;@/components/../../shared/schema&quot;;
 
 interface PermissionsMatrixProps {
   highlightRole?: UserRole;
@@ -25,7 +25,7 @@ export function PermissionsMatrix({
   compact = false,
 }: PermissionsMatrixProps) {
   // Group permissions by resource
-  const [activeTab, setActiveTab] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<string>(&quot;all&quot;);
 
   // Get all permissions and roles
   const allPermissions = useMemo(() => getAllPermissions(), []);
@@ -43,14 +43,14 @@ export function PermissionsMatrix({
     const grouped: Record<string, Permission[]> = { all: [] };
 
     allPermissions.forEach((permission) => {
-      const [action, resource] = permission.split(":");
+      const [action, resource] = permission.split(&quot;:&quot;);
 
       if (!grouped[resource]) {
         grouped[resource] = [];
       }
 
       grouped[resource]?.push(permission);
-      grouped["all"]?.push(permission);
+      grouped[&quot;all&quot;]?.push(permission);
     });
 
     return grouped;
@@ -58,7 +58,7 @@ export function PermissionsMatrix({
 
   // Get available resources for tabs
   const resources = useMemo(() => {
-    return Object.keys(permissionsByResource).filter((r) => r !== "all");
+    return Object.keys(permissionsByResource).filter((r) => r !== &quot;all&quot;);
   }, [permissionsByResource]);
 
   // Get permissions for the active tab
@@ -67,19 +67,19 @@ export function PermissionsMatrix({
   }, [permissionsByResource, activeTab]);
 
   return (
-    <div className="overflow-hidden">
+    <div className=&quot;overflow-hidden&quot;>
       {!compact && (
-        <div className="border-b border-gray-200 dark:border-gray-700">
-          <div className="flex overflow-x-auto hide-scrollbar">
+        <div className=&quot;border-b border-gray-200 dark:border-gray-700&quot;>
+          <div className=&quot;flex overflow-x-auto hide-scrollbar&quot;>
             <button
-              key="all"
-              onClick={() => setActiveTab("all")}
+              key=&quot;all&quot;
+              onClick={() => setActiveTab(&quot;all&quot;)}
               className={`
                 px-4 py-2 whitespace-nowrap border-b-2 font-medium text-sm
                 ${
-                  activeTab === "all"
-                    ? "border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
+                  activeTab === &quot;all&quot;
+                    ? &quot;border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400&quot;
+                    : &quot;border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300&quot;
                 }
               `}
             >
@@ -94,8 +94,8 @@ export function PermissionsMatrix({
                   px-4 py-2 whitespace-nowrap border-b-2 font-medium text-sm
                   ${
                     activeTab === resource
-                      ? "border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
+                      ? &quot;border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400&quot;
+                      : &quot;border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300&quot;
                   }
                 `}
               >
@@ -106,13 +106,13 @@ export function PermissionsMatrix({
         </div>
       )}
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-800">
+      <div className=&quot;overflow-x-auto&quot;>
+        <table className=&quot;min-w-full divide-y divide-gray-200 dark:divide-gray-700&quot;>
+          <thead className=&quot;bg-gray-50 dark:bg-gray-800&quot;>
             <tr>
               <th
-                scope="col"
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                scope=&quot;col&quot;
+                className=&quot;px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider&quot;
               >
                 Permission
               </th>
@@ -120,27 +120,27 @@ export function PermissionsMatrix({
               {displayRoles.map((role) => (
                 <th
                   key={role}
-                  scope="col"
+                  scope=&quot;col&quot;
                   className={`
                     px-3 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider
-                    ${highlightRole === role ? "bg-blue-50 dark:bg-blue-900/20" : ""}
+                    ${highlightRole === role ? &quot;bg-blue-50 dark:bg-blue-900/20&quot; : "&quot;}
                   `}
                 >
                   {compact
                     ? role
-                        .split("_")
+                        .split(&quot;_&quot;)
                         .map((word) => word[0].toUpperCase())
-                        .join("")
-                    : role.replace(/_/g, " ")}
+                        .join(&quot;&quot;)
+                    : role.replace(/_/g, &quot; &quot;)}
                 </th>
               ))}
             </tr>
           </thead>
 
-          <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className=&quot;bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800&quot;>
             {activePermissions.map((permission) => (
               <tr key={permission}>
-                <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                <td className=&quot;px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300&quot;>
                   {/* Format the permission for display */}
                   {formatPermission(permission)}
                 </td>
@@ -153,34 +153,34 @@ export function PermissionsMatrix({
                       key={`${role}-${permission}`}
                       className={`
                         px-3 py-2 whitespace-nowrap text-sm text-center
-                        ${highlightRole === role ? "bg-blue-50 dark:bg-blue-900/20" : ""}
+                        ${highlightRole === role ? &quot;bg-blue-50 dark:bg-blue-900/20&quot; : &quot;&quot;}
                       `}
                     >
                       {hasAccess ? (
-                        <span className="flex justify-center">
+                        <span className=&quot;flex justify-center&quot;>
                           <svg
-                            className="w-5 h-5 text-green-500"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
+                            className=&quot;w-5 h-5 text-green-500&quot;
+                            viewBox=&quot;0 0 20 20&quot;
+                            fill=&quot;currentColor&quot;
                           >
                             <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
+                              fillRule=&quot;evenodd&quot;
+                              d=&quot;M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z&quot;
+                              clipRule=&quot;evenodd&quot;
                             />
                           </svg>
                         </span>
                       ) : (
-                        <span className="flex justify-center">
+                        <span className=&quot;flex justify-center&quot;>
                           <svg
-                            className="w-5 h-5 text-gray-300 dark:text-gray-600"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
+                            className=&quot;w-5 h-5 text-gray-300 dark:text-gray-600&quot;
+                            viewBox=&quot;0 0 20 20&quot;
+                            fill=&quot;currentColor&quot;
                           >
                             <path
-                              fillRule="evenodd"
-                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                              clipRule="evenodd"
+                              fillRule=&quot;evenodd&quot;
+                              d=&quot;M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z&quot;
+                              clipRule=&quot;evenodd&quot;
                             />
                           </svg>
                         </span>
@@ -199,17 +199,17 @@ export function PermissionsMatrix({
 
 // Helper function to format permission strings for display
 function formatPermission(permission: string): string {
-  const [action, resource] = permission.split(":");
+  const [action, resource] = permission.split(&quot;:&quot;);
 
   // Format the action
   let formattedAction = action;
-  if (action === "create") formattedAction = "Create";
-  if (action === "read") formattedAction = "View";
-  if (action === "update") formattedAction = "Edit";
-  if (action === "delete") formattedAction = "Delete";
-  if (action === "manage") formattedAction = "Manage";
-  if (action === "approve") formattedAction = "Approve";
-  if (action === "assign") formattedAction = "Assign";
+  if (action === &quot;create&quot;) formattedAction = &quot;Create&quot;;
+  if (action === &quot;read&quot;) formattedAction = &quot;View&quot;;
+  if (action === &quot;update&quot;) formattedAction = &quot;Edit&quot;;
+  if (action === &quot;delete&quot;) formattedAction = &quot;Delete&quot;;
+  if (action === &quot;manage&quot;) formattedAction = &quot;Manage&quot;;
+  if (action === &quot;approve&quot;) formattedAction = &quot;Approve&quot;;
+  if (action === &quot;assign&quot;) formattedAction = &quot;Assign";
 
   // Format the resource
   let formattedResource = resource;

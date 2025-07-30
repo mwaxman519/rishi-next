@@ -3,46 +3,46 @@
  * This module provides functions for checking user permissions based on roles
  */
 
-import { NextRequest } from "next/server";
-import { getJwtPayload } from "./auth";
+import { NextRequest } from &quot;next/server&quot;;
+import { getJwtPayload } from &quot;./auth&quot;;
 
 // Define role types
 export enum ROLES {
-  SUPER_ADMIN = "super_admin",
-  ADMIN = "admin",
-  MANAGER = "manager",
-  USER = "user",
+  SUPER_ADMIN = &quot;super_admin&quot;,
+  ADMIN = &quot;admin&quot;,
+  MANAGER = &quot;manager&quot;,
+  USER = &quot;user&quot;,
 }
 
 // Define permissions by role
 const rolePermissions: Record<string, string[]> = {
   [ROLES.SUPER_ADMIN]: [
-    "view:locations",
-    "create:locations",
-    "update:locations",
-    "delete:locations",
-    "approve:locations",
-    "view:users",
-    "create:users",
-    "update:users",
-    "delete:users",
-    "view:organizations",
-    "create:organizations",
-    "update:organizations",
-    "delete:organizations",
+    &quot;view:locations&quot;,
+    &quot;create:locations&quot;,
+    &quot;update:locations&quot;,
+    &quot;delete:locations&quot;,
+    &quot;approve:locations&quot;,
+    &quot;view:users&quot;,
+    &quot;create:users&quot;,
+    &quot;update:users&quot;,
+    &quot;delete:users&quot;,
+    &quot;view:organizations&quot;,
+    &quot;create:organizations&quot;,
+    &quot;update:organizations&quot;,
+    &quot;delete:organizations&quot;,
   ],
   [ROLES.ADMIN]: [
-    "view:locations",
-    "create:locations",
-    "update:locations",
-    "approve:locations",
-    "view:users",
-    "create:users",
-    "update:users",
-    "view:organizations",
+    &quot;view:locations&quot;,
+    &quot;create:locations&quot;,
+    &quot;update:locations&quot;,
+    &quot;approve:locations&quot;,
+    &quot;view:users&quot;,
+    &quot;create:users&quot;,
+    &quot;update:users&quot;,
+    &quot;view:organizations&quot;,
   ],
-  [ROLES.MANAGER]: ["view:locations", "create:locations", "view:users"],
-  [ROLES.USER]: ["view:locations"],
+  [ROLES.MANAGER]: [&quot;view:locations&quot;, &quot;create:locations&quot;, &quot;view:users&quot;],
+  [ROLES.USER]: [&quot;view:locations&quot;],
 };
 
 // Get all permissions for a role
@@ -54,7 +54,7 @@ export function getPermissionsForRole(role: string): string[] {
 export async function getUserPermissions(userId: string): Promise<string[]> {
   // In a real app, this would fetch from the database
   // For development, return super admin permissions
-  console.log("DEVELOPMENT MODE: Using super_admin permissions for user");
+  console.log(&quot;DEVELOPMENT MODE: Using super_admin permissions for user&quot;);
   return rolePermissions[ROLES.SUPER_ADMIN];
 }
 
@@ -85,7 +85,7 @@ export async function checkPermission(
     //
     // return permissions.includes(permission);
   } catch (error) {
-    console.error("Error checking permission:", error);
+    console.error(&quot;Error checking permission:&quot;, error);
     return false;
   }
 }

@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useRef, useEffect, useState, useCallback } from "react";
-import { GoogleMap, InfoWindow } from "@react-google-maps/api";
-import { useTheme } from "next-themes";
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import { useGoogleMaps } from "./GoogleMapsContext";
+import React, { useRef, useEffect, useState, useCallback } from &quot;react&quot;;
+import { GoogleMap, InfoWindow } from &quot;@react-google-maps/api&quot;;
+import { useTheme } from &quot;next-themes&quot;;
+import { MarkerClusterer } from &quot;@googlemaps/markerclusterer&quot;;
+import { useGoogleMaps } from &quot;./GoogleMapsContext&quot;;
 
 // Fix for TypeScript errors with the Google Maps API
 declare global {
@@ -36,12 +36,12 @@ interface LocationListMapProps {
 
 // Map Container Style
 const getContainerStyle = (
-  width: string | number = "100%",
+  width: string | number = &quot;100%&quot;,
   height: number = 500,
 ) => ({
   width,
   height: `${height}px`,
-  borderRadius: "0.5rem",
+  borderRadius: &quot;0.5rem&quot;,
 });
 
 // Default Map Center (US)
@@ -56,12 +56,12 @@ export function LocationListMap({
   onMarkerClick,
   apiKey,
   height = 500,
-  width = "100%",
+  width = &quot;100%&quot;,
 }: LocationListMapProps) {
   // Get Google Maps context first to maintain hook order
   const { isLoaded, loadError, mapId } = useGoogleMaps();
   const { resolvedTheme } = useTheme();
-  const [mapTheme, setMapTheme] = useState<"light" | "dark">("light");
+  const [mapTheme, setMapTheme] = useState<&quot;light&quot; | &quot;dark&quot;>(&quot;light&quot;);
   const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(
     null,
   );
@@ -72,10 +72,10 @@ export function LocationListMap({
 
   // Effect to determine theme
   useEffect(() => {
-    const currentTheme = resolvedTheme === "dark" ? "dark" : "light";
+    const currentTheme = resolvedTheme === &quot;dark&quot; ? &quot;dark&quot; : &quot;light&quot;;
     setMapTheme(currentTheme);
 
-    // Apply theme to map if it's already loaded
+    // Apply theme to map if it&apos;s already loaded
     if (mapRef.current && window.google?.maps) {
       applyMapStyle(mapRef.current, currentTheme);
     }
@@ -133,7 +133,7 @@ export function LocationListMap({
         fitMapToBounds();
       }
 
-      // If there's a selected location, focus on it
+      // If there&apos;s a selected location, focus on it
       if (selectedLocationId) {
         const location = locations.find((loc) => loc.id === selectedLocationId);
         if (
@@ -155,90 +155,90 @@ export function LocationListMap({
   );
 
   // Apply Map Styling Based on Theme
-  const applyMapStyle = (map: google.maps.Map, theme: "light" | "dark") => {
-    if (theme === "dark") {
+  const applyMapStyle = (map: google.maps.Map, theme: &quot;light&quot; | &quot;dark&quot;) => {
+    if (theme === &quot;dark&quot;) {
       map.setOptions({
         styles: [
-          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+          { elementType: &quot;geometry&quot;, stylers: [{ color: &quot;#242f3e&quot; }] },
           {
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#242f3e" }],
+            elementType: &quot;labels.text.stroke&quot;,
+            stylers: [{ color: &quot;#242f3e&quot; }],
           },
-          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+          { elementType: &quot;labels.text.fill&quot;, stylers: [{ color: &quot;#746855&quot; }] },
           {
-            featureType: "administrative.locality",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "poi",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
+            featureType: &quot;administrative.locality&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#d59563&quot; }],
           },
           {
-            featureType: "poi.park",
-            elementType: "geometry",
-            stylers: [{ color: "#263c3f" }],
+            featureType: &quot;poi&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#d59563&quot; }],
           },
           {
-            featureType: "poi.park",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#6b9a76" }],
+            featureType: &quot;poi.park&quot;,
+            elementType: &quot;geometry&quot;,
+            stylers: [{ color: &quot;#263c3f&quot; }],
           },
           {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#38414e" }],
+            featureType: &quot;poi.park&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#6b9a76&quot; }],
           },
           {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#212a37" }],
+            featureType: &quot;road&quot;,
+            elementType: &quot;geometry&quot;,
+            stylers: [{ color: &quot;#38414e&quot; }],
           },
           {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#9ca5b3" }],
+            featureType: &quot;road&quot;,
+            elementType: &quot;geometry.stroke&quot;,
+            stylers: [{ color: &quot;#212a37&quot; }],
           },
           {
-            featureType: "road.highway",
-            elementType: "geometry",
-            stylers: [{ color: "#746855" }],
+            featureType: &quot;road&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#9ca5b3&quot; }],
           },
           {
-            featureType: "road.highway",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#1f2835" }],
+            featureType: &quot;road.highway&quot;,
+            elementType: &quot;geometry&quot;,
+            stylers: [{ color: &quot;#746855&quot; }],
           },
           {
-            featureType: "road.highway",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#f3d19c" }],
+            featureType: &quot;road.highway&quot;,
+            elementType: &quot;geometry.stroke&quot;,
+            stylers: [{ color: &quot;#1f2835&quot; }],
           },
           {
-            featureType: "transit",
-            elementType: "geometry",
-            stylers: [{ color: "#2f3948" }],
+            featureType: &quot;road.highway&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#f3d19c&quot; }],
           },
           {
-            featureType: "transit.station",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
+            featureType: &quot;transit&quot;,
+            elementType: &quot;geometry&quot;,
+            stylers: [{ color: &quot;#2f3948&quot; }],
           },
           {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [{ color: "#17263c" }],
+            featureType: &quot;transit.station&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#d59563&quot; }],
           },
           {
-            featureType: "water",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#515c6d" }],
+            featureType: &quot;water&quot;,
+            elementType: &quot;geometry&quot;,
+            stylers: [{ color: &quot;#17263c&quot; }],
           },
           {
-            featureType: "water",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#17263c" }],
+            featureType: &quot;water&quot;,
+            elementType: &quot;labels.text.fill&quot;,
+            stylers: [{ color: &quot;#515c6d&quot; }],
+          },
+          {
+            featureType: &quot;water&quot;,
+            elementType: &quot;labels.text.stroke&quot;,
+            stylers: [{ color: &quot;#17263c&quot; }],
           },
         ],
       });
@@ -267,10 +267,10 @@ export function LocationListMap({
     if (!bounds.isEmpty()) {
       mapRef.current.fitBounds(bounds);
 
-      // Adjust zoom if it's too high after fitting
+      // Adjust zoom if it&apos;s too high after fitting
       window.google.maps.event.addListenerOnce(
         mapRef.current,
-        "bounds_changed",
+        &quot;bounds_changed&quot;,
         () => {
           if (mapRef.current && mapRef.current.getZoom() > 15) {
             mapRef.current.setZoom(15);
@@ -283,8 +283,8 @@ export function LocationListMap({
   // Function to validate coordinates
   const isValidCoordinate = (lat?: number, lng?: number): boolean => {
     return (
-      typeof lat === "number" &&
-      typeof lng === "number" &&
+      typeof lat === &quot;number&quot; &&
+      typeof lng === &quot;number&quot; &&
       !isNaN(lat) &&
       !isNaN(lng) &&
       lat >= -90 &&
@@ -296,25 +296,25 @@ export function LocationListMap({
 
   // Fix for TypeScript error - type guard for locationType
   const getLocationTypeDisplay = (locationType: string | undefined): string => {
-    return locationType ? locationType.replace(/_/g, " ") : "Unknown";
+    return locationType ? locationType.replace(/_/g, &quot; &quot;) : &quot;Unknown&quot;;
   };
 
   // Function to get marker color based on location
   const getMarkerColor = (location: MapLocation): string => {
-    if (!location.state && !location.locationType) return "blue"; // Default
+    if (!location.state && !location.locationType) return &quot;blue&quot;; // Default
 
     // Color by state (for US state abbreviations)
     const stateColors: { [key: string]: string } = {
-      CA: "red",
-      NY: "blue",
-      TX: "green",
-      FL: "orange",
-      IL: "purple",
-      PA: "pink",
-      OH: "cyan",
-      GA: "yellow",
-      NC: "purple",
-      MI: "cyan",
+      CA: &quot;red&quot;,
+      NY: &quot;blue&quot;,
+      TX: &quot;green&quot;,
+      FL: &quot;orange&quot;,
+      IL: &quot;purple&quot;,
+      PA: &quot;pink&quot;,
+      OH: &quot;cyan&quot;,
+      GA: &quot;yellow&quot;,
+      NC: &quot;purple&quot;,
+      MI: &quot;cyan&quot;,
     };
 
     // If the location has a state and we have a color for it, use that
@@ -325,30 +325,30 @@ export function LocationListMap({
     // Color by location type
     if (location.locationType) {
       switch (location.locationType.toLowerCase()) {
-        case "business":
-        case "establishment":
-          return "blue";
-        case "venue":
-        case "event_venue":
-          return "purple";
-        case "office":
-        case "corporate_office":
-          return "green";
-        case "retail":
-        case "store":
-        case "retail_store":
-          return "pink";
-        case "warehouse":
-        case "distribution_center":
-          return "orange";
-        case "restaurant":
-          return "cyan";
+        case &quot;business&quot;:
+        case &quot;establishment&quot;:
+          return &quot;blue&quot;;
+        case &quot;venue&quot;:
+        case &quot;event_venue&quot;:
+          return &quot;purple&quot;;
+        case &quot;office&quot;:
+        case &quot;corporate_office&quot;:
+          return &quot;green&quot;;
+        case &quot;retail&quot;:
+        case &quot;store&quot;:
+        case &quot;retail_store&quot;:
+          return &quot;pink&quot;;
+        case &quot;warehouse&quot;:
+        case &quot;distribution_center&quot;:
+          return &quot;orange&quot;;
+        case &quot;restaurant&quot;:
+          return &quot;cyan&quot;;
         default:
-          return "blue";
+          return &quot;blue&quot;;
       }
     }
 
-    return "blue"; // Default color
+    return &quot;blue&quot;; // Default color
   };
 
   // Handler for marker clicks
@@ -379,7 +379,7 @@ export function LocationListMap({
   // Handle error state
   if (loadError) {
     return (
-      <div className="p-4 text-red-500">
+      <div className=&quot;p-4 text-red-500&quot;>
         Error loading Google Maps: {loadError.message}
       </div>
     );
@@ -388,7 +388,7 @@ export function LocationListMap({
   // Handle loading state
   if (!isLoaded) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className=&quot;flex items-center justify-center h-full&quot;>
         Loading Google Maps...
       </div>
     );
@@ -410,11 +410,11 @@ export function LocationListMap({
     // Make sure AdvancedMarkerElement is available
     const markerClass = window.google.maps.marker?.AdvancedMarkerElement;
     if (!markerClass) {
-      console.error("AdvancedMarkerElement is not available");
+      console.error(&quot;AdvancedMarkerElement is not available&quot;);
       return;
     }
 
-    console.log("Creating markers for", locations.length, "locations");
+    console.log(&quot;Creating markers for&quot;, locations.length, &quot;locations&quot;);
 
     // Clean up previous markers
     const cleanupMarkers = () => {
@@ -435,24 +435,24 @@ export function LocationListMap({
       if (!isValidCoordinate(location.latitude, location.longitude)) return;
 
       // Create pin element
-      const pinElement = document.createElement("div");
-      pinElement.className = "location-marker";
-      pinElement.style.width = "24px";
-      pinElement.style.height = "24px";
-      pinElement.style.borderRadius = "50%";
+      const pinElement = document.createElement(&quot;div&quot;);
+      pinElement.className = &quot;location-marker&quot;;
+      pinElement.style.width = &quot;24px&quot;;
+      pinElement.style.height = &quot;24px&quot;;
+      pinElement.style.borderRadius = &quot;50%&quot;;
       pinElement.style.backgroundColor = getMarkerColor(location);
-      pinElement.style.border = "2px solid white";
-      pinElement.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
-      pinElement.style.cursor = "pointer";
+      pinElement.style.border = &quot;2px solid white&quot;;
+      pinElement.style.boxShadow = &quot;0 2px 6px rgba(0,0,0,0.3)&quot;;
+      pinElement.style.cursor = &quot;pointer&quot;;
       pinElement.title = location.name;
 
       // Add animation for selected marker
       if (selectedLocationId === location.id) {
         pinElement.animate(
           [
-            { transform: "translateY(0)" },
-            { transform: "translateY(-10px)" },
-            { transform: "translateY(0)" },
+            { transform: &quot;translateY(0)&quot; },
+            { transform: &quot;translateY(-10px)&quot; },
+            { transform: &quot;translateY(0)&quot; },
           ],
           {
             duration: 1000,
@@ -473,7 +473,7 @@ export function LocationListMap({
       });
 
       // Add click listener
-      advancedMarker.addListener("click", () => {
+      advancedMarker.addListener(&quot;click&quot;, () => {
         handleMarkerClick(location);
       });
 
@@ -483,7 +483,7 @@ export function LocationListMap({
     // Store markers in the ref for future cleanup instead of using state
     markersRef.current = newMarkers;
 
-    // We can still update the state for rendering, but we don't depend on it in the effect
+    // We can still update the state for rendering, but we don&apos;t depend on it in the effect
     setMarkers(newMarkers);
 
     // Clean up on unmount using the ref
@@ -535,23 +535,23 @@ export function LocationListMap({
           >
             <div
               className={`max-w-xs p-2 rounded-md ${
-                mapTheme === "dark"
-                  ? "bg-gray-800 text-white border border-gray-700"
-                  : "bg-white text-gray-900"
+                mapTheme === &quot;dark&quot;
+                  ? &quot;bg-gray-800 text-white border border-gray-700&quot;
+                  : &quot;bg-white text-gray-900&quot;
               }`}
               style={{
-                minWidth: "200px",
+                minWidth: &quot;200px&quot;,
               }}
             >
-              <h3 className="font-medium">{selectedLocation.name}</h3>
+              <h3 className=&quot;font-medium&quot;>{selectedLocation.name}</h3>
               <p
-                className={`text-sm ${mapTheme === "dark" ? "text-gray-300" : "text-gray-600"}`}
+                className={`text-sm ${mapTheme === &quot;dark&quot; ? &quot;text-gray-300&quot; : &quot;text-gray-600&quot;}`}
               >
                 {selectedLocation.address}
               </p>
               {selectedLocation.locationType && (
                 <div
-                  className={`text-xs mt-1 ${mapTheme === "dark" ? "text-gray-400" : "text-gray-500"}`}
+                  className={`text-xs mt-1 ${mapTheme === &quot;dark&quot; ? &quot;text-gray-400&quot; : &quot;text-gray-500&quot;}`}
                 >
                   Type: {getLocationTypeDisplay(selectedLocation.locationType)}
                 </div>

@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import { useContext } from "react";
-import { RBACContext } from "../contexts/RBACProvider";
+import { useContext } from &quot;react&quot;;
+import { RBACContext } from &quot;../contexts/RBACProvider&quot;;
 
 /**
  * Hook for accessing RBAC functionality throughout the application
@@ -13,7 +13,7 @@ export function useRBAC() {
   const context = useContext(RBACContext);
 
   if (context === undefined) {
-    throw new Error("useRBAC must be used within a RBACProvider");
+    throw new Error(&quot;useRBAC must be used within a RBACProvider&quot;);
   }
 
   return context;

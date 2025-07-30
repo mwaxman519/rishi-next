@@ -8,9 +8,9 @@
  * - Dead letter queue for undeliverable messages
  */
 
-import { AppEvent, EventPayload } from "../../../../shared/events";
-import { EventPublisher, EventSubscriber } from "../distributedEventBus";
-import { v4 as uuidv4 } from "uuid";
+import { AppEvent, EventPayload } from &quot;../../../../shared/events&quot;;
+import { EventPublisher, EventSubscriber } from &quot;../distributedEventBus&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
 
 /**
  * Utility function to split an array into chunks of a specified size
@@ -28,11 +28,11 @@ function chunks<T>(array: T[], size: number): T[][] {
 
 // Message states
 export type MessageState =
-  | "pending"
-  | "processing"
-  | "delivered"
-  | "failed"
-  | "dead-letter";
+  | &quot;pending&quot;
+  | &quot;processing&quot;
+  | &quot;delivered&quot;
+  | &quot;failed&quot;
+  | &quot;dead-letter&quot;;
 
 // Message with metadata for tracking
 export interface EventMessage<E extends AppEvent = AppEvent> {
@@ -207,7 +207,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
         try {
           await this.processMessages();
         } catch (error) {
-          console.error("Error in message processing loop:", error);
+          console.error(&quot;Error in message processing loop:&quot;, error);
         }
       }
     }, this.config.processingIntervalMs);
@@ -219,7 +219,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
         try {
           await this.retryFailedMessages();
         } catch (error) {
-          console.error("Error in message retry loop:", error);
+          console.error(&quot;Error in message retry loop:&quot;, error);
         }
       }
     }, this.config.retryIntervalMs);
@@ -242,7 +242,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
   private async processMessages(): Promise<void> {
     // Get pending messages from storage
     const messages = await this.storage.getMessages(
-      "pending",
+      &quot;pending&quot;,
       this.config.batchSize,
     );
 
@@ -262,7 +262,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
 
   private async processMessage(message: EventMessage): Promise<void> {
     // Mark as processing
-    await this.storage.updateMessageState(message.id, "processing");
+    await this.storage.updateMessageState(message.id, &quot;processing&quot;);
     this.stats.processedCount++;
 
     try {
@@ -275,15 +275,15 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
 
       if (success) {
         // If successful, mark as delivered and remove from storage
-        await this.storage.updateMessageState(message.id, "delivered");
+        await this.storage.updateMessageState(message.id, &quot;delivered&quot;);
         await this.storage.deleteMessage(message.id);
         this.stats.successCount++;
       } else {
         // If unsuccessful, mark as failed
         await this.storage.updateMessageState(
           message.id,
-          "failed",
-          "Publishing failed - received false from bus",
+          &quot;failed&quot;,
+          &quot;Publishing failed - received false from bus&quot;,
         );
         this.stats.failureCount++;
       }
@@ -295,7 +295,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
           ? `${error.name}: ${error.message}`
           : String(error);
 
-      await this.storage.updateMessageState(message.id, "failed", errorMessage);
+      await this.storage.updateMessageState(message.id, &quot;failed&quot;, errorMessage);
 
       console.error(
         `Error processing message ${message.id} for event ${message.event}:`,
@@ -306,7 +306,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
 
   private async retryFailedMessages(): Promise<void> {
     // Get failed messages from storage
-    const failedMessages = await this.storage.getMessages("failed");
+    const failedMessages = await this.storage.getMessages(&quot;failed&quot;);
 
     if (failedMessages.length === 0) {
       return; // Nothing to retry
@@ -331,7 +331,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
         // If max retries reached, move to dead letter queue
         await this.storage.updateMessageState(
           message.id,
-          "dead-letter",
+          &quot;dead-letter&quot;,
           `Max retries (${message.maxRetries}) exceeded`,
         );
         this.stats.deadLetterCount++;
@@ -343,7 +343,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
         const updatedMessage: EventMessage = {
           ...message,
           retryCount: message.retryCount + 1,
-          state: "pending",
+          state: &quot;pending&quot;,
           lastAttempt: new Date().toISOString(),
         };
 
@@ -378,7 +378,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
     options?: {
       maxRetries?: number;
       immediate?: boolean;
-      priority?: "high" | "normal" | "low";
+      priority?: &quot;high&quot; | &quot;normal&quot; | &quot;low&quot;;
       metadata?: Record<string, any>;
     },
   ): Promise<boolean> {
@@ -389,7 +389,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
       timestamp: new Date().toISOString(),
       retryCount: 0,
       maxRetries: options?.maxRetries ?? this.config.defaultMaxRetries,
-      state: "pending",
+      state: &quot;pending&quot;,
       // Add additional metadata if provided
       ...(options?.metadata ? { metadata: options.metadata } : {}),
     };
@@ -419,7 +419,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
   ): Promise<boolean> {
     try {
       // Mark as processing
-      await this.storage.updateMessageState(message.id, "processing");
+      await this.storage.updateMessageState(message.id, &quot;processing&quot;);
 
       // Attempt to publish
       const success = await this.underlyingBus.publish(
@@ -429,7 +429,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
 
       if (success) {
         // If successful, mark as delivered and remove from storage
-        await this.storage.updateMessageState(message.id, "delivered");
+        await this.storage.updateMessageState(message.id, &quot;delivered&quot;);
         await this.storage.deleteMessage(message.id);
         this.stats.successCount++;
         return true;
@@ -437,8 +437,8 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
         // If unsuccessful, mark as failed but keep in queue for retry
         await this.storage.updateMessageState(
           message.id,
-          "failed",
-          "Immediate publishing failed",
+          &quot;failed&quot;,
+          &quot;Immediate publishing failed&quot;,
         );
         this.stats.failureCount++;
         return false;
@@ -448,7 +448,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
       this.stats.failureCount++;
       await this.storage.updateMessageState(
         message.id,
-        "failed",
+        &quot;failed&quot;,
         error instanceof Error ? error.message : String(error),
       );
       return false;
@@ -477,7 +477,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
    */
   pauseProcessing(): void {
     this.paused = true;
-    console.log("[RetryableEventBus] Message processing paused");
+    console.log(&quot;[RetryableEventBus] Message processing paused&quot;);
   }
 
   /**
@@ -485,7 +485,7 @@ export class RetryableEventBus implements EventPublisher, EventSubscriber {
    */
   resumeProcessing(): void {
     this.paused = false;
-    console.log("[RetryableEventBus] Message processing resumed");
+    console.log(&quot;[RetryableEventBus] Message processing resumed&quot;);
   }
 
   /**
@@ -523,18 +523,18 @@ export class DeadLetterQueueHandler {
   constructor(private storage: MessageStorage) {}
 
   async getDeadLetterMessages(limit = 100): Promise<EventMessage[]> {
-    return this.storage.getMessages("dead-letter", limit);
+    return this.storage.getMessages(&quot;dead-letter&quot;, limit);
   }
 
   async requeueMessage(id: string): Promise<void> {
-    const messages = await this.storage.getMessages("dead-letter");
+    const messages = await this.storage.getMessages(&quot;dead-letter&quot;);
     const message = messages.find((msg) => msg.id === id);
 
     if (message) {
       // Reset the message for reprocessing
       const updatedMessage: EventMessage = {
         ...message,
-        state: "pending",
+        state: &quot;pending&quot;,
         retryCount: 0,
         lastAttempt: new Date().toISOString(),
         error: undefined,
@@ -555,7 +555,7 @@ export class DeadLetterQueueHandler {
   }
 
   async purgeDeadLetterQueue(): Promise<void> {
-    const messages = await this.storage.getMessages("dead-letter");
+    const messages = await this.storage.getMessages(&quot;dead-letter&quot;);
     for (const message of messages) {
       await this.storage.deleteMessage(message.id);
     }

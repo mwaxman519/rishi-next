@@ -1,14 +1,14 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from &quot;react&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Clock,
   Play,
@@ -17,41 +17,41 @@ import {
   Calendar,
   MapPin,
   User,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 export default function TimeTrackingPage() {
   const [isTracking, setIsTracking] = useState(false);
   const [currentSession, setCurrentSession] = useState<any>(null);
   const [timeEntries, setTimeEntries] = useState([
     {
-      id: "1",
-      date: "2025-06-22",
-      startTime: "09:00",
-      endTime: "17:00",
+      id: &quot;1&quot;,
+      date: &quot;2025-06-22&quot;,
+      startTime: &quot;09:00&quot;,
+      endTime: &quot;17:00&quot;,
       duration: 8,
-      location: "Denver Cannabis Dispensary",
-      booking: "Product Demo - Peak Extracts",
-      status: "completed",
+      location: &quot;Denver Cannabis Dispensary&quot;,
+      booking: &quot;Product Demo - Peak Extracts&quot;,
+      status: &quot;completed&quot;,
     },
     {
-      id: "2",
-      date: "2025-06-21",
-      startTime: "10:30",
-      endTime: "15:30",
+      id: &quot;2&quot;,
+      date: &quot;2025-06-21&quot;,
+      startTime: &quot;10:30&quot;,
+      endTime: &quot;15:30&quot;,
       duration: 5,
-      location: "Portland Cannabis Store",
-      booking: "Brand Activation - Green Valley",
-      status: "completed",
+      location: &quot;Portland Cannabis Store&quot;,
+      booking: &quot;Brand Activation - Green Valley&quot;,
+      status: &quot;completed&quot;,
     },
     {
-      id: "3",
-      date: "2025-06-20",
-      startTime: "13:00",
-      endTime: "18:00",
+      id: &quot;3&quot;,
+      date: &quot;2025-06-20&quot;,
+      startTime: &quot;13:00&quot;,
+      endTime: &quot;18:00&quot;,
       duration: 5,
-      location: "Seattle Cannabis Market",
-      booking: "Customer Education - Leafwell",
-      status: "completed",
+      location: &quot;Seattle Cannabis Market&quot;,
+      booking: &quot;Customer Education - Leafwell&quot;,
+      status: &quot;completed&quot;,
     },
   ]);
 
@@ -59,8 +59,8 @@ export default function TimeTrackingPage() {
     setIsTracking(true);
     setCurrentSession({
       startTime: new Date(),
-      location: "Current Location",
-      booking: "Active Booking",
+      location: &quot;Current Location&quot;,
+      booking: &quot;Active Booking&quot;,
     });
   };
 
@@ -73,15 +73,15 @@ export default function TimeTrackingPage() {
 
       const newEntry = {
         id: Date.now().toString(),
-        date: new Date().toISOString().split("T")[0],
-        startTime: currentSession.startTime.toLocaleTimeString("en-US", {
+        date: new Date().toISOString().split(&quot;T&quot;)[0],
+        startTime: currentSession.startTime.toLocaleTimeString(&quot;en-US&quot;, {
           hour12: false,
         }),
-        endTime: endTime.toLocaleTimeString("en-US", { hour12: false }),
+        endTime: endTime.toLocaleTimeString(&quot;en-US&quot;, { hour12: false }),
         duration: Math.round(duration * 100) / 100,
         location: currentSession.location,
         booking: currentSession.booking,
-        status: "completed",
+        status: &quot;completed&quot;,
       };
 
       setTimeEntries([newEntry, ...timeEntries]);
@@ -96,32 +96,32 @@ export default function TimeTrackingPage() {
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">Time Tracking</h1>
-        <p className="text-muted-foreground mt-2">
+    <div className=&quot;container mx-auto p-6 max-w-7xl&quot;>
+      <div className=&quot;mb-8&quot;>
+        <h1 className=&quot;text-3xl font-bold text-foreground&quot;>Time Tracking</h1>
+        <p className=&quot;text-muted-foreground mt-2&quot;>
           Track your working hours for cannabis workforce operations
         </p>
       </div>
 
       {/* Current Session Card */}
-      <Card className="mb-6">
+      <Card className=&quot;mb-6&quot;>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
+          <CardTitle className=&quot;flex items-center gap-2&quot;>
+            <Clock className=&quot;h-5 w-5&quot; />
             Current Session
           </CardTitle>
           <CardDescription>
             {isTracking
-              ? "Currently tracking time"
-              : "Start tracking your work session"}
+              ? &quot;Currently tracking time&quot;
+              : &quot;Start tracking your work session&quot;}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className=&quot;flex items-center justify-between&quot;>
+            <div className=&quot;flex items-center gap-4&quot;>
               {isTracking && currentSession && (
-                <div className="text-sm text-muted-foreground">
+                <div className=&quot;text-sm text-muted-foreground&quot;>
                   <p>
                     Started: {currentSession.startTime.toLocaleTimeString()}
                   </p>
@@ -130,19 +130,19 @@ export default function TimeTrackingPage() {
                 </div>
               )}
             </div>
-            <div className="flex gap-2">
+            <div className=&quot;flex gap-2&quot;>
               {!isTracking ? (
-                <Button onClick={startTracking} className="gap-2">
-                  <Play className="h-4 w-4" />
+                <Button onClick={startTracking} className=&quot;gap-2&quot;>
+                  <Play className=&quot;h-4 w-4&quot; />
                   Start Tracking
                 </Button>
               ) : (
                 <Button
                   onClick={stopTracking}
-                  variant="destructive"
-                  className="gap-2"
+                  variant=&quot;destructive&quot;
+                  className=&quot;gap-2&quot;
                 >
-                  <Square className="h-4 w-4" />
+                  <Square className=&quot;h-4 w-4&quot; />
                   Stop Tracking
                 </Button>
               )}
@@ -152,40 +152,40 @@ export default function TimeTrackingPage() {
       </Card>
 
       {/* Weekly Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-6 mb-6&quot;>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">This Week</CardTitle>
+          <CardHeader className=&quot;pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>This Week</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalHoursThisWeek}h</div>
-            <p className="text-xs text-muted-foreground">Total hours worked</p>
+            <div className=&quot;text-2xl font-bold&quot;>{totalHoursThisWeek}h</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>Total hours worked</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Sessions</CardTitle>
+          <CardHeader className=&quot;pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Sessions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{timeEntries.length}</div>
-            <p className="text-xs text-muted-foreground">Completed sessions</p>
+            <div className=&quot;text-2xl font-bold&quot;>{timeEntries.length}</div>
+            <p className=&quot;text-xs text-muted-foreground&quot;>Completed sessions</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Average</CardTitle>
+          <CardHeader className=&quot;pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Average</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className=&quot;text-2xl font-bold&quot;>
               {timeEntries.length > 0
                 ? Math.round((totalHoursThisWeek / timeEntries.length) * 100) /
                   100
                 : 0}
               h
             </div>
-            <p className="text-xs text-muted-foreground">Per session</p>
+            <p className=&quot;text-xs text-muted-foreground&quot;>Per session</p>
           </CardContent>
         </Card>
       </div>
@@ -199,37 +199,37 @@ export default function TimeTrackingPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
+          <div className=&quot;space-y-4&quot;>
             {timeEntries.map((entry) => (
               <div
                 key={entry.id}
-                className="flex items-center justify-between p-4 border rounded-lg"
+                className=&quot;flex items-center justify-between p-4 border rounded-lg&quot;
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                    <Calendar className="h-5 w-5 text-primary" />
+                <div className=&quot;flex items-center gap-4&quot;>
+                  <div className=&quot;flex h-10 w-10 items-center justify-center rounded-full bg-primary/10&quot;>
+                    <Calendar className=&quot;h-5 w-5 text-primary&quot; />
                   </div>
                   <div>
-                    <p className="font-medium">{entry.booking}</p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
+                    <p className=&quot;font-medium&quot;>{entry.booking}</p>
+                    <div className=&quot;flex items-center gap-4 text-sm text-muted-foreground&quot;>
+                      <span className=&quot;flex items-center gap-1&quot;>
+                        <Calendar className=&quot;h-3 w-3&quot; />
                         {entry.date}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
+                      <span className=&quot;flex items-center gap-1&quot;>
+                        <Clock className=&quot;h-3 w-3&quot; />
                         {entry.startTime} - {entry.endTime}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3 w-3" />
+                      <span className=&quot;flex items-center gap-1&quot;>
+                        <MapPin className=&quot;h-3 w-3&quot; />
                         {entry.location}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="font-medium">{entry.duration}h</div>
-                  <div className="text-xs text-muted-foreground capitalize">
+                <div className=&quot;text-right&quot;>
+                  <div className=&quot;font-medium&quot;>{entry.duration}h</div>
+                  <div className=&quot;text-xs text-muted-foreground capitalize&quot;>
                     {entry.status}
                   </div>
                 </div>

@@ -1,15 +1,15 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
-import * as userService from "../../../services/users/userService";
-import { getUserFromRequest } from "@/lib/auth-server";
-import { hasPermission } from "@/lib/rbac";
-import { formatZodError } from "@/lib/utils";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { ZodError } from &quot;zod&quot;;
+import * as userService from &quot;../../../services/users/userService&quot;;
+import { getUserFromRequest } from &quot;@/lib/auth-server&quot;;
+import { hasPermission } from &quot;@/lib/rbac&quot;;
+import { formatZodError } from &quot;@/lib/utils&quot;;
 
 // GET /api/users/:id - Get a specific user
 export async function GET(
@@ -43,19 +43,19 @@ export async function GET(
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error("Error in GET /api/users/:id:", error);
+    console.error(&quot;Error in GET /api/users/:id:&quot;, error);
 
     if (error instanceof ZodError) {
       return NextResponse.json(
         {
-          error: "Validation error",
+          error: &quot;Validation error&quot;,
           details: formatZodError(error),
         },
         { status: 400 },
       );
     }
 
-    return NextResponse.json({ error: "Failed to get user" }, { status: 500 });
+    return NextResponse.json({ error: &quot;Failed to get user&quot; }, { status: 500 });
   }
 }
 
@@ -83,7 +83,7 @@ export async function PUT(
 
     // Parse request body
     const body = await request.json();
-    console.log("Request body:", body);
+    console.log(&quot;Request body:&quot;, body);
 
     // Update the user
     const result = await userService.updateUser(id, {
@@ -102,12 +102,12 @@ export async function PUT(
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error("Error in PUT /api/users/:id:", error);
+    console.error(&quot;Error in PUT /api/users/:id:&quot;, error);
 
     if (error instanceof ZodError) {
       return NextResponse.json(
         {
-          error: "Validation error",
+          error: &quot;Validation error&quot;,
           details: formatZodError(error),
         },
         { status: 400 },
@@ -115,7 +115,7 @@ export async function PUT(
     }
 
     return NextResponse.json(
-      { error: "Failed to update user" },
+      { error: &quot;Failed to update user&quot; },
       { status: 500 },
     );
   }
@@ -151,14 +151,14 @@ export async function DELETE(
       return NextResponse.json({ error: result.error }, { status: 400 });
     }
 
-    return NextResponse.json({ message: "User deleted successfully" });
+    return NextResponse.json({ message: &quot;User deleted successfully&quot; });
   } catch (error) {
-    console.error("Error in DELETE /api/users/:id:", error);
+    console.error(&quot;Error in DELETE /api/users/:id:&quot;, error);
 
     if (error instanceof ZodError) {
       return NextResponse.json(
         {
-          error: "Validation error",
+          error: &quot;Validation error&quot;,
           details: formatZodError(error),
         },
         { status: 400 },
@@ -166,7 +166,7 @@ export async function DELETE(
     }
 
     return NextResponse.json(
-      { error: "Failed to delete user" },
+      { error: &quot;Failed to delete user&quot; },
       { status: 500 },
     );
   }

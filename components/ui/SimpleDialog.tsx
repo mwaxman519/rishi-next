@@ -1,4 +1,4 @@
-import React from "react";
+import React from &quot;react&quot;;
 import {
   Dialog,
   DialogContent,
@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from "./dialog";
+} from &quot;./dialog&quot;;
 
 interface SimpleDialogProps {
   isOpen: boolean;

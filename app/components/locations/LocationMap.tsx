@@ -1,10 +1,10 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import { useGoogleMaps } from "@/hooks/useGoogleMaps";
-import { Loader2, MapPin, XCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { useEffect, useState, useRef, useMemo, useCallback } from &quot;react&quot;;
+import { useGoogleMaps } from &quot;@/hooks/useGoogleMaps&quot;;
+import { Loader2, MapPin, XCircle } from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
 
 // Explicitly export the Location type
 export interface Location {
@@ -72,18 +72,18 @@ export function LocationMap({
   selectedLocationId,
   onSelectLocation,
   onMapClick,
-  height = "100%",
-  width = "100%",
+  height = &quot;100%&quot;,
+  width = &quot;100%&quot;,
   zoom = 10,
   center,
   clickable = true,
   showInfoWindow = true,
   clusterMarkers = false,
   className,
-  markerColor = "#4f46e5",
+  markerColor = &quot;#4f46e5&quot;,
   interactive = true,
   disableDefaultUI = false,
-  mapId = "8f718a3abe8b23eb", // Default Map ID for Advanced Markers
+  mapId = &quot;8f718a3abe8b23eb&quot;, // Default Map ID for Advanced Markers
 }: LocationMapProps) {
   // Use our custom hook to access Google Maps context
   const { isLoaded, loadError } = useGoogleMaps();
@@ -184,7 +184,7 @@ export function LocationMap({
 
       // Add click event listener to the map if onMapClick is provided
       if (onMapClick && clickable && interactive) {
-        map.addListener("click", (event: google.maps.MapMouseEvent) => {
+        map.addListener(&quot;click&quot;, (event: google.maps.MapMouseEvent) => {
           if (event.latLng) {
             onMapClick(event.latLng.lat(), event.latLng.lng());
           }
@@ -193,8 +193,8 @@ export function LocationMap({
 
       setMapInitialized(true);
     } catch (error) {
-      console.error("Error initializing map:", error);
-      setMapError("Failed to initialize Google Maps");
+      console.error(&quot;Error initializing map:&quot;, error);
+      setMapError(&quot;Failed to initialize Google Maps&quot;);
     }
 
     return () => {
@@ -288,7 +288,7 @@ export function LocationMap({
          * Advanced Markers require the marker library to be included in the Google Maps script
          */
         if (!window.google?.maps?.marker) {
-          console.log("Waiting for Google Maps marker library to initialize");
+          console.log(&quot;Waiting for Google Maps marker library to initialize&quot;);
           // Can't use continue here, return from this location iteration
           return;
         }
@@ -300,16 +300,16 @@ export function LocationMap({
          * Unlike legacy markers which only supported images, Advanced Markers
          * allow for rich styling and interactive elements
          */
-        const markerElement = document.createElement("div");
-        markerElement.className = "advanced-marker";
+        const markerElement = document.createElement(&quot;div&quot;);
+        markerElement.className = &quot;advanced-marker&quot;;
         // Style differently if this is the selected location
         markerElement.style.backgroundColor = isSelected
-          ? "#ef4444"
+          ? &quot;#ef4444&quot;
           : markerColor;
-        markerElement.style.border = `2px solid ${isSelected ? "#b91c1c" : "#312e81"}`;
-        markerElement.style.borderRadius = "50%";
-        markerElement.style.padding = isSelected ? "12px" : "10px";
-        markerElement.style.cursor = "pointer";
+        markerElement.style.border = `2px solid ${isSelected ? &quot;#b91c1c&quot; : &quot;#312e81&quot;}`;
+        markerElement.style.borderRadius = &quot;50%&quot;;
+        markerElement.style.padding = isSelected ? &quot;12px&quot; : &quot;10px&quot;;
+        markerElement.style.cursor = &quot;pointer&quot;;
 
         /**
          * Create the advanced marker using the modern Google Maps Marker API
@@ -329,7 +329,7 @@ export function LocationMap({
         // Add click event listener for marker using 'gmp-click' for Advanced Markers
         if (marker) {
           // Use the recommended 'gmp-click' event for Advanced Markers
-          marker.addListener("gmp-click", () => {
+          marker.addListener(&quot;gmp-click&quot;, () => {
             // Show info window if enabled
             if (
               showInfoWindow &&
@@ -338,11 +338,11 @@ export function LocationMap({
             ) {
               // Create info window content
               const contentString = `
-                <div class="info-window p-2 max-w-xs">
-                  <h3 class="font-bold text-base">${location.name}</h3>
-                  <p class="text-sm text-gray-600">${location.address}</p>
-                  ${location.locationType ? `<p class="text-xs text-gray-500">Type: ${location.locationType}</p>` : ""}
-                  ${location.status ? `<p class="text-xs text-gray-500">Status: ${location.status}</p>` : ""}
+                <div class=&quot;info-window p-2 max-w-xs&quot;>
+                  <h3 class=&quot;font-bold text-base&quot;>${location.name}</h3>
+                  <p class=&quot;text-sm text-gray-600&quot;>${location.address}</p>
+                  ${location.locationType ? `<p class=&quot;text-xs text-gray-500&quot;>Type: ${location.locationType}</p>` : "&quot;}
+                  ${location.status ? `<p class=&quot;text-xs text-gray-500&quot;>Status: ${location.status}</p>` : &quot;&quot;}
                 </div>
               `;
 
@@ -362,12 +362,12 @@ export function LocationMap({
           newMarkers.push(marker);
         }
       } catch (error) {
-        console.error("Error creating advanced marker element:", error);
+        console.error(&quot;Error creating advanced marker element:&quot;, error);
 
         // Set error state if the marker library is missing
         if (!window.google?.maps?.marker) {
           setMapError(
-            'Advanced marker library is required but was not loaded correctly. Please check your Google Maps API configuration and ensure the "marker" library is included.',
+            'Advanced marker library is required but was not loaded correctly. Please check your Google Maps API configuration and ensure the &quot;marker&quot; library is included.',
           );
         }
       }
@@ -386,12 +386,12 @@ export function LocationMap({
             newMarkers,
             {
               imagePath:
-                "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+                &quot;https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m&quot;,
             },
           );
         }
       } catch (error) {
-        console.error("Error creating marker clusterer:", error);
+        console.error(&quot;Error creating marker clusterer:&quot;, error);
       }
     }
 
@@ -445,8 +445,8 @@ export function LocationMap({
       } else if (locations.length === 1 && locations[0]) {
         const location = locations[0];
         if (
-          typeof location.latitude === "number" &&
-          typeof location.longitude === "number"
+          typeof location.latitude === &quot;number&quot; &&
+          typeof location.longitude === &quot;number&quot;
         ) {
           googleMapRef.current.setCenter({
             lat: location.latitude,
@@ -470,14 +470,14 @@ export function LocationMap({
     return (
       <div
         className={cn(
-          "flex items-center justify-center bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-md",
+          &quot;flex items-center justify-center bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-md&quot;,
           className,
         )}
         style={{ height, width }}
       >
-        <div className="flex flex-col items-center justify-center p-4 text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mb-2" />
-          <p className="text-sm text-muted-foreground">
+        <div className=&quot;flex flex-col items-center justify-center p-4 text-center&quot;>
+          <Loader2 className=&quot;h-8 w-8 animate-spin text-primary mb-2&quot; />
+          <p className=&quot;text-sm text-muted-foreground&quot;>
             Loading Google Maps...
           </p>
         </div>
@@ -490,18 +490,18 @@ export function LocationMap({
     return (
       <div
         className={cn(
-          "flex items-center justify-center bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-md",
+          &quot;flex items-center justify-center bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-md&quot;,
           className,
         )}
         style={{ height, width }}
       >
-        <div className="flex flex-col items-center justify-center p-4 text-center max-w-md">
-          <XCircle className="h-8 w-8 text-red-500 mb-2" />
-          <h3 className="text-base font-bold mb-1">Failed to load map</h3>
-          <p className="text-sm text-muted-foreground">
+        <div className=&quot;flex flex-col items-center justify-center p-4 text-center max-w-md&quot;>
+          <XCircle className=&quot;h-8 w-8 text-red-500 mb-2&quot; />
+          <h3 className=&quot;text-base font-bold mb-1&quot;>Failed to load map</h3>
+          <p className=&quot;text-sm text-muted-foreground&quot;>
             {loadError?.message ||
               mapError ||
-              "There was a problem loading Google Maps."}
+              &quot;There was a problem loading Google Maps.&quot;}
           </p>
         </div>
       </div>
@@ -511,27 +511,27 @@ export function LocationMap({
   // Main map render
   return (
     <div
-      className={cn("relative rounded-md overflow-hidden", className)}
+      className={cn(&quot;relative rounded-md overflow-hidden&quot;, className)}
       style={{ height, width }}
     >
       {/* Map container */}
       <div
         ref={mapRef}
-        className="w-full h-full"
-        aria-label="Map showing location markers"
+        className=&quot;w-full h-full&quot;
+        aria-label=&quot;Map showing location markers&quot;
       />
 
       {/* Controls overlay (optional) */}
       {interactive && locations.length > 0 && (
-        <div className="absolute bottom-4 right-4 z-10">
+        <div className=&quot;absolute bottom-4 right-4 z-10&quot;>
           <Button
-            variant="secondary"
-            size="sm"
-            className="h-8 shadow-md bg-white dark:bg-gray-800"
+            variant=&quot;secondary&quot;
+            size=&quot;sm&quot;
+            className=&quot;h-8 shadow-md bg-white dark:bg-gray-800&quot;
             onClick={resetMapView}
           >
-            <MapPin className="mr-1 h-3.5 w-3.5" />
-            <span className="text-xs">Reset View</span>
+            <MapPin className=&quot;mr-1 h-3.5 w-3.5&quot; />
+            <span className=&quot;text-xs">Reset View</span>
           </Button>
         </div>
       )}

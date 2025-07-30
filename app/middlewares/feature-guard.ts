@@ -2,13 +2,13 @@
  * Feature Guard Middleware
  * This middleware protects API routes by checking if the required feature is available and enabled
  */
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 import {
   isFeatureEnabled,
   isFeatureAvailableForTier,
-} from "../../shared/features/registry";
-import { getOrganizationById } from "../lib/organization-server";
-import { getUser } from "../lib/auth-server";
+} from &quot;../../shared/features/registry&quot;;
+import { getOrganizationById } from &quot;../lib/organization-server&quot;;
+import { getUser } from &quot;../lib/auth-server&quot;;
 
 export type FeatureGuardConfig = {
   featureId: string;
@@ -36,11 +36,11 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
       if (!user) {
         if (config.apiMode) {
           return NextResponse.json(
-            { error: "Authentication required" },
+            { error: &quot;Authentication required&quot; },
             { status: 401 },
           );
         } else {
-          return NextResponse.redirect(new URL("/auth", request.url));
+          return NextResponse.redirect(new URL(&quot;/auth&quot;, request.url));
         }
       }
 
@@ -50,11 +50,11 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
       if (!userOrgs || userOrgs.length === 0) {
         if (config.apiMode) {
           return NextResponse.json(
-            { error: "No organization access" },
+            { error: &quot;No organization access&quot; },
             { status: 403 },
           );
         } else {
-          return NextResponse.redirect(new URL("/organizations", request.url));
+          return NextResponse.redirect(new URL(&quot;/organizations&quot;, request.url));
         }
       }
 
@@ -67,11 +67,11 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
       if (!organization) {
         if (config.apiMode) {
           return NextResponse.json(
-            { error: "Organization not found" },
+            { error: &quot;Organization not found&quot; },
             { status: 404 },
           );
         } else {
-          return NextResponse.redirect(new URL("/organizations", request.url));
+          return NextResponse.redirect(new URL(&quot;/organizations&quot;, request.url));
         }
       }
 
@@ -84,14 +84,14 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
         if (config.apiMode) {
           return NextResponse.json(
             {
-              error: "Feature not available",
+              error: &quot;Feature not available&quot;,
               message: `The feature '${config.featureId}' is not available for your organization's tier`,
             },
             { status: 403 },
           );
         } else {
           return NextResponse.redirect(
-            new URL(config.redirectPath || "/feature-unavailable", request.url),
+            new URL(config.redirectPath || &quot;/feature-unavailable&quot;, request.url),
           );
         }
       }
@@ -105,14 +105,14 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
         if (config.apiMode) {
           return NextResponse.json(
             {
-              error: "Feature not enabled",
+              error: &quot;Feature not enabled&quot;,
               message: `The feature '${config.featureId}' is disabled for your organization`,
             },
             { status: 403 },
           );
         } else {
           return NextResponse.redirect(
-            new URL(config.redirectPath || "/feature-disabled", request.url),
+            new URL(config.redirectPath || &quot;/feature-disabled&quot;, request.url),
           );
         }
       }
@@ -120,15 +120,15 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
       // Feature is available and enabled, continue
       return NextResponse.next();
     } catch (error) {
-      console.error("Error in feature guard middleware:", error);
+      console.error(&quot;Error in feature guard middleware:&quot;, error);
 
       if (config.apiMode) {
         return NextResponse.json(
-          { error: "Internal server error" },
+          { error: &quot;Internal server error&quot; },
           { status: 500 },
         );
       } else {
-        return NextResponse.redirect(new URL("/error", request.url));
+        return NextResponse.redirect(new URL(&quot;/error&quot;, request.url));
       }
     }
   };
@@ -139,6 +139,6 @@ export function createFeatureGuard(config: FeatureGuardConfig) {
 async function getUserOrganizations(userId: string) {
   // Production implementation - check feature availability against organization tier
   return [
-    { organizationId: "00000000-0000-0000-0000-000000000001", role: "user" },
+    { organizationId: &quot;00000000-0000-0000-0000-000000000001&quot;, role: &quot;user&quot; },
   ];
 }

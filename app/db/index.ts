@@ -2,9 +2,9 @@
  * Database client configuration
  * This module configures the database client with the optimized connection pool
  */
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
-import * as schema from "@shared/schema";
+import { neon } from &quot;@neondatabase/serverless&quot;;
+import { drizzle } from &quot;drizzle-orm/neon-http&quot;;
+import * as schema from &quot;@shared/schema&quot;;
 
 // Create database connection using HTTP adapter
 const sql = neon(process.env.DATABASE_URL!);

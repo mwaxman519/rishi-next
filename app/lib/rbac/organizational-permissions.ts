@@ -7,7 +7,7 @@ import {
   UserRole,
   getRolePermissions,
   permissionMatches,
-} from "@shared/rbac-roles";
+} from &quot;@shared/rbac-roles&quot;;
 
 export interface OrganizationPermissionCheck {
   userRole: UserRole;
@@ -26,7 +26,7 @@ export async function hasOrganizationalPermission({
   organizationSettings = {},
 }: OrganizationPermissionCheck): Promise<boolean> {
   // Super admins always have all permissions
-  if (userRole === "super_admin") {
+  if (userRole === &quot;super_admin&quot;) {
     return true;
   }
 
@@ -34,7 +34,7 @@ export async function hasOrganizationalPermission({
   const rolePermissions = getRolePermissions(userRole);
 
   // For brand agents, apply organizational restrictions
-  if (userRole === "brand_agent") {
+  if (userRole === &quot;brand_agent&quot;) {
     return checkBrandAgentPermissions(
       permission,
       organizationSettings,
@@ -55,22 +55,22 @@ function checkBrandAgentPermissions(
   rolePermissions: string[],
 ): boolean {
   switch (permission) {
-    case "view:events":
-    case "view:events:organizational":
+    case &quot;view:events&quot;:
+    case &quot;view:events:organizational&quot;:
       // Brand agents can only view organizational events if explicitly enabled
-      return organizationSettings["brand_agents_view_org_events"] === true;
+      return organizationSettings[&quot;brand_agents_view_org_events&quot;] === true;
 
-    case "view:events:assigned":
-    case "view:schedule:own":
+    case &quot;view:events:assigned&quot;:
+    case &quot;view:schedule:own&quot;:
       // Brand agents can always view their own assigned events and schedule
       return true;
 
-    case "edit:availability:own":
+    case &quot;edit:availability:own&quot;:
       // Brand agents can manage their availability unless disabled
-      return organizationSettings["brand_agents_manage_availability"] !== false;
+      return organizationSettings[&quot;brand_agents_manage_availability&quot;] !== false;
 
-    case "view:profile:own":
-    case "edit:profile:own":
+    case &quot;view:profile:own&quot;:
+    case &quot;edit:profile:own&quot;:
       // Brand agents can always manage their own profile
       return true;
 
@@ -95,7 +95,7 @@ export async function loadOrganizationSettings(
     }
     return getDefaultOrganizationSettings();
   } catch (error) {
-    console.error("Error loading organization settings:", error);
+    console.error(&quot;Error loading organization settings:&quot;, error);
     return getDefaultOrganizationSettings();
   }
 }
@@ -119,32 +119,32 @@ export function getDefaultOrganizationSettings(): Record<string, boolean> {
 export const EVENT_PERMISSIONS = {
   // Brand agents can only see their assigned events by default
   BRAND_AGENT_DEFAULT: [
-    "view:events:assigned",
-    "view:schedule:own",
-    "edit:availability:own",
-    "view:profile:own",
-    "edit:profile:own",
+    &quot;view:events:assigned&quot;,
+    &quot;view:schedule:own&quot;,
+    &quot;edit:availability:own&quot;,
+    &quot;view:profile:own&quot;,
+    &quot;edit:profile:own&quot;,
   ],
 
   // With organizational setting enabled, brand agents can see all events
   BRAND_AGENT_ENHANCED: [
-    "view:events:assigned",
-    "view:events:organizational",
-    "view:schedule:own",
-    "edit:availability:own",
-    "view:profile:own",
-    "edit:profile:own",
+    &quot;view:events:assigned&quot;,
+    &quot;view:events:organizational&quot;,
+    &quot;view:schedule:own&quot;,
+    &quot;edit:availability:own&quot;,
+    &quot;view:profile:own&quot;,
+    &quot;edit:profile:own&quot;,
   ],
 
   // Field coordinators and above can see all events
   FIELD_COORDINATOR_AND_ABOVE: [
-    "view:events",
-    "view:events:organizational",
-    "view:events:assigned",
-    "view:staff",
-    "view:assignments",
-    "view:clients",
-    "edit:assignments",
-    "create:assignments",
+    &quot;view:events&quot;,
+    &quot;view:events:organizational&quot;,
+    &quot;view:events:assigned&quot;,
+    &quot;view:staff&quot;,
+    &quot;view:assignments&quot;,
+    &quot;view:clients&quot;,
+    &quot;edit:assignments&quot;,
+    &quot;create:assignments&quot;,
   ],
 };

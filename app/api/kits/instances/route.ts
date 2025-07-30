@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 import { db } from '@/lib/db';
@@ -9,7 +9,7 @@ import { and, eq, or, ilike, desc } from 'drizzle-orm';
 
 export async function GET(request: NextRequest) {
   try {
-    console.log("[Kit Instances API] Starting request - using real database data");
+    console.log(&quot;[Kit Instances API] Starting request - using real database data&quot;);
     // TODO: Re-enable authentication once cookie sharing is fixed
 
     const searchParams = request.nextUrl.searchParams;
@@ -87,7 +87,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     // TODO: Re-enable authentication once cookie sharing is fixed
-    console.log("[Kit Instances API] POST - Skipping authentication temporarily");
+    console.log(&quot;[Kit Instances API] POST - Skipping authentication temporarily&quot;);
 
     const body = await request.json();
     const {

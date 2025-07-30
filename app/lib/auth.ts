@@ -3,17 +3,17 @@
  * This provides real database authentication for all environments
  */
 
-import { db } from "./db";
-import { eq } from "drizzle-orm";
-import * as schema from "../../shared/schema";
-import { cookies } from "next/headers";
-import { verify } from "jsonwebtoken";
+import { db } from &quot;./db&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import * as schema from &quot;../../shared/schema&quot;;
+import { cookies } from &quot;next/headers&quot;;
+import { verify } from &quot;jsonwebtoken&quot;;
 
 // Get current user from JWT token in cookies
 export async function getCurrentUser() {
   try {
     const cookieStore = cookies();
-    const token = (await cookieStore).get("auth-token")?.value;
+    const token = (await cookieStore).get(&quot;auth-token&quot;)?.value;
     
     if (!token) {
       return null;
@@ -21,7 +21,7 @@ export async function getCurrentUser() {
 
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error("JWT_SECRET environment variable is required");
+      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
     }
     const decoded = verify(token, jwtSecret) as any;
     
@@ -33,7 +33,7 @@ export async function getCurrentUser() {
 
     return user || null;
   } catch (error) {
-    console.error("Error getting current user:", error);
+    console.error(&quot;Error getting current user:&quot;, error);
     return null;
   }
 }
@@ -72,7 +72,7 @@ export async function getSession() {
 
 // Function to check if a user is authenticated
 export async function isAuthenticated() {
-  if ((process.env.NODE_ENV as string) === "development") {
+  if ((process.env.NODE_ENV as string) === &quot;development&quot;) {
     return true; // Always authenticated in development
   }
 
@@ -91,7 +91,7 @@ export async function getUser(id: string) {
 
     return user || null;
   } catch (error) {
-    console.error("Error getting user:", error);
+    console.error(&quot;Error getting user:&quot;, error);
     return null;
   }
 }
@@ -141,7 +141,7 @@ export async function getUserOrganizations(userId: string) {
     
     return organizations;
   } catch (error) {
-    console.error("Error getting user organizations:", error);
+    console.error(&quot;Error getting user organizations:&quot;, error);
     return [];
   }
 }
@@ -155,12 +155,12 @@ export async function getJwtPayload(token?: string) {
   try {
     const jwtSecret = process.env.JWT_SECRET;
     if (!jwtSecret) {
-      throw new Error("JWT_SECRET environment variable is required");
+      throw new Error(&quot;JWT_SECRET environment variable is required&quot;);
     }
     const decoded = verify(token, jwtSecret) as any;
     return decoded;
   } catch (error) {
-    console.error("Error decoding JWT token:", error);
+    console.error(&quot;Error decoding JWT token:&quot;, error);
     return null;
   }
 }

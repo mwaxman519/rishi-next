@@ -1,7 +1,7 @@
 /**
  * Client-side adapter for the RBAC service API
  */
-import { apiRequest, queryClient } from "../../lib/queryClient";
+import { apiRequest, queryClient } from &quot;../../lib/queryClient&quot;;
 import {
   Role,
   UserRole,
@@ -11,13 +11,13 @@ import {
   UpdateRoleParams,
   UserRoleParams,
   OrganizationPermissionParams,
-} from "../../services/rbac/models";
+} from &quot;../../services/rbac/models&quot;;
 
 /**
  * Get all roles
  */
 export async function getAllRoles(): Promise<Role[]> {
-  const response = await apiRequest("GET", "/api/rbac/roles");
+  const response = await apiRequest(&quot;GET&quot;, &quot;/api/rbac/roles&quot;);
   return response.json();
 }
 
@@ -25,7 +25,7 @@ export async function getAllRoles(): Promise<Role[]> {
  * Get role by ID
  */
 export async function getRoleById(id: string): Promise<Role> {
-  const response = await apiRequest("GET", `/api/rbac/roles/${id}`);
+  const response = await apiRequest(&quot;GET&quot;, `/api/rbac/roles/${id}`);
   return response.json();
 }
 
@@ -33,10 +33,10 @@ export async function getRoleById(id: string): Promise<Role> {
  * Create a new role
  */
 export async function createRole(data: CreateRoleParams): Promise<Role> {
-  const response = await apiRequest("POST", "/api/rbac/roles", data);
+  const response = await apiRequest(&quot;POST&quot;, &quot;/api/rbac/roles&quot;, data);
 
   // Invalidate roles cache
-  queryClient.invalidateQueries({ queryKey: ["/api/rbac/roles"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/rbac/roles&quot;] });
 
   return response.json();
 }
@@ -48,11 +48,11 @@ export async function updateRole(
   id: string,
   data: UpdateRoleParams,
 ): Promise<Role> {
-  const response = await apiRequest("PATCH", `/api/rbac/roles/${id}`, data);
+  const response = await apiRequest(&quot;PATCH&quot;, `/api/rbac/roles/${id}`, data);
 
   // Invalidate specific role cache and the list
-  queryClient.invalidateQueries({ queryKey: ["/api/rbac/roles", id] });
-  queryClient.invalidateQueries({ queryKey: ["/api/rbac/roles"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/rbac/roles&quot;, id] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/rbac/roles&quot;] });
 
   return response.json();
 }
@@ -61,10 +61,10 @@ export async function updateRole(
  * Delete a role
  */
 export async function deleteRole(id: string): Promise<void> {
-  await apiRequest("DELETE", `/api/rbac/roles/${id}`);
+  await apiRequest(&quot;DELETE&quot;, `/api/rbac/roles/${id}`);
 
   // Invalidate roles cache
-  queryClient.invalidateQueries({ queryKey: ["/api/rbac/roles"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/rbac/roles&quot;] });
 }
 
 /**
@@ -80,7 +80,7 @@ export async function getUserRoles(
     url += `?organizationId=${organizationId}`;
   }
 
-  const response = await apiRequest("GET", url);
+  const response = await apiRequest(&quot;GET&quot;, url);
   return response.json();
 }
 
@@ -91,54 +91,54 @@ export async function getUserPermissions(
   organizationId?: string,
 ): Promise<Permission[]> {
   // In development mode, return mock permissions directly to avoid fetch issues
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === &quot;development&quot;) {
     const mockPermissions = [
-      "view:all",
-      "create:all",
-      "edit:all",
-      "delete:all",
-      "view:users",
-      "create:users",
-      "edit:users",
-      "delete:users",
-      "view:organizations",
-      "create:organizations",
-      "edit:organizations",
-      "delete:organizations",
-      "view:events",
-      "create:events",
-      "edit:events",
-      "delete:events",
-      "view:locations",
-      "create:locations",
-      "edit:locations",
-      "delete:locations",
-      "view:reports",
-      "create:reports",
-      "admin:access",
+      &quot;view:all&quot;,
+      &quot;create:all&quot;,
+      &quot;edit:all&quot;,
+      &quot;delete:all&quot;,
+      &quot;view:users&quot;,
+      &quot;create:users&quot;,
+      &quot;edit:users&quot;,
+      &quot;delete:users&quot;,
+      &quot;view:organizations&quot;,
+      &quot;create:organizations&quot;,
+      &quot;edit:organizations&quot;,
+      &quot;delete:organizations&quot;,
+      &quot;view:events&quot;,
+      &quot;create:events&quot;,
+      &quot;edit:events&quot;,
+      &quot;delete:events&quot;,
+      &quot;view:locations&quot;,
+      &quot;create:locations&quot;,
+      &quot;edit:locations&quot;,
+      &quot;delete:locations&quot;,
+      &quot;view:reports&quot;,
+      &quot;create:reports&quot;,
+      &quot;admin:access&quot;,
     ];
 
     return Promise.resolve({
       permissions: mockPermissions,
-      role: "super_admin",
+      role: &quot;super_admin&quot;,
     } as any);
   }
 
-  let url = "/api/auth/permissions";
+  let url = &quot;/api/auth/permissions&quot;;
 
   if (organizationId) {
     url += `?organizationId=${organizationId}`;
   }
 
   try {
-    const response = await apiRequest("GET", url);
+    const response = await apiRequest(&quot;GET&quot;, url);
     return response.json();
   } catch (error) {
-    console.warn("Failed to fetch permissions, using fallback:", error);
+    console.warn(&quot;Failed to fetch permissions, using fallback:&quot;, error);
     // Return basic permissions as fallback
     return Promise.resolve({
-      permissions: ["view:events", "view:locations"],
-      role: "brand_agent",
+      permissions: [&quot;view:events&quot;, &quot;view:locations&quot;],
+      role: &quot;brand_agent&quot;,
     } as any);
   }
 }
@@ -151,7 +151,7 @@ export async function hasPermission(
   organizationId?: string,
 ): Promise<boolean> {
   // In development mode, super admin has all permissions
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === &quot;development&quot;) {
     return Promise.resolve(true);
   }
 
@@ -162,7 +162,7 @@ export async function hasPermission(
   }
 
   try {
-    const response = await apiRequest("GET", url);
+    const response = await apiRequest(&quot;GET&quot;, url);
     
     // Check if response is ok
     if (!response.ok) {
@@ -173,7 +173,7 @@ export async function hasPermission(
     const data = await response.json();
     return data.hasPermission || false;
   } catch (error) {
-    console.warn("Failed to check permission, denying access:", error);
+    console.warn(&quot;Failed to check permission, denying access:&quot;, error);
     return false;
   }
 }
@@ -184,13 +184,13 @@ export async function hasPermission(
 export async function assignRoleToUser(
   params: UserRoleParams,
 ): Promise<UserRole> {
-  const response = await apiRequest("POST", "/api/rbac/users/roles", params);
+  const response = await apiRequest(&quot;POST&quot;, &quot;/api/rbac/users/roles&quot;, params);
 
   // Invalidate user roles cache
   queryClient.invalidateQueries({
-    queryKey: ["/api/rbac/users", params.userId, "roles"],
+    queryKey: [&quot;/api/rbac/users&quot;, params.userId, &quot;roles&quot;],
   });
-  queryClient.invalidateQueries({ queryKey: ["/api/auth/permissions"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/auth/permissions&quot;] });
 
   return response.json();
 }
@@ -209,13 +209,13 @@ export async function removeRoleFromUser(
     url += `?organizationId=${organizationId}`;
   }
 
-  await apiRequest("DELETE", url);
+  await apiRequest(&quot;DELETE&quot;, url);
 
   // Invalidate user roles cache
   queryClient.invalidateQueries({
-    queryKey: ["/api/rbac/users", userId, "roles"],
+    queryKey: [&quot;/api/rbac/users&quot;, userId, &quot;roles&quot;],
   });
-  queryClient.invalidateQueries({ queryKey: ["/api/auth/permissions"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/auth/permissions&quot;] });
 }
 
 /**
@@ -225,7 +225,7 @@ export async function getOrganizationPermissions(
   organizationId: string,
 ): Promise<OrganizationPermission[]> {
   const response = await apiRequest(
-    "GET",
+    &quot;GET&quot;,
     `/api/rbac/organizations/${organizationId}/permissions`,
   );
   return response.json();
@@ -238,16 +238,16 @@ export async function setOrganizationPermission(
   params: OrganizationPermissionParams,
 ): Promise<OrganizationPermission> {
   const response = await apiRequest(
-    "POST",
-    "/api/rbac/organizations/permissions",
+    &quot;POST&quot;,
+    &quot;/api/rbac/organizations/permissions&quot;,
     params,
   );
 
   // Invalidate organization permissions cache
   queryClient.invalidateQueries({
-    queryKey: ["/api/rbac/organizations", params.organizationId, "permissions"],
+    queryKey: [&quot;/api/rbac/organizations&quot;, params.organizationId, &quot;permissions&quot;],
   });
-  queryClient.invalidateQueries({ queryKey: ["/api/auth/permissions"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/auth/permissions&quot;] });
 
   return response.json();
 }
@@ -260,13 +260,13 @@ export async function removeOrganizationPermission(
   permission: string,
 ): Promise<void> {
   await apiRequest(
-    "DELETE",
+    &quot;DELETE&quot;,
     `/api/rbac/organizations/${organizationId}/permissions/${encodeURIComponent(permission)}`,
   );
 
   // Invalidate organization permissions cache
   queryClient.invalidateQueries({
-    queryKey: ["/api/rbac/organizations", organizationId, "permissions"],
+    queryKey: [&quot;/api/rbac/organizations&quot;, organizationId, &quot;permissions&quot;],
   });
-  queryClient.invalidateQueries({ queryKey: ["/api/auth/permissions"] });
+  queryClient.invalidateQueries({ queryKey: [&quot;/api/auth/permissions&quot;] });
 }

@@ -8,20 +8,20 @@
  * @version 1.0.0
  */
 
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
 import {
   Dialog,
   DialogContent,
@@ -29,16 +29,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from &quot;@/components/ui/dialog&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+} from &quot;@/components/ui/select&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
 import {
   Users,
   UserPlus,
@@ -48,7 +48,7 @@ import {
   CheckCircle,
   AlertCircle,
   Star,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 interface BrandAgent {
   id: string;
@@ -75,16 +75,16 @@ export default function RosterManagementPage() {
   const queryClient = useQueryClient();
 
   const [selectedOrganization, setSelectedOrganization] = useState<string>(
-    "00000000-0000-0000-0000-000000000001",
+    &quot;00000000-0000-0000-0000-000000000001&quot;,
   );
-  const [selectedBrand, setSelectedBrand] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("&quot;);
+  const [searchTerm, setSearchTerm] = useState<string>(&quot;&quot;);
   const [showAssignmentDialog, setShowAssignmentDialog] = useState(false);
   const [newAssignment, setNewAssignment] = useState<NewAssignment>({
-    userId: "",
-    brandId: "",
-    assignmentRole: "primary",
-    startDate: new Date().toISOString().split("T")[0],
+    userId: &quot;&quot;,
+    brandId: &quot;&quot;,
+    assignmentRole: &quot;primary&quot;,
+    startDate: new Date().toISOString().split(&quot;T&quot;)[0],
   });
 
   // Fetch brand agents from API
@@ -93,19 +93,19 @@ export default function RosterManagementPage() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["brand-agents", selectedOrganization, selectedBrand],
+    queryKey: [&quot;brand-agents&quot;, selectedOrganization, selectedBrand],
     queryFn: async () => {
       const params = new URLSearchParams({
         organizationId: selectedOrganization,
       });
 
       if (selectedBrand) {
-        params.append("brandId", selectedBrand);
+        params.append(&quot;brandId&quot;, selectedBrand);
       }
 
       const response = await fetch(`/api/roster/brand-agents?${params}`);
       if (!response.ok) {
-        throw new Error("Failed to fetch brand agents");
+        throw new Error(&quot;Failed to fetch brand agents&quot;);
       }
 
       const result = await response.json();
@@ -116,10 +116,10 @@ export default function RosterManagementPage() {
 
   // Fetch organizations
   const { data: organizations = [] } = useQuery({
-    queryKey: ["organizations"],
+    queryKey: [&quot;organizations&quot;],
     queryFn: async () => {
-      const response = await fetch("/api/organizations/user");
-      if (!response.ok) throw new Error("Failed to fetch organizations");
+      const response = await fetch(&quot;/api/organizations/user&quot;);
+      if (!response.ok) throw new Error(&quot;Failed to fetch organizations&quot;);
       return await response.json();
     },
   });
@@ -127,38 +127,38 @@ export default function RosterManagementPage() {
   // Create assignment mutation
   const createAssignmentMutation = useMutation({
     mutationFn: async (assignment: NewAssignment) => {
-      const response = await fetch("/api/roster/brand-agents", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch(&quot;/api/roster/brand-agents&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify(assignment),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.details || "Failed to create assignment");
+        throw new Error(error.details || &quot;Failed to create assignment&quot;);
       }
 
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["brand-agents"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;brand-agents&quot;] });
       setShowAssignmentDialog(false);
       setNewAssignment({
-        userId: "",
-        brandId: "",
-        assignmentRole: "primary",
-        startDate: new Date().toISOString().split("T")[0],
+        userId: &quot;&quot;,
+        brandId: &quot;&quot;,
+        assignmentRole: &quot;primary&quot;,
+        startDate: new Date().toISOString().split(&quot;T&quot;)[0],
       });
       toast({
-        title: "Assignment Created",
-        description: "Brand agent has been successfully assigned.",
+        title: &quot;Assignment Created&quot;,
+        description: &quot;Brand agent has been successfully assigned.&quot;,
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Assignment Failed",
+        title: &quot;Assignment Failed&quot;,
         description: error.message,
-        variant: "destructive",
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -169,7 +169,7 @@ export default function RosterManagementPage() {
 
     const searchLower = searchTerm.toLowerCase();
     const fullName =
-      `${agent.firstName || ""} ${agent.lastName || ""}`.toLowerCase();
+      `${agent.firstName || &quot;&quot;} ${agent.lastName || &quot;&quot;}`.toLowerCase();
 
     return (
       fullName.includes(searchLower) ||
@@ -191,20 +191,20 @@ export default function RosterManagementPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className=&quot;container mx-auto p-6 space-y-6&quot;>
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
             Brand Agent Roster
           </h1>
-          <p className="text-muted-foreground">
+          <p className=&quot;text-muted-foreground&quot;>
             Manage brand agent assignments, skills, and territory coverage
           </p>
         </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
+        <div className=&quot;flex items-center space-x-2&quot;>
+          <Button variant=&quot;outline&quot; size=&quot;sm&quot;>
+            <Download className=&quot;h-4 w-4 mr-2&quot; />
             Export
           </Button>
           <Dialog
@@ -213,7 +213,7 @@ export default function RosterManagementPage() {
           >
             <DialogTrigger asChild>
               <Button>
-                <UserPlus className="h-4 w-4 mr-2" />
+                <UserPlus className=&quot;h-4 w-4 mr-2&quot; />
                 Assign Agent
               </Button>
             </DialogTrigger>
@@ -225,9 +225,9 @@ export default function RosterManagementPage() {
                   specifications.
                 </DialogDescription>
               </DialogHeader>
-              <div className="space-y-4">
+              <div className=&quot;space-y-4&quot;>
                 <div>
-                  <Label htmlFor="role-select">Assignment Role</Label>
+                  <Label htmlFor=&quot;role-select&quot;>Assignment Role</Label>
                   <Select
                     value={newAssignment.assignmentRole}
                     onValueChange={(value) =>
@@ -241,19 +241,19 @@ export default function RosterManagementPage() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="primary">Primary Agent</SelectItem>
-                      <SelectItem value="backup">Backup Agent</SelectItem>
-                      <SelectItem value="seasonal">Seasonal Agent</SelectItem>
-                      <SelectItem value="temporary">Temporary Agent</SelectItem>
+                      <SelectItem value=&quot;primary&quot;>Primary Agent</SelectItem>
+                      <SelectItem value=&quot;backup&quot;>Backup Agent</SelectItem>
+                      <SelectItem value=&quot;seasonal&quot;>Seasonal Agent</SelectItem>
+                      <SelectItem value=&quot;temporary&quot;>Temporary Agent</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <Label htmlFor="start-date">Start Date</Label>
+                  <Label htmlFor=&quot;start-date&quot;>Start Date</Label>
                   <Input
-                    id="start-date"
-                    type="date"
+                    id=&quot;start-date&quot;
+                    type=&quot;date&quot;
                     value={newAssignment.startDate}
                     onChange={(e) =>
                       setNewAssignment((prev) => ({
@@ -265,11 +265,11 @@ export default function RosterManagementPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="end-date">End Date (Optional)</Label>
+                  <Label htmlFor=&quot;end-date&quot;>End Date (Optional)</Label>
                   <Input
-                    id="end-date"
-                    type="date"
-                    value={newAssignment.endDate || ""}
+                    id=&quot;end-date&quot;
+                    type=&quot;date&quot;
+                    value={newAssignment.endDate || &quot;&quot;}
                     onChange={(e) =>
                       setNewAssignment((prev) => ({
                         ...prev,
@@ -279,9 +279,9 @@ export default function RosterManagementPage() {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-2">
+                <div className=&quot;flex justify-end space-x-2&quot;>
                   <Button
-                    variant="outline"
+                    variant=&quot;outline&quot;
                     onClick={() => setShowAssignmentDialog(false)}
                   >
                     Cancel
@@ -293,8 +293,8 @@ export default function RosterManagementPage() {
                     disabled={createAssignmentMutation.isPending}
                   >
                     {createAssignmentMutation.isPending
-                      ? "Creating..."
-                      : "Create Assignment"}
+                      ? &quot;Creating...&quot;
+                      : &quot;Create Assignment&quot;}
                   </Button>
                 </div>
               </div>
@@ -304,49 +304,49 @@ export default function RosterManagementPage() {
       </div>
 
       {/* Roster Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className=&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Agents</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>Total Agents</CardTitle>
+            <Users className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className=&quot;text-2xl font-bold&quot;>
               {rosterMetrics.totalAgents}
             </div>
-            <p className="text-xs text-muted-foreground">Active brand agents</p>
+            <p className=&quot;text-xs text-muted-foreground&quot;>Active brand agents</p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>
               Active Assignments
             </CardTitle>
-            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            <CheckCircle className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className=&quot;text-2xl font-bold&quot;>
               {rosterMetrics.activeAssignments}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className=&quot;text-xs text-muted-foreground&quot;>
               Current brand assignments
             </p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
+          <CardHeader className=&quot;flex flex-row items-center justify-between space-y-0 pb-2&quot;>
+            <CardTitle className=&quot;text-sm font-medium&quot;>
               Skills Coverage
             </CardTitle>
-            <Star className="h-4 w-4 text-muted-foreground" />
+            <Star className=&quot;h-4 w-4 text-muted-foreground&quot; />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className=&quot;text-2xl font-bold&quot;>
               {rosterMetrics.skillsCoverage}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className=&quot;text-xs text-muted-foreground&quot;>
               Total skills tracked
             </p>
           </CardContent>
@@ -355,30 +355,30 @@ export default function RosterManagementPage() {
 
       {/* Search and Filters */}
       <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+        <CardContent className=&quot;pt-6&quot;>
+          <div className=&quot;flex flex-col sm:flex-row gap-4&quot;>
+            <div className=&quot;flex-1&quot;>
+              <div className=&quot;relative&quot;>
+                <Search className=&quot;absolute left-2 top-2.5 h-4 w-4 text-muted-foreground&quot; />
                 <Input
-                  placeholder="Search agents by name or email..."
+                  placeholder=&quot;Search agents by name or email...&quot;
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8"
+                  className=&quot;pl-8&quot;
                 />
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className=&quot;flex gap-2&quot;>
               <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Filter by brand" />
+                <SelectTrigger className=&quot;w-[180px]&quot;>
+                  <SelectValue placeholder=&quot;Filter by brand&quot; />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Brands</SelectItem>
+                  <SelectItem value=&quot;&quot;>All Brands</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline" size="icon">
-                <Filter className="h-4 w-4" />
+              <Button variant=&quot;outline&quot; size=&quot;icon&quot;>
+                <Filter className=&quot;h-4 w-4&quot; />
               </Button>
             </div>
           </div>
@@ -395,81 +395,81 @@ export default function RosterManagementPage() {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="space-y-4">
+            <div className=&quot;space-y-4&quot;>
               {Array.from({ length: 3 }).map((_, i) => (
                 <div
                   key={i}
-                  className="flex items-center space-x-4 p-4 border rounded-lg"
+                  className=&quot;flex items-center space-x-4 p-4 border rounded-lg&quot;
                 >
-                  <div className="w-12 h-12 bg-gray-200 rounded-full animate-pulse" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-gray-200 rounded animate-pulse" />
-                    <div className="h-3 bg-gray-200 rounded animate-pulse w-2/3" />
+                  <div className=&quot;w-12 h-12 bg-gray-200 rounded-full animate-pulse&quot; />
+                  <div className=&quot;flex-1 space-y-2&quot;>
+                    <div className=&quot;h-4 bg-gray-200 rounded animate-pulse&quot; />
+                    <div className=&quot;h-3 bg-gray-200 rounded animate-pulse w-2/3&quot; />
                   </div>
                 </div>
               ))}
             </div>
           ) : error ? (
-            <div className="text-center py-8">
-              <AlertCircle className="h-8 w-8 text-red-500 mx-auto mb-2" />
-              <p className="text-muted-foreground">
+            <div className=&quot;text-center py-8&quot;>
+              <AlertCircle className=&quot;h-8 w-8 text-red-500 mx-auto mb-2&quot; />
+              <p className=&quot;text-muted-foreground&quot;>
                 Failed to load brand agents
               </p>
             </div>
           ) : filteredAgents.length === 0 ? (
-            <div className="text-center py-8">
-              <Users className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-              <p className="text-muted-foreground">
+            <div className=&quot;text-center py-8&quot;>
+              <Users className=&quot;h-8 w-8 text-muted-foreground mx-auto mb-2&quot; />
+              <p className=&quot;text-muted-foreground&quot;>
                 No agents found matching your criteria
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className=&quot;space-y-4&quot;>
               {filteredAgents.map((agent: BrandAgent) => (
                 <div
                   key={agent.id}
-                  className="flex items-center space-x-4 p-4 border rounded-lg hover:bg-gray-50"
+                  className=&quot;flex items-center space-x-4 p-4 border rounded-lg hover:bg-gray-50&quot;
                 >
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-blue-600 font-semibold">
+                  <div className=&quot;w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center&quot;>
+                    <span className=&quot;text-blue-600 font-semibold&quot;>
                       {agent.firstName?.charAt(0) ||
                         agent.email.charAt(0).toUpperCase()}
                     </span>
                   </div>
 
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
+                  <div className=&quot;flex-1&quot;>
+                    <div className=&quot;flex items-center justify-between&quot;>
                       <div>
-                        <h3 className="font-semibold">
+                        <h3 className=&quot;font-semibold&quot;>
                           {agent.firstName && agent.lastName
                             ? `${agent.firstName} ${agent.lastName}`
                             : agent.email}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className=&quot;text-sm text-muted-foreground&quot;>
                           {agent.email}
                         </p>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className=&quot;flex items-center space-x-2&quot;>
                         {agent.brandAssignments.map((assignment, index) => (
-                          <Badge key={index} variant="secondary">
+                          <Badge key={index} variant=&quot;secondary&quot;>
                             {assignment.role}
                           </Badge>
                         ))}
                         {agent.isActive ? (
-                          <Badge variant="default">Active</Badge>
+                          <Badge variant=&quot;default&quot;>Active</Badge>
                         ) : (
-                          <Badge variant="secondary">Inactive</Badge>
+                          <Badge variant=&quot;secondary&quot;>Inactive</Badge>
                         )}
                       </div>
                     </div>
 
-                    <div className="mt-2 flex items-center space-x-4 text-sm text-muted-foreground">
-                      <span className="flex items-center">
-                        <Users className="h-3 w-3 mr-1" />
+                    <div className=&quot;mt-2 flex items-center space-x-4 text-sm text-muted-foreground&quot;>
+                      <span className=&quot;flex items-center&quot;>
+                        <Users className=&quot;h-3 w-3 mr-1&quot; />
                         {agent.brandAssignments.length} assignments
                       </span>
-                      <span className="flex items-center">
-                        <Star className="h-3 w-3 mr-1" />
+                      <span className=&quot;flex items-center&quot;>
+                        <Star className=&quot;h-3 w-3 mr-1" />
                         {agent.skills.length} skills
                       </span>
                       {agent.phone && <span>{agent.phone}</span>}

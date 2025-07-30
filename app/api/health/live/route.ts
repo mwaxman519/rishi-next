@@ -1,10 +1,10 @@
 // Kubernetes Liveness Probe Endpoint
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { NextRequest, NextResponse } from "next/server";
-import { HealthMonitorService } from "../../../../services/health-monitor";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { HealthMonitorService } from &quot;../../../../services/health-monitor&quot;;
 
 export async function GET(request: NextRequest) {
   try {
@@ -12,12 +12,12 @@ export async function GET(request: NextRequest) {
     const isAlive = healthMonitor.isAlive();
 
     return NextResponse.json(
-      { status: isAlive ? "alive" : "dead" },
+      { status: isAlive ? &quot;alive&quot; : &quot;dead&quot; },
       {
         status: isAlive ? 200 : 503,
       },
     );
   } catch (error) {
-    return NextResponse.json({ status: "dead" }, { status: 503 });
+    return NextResponse.json({ status: &quot;dead&quot; }, { status: 503 });
   }
 }

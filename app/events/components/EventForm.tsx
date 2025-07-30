@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useRouter } from "next/navigation";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useState, useEffect } from &quot;react&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { useQuery, useMutation, useQueryClient } from &quot;@tanstack/react-query&quot;;
 
-import { Button } from "@/components/ui/button";
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Form,
   FormControl,
@@ -16,49 +16,49 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent } from "@/components/ui/card";
+} from &quot;@/components/ui/select&quot;;
+import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
+import { Card, CardContent } from &quot;@/components/ui/card&quot;;
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+} from &quot;@/components/ui/popover&quot;;
+import { Calendar } from &quot;@/components/ui/calendar&quot;;
 import {
   AlertCircle,
   CalendarIcon,
   Loader2,
   MapPin,
   Users,
-} from "lucide-react";
-import { format } from "date-fns";
-import { useToast } from "@/components/ui/use-toast";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+} from &quot;lucide-react&quot;;
+import { format } from &quot;date-fns&quot;;
+import { useToast } from &quot;@/components/ui/use-toast&quot;;
+import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
 
 // Form validation schema
 const formSchema = z.object({
   title: z
     .string()
-    .min(3, { message: "Event title must be at least 3 characters" }),
+    .min(3, { message: &quot;Event title must be at least 3 characters&quot; }),
   description: z
     .string()
-    .min(10, { message: "Description must be at least 10 characters" }),
-  locationId: z.string({ required_error: "Please select a location" }),
-  organizationId: z.string({ required_error: "Organization is required" }),
-  startDate: z.date({ required_error: "Start date is required" }),
-  endDate: z.date({ required_error: "End date is required" }),
-  startTime: z.string({ required_error: "Start time is required" }),
-  endTime: z.string({ required_error: "End time is required" }),
+    .min(10, { message: &quot;Description must be at least 10 characters&quot; }),
+  locationId: z.string({ required_error: &quot;Please select a location&quot; }),
+  organizationId: z.string({ required_error: &quot;Organization is required&quot; }),
+  startDate: z.date({ required_error: &quot;Start date is required&quot; }),
+  endDate: z.date({ required_error: &quot;End date is required&quot; }),
+  startTime: z.string({ required_error: &quot;Start time is required&quot; }),
+  endTime: z.string({ required_error: &quot;End time is required&quot; }),
   expectedAttendees: z.string().transform((val) => parseInt(val) || 0),
   notes: z.string().optional(),
   isRecurring: z.boolean().default(false),
@@ -92,50 +92,50 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
     defaultValues: event
       ? {
           title: event.title,
-          description: event.description || "",
+          description: event.description || "&quot;,
           locationId: event.locationId,
           organizationId: event.organizationId,
           startDate: new Date(event.startDateTime),
           endDate: new Date(event.endDateTime),
-          startTime: format(new Date(event.startDateTime), "HH:mm"),
-          endTime: format(new Date(event.endDateTime), "HH:mm"),
-          expectedAttendees: event.expectedAttendees?.toString() || "1",
-          notes: event.notes || "",
+          startTime: format(new Date(event.startDateTime), &quot;HH:mm&quot;),
+          endTime: format(new Date(event.endDateTime), &quot;HH:mm&quot;),
+          expectedAttendees: event.expectedAttendees?.toString() || &quot;1&quot;,
+          notes: event.notes || &quot;&quot;,
           isRecurring: event.isSeriesParent || false,
-          recurringPattern: event.recurringPattern || "weekly",
-          recurringFrequency: event.recurringFrequency || "1",
-          numberOfOccurrences: event.numberOfOccurrences?.toString() || "4",
+          recurringPattern: event.recurringPattern || &quot;weekly&quot;,
+          recurringFrequency: event.recurringFrequency || &quot;1&quot;,
+          numberOfOccurrences: event.numberOfOccurrences?.toString() || &quot;4&quot;,
         }
       : {
-          title: "",
-          description: "",
-          locationId: "",
-          organizationId: organizationId || "",
+          title: &quot;&quot;,
+          description: &quot;&quot;,
+          locationId: &quot;&quot;,
+          organizationId: organizationId || &quot;&quot;,
           startDate: new Date(),
           endDate: new Date(),
-          startTime: "09:00",
-          endTime: "11:00",
-          expectedAttendees: "1",
-          notes: "",
+          startTime: &quot;09:00&quot;,
+          endTime: &quot;11:00&quot;,
+          expectedAttendees: &quot;1&quot;,
+          notes: &quot;&quot;,
           isRecurring: false,
-          recurringPattern: "weekly",
-          recurringFrequency: "1",
-          numberOfOccurrences: "4",
+          recurringPattern: &quot;weekly&quot;,
+          recurringFrequency: &quot;1&quot;,
+          numberOfOccurrences: &quot;4&quot;,
         },
   });
 
   // Set isRecurring state from form values
   useEffect(() => {
-    setIsRecurring(form.watch("isRecurring"));
-  }, [form.watch("isRecurring")]);
+    setIsRecurring(form.watch(&quot;isRecurring&quot;));
+  }, [form.watch(&quot;isRecurring&quot;)]);
 
   // Fetch organizations if needed (for users with access to multiple orgs)
   const { data: organizations = [] } = useQuery({
-    queryKey: ["organizations"],
+    queryKey: [&quot;organizations&quot;],
     queryFn: async () => {
-      const response = await fetch("/api/organizations/user");
+      const response = await fetch(&quot;/api/organizations/user&quot;);
       if (!response.ok) {
-        throw new Error("Failed to fetch organizations");
+        throw new Error(&quot;Failed to fetch organizations&quot;);
       }
       return await response.json();
     },
@@ -144,30 +144,30 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
 
   // Fetch locations for the selected organization
   const { data: locations = [], isLoading: isLoadingLocations } = useQuery({
-    queryKey: ["locations", form.watch("organizationId")],
+    queryKey: [&quot;locations&quot;, form.watch(&quot;organizationId&quot;)],
     queryFn: async () => {
-      const orgId = form.watch("organizationId");
+      const orgId = form.watch(&quot;organizationId&quot;);
       if (!orgId) return [];
 
       const response = await fetch(`/api/locations?organizationId=${orgId}`);
       if (!response.ok) {
-        throw new Error("Failed to fetch locations");
+        throw new Error(&quot;Failed to fetch locations&quot;);
       }
       return await response.json();
     },
-    enabled: !!form.watch("organizationId"),
+    enabled: !!form.watch(&quot;organizationId&quot;),
   });
 
   // Create/Update event mutation
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      const endpoint = event ? `/api/events/${event.id}` : "/api/events";
-      const method = event ? "PUT" : "POST";
+      const endpoint = event ? `/api/events/${event.id}` : &quot;/api/events&quot;;
+      const method = event ? &quot;PUT&quot; : &quot;POST&quot;;
 
       const response = await fetch(endpoint, {
         method,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify(data),
       });
@@ -175,42 +175,42 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
       if (response.status === 409) {
         // Handle location conflict
         const conflictData = await response.json();
-        throw new Error("location_conflict", { cause: conflictData });
+        throw new Error(&quot;location_conflict&quot;, { cause: conflictData });
       }
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to save event");
+        throw new Error(errorData.error || &quot;Failed to save event&quot;);
       }
 
       return await response.json();
     },
     onSuccess: () => {
       // Invalidate events query to refetch
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: [&quot;events&quot;] });
 
       // Show success toast
       toast({
-        title: event ? "Event Updated" : "Event Created",
+        title: event ? &quot;Event Updated&quot; : &quot;Event Created&quot;,
         description: event
-          ? "Your event has been successfully updated."
-          : "Your event has been successfully created.",
+          ? &quot;Your event has been successfully updated.&quot;
+          : &quot;Your event has been successfully created.&quot;,
       });
 
       // Navigate back to events list
-      router.push("/events");
+      router.push(&quot;/events&quot;);
     },
     onError: (error: any) => {
-      if (error.message === "location_conflict" && error.cause) {
+      if (error.message === &quot;location_conflict&quot; && error.cause) {
         // Set location conflict data
         setLocationConflict(error.cause);
 
         // Show conflict toast
         toast({
-          title: "Location Conflict",
+          title: &quot;Location Conflict&quot;,
           description:
-            "The selected location is not available for the chosen time.",
-          variant: "destructive",
+            &quot;The selected location is not available for the chosen time.&quot;,
+          variant: &quot;destructive&quot;,
         });
 
         return;
@@ -218,10 +218,10 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
 
       // Show error toast
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          error.message || "An error occurred while saving the event.",
-        variant: "destructive",
+          error.message || &quot;An error occurred while saving the event.&quot;,
+        variant: &quot;destructive&quot;,
       });
     },
   });
@@ -234,12 +234,12 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
       // Combine date and time values
       const startDateTime = new Date(values.startDate);
       const [startHours, startMinutes] = values.startTime
-        .split(":")
+        .split(&quot;:&quot;)
         .map(Number);
       startDateTime.setHours(startHours, startMinutes);
 
       const endDateTime = new Date(values.endDate);
-      const [endHours, endMinutes] = values.endTime.split(":").map(Number);
+      const [endHours, endMinutes] = values.endTime.split(&quot;:&quot;).map(Number);
       endDateTime.setHours(endHours, endMinutes);
 
       // Prepare data for API
@@ -268,20 +268,20 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
       await mutation.mutateAsync(eventData);
     } catch (error) {
       // Error handling is done in mutation onError
-      console.error("Error submitting form:", error);
+      console.error(&quot;Error submitting form:&quot;, error);
     }
   }
 
   return (
     <Card>
-      <CardContent className="pt-6">
+      <CardContent className=&quot;pt-6&quot;>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-6&quot;>
             {/* Organization Selection - Only show if no organizationId is provided */}
             {!organizationId && (
               <FormField
                 control={form.control}
-                name="organizationId"
+                name=&quot;organizationId&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Organization</FormLabel>
@@ -291,7 +291,7 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select an organization" />
+                          <SelectValue placeholder=&quot;Select an organization&quot; />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -314,12 +314,12 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             {/* Event Title */}
             <FormField
               control={form.control}
-              name="title"
+              name=&quot;title&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Event Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter event title" {...field} />
+                    <Input placeholder=&quot;Enter event title&quot; {...field} />
                   </FormControl>
                   <FormDescription>
                     The name of your event as it will appear on the calendar.
@@ -332,13 +332,13 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             {/* Event Description */}
             <FormField
               control={form.control}
-              name="description"
+              name=&quot;description&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter event description"
+                      placeholder=&quot;Enter event description&quot;
                       {...field}
                     />
                   </FormControl>
@@ -353,7 +353,7 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             {/* Location Selection */}
             <FormField
               control={form.control}
-              name="locationId"
+              name=&quot;locationId&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Location</FormLabel>
@@ -361,7 +361,7 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={
-                      isLoadingLocations || !form.watch("organizationId")
+                      isLoadingLocations || !form.watch(&quot;organizationId&quot;)
                     }
                   >
                     <FormControl>
@@ -369,10 +369,10 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
                         <SelectValue
                           placeholder={
                             isLoadingLocations
-                              ? "Loading locations..."
-                              : !form.watch("organizationId")
-                                ? "Select an organization first"
-                                : "Select a location"
+                              ? &quot;Loading locations...&quot;
+                              : !form.watch(&quot;organizationId&quot;)
+                                ? &quot;Select an organization first&quot;
+                                : &quot;Select a location&quot;
                           }
                         />
                       </SelectTrigger>
@@ -380,8 +380,8 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
                     <SelectContent>
                       {locations.map((location: any) => (
                         <SelectItem key={location.id} value={location.id}>
-                          <div className="flex items-center">
-                            <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
+                          <div className=&quot;flex items-center&quot;>
+                            <MapPin className=&quot;h-4 w-4 mr-2 text-muted-foreground&quot; />
                             <span>{location.name}</span>
                           </div>
                         </SelectItem>
@@ -398,25 +398,25 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
 
             {/* Location Conflict Alert */}
             {locationConflict && (
-              <Alert variant="destructive">
-                <AlertCircle className="h-4 w-4" />
+              <Alert variant=&quot;destructive&quot;>
+                <AlertCircle className=&quot;h-4 w-4&quot; />
                 <AlertTitle>Location Conflict</AlertTitle>
                 <AlertDescription>
                   The selected location is already booked during this time.
                   {locationConflict.conflicts &&
                     locationConflict.conflicts.length > 0 && (
-                      <div className="mt-2">
-                        <p className="font-semibold">Conflicting Events:</p>
-                        <ul className="list-disc pl-5 mt-1">
+                      <div className=&quot;mt-2&quot;>
+                        <p className=&quot;font-semibold&quot;>Conflicting Events:</p>
+                        <ul className=&quot;list-disc pl-5 mt-1&quot;>
                           {locationConflict.conflicts.map(
                             (conflict: any, index: number) => (
                               <li key={index}>
                                 {conflict.title} (
                                 {format(
                                   new Date(conflict.startDateTime),
-                                  "PPp",
-                                )}{" "}
-                                - {format(new Date(conflict.endDateTime), "p")})
+                                  &quot;PPp&quot;,
+                                )}{&quot; &quot;}
+                                - {format(new Date(conflict.endDateTime), &quot;p&quot;)})
                               </li>
                             ),
                           )}
@@ -428,33 +428,33 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             )}
 
             {/* Date Selection */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
               {/* Start Date */}
               <FormField
                 control={form.control}
-                name="startDate"
+                name=&quot;startDate&quot;
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem className=&quot;flex flex-col&quot;>
                     <FormLabel>Start Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
-                            className={"w-full pl-3 text-left font-normal"}
+                            variant={&quot;outline&quot;}
+                            className={&quot;w-full pl-3 text-left font-normal&quot;}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, &quot;PPP&quot;)
                             ) : (
                               <span>Pick a date</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
                         <Calendar
-                          mode="single"
+                          mode=&quot;single&quot;
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) =>
@@ -472,33 +472,33 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
               {/* End Date */}
               <FormField
                 control={form.control}
-                name="endDate"
+                name=&quot;endDate&quot;
                 render={({ field }) => (
-                  <FormItem className="flex flex-col">
+                  <FormItem className=&quot;flex flex-col&quot;>
                     <FormLabel>End Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
-                            variant={"outline"}
-                            className={"w-full pl-3 text-left font-normal"}
+                            variant={&quot;outline&quot;}
+                            className={&quot;w-full pl-3 text-left font-normal&quot;}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, &quot;PPP&quot;)
                             ) : (
                               <span>Pick a date</span>
                             )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            <CalendarIcon className=&quot;ml-auto h-4 w-4 opacity-50&quot; />
                           </Button>
                         </FormControl>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
+                      <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
                         <Calendar
-                          mode="single"
+                          mode=&quot;single&quot;
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) =>
-                            date < form.getValues("startDate")
+                            date < form.getValues(&quot;startDate&quot;)
                           }
                           initialFocus
                         />
@@ -511,16 +511,16 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             </div>
 
             {/* Time Selection */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
               {/* Start Time */}
               <FormField
                 control={form.control}
-                name="startTime"
+                name=&quot;startTime&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Start Time</FormLabel>
                     <FormControl>
-                      <Input type="time" {...field} />
+                      <Input type=&quot;time&quot; {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -530,12 +530,12 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
               {/* End Time */}
               <FormField
                 control={form.control}
-                name="endTime"
+                name=&quot;endTime&quot;
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>End Time</FormLabel>
                     <FormControl>
-                      <Input type="time" {...field} />
+                      <Input type=&quot;time&quot; {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -546,12 +546,12 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             {/* Expected Attendees */}
             <FormField
               control={form.control}
-              name="expectedAttendees"
+              name=&quot;expectedAttendees&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Expected Attendees</FormLabel>
                   <FormControl>
-                    <Input type="number" min="1" {...field} />
+                    <Input type=&quot;number&quot; min=&quot;1&quot; {...field} />
                   </FormControl>
                   <FormDescription>
                     Estimate how many people will attend this event.
@@ -564,13 +564,13 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             {/* Notes */}
             <FormField
               control={form.control}
-              name="notes"
+              name=&quot;notes&quot;
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Notes</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Any additional notes about the event"
+                      placeholder=&quot;Any additional notes about the event&quot;
                       {...field}
                     />
                   </FormControl>
@@ -584,19 +584,19 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
 
             {/* Recurring Event Option */}
             <div>
-              <div className="flex items-center space-x-2 mb-3">
+              <div className=&quot;flex items-center space-x-2 mb-3&quot;>
                 <FormField
                   control={form.control}
-                  name="isRecurring"
+                  name=&quot;isRecurring&quot;
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormItem className=&quot;flex flex-row items-start space-x-3 space-y-0&quot;>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <div className="space-y-1 leading-none">
+                      <div className=&quot;space-y-1 leading-none&quot;>
                         <FormLabel>This is a recurring event</FormLabel>
                       </div>
                     </FormItem>
@@ -605,11 +605,11 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
               </div>
 
               {isRecurring && (
-                <div className="pl-6 space-y-4">
+                <div className=&quot;pl-6 space-y-4&quot;>
                   {/* Recurring Pattern */}
                   <FormField
                     control={form.control}
-                    name="recurringPattern"
+                    name=&quot;recurringPattern&quot;
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Frequency</FormLabel>
@@ -619,14 +619,14 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select frequency" />
+                              <SelectValue placeholder=&quot;Select frequency&quot; />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="daily">Daily</SelectItem>
-                            <SelectItem value="weekly">Weekly</SelectItem>
-                            <SelectItem value="biweekly">Bi-weekly</SelectItem>
-                            <SelectItem value="monthly">Monthly</SelectItem>
+                            <SelectItem value=&quot;daily&quot;>Daily</SelectItem>
+                            <SelectItem value=&quot;weekly&quot;>Weekly</SelectItem>
+                            <SelectItem value=&quot;biweekly&quot;>Bi-weekly</SelectItem>
+                            <SelectItem value=&quot;monthly&quot;>Monthly</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -637,12 +637,12 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
                   {/* Number of Occurrences */}
                   <FormField
                     control={form.control}
-                    name="numberOfOccurrences"
+                    name=&quot;numberOfOccurrences&quot;
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Number of Occurrences</FormLabel>
                         <FormControl>
-                          <Input type="number" min="1" max="52" {...field} />
+                          <Input type=&quot;number&quot; min=&quot;1&quot; max=&quot;52&quot; {...field} />
                         </FormControl>
                         <FormDescription>
                           How many times this event will repeat (max 52).
@@ -656,19 +656,19 @@ export default function EventForm({ event, organizationId }: EventFormProps) {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end space-x-2">
+            <div className=&quot;flex justify-end space-x-2&quot;>
               <Button
-                variant="outline"
-                type="button"
-                onClick={() => router.push("/events")}
+                variant=&quot;outline&quot;
+                type=&quot;button&quot;
+                onClick={() => router.push(&quot;/events&quot;)}
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={mutation.isPending}>
+              <Button type=&quot;submit&quot; disabled={mutation.isPending}>
                 {mutation.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                 )}
-                {event ? "Update Event" : "Create Event"}
+                {event ? &quot;Update Event&quot; : &quot;Create Event"}
               </Button>
             </div>
           </form>

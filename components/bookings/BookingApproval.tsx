@@ -1,6 +1,6 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
+import { useState } from &quot;react&quot;;
 import {
   Card,
   CardContent,
@@ -8,9 +8,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
 import {
   Dialog,
   DialogContent,
@@ -19,9 +19,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+} from &quot;@/components/ui/dialog&quot;;
+import { Switch } from &quot;@/components/ui/switch&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
 import {
   CheckCircle2,
   XCircle,
@@ -31,8 +31,8 @@ import {
   Users,
   AlertTriangle,
   Loader2,
-} from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+} from &quot;lucide-react&quot;;
+import { toast } from &quot;@/hooks/use-toast&quot;;
 
 interface BookingApprovalProps {
   booking: {
@@ -59,16 +59,16 @@ export default function BookingApproval({
   const [isApproveDialogOpen, setIsApproveDialogOpen] = useState(false);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState("");
+  const [rejectionReason, setRejectionReason] = useState("&quot;);
   const [generateEvents, setGenerateEvents] = useState(true);
 
   // Format dates for display
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Date(dateStr).toLocaleDateString(&quot;en-US&quot;, {
+      weekday: &quot;long&quot;,
+      year: &quot;numeric&quot;,
+      month: &quot;long&quot;,
+      day: &quot;numeric&quot;,
     });
   };
 
@@ -78,9 +78,9 @@ export default function BookingApproval({
       setIsSubmitting(true);
 
       const response = await fetch(`/api/bookings/${booking.id}/approve`, {
-        method: "POST",
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify({
           generateEvents,
@@ -90,23 +90,23 @@ export default function BookingApproval({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to approve booking");
+        throw new Error(data.error || &quot;Failed to approve booking&quot;);
       }
 
       toast({
-        title: "Booking Approved",
-        description: "The booking has been approved successfully.",
-        variant: "default",
+        title: &quot;Booking Approved&quot;,
+        description: &quot;The booking has been approved successfully.&quot;,
+        variant: &quot;default&quot;,
       });
 
       setIsApproveDialogOpen(false);
       onApproved();
     } catch (error: any) {
       toast({
-        title: "Approval Failed",
+        title: &quot;Approval Failed&quot;,
         description:
-          error.message || "An error occurred while approving the booking.",
-        variant: "destructive",
+          error.message || &quot;An error occurred while approving the booking.&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSubmitting(false);
@@ -117,9 +117,9 @@ export default function BookingApproval({
   const handleReject = async () => {
     if (!rejectionReason.trim()) {
       toast({
-        title: "Rejection Reason Required",
-        description: "Please provide a reason for rejecting this booking.",
-        variant: "destructive",
+        title: &quot;Rejection Reason Required&quot;,
+        description: &quot;Please provide a reason for rejecting this booking.&quot;,
+        variant: &quot;destructive&quot;,
       });
       return;
     }
@@ -128,9 +128,9 @@ export default function BookingApproval({
       setIsSubmitting(true);
 
       const response = await fetch(`/api/bookings/${booking.id}/reject`, {
-        method: "POST",
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify({
           reason: rejectionReason,
@@ -140,23 +140,23 @@ export default function BookingApproval({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to reject booking");
+        throw new Error(data.error || &quot;Failed to reject booking&quot;);
       }
 
       toast({
-        title: "Booking Rejected",
-        description: "The booking has been rejected successfully.",
-        variant: "default",
+        title: &quot;Booking Rejected&quot;,
+        description: &quot;The booking has been rejected successfully.&quot;,
+        variant: &quot;default&quot;,
       });
 
       setIsRejectDialogOpen(false);
       onRejected();
     } catch (error: any) {
       toast({
-        title: "Rejection Failed",
+        title: &quot;Rejection Failed&quot;,
         description:
-          error.message || "An error occurred while rejecting the booking.",
-        variant: "destructive",
+          error.message || &quot;An error occurred while rejecting the booking.&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSubmitting(false);
@@ -164,10 +164,10 @@ export default function BookingApproval({
   };
 
   return (
-    <Card className="border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/50">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-semibold flex items-center">
-          <AlertTriangle className="h-5 w-5 mr-2 text-amber-500" />
+    <Card className=&quot;border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/50&quot;>
+      <CardHeader className=&quot;pb-2&quot;>
+        <CardTitle className=&quot;text-lg font-semibold flex items-center&quot;>
+          <AlertTriangle className=&quot;h-5 w-5 mr-2 text-amber-500&quot; />
           Booking Approval Required
         </CardTitle>
         <CardDescription>
@@ -176,60 +176,60 @@ export default function BookingApproval({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="pt-4 pb-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-3">
-            <div className="flex items-start">
-              <Calendar className="h-4 w-4 mt-1 mr-2 text-muted-foreground" />
+      <CardContent className=&quot;pt-4 pb-0&quot;>
+        <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-4&quot;>
+          <div className=&quot;space-y-3&quot;>
+            <div className=&quot;flex items-start&quot;>
+              <Calendar className=&quot;h-4 w-4 mt-1 mr-2 text-muted-foreground&quot; />
               <div>
-                <p className="text-sm font-medium">Date Range</p>
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(booking.startDate)} to{" "}
+                <p className=&quot;text-sm font-medium&quot;>Date Range</p>
+                <p className=&quot;text-sm text-muted-foreground&quot;>
+                  {formatDate(booking.startDate)} to{&quot; &quot;}
                   {formatDate(booking.endDate)}
                 </p>
               </div>
             </div>
 
             {booking.recurrencePattern && (
-              <div className="flex items-start">
-                <Clock className="h-4 w-4 mt-1 mr-2 text-muted-foreground" />
+              <div className=&quot;flex items-start&quot;>
+                <Clock className=&quot;h-4 w-4 mt-1 mr-2 text-muted-foreground&quot; />
                 <div>
-                  <p className="text-sm font-medium">Recurrence</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className=&quot;text-sm font-medium&quot;>Recurrence</p>
+                  <p className=&quot;text-sm text-muted-foreground&quot;>
                     {booking.recurrencePattern}
                   </p>
                 </div>
               </div>
             )}
 
-            <div className="flex items-start">
-              <MapPin className="h-4 w-4 mt-1 mr-2 text-muted-foreground" />
+            <div className=&quot;flex items-start&quot;>
+              <MapPin className=&quot;h-4 w-4 mt-1 mr-2 text-muted-foreground&quot; />
               <div>
-                <p className="text-sm font-medium">Location</p>
-                <p className="text-sm text-muted-foreground">
-                  {booking.location || "Not specified"}
+                <p className=&quot;text-sm font-medium&quot;>Location</p>
+                <p className=&quot;text-sm text-muted-foreground&quot;>
+                  {booking.location || &quot;Not specified&quot;}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div className="flex items-start">
-              <Users className="h-4 w-4 mt-1 mr-2 text-muted-foreground" />
+          <div className=&quot;space-y-3&quot;>
+            <div className=&quot;flex items-start&quot;>
+              <Users className=&quot;h-4 w-4 mt-1 mr-2 text-muted-foreground&quot; />
               <div>
-                <p className="text-sm font-medium">Staff Count</p>
-                <p className="text-sm text-muted-foreground">
+                <p className=&quot;text-sm font-medium&quot;>Staff Count</p>
+                <p className=&quot;text-sm text-muted-foreground&quot;>
                   {booking.staffCount || 1} staff member(s)
                 </p>
               </div>
             </div>
 
             {booking.specialRequirements && (
-              <div className="flex items-start">
-                <CheckCircle2 className="h-4 w-4 mt-1 mr-2 text-muted-foreground" />
+              <div className=&quot;flex items-start&quot;>
+                <CheckCircle2 className=&quot;h-4 w-4 mt-1 mr-2 text-muted-foreground&quot; />
                 <div>
-                  <p className="text-sm font-medium">Special Requirements</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className=&quot;text-sm font-medium&quot;>Special Requirements</p>
+                  <p className=&quot;text-sm text-muted-foreground&quot;>
                     {booking.specialRequirements}
                   </p>
                 </div>
@@ -239,14 +239,14 @@ export default function BookingApproval({
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-end gap-2 mt-4 pt-4 border-t">
+      <CardFooter className=&quot;flex justify-end gap-2 mt-4 pt-4 border-t&quot;>
         <Dialog open={isRejectDialogOpen} onOpenChange={setIsRejectDialogOpen}>
           <DialogTrigger asChild>
             <Button
-              variant="outline"
-              className="text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600"
+              variant=&quot;outline&quot;
+              className=&quot;text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600&quot;
             >
-              <XCircle className="h-4 w-4 mr-2" />
+              <XCircle className=&quot;h-4 w-4 mr-2&quot; />
               Reject
             </Button>
           </DialogTrigger>
@@ -259,40 +259,40 @@ export default function BookingApproval({
               </DialogDescription>
             </DialogHeader>
 
-            <div className="py-4">
-              <Label htmlFor="rejection-reason" className="mb-2 block">
+            <div className=&quot;py-4&quot;>
+              <Label htmlFor=&quot;rejection-reason&quot; className=&quot;mb-2 block&quot;>
                 Rejection Reason
               </Label>
               <Textarea
-                id="rejection-reason"
-                placeholder="Enter the reason for rejecting this booking..."
+                id=&quot;rejection-reason&quot;
+                placeholder=&quot;Enter the reason for rejecting this booking...&quot;
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
-                className="min-h-24"
+                className=&quot;min-h-24&quot;
               />
             </div>
 
             <DialogFooter>
               <Button
-                variant="ghost"
+                variant=&quot;ghost&quot;
                 onClick={() => setIsRejectDialogOpen(false)}
                 disabled={isSubmitting}
               >
                 Cancel
               </Button>
               <Button
-                variant="destructive"
+                variant=&quot;destructive&quot;
                 onClick={handleReject}
                 disabled={isSubmitting || !rejectionReason.trim()}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                     Rejecting...
                   </>
                 ) : (
                   <>
-                    <XCircle className="mr-2 h-4 w-4" />
+                    <XCircle className=&quot;mr-2 h-4 w-4&quot; />
                     Reject Booking
                   </>
                 )}
@@ -306,8 +306,8 @@ export default function BookingApproval({
           onOpenChange={setIsApproveDialogOpen}
         >
           <DialogTrigger asChild>
-            <Button variant="default">
-              <CheckCircle2 className="h-4 w-4 mr-2" />
+            <Button variant=&quot;default&quot;>
+              <CheckCircle2 className=&quot;h-4 w-4 mr-2&quot; />
               Approve
             </Button>
           </DialogTrigger>
@@ -320,20 +320,20 @@ export default function BookingApproval({
               </DialogDescription>
             </DialogHeader>
 
-            <div className="py-4">
-              <div className="flex items-center justify-between space-x-2">
+            <div className=&quot;py-4&quot;>
+              <div className=&quot;flex items-center justify-between space-x-2&quot;>
                 <Label
-                  htmlFor="generate-events"
-                  className="flex flex-col space-y-1 cursor-pointer"
+                  htmlFor=&quot;generate-events&quot;
+                  className=&quot;flex flex-col space-y-1 cursor-pointer&quot;
                 >
                   <span>Generate Event Instances</span>
-                  <span className="font-normal text-xs text-muted-foreground">
+                  <span className=&quot;font-normal text-xs text-muted-foreground&quot;>
                     Automatically create events for this booking based on its
                     schedule
                   </span>
                 </Label>
                 <Switch
-                  id="generate-events"
+                  id=&quot;generate-events&quot;
                   checked={generateEvents}
                   onCheckedChange={setGenerateEvents}
                 />
@@ -342,25 +342,25 @@ export default function BookingApproval({
 
             <DialogFooter>
               <Button
-                variant="ghost"
+                variant=&quot;ghost&quot;
                 onClick={() => setIsApproveDialogOpen(false)}
                 disabled={isSubmitting}
               >
                 Cancel
               </Button>
               <Button
-                variant="default"
+                variant=&quot;default&quot;
                 onClick={handleApprove}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className=&quot;mr-2 h-4 w-4 animate-spin&quot; />
                     Approving...
                   </>
                 ) : (
                   <>
-                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                    <CheckCircle2 className=&quot;mr-2 h-4 w-4" />
                     Approve Booking
                   </>
                 )}

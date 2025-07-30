@@ -1,7 +1,7 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from &quot;react&quot;;
+import Link from &quot;next/link&quot;;
 import {
   Card,
   CardContent,
@@ -9,17 +9,17 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { DOC_PATH_REDIRECTS } from "../../lib/doc-redirects";
+} from &quot;@/components/ui/card&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { DOC_PATH_REDIRECTS } from &quot;../../lib/doc-redirects&quot;;
 
 export default function DocsNotFound() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [currentPath, setCurrentPath] = useState<string>("");
+  const [currentPath, setCurrentPath] = useState<string>("&quot;);
 
   useEffect(() => {
     // Get the current path from the URL
-    const path = window.location.pathname.replace(/^\/docs\//, "");
+    const path = window.location.pathname.replace(/^\/docs\//, &quot;&quot;);
     setCurrentPath(path);
 
     // Check for suggestions based on path
@@ -42,33 +42,33 @@ export default function DocsNotFound() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] p-4">
-      <Card className="w-full max-w-3xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl">Documentation Not Found</CardTitle>
+    <div className=&quot;flex flex-col items-center justify-center min-h-[60vh] p-4&quot;>
+      <Card className=&quot;w-full max-w-3xl&quot;>
+        <CardHeader className=&quot;text-center&quot;>
+          <CardTitle className=&quot;text-3xl&quot;>Documentation Not Found</CardTitle>
           <CardDescription>
             The requested documentation page could not be found.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-lg text-center mb-6">
-            <span className="font-mono bg-muted text-muted-foreground px-2 py-1 rounded">
+          <div className=&quot;text-lg text-center mb-6&quot;>
+            <span className=&quot;font-mono bg-muted text-muted-foreground px-2 py-1 rounded&quot;>
               {currentPath}
             </span>
           </div>
 
           {suggestions.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-lg font-semibold mb-3">Did you mean:</h3>
-              <ul className="space-y-2">
+            <div className=&quot;mt-6&quot;>
+              <h3 className=&quot;text-lg font-semibold mb-3&quot;>Did you mean:</h3>
+              <ul className=&quot;space-y-2&quot;>
                 {suggestions.map((suggestion, index) => (
                   <li
                     key={index}
-                    className="p-2 bg-muted/50 rounded hover:bg-muted transition-colors"
+                    className=&quot;p-2 bg-muted/50 rounded hover:bg-muted transition-colors&quot;
                   >
                     <Link
                       href={suggestion}
-                      className="text-primary hover:underline block"
+                      className=&quot;text-primary hover:underline block&quot;
                     >
                       {suggestion}
                     </Link>
@@ -78,19 +78,19 @@ export default function DocsNotFound() {
             </div>
           )}
 
-          <div className="mt-8 text-sm text-muted-foreground">
+          <div className=&quot;mt-8 text-sm text-muted-foreground&quot;>
             <p>
               If you believe this is an error, please report it to the
               development team.
             </p>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center gap-4">
-          <Button asChild variant="default">
-            <Link href="/docs">Documentation Home</Link>
+        <CardFooter className=&quot;flex justify-center gap-4&quot;>
+          <Button asChild variant=&quot;default&quot;>
+            <Link href=&quot;/docs&quot;>Documentation Home</Link>
           </Button>
-          <Button asChild variant="outline">
-            <Link href="/">Back to Dashboard</Link>
+          <Button asChild variant=&quot;outline&quot;>
+            <Link href=&quot;/">Back to Dashboard</Link>
           </Button>
         </CardFooter>
       </Card>

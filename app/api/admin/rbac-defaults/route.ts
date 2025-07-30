@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getServerSession } from "next-auth";
-import { db } from "../../auth-service/db";
-import { eq, isNull } from "drizzle-orm";
-import { organizationSettings } from "@shared/schema";
+import { getServerSession } from &quot;next-auth&quot;;
+import { db } from &quot;../../auth-service/db&quot;;
+import { eq, isNull } from &quot;drizzle-orm&quot;;
+import { organizationSettings } from &quot;@shared/schema&quot;;
 
 // System-wide RBAC defaults that apply to all organizations
 const SYSTEM_RBAC_DEFAULTS = {
@@ -26,13 +26,13 @@ export async function GET() {
     if (process.env.NEXT_PHASE === 'phase-production-build') {
       return NextResponse.json({
         defaults: SYSTEM_RBAC_DEFAULTS,
-        description: "System-wide RBAC defaults that apply to all new organizations",
+        description: &quot;System-wide RBAC defaults that apply to all new organizations&quot;,
       });
     }
 
     const session = await getServerSession();
     if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Get current system defaults from database
@@ -50,7 +50,7 @@ export async function GET() {
     const currentDefaults: Record<string, boolean> = {};
     systemSettings.forEach((setting) => {
       if (setting.settingKey && setting.settingValue !== null) {
-        currentDefaults[setting.settingKey] = setting.settingValue === "true";
+        currentDefaults[setting.settingKey] = setting.settingValue === &quot;true&quot;;
       }
     });
 
@@ -60,12 +60,12 @@ export async function GET() {
     return NextResponse.json({
       defaults: finalDefaults,
       description:
-        "System-wide RBAC defaults that apply to all new organizations",
+        &quot;System-wide RBAC defaults that apply to all new organizations&quot;,
     });
   } catch (error) {
-    console.error("Error fetching system RBAC defaults:", error);
+    console.error(&quot;Error fetching system RBAC defaults:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch system defaults" },
+      { error: &quot;Failed to fetch system defaults&quot; },
       { status: 500 },
     );
   }
@@ -77,13 +77,13 @@ export async function PUT(request: NextRequest) {
     if (process.env.NEXT_PHASE === 'phase-production-build') {
       return NextResponse.json({
         success: false,
-        message: "Build-time: Database operations not available during static generation",
+        message: &quot;Build-time: Database operations not available during static generation&quot;,
       }, { status: 503 });
     }
 
     const session = await getServerSession();
     if (!session?.user?.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const { defaults } = await request.json();
@@ -94,7 +94,7 @@ export async function PUT(request: NextRequest) {
         .insert(organizationSettings)
         .values({
           organization_id: null,
-          category: "rbac_features",
+          category: &quot;rbac_features&quot;,
           setting_key: key,
           setting_value: String(value),
           updated_by: (session.user as any).id,
@@ -114,12 +114,12 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "System RBAC defaults updated successfully",
+      message: &quot;System RBAC defaults updated successfully&quot;,
     });
   } catch (error) {
-    console.error("Error updating system RBAC defaults:", error);
+    console.error(&quot;Error updating system RBAC defaults:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to update system defaults" },
+      { error: &quot;Failed to update system defaults&quot; },
       { status: 500 },
     );
   }

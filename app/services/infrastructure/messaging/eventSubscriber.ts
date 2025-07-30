@@ -9,8 +9,8 @@
  * - Delayed event processing
  */
 
-import { AppEvent, EventPayload } from "../../../../shared/events";
-import { EventSubscriber } from "../distributedEventBus";
+import { AppEvent, EventPayload } from &quot;../../../../shared/events&quot;;
+import { EventSubscriber } from &quot;../distributedEventBus&quot;;
 
 // Subscription options for fine-tuning subscriber behavior
 export interface SubscriptionOptions {
@@ -151,7 +151,7 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
     options: SubscriptionOptions = { batchSize: 10, batchTimeoutMs: 5000 },
   ): string {
     if (!options.batchSize || options.batchSize < 1) {
-      throw new Error("Batch size must be at least 1");
+      throw new Error(&quot;Batch size must be at least 1&quot;);
     }
 
     const subscriptionId = `batch_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -217,7 +217,7 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
       this.subscriptionsByEvent.delete(subscription.event);
     }
 
-    // Note: We don't unsubscribe from the underlying event bus because
+    // Note: We don&apos;t unsubscribe from the underlying event bus because
     // there might be other subscribers for the same event type
   }
 
@@ -248,7 +248,7 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
       subscription.batchBuffer = subscription.batchBuffer || [];
       subscription.batchBuffer.push(payload);
 
-      // Process batch if it's at the threshold size
+      // Process batch if it&apos;s at the threshold size
       if (
         subscription.batchBuffer.length >=
         (subscription.options.batchSize || 10)
@@ -444,7 +444,7 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
    */
   getSubscription(
     subscriptionId: string,
-  ): Omit<Subscription<any>, "handler"> | undefined {
+  ): Omit<Subscription<any>, &quot;handler&quot;> | undefined {
     const subscription = this.subscriptions.get(subscriptionId);
     if (!subscription) return undefined;
 
@@ -506,5 +506,5 @@ export class AdvancedEventSubscriber<E extends AppEvent = AppEvent> {
 // Export a singleton instance
 export const advancedEventSubscriber = new AdvancedEventSubscriber();
 // Replace with distributedEventBus when ready for production
-// For now, we'll use it directly from the context it's created
+// For now, we'll use it directly from the context it&apos;s created
 // distributedEventBus

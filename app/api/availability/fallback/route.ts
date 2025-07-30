@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
@@ -11,13 +11,13 @@ export const revalidate = false;
  * when the main availability service is unavailable
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
-  console.log("GET /api/availability/fallback received");
+  console.log(&quot;GET /api/availability/fallback received&quot;);
 
   return NextResponse.json([], {
     status: 200,
     headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=60, s-maxage=60",
+      &quot;Content-Type&quot;: &quot;application/json&quot;,
+      &quot;Cache-Control&quot;: &quot;public, max-age=60, s-maxage=60&quot;,
     },
   });
 }

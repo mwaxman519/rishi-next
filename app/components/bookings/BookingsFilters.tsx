@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from &quot;react&quot;;
 import {
   CalendarIcon,
   Check,
@@ -6,27 +6,27 @@ import {
   Filter,
   RefreshCw,
   Search,
-} from "lucide-react";
-import { format } from "date-fns";
+} from &quot;lucide-react&quot;;
+import { format } from &quot;date-fns&quot;;
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Calendar } from &quot;@/components/ui/calendar&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Label } from &quot;@/components/ui/label&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from &quot;@/components/ui/select&quot;;
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from &quot;@/components/ui/popover&quot;;
 import {
   Command,
   CommandEmpty,
@@ -34,20 +34,20 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from &quot;@/components/ui/command&quot;;
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from &quot;@/components/ui/accordion&quot;;
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { cn } from "@/lib/utils";
-import { BOOKING_STATUS, BOOKING_PRIORITY } from "@shared/schema";
+} from &quot;@/components/ui/collapsible&quot;;
+import { cn } from &quot;@/lib/utils&quot;;
+import { BOOKING_STATUS, BOOKING_PRIORITY } from &quot;@shared/schema&quot;;
 
 export interface BookingsFiltersProps {
   onFilterChange: (filters: BookingsFilterState) => void;
@@ -76,7 +76,7 @@ export interface BookingsFilterState {
 
 // Default filter state
 const defaultFilterState: BookingsFilterState = {
-  search: "",
+  search: "&quot;,
   status: null,
   priority: null,
   dateRange: {
@@ -175,31 +175,31 @@ export function BookingsFilters({
   const isDateRangeActive = filters.dateRange.from || filters.dateRange.to;
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-3">
+    <div className=&quot;space-y-4&quot;>
+      <div className=&quot;flex flex-col sm:flex-row gap-3&quot;>
         {/* Search Input */}
-        <div className="relative flex-grow">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className=&quot;relative flex-grow&quot;>
+          <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground&quot; />
           <Input
-            placeholder="Search bookings..."
-            className="pl-8"
+            placeholder=&quot;Search bookings...&quot;
+            className=&quot;pl-8&quot;
             value={filters.search}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
 
         {/* Quick Filter Actions */}
-        <div className="flex gap-2">
+        <div className=&quot;flex gap-2&quot;>
           {/* Status Filter */}
           <Select
-            value={filters.status || ""}
+            value={filters.status || &quot;&quot;}
             onValueChange={handleStatusChange}
           >
-            <SelectTrigger className="w-[130px]">
-              <SelectValue placeholder="Status" />
+            <SelectTrigger className=&quot;w-[130px]&quot;>
+              <SelectValue placeholder=&quot;Status&quot; />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Statuses</SelectItem>
+              <SelectItem value=&quot;&quot;>All Statuses</SelectItem>
               <SelectItem value={BOOKING_STATUS.DRAFT}>Draft</SelectItem>
               <SelectItem value={BOOKING_STATUS.PENDING}>Pending</SelectItem>
               <SelectItem value={BOOKING_STATUS.APPROVED}>Approved</SelectItem>
@@ -213,14 +213,14 @@ export function BookingsFilters({
 
           {/* Priority Filter */}
           <Select
-            value={filters.priority || ""}
+            value={filters.priority || &quot;&quot;}
             onValueChange={handlePriorityChange}
           >
-            <SelectTrigger className="w-[130px]">
-              <SelectValue placeholder="Priority" />
+            <SelectTrigger className=&quot;w-[130px]&quot;>
+              <SelectValue placeholder=&quot;Priority&quot; />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Priorities</SelectItem>
+              <SelectItem value=&quot;&quot;>All Priorities</SelectItem>
               <SelectItem value={BOOKING_PRIORITY.LOW}>Low</SelectItem>
               <SelectItem value={BOOKING_PRIORITY.MEDIUM}>Medium</SelectItem>
               <SelectItem value={BOOKING_PRIORITY.HIGH}>High</SelectItem>
@@ -232,29 +232,29 @@ export function BookingsFilters({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={isDateRangeActive ? "default" : "outline"}
-                className="min-w-[130px]"
+                variant={isDateRangeActive ? &quot;default&quot; : &quot;outline&quot;}
+                className=&quot;min-w-[130px]&quot;
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
                 {isDateRangeActive ? (
-                  <span className="text-xs">
+                  <span className=&quot;text-xs&quot;>
                     {filters.dateRange.from
-                      ? format(filters.dateRange.from, "MMM d")
-                      : "From"}{" "}
+                      ? format(filters.dateRange.from, &quot;MMM d&quot;)
+                      : &quot;From&quot;}{&quot; &quot;}
                     -
                     {filters.dateRange.to
-                      ? format(filters.dateRange.to, "MMM d")
-                      : "To"}
+                      ? format(filters.dateRange.to, &quot;MMM d&quot;)
+                      : &quot;To&quot;}
                   </span>
                 ) : (
                   <span>Date Range</span>
                 )}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
+            <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;end&quot;>
               <Calendar
                 initialFocus
-                mode="range"
+                mode=&quot;range&quot;
                 defaultMonth={filters.dateRange.from || undefined}
                 selected={{
                   from: filters.dateRange.from || undefined,
@@ -268,10 +268,10 @@ export function BookingsFilters({
                 }
                 numberOfMonths={2}
               />
-              <div className="flex items-center justify-between px-3 py-2 border-t">
+              <div className=&quot;flex items-center justify-between px-3 py-2 border-t&quot;>
                 <Button
-                  variant="ghost"
-                  size="sm"
+                  variant=&quot;ghost&quot;
+                  size=&quot;sm&quot;
                   onClick={() =>
                     handleDateRangeChange({ from: null, to: null })
                   }
@@ -280,7 +280,7 @@ export function BookingsFilters({
                   Clear
                 </Button>
                 <Button
-                  size="sm"
+                  size=&quot;sm&quot;
                   onClick={() => document.body.click()} // Close the popover
                 >
                   Apply
@@ -291,16 +291,16 @@ export function BookingsFilters({
 
           {/* Advanced Filters Toggle */}
           <Button
-            variant={isExpanded ? "default" : "outline"}
-            size="icon"
+            variant={isExpanded ? &quot;default&quot; : &quot;outline&quot;}
+            size=&quot;icon&quot;
             onClick={() => setIsExpanded(!isExpanded)}
-            className="relative"
+            className=&quot;relative&quot;
           >
-            <Filter className="h-4 w-4" />
+            <Filter className=&quot;h-4 w-4&quot; />
             {activeFilterCount > 0 && !isExpanded && (
               <Badge
-                variant="secondary"
-                className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center"
+                variant=&quot;secondary&quot;
+                className=&quot;absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center&quot;
               >
                 {activeFilterCount}
               </Badge>
@@ -309,8 +309,8 @@ export function BookingsFilters({
 
           {/* Reset Filters Button */}
           {activeFilterCount > 0 && (
-            <Button variant="outline" onClick={resetFilters} size="icon">
-              <RefreshCw className="h-4 w-4" />
+            <Button variant=&quot;outline&quot; onClick={resetFilters} size=&quot;icon&quot;>
+              <RefreshCw className=&quot;h-4 w-4&quot; />
             </Button>
           )}
         </div>
@@ -319,70 +319,70 @@ export function BookingsFilters({
       {/* Advanced Filters Panel */}
       <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
         <CollapsibleContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 border rounded-md">
+          <div className=&quot;grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 border rounded-md&quot;>
             {/* Client Organization Filter */}
-            <div className="space-y-2">
+            <div className=&quot;space-y-2&quot;>
               <Label>Client Organizations</Label>
               <ScrollableCheckboxList
                 items={organizations}
                 selectedIds={filters.organizationIds}
-                onToggle={(id) => toggleArrayFilter("organizationIds", id)}
-                placeholder="Search organizations..."
+                onToggle={(id) => toggleArrayFilter(&quot;organizationIds&quot;, id)}
+                placeholder=&quot;Search organizations...&quot;
               />
             </div>
 
             {/* Locations Filter */}
-            <div className="space-y-2">
+            <div className=&quot;space-y-2&quot;>
               <Label>Locations</Label>
               <ScrollableCheckboxList
                 items={locations}
                 selectedIds={filters.locationIds}
-                onToggle={(id) => toggleArrayFilter("locationIds", id)}
-                placeholder="Search locations..."
+                onToggle={(id) => toggleArrayFilter(&quot;locationIds&quot;, id)}
+                placeholder=&quot;Search locations...&quot;
               />
             </div>
 
             {/* Activity Types Filter */}
-            <div className="space-y-2">
+            <div className=&quot;space-y-2&quot;>
               <Label>Activity Types</Label>
               <ScrollableCheckboxList
                 items={activityTypes}
                 selectedIds={filters.activityTypeIds}
-                onToggle={(id) => toggleArrayFilter("activityTypeIds", id)}
-                placeholder="Search activity types..."
+                onToggle={(id) => toggleArrayFilter(&quot;activityTypeIds&quot;, id)}
+                placeholder=&quot;Search activity types...&quot;
               />
             </div>
 
             {/* Boolean Filters */}
-            <div className="space-y-2">
+            <div className=&quot;space-y-2&quot;>
               <Label>Additional Filters</Label>
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center space-x-2">
+              <div className=&quot;flex flex-col space-y-2&quot;>
+                <div className=&quot;flex items-center space-x-2&quot;>
                   <Checkbox
-                    id="recurring-only"
+                    id=&quot;recurring-only&quot;
                     checked={filters.showRecurringOnly}
                     onCheckedChange={() =>
-                      toggleBooleanFilter("showRecurringOnly")
+                      toggleBooleanFilter(&quot;showRecurringOnly&quot;)
                     }
                   />
                   <label
-                    htmlFor="recurring-only"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    htmlFor=&quot;recurring-only&quot;
+                    className=&quot;text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70&quot;
                   >
                     Show recurring bookings only
                   </label>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className=&quot;flex items-center space-x-2&quot;>
                   <Checkbox
-                    id="with-attachments"
+                    id=&quot;with-attachments&quot;
                     checked={filters.withAttachments}
                     onCheckedChange={() =>
-                      toggleBooleanFilter("withAttachments")
+                      toggleBooleanFilter(&quot;withAttachments&quot;)
                     }
                   />
                   <label
-                    htmlFor="with-attachments"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    htmlFor=&quot;with-attachments&quot;
+                    className=&quot;text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70&quot;
                   >
                     With attachments
                   </label>
@@ -395,25 +395,25 @@ export function BookingsFilters({
 
       {/* Active Filter Summary */}
       {activeFilterCount > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div className=&quot;flex flex-wrap gap-2&quot;>
           {filters.status && (
             <FilterBadge
               label={`Status: ${filters.status}`}
-              onRemove={() => handleStatusChange("")}
+              onRemove={() => handleStatusChange(&quot;&quot;)}
             />
           )}
           {filters.priority && (
             <FilterBadge
               label={`Priority: ${filters.priority}`}
-              onRemove={() => handlePriorityChange("")}
+              onRemove={() => handlePriorityChange(&quot;&quot;)}
             />
           )}
           {isDateRangeActive && (
             <FilterBadge
-              label={`Date: ${filters.dateRange.from ? format(filters.dateRange.from, "MMM d") : "Any"} - ${
+              label={`Date: ${filters.dateRange.from ? format(filters.dateRange.from, &quot;MMM d&quot;) : &quot;Any&quot;} - ${
                 filters.dateRange.to
-                  ? format(filters.dateRange.to, "MMM d")
-                  : "Any"
+                  ? format(filters.dateRange.to, &quot;MMM d&quot;)
+                  : &quot;Any&quot;
               }`}
               onRemove={() => handleDateRangeChange({ from: null, to: null })}
             />
@@ -422,33 +422,33 @@ export function BookingsFilters({
             <FilterBadge
               key={`org-${id}`}
               label={`Org: ${organizations.find((o) => o.id === id)?.name || id}`}
-              onRemove={() => toggleArrayFilter("organizationIds", id)}
+              onRemove={() => toggleArrayFilter(&quot;organizationIds&quot;, id)}
             />
           ))}
           {filters.locationIds.map((id) => (
             <FilterBadge
               key={`loc-${id}`}
               label={`Location: ${locations.find((l) => l.id === id)?.name || id}`}
-              onRemove={() => toggleArrayFilter("locationIds", id)}
+              onRemove={() => toggleArrayFilter(&quot;locationIds&quot;, id)}
             />
           ))}
           {filters.activityTypeIds.map((id) => (
             <FilterBadge
               key={`act-${id}`}
               label={`Activity: ${activityTypes.find((a) => a.id === id)?.name || id}`}
-              onRemove={() => toggleArrayFilter("activityTypeIds", id)}
+              onRemove={() => toggleArrayFilter(&quot;activityTypeIds&quot;, id)}
             />
           ))}
           {filters.showRecurringOnly && (
             <FilterBadge
-              label="Recurring only"
-              onRemove={() => toggleBooleanFilter("showRecurringOnly")}
+              label=&quot;Recurring only&quot;
+              onRemove={() => toggleBooleanFilter(&quot;showRecurringOnly&quot;)}
             />
           )}
           {filters.withAttachments && (
             <FilterBadge
-              label="With attachments"
-              onRemove={() => toggleBooleanFilter("withAttachments")}
+              label=&quot;With attachments&quot;
+              onRemove={() => toggleBooleanFilter(&quot;withAttachments&quot;)}
             />
           )}
         </div>
@@ -466,16 +466,16 @@ function FilterBadge({
   onRemove: () => void;
 }) {
   return (
-    <Badge variant="secondary" className="flex items-center gap-1 px-2 py-1">
+    <Badge variant=&quot;secondary&quot; className=&quot;flex items-center gap-1 px-2 py-1&quot;>
       {label}
       <Button
-        variant="ghost"
-        size="sm"
-        className="h-4 w-4 p-0 hover:bg-transparent"
+        variant=&quot;ghost&quot;
+        size=&quot;sm&quot;
+        className=&quot;h-4 w-4 p-0 hover:bg-transparent&quot;
         onClick={onRemove}
       >
-        <RefreshCw className="h-3 w-3" />
-        <span className="sr-only">Remove filter</span>
+        <RefreshCw className=&quot;h-3 w-3&quot; />
+        <span className=&quot;sr-only&quot;>Remove filter</span>
       </Button>
     </Badge>
   );
@@ -493,9 +493,9 @@ function ScrollableCheckboxList({
   items,
   selectedIds,
   onToggle,
-  placeholder = "Search...",
+  placeholder = &quot;Search...&quot;,
 }: ScrollableCheckboxListProps) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(&quot;&quot;);
 
   // Filter items based on search
   const filteredItems = items.filter((item) =>
@@ -503,13 +503,13 @@ function ScrollableCheckboxList({
   );
 
   return (
-    <Command className="border rounded-md">
+    <Command className=&quot;border rounded-md&quot;>
       <CommandInput
         placeholder={placeholder}
         value={search}
         onValueChange={setSearch}
       />
-      <CommandList className="max-h-[200px] overflow-auto">
+      <CommandList className=&quot;max-h-[200px] overflow-auto&quot;>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
           {filteredItems.map((item) => (
@@ -517,14 +517,14 @@ function ScrollableCheckboxList({
               key={item.id}
               value={item.id}
               onSelect={() => onToggle(item.id)}
-              className="flex items-center"
+              className=&quot;flex items-center&quot;
             >
-              <div className="flex items-center space-x-2 flex-1">
+              <div className=&quot;flex items-center space-x-2 flex-1&quot;>
                 <Checkbox checked={selectedIds.includes(item.id)} />
                 <span>{item.name}</span>
               </div>
               {selectedIds.includes(item.id) && (
-                <Check className="h-4 w-4 ml-auto" />
+                <Check className=&quot;h-4 w-4 ml-auto" />
               )}
             </CommandItem>
           ))}

@@ -4,7 +4,7 @@
  * Production implementation for scheduling repository with database operations
  * interact with the database once the schema is defined for scheduling-related tables.
  */
-import { db } from "../../../lib/db-connection";
+import { db } from &quot;../../../lib/db-connection&quot;;
 import {
   Schedule,
   ScheduleShift,
@@ -25,7 +25,7 @@ import {
   ScheduleFilters,
   ShiftFilters,
   AssignmentFilters,
-} from "./models";
+} from &quot;./models&quot;;
 
 export class SchedulingRepository {
   /**
@@ -37,7 +37,7 @@ export class SchedulingRepository {
       // In the actual implementation, this would build queries based on filters
       return [];
     } catch (error) {
-      console.error("Error finding schedules:", error);
+      console.error(&quot;Error finding schedules:&quot;, error);
       throw new Error(
         `Failed to find schedules: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -70,10 +70,10 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Schedule creation not implemented yet - database schema needed",
+        &quot;Schedule creation not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
-      console.error("Error creating schedule:", error);
+      console.error(&quot;Error creating schedule:&quot;, error);
       throw new Error(
         `Failed to create schedule: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -90,7 +90,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Schedule update not implemented yet - database schema needed",
+        &quot;Schedule update not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error updating schedule with ID ${id}:`, error);
@@ -107,7 +107,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Schedule deletion not implemented yet - database schema needed",
+        &quot;Schedule deletion not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error deleting schedule with ID ${id}:`, error);
@@ -128,7 +128,7 @@ export class SchedulingRepository {
       // 2. Set published_by_id and published_at
       // 3. Return updated schedule
       throw new Error(
-        "Schedule publishing not implemented yet - database schema needed",
+        &quot;Schedule publishing not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error publishing schedule with ID ${id}:`, error);
@@ -149,7 +149,7 @@ export class SchedulingRepository {
       // 2. Set finalized_by_id and finalized_at
       // 3. Return updated schedule
       throw new Error(
-        "Schedule finalization not implemented yet - database schema needed",
+        &quot;Schedule finalization not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error finalizing schedule with ID ${id}:`, error);
@@ -169,7 +169,7 @@ export class SchedulingRepository {
       // Placeholder implementation
       return [];
     } catch (error) {
-      console.error("Error finding shifts:", error);
+      console.error(&quot;Error finding shifts:&quot;, error);
       throw new Error(
         `Failed to find shifts: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -216,10 +216,10 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Shift creation not implemented yet - database schema needed",
+        &quot;Shift creation not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
-      console.error("Error creating shift:", error);
+      console.error(&quot;Error creating shift:&quot;, error);
       throw new Error(
         `Failed to create shift: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -236,7 +236,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Shift update not implemented yet - database schema needed",
+        &quot;Shift update not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error updating shift with ID ${id}:`, error);
@@ -253,7 +253,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Shift deletion not implemented yet - database schema needed",
+        &quot;Shift deletion not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error deleting shift with ID ${id}:`, error);
@@ -275,7 +275,7 @@ export class SchedulingRepository {
       // Placeholder implementation
       return [];
     } catch (error) {
-      console.error("Error finding assignments:", error);
+      console.error(&quot;Error finding assignments:&quot;, error);
       throw new Error(
         `Failed to find assignments: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -342,10 +342,10 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Assignment creation not implemented yet - database schema needed",
+        &quot;Assignment creation not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
-      console.error("Error creating assignment:", error);
+      console.error(&quot;Error creating assignment:&quot;, error);
       throw new Error(
         `Failed to create assignment: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -362,7 +362,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Assignment update not implemented yet - database schema needed",
+        &quot;Assignment update not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error updating assignment with ID ${id}:`, error);
@@ -379,7 +379,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Assignment deletion not implemented yet - database schema needed",
+        &quot;Assignment deletion not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error deleting assignment with ID ${id}:`, error);
@@ -436,10 +436,10 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Schedule template creation not implemented yet - database schema needed",
+        &quot;Schedule template creation not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
-      console.error("Error creating schedule template:", error);
+      console.error(&quot;Error creating schedule template:&quot;, error);
       throw new Error(
         `Failed to create schedule template: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -456,7 +456,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Schedule template update not implemented yet - database schema needed",
+        &quot;Schedule template update not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error updating schedule template with ID ${id}:`, error);
@@ -473,7 +473,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Schedule template deletion not implemented yet - database schema needed",
+        &quot;Schedule template deletion not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error deleting schedule template with ID ${id}:`, error);
@@ -525,10 +525,10 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Shift template creation not implemented yet - database schema needed",
+        &quot;Shift template creation not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
-      console.error("Error creating shift template:", error);
+      console.error(&quot;Error creating shift template:&quot;, error);
       throw new Error(
         `Failed to create shift template: ${error instanceof Error ? error.message : String(error)}`,
       );
@@ -545,7 +545,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Shift template update not implemented yet - database schema needed",
+        &quot;Shift template update not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error updating shift template with ID ${id}:`, error);
@@ -562,7 +562,7 @@ export class SchedulingRepository {
     try {
       // Placeholder implementation
       throw new Error(
-        "Shift template deletion not implemented yet - database schema needed",
+        &quot;Shift template deletion not implemented yet - database schema needed&quot;,
       );
     } catch (error) {
       console.error(`Error deleting shift template with ID ${id}:`, error);

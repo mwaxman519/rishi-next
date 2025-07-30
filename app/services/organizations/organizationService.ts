@@ -1,7 +1,7 @@
 /**
  * Organization Service - Core business logic for organization management
  */
-import { OrganizationRepository } from "./repository";
+import { OrganizationRepository } from &quot;./repository&quot;;
 import {
   Organization,
   OrganizationUser,
@@ -11,8 +11,8 @@ import {
   OrganizationUserParams,
   OrganizationFilters,
   OrganizationType,
-} from "./models";
-import { rbacService } from "../rbac";
+} from &quot;./models&quot;;
+import { rbacService } from &quot;../rbac&quot;;
 
 export class OrganizationService {
   private repository: OrganizationRepository;
@@ -43,7 +43,7 @@ export class OrganizationService {
   ): Promise<Organization> {
     // Validate client tier for client organizations
     if (data.type === OrganizationType.CLIENT && !data.tier) {
-      throw new Error("Client tier is required for client organizations");
+      throw new Error(&quot;Client tier is required for client organizations&quot;);
     }
 
     // Internal org validation
@@ -74,7 +74,7 @@ export class OrganizationService {
       !data.tier &&
       !existingOrg.tier
     ) {
-      throw new Error("Client tier is required for client organizations");
+      throw new Error(&quot;Client tier is required for client organizations&quot;);
     }
 
     return this.repository.updateOrganization(id, data);
@@ -122,7 +122,7 @@ export class OrganizationService {
     // Add the user to the organization
     const orgUser = await this.repository.addUserToOrganization(params);
 
-    // If marked as default, ensure it's set as the default org
+    // If marked as default, ensure it&apos;s set as the default org
     if (params.isDefault) {
       await this.repository.setDefaultOrganization(
         params.userId,

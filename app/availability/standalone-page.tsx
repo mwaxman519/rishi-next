@@ -1,14 +1,14 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { format } from "date-fns";
-import { useAuth } from "../hooks/useAuth";
-import { useAuthorization } from "../hooks/useAuthorization";
-import { USER_ROLES } from "../../shared/rbac/roles";
-import { useTheme } from "../hooks/useTheme";
-import { useSidebarState } from "../hooks/useSidebarState";
-import { ThemeToggle } from "../components/ui/theme-toggle";
-import ErrorBoundary from "../components/ErrorBoundary";
+import React, { useState, useEffect, useRef, useCallback } from &quot;react&quot;;
+import { format } from &quot;date-fns&quot;;
+import { useAuth } from &quot;../hooks/useAuth&quot;;
+import { useAuthorization } from &quot;../hooks/useAuthorization&quot;;
+import { USER_ROLES } from &quot;../../shared/rbac/roles&quot;;
+import { useTheme } from &quot;../hooks/useTheme&quot;;
+import { useSidebarState } from &quot;../hooks/useSidebarState&quot;;
+import { ThemeToggle } from &quot;../components/ui/theme-toggle&quot;;
+import ErrorBoundary from &quot;../components/ErrorBoundary&quot;;
 
 // Define simplified AvailabilityDTO interface directly in this file
 interface SimpleAvailabilityDTO {
@@ -17,12 +17,12 @@ interface SimpleAvailabilityDTO {
   title: string;
   startDate: Date | string;
   endDate: Date | string;
-  status: "available" | "unavailable" | "tentative";
+  status: &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;;
   isRecurring: boolean;
   recurrencePattern?: string;
   dayOfWeek?: number;
   recurrenceGroup?: string;
-  recurrenceEndType?: "never" | "count" | "date";
+  recurrenceEndType?: &quot;never&quot; | &quot;count&quot; | &quot;date&quot;;
   recurrenceCount?: number;
   recurrenceEndDate?: Date | string;
   createdAt: Date | string;
@@ -41,11 +41,11 @@ export default function StandaloneAvailabilityPage() {
   const [error, setError] = useState<string | null>(null);
   const [myBlocks, setMyBlocks] = useState<SimpleAvailabilityDTO[]>([]);
   const [teamBlocks, setTeamBlocks] = useState<SimpleAvailabilityDTO[]>([]);
-  const [activeTab, setActiveTab] = useState<"list">("list");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState<&quot;list&quot;>(&quot;list&quot;);
+  const [searchQuery, setSearchQuery] = useState("&quot;);
   const [statusFilter, setStatusFilter] = useState<
-    "all" | "available" | "unavailable" | "tentative"
-  >("all");
+    &quot;all&quot; | &quot;available&quot; | &quot;unavailable&quot; | &quot;tentative&quot;
+  >(&quot;all&quot;);
 
   // Abort controller for API requests
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -57,20 +57,20 @@ export default function StandaloneAvailabilityPage() {
       if (offset) {
         newDate.setDate(newDate.getDate() + offset);
       }
-      return newDate.toISOString().split("T")[0];
+      return newDate.toISOString().split(&quot;T&quot;)[0];
     } catch (e) {
       // If date parsing fails, use current date
       const fallbackDate = new Date();
       if (offset) {
         fallbackDate.setDate(fallbackDate.getDate() + offset);
       }
-      return fallbackDate.toISOString().split("T")[0];
+      return fallbackDate.toISOString().split(&quot;T&quot;)[0];
     }
   }, []);
 
   const fetchAvailability = useCallback(async () => {
     if (!user) {
-      setError("Please sign in to view your availability");
+      setError(&quot;Please sign in to view your availability&quot;);
       setIsLoading(false);
       return;
     }
@@ -103,14 +103,14 @@ export default function StandaloneAvailabilityPage() {
         response = await fetch(
           `/api/availability?userId=${user.id}&startDate=${startDate}&endDate=${endDate}`,
           {
-            headers: { "Content-Type": "application/json" },
+            headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
             signal: abortControllerRef.current.signal,
           },
         );
 
         // Special handling for 502 Bad Gateway errors
         if (response.status === 502) {
-          console.warn("Received 502 Bad Gateway, treating as empty response");
+          console.warn(&quot;Received 502 Bad Gateway, treating as empty response&quot;);
           setMyBlocks([]);
           return;
         }
@@ -119,16 +119,16 @@ export default function StandaloneAvailabilityPage() {
           const errorData = await response.json().catch(() => ({}));
           if (response.status === 401) {
             throw new Error(
-              "You are not authorized to view this availability data",
+              &quot;You are not authorized to view this availability data&quot;,
             );
           } else if (response.status === 403) {
             throw new Error(
-              "You do not have permission to view this availability data",
+              &quot;You do not have permission to view this availability data&quot;,
             );
           } else if (response.status === 404) {
-            throw new Error("No availability data found for this time period");
+            throw new Error(&quot;No availability data found for this time period&quot;);
           } else if (response.status === 500) {
-            throw new Error("Server error while retrieving availability data");
+            throw new Error(&quot;Server error while retrieving availability data&quot;);
           } else {
             throw new Error(
               `Failed to fetch availability data (Status: ${response.status})`,
@@ -138,23 +138,23 @@ export default function StandaloneAvailabilityPage() {
 
         // Parse response data
         data = await response.json();
-        console.log("API response data:", data);
+        console.log(&quot;API response data:&quot;, data);
       } catch (fetchError) {
         // If AbortError, just return silently
-        if (fetchError instanceof Error && fetchError.name === "AbortError") {
+        if (fetchError instanceof Error && fetchError.name === &quot;AbortError&quot;) {
           return;
         }
 
-        console.error("Fetch error:", fetchError);
+        console.error(&quot;Fetch error:&quot;, fetchError);
         // For network errors, just return empty data
         if (
           fetchError instanceof Error &&
-          (fetchError.message.includes("NetworkError") ||
-            fetchError.message.includes("Failed to fetch") ||
-            fetchError.message.includes("Network request failed"))
+          (fetchError.message.includes(&quot;NetworkError&quot;) ||
+            fetchError.message.includes(&quot;Failed to fetch&quot;) ||
+            fetchError.message.includes(&quot;Network request failed&quot;))
         ) {
           console.warn(
-            "Network error while fetching availability, returning empty data",
+            &quot;Network error while fetching availability, returning empty data&quot;,
           );
           setMyBlocks([]);
           return;
@@ -173,7 +173,7 @@ export default function StandaloneAvailabilityPage() {
         setMyBlocks(data.data);
       } else {
         setMyBlocks([]);
-        setError("No availability data found");
+        setError(&quot;No availability data found&quot;);
       }
 
       // If user is field manager or admin, fetch team availability
@@ -182,14 +182,14 @@ export default function StandaloneAvailabilityPage() {
           const teamResponse = await fetch(
             `/api/availability/team?startDate=${startDate}&endDate=${endDate}`,
             {
-              headers: { "Content-Type": "application/json" },
+              headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
               signal: abortControllerRef.current.signal,
             },
           );
 
           if (!teamResponse.ok) {
             console.error(
-              "Failed to fetch team availability:",
+              &quot;Failed to fetch team availability:&quot;,
               teamResponse.status,
             );
             setTeamBlocks([]);
@@ -208,17 +208,17 @@ export default function StandaloneAvailabilityPage() {
             }
           }
         } catch (teamError) {
-          if (teamError instanceof Error && teamError.name !== "AbortError") {
-            console.error("Error fetching team availability:", teamError);
+          if (teamError instanceof Error && teamError.name !== &quot;AbortError&quot;) {
+            console.error(&quot;Error fetching team availability:&quot;, teamError);
             setTeamBlocks([]);
           }
         }
       }
     } catch (error) {
-      // Only set error state if it's not an abort error
-      if (error instanceof Error && error.name !== "AbortError") {
-        console.error("Failed to fetch availability data:", error);
-        setError(error.message || "Failed to fetch availability data");
+      // Only set error state if it&apos;s not an abort error
+      if (error instanceof Error && error.name !== &quot;AbortError&quot;) {
+        console.error(&quot;Failed to fetch availability data:&quot;, error);
+        setError(error.message || &quot;Failed to fetch availability data&quot;);
         setMyBlocks([]);
         setTeamBlocks([]);
       }
@@ -236,7 +236,7 @@ export default function StandaloneAvailabilityPage() {
   useEffect(() => {
     if (user) {
       if (initialMountRef.current) {
-        console.log("Availability page: Initial fetch");
+        console.log(&quot;Availability page: Initial fetch&quot;);
         initialMountRef.current = false;
         fetchAvailability();
       }
@@ -257,7 +257,7 @@ export default function StandaloneAvailabilityPage() {
   // Handle deleting a block
   const handleDeleteBlock = async (blockId: number) => {
     if (
-      window.confirm("Are you sure you want to delete this availability block?")
+      window.confirm(&quot;Are you sure you want to delete this availability block?&quot;)
     ) {
       try {
         // Optimistically update UI
@@ -267,18 +267,18 @@ export default function StandaloneAvailabilityPage() {
 
         // Delete the block via API
         const response = await fetch(`/api/availability/${blockId}`, {
-          method: "DELETE",
+          method: &quot;DELETE&quot;,
         });
 
         if (!response.ok) {
-          throw new Error("Failed to delete availability block");
+          throw new Error(&quot;Failed to delete availability block&quot;);
         }
 
         // Refresh data if needed
         fetchAvailability();
       } catch (err) {
-        console.error("Error deleting availability block:", err);
-        alert("Error deleting availability block. Please try again.");
+        console.error(&quot;Error deleting availability block:&quot;, err);
+        alert(&quot;Error deleting availability block. Please try again.&quot;);
         fetchAvailability();
       }
     }
@@ -288,15 +288,15 @@ export default function StandaloneAvailabilityPage() {
   const filteredBlocks = myBlocks.filter((block) => {
     // Filter by search query
     const matchesSearch =
-      searchQuery === "" ||
+      searchQuery === &quot;&quot; ||
       block.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      format(new Date(block.startDate), "MMM dd, yyyy")
+      format(new Date(block.startDate), &quot;MMM dd, yyyy&quot;)
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
 
     // Filter by status
     const matchesStatus =
-      statusFilter === "all" || block.status === statusFilter;
+      statusFilter === &quot;all&quot; || block.status === statusFilter;
 
     return matchesSearch && matchesStatus;
   });
@@ -304,26 +304,26 @@ export default function StandaloneAvailabilityPage() {
   // If not logged in, show a message
   if (!user) {
     return (
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-6">Availability Management</h1>
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-          <div className="flex">
-            <div className="flex-shrink-0">
+      <div className=&quot;p-6&quot;>
+        <h1 className=&quot;text-2xl font-bold mb-6&quot;>Availability Management</h1>
+        <div className=&quot;bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded&quot;>
+          <div className=&quot;flex&quot;>
+            <div className=&quot;flex-shrink-0&quot;>
               <svg
-                className="h-5 w-5 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                className=&quot;h-5 w-5 text-yellow-400&quot;
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                viewBox=&quot;0 0 20 20&quot;
+                fill=&quot;currentColor&quot;
               >
                 <path
-                  fillRule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
+                  fillRule=&quot;evenodd&quot;
+                  d=&quot;M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z&quot;
+                  clipRule=&quot;evenodd&quot;
                 />
               </svg>
             </div>
-            <div className="ml-3">
-              <p className="text-sm text-yellow-700">
+            <div className=&quot;ml-3&quot;>
+              <p className=&quot;text-sm text-yellow-700&quot;>
                 Please sign in to view and manage your availability.
               </p>
             </div>
@@ -334,33 +334,33 @@ export default function StandaloneAvailabilityPage() {
   }
 
   return (
-    <div className="p-6 w-full">
-      <h1 className="text-2xl font-bold mb-6">
+    <div className=&quot;p-6 w-full&quot;>
+      <h1 className=&quot;text-2xl font-bold mb-6&quot;>
         Availability Management (Simplified View)
       </h1>
 
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded">
-          <div className="flex">
-            <div className="flex-shrink-0">
+        <div className=&quot;bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded&quot;>
+          <div className=&quot;flex&quot;>
+            <div className=&quot;flex-shrink-0&quot;>
               <svg
-                className="h-5 w-5 text-red-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                className=&quot;h-5 w-5 text-red-400&quot;
+                xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                viewBox=&quot;0 0 20 20&quot;
+                fill=&quot;currentColor&quot;
               >
                 <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
+                  fillRule=&quot;evenodd&quot;
+                  d=&quot;M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z&quot;
+                  clipRule=&quot;evenodd&quot;
                 />
               </svg>
             </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+            <div className=&quot;ml-3&quot;>
+              <p className=&quot;text-sm text-red-700&quot;>{error}</p>
               <button
                 onClick={() => fetchAvailability()}
-                className="mt-2 text-sm text-red-700 underline font-medium hover:text-red-600"
+                className=&quot;mt-2 text-sm text-red-700 underline font-medium hover:text-red-600&quot;
               >
                 Try again
               </button>
@@ -370,13 +370,13 @@ export default function StandaloneAvailabilityPage() {
       )}
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+        <div className=&quot;flex justify-center items-center h-64&quot;>
+          <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500&quot;></div>
         </div>
       ) : (
-        <div className="w-full">
-          <div className="mb-6 border-b">
-            <div className="flex space-x-4">
+        <div className=&quot;w-full&quot;>
+          <div className=&quot;mb-6 border-b&quot;>
+            <div className=&quot;flex space-x-4&quot;>
               <button
                 className={`pb-2 px-2 border-b-2 border-teal-600 font-semibold text-teal-600`}
               >
@@ -385,50 +385,50 @@ export default function StandaloneAvailabilityPage() {
             </div>
           </div>
 
-          <p className="mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded text-blue-700">
-            Due to technical issues, we're showing a simplified view of your
+          <p className=&quot;mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded text-blue-700&quot;>
+            Due to technical issues, we&apos;re showing a simplified view of your
             availability. To add, edit, or manage your availability blocks,
             please use the Calendar tab.
           </p>
 
           <div>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-              <div className="flex items-center">
-                <h2 className="text-lg font-semibold">
+            <div className=&quot;flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4&quot;>
+              <div className=&quot;flex items-center&quot;>
+                <h2 className=&quot;text-lg font-semibold&quot;>
                   My Availability Blocks
                 </h2>
-                <div className="ml-4">
+                <div className=&quot;ml-4&quot;>
                   <ThemeToggle />
                 </div>
               </div>
 
-              <div className="mt-2 sm:mt-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+              <div className=&quot;mt-2 sm:mt-0 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto&quot;>
                 {/* Search input */}
-                <div className="relative">
+                <div className=&quot;relative&quot;>
                   <input
-                    type="text"
-                    placeholder="Search availability..."
+                    type=&quot;text&quot;
+                    placeholder=&quot;Search availability...&quot;
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                    className=&quot;w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white&quot;
                   />
                   {searchQuery && (
                     <button
-                      onClick={() => setSearchQuery("")}
-                      className="absolute right-2 top-2.5 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
+                      onClick={() => setSearchQuery(&quot;&quot;)}
+                      className=&quot;absolute right-2 top-2.5 text-gray-400 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-100&quot;
                     >
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+                        xmlns=&quot;http://www.w3.org/2000/svg&quot;
+                        className=&quot;h-4 w-4&quot;
+                        fill=&quot;none&quot;
+                        viewBox=&quot;0 0 24 24&quot;
+                        stroke=&quot;currentColor&quot;
                       >
                         <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                          strokeLinecap=&quot;round&quot;
+                          strokeLinejoin=&quot;round&quot;
                           strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
+                          d=&quot;M6 18L18 6M6 6l12 12&quot;
                         />
                       </svg>
                     </button>
@@ -439,42 +439,42 @@ export default function StandaloneAvailabilityPage() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
+                  className=&quot;px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white&quot;
                 >
-                  <option value="all">All Statuses</option>
-                  <option value="available">Available</option>
-                  <option value="unavailable">Unavailable</option>
-                  <option value="tentative">Tentative</option>
+                  <option value=&quot;all&quot;>All Statuses</option>
+                  <option value=&quot;available&quot;>Available</option>
+                  <option value=&quot;unavailable&quot;>Unavailable</option>
+                  <option value=&quot;tentative&quot;>Tentative</option>
                 </select>
               </div>
             </div>
 
             {/* Blocks table */}
             {isLoading ? (
-              <div className="flex justify-center items-center h-20">
-                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-teal-500"></div>
+              <div className=&quot;flex justify-center items-center h-20&quot;>
+                <div className=&quot;animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-teal-500&quot;></div>
               </div>
             ) : filteredBlocks.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse dark:border-gray-700">
+              <div className=&quot;overflow-x-auto&quot;>
+                <table className=&quot;w-full border-collapse dark:border-gray-700&quot;>
                   <thead>
-                    <tr className="bg-gray-100 dark:bg-gray-800">
-                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
+                    <tr className=&quot;bg-gray-100 dark:bg-gray-800&quot;>
+                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
                         Title
                       </th>
-                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
+                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
                         Start Date
                       </th>
-                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
+                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
                         End Date
                       </th>
-                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
+                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
                         Status
                       </th>
-                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
+                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
                         Recurring
                       </th>
-                      <th className="p-2 text-left border dark:border-gray-700 dark:text-gray-200">
+                      <th className=&quot;p-2 text-left border dark:border-gray-700 dark:text-gray-200&quot;>
                         Actions
                       </th>
                     </tr>
@@ -483,55 +483,55 @@ export default function StandaloneAvailabilityPage() {
                     {filteredBlocks.map((block) => (
                       <tr
                         key={block.id}
-                        className="border-b hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-white"
+                        className=&quot;border-b hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-white&quot;
                       >
-                        <td className="p-2 border dark:border-gray-700">
-                          {block.title || "Untitled"}
+                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
+                          {block.title || &quot;Untitled&quot;}
                         </td>
-                        <td className="p-2 border dark:border-gray-700">
+                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
                           {block.startDate instanceof Date
-                            ? format(block.startDate, "MMM dd, yyyy h:mm a")
+                            ? format(block.startDate, &quot;MMM dd, yyyy h:mm a&quot;)
                             : format(
                                 new Date(block.startDate),
-                                "MMM dd, yyyy h:mm a",
+                                &quot;MMM dd, yyyy h:mm a&quot;,
                               )}
                         </td>
-                        <td className="p-2 border dark:border-gray-700">
+                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
                           {block.endDate instanceof Date
-                            ? format(block.endDate, "MMM dd, yyyy h:mm a")
+                            ? format(block.endDate, &quot;MMM dd, yyyy h:mm a&quot;)
                             : format(
                                 new Date(block.endDate),
-                                "MMM dd, yyyy h:mm a",
+                                &quot;MMM dd, yyyy h:mm a&quot;,
                               )}
                         </td>
-                        <td className="p-2 border dark:border-gray-700">
+                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                             ${
-                              block.status === "available"
-                                ? "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
-                                : block.status === "unavailable"
-                                  ? "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100"
-                                  : "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100"
+                              block.status === &quot;available&quot;
+                                ? &quot;bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100&quot;
+                                : block.status === &quot;unavailable&quot;
+                                  ? &quot;bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100&quot;
+                                  : &quot;bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100&quot;
                             }`}
                           >
                             {block.status.charAt(0).toUpperCase() +
                               block.status.slice(1)}
                           </span>
                         </td>
-                        <td className="p-2 border dark:border-gray-700">
+                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
                           {block.isRecurring ? (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
+                            <span className=&quot;inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100&quot;>
                               Weekly
                             </span>
                           ) : (
-                            "No"
+                            &quot;No&quot;
                           )}
                         </td>
-                        <td className="p-2 border dark:border-gray-700">
-                          <div className="flex space-x-2">
+                        <td className=&quot;p-2 border dark:border-gray-700&quot;>
+                          <div className=&quot;flex space-x-2&quot;>
                             <button
-                              className="text-red-500 hover:text-red-700 font-medium dark:text-red-400 dark:hover:text-red-300"
+                              className=&quot;text-red-500 hover:text-red-700 font-medium dark:text-red-400 dark:hover:text-red-300&quot;
                               onClick={() => handleDeleteBlock(block.id)}
                             >
                               Delete
@@ -544,36 +544,36 @@ export default function StandaloneAvailabilityPage() {
                 </table>
               </div>
             ) : (
-              <div className="text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div className=&quot;text-center py-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700&quot;>
                 <svg
-                  className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className=&quot;mx-auto h-12 w-12 text-gray-400 dark:text-gray-500&quot;
+                  fill=&quot;none&quot;
+                  stroke=&quot;currentColor&quot;
+                  viewBox=&quot;0 0 24 24&quot;
+                  xmlns=&quot;http://www.w3.org/2000/svg&quot;
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    strokeLinecap=&quot;round&quot;
+                    strokeLinejoin=&quot;round&quot;
                     strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    d=&quot;M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z&quot;
                   />
                 </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
+                <h3 className=&quot;mt-2 text-sm font-medium text-gray-900 dark:text-white&quot;>
                   No availability blocks found
                 </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  {searchQuery || statusFilter !== "all"
-                    ? "Try adjusting your search or filter criteria."
-                    : "Add some using the Calendar view."}
+                <p className=&quot;mt-1 text-sm text-gray-500 dark:text-gray-400&quot;>
+                  {searchQuery || statusFilter !== &quot;all&quot;
+                    ? &quot;Try adjusting your search or filter criteria.&quot;
+                    : &quot;Add some using the Calendar view.&quot;}
                 </p>
-                {(searchQuery || statusFilter !== "all") && (
+                {(searchQuery || statusFilter !== &quot;all&quot;) && (
                   <button
                     onClick={() => {
-                      setSearchQuery("");
-                      setStatusFilter("all");
+                      setSearchQuery(&quot;&quot;);
+                      setStatusFilter(&quot;all&quot;);
                     }}
-                    className="mt-3 text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
+                    className=&quot;mt-3 text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
                   >
                     Clear filters
                   </button>

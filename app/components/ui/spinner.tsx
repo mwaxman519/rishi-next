@@ -1,26 +1,26 @@
-import { Loader2 } from "lucide-react";
-import { cn } from "../../lib/utils";
+import { Loader2 } from &quot;lucide-react&quot;;
+import { cn } from &quot;../../lib/utils&quot;;
 
 interface LoadingSpinnerProps {
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: &quot;sm&quot; | &quot;md&quot; | &quot;lg&quot; | &quot;xl&quot;;
   className?: string;
 }
 
 const sizeClasses = {
-  sm: "h-4 w-4",
-  md: "h-6 w-6",
-  lg: "h-8 w-8",
-  xl: "h-12 w-12",
+  sm: &quot;h-4 w-4&quot;,
+  md: &quot;h-6 w-6&quot;,
+  lg: &quot;h-8 w-8&quot;,
+  xl: &quot;h-12 w-12&quot;,
 };
 
 export function LoadingSpinner({
-  size = "md",
+  size = &quot;md&quot;,
   className,
 }: LoadingSpinnerProps) {
   return (
     <Loader2
       className={cn(
-        "animate-spin text-muted-foreground",
+        &quot;animate-spin text-muted-foreground&quot;,
         sizeClasses[size],
         className,
       )}

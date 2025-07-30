@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getCurrentUser } from "@/lib/auth-server";
-import { db } from "@/lib/db";
-import { locations } from "@shared/schema";
-import { count } from "drizzle-orm";
+import { getCurrentUser } from &quot;@/lib/auth-server&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@shared/schema&quot;;
+import { count } from &quot;drizzle-orm&quot;;
 
 /**
  * GET /api/locations/states
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json(
-        { error: "Authentication required" },
+        { error: &quot;Authentication required&quot; },
         { status: 401 },
       );
     }
@@ -38,9 +38,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ states });
   } catch (error) {
-    console.error("Error retrieving states:", error);
+    console.error(&quot;Error retrieving states:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to retrieve states" },
+      { error: &quot;Failed to retrieve states&quot; },
       { status: 500 },
     );
   }

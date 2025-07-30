@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { getDocumentByPath, getDocTree } from "@/lib/docs";
+import { getDocumentByPath, getDocTree } from &quot;@/lib/docs&quot;;
 
 // Cache duration in seconds
 const CACHE_MAX_AGE = 86400; // 24 hours
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   try {
     // Extract the document path from the URL
     const searchParams = new URL(request.url).searchParams;
-    const docPath = (searchParams.get("path") || undefined) || "";
+    const docPath = (searchParams.get(&quot;path&quot;) || undefined) || "&quot;;
 
     console.log(`[DOCS CACHE API] Requesting cached document: ${docPath}`);
 
@@ -29,8 +29,8 @@ export async function GET(request: NextRequest) {
         { tree },
         {
           headers: {
-            "Cache-Control": `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${STALE_WHILE_REVALIDATE}`,
-            "Content-Type": "application/json",
+            &quot;Cache-Control&quot;: `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${STALE_WHILE_REVALIDATE}`,
+            &quot;Content-Type&quot;: &quot;application/json&quot;,
           },
         },
       );
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     if (!doc) {
       console.log(`[DOCS CACHE API] Document not found: ${docPath}`);
       return NextResponse.json(
-        { error: "Document not found" },
+        { error: &quot;Document not found&quot; },
         { status: 404 },
       );
     }
@@ -50,26 +50,26 @@ export async function GET(request: NextRequest) {
     // Serialize the content for JSON response
     const response = {
       title: doc.metadata.title,
-      description: doc.metadata.description || "",
+      description: doc.metadata.description || &quot;&quot;,
       tags: doc.metadata.tags || [],
       lastUpdated: doc.lastModified
         ? doc.lastModified.toISOString()
         : null,
-      // We can't include the actual content as it's a React node
+      // We can&apos;t include the actual content as it&apos;s a React node
       // But we include the metadata to help with prefetching
     };
 
     // Create response with cache control headers
     return NextResponse.json(response, {
       headers: {
-        "Cache-Control": `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${STALE_WHILE_REVALIDATE}`,
-        "Content-Type": "application/json",
+        &quot;Cache-Control&quot;: `public, max-age=${CACHE_MAX_AGE}, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${STALE_WHILE_REVALIDATE}`,
+        &quot;Content-Type&quot;: &quot;application/json&quot;,
       },
     });
   } catch (error) {
-    console.error("[DOCS CACHE API] Error serving cached document:", error);
+    console.error(&quot;[DOCS CACHE API] Error serving cached document:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to fetch document" },
+      { error: &quot;Failed to fetch document" },
       { status: 500 },
     );
   }

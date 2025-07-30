@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect, useRef, useState } from "react";
-import { Loader } from "@googlemaps/js-api-loader";
-import { Input } from "@/components/ui/input";
+import { useEffect, useRef, useState } from &quot;react&quot;;
+import { Loader } from &quot;@googlemaps/js-api-loader&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
 
 interface GooglePlacesAutocompleteProps {
   apiKey: string;
@@ -17,8 +17,8 @@ interface GooglePlacesAutocompleteProps {
 export function GooglePlacesAutocomplete({
   apiKey,
   onPlaceSelect,
-  placeholder = "Search for a place...",
-  className = "",
+  placeholder = &quot;Search for a place...&quot;,
+  className = "&quot;,
 }: GooglePlacesAutocompleteProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -28,18 +28,18 @@ export function GooglePlacesAutocomplete({
   useEffect(() => {
     const loader = new Loader({
       apiKey,
-      version: "weekly",
-      libraries: ["places"],
+      version: &quot;weekly&quot;,
+      libraries: [&quot;places&quot;],
     });
 
     loader
       .load()
       .then(() => {
-        console.log("Google Maps Places API loaded");
+        console.log(&quot;Google Maps Places API loaded&quot;);
         setIsLoaded(true);
       })
       .catch((err) => {
-        console.error("Error loading Google Maps Places API:", err);
+        console.error(&quot;Error loading Google Maps Places API:&quot;, err);
       });
   }, [apiKey]);
 
@@ -48,19 +48,19 @@ export function GooglePlacesAutocomplete({
     if (!isLoaded || !inputRef.current) return;
 
     try {
-      console.log("Initializing Places Autocomplete");
+      console.log(&quot;Initializing Places Autocomplete&quot;);
 
       // Initialize the autocomplete
       const autocomplete = new google.maps.places.Autocomplete(
         inputRef.current,
         {
           fields: [
-            "address_components",
-            "geometry",
-            "name",
-            "formatted_address",
+            &quot;address_components&quot;,
+            &quot;geometry&quot;,
+            &quot;name&quot;,
+            &quot;formatted_address&quot;,
           ],
-          types: ["establishment", "geocode"],
+          types: [&quot;establishment&quot;, &quot;geocode&quot;],
         },
       );
 
@@ -68,18 +68,18 @@ export function GooglePlacesAutocomplete({
       autocompleteRef.current = autocomplete;
 
       // Add listener for place selection
-      autocomplete.addListener("place_changed", () => {
+      autocomplete.addListener(&quot;place_changed&quot;, () => {
         const place = autocomplete.getPlace();
-        console.log("Place selected:", place);
+        console.log(&quot;Place selected:&quot;, place);
 
         if (onPlaceSelect && place) {
           onPlaceSelect(place);
         }
       });
 
-      console.log("Places Autocomplete initialized successfully");
+      console.log(&quot;Places Autocomplete initialized successfully&quot;);
     } catch (error) {
-      console.error("Error initializing Places Autocomplete:", error);
+      console.error(&quot;Error initializing Places Autocomplete:&quot;, error);
     }
 
     // Cleanup
@@ -95,13 +95,13 @@ export function GooglePlacesAutocomplete({
     <div className={`relative ${className}`}>
       <Input
         ref={inputRef}
-        type="text"
+        type=&quot;text&quot;
         placeholder={placeholder}
-        className="w-full bg-gray-800 border-gray-700 text-white"
+        className=&quot;w-full bg-gray-800 border-gray-700 text-white&quot;
         disabled={!isLoaded}
       />
       {!isLoaded && (
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
+        <div className=&quot;absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
           Loading...
         </div>
       )}

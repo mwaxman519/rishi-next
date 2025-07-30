@@ -1,6 +1,6 @@
-import { db } from "../../lib/db";
-import { users } from "../../../shared/schema";
-import { eq } from "drizzle-orm";
+import { db } from &quot;../../lib/db&quot;;
+import { users } from &quot;../../../shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
 
 /**
  * User repository functions for database operations

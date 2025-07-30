@@ -3,10 +3,10 @@
  * Phase 3: Comprehensive time tracking with geolocation verification
  */
 
-import { db } from "../../db";
-import { systemEvents } from "@shared/schema";
-import { eq, and, gte, lte, desc, isNull } from "drizzle-orm";
-import type { InsertTimeEntry } from "../../../shared/schema";
+import { db } from &quot;../../db&quot;;
+import { systemEvents } from &quot;@shared/schema&quot;;
+import { eq, and, gte, lte, desc, isNull } from &quot;drizzle-orm&quot;;
+import type { InsertTimeEntry } from &quot;../../../shared/schema&quot;;
 
 export interface TimeEntryFilters {
   organizationId: string;
@@ -62,7 +62,7 @@ export class TimeTrackingService {
     // This method is for compatibility with SimpleTimeTrackingService
     // In the new service, data comes from the database
     console.log(
-      "TimeTrackingService: Sample data initialization (database-backed)",
+      &quot;TimeTrackingService: Sample data initialization (database-backed)&quot;,
     );
   }
 
@@ -107,7 +107,7 @@ export class TimeTrackingService {
         .limit(1);
 
       if (existingEntry.length > 0) {
-        throw new Error("Agent is already clocked in. Please clock out first.");
+        throw new Error(&quot;Agent is already clocked in. Please clock out first.&quot;);
       }
 
       // Validate shift assignment if shiftId provided
@@ -124,7 +124,7 @@ export class TimeTrackingService {
           .limit(1);
 
         if (assignment.length === 0) {
-          throw new Error("Agent is not assigned to this shift");
+          throw new Error(&quot;Agent is not assigned to this shift&quot;);
         }
       }
 
@@ -138,7 +138,7 @@ export class TimeTrackingService {
           locationIn: fullClockInData.location
             ? JSON.stringify(fullClockInData.location)
             : null,
-          status: "active",
+          status: &quot;active&quot;,
           notes: fullClockInData.notes,
         })
         .returning();
@@ -149,7 +149,7 @@ export class TimeTrackingService {
           .update(shiftAssignments)
           .set({
             checkedInAt: new Date(),
-            assignmentStatus: "checked_in",
+            assignmentStatus: &quot;checked_in&quot;,
           })
           .where(
             and(
@@ -161,7 +161,7 @@ export class TimeTrackingService {
 
       return timeEntry;
     } catch (error) {
-      console.error("Error clocking in:", error);
+      console.error(&quot;Error clocking in:&quot;, error);
       throw error;
     }
   }
@@ -187,11 +187,11 @@ export class TimeTrackingService {
         .limit(1);
 
       if (!existingEntry) {
-        throw new Error("Time entry not found");
+        throw new Error(&quot;Time entry not found&quot;);
       }
 
       if (existingEntry.clockOutTime) {
-        throw new Error("Agent is already clocked out");
+        throw new Error(&quot;Agent is already clocked out&quot;);
       }
 
       const clockOutTime = new Date();
@@ -223,7 +223,7 @@ export class TimeTrackingService {
           locationOut: clockOutData?.location
             ? JSON.stringify(clockOutData.location)
             : null,
-          status: "completed",
+          status: &quot;completed&quot;,
           notes: clockOutData?.notes || existingEntry.notes,
           modifiedAt: new Date(),
         })
@@ -237,7 +237,7 @@ export class TimeTrackingService {
           .set({
             checkedOutAt: clockOutTime,
             actualHours: totalHours.toString(),
-            assignmentStatus: "completed",
+            assignmentStatus: &quot;completed&quot;,
           })
           .where(
             and(
@@ -249,7 +249,7 @@ export class TimeTrackingService {
 
       return updatedEntry;
     } catch (error) {
-      console.error("Error clocking out:", error);
+      console.error(&quot;Error clocking out:&quot;, error);
       throw error;
     }
   }
@@ -307,7 +307,7 @@ export class TimeTrackingService {
         event: item.event,
       }));
     } catch (error) {
-      console.error("Error getting time entries:", error);
+      console.error(&quot;Error getting time entries:&quot;, error);
       throw error;
     }
   }
@@ -344,7 +344,7 @@ export class TimeTrackingService {
         event: result.event,
       };
     } catch (error) {
-      console.error("Error getting current time entry:", error);
+      console.error(&quot;Error getting current time entry:&quot;, error);
       throw error;
     }
   }
@@ -359,11 +359,11 @@ export class TimeTrackingService {
   ): Promise<TimesheetData> {
     try {
       const entries = await this.getTimeEntries({
-        organizationId: "", // Will be filtered by agent
+        organizationId: "&quot;, // Will be filtered by agent
         agentId,
         startDate,
         endDate,
-        status: "completed",
+        status: &quot;completed&quot;,
       });
 
       const totalHours = entries.reduce((sum, entry) => {
@@ -381,10 +381,10 @@ export class TimeTrackingService {
         timeEntries: entries,
         totalHours: Number(totalHours.toFixed(2)),
         totalPay: Number(totalPay.toFixed(2)),
-        status: "generated",
+        status: &quot;generated&quot;,
       };
     } catch (error) {
-      console.error("Error generating timesheet:", error);
+      console.error(&quot;Error generating timesheet:&quot;, error);
       throw error;
     }
   }
@@ -409,12 +409,12 @@ export class TimeTrackingService {
         .returning();
 
       if (!updatedEntry) {
-        throw new Error("Time entry not found");
+        throw new Error(&quot;Time entry not found&quot;);
       }
 
       return updatedEntry;
     } catch (error) {
-      console.error("Error updating time entry:", error);
+      console.error(&quot;Error updating time entry:&quot;, error);
       throw error;
     }
   }
@@ -450,7 +450,7 @@ export class TimeTrackingService {
         ...(lastClockOut && { lastClockOut }),
       };
     } catch (error) {
-      console.error("Error getting agent status:", error);
+      console.error(&quot;Error getting agent status:&quot;, error);
       throw error;
     }
   }
@@ -464,7 +464,7 @@ export class TimeTrackingService {
   ): Promise<{ valid: boolean; distance?: number; message?: string }> {
     try {
       if (!shiftId) {
-        return { valid: true, message: "No location validation required" };
+        return { valid: true, message: &quot;No location validation required&quot; };
       }
 
       // Get shift location
@@ -484,7 +484,7 @@ export class TimeTrackingService {
       if (!shift || !shift.location) {
         return {
           valid: true,
-          message: "No shift location to validate against",
+          message: &quot;No shift location to validate against&quot;,
         };
       }
 
@@ -494,13 +494,13 @@ export class TimeTrackingService {
       return {
         valid: true,
         distance: 0,
-        message: "Location validated successfully",
+        message: &quot;Location validated successfully&quot;,
       };
     } catch (error) {
-      console.error("Error validating location:", error);
+      console.error(&quot;Error validating location:&quot;, error);
       return {
         valid: false,
-        message: "Location validation failed",
+        message: &quot;Location validation failed&quot;,
       };
     }
   }
@@ -524,7 +524,7 @@ export class TimeTrackingService {
         organizationId,
         startDate,
         endDate,
-        status: "completed",
+        status: &quot;completed&quot;,
       });
 
       const totalHours = entries.reduce((sum, entry) => {
@@ -561,7 +561,7 @@ export class TimeTrackingService {
         attendanceRate: 100, // Simplified calculation
       };
     } catch (error) {
-      console.error("Error getting analytics:", error);
+      console.error(&quot;Error getting analytics:", error);
       throw error;
     }
   }

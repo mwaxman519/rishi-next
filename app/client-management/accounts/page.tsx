@@ -1,6 +1,6 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from &quot;react&quot;;
 import {
   Building,
   Plus,
@@ -9,7 +9,7 @@ import {
   Edit,
   Trash2,
   Settings,
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 import {
   Card,
   CardContent,
@@ -17,9 +17,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../components/ui/card";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
+} from &quot;../../components/ui/card&quot;;
+import { Button } from &quot;../../components/ui/button&quot;;
+import { Input } from &quot;../../components/ui/input&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +27,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
+} from &quot;../../components/ui/dropdown-menu&quot;;
 import {
   Table,
   TableBody,
@@ -36,14 +36,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { Badge } from "../../components/ui/badge";
-import { useAuthorization } from "@/hooks/useAuthorization";
+} from &quot;../../components/ui/table&quot;;
+import { Badge } from &quot;../../components/ui/badge&quot;;
+import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
 
 // Mock data for client accounts
 
 export default function ClientAccountsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("&quot;);
   const { checkPermission } = useAuthorization();
 
   // Filter clients based on search query
@@ -78,127 +78,127 @@ export default function ClientAccountsPage() {
   // Function to get status badge color
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case "active":
+      case &quot;active&quot;:
         return (
           <Badge
-            variant="outline"
-            className="bg-green-50 text-green-700 border-green-200"
+            variant=&quot;outline&quot;
+            className=&quot;bg-green-50 text-green-700 border-green-200&quot;
           >
             Active
           </Badge>
         );
-      case "inactive":
+      case &quot;inactive&quot;:
         return (
           <Badge
-            variant="outline"
-            className="bg-gray-50 text-gray-700 border-gray-200"
+            variant=&quot;outline&quot;
+            className=&quot;bg-gray-50 text-gray-700 border-gray-200&quot;
           >
             Inactive
           </Badge>
         );
-      case "pending":
+      case &quot;pending&quot;:
         return (
           <Badge
-            variant="outline"
-            className="bg-yellow-50 text-yellow-700 border-yellow-200"
+            variant=&quot;outline&quot;
+            className=&quot;bg-yellow-50 text-yellow-700 border-yellow-200&quot;
           >
             Pending
           </Badge>
         );
       default:
-        return <Badge variant="outline">{status}</Badge>;
+        return <Badge variant=&quot;outline&quot;>{status}</Badge>;
     }
   };
 
   // Function to get tier badge color
   const getTierBadge = (tier: string) => {
     switch (tier.toLowerCase()) {
-      case "tier 1":
+      case &quot;tier 1&quot;:
         return (
           <Badge
-            variant="outline"
-            className="bg-blue-50 text-blue-700 border-blue-200"
+            variant=&quot;outline&quot;
+            className=&quot;bg-blue-50 text-blue-700 border-blue-200&quot;
           >
             Tier 1
           </Badge>
         );
-      case "tier 2":
+      case &quot;tier 2&quot;:
         return (
           <Badge
-            variant="outline"
-            className="bg-purple-50 text-purple-700 border-purple-200"
+            variant=&quot;outline&quot;
+            className=&quot;bg-purple-50 text-purple-700 border-purple-200&quot;
           >
             Tier 2
           </Badge>
         );
-      case "tier 3":
+      case &quot;tier 3&quot;:
         return (
           <Badge
-            variant="outline"
-            className="bg-teal-50 text-teal-700 border-teal-200"
+            variant=&quot;outline&quot;
+            className=&quot;bg-teal-50 text-teal-700 border-teal-200&quot;
           >
             Tier 3
           </Badge>
         );
       default:
-        return <Badge variant="outline">{tier}</Badge>;
+        return <Badge variant=&quot;outline&quot;>{tier}</Badge>;
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+    <div className=&quot;container mx-auto px-4 py-8&quot;>
+      <div className=&quot;flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4&quot;>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className=&quot;text-3xl font-bold text-gray-900 dark:text-white&quot;>
             Client Accounts
           </h1>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
+          <p className=&quot;mt-1 text-gray-600 dark:text-gray-400&quot;>
             Manage client organizations and their settings
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+        <div className=&quot;flex flex-col sm:flex-row gap-3&quot;>
+          <div className=&quot;relative&quot;>
+            <Search className=&quot;absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
             <Input
-              type="search"
-              placeholder="Search clients..."
-              className="pl-8 w-full sm:w-[250px]"
+              type=&quot;search&quot;
+              placeholder=&quot;Search clients...&quot;
+              className=&quot;pl-8 w-full sm:w-[250px]&quot;
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           <Button
-            className="flex items-center gap-1"
-            disabled={!checkPermission("create:client-accounts")}
+            className=&quot;flex items-center gap-1&quot;
+            disabled={!checkPermission(&quot;create:client-accounts&quot;)}
           >
-            <Plus className="h-4 w-4" /> Add Client
+            <Plus className=&quot;h-4 w-4&quot; /> Add Client
           </Button>
         </div>
       </div>
 
       <Card>
-        <CardContent className="p-0">
+        <CardContent className=&quot;p-0&quot;>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[300px]">Client Name</TableHead>
+                <TableHead className=&quot;w-[300px]&quot;>Client Name</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Tier</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Created</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className=&quot;text-right&quot;>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredClients.length > 0 ? (
                 filteredClients.map((client) => (
                   <TableRow key={client.id}>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-md flex items-center justify-center mr-3">
-                          <Building className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                    <TableCell className=&quot;font-medium&quot;>
+                      <div className=&quot;flex items-center&quot;>
+                        <div className=&quot;flex-shrink-0 h-8 w-8 bg-gray-100 dark:bg-gray-700 rounded-md flex items-center justify-center mr-3&quot;>
+                          <Building className=&quot;h-4 w-4 text-gray-500 dark:text-gray-400&quot; />
                         </div>
                         {client.name}
                       </div>
@@ -207,39 +207,39 @@ export default function ClientAccountsPage() {
                     <TableCell>{getTierBadge(client.tier)}</TableCell>
                     <TableCell>{getStatusBadge(client.status)}</TableCell>
                     <TableCell>{client.dateCreated}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className=&quot;text-right&quot;>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreVertical className="h-4 w-4" />
-                            <span className="sr-only">Actions</span>
+                          <Button variant=&quot;ghost&quot; size=&quot;icon&quot;>
+                            <MoreVertical className=&quot;h-4 w-4&quot; />
+                            <span className=&quot;sr-only&quot;>Actions</span>
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+                        <DropdownMenuContent align=&quot;end&quot;>
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                            className="cursor-pointer"
-                            disabled={!checkPermission("edit:client-accounts")}
+                            className=&quot;cursor-pointer&quot;
+                            disabled={!checkPermission(&quot;edit:client-accounts&quot;)}
                           >
-                            <Edit className="h-4 w-4 mr-2" /> Edit
+                            <Edit className=&quot;h-4 w-4 mr-2&quot; /> Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            className="cursor-pointer"
+                            className=&quot;cursor-pointer&quot;
                             disabled={
-                              !checkPermission("manage:client-settings")
+                              !checkPermission(&quot;manage:client-settings&quot;)
                             }
                           >
-                            <Settings className="h-4 w-4 mr-2" /> Settings
+                            <Settings className=&quot;h-4 w-4 mr-2&quot; /> Settings
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
-                            className="cursor-pointer text-red-600"
+                            className=&quot;cursor-pointer text-red-600&quot;
                             disabled={
-                              !checkPermission("delete:client-accounts")
+                              !checkPermission(&quot;delete:client-accounts&quot;)
                             }
                           >
-                            <Trash2 className="h-4 w-4 mr-2" /> Delete
+                            <Trash2 className=&quot;h-4 w-4 mr-2&quot; /> Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -250,7 +250,7 @@ export default function ClientAccountsPage() {
                 <TableRow>
                   <TableCell
                     colSpan={6}
-                    className="text-center py-8 text-gray-500 dark:text-gray-400"
+                    className=&quot;text-center py-8 text-gray-500 dark:text-gray-400"
                   >
                     No client accounts found
                   </TableCell>

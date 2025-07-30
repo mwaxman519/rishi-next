@@ -1,7 +1,7 @@
-import { LocationRepository } from "./repository";
-import { LocationsService } from "./locationsService";
+import { LocationRepository } from &quot;./repository&quot;;
+import { LocationsService } from &quot;./locationsService&quot;;
 
-export * from "./models";
+export * from &quot;./models&quot;;
 
 const locationRepository = new LocationRepository();
 export const locationsService = new LocationsService(locationRepository);

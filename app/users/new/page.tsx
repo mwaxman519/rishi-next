@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthorization } from "@/hooks/useAuthorization";
-import SidebarLayout from "@/components/SidebarLayout";
-import { useToast } from "@/hooks/use-toast";
-import { USER_ROLES } from "@shared/schema";
-import Link from "next/link";
+import { useState } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+import SidebarLayout from &quot;@/components/SidebarLayout&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { USER_ROLES } from &quot;@shared/schema&quot;;
+import Link from &quot;next/link&quot;;
 
 export default function NewUserPage() {
   const router = useRouter();
@@ -16,13 +16,13 @@ export default function NewUserPage() {
   const { checkPermission } = useAuthorization();
 
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    fullName: "",
-    email: "",
-    phone: "",
+    username: "&quot;,
+    password: &quot;&quot;,
+    fullName: &quot;&quot;,
+    email: &quot;&quot;,
+    phone: &quot;&quot;,
     role: USER_ROLES.BRAND_AGENT,
-    profileImage: "",
+    profileImage: &quot;&quot;,
     active: true,
   });
 
@@ -33,12 +33,12 @@ export default function NewUserPage() {
   if (!user) {
     return (
       <SidebarLayout>
-        <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        <div className=&quot;p-6&quot;>
+          <h1 className=&quot;text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100&quot;>
             Add New User
           </h1>
-          <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded">
-            <p className="text-red-700 dark:text-red-300">
+          <div className=&quot;bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded&quot;>
+            <p className=&quot;text-red-700 dark:text-red-300&quot;>
               You need to be logged in to view this page.
             </p>
           </div>
@@ -47,16 +47,16 @@ export default function NewUserPage() {
     );
   }
 
-  if (!checkPermission("create:users")) {
+  if (!checkPermission(&quot;create:users&quot;)) {
     return (
       <SidebarLayout>
-        <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        <div className=&quot;p-6&quot;>
+          <h1 className=&quot;text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100&quot;>
             Add New User
           </h1>
-          <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded">
-            <p className="text-red-700 dark:text-red-300">
-              You don't have permission to create users.
+          <div className=&quot;bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded&quot;>
+            <p className=&quot;text-red-700 dark:text-red-300&quot;>
+              You don&apos;t have permission to create users.
             </p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function NewUserPage() {
     setFormData((prev) => ({
       ...prev,
       [name]:
-        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+        type === &quot;checkbox&quot; ? (e.target as HTMLInputElement).checked : value,
     }));
   };
 
@@ -82,12 +82,12 @@ export default function NewUserPage() {
     setError(null);
 
     try {
-      console.log("Submitting user data:", formData);
+      console.log(&quot;Submitting user data:&quot;, formData);
 
-      const response = await fetch("/api/users", {
-        method: "POST",
+      const response = await fetch(&quot;/api/users&quot;, {
+        method: &quot;POST&quot;,
         headers: {
-          "Content-Type": "application/json",
+          &quot;Content-Type&quot;: &quot;application/json&quot;,
         },
         body: JSON.stringify(formData),
         // We no longer need to pass the auth token since we've bypassed authentication
@@ -95,49 +95,49 @@ export default function NewUserPage() {
       });
 
       // Log the raw response for debugging
-      console.log("Response status:", response.status);
+      console.log(&quot;Response status:&quot;, response.status);
       console.log(
-        "Response headers:",
+        &quot;Response headers:&quot;,
         Object.fromEntries([...response.headers.entries()]),
       );
 
       const data = await response.json();
-      console.log("Response data:", data);
+      console.log(&quot;Response data:&quot;, data);
 
       if (!response.ok) {
         if (data.details) {
           // Handle Zod validation errors
-          console.error("Validation errors:", data.details);
+          console.error(&quot;Validation errors:&quot;, data.details);
           const validationErrors = Object.entries(data.details)
             .map(([field, error]) => `${field}: ${JSON.stringify(error)}`)
-            .join(", ");
+            .join(&quot;, &quot;);
           throw new Error(`Validation error: ${validationErrors}`);
         }
         if (!data.error) {
-          throw new Error("Failed to create user - no error details provided");
+          throw new Error(&quot;Failed to create user - no error details provided&quot;);
         }
         throw new Error(data.error);
       }
 
       toast({
-        title: "Success",
-        description: "User created successfully",
-        variant: "default",
+        title: &quot;Success&quot;,
+        description: &quot;User created successfully&quot;,
+        variant: &quot;default&quot;,
       });
 
       // Redirect back to users page
-      router.push("/users");
+      router.push(&quot;/users&quot;);
     } catch (err) {
-      console.error("Error creating user:", err);
+      console.error(&quot;Error creating user:&quot;, err);
       setError(
-        err instanceof Error ? err.message : "An unknown error occurred",
+        err instanceof Error ? err.message : &quot;An unknown error occurred&quot;,
       );
 
       toast({
-        title: "Error",
+        title: &quot;Error&quot;,
         description:
-          err instanceof Error ? err.message : "Failed to create user",
-        variant: "destructive",
+          err instanceof Error ? err.message : &quot;Failed to create user&quot;,
+        variant: &quot;destructive&quot;,
       });
     } finally {
       setIsSubmitting(false);
@@ -146,148 +146,148 @@ export default function NewUserPage() {
 
   return (
     <SidebarLayout>
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+      <div className=&quot;p-6&quot;>
+        <div className=&quot;flex justify-between items-center mb-6&quot;>
+          <h1 className=&quot;text-2xl font-bold text-gray-900 dark:text-gray-100&quot;>
             Add New User
           </h1>
           <Link
-            href="/users"
-            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition"
+            href=&quot;/users&quot;
+            className=&quot;px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition&quot;
           >
             Back to Users
           </Link>
         </div>
 
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded mb-6">
-            <p className="text-red-700 dark:text-red-300">{error}</p>
+          <div className=&quot;bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded mb-6&quot;>
+            <p className=&quot;text-red-700 dark:text-red-300&quot;>{error}</p>
           </div>
         )}
 
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+        <div className=&quot;bg-white dark:bg-gray-800 shadow-md rounded-lg p-6&quot;>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
               {/* Username */}
               <div>
                 <label
-                  htmlFor="username"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;username&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
-                  Username <span className="text-red-500">*</span>
+                  Username <span className=&quot;text-red-500&quot;>*</span>
                 </label>
                 <input
-                  id="username"
-                  name="username"
-                  type="text"
+                  id=&quot;username&quot;
+                  name=&quot;username&quot;
+                  type=&quot;text&quot;
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter username"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter username&quot;
                 />
               </div>
 
               {/* Password */}
               <div>
                 <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;password&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
-                  Password <span className="text-red-500">*</span>
+                  Password <span className=&quot;text-red-500&quot;>*</span>
                 </label>
                 <input
-                  id="password"
-                  name="password"
-                  type="password"
+                  id=&quot;password&quot;
+                  name=&quot;password&quot;
+                  type=&quot;password&quot;
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter password"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter password&quot;
                 />
               </div>
 
               {/* Full Name */}
               <div>
                 <label
-                  htmlFor="fullName"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;fullName&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
                   Full Name
                 </label>
                 <input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
+                  id=&quot;fullName&quot;
+                  name=&quot;fullName&quot;
+                  type=&quot;text&quot;
                   value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter full name"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter full name&quot;
                 />
               </div>
 
               {/* Email */}
               <div>
                 <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;email&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
                   Email
                 </label>
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id=&quot;email&quot;
+                  name=&quot;email&quot;
+                  type=&quot;email&quot;
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter email address"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter email address&quot;
                 />
               </div>
 
               {/* Phone */}
               <div>
                 <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;phone&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
                   Phone
                 </label>
                 <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
+                  id=&quot;phone&quot;
+                  name=&quot;phone&quot;
+                  type=&quot;tel&quot;
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter phone number"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter phone number&quot;
                 />
               </div>
 
               {/* Role */}
               <div>
                 <label
-                  htmlFor="role"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;role&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
-                  Role <span className="text-red-500">*</span>
+                  Role <span className=&quot;text-red-500&quot;>*</span>
                 </label>
                 <select
-                  id="role"
-                  name="role"
+                  id=&quot;role&quot;
+                  name=&quot;role&quot;
                   required
                   value={formData.role}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
                 >
-                  {checkPermission("assign:any_role") && (
+                  {checkPermission(&quot;assign:any_role&quot;) && (
                     <>
                       <option value={USER_ROLES.SUPER_ADMIN}>
                         Super Admin
@@ -317,55 +317,55 @@ export default function NewUserPage() {
               {/* Profile Image URL */}
               <div>
                 <label
-                  htmlFor="profileImage"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  htmlFor=&quot;profileImage&quot;
+                  className=&quot;block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1&quot;
                 >
                   Profile Image URL
                 </label>
                 <input
-                  id="profileImage"
-                  name="profileImage"
-                  type="text"
+                  id=&quot;profileImage&quot;
+                  name=&quot;profileImage&quot;
+                  type=&quot;text&quot;
                   value={formData.profileImage}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
-                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-                  placeholder="Enter profile image URL"
+                  className=&quot;w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 
+                           focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white&quot;
+                  placeholder=&quot;Enter profile image URL&quot;
                 />
               </div>
 
               {/* Active Status */}
-              <div className="flex items-center mt-4">
+              <div className=&quot;flex items-center mt-4&quot;>
                 <input
-                  id="active"
-                  name="active"
-                  type="checkbox"
+                  id=&quot;active&quot;
+                  name=&quot;active&quot;
+                  type=&quot;checkbox&quot;
                   checked={formData.active}
                   onChange={handleChange}
-                  className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                  className=&quot;h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded&quot;
                 />
                 <label
-                  htmlFor="active"
-                  className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+                  htmlFor=&quot;active&quot;
+                  className=&quot;ml-2 block text-sm text-gray-700 dark:text-gray-300&quot;
                 >
                   Active
                 </label>
               </div>
             </div>
 
-            <div className="mt-8 flex justify-end">
+            <div className=&quot;mt-8 flex justify-end&quot;>
               <Link
-                href="/users"
-                className="mr-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition"
+                href=&quot;/users&quot;
+                className=&quot;mr-4 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition&quot;
               >
                 Cancel
               </Link>
               <button
-                type="submit"
+                type=&quot;submit&quot;
                 disabled={isSubmitting}
-                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className=&quot;px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed&quot;
               >
-                {isSubmitting ? "Creating..." : "Create User"}
+                {isSubmitting ? &quot;Creating...&quot; : &quot;Create User"}
               </button>
             </div>
           </form>

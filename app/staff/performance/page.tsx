@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from &quot;react&quot;;
+import { Card, CardContent, CardHeader, CardTitle } from &quot;@/components/ui/card&quot;;
+import { Badge } from &quot;@/components/ui/badge&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
+import { Progress } from &quot;@/components/ui/progress&quot;;
+import { Avatar, AvatarFallback, AvatarImage } from &quot;@/components/ui/avatar&quot;;
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from &quot;@/components/ui/dialog&quot;;
 import { 
   Star, 
   Clock, 
@@ -25,7 +25,7 @@ import {
   Building,
   User,
   ClipboardList
-} from "lucide-react";
+} from &quot;lucide-react&quot;;
 
 interface BrandAgentPerformance {
   id: string;
@@ -46,7 +46,7 @@ interface BrandAgentPerformance {
   recentBookings: number;
   totalBookings: number;
   joinDate: string;
-  status: "active" | "inactive" | "on_leave";
+  status: &quot;active&quot; | &quot;inactive&quot; | &quot;on_leave&quot;;
   compositeRecords: {
     managerReviews: Array<{
       id: string;
@@ -62,7 +62,7 @@ interface BrandAgentPerformance {
       scheduledTime: string;
       actualArrival: string;
       location: string;
-      status: "on_time" | "late" | "absent";
+      status: &quot;on_time&quot; | &quot;late&quot; | &quot;absent&quot;;
       minutesLate?: number;
     }>;
     locationRecords: Array<{
@@ -71,7 +71,7 @@ interface BrandAgentPerformance {
       expectedLocation: string;
       actualLocation: string;
       checkInTime: string;
-      status: "correct" | "incorrect" | "missing";
+      status: &quot;correct&quot; | &quot;incorrect&quot; | &quot;missing&quot;;
       gpsCoordinates?: string;
     }>;
     dispensaryFeedback: Array<{
@@ -96,7 +96,7 @@ interface BrandAgentPerformance {
       activityName: string;
       dueDate: string;
       completedDate?: string;
-      status: "completed" | "pending" | "overdue";
+      status: &quot;completed&quot; | &quot;pending&quot; | &quot;overdue&quot;;
       bookingRef: string;
     }>;
     formRecords: Array<{
@@ -112,17 +112,17 @@ interface BrandAgentPerformance {
 }
 
 export default function BrandAgentPerformance() {
-  const [activeTab, setActiveTab] = useState("overview");
-  const [sortBy, setSortBy] = useState("overallScore");
-  const [filterBy, setFilterBy] = useState("all");
+  const [activeTab, setActiveTab] = useState(&quot;overview&quot;);
+  const [sortBy, setSortBy] = useState(&quot;overallScore&quot;);
+  const [filterBy, setFilterBy] = useState(&quot;all&quot;);
   const [selectedAgent, setSelectedAgent] = useState<BrandAgentPerformance | null>(null);
 
   const brandAgents: BrandAgentPerformance[] = [
     {
-      id: "1",
-      name: "Sarah Chen",
-      avatar: "/api/placeholder/40/40",
-      role: "Senior Brand Agent",
+      id: &quot;1&quot;,
+      name: &quot;Sarah Chen&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
+      role: &quot;Senior Brand Agent&quot;,
       overallScore: 94,
       metrics: {
         managerReview: 4.8,
@@ -136,106 +136,106 @@ export default function BrandAgentPerformance() {
       },
       recentBookings: 12,
       totalBookings: 156,
-      joinDate: "2023-03-15",
-      status: "active",
+      joinDate: &quot;2023-03-15&quot;,
+      status: &quot;active&quot;,
       compositeRecords: {
         managerReviews: [
           {
-            id: "1",
-            date: "2025-01-15",
-            reviewer: "John Smith",
+            id: &quot;1&quot;,
+            date: &quot;2025-01-15&quot;,
+            reviewer: &quot;John Smith&quot;,
             rating: 5,
-            comments: "Excellent performance at Green Valley Dispensary",
-            bookingRef: "BK-2025-001"
+            comments: &quot;Excellent performance at Green Valley Dispensary&quot;,
+            bookingRef: &quot;BK-2025-001&quot;
           },
           {
-            id: "2", 
-            date: "2025-01-10",
-            reviewer: "Mary Johnson",
+            id: &quot;2&quot;, 
+            date: &quot;2025-01-10&quot;,
+            reviewer: &quot;Mary Johnson&quot;,
             rating: 4.5,
-            comments: "Great customer engagement, minor improvement on product knowledge",
-            bookingRef: "BK-2025-002"
+            comments: &quot;Great customer engagement, minor improvement on product knowledge&quot;,
+            bookingRef: &quot;BK-2025-002&quot;
           }
         ],
         attendanceRecords: [
           {
-            id: "1",
-            bookingDate: "2025-01-15",
-            scheduledTime: "09:00",
-            actualArrival: "08:55",
-            location: "Green Valley Dispensary",
-            status: "on_time"
+            id: &quot;1&quot;,
+            bookingDate: &quot;2025-01-15&quot;,
+            scheduledTime: &quot;09:00&quot;,
+            actualArrival: &quot;08:55&quot;,
+            location: &quot;Green Valley Dispensary&quot;,
+            status: &quot;on_time&quot;
           },
           {
-            id: "2",
-            bookingDate: "2025-01-12",
-            scheduledTime: "10:00", 
-            actualArrival: "10:15",
-            location: "Cannabis Corner",
-            status: "late",
+            id: &quot;2&quot;,
+            bookingDate: &quot;2025-01-12&quot;,
+            scheduledTime: &quot;10:00&quot;, 
+            actualArrival: &quot;10:15&quot;,
+            location: &quot;Cannabis Corner&quot;,
+            status: &quot;late&quot;,
             minutesLate: 15
           }
         ],
         locationRecords: [
           {
-            id: "1",
-            bookingDate: "2025-01-15",
-            expectedLocation: "Green Valley Dispensary",
-            actualLocation: "Green Valley Dispensary",
-            checkInTime: "08:55",
-            status: "correct",
-            gpsCoordinates: "40.7128,-74.0060"
+            id: &quot;1&quot;,
+            bookingDate: &quot;2025-01-15&quot;,
+            expectedLocation: &quot;Green Valley Dispensary&quot;,
+            actualLocation: &quot;Green Valley Dispensary&quot;,
+            checkInTime: &quot;08:55&quot;,
+            status: &quot;correct&quot;,
+            gpsCoordinates: &quot;40.7128,-74.0060&quot;
           }
         ],
         dispensaryFeedback: [
           {
-            id: "1",
-            dispensaryName: "Green Valley Dispensary",
-            date: "2025-01-15",
+            id: &quot;1&quot;,
+            dispensaryName: &quot;Green Valley Dispensary&quot;,
+            date: &quot;2025-01-15&quot;,
             rating: 5,
-            feedback: "Outstanding brand representative, customers loved the product demos",
-            bookingRef: "BK-2025-001"
+            feedback: &quot;Outstanding brand representative, customers loved the product demos&quot;,
+            bookingRef: &quot;BK-2025-001&quot;
           }
         ],
         staffFeedback: [
           {
-            id: "1",
-            staffName: "Amanda Wilson",
-            role: "Budtender",
-            date: "2025-01-15",
+            id: &quot;1&quot;,
+            staffName: &quot;Amanda Wilson&quot;,
+            role: &quot;Budtender&quot;,
+            date: &quot;2025-01-15&quot;,
             rating: 4.5,
-            feedback: "Professional and knowledgeable, worked well with our team",
-            bookingRef: "BK-2025-001"
+            feedback: &quot;Professional and knowledgeable, worked well with our team&quot;,
+            bookingRef: &quot;BK-2025-001&quot;
           }
         ],
         activityRecords: [
           {
-            id: "1",
-            activityName: "Product Demo Setup",
-            dueDate: "2025-01-15",
-            completedDate: "2025-01-15",
-            status: "completed",
-            bookingRef: "BK-2025-001"
+            id: &quot;1&quot;,
+            activityName: &quot;Product Demo Setup&quot;,
+            dueDate: &quot;2025-01-15&quot;,
+            completedDate: &quot;2025-01-15&quot;,
+            status: &quot;completed&quot;,
+            bookingRef: &quot;BK-2025-001&quot;
           }
         ],
         formRecords: [
           {
-            id: "1",
-            formType: "Post-Event Report",
-            submittedDate: "2025-01-15",
+            id: &quot;1&quot;,
+            formType: &quot;Post-Event Report&quot;,
+            submittedDate: &quot;2025-01-15&quot;,
             completionRate: 100,
             qualityRating: 4.8,
-            reviewer: "John Smith",
-            bookingRef: "BK-2025-001"
+            reviewer: &quot;John Smith&quot;,
+            bookingRef: &quot;BK-2025-001&quot;
           }
         ]
       }
     },
     {
-      id: "2",
-      name: "Mike Rodriguez",
-      avatar: "/api/placeholder/40/40",
-      role: "Brand Agent",
+      id: &quot;2&quot;,
+      name: &quot;Mike Rodriguez&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
+      role: &quot;Brand Agent&quot;,
       overallScore: 89,
       metrics: {
         managerReview: 4.5,
@@ -249,89 +249,89 @@ export default function BrandAgentPerformance() {
       },
       recentBookings: 8,
       totalBookings: 89,
-      joinDate: "2023-07-20",
-      status: "active",
+      joinDate: &quot;2023-07-20&quot;,
+      status: &quot;active&quot;,
       compositeRecords: {
         managerReviews: [
           {
-            id: "1",
-            date: "2025-01-14",
-            reviewer: "Sarah Davis",
+            id: &quot;1&quot;,
+            date: &quot;2025-01-14&quot;,
+            reviewer: &quot;Sarah Davis&quot;,
             rating: 4.5,
-            comments: "Solid performance, good customer interaction",
-            bookingRef: "BK-2025-003"
+            comments: &quot;Solid performance, good customer interaction&quot;,
+            bookingRef: &quot;BK-2025-003&quot;
           }
         ],
         attendanceRecords: [
           {
-            id: "1",
-            bookingDate: "2025-01-14",
-            scheduledTime: "11:00",
-            actualArrival: "11:30",
-            location: "Herb Haven",
-            status: "late",
+            id: &quot;1&quot;,
+            bookingDate: &quot;2025-01-14&quot;,
+            scheduledTime: &quot;11:00&quot;,
+            actualArrival: &quot;11:30&quot;,
+            location: &quot;Herb Haven&quot;,
+            status: &quot;late&quot;,
             minutesLate: 30
           }
         ],
         locationRecords: [
           {
-            id: "1",
-            bookingDate: "2025-01-14",
-            expectedLocation: "Herb Haven",
-            actualLocation: "Herb Haven",
-            checkInTime: "11:30",
-            status: "correct"
+            id: &quot;1&quot;,
+            bookingDate: &quot;2025-01-14&quot;,
+            expectedLocation: &quot;Herb Haven&quot;,
+            actualLocation: &quot;Herb Haven&quot;,
+            checkInTime: &quot;11:30&quot;,
+            status: &quot;correct&quot;
           }
         ],
         dispensaryFeedback: [
           {
-            id: "1",
-            dispensaryName: "Herb Haven",
-            date: "2025-01-14",
+            id: &quot;1&quot;,
+            dispensaryName: &quot;Herb Haven&quot;,
+            date: &quot;2025-01-14&quot;,
             rating: 4.0,
-            feedback: "Good product knowledge, arrived late but made up for it",
-            bookingRef: "BK-2025-003"
+            feedback: &quot;Good product knowledge, arrived late but made up for it&quot;,
+            bookingRef: &quot;BK-2025-003&quot;
           }
         ],
         staffFeedback: [
           {
-            id: "1",
-            staffName: "Mike Torres",
-            role: "Store Manager",
-            date: "2025-01-14",
+            id: &quot;1&quot;,
+            staffName: &quot;Mike Torres&quot;,
+            role: &quot;Store Manager&quot;,
+            date: &quot;2025-01-14&quot;,
             rating: 4.2,
-            feedback: "Professional attitude, customers responded well",
-            bookingRef: "BK-2025-003"
+            feedback: &quot;Professional attitude, customers responded well&quot;,
+            bookingRef: &quot;BK-2025-003&quot;
           }
         ],
         activityRecords: [
           {
-            id: "1",
-            activityName: "Customer Education Session",
-            dueDate: "2025-01-14",
-            completedDate: "2025-01-14",
-            status: "completed",
-            bookingRef: "BK-2025-003"
+            id: &quot;1&quot;,
+            activityName: &quot;Customer Education Session&quot;,
+            dueDate: &quot;2025-01-14&quot;,
+            completedDate: &quot;2025-01-14&quot;,
+            status: &quot;completed&quot;,
+            bookingRef: &quot;BK-2025-003&quot;
           }
         ],
         formRecords: [
           {
-            id: "1",
-            formType: "Activity Summary",
-            submittedDate: "2025-01-14",
+            id: &quot;1&quot;,
+            formType: &quot;Activity Summary&quot;,
+            submittedDate: &quot;2025-01-14&quot;,
             completionRate: 95,
             qualityRating: 4.0,
-            reviewer: "Sarah Davis",
-            bookingRef: "BK-2025-003"
+            reviewer: &quot;Sarah Davis&quot;,
+            bookingRef: &quot;BK-2025-003&quot;
           }
         ]
       }
     },
     {
-      id: "3",
-      name: "Jennifer Kim",
-      avatar: "/api/placeholder/40/40",
-      role: "Brand Agent",
+      id: &quot;3&quot;,
+      name: &quot;Jennifer Kim&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
+      role: &quot;Brand Agent&quot;,
       overallScore: 87,
       metrics: {
         managerReview: 4.6,
@@ -345,8 +345,8 @@ export default function BrandAgentPerformance() {
       },
       recentBookings: 10,
       totalBookings: 67,
-      joinDate: "2023-09-10",
-      status: "active",
+      joinDate: &quot;2023-09-10&quot;,
+      status: &quot;active&quot;,
       compositeRecords: {
         managerReviews: [],
         attendanceRecords: [],
@@ -358,10 +358,10 @@ export default function BrandAgentPerformance() {
       }
     },
     {
-      id: "4",
-      name: "David Park",
-      avatar: "/api/placeholder/40/40",
-      role: "Brand Agent",
+      id: &quot;4&quot;,
+      name: &quot;David Park&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
+      role: &quot;Brand Agent&quot;,
       overallScore: 82,
       metrics: {
         managerReview: 4.2,
@@ -375,8 +375,8 @@ export default function BrandAgentPerformance() {
       },
       recentBookings: 6,
       totalBookings: 45,
-      joinDate: "2023-11-05",
-      status: "active",
+      joinDate: &quot;2023-11-05&quot;,
+      status: &quot;active&quot;,
       compositeRecords: {
         managerReviews: [],
         attendanceRecords: [],
@@ -388,10 +388,10 @@ export default function BrandAgentPerformance() {
       }
     },
     {
-      id: "5",
-      name: "Lisa Wang",
-      avatar: "/api/placeholder/40/40",
-      role: "Brand Agent",
+      id: &quot;5&quot;,
+      name: &quot;Lisa Wang&quot;,
+      avatar: &quot;/api/placeholder/40/40&quot;,
+      role: &quot;Brand Agent&quot;,
       overallScore: 76,
       metrics: {
         managerReview: 3.8,
@@ -405,8 +405,8 @@ export default function BrandAgentPerformance() {
       },
       recentBookings: 4,
       totalBookings: 23,
-      joinDate: "2024-01-12",
-      status: "active",
+      joinDate: &quot;2024-01-12&quot;,
+      status: &quot;active&quot;,
       compositeRecords: {
         managerReviews: [],
         attendanceRecords: [],
@@ -420,50 +420,50 @@ export default function BrandAgentPerformance() {
   ];
 
   const getScoreColor = (score: number) => {
-    if (score >= 90) return "text-green-600";
-    if (score >= 80) return "text-yellow-600";
-    if (score >= 70) return "text-orange-600";
-    return "text-red-600";
+    if (score >= 90) return &quot;text-green-600&quot;;
+    if (score >= 80) return &quot;text-yellow-600&quot;;
+    if (score >= 70) return &quot;text-orange-600&quot;;
+    return &quot;text-red-600&quot;;
   };
 
   const getScoreBadge = (score: number) => {
-    if (score >= 90) return "bg-green-100 text-green-800";
-    if (score >= 80) return "bg-yellow-100 text-yellow-800";
-    if (score >= 70) return "bg-orange-100 text-orange-800";
-    return "bg-red-100 text-red-800";
+    if (score >= 90) return &quot;bg-green-100 text-green-800&quot;;
+    if (score >= 80) return &quot;bg-yellow-100 text-yellow-800&quot;;
+    if (score >= 70) return &quot;bg-orange-100 text-orange-800&quot;;
+    return &quot;bg-red-100 text-red-800&quot;;
   };
 
   const filteredAndSortedAgents = brandAgents
     .filter(agent => {
-      if (filterBy === "all") return true;
-      if (filterBy === "top") return agent.overallScore >= 90;
-      if (filterBy === "needs_improvement") return agent.overallScore < 80;
+      if (filterBy === &quot;all&quot;) return true;
+      if (filterBy === &quot;top&quot;) return agent.overallScore >= 90;
+      if (filterBy === &quot;needs_improvement&quot;) return agent.overallScore < 80;
       return true;
     })
     .sort((a, b) => {
-      if (sortBy === "overallScore") return b.overallScore - a.overallScore;
-      if (sortBy === "name") return a.name.localeCompare(b.name);
-      if (sortBy === "recentBookings") return b.recentBookings - a.recentBookings;
+      if (sortBy === &quot;overallScore&quot;) return b.overallScore - a.overallScore;
+      if (sortBy === &quot;name&quot;) return a.name.localeCompare(b.name);
+      if (sortBy === &quot;recentBookings&quot;) return b.recentBookings - a.recentBookings;
       return 0;
     });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className=&quot;min-h-screen bg-background&quot;>
       {/* Header */}
-      <div className="bg-card shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
+      <div className=&quot;bg-card shadow-sm border-b&quot;>
+        <div className=&quot;max-w-7xl mx-auto px-4 py-6&quot;>
+          <div className=&quot;flex items-center justify-between&quot;>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Brand Agent Performance</h1>
-              <p className="text-muted-foreground">Track performance metrics for cannabis brand agents</p>
+              <h1 className=&quot;text-2xl font-bold text-foreground&quot;>Brand Agent Performance</h1>
+              <p className=&quot;text-muted-foreground&quot;>Track performance metrics for cannabis brand agents</p>
             </div>
-            <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" className="gap-2">
-                <Filter className="w-4 h-4" />
+            <div className=&quot;flex items-center gap-3&quot;>
+              <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;gap-2&quot;>
+                <Filter className=&quot;w-4 h-4&quot; />
                 Filter
               </Button>
-              <Button size="sm" className="gap-2">
-                <Download className="w-4 h-4" />
+              <Button size=&quot;sm&quot; className=&quot;gap-2&quot;>
+                <Download className=&quot;w-4 h-4&quot; />
                 Export Report
               </Button>
             </div>
@@ -472,103 +472,103 @@ export default function BrandAgentPerformance() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className=&quot;max-w-7xl mx-auto px-4 py-8&quot;>
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className=&quot;grid grid-cols-1 md:grid-cols-4 gap-4 mb-8&quot;>
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
+            <CardContent className=&quot;p-4&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Total Agents</p>
-                  <p className="text-2xl font-bold">{brandAgents.length}</p>
+                  <p className=&quot;text-sm text-muted-foreground mb-1&quot;>Total Agents</p>
+                  <p className=&quot;text-2xl font-bold&quot;>{brandAgents.length}</p>
                 </div>
-                <Users className="w-8 h-8 text-blue-500" />
+                <Users className=&quot;w-8 h-8 text-blue-500&quot; />
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
+            <CardContent className=&quot;p-4&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Top Performers</p>
-                  <p className="text-2xl font-bold">{brandAgents.filter(a => a.overallScore >= 90).length}</p>
+                  <p className=&quot;text-sm text-muted-foreground mb-1&quot;>Top Performers</p>
+                  <p className=&quot;text-2xl font-bold&quot;>{brandAgents.filter(a => a.overallScore >= 90).length}</p>
                 </div>
-                <Award className="w-8 h-8 text-green-500" />
+                <Award className=&quot;w-8 h-8 text-green-500&quot; />
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
+            <CardContent className=&quot;p-4&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Avg Score</p>
-                  <p className="text-2xl font-bold">{Math.round(brandAgents.reduce((acc, agent) => acc + agent.overallScore, 0) / brandAgents.length)}</p>
+                  <p className=&quot;text-sm text-muted-foreground mb-1&quot;>Avg Score</p>
+                  <p className=&quot;text-2xl font-bold&quot;>{Math.round(brandAgents.reduce((acc, agent) => acc + agent.overallScore, 0) / brandAgents.length)}</p>
                 </div>
-                <TrendingUp className="w-8 h-8 text-purple-500" />
+                <TrendingUp className=&quot;w-8 h-8 text-purple-500&quot; />
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
+            <CardContent className=&quot;p-4&quot;>
+              <div className=&quot;flex items-center justify-between&quot;>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-1">Active Bookings</p>
-                  <p className="text-2xl font-bold">{brandAgents.reduce((acc, agent) => acc + agent.recentBookings, 0)}</p>
+                  <p className=&quot;text-sm text-muted-foreground mb-1&quot;>Active Bookings</p>
+                  <p className=&quot;text-2xl font-bold&quot;>{brandAgents.reduce((acc, agent) => acc + agent.recentBookings, 0)}</p>
                 </div>
-                <CheckCircle className="w-8 h-8 text-teal-500" />
+                <CheckCircle className=&quot;w-8 h-8 text-teal-500&quot; />
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="detailed">Detailed Metrics</TabsTrigger>
-            <TabsTrigger value="rankings">Rankings</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className=&quot;space-y-6&quot;>
+          <TabsList className=&quot;grid w-full grid-cols-3&quot;>
+            <TabsTrigger value=&quot;overview&quot;>Overview</TabsTrigger>
+            <TabsTrigger value=&quot;detailed&quot;>Detailed Metrics</TabsTrigger>
+            <TabsTrigger value=&quot;rankings&quot;>Rankings</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="space-y-4">
+          <TabsContent value=&quot;overview&quot; className=&quot;space-y-6&quot;>
+            <div className=&quot;space-y-4&quot;>
               {filteredAndSortedAgents.map((agent) => (
                 <Card key={agent.id}>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <Avatar className="w-12 h-12">
+                  <CardContent className=&quot;p-6&quot;>
+                    <div className=&quot;flex items-center justify-between&quot;>
+                      <div className=&quot;flex items-center gap-4&quot;>
+                        <Avatar className=&quot;w-12 h-12&quot;>
                           <AvatarImage src={agent.avatar} alt={agent.name} />
                           <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <h3 className="font-semibold text-lg">{agent.name}</h3>
-                          <p className="text-muted-foreground">{agent.role}</p>
+                          <h3 className=&quot;font-semibold text-lg&quot;>{agent.name}</h3>
+                          <p className=&quot;text-muted-foreground&quot;>{agent.role}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-6">
-                        <div className="text-right">
-                          <p className="text-sm text-muted-foreground">Overall Score</p>
+                      <div className=&quot;flex items-center gap-6&quot;>
+                        <div className=&quot;text-right&quot;>
+                          <p className=&quot;text-sm text-muted-foreground&quot;>Overall Score</p>
                           <p className={`text-2xl font-bold ${getScoreColor(agent.overallScore)}`}>
                             {agent.overallScore}%
                           </p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className=&quot;flex items-center gap-2&quot;>
                           <Badge className={getScoreBadge(agent.overallScore)}>
-                            {agent.overallScore >= 90 ? "Excellent" : 
-                             agent.overallScore >= 80 ? "Good" : 
-                             agent.overallScore >= 70 ? "Fair" : "Needs Improvement"}
+                            {agent.overallScore >= 90 ? &quot;Excellent&quot; : 
+                             agent.overallScore >= 80 ? &quot;Good&quot; : 
+                             agent.overallScore >= 70 ? &quot;Fair&quot; : &quot;Needs Improvement&quot;}
                           </Badge>
                           <Dialog>
                             <DialogTrigger asChild>
-                              <Button variant="outline" size="sm" className="gap-1">
-                                <Eye className="w-3 h-3" />
+                              <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;gap-1&quot;>
+                                <Eye className=&quot;w-3 h-3&quot; />
                                 Details
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                            <DialogContent className=&quot;max-w-4xl max-h-[80vh] overflow-y-auto&quot;>
                               <DialogHeader>
-                                <DialogTitle className="flex items-center gap-3">
-                                  <Avatar className="w-8 h-8">
+                                <DialogTitle className=&quot;flex items-center gap-3&quot;>
+                                  <Avatar className=&quot;w-8 h-8&quot;>
                                     <AvatarImage src={agent.avatar} alt={agent.name} />
                                     <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
                                   </Avatar>
@@ -576,223 +576,223 @@ export default function BrandAgentPerformance() {
                                 </DialogTitle>
                               </DialogHeader>
                               
-                              <div className="space-y-6">
+                              <div className=&quot;space-y-6&quot;>
                                 {/* Manager Reviews */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <Star className="w-4 h-4 text-yellow-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
                                     Manager Reviews ({agent.metrics.managerReview}/5)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.managerReviews.length > 0 ? (
                                       agent.compositeRecords.managerReviews.map((review) => (
-                                        <Card key={review.id} className="p-3">
-                                          <div className="flex justify-between items-start mb-2">
+                                        <Card key={review.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-start mb-2&quot;>
                                             <div>
-                                              <p className="font-medium">{review.reviewer}</p>
-                                              <p className="text-sm text-muted-foreground">{review.date}</p>
+                                              <p className=&quot;font-medium&quot;>{review.reviewer}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>{review.date}</p>
                                             </div>
-                                            <div className="flex items-center gap-1">
-                                              <Star className="w-4 h-4 text-yellow-500" />
-                                              <span className="font-bold">{review.rating}</span>
+                                            <div className=&quot;flex items-center gap-1&quot;>
+                                              <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
+                                              <span className=&quot;font-bold&quot;>{review.rating}</span>
                                             </div>
                                           </div>
-                                          <p className="text-sm">{review.comments}</p>
-                                          <p className="text-xs text-muted-foreground mt-1">Booking: {review.bookingRef}</p>
+                                          <p className=&quot;text-sm&quot;>{review.comments}</p>
+                                          <p className=&quot;text-xs text-muted-foreground mt-1&quot;>Booking: {review.bookingRef}</p>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No manager reviews available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No manager reviews available</p>
                                     )}
                                   </div>
                                 </div>
 
                                 {/* Attendance Records */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <Clock className="w-4 h-4 text-blue-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <Clock className=&quot;w-4 h-4 text-blue-500&quot; />
                                     Attendance Records ({agent.metrics.onTimeRate}% on time)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.attendanceRecords.length > 0 ? (
                                       agent.compositeRecords.attendanceRecords.map((record) => (
-                                        <Card key={record.id} className="p-3">
-                                          <div className="flex justify-between items-center">
+                                        <Card key={record.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-center&quot;>
                                             <div>
-                                              <p className="font-medium">{record.location}</p>
-                                              <p className="text-sm text-muted-foreground">{record.bookingDate}</p>
+                                              <p className=&quot;font-medium&quot;>{record.location}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>{record.bookingDate}</p>
                                             </div>
-                                            <div className="text-right">
-                                              <p className="text-sm">
+                                            <div className=&quot;text-right&quot;>
+                                              <p className=&quot;text-sm&quot;>
                                                 Scheduled: {record.scheduledTime} | Arrived: {record.actualArrival}
                                               </p>
-                                              <Badge variant={record.status === "on_time" ? "default" : "destructive"}>
-                                                {record.status === "on_time" ? "On Time" : 
-                                                 record.status === "late" ? `Late (${record.minutesLate}min)` : "Absent"}
+                                              <Badge variant={record.status === &quot;on_time&quot; ? &quot;default&quot; : &quot;destructive&quot;}>
+                                                {record.status === &quot;on_time&quot; ? &quot;On Time&quot; : 
+                                                 record.status === &quot;late&quot; ? `Late (${record.minutesLate}min)` : &quot;Absent&quot;}
                                               </Badge>
                                             </div>
                                           </div>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No attendance records available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No attendance records available</p>
                                     )}
                                   </div>
                                 </div>
 
                                 {/* Location Records */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <MapPin className="w-4 h-4 text-green-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <MapPin className=&quot;w-4 h-4 text-green-500&quot; />
                                     Location Check-ins ({agent.metrics.onLocationRate}% correct)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.locationRecords.length > 0 ? (
                                       agent.compositeRecords.locationRecords.map((record) => (
-                                        <Card key={record.id} className="p-3">
-                                          <div className="flex justify-between items-center">
+                                        <Card key={record.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-center&quot;>
                                             <div>
-                                              <p className="font-medium">Expected: {record.expectedLocation}</p>
-                                              <p className="text-sm text-muted-foreground">
+                                              <p className=&quot;font-medium&quot;>Expected: {record.expectedLocation}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>
                                                 Actual: {record.actualLocation} | Check-in: {record.checkInTime}
                                               </p>
                                             </div>
-                                            <Badge variant={record.status === "correct" ? "default" : "destructive"}>
-                                              {record.status === "correct" ? "Correct Location" : 
-                                               record.status === "incorrect" ? "Wrong Location" : "No Check-in"}
+                                            <Badge variant={record.status === &quot;correct&quot; ? &quot;default&quot; : &quot;destructive&quot;}>
+                                              {record.status === &quot;correct&quot; ? &quot;Correct Location&quot; : 
+                                               record.status === &quot;incorrect&quot; ? &quot;Wrong Location&quot; : &quot;No Check-in&quot;}
                                             </Badge>
                                           </div>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No location records available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No location records available</p>
                                     )}
                                   </div>
                                 </div>
 
                                 {/* Dispensary Feedback */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <Building className="w-4 h-4 text-purple-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <Building className=&quot;w-4 h-4 text-purple-500&quot; />
                                     Dispensary Feedback ({agent.metrics.dispensaryRating}/5)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.dispensaryFeedback.length > 0 ? (
                                       agent.compositeRecords.dispensaryFeedback.map((feedback) => (
-                                        <Card key={feedback.id} className="p-3">
-                                          <div className="flex justify-between items-start mb-2">
+                                        <Card key={feedback.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-start mb-2&quot;>
                                             <div>
-                                              <p className="font-medium">{feedback.dispensaryName}</p>
-                                              <p className="text-sm text-muted-foreground">{feedback.date}</p>
+                                              <p className=&quot;font-medium&quot;>{feedback.dispensaryName}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>{feedback.date}</p>
                                             </div>
-                                            <div className="flex items-center gap-1">
-                                              <Star className="w-4 h-4 text-yellow-500" />
-                                              <span className="font-bold">{feedback.rating}</span>
+                                            <div className=&quot;flex items-center gap-1&quot;>
+                                              <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
+                                              <span className=&quot;font-bold&quot;>{feedback.rating}</span>
                                             </div>
                                           </div>
-                                          <p className="text-sm">{feedback.feedback}</p>
-                                          <p className="text-xs text-muted-foreground mt-1">Booking: {feedback.bookingRef}</p>
+                                          <p className=&quot;text-sm&quot;>{feedback.feedback}</p>
+                                          <p className=&quot;text-xs text-muted-foreground mt-1&quot;>Booking: {feedback.bookingRef}</p>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No dispensary feedback available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No dispensary feedback available</p>
                                     )}
                                   </div>
                                 </div>
 
                                 {/* Staff Feedback */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <User className="w-4 h-4 text-teal-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <User className=&quot;w-4 h-4 text-teal-500&quot; />
                                     Staff Feedback ({agent.metrics.staffRating}/5)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.staffFeedback.length > 0 ? (
                                       agent.compositeRecords.staffFeedback.map((feedback) => (
-                                        <Card key={feedback.id} className="p-3">
-                                          <div className="flex justify-between items-start mb-2">
+                                        <Card key={feedback.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-start mb-2&quot;>
                                             <div>
-                                              <p className="font-medium">{feedback.staffName}</p>
-                                              <p className="text-sm text-muted-foreground">{feedback.role} | {feedback.date}</p>
+                                              <p className=&quot;font-medium&quot;>{feedback.staffName}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>{feedback.role} | {feedback.date}</p>
                                             </div>
-                                            <div className="flex items-center gap-1">
-                                              <Star className="w-4 h-4 text-yellow-500" />
-                                              <span className="font-bold">{feedback.rating}</span>
+                                            <div className=&quot;flex items-center gap-1&quot;>
+                                              <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
+                                              <span className=&quot;font-bold&quot;>{feedback.rating}</span>
                                             </div>
                                           </div>
-                                          <p className="text-sm">{feedback.feedback}</p>
-                                          <p className="text-xs text-muted-foreground mt-1">Booking: {feedback.bookingRef}</p>
+                                          <p className=&quot;text-sm&quot;>{feedback.feedback}</p>
+                                          <p className=&quot;text-xs text-muted-foreground mt-1&quot;>Booking: {feedback.bookingRef}</p>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No staff feedback available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No staff feedback available</p>
                                     )}
                                   </div>
                                 </div>
 
                                 {/* Activity Records */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <ClipboardList className="w-4 h-4 text-orange-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <ClipboardList className=&quot;w-4 h-4 text-orange-500&quot; />
                                     Activity Completion ({agent.metrics.activityCompletion}%)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.activityRecords.length > 0 ? (
                                       agent.compositeRecords.activityRecords.map((activity) => (
-                                        <Card key={activity.id} className="p-3">
-                                          <div className="flex justify-between items-center">
+                                        <Card key={activity.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-center&quot;>
                                             <div>
-                                              <p className="font-medium">{activity.activityName}</p>
-                                              <p className="text-sm text-muted-foreground">
+                                              <p className=&quot;font-medium&quot;>{activity.activityName}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>
                                                 Due: {activity.dueDate} 
                                                 {activity.completedDate && ` | Completed: ${activity.completedDate}`}
                                               </p>
                                             </div>
-                                            <Badge variant={activity.status === "completed" ? "default" : 
-                                                           activity.status === "pending" ? "secondary" : "destructive"}>
-                                              {activity.status === "completed" ? "Completed" : 
-                                               activity.status === "pending" ? "Pending" : "Overdue"}
+                                            <Badge variant={activity.status === &quot;completed&quot; ? &quot;default&quot; : 
+                                                           activity.status === &quot;pending&quot; ? &quot;secondary&quot; : &quot;destructive&quot;}>
+                                              {activity.status === &quot;completed&quot; ? &quot;Completed&quot; : 
+                                               activity.status === &quot;pending&quot; ? &quot;Pending&quot; : &quot;Overdue&quot;}
                                             </Badge>
                                           </div>
-                                          <p className="text-xs text-muted-foreground mt-1">Booking: {activity.bookingRef}</p>
+                                          <p className=&quot;text-xs text-muted-foreground mt-1&quot;>Booking: {activity.bookingRef}</p>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No activity records available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No activity records available</p>
                                     )}
                                   </div>
                                 </div>
 
                                 {/* Form Records */}
                                 <div>
-                                  <h3 className="font-semibold mb-3 flex items-center gap-2">
-                                    <FileText className="w-4 h-4 text-red-500" />
+                                  <h3 className=&quot;font-semibold mb-3 flex items-center gap-2&quot;>
+                                    <FileText className=&quot;w-4 h-4 text-red-500&quot; />
                                     Form Records ({agent.metrics.dataFormCompletion}% completion, {agent.metrics.dataFormQuality}/5 quality)
                                   </h3>
-                                  <div className="space-y-2">
+                                  <div className=&quot;space-y-2&quot;>
                                     {agent.compositeRecords.formRecords.length > 0 ? (
                                       agent.compositeRecords.formRecords.map((form) => (
-                                        <Card key={form.id} className="p-3">
-                                          <div className="flex justify-between items-start mb-2">
+                                        <Card key={form.id} className=&quot;p-3&quot;>
+                                          <div className=&quot;flex justify-between items-start mb-2&quot;>
                                             <div>
-                                              <p className="font-medium">{form.formType}</p>
-                                              <p className="text-sm text-muted-foreground">
+                                              <p className=&quot;font-medium&quot;>{form.formType}</p>
+                                              <p className=&quot;text-sm text-muted-foreground&quot;>
                                                 Submitted: {form.submittedDate} | Reviewed by: {form.reviewer}
                                               </p>
                                             </div>
-                                            <div className="text-right">
-                                              <p className="text-sm">Completion: {form.completionRate}%</p>
-                                              <div className="flex items-center gap-1">
-                                                <Star className="w-4 h-4 text-yellow-500" />
-                                                <span className="font-bold">{form.qualityRating}</span>
+                                            <div className=&quot;text-right&quot;>
+                                              <p className=&quot;text-sm&quot;>Completion: {form.completionRate}%</p>
+                                              <div className=&quot;flex items-center gap-1&quot;>
+                                                <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
+                                                <span className=&quot;font-bold&quot;>{form.qualityRating}</span>
                                               </div>
                                             </div>
                                           </div>
-                                          <p className="text-xs text-muted-foreground">Booking: {form.bookingRef}</p>
+                                          <p className=&quot;text-xs text-muted-foreground&quot;>Booking: {form.bookingRef}</p>
                                         </Card>
                                       ))
                                     ) : (
-                                      <p className="text-sm text-muted-foreground">No form records available</p>
+                                      <p className=&quot;text-sm text-muted-foreground&quot;>No form records available</p>
                                     )}
                                   </div>
                                 </div>
@@ -803,22 +803,22 @@ export default function BrandAgentPerformance() {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                      <div className="flex items-center gap-2">
-                        <Star className="w-4 h-4 text-yellow-500" />
-                        <span className="text-sm">Manager: {agent.metrics.managerReview}/5</span>
+                    <div className=&quot;grid grid-cols-2 md:grid-cols-4 gap-4 mt-4&quot;>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <Star className=&quot;w-4 h-4 text-yellow-500&quot; />
+                        <span className=&quot;text-sm&quot;>Manager: {agent.metrics.managerReview}/5</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-blue-500" />
-                        <span className="text-sm">On Time: {agent.metrics.onTimeRate}%</span>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <Clock className=&quot;w-4 h-4 text-blue-500&quot; />
+                        <span className=&quot;text-sm&quot;>On Time: {agent.metrics.onTimeRate}%</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-green-500" />
-                        <span className="text-sm">On Location: {agent.metrics.onLocationRate}%</span>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <MapPin className=&quot;w-4 h-4 text-green-500&quot; />
+                        <span className=&quot;text-sm&quot;>On Location: {agent.metrics.onLocationRate}%</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-purple-500" />
-                        <span className="text-sm">Activities: {agent.metrics.activityCompletion}%</span>
+                      <div className=&quot;flex items-center gap-2&quot;>
+                        <FileText className=&quot;w-4 h-4 text-purple-500&quot; />
+                        <span className=&quot;text-sm&quot;>Activities: {agent.metrics.activityCompletion}%</span>
                       </div>
                     </div>
                   </CardContent>
@@ -828,82 +828,82 @@ export default function BrandAgentPerformance() {
           </TabsContent>
 
           {/* Detailed Metrics Tab */}
-          <TabsContent value="detailed" className="space-y-6">
-            <div className="space-y-6">
+          <TabsContent value=&quot;detailed&quot; className=&quot;space-y-6&quot;>
+            <div className=&quot;space-y-6&quot;>
               {filteredAndSortedAgents.map((agent) => (
                 <Card key={agent.id}>
                   <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <Avatar className="w-10 h-10">
+                    <div className=&quot;flex items-center gap-4&quot;>
+                      <Avatar className=&quot;w-10 h-10&quot;>
                         <AvatarImage src={agent.avatar} alt={agent.name} />
                         <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <CardTitle className="text-lg">{agent.name}</CardTitle>
-                        <p className="text-sm text-muted-foreground">{agent.role}</p>
+                        <CardTitle className=&quot;text-lg&quot;>{agent.name}</CardTitle>
+                        <p className=&quot;text-sm text-muted-foreground&quot;>{agent.role}</p>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
+                    <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
+                      <div className=&quot;space-y-4&quot;>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">Manager Review</span>
-                            <span className="text-sm font-bold">{agent.metrics.managerReview}/5</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>Manager Review</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.managerReview}/5</span>
                           </div>
-                          <Progress value={(agent.metrics.managerReview / 5) * 100} className="h-2" />
+                          <Progress value={(agent.metrics.managerReview / 5) * 100} className=&quot;h-2&quot; />
                         </div>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">On-Time Rate</span>
-                            <span className="text-sm font-bold">{agent.metrics.onTimeRate}%</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>On-Time Rate</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.onTimeRate}%</span>
                           </div>
-                          <Progress value={agent.metrics.onTimeRate} className="h-2" />
+                          <Progress value={agent.metrics.onTimeRate} className=&quot;h-2&quot; />
                         </div>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">On-Location Rate</span>
-                            <span className="text-sm font-bold">{agent.metrics.onLocationRate}%</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>On-Location Rate</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.onLocationRate}%</span>
                           </div>
-                          <Progress value={agent.metrics.onLocationRate} className="h-2" />
+                          <Progress value={agent.metrics.onLocationRate} className=&quot;h-2&quot; />
                         </div>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">Dispensary Rating</span>
-                            <span className="text-sm font-bold">{agent.metrics.dispensaryRating}/5</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>Dispensary Rating</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.dispensaryRating}/5</span>
                           </div>
-                          <Progress value={(agent.metrics.dispensaryRating / 5) * 100} className="h-2" />
+                          <Progress value={(agent.metrics.dispensaryRating / 5) * 100} className=&quot;h-2&quot; />
                         </div>
                       </div>
-                      <div className="space-y-4">
+                      <div className=&quot;space-y-4&quot;>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">Staff Rating</span>
-                            <span className="text-sm font-bold">{agent.metrics.staffRating}/5</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>Staff Rating</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.staffRating}/5</span>
                           </div>
-                          <Progress value={(agent.metrics.staffRating / 5) * 100} className="h-2" />
+                          <Progress value={(agent.metrics.staffRating / 5) * 100} className=&quot;h-2&quot; />
                         </div>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">Activity Completion</span>
-                            <span className="text-sm font-bold">{agent.metrics.activityCompletion}%</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>Activity Completion</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.activityCompletion}%</span>
                           </div>
-                          <Progress value={agent.metrics.activityCompletion} className="h-2" />
+                          <Progress value={agent.metrics.activityCompletion} className=&quot;h-2&quot; />
                         </div>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">Data Form Completion</span>
-                            <span className="text-sm font-bold">{agent.metrics.dataFormCompletion}%</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>Data Form Completion</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.dataFormCompletion}%</span>
                           </div>
-                          <Progress value={agent.metrics.dataFormCompletion} className="h-2" />
+                          <Progress value={agent.metrics.dataFormCompletion} className=&quot;h-2&quot; />
                         </div>
                         <div>
-                          <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium">Data Form Quality</span>
-                            <span className="text-sm font-bold">{agent.metrics.dataFormQuality}/5</span>
+                          <div className=&quot;flex justify-between mb-2&quot;>
+                            <span className=&quot;text-sm font-medium&quot;>Data Form Quality</span>
+                            <span className=&quot;text-sm font-bold&quot;>{agent.metrics.dataFormQuality}/5</span>
                           </div>
-                          <Progress value={(agent.metrics.dataFormQuality / 5) * 100} className="h-2" />
+                          <Progress value={(agent.metrics.dataFormQuality / 5) * 100} className=&quot;h-2&quot; />
                         </div>
                       </div>
                     </div>
@@ -914,35 +914,35 @@ export default function BrandAgentPerformance() {
           </TabsContent>
 
           {/* Rankings Tab */}
-          <TabsContent value="rankings" className="space-y-6">
+          <TabsContent value=&quot;rankings&quot; className=&quot;space-y-6&quot;>
             <Card>
               <CardHeader>
                 <CardTitle>Performance Rankings</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className=&quot;space-y-4&quot;>
                   {filteredAndSortedAgents.map((agent, index) => (
-                    <div key={agent.id} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                      <div className="flex items-center gap-4">
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                    <div key={agent.id} className=&quot;flex items-center justify-between p-4 bg-muted rounded-lg&quot;>
+                      <div className=&quot;flex items-center gap-4&quot;>
+                        <div className=&quot;w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold&quot;>
                           {index + 1}
                         </div>
-                        <Avatar className="w-10 h-10">
+                        <Avatar className=&quot;w-10 h-10&quot;>
                           <AvatarImage src={agent.avatar} alt={agent.name} />
                           <AvatarFallback>{agent.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-semibold">{agent.name}</p>
-                          <p className="text-sm text-muted-foreground">{agent.role}</p>
+                          <p className=&quot;font-semibold&quot;>{agent.name}</p>
+                          <p className=&quot;text-sm text-muted-foreground&quot;>{agent.role}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <div className="text-right">
-                          <p className="text-sm text-muted-foreground">Bookings</p>
-                          <p className="font-bold">{agent.recentBookings}</p>
+                      <div className=&quot;flex items-center gap-4&quot;>
+                        <div className=&quot;text-right&quot;>
+                          <p className=&quot;text-sm text-muted-foreground&quot;>Bookings</p>
+                          <p className=&quot;font-bold&quot;>{agent.recentBookings}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-sm text-muted-foreground">Score</p>
+                        <div className=&quot;text-right&quot;>
+                          <p className=&quot;text-sm text-muted-foreground&quot;>Score</p>
                           <p className={`text-lg font-bold ${getScoreColor(agent.overallScore)}`}>
                             {agent.overallScore}%
                           </p>

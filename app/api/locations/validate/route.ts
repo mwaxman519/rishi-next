@@ -1,17 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const placeId = (searchParams.get("placeId") || undefined);
+    const placeId = (searchParams.get(&quot;placeId&quot;) || undefined);
 
     if (!placeId) {
       return NextResponse.json(
-        { error: "Place ID parameter is required" },
+        { error: &quot;Place ID parameter is required&quot; },
         { status: 400 },
       );
     }
@@ -22,9 +22,9 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
     if (!apiKey) {
-      console.error("Places API key not found in environment variables");
+      console.error(&quot;Places API key not found in environment variables&quot;);
       return NextResponse.json(
-        { error: "API key configuration error" },
+        { error: &quot;API key configuration error&quot; },
         { status: 500 },
       );
     }
@@ -42,13 +42,13 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
 
     // Check for Google API errors
-    if (data.status !== "OK") {
-      console.error("Places API error:", data.error_message || data.status);
+    if (data.status !== &quot;OK&quot;) {
+      console.error(&quot;Places API error:&quot;, data.error_message || data.status);
       return NextResponse.json(
         {
-          error: "Places API error",
+          error: &quot;Places API error&quot;,
           status: data.status,
-          message: data.error_message || "Failed to get place details",
+          message: data.error_message || &quot;Failed to get place details&quot;,
         },
         { status: 400 },
       );
@@ -65,49 +65,49 @@ export async function GET(request: NextRequest) {
       formattedAddress,
       latitude: geometry?.location?.lat,
       longitude: geometry?.location?.lng,
-      address1: "",
-      city: "",
-      state: "",
-      zipcode: "",
+      address1: "&quot;,
+      city: &quot;&quot;,
+      state: &quot;&quot;,
+      zipcode: &quot;&quot;,
     };
 
     // Street number and route (address)
     const streetNumber =
       addressComponents.find((component: any) =>
-        component.types.includes("street_number"),
-      )?.long_name || "";
+        component.types.includes(&quot;street_number&quot;),
+      )?.long_name || &quot;&quot;;
     const route =
       addressComponents.find((component: any) =>
-        component.types.includes("route"),
-      )?.long_name || "";
+        component.types.includes(&quot;route&quot;),
+      )?.long_name || &quot;&quot;;
     locationData.address1 = streetNumber ? `${streetNumber} ${route}` : route;
 
     // City
     locationData.city =
       addressComponents.find((component: any) =>
-        component.types.includes("locality"),
-      )?.long_name || "";
+        component.types.includes(&quot;locality&quot;),
+      )?.long_name || &quot;&quot;;
 
     // State
     locationData.state =
       addressComponents.find((component: any) =>
-        component.types.includes("administrative_area_level_1"),
-      )?.short_name || "";
+        component.types.includes(&quot;administrative_area_level_1&quot;),
+      )?.short_name || &quot;&quot;;
 
     // ZIP Code
     locationData.zipcode =
       addressComponents.find((component: any) =>
-        component.types.includes("postal_code"),
-      )?.long_name || "";
+        component.types.includes(&quot;postal_code&quot;),
+      )?.long_name || &quot;&quot;;
 
     // Return the structured data
     return NextResponse.json(locationData);
   } catch (error) {
-    console.error("Error in location validation API route:", error);
+    console.error(&quot;Error in location validation API route:&quot;, error);
     return NextResponse.json(
       {
-        error: "Internal server error",
-        message: error instanceof Error ? error.message : "Unknown error",
+        error: &quot;Internal server error&quot;,
+        message: error instanceof Error ? error.message : &quot;Unknown error",
       },
       { status: 500 },
     );

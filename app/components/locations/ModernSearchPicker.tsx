@@ -1,9 +1,9 @@
-"use client";
+&quot;use client&quot;;
 
-import React from "react";
-import { GoogleMapsProvider } from "@/components/maps/GoogleMapsProvider";
-import { NewLocationPicker } from "@/components/maps/NewLocationPicker";
-import { LocationData } from "@/components/maps/types";
+import React from &quot;react&quot;;
+import { GoogleMapsProvider } from &quot;@/components/maps/GoogleMapsProvider&quot;;
+import { NewLocationPicker } from &quot;@/components/maps/NewLocationPicker&quot;;
+import { LocationData } from &quot;@/components/maps/types&quot;;
 
 /**
  * Props for the ModernSearchPicker component

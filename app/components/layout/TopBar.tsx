@@ -1,20 +1,20 @@
-"use client";
+&quot;use client&quot;;
 
-import { useAuth } from "@/hooks/useAuth";
-import { useOrganization } from "../../contexts/OrganizationProvider";
-import { OrganizationSelector } from "../organization/OrganizationSelector";
-import { ThemeToggle } from "../ui/theme-toggle";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BellIcon, InfoIcon, Menu, Building } from "lucide-react";
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useOrganization } from &quot;../../contexts/OrganizationProvider&quot;;
+import { OrganizationSelector } from &quot;../organization/OrganizationSelector&quot;;
+import { ThemeToggle } from &quot;../ui/theme-toggle&quot;;
+import Link from &quot;next/link&quot;;
+import { usePathname } from &quot;next/navigation&quot;;
+import { BellIcon, InfoIcon, Menu, Building } from &quot;lucide-react&quot;;
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
+} from &quot;../ui/dropdown-menu&quot;;
+import { Button } from &quot;../ui/button&quot;;
 
 interface TopBarProps {
   openMobileMenu?: () => void;
@@ -27,7 +27,7 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
 
   // Define a safe handler to handle empty props
   const handleMenuClick = () => {
-    if (typeof openMobileMenu === "function") {
+    if (typeof openMobileMenu === &quot;function&quot;) {
       openMobileMenu();
     }
   };
@@ -35,48 +35,48 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
   // Break down pathname to display breadcrumb
   const pathSegments = pathname
     ? pathname
-        .split("/")
+        .split(&quot;/&quot;)
         .filter(Boolean)
         .map((segment, index, array) => {
           // Create the full path up to this segment
-          const fullPath = "/" + array.slice(0, index + 1).join("/");
+          const fullPath = &quot;/&quot; + array.slice(0, index + 1).join(&quot;/&quot;);
           return {
             name:
               segment.charAt(0).toUpperCase() +
-              segment.slice(1).replace(/-/g, " "),
+              segment.slice(1).replace(/-/g, &quot; &quot;),
             path: fullPath,
           };
         })
     : [];
 
   return (
-    <div className="flex items-center justify-between h-14 px-3 bg-[rgb(var(--background))] border-b border-[rgb(var(--border))]">
+    <div className=&quot;flex items-center justify-between h-14 px-3 bg-[rgb(var(--background))] border-b border-[rgb(var(--border))]&quot;>
       {/* Left section: Menu button and Organization Info */}
-      <div className="flex items-center gap-2">
+      <div className=&quot;flex items-center gap-2&quot;>
         {/* Mobile menu button - always shown on mobile */}
         <Button
           onClick={handleMenuClick}
-          variant="default"
-          size="icon"
-          className="h-9 w-9 lg:hidden flex items-center justify-center rounded-md mr-1 bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary))] text-white shadow-sm"
-          aria-label="Open menu"
-          style={{ backgroundColor: "rgb(var(--primary))", color: "white" }}
+          variant=&quot;default&quot;
+          size=&quot;icon&quot;
+          className=&quot;h-9 w-9 lg:hidden flex items-center justify-center rounded-md mr-1 bg-[rgb(var(--primary))] hover:bg-[rgb(var(--primary))] text-white shadow-sm&quot;
+          aria-label=&quot;Open menu&quot;
+          style={{ backgroundColor: &quot;rgb(var(--primary))&quot;, color: &quot;white&quot; }}
         >
           <Menu size={22} />
         </Button>
 
         {/* Desktop organization selector */}
         {user && (
-          <div className="hidden lg:block">
+          <div className=&quot;hidden lg:block&quot;>
             <OrganizationSelector />
           </div>
         )}
 
         {/* Mobile organization display */}
         {user && currentOrganization && (
-          <div className="lg:hidden flex items-center gap-2 px-2 py-1 rounded-md bg-muted">
-            <Building size={16} className="text-muted-foreground" />
-            <span className="text-sm font-medium truncate max-w-32">
+          <div className=&quot;lg:hidden flex items-center gap-2 px-2 py-1 rounded-md bg-muted&quot;>
+            <Building size={16} className=&quot;text-muted-foreground&quot; />
+            <span className=&quot;text-sm font-medium truncate max-w-32&quot;>
               {currentOrganization.name}
             </span>
           </div>
@@ -84,22 +84,22 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
       </div>
 
       {/* Right section: User actions */}
-      <div className="flex items-center gap-2">
+      <div className=&quot;flex items-center gap-2&quot;>
         {/* Mobile theme toggle */}
-        <div className="lg:hidden">
+        <div className=&quot;lg:hidden&quot;>
           <ThemeToggle />
         </div>
 
         {/* Documentation Link - always visible on desktop */}
         <a
-          href="/docs"
-          className="hidden md:flex items-center px-3 py-1.5 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          href=&quot;/docs&quot;
+          className=&quot;hidden md:flex items-center px-3 py-1.5 text-sm font-medium rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors&quot;
         >
           Documentation
         </a>
 
         {/* Desktop theme toggle */}
-        <div className="hidden lg:block">
+        <div className=&quot;hidden lg:block&quot;>
           <ThemeToggle />
         </div>
 
@@ -109,23 +109,23 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative h-9 w-9 rounded-full"
+                  variant=&quot;ghost&quot;
+                  size=&quot;icon&quot;
+                  className=&quot;relative h-9 w-9 rounded-full&quot;
                 >
-                  <BellIcon className="h-5 w-5" />
-                  <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-[rgb(var(--primary))]" />
+                  <BellIcon className=&quot;h-5 w-5&quot; />
+                  <span className=&quot;absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-[rgb(var(--primary))]&quot; />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-64">
-                <div className="py-2 px-3">
-                  <h3 className="font-medium text-sm">Notifications</h3>
-                  <p className="text-xs text-[rgb(var(--muted-foreground))]">
+              <DropdownMenuContent align=&quot;end&quot; className=&quot;w-64&quot;>
+                <div className=&quot;py-2 px-3&quot;>
+                  <h3 className=&quot;font-medium text-sm&quot;>Notifications</h3>
+                  <p className=&quot;text-xs text-[rgb(var(--muted-foreground))]&quot;>
                     You have no new notifications
                   </p>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-xs py-1.5">
+                <DropdownMenuItem className=&quot;cursor-pointer text-xs py-1.5&quot;>
                   View all notifications
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -133,11 +133,11 @@ export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
 
             {/* Help & Info - hidden on mobile to save space */}
             <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-full hidden md:flex"
+              variant=&quot;ghost&quot;
+              size=&quot;icon&quot;
+              className=&quot;h-9 w-9 rounded-full hidden md:flex&quot;
             >
-              <InfoIcon className="h-5 w-5" />
+              <InfoIcon className=&quot;h-5 w-5&quot; />
             </Button>
           </>
         )}

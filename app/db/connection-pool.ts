@@ -2,8 +2,8 @@
  * Database connection pool configuration
  * This module configures the database connection pool based on the current environment
  */
-import { Pool } from "@neondatabase/serverless";
-import { config } from "@/config/environment";
+import { Pool } from &quot;@neondatabase/serverless&quot;;
+import { config } from &quot;@/config/environment&quot;;
 
 /**
  * Create and configure a connection pool for the database
@@ -11,7 +11,7 @@ import { config } from "@/config/environment";
  */
 export function createConnectionPool(): Pool {
   if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not defined");
+    throw new Error(&quot;DATABASE_URL is not defined&quot;);
   }
 
   // Create a connection pool with environment-specific configuration
@@ -21,13 +21,13 @@ export function createConnectionPool(): Pool {
     min: config.database.connectionPoolMin,
     idleTimeoutMillis: config.database.idleTimeout,
     connectionTimeoutMillis: 10000, // 10 seconds
-    allowExitOnIdle: process.env.NODE_ENV === "development", // Only allow in development
+    allowExitOnIdle: process.env.NODE_ENV === &quot;development&quot;, // Only allow in development
   });
 
   // Add event listeners for connection management
-  pool.on("connect", (client) => {
-    if (config.logLevel === "debug") {
-      console.log("New database client connected");
+  pool.on(&quot;connect&quot;, (client) => {
+    if (config.logLevel === &quot;debug&quot;) {
+      console.log(&quot;New database client connected&quot;);
     }
 
     // Set statement timeout
@@ -36,13 +36,13 @@ export function createConnectionPool(): Pool {
     );
   });
 
-  pool.on("error", (err) => {
-    console.error("Unexpected error on idle client", err);
+  pool.on(&quot;error&quot;, (err) => {
+    console.error(&quot;Unexpected error on idle client&quot;, err);
   });
 
-  pool.on("remove", () => {
-    if (config.logLevel === "debug") {
-      console.log("Database client removed from pool");
+  pool.on(&quot;remove&quot;, () => {
+    if (config.logLevel === &quot;debug&quot;) {
+      console.log(&quot;Database client removed from pool&quot;);
     }
   });
 

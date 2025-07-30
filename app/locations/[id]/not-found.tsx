@@ -1,21 +1,21 @@
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Button } from &quot;@/components/ui/button&quot;;
+import { ArrowLeft } from &quot;lucide-react&quot;;
+import Link from &quot;next/link&quot;;
 
 export default function LocationNotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] p-6">
-      <div className="text-center space-y-5 max-w-md">
-        <h1 className="text-3xl font-bold tracking-tight">
+    <div className=&quot;flex flex-col items-center justify-center min-h-[60vh] p-6&quot;>
+      <div className=&quot;text-center space-y-5 max-w-md&quot;>
+        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
           Location Not Found
         </h1>
-        <p className="text-muted-foreground">
-          The location you are looking for doesn't exist or you may not have
+        <p className=&quot;text-muted-foreground&quot;>
+          The location you are looking for doesn&apos;t exist or you may not have
           permission to view it.
         </p>
         <Button asChild>
-          <Link href="/locations">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+          <Link href=&quot;/locations&quot;>
+            <ArrowLeft className=&quot;mr-2 h-4 w-4&quot; />
             Back to Locations
           </Link>
         </Button>

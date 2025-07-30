@@ -1,23 +1,23 @@
 /**
  * Location service models and validation schemas
  */
-import { z } from "zod";
+import { z } from &quot;zod&quot;;
 
 // Location Types
 export enum LocationType {
-  VENUE = "venue",
-  OFFICE = "office",
-  STORAGE = "storage",
-  OTHER = "other",
+  VENUE = &quot;venue&quot;,
+  OFFICE = &quot;office&quot;,
+  STORAGE = &quot;storage&quot;,
+  OTHER = &quot;other&quot;,
 }
 
 // Location Status
 export enum LocationStatus {
-  DRAFT = "draft",
-  PENDING = "pending",
-  APPROVED = "approved",
-  REJECTED = "rejected",
-  INACTIVE = "inactive",
+  DRAFT = &quot;draft&quot;,
+  PENDING = &quot;pending&quot;,
+  APPROVED = &quot;approved&quot;,
+  REJECTED = &quot;rejected&quot;,
+  INACTIVE = &quot;inactive&quot;,
 }
 
 // State entity
@@ -66,18 +66,18 @@ export interface LocationDTO {
 
 // Create Location Parameters Schema
 export const createLocationSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(1, &quot;Name is required&quot;),
   type: z.nativeEnum(LocationType),
-  address1: z.string().min(1, "Address line 1 is required"),
+  address1: z.string().min(1, &quot;Address line 1 is required&quot;),
   address2: z.string().optional(),
-  city: z.string().min(1, "City is required"),
-  stateId: z.string().min(1, "State is required"),
-  zipcode: z.string().min(5, "Zipcode is required"),
+  city: z.string().min(1, &quot;City is required&quot;),
+  stateId: z.string().min(1, &quot;State is required&quot;),
+  zipcode: z.string().min(5, &quot;Zipcode is required&quot;),
   phone: z.string().optional(),
-  email: z.string().email("Invalid email").optional(),
-  website: z.string().url("Invalid website URL").optional(),
+  email: z.string().email(&quot;Invalid email&quot;).optional(),
+  website: z.string().url(&quot;Invalid website URL&quot;).optional(),
   contactName: z.string().optional(),
-  contactEmail: z.string().email("Invalid email").optional(),
+  contactEmail: z.string().email(&quot;Invalid email&quot;).optional(),
   contactPhone: z.string().optional(),
   notes: z.string().optional(),
   latitude: z.number().optional(),

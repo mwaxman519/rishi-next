@@ -1,17 +1,17 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Shift Assignment API Routes
  * Endpoints for managing shift assignments
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { EventBusService } from "../../../../services/event-bus-service";
-import { v4 as uuidv4 } from "uuid";
-import { z } from "zod";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { EventBusService } from &quot;../../../../services/event-bus-service&quot;;
+import { v4 as uuidv4 } from &quot;uuid&quot;;
+import { z } from &quot;zod&quot;;
 
 const assignShiftSchema = z.object({
   shiftId: z.string().uuid(),
@@ -25,17 +25,17 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession();
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const body = await request.json();
 
     // Get user context from session
-    const userId = (session.user as any).id || "mock-user-id";
-    const userRole = (session.user as any).role || "internal_field_manager";
+    const userId = (session.user as any).id || &quot;mock-user-id&quot;;
+    const userRole = (session.user as any).role || &quot;internal_field_manager&quot;;
     const organizationId =
       (session.user as any).organizationId ||
-      "00000000-0000-0000-0000-000000000001";
+      &quot;00000000-0000-0000-0000-000000000001&quot;;
 
     // Validate request body
     const validatedData = assignShiftSchema.parse(body);
@@ -50,19 +50,19 @@ export async function POST(request: NextRequest) {
         shiftId: validatedData.shiftId,
         agentId: validatedData.agentId,
         assignedBy: userId,
-        status: "assigned",
+        status: &quot;assigned&quot;,
       },
     ];
 
     // Publish event using EventBusService
     await eventBus.publish({
       id: uuidv4(),
-      type: "shift.assignment.created",
+      type: &quot;shift.assignment.created&quot;,
       data: assignments[0],
       timestamp: new Date(),
       correlationId: uuidv4(),
-      source: "shift-assignments-api",
-      version: "1.0",
+      source: &quot;shift-assignments-api&quot;,
+      version: &quot;1.0&quot;,
     });
 
     // Events automatically published through service layer:
@@ -74,15 +74,15 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         data: assignments[0], // Return first assignment
-        message: "Cannabis staff assignment created successfully",
+        message: &quot;Cannabis staff assignment created successfully&quot;,
         meta: {
           assignmentId: assignments[0]?.id,
           shiftId: validatedData.shiftId,
           agentId: validatedData.agentId,
           assignedBy: userId,
           eventsPublished: [
-            "staff.assigned",
-            "cannabis.shift_assignment_created",
+            &quot;staff.assigned&quot;,
+            &quot;cannabis.shift_assignment_created&quot;,
           ],
           timestamp: new Date().toISOString(),
         },
@@ -90,17 +90,17 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.error("POST /api/shifts/assignments error:", error);
+    console.error(&quot;POST /api/shifts/assignments error:&quot;, error);
 
-    if (error instanceof Error && error.name === "ZodError") {
+    if (error instanceof Error && error.name === &quot;ZodError&quot;) {
       return NextResponse.json(
-        { error: "Invalid request data", details: error.message },
+        { error: &quot;Invalid request data&quot;, details: error.message },
         { status: 400 },
       );
     }
 
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: &quot;Internal server error&quot; },
       { status: 500 },
     );
   }
@@ -113,16 +113,16 @@ export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession();
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
-    const shiftId = (searchParams.get("shiftId") || undefined);
-    const agentId = (searchParams.get("agentId") || undefined);
+    const shiftId = (searchParams.get(&quot;shiftId&quot;) || undefined);
+    const agentId = (searchParams.get(&quot;agentId&quot;) || undefined);
 
     if (!shiftId || !agentId) {
       return NextResponse.json(
-        { error: "Shift ID and Agent ID are required" },
+        { error: &quot;Shift ID and Agent ID are required&quot; },
         { status: 400 },
       );
     }
@@ -134,7 +134,7 @@ export async function DELETE(request: NextRequest) {
 
     if (!userId || !userRole || !organizationId) {
       return NextResponse.json(
-        { error: "Invalid session data" },
+        { error: &quot;Invalid session data&quot; },
         { status: 401 },
       );
     }
@@ -149,9 +149,9 @@ export async function DELETE(request: NextRequest) {
 
     if (!result.success) {
       const status =
-        result.code === "NOT_FOUND"
+        result.code === &quot;NOT_FOUND&quot;
           ? 404
-          : result.code === "UNASSIGNMENT_PERMISSION_DENIED"
+          : result.code === &quot;UNASSIGNMENT_PERMISSION_DENIED&quot;
             ? 403
             : 400;
       return NextResponse.json(
@@ -160,11 +160,11 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ message: "Agent unassigned successfully" });
+    return NextResponse.json({ message: &quot;Agent unassigned successfully&quot; });
   } catch (error) {
-    console.error("DELETE /api/shifts/assignments error:", error);
+    console.error(&quot;DELETE /api/shifts/assignments error:&quot;, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: &quot;Internal server error&quot; },
       { status: 500 },
     );
   }

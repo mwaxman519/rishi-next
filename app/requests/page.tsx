@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from &quot;@/components/ui/tabs&quot;;
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from &quot;@/components/ui/card&quot;;
 import {
   Calendar,
   CheckCircle,
@@ -15,98 +15,98 @@ import {
   XCircle,
   CalendarDays,
   Filter,
-} from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+} from &quot;lucide-react&quot;;
+import Link from &quot;next/link&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 
 export default function RequestsPage() {
   return (
-    <div className="container mx-auto py-6 space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Event Requests</h1>
-        <Button variant="outline" className="gap-2">
-          <Filter className="h-4 w-4" />
+    <div className=&quot;container mx-auto py-6 space-y-8&quot;>
+      <div className=&quot;flex justify-between items-center&quot;>
+        <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>Event Requests</h1>
+        <Button variant=&quot;outline&quot; className=&quot;gap-2&quot;>
+          <Filter className=&quot;h-4 w-4&quot; />
           Filter
         </Button>
       </div>
 
-      <Tabs defaultValue="pending" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="approved">Approved</TabsTrigger>
-          <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
-          <TabsTrigger value="declined">Declined</TabsTrigger>
-          <TabsTrigger value="calendar">Calendar View</TabsTrigger>
+      <Tabs defaultValue=&quot;pending&quot; className=&quot;w-full&quot;>
+        <TabsList className=&quot;mb-4&quot;>
+          <TabsTrigger value=&quot;pending&quot;>Pending</TabsTrigger>
+          <TabsTrigger value=&quot;approved&quot;>Approved</TabsTrigger>
+          <TabsTrigger value=&quot;scheduled&quot;>Scheduled</TabsTrigger>
+          <TabsTrigger value=&quot;declined&quot;>Declined</TabsTrigger>
+          <TabsTrigger value=&quot;calendar&quot;>Calendar View</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="pending" className="space-y-6">
-          <p className="text-muted-foreground mb-4">
+        <TabsContent value=&quot;pending&quot; className=&quot;space-y-6&quot;>
+          <p className=&quot;text-muted-foreground mb-4&quot;>
             New event booking requests waiting for approval.
           </p>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className=&quot;grid grid-cols-1 gap-4&quot;>
             {/* Pending Request Card */}
-            <Card className="transition-all hover:shadow-md border-amber-200">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
+            <Card className=&quot;transition-all hover:shadow-md border-amber-200&quot;>
+              <CardHeader className=&quot;pb-3&quot;>
+                <div className=&quot;flex justify-between items-start&quot;>
                   <div>
-                    <CardTitle className="flex items-center text-lg">
-                      <Calendar className="mr-2 h-5 w-5 text-amber-600" />
+                    <CardTitle className=&quot;flex items-center text-lg&quot;>
+                      <Calendar className=&quot;mr-2 h-5 w-5 text-amber-600&quot; />
                       Product Launch Event
                     </CardTitle>
                     <CardDescription>
-                      <span className="font-medium">Acme Corporation</span> •
+                      <span className=&quot;font-medium&quot;>Acme Corporation</span> •
                       Tier 2
                     </CardDescription>
                   </div>
-                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-amber-100 text-amber-800">
+                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-amber-100 text-amber-800&quot;>
                     Pending
                   </span>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className=&quot;space-y-4&quot;>
+                  <div className=&quot;grid grid-cols-2 gap-4 text-sm&quot;>
                     <div>
-                      <p className="text-muted-foreground">Date & Time</p>
-                      <p className="font-medium">
+                      <p className=&quot;text-muted-foreground&quot;>Date & Time</p>
+                      <p className=&quot;font-medium&quot;>
                         May 15, 2025 • 10:00 AM - 4:00 PM
                       </p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Location</p>
-                      <p className="font-medium">
+                      <p className=&quot;text-muted-foreground&quot;>Location</p>
+                      <p className=&quot;font-medium&quot;>
                         San Francisco Convention Center
                       </p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Staff Needed</p>
-                      <p className="font-medium">5 Brand Ambassadors</p>
+                      <p className=&quot;text-muted-foreground&quot;>Staff Needed</p>
+                      <p className=&quot;font-medium&quot;>5 Brand Ambassadors</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Kit Requested</p>
-                      <p className="font-medium">Demo Kit v2</p>
+                      <p className=&quot;text-muted-foreground&quot;>Kit Requested</p>
+                      <p className=&quot;font-medium&quot;>Demo Kit v2</p>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t">
-                    <p className="text-muted-foreground text-sm mb-1">
+                  <div className=&quot;pt-2 border-t&quot;>
+                    <p className=&quot;text-muted-foreground text-sm mb-1&quot;>
                       Request Notes
                     </p>
-                    <p className="text-sm">
+                    <p className=&quot;text-sm&quot;>
                       Staff should have knowledge of our new product line and be
                       able to demonstrate features to potential clients.
                     </p>
                   </div>
 
-                  <div className="flex justify-end space-x-3">
-                    <Button variant="outline" size="sm" className="gap-1">
-                      <XCircle className="h-4 w-4" />
+                  <div className=&quot;flex justify-end space-x-3&quot;>
+                    <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;gap-1&quot;>
+                      <XCircle className=&quot;h-4 w-4&quot; />
                       Decline
                     </Button>
-                    <Link href="/requests/1">
-                      <Button size="sm" className="gap-1">
-                        <CheckCircle className="h-4 w-4" />
+                    <Link href=&quot;/requests/1&quot;>
+                      <Button size=&quot;sm&quot; className=&quot;gap-1&quot;>
+                        <CheckCircle className=&quot;h-4 w-4&quot; />
                         Review & Approve
                       </Button>
                     </Link>
@@ -116,66 +116,66 @@ export default function RequestsPage() {
             </Card>
 
             {/* Another Pending Request Card */}
-            <Card className="transition-all hover:shadow-md border-amber-200">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
+            <Card className=&quot;transition-all hover:shadow-md border-amber-200&quot;>
+              <CardHeader className=&quot;pb-3&quot;>
+                <div className=&quot;flex justify-between items-start&quot;>
                   <div>
-                    <CardTitle className="flex items-center text-lg">
-                      <Calendar className="mr-2 h-5 w-5 text-amber-600" />
+                    <CardTitle className=&quot;flex items-center text-lg&quot;>
+                      <Calendar className=&quot;mr-2 h-5 w-5 text-amber-600&quot; />
                       Trade Show Representation
                     </CardTitle>
                     <CardDescription>
-                      <span className="font-medium">Globex Industries</span> •
+                      <span className=&quot;font-medium&quot;>Globex Industries</span> •
                       Tier 3
                     </CardDescription>
                   </div>
-                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-amber-100 text-amber-800">
+                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-amber-100 text-amber-800&quot;>
                     Pending
                   </span>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className=&quot;space-y-4&quot;>
+                  <div className=&quot;grid grid-cols-2 gap-4 text-sm&quot;>
                     <div>
-                      <p className="text-muted-foreground">Date & Time</p>
-                      <p className="font-medium">
+                      <p className=&quot;text-muted-foreground&quot;>Date & Time</p>
+                      <p className=&quot;font-medium&quot;>
                         June 5-7, 2025 • 9:00 AM - 5:00 PM
                       </p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Location</p>
-                      <p className="font-medium">Chicago McCormick Place</p>
+                      <p className=&quot;text-muted-foreground&quot;>Location</p>
+                      <p className=&quot;font-medium&quot;>Chicago McCormick Place</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Staff Needed</p>
-                      <p className="font-medium">3 Technical Specialists</p>
+                      <p className=&quot;text-muted-foreground&quot;>Staff Needed</p>
+                      <p className=&quot;font-medium&quot;>3 Technical Specialists</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Kit Requested</p>
-                      <p className="font-medium">Trade Show Ultimate</p>
+                      <p className=&quot;text-muted-foreground&quot;>Kit Requested</p>
+                      <p className=&quot;font-medium&quot;>Trade Show Ultimate</p>
                     </div>
                   </div>
 
-                  <div className="pt-2 border-t">
-                    <p className="text-muted-foreground text-sm mb-1">
+                  <div className=&quot;pt-2 border-t&quot;>
+                    <p className=&quot;text-muted-foreground text-sm mb-1&quot;>
                       Request Notes
                     </p>
-                    <p className="text-sm">
+                    <p className=&quot;text-sm&quot;>
                       Need staff with technical expertise who can engage with
                       industry professionals. Booth will require full setup on
                       June 4th.
                     </p>
                   </div>
 
-                  <div className="flex justify-end space-x-3">
-                    <Button variant="outline" size="sm" className="gap-1">
-                      <XCircle className="h-4 w-4" />
+                  <div className=&quot;flex justify-end space-x-3&quot;>
+                    <Button variant=&quot;outline&quot; size=&quot;sm&quot; className=&quot;gap-1&quot;>
+                      <XCircle className=&quot;h-4 w-4&quot; />
                       Decline
                     </Button>
-                    <Link href="/requests/2">
-                      <Button size="sm" className="gap-1">
-                        <CheckCircle className="h-4 w-4" />
+                    <Link href=&quot;/requests/2&quot;>
+                      <Button size=&quot;sm&quot; className=&quot;gap-1&quot;>
+                        <CheckCircle className=&quot;h-4 w-4&quot; />
                         Review & Approve
                       </Button>
                     </Link>
@@ -186,58 +186,58 @@ export default function RequestsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="approved" className="space-y-6">
-          <p className="text-muted-foreground mb-4">
+        <TabsContent value=&quot;approved&quot; className=&quot;space-y-6&quot;>
+          <p className=&quot;text-muted-foreground mb-4&quot;>
             Approved requests ready for scheduling.
           </p>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className=&quot;grid grid-cols-1 gap-4&quot;>
             {/* Approved Request Card */}
-            <Card className="transition-all hover:shadow-md border-green-200">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
+            <Card className=&quot;transition-all hover:shadow-md border-green-200&quot;>
+              <CardHeader className=&quot;pb-3&quot;>
+                <div className=&quot;flex justify-between items-start&quot;>
                   <div>
-                    <CardTitle className="flex items-center text-lg">
-                      <Calendar className="mr-2 h-5 w-5 text-green-600" />
+                    <CardTitle className=&quot;flex items-center text-lg&quot;>
+                      <Calendar className=&quot;mr-2 h-5 w-5 text-green-600&quot; />
                       Product Demo Workshop
                     </CardTitle>
                     <CardDescription>
-                      <span className="font-medium">Initech Solutions</span> •
+                      <span className=&quot;font-medium&quot;>Initech Solutions</span> •
                       Tier 2
                     </CardDescription>
                   </div>
-                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800">
+                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-800&quot;>
                     Approved
                   </span>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className=&quot;space-y-4&quot;>
+                  <div className=&quot;grid grid-cols-2 gap-4 text-sm&quot;>
                     <div>
-                      <p className="text-muted-foreground">Date & Time</p>
-                      <p className="font-medium">
+                      <p className=&quot;text-muted-foreground&quot;>Date & Time</p>
+                      <p className=&quot;font-medium&quot;>
                         April 28, 2025 • 1:00 PM - 5:00 PM
                       </p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Location</p>
-                      <p className="font-medium">Austin Convention Center</p>
+                      <p className=&quot;text-muted-foreground&quot;>Location</p>
+                      <p className=&quot;font-medium&quot;>Austin Convention Center</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Staff Needed</p>
-                      <p className="font-medium">2 Brand Ambassadors</p>
+                      <p className=&quot;text-muted-foreground&quot;>Staff Needed</p>
+                      <p className=&quot;font-medium&quot;>2 Brand Ambassadors</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Kit Assigned</p>
-                      <p className="font-medium">Demo Kit A-123</p>
+                      <p className=&quot;text-muted-foreground&quot;>Kit Assigned</p>
+                      <p className=&quot;font-medium&quot;>Demo Kit A-123</p>
                     </div>
                   </div>
 
-                  <div className="flex justify-end">
-                    <Link href="/requests/3/schedule">
-                      <Button size="sm" className="gap-1">
-                        <ClockIcon className="h-4 w-4" />
+                  <div className=&quot;flex justify-end&quot;>
+                    <Link href=&quot;/requests/3/schedule&quot;>
+                      <Button size=&quot;sm&quot; className=&quot;gap-1&quot;>
+                        <ClockIcon className=&quot;h-4 w-4&quot; />
                         Schedule Staff
                       </Button>
                     </Link>
@@ -248,57 +248,57 @@ export default function RequestsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="scheduled" className="space-y-6">
-          <p className="text-muted-foreground mb-4">
+        <TabsContent value=&quot;scheduled&quot; className=&quot;space-y-6&quot;>
+          <p className=&quot;text-muted-foreground mb-4&quot;>
             Fully scheduled event requests.
           </p>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className=&quot;grid grid-cols-1 gap-4&quot;>
             {/* Scheduled Request Card */}
-            <Card className="transition-all hover:shadow-md border-blue-200">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
+            <Card className=&quot;transition-all hover:shadow-md border-blue-200&quot;>
+              <CardHeader className=&quot;pb-3&quot;>
+                <div className=&quot;flex justify-between items-start&quot;>
                   <div>
-                    <CardTitle className="flex items-center text-lg">
-                      <Calendar className="mr-2 h-5 w-5 text-blue-600" />
+                    <CardTitle className=&quot;flex items-center text-lg&quot;>
+                      <Calendar className=&quot;mr-2 h-5 w-5 text-blue-600&quot; />
                       Annual Conference
                     </CardTitle>
                     <CardDescription>
-                      <span className="font-medium">Acme Corporation</span> •
+                      <span className=&quot;font-medium&quot;>Acme Corporation</span> •
                       Tier 2
                     </CardDescription>
                   </div>
-                  <span className="text-xs font-medium py-1 px-3 rounded-full bg-blue-100 text-blue-800">
+                  <span className=&quot;text-xs font-medium py-1 px-3 rounded-full bg-blue-100 text-blue-800&quot;>
                     Scheduled
                   </span>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className=&quot;space-y-4&quot;>
+                  <div className=&quot;grid grid-cols-2 gap-4 text-sm&quot;>
                     <div>
-                      <p className="text-muted-foreground">Date & Time</p>
-                      <p className="font-medium">
+                      <p className=&quot;text-muted-foreground&quot;>Date & Time</p>
+                      <p className=&quot;font-medium&quot;>
                         April 22-24, 2025 • 8:00 AM - 6:00 PM
                       </p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Location</p>
-                      <p className="font-medium">Las Vegas Convention Center</p>
+                      <p className=&quot;text-muted-foreground&quot;>Location</p>
+                      <p className=&quot;font-medium&quot;>Las Vegas Convention Center</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Staff Assigned</p>
-                      <p className="font-medium">5/5 Confirmed</p>
+                      <p className=&quot;text-muted-foreground&quot;>Staff Assigned</p>
+                      <p className=&quot;font-medium&quot;>5/5 Confirmed</p>
                     </div>
                     <div>
-                      <p className="text-muted-foreground">Kit Status</p>
-                      <p className="font-medium">All Kits Ready</p>
+                      <p className=&quot;text-muted-foreground&quot;>Kit Status</p>
+                      <p className=&quot;font-medium&quot;>All Kits Ready</p>
                     </div>
                   </div>
 
-                  <div className="flex justify-end">
-                    <Link href="/requests/4/details">
-                      <Button size="sm" variant="outline" className="gap-1">
+                  <div className=&quot;flex justify-end&quot;>
+                    <Link href=&quot;/requests/4/details&quot;>
+                      <Button size=&quot;sm&quot; variant=&quot;outline&quot; className=&quot;gap-1&quot;>
                         View Details
                       </Button>
                     </Link>
@@ -309,30 +309,30 @@ export default function RequestsPage() {
           </div>
         </TabsContent>
 
-        <TabsContent value="declined" className="space-y-6">
-          <p className="text-muted-foreground">Declined event requests.</p>
+        <TabsContent value=&quot;declined&quot; className=&quot;space-y-6&quot;>
+          <p className=&quot;text-muted-foreground&quot;>Declined event requests.</p>
 
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <XCircle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium">No Declined Requests</h3>
-              <p className="text-muted-foreground max-w-md mt-2">
+          <div className=&quot;flex items-center justify-center h-64&quot;>
+            <div className=&quot;text-center&quot;>
+              <XCircle className=&quot;h-12 w-12 mx-auto text-muted-foreground mb-4&quot; />
+              <h3 className=&quot;text-lg font-medium&quot;>No Declined Requests</h3>
+              <p className=&quot;text-muted-foreground max-w-md mt-2&quot;>
                 There are currently no declined event requests.
               </p>
             </div>
           </div>
         </TabsContent>
 
-        <TabsContent value="calendar" className="space-y-6">
-          <p className="text-muted-foreground">
+        <TabsContent value=&quot;calendar&quot; className=&quot;space-y-6&quot;>
+          <p className=&quot;text-muted-foreground&quot;>
             Calendar view of all event requests.
           </p>
 
-          <div className="flex items-center justify-center h-96">
-            <div className="text-center">
-              <CalendarDays className="h-12 w-12 mx-auto text-primary mb-4" />
-              <h3 className="text-lg font-medium">Calendar View</h3>
-              <p className="text-muted-foreground max-w-md mt-2">
+          <div className=&quot;flex items-center justify-center h-96&quot;>
+            <div className=&quot;text-center&quot;>
+              <CalendarDays className=&quot;h-12 w-12 mx-auto text-primary mb-4&quot; />
+              <h3 className=&quot;text-lg font-medium&quot;>Calendar View</h3>
+              <p className=&quot;text-muted-foreground max-w-md mt-2&quot;>
                 This section will display a calendar view of all event requests.
               </p>
             </div>

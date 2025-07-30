@@ -1,15 +1,15 @@
-"use client";
+&quot;use client&quot;;
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthorization } from "@/hooks/useAuthorization";
-import { AlertCircle, ArrowLeft, Save } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
+import { useForm } from &quot;react-hook-form&quot;;
+import { zodResolver } from &quot;@hookform/resolvers/zod&quot;;
+import { z } from &quot;zod&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
+import { useAuthorization } from &quot;@/hooks/useAuthorization&quot;;
+import { AlertCircle, ArrowLeft, Save } from &quot;lucide-react&quot;;
+import { Button } from &quot;@/components/ui/button&quot;;
 import {
   Form,
   FormControl,
@@ -18,19 +18,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from &quot;@/components/ui/form&quot;;
+import { Input } from &quot;@/components/ui/input&quot;;
+import { Textarea } from &quot;@/components/ui/textarea&quot;;
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { createUser } from "@/actions/users";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+} from &quot;@/components/ui/select&quot;;
+import { Checkbox } from &quot;@/components/ui/checkbox&quot;;
+import { createUser } from &quot;@/actions/users&quot;;
+import { Alert, AlertDescription, AlertTitle } from &quot;@/components/ui/alert&quot;;
 import {
   Card,
   CardContent,
@@ -38,28 +38,28 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+} from &quot;@/components/ui/card&quot;;
+import { Separator } from &quot;@/components/ui/separator&quot;;
 
 // Define the form schema with Zod for validation
 const userFormSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters").max(50),
+  username: z.string().min(3, &quot;Username must be at least 3 characters&quot;).max(50),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number"),
+    .min(8, &quot;Password must be at least 8 characters&quot;)
+    .regex(/[A-Z]/, &quot;Password must contain at least one uppercase letter&quot;)
+    .regex(/[a-z]/, &quot;Password must contain at least one lowercase letter&quot;)
+    .regex(/[0-9]/, &quot;Password must contain at least one number&quot;),
   fullName: z
     .string()
-    .min(2, "Full name must be at least 2 characters")
+    .min(2, &quot;Full name must be at least 2 characters&quot;)
     .max(100),
-  email: z.string().email("Invalid email address"),
+  email: z.string().email(&quot;Invalid email address&quot;),
   phone: z
     .string()
-    .min(10, "Phone number must be at least 10 digits")
+    .min(10, &quot;Phone number must be at least 10 digits&quot;)
     .optional(),
-  role: z.string().min(1, "Role is required"),
+  role: z.string().min(1, &quot;Role is required&quot;),
   active: z.boolean().default(true),
   notes: z.string().optional(),
 });
@@ -79,14 +79,14 @@ export default function CreateUserPage() {
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
-      username: "",
-      password: "",
-      fullName: "",
-      email: "",
-      phone: "",
-      role: "brand_agent", // Default role
+      username: "&quot;,
+      password: &quot;&quot;,
+      fullName: &quot;&quot;,
+      email: &quot;&quot;,
+      phone: &quot;&quot;,
+      role: &quot;brand_agent&quot;, // Default role
       active: true,
-      notes: "",
+      notes: &quot;&quot;,
     },
   });
 
@@ -101,57 +101,57 @@ export default function CreateUserPage() {
         password: data.password,
         fullName: data.fullName,
         email: data.email,
-        phone: data.phone || "",
+        phone: data.phone || &quot;&quot;,
         role: data.role,
         active: data.active,
-        notes: data.notes || "",
+        notes: data.notes || &quot;&quot;,
         // Other fields might be required based on your model
       });
 
       if (response.success && response.data) {
         toast({
-          title: "User Created",
-          description: "The user has been created successfully.",
-          variant: "default",
+          title: &quot;User Created&quot;,
+          description: &quot;The user has been created successfully.&quot;,
+          variant: &quot;default&quot;,
         });
 
         // Redirect to the user detail page or users list
-        router.push("/admin/users");
+        router.push(&quot;/admin/users&quot;);
       } else {
-        setError(response.error || "Failed to create user");
+        setError(response.error || &quot;Failed to create user&quot;);
       }
     } catch (err) {
-      console.error("Error creating user:", err);
-      setError("An unexpected error occurred. Please try again.");
+      console.error(&quot;Error creating user:&quot;, err);
+      setError(&quot;An unexpected error occurred. Please try again.&quot;);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   // Check admin permissions
-  const isSuperAdmin = user?.role === "super_admin";
-  const isInternalAdmin = user?.role === "internal_admin";
+  const isSuperAdmin = user?.role === &quot;super_admin&quot;;
+  const isInternalAdmin = user?.role === &quot;internal_admin&quot;;
   const hasAdminAccess = isSuperAdmin || isInternalAdmin;
 
   if (authLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className=&quot;flex justify-center items-center min-h-screen&quot;>
+        <div className=&quot;animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary&quot;></div>
       </div>
     );
   }
 
   if (!hasAdminAccess) {
     return (
-      <div className="p-6">
-        <Alert variant="destructive" className="mb-6">
-          <AlertCircle className="h-4 w-4" />
+      <div className=&quot;p-6&quot;>
+        <Alert variant=&quot;destructive&quot; className=&quot;mb-6&quot;>
+          <AlertCircle className=&quot;h-4 w-4&quot; />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
-            You don't have administrative permission to access this page.
+            You don&apos;t have administrative permission to access this page.
           </AlertDescription>
         </Alert>
-        <Button onClick={() => router.push("/")} variant="outline">
+        <Button onClick={() => router.push(&quot;/&quot;)} variant=&quot;outline&quot;>
           Return to Dashboard
         </Button>
       </div>
@@ -161,40 +161,40 @@ export default function CreateUserPage() {
   // Role options based on the current user's role
   const roleOptions = isSuperAdmin
     ? [
-        { value: "super_admin", label: "Super Admin" },
-        { value: "internal_admin", label: "Internal Admin" },
-        { value: "internal_field_manager", label: "Internal Field Manager" },
-        { value: "field_coordinator", label: "Field Coordinator" },
-        { value: "brand_agent", label: "Brand Agent" },
-        { value: "client_manager", label: "Client Manager" },
-        { value: "client_user", label: "Client User" },
+        { value: &quot;super_admin&quot;, label: &quot;Super Admin&quot; },
+        { value: &quot;internal_admin&quot;, label: &quot;Internal Admin&quot; },
+        { value: &quot;internal_field_manager&quot;, label: &quot;Internal Field Manager&quot; },
+        { value: &quot;field_coordinator&quot;, label: &quot;Field Coordinator&quot; },
+        { value: &quot;brand_agent&quot;, label: &quot;Brand Agent&quot; },
+        { value: &quot;client_manager&quot;, label: &quot;Client Manager&quot; },
+        { value: &quot;client_user&quot;, label: &quot;Client User&quot; },
       ]
     : [
-        { value: "internal_field_manager", label: "Internal Field Manager" },
-        { value: "field_coordinator", label: "Field Coordinator" },
-        { value: "brand_agent", label: "Brand Agent" },
-        { value: "client_manager", label: "Client Manager" },
-        { value: "client_user", label: "Client User" },
+        { value: &quot;internal_field_manager&quot;, label: &quot;Internal Field Manager&quot; },
+        { value: &quot;field_coordinator&quot;, label: &quot;Field Coordinator&quot; },
+        { value: &quot;brand_agent&quot;, label: &quot;Brand Agent&quot; },
+        { value: &quot;client_manager&quot;, label: &quot;Client Manager&quot; },
+        { value: &quot;client_user&quot;, label: &quot;Client User&quot; },
       ];
 
   return (
-    <div className="p-4 space-y-6 max-w-4xl mx-auto">
-      <div className="flex items-center justify-between">
+    <div className=&quot;p-4 space-y-6 max-w-4xl mx-auto&quot;>
+      <div className=&quot;flex items-center justify-between&quot;>
         <div>
-          <h1 className="text-2xl font-bold">Create New User</h1>
-          <p className="text-muted-foreground">
+          <h1 className=&quot;text-2xl font-bold&quot;>Create New User</h1>
+          <p className=&quot;text-muted-foreground&quot;>
             Add a new user with appropriate permissions
           </p>
         </div>
-        <Button variant="outline" onClick={() => router.push("/admin/users")}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
+        <Button variant=&quot;outline&quot; onClick={() => router.push(&quot;/admin/users&quot;)}>
+          <ArrowLeft className=&quot;h-4 w-4 mr-2&quot; />
           Back to Users
         </Button>
       </div>
 
       {error && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+        <Alert variant=&quot;destructive&quot;>
+          <AlertCircle className=&quot;h-4 w-4&quot; />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -207,17 +207,17 @@ export default function CreateUserPage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-8&quot;>
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
                 {/* Username */}
                 <FormField
                   control={form.control}
-                  name="username"
+                  name=&quot;username&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Username</FormLabel>
                       <FormControl>
-                        <Input placeholder="username" {...field} />
+                        <Input placeholder=&quot;username&quot; {...field} />
                       </FormControl>
                       <FormDescription>
                         The login name for the user.
@@ -230,14 +230,14 @@ export default function CreateUserPage() {
                 {/* Password */}
                 <FormField
                   control={form.control}
-                  name="password"
+                  name=&quot;password&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input
-                          type="password"
-                          placeholder="••••••••"
+                          type=&quot;password&quot;
+                          placeholder=&quot;••••••••&quot;
                           {...field}
                         />
                       </FormControl>
@@ -253,12 +253,12 @@ export default function CreateUserPage() {
                 {/* Full Name */}
                 <FormField
                   control={form.control}
-                  name="fullName"
+                  name=&quot;fullName&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder=&quot;John Doe&quot; {...field} />
                       </FormControl>
                       <FormDescription>User's complete name.</FormDescription>
                       <FormMessage />
@@ -269,14 +269,14 @@ export default function CreateUserPage() {
                 {/* Email */}
                 <FormField
                   control={form.control}
-                  name="email"
+                  name=&quot;email&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
-                          type="email"
-                          placeholder="user@example.com"
+                          type=&quot;email&quot;
+                          placeholder=&quot;user@example.com&quot;
                           {...field}
                         />
                       </FormControl>
@@ -291,14 +291,14 @@ export default function CreateUserPage() {
                 {/* Phone */}
                 <FormField
                   control={form.control}
-                  name="phone"
+                  name=&quot;phone&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
                         <Input
-                          type="tel"
-                          placeholder="(555) 123-4567"
+                          type=&quot;tel&quot;
+                          placeholder=&quot;(555) 123-4567&quot;
                           {...field}
                         />
                       </FormControl>
@@ -313,7 +313,7 @@ export default function CreateUserPage() {
                 {/* Role */}
                 <FormField
                   control={form.control}
-                  name="role"
+                  name=&quot;role&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Role</FormLabel>
@@ -323,7 +323,7 @@ export default function CreateUserPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
+                            <SelectValue placeholder=&quot;Select a role&quot; />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -348,23 +348,23 @@ export default function CreateUserPage() {
 
               {/* Additional Settings */}
               <div>
-                <h3 className="text-lg font-medium mb-4">
+                <h3 className=&quot;text-lg font-medium mb-4&quot;>
                   Additional Settings
                 </h3>
 
                 {/* Active Status */}
                 <FormField
                   control={form.control}
-                  name="active"
+                  name=&quot;active&quot;
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 mb-6">
+                    <FormItem className=&quot;flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 mb-6&quot;>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <div className="space-y-1 leading-none">
+                      <div className=&quot;space-y-1 leading-none&quot;>
                         <FormLabel>Active Account</FormLabel>
                         <FormDescription>
                           If unchecked, the user will not be able to log in.
@@ -377,14 +377,14 @@ export default function CreateUserPage() {
                 {/* Notes */}
                 <FormField
                   control={form.control}
-                  name="notes"
+                  name=&quot;notes&quot;
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Notes</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Any additional information about this user..."
-                          className="resize-y"
+                          placeholder=&quot;Any additional information about this user...&quot;
+                          className=&quot;resize-y&quot;
                           {...field}
                         />
                       </FormControl>
@@ -397,23 +397,23 @@ export default function CreateUserPage() {
                 />
               </div>
 
-              <div className="flex justify-end space-x-3">
+              <div className=&quot;flex justify-end space-x-3&quot;>
                 <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => router.push("/admin/users")}
+                  type=&quot;button&quot;
+                  variant=&quot;outline&quot;
+                  onClick={() => router.push(&quot;/admin/users&quot;)}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isSubmitting}>
+                <Button type=&quot;submit&quot; disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
-                      <div className="animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full"></div>
+                      <div className=&quot;animate-spin mr-2 h-4 w-4 border-t-2 border-b-2 border-white rounded-full&quot;></div>
                       Creating...
                     </>
                   ) : (
                     <>
-                      <Save className="mr-2 h-4 w-4" />
+                      <Save className=&quot;mr-2 h-4 w-4" />
                       Create User
                     </>
                   )}

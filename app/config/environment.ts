@@ -4,13 +4,13 @@
  */
 
 // Environment types
-export type Environment = "development" | "staging" | "production";
+export type Environment = &quot;development&quot; | &quot;staging&quot; | &quot;production&quot;;
 
 // Common configuration interface
 export interface CommonConfig {
   apiUrl: string;
-  eventBusType: "memory" | "azure" | "aws";
-  logLevel: "debug" | "info" | "warn" | "error";
+  eventBusType: &quot;memory&quot; | &quot;azure&quot; | &quot;aws&quot;;
+  logLevel: &quot;debug&quot; | &quot;info&quot; | &quot;warn&quot; | &quot;error&quot;;
   enableCircuitBreakers: boolean;
   maxRetries: number;
   corsOrigins: string[];
@@ -41,12 +41,12 @@ export interface EnvironmentConfig extends CommonConfig {
 
 // Development environment configuration
 const developmentConfig: EnvironmentConfig = {
-  apiUrl: "http://localhost:3000",
-  eventBusType: "memory",
-  logLevel: "debug",
+  apiUrl: &quot;http://localhost:3000&quot;,
+  eventBusType: &quot;memory&quot;,
+  logLevel: &quot;debug&quot;,
   enableCircuitBreakers: false,
   maxRetries: 3,
-  corsOrigins: ["http://localhost:3000", "http://localhost:5000"],
+  corsOrigins: [&quot;http://localhost:3000&quot;, &quot;http://localhost:5000&quot;],
 
   database: {
     connectionPoolMin: 1,
@@ -68,12 +68,12 @@ const developmentConfig: EnvironmentConfig = {
 
 // Staging environment configuration
 const stagingConfig: EnvironmentConfig = {
-  apiUrl: "https://{replit-domain}.repl.co",
-  eventBusType: "memory", // Still using memory for Replit, but with persistence
-  logLevel: "info",
+  apiUrl: &quot;https://{replit-domain}.repl.co&quot;,
+  eventBusType: &quot;memory&quot;, // Still using memory for Replit, but with persistence
+  logLevel: &quot;info&quot;,
   enableCircuitBreakers: true,
   maxRetries: 3,
-  corsOrigins: ["https://{replit-domain}.repl.co"],
+  corsOrigins: [&quot;https://{replit-domain}.repl.co&quot;],
 
   database: {
     connectionPoolMin: 2,
@@ -95,12 +95,12 @@ const stagingConfig: EnvironmentConfig = {
 
 // Production environment configuration
 const productionConfig: EnvironmentConfig = {
-  apiUrl: process.env.API_URL || "https://api.example.com",
-  eventBusType: "azure",
-  logLevel: "warn",
+  apiUrl: process.env.API_URL || &quot;https://api.example.com&quot;,
+  eventBusType: &quot;azure&quot;,
+  logLevel: &quot;warn&quot;,
   enableCircuitBreakers: true,
   maxRetries: 5,
-  corsOrigins: ["https://example.com", "https://*.example.com"],
+  corsOrigins: [&quot;https://example.com&quot;, &quot;https://*.example.com&quot;],
 
   database: {
     connectionPoolMin: 5,
@@ -129,17 +129,17 @@ const configs: Record<Environment, EnvironmentConfig> = {
 
 // Get the current environment
 export function getCurrentEnvironment(): Environment {
-  const env = (process.env.NODE_ENV as Environment) || "development";
+  const env = (process.env.NODE_ENV as Environment) || &quot;development&quot;;
 
   // Direct staging environment detection
-  if (env === "staging") {
-    return "staging";
+  if (env === &quot;staging&quot;) {
+    return &quot;staging&quot;;
   }
 
-  if (env === "production") {
-    // Check if we're in staging (Replit)
+  if (env === &quot;production&quot;) {
+    // Check if we&apos;re in staging (Replit)
     const isReplit = process.env.REPL_ID || process.env.REPL_SLUG;
-    return isReplit ? "staging" : "production";
+    return isReplit ? &quot;staging&quot; : &quot;production&quot;;
   }
 
   return env;
@@ -170,40 +170,40 @@ export function getEnvironmentIndicator(): EnvironmentIndicator {
   const env = getCurrentEnvironment();
 
   switch (env) {
-    case "production":
+    case &quot;production&quot;:
       return {
-        label: "PRODUCTION",
-        color: "#ef4444", // red-500
-        textColor: "#ffffff",
+        label: &quot;PRODUCTION&quot;,
+        color: &quot;#ef4444&quot;, // red-500
+        textColor: &quot;#ffffff&quot;,
         show: false, // Hide in production by default
       };
-    case "staging":
+    case &quot;staging&quot;:
       return {
-        label: "STAGING",
-        color: "#eab308", // yellow-500
-        textColor: "#000000",
+        label: &quot;STAGING&quot;,
+        color: &quot;#eab308&quot;, // yellow-500
+        textColor: &quot;#000000&quot;,
         show: true,
       };
-    case "development":
+    case &quot;development&quot;:
     default:
       return {
-        label: "DEVELOPMENT",
-        color: "#22c55e", // green-500
-        textColor: "#ffffff",
+        label: &quot;DEVELOPMENT&quot;,
+        color: &quot;#22c55e&quot;, // green-500
+        textColor: &quot;#ffffff&quot;,
         show: true,
       };
   }
 }
 // Azure Static Web Apps environment configuration
 export const isAzureStaticWebApp =
-  typeof process !== "undefined" &&
+  typeof process !== &quot;undefined&quot; &&
   process.env.AZURE_STATIC_WEB_APPS_API_TOKEN !== undefined;
 
 export const getDatabaseUrl = () => {
   // Always prioritize DATABASE_URL (Vercel standard), fallback to PRODUCTION_DATABASE_URL (Azure)
   const databaseUrl = process.env.DATABASE_URL || process.env.PRODUCTION_DATABASE_URL;
   if (!databaseUrl) {
-    throw new Error("SECURITY: DATABASE_URL must be set for database access");
+    throw new Error(&quot;SECURITY: DATABASE_URL must be set for database access&quot;);
   }
   return databaseUrl;
 };

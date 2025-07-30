@@ -4,8 +4,8 @@ import {
   useState,
   useEffect,
   ReactNode,
-} from "react";
-import { useAuth } from "@/hooks/useAuth";
+} from &quot;react&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
 
 // Define the organization type
 export interface UserOrganization {
@@ -68,9 +68,9 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
         );
       }
 
-      // Check if we're already on this organization
+      // Check if we&apos;re already on this organization
       if (currentOrganization?.id === orgId) {
-        console.log("Already on this organization, no need to switch");
+        console.log(&quot;Already on this organization, no need to switch&quot;);
         return;
       }
 
@@ -78,17 +78,17 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
       setCurrentOrganization(organization);
 
       // Save the selected organization ID to localStorage
-      localStorage.setItem("selectedOrganizationId", orgId);
+      localStorage.setItem(&quot;selectedOrganizationId&quot;, orgId);
 
       // Make an API call to update the server-side context and JWT token
-      const response = await fetch("/api/auth/switch-organization", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch(&quot;/api/auth/switch-organization&quot;, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
         body: JSON.stringify({
           organizationId: orgId,
           organizationRole: organization.role,
         }),
-        credentials: "include", // Include cookies in the request
+        credentials: &quot;include&quot;, // Include cookies in the request
       });
 
       // Check for errors in the response
@@ -103,7 +103,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
       // Get the response data
       const data = await response.json();
 
-      console.log("Organization switched successfully:", data);
+      console.log(&quot;Organization switched successfully:&quot;, data);
 
       // Refresh the page to ensure all components use the new context
       console.log(
@@ -115,11 +115,11 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
         window.location.reload();
       }, 100);
     } catch (err) {
-      console.error("Error switching organization:", err);
+      console.error(&quot;Error switching organization:&quot;, err);
       // Re-throw the error so it can be handled by the UI component
       throw err instanceof Error
         ? err
-        : new Error("An unknown error occurred while switching organizations");
+        : new Error(&quot;An unknown error occurred while switching organizations&quot;);
     }
   };
 
@@ -130,7 +130,7 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
         setIsLoading(true);
         setError(null);
 
-        console.log("Authentication state:", { 
+        console.log(&quot;Authentication state:&quot;, { 
           user: user?.username, 
           role: user?.role, 
           isSuperAdmin, 
@@ -140,85 +140,85 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
         // Only initialize if user is authenticated and is super admin
         if (user && isSuperAdmin) {
           const rishiInternal = {
-            id: "00000000-0000-0000-0000-000000000001",
-            name: "Rishi Internal",
-            type: "internal",
-            tier: "internal",
-            role: "super_admin",
+            id: &quot;00000000-0000-0000-0000-000000000001&quot;,
+            name: &quot;Rishi Internal&quot;,
+            type: &quot;internal&quot;,
+            tier: &quot;internal&quot;,
+            role: &quot;super_admin&quot;,
           };
 
           // Add sample organizations for testing dropdown functionality
           const sampleOrganizations = [
             rishiInternal,
             {
-              id: "00000000-0000-0000-0000-000000000002",
-              name: "Green Leaf Cannabis",
-              type: "client",
-              tier: "tier_2",
-              role: "client_admin",
+              id: &quot;00000000-0000-0000-0000-000000000002&quot;,
+              name: &quot;Green Leaf Cannabis&quot;,
+              type: &quot;client&quot;,
+              tier: &quot;tier_2&quot;,
+              role: &quot;client_admin&quot;,
             },
             {
-              id: "00000000-0000-0000-0000-000000000003",
-              name: "MedTech Solutions",
-              type: "client",
-              tier: "tier_3",
-              role: "client_admin",
+              id: &quot;00000000-0000-0000-0000-000000000003&quot;,
+              name: &quot;MedTech Solutions&quot;,
+              type: &quot;client&quot;,
+              tier: &quot;tier_3&quot;,
+              role: &quot;client_admin&quot;,
             },
             {
-              id: "00000000-0000-0000-0000-000000000004",
-              name: "Cannabis Connect",
-              type: "client",
-              tier: "tier_1",
-              role: "client_admin",
+              id: &quot;00000000-0000-0000-0000-000000000004&quot;,
+              name: &quot;Cannabis Connect&quot;,
+              type: &quot;client&quot;,
+              tier: &quot;tier_1&quot;,
+              role: &quot;client_admin&quot;,
             },
             {
-              id: "00000000-0000-0000-0000-000000000005",
-              name: "Harvest Partners",
-              type: "client",
-              tier: "tier_2",
-              role: "client_admin",
+              id: &quot;00000000-0000-0000-0000-000000000005&quot;,
+              name: &quot;Harvest Partners&quot;,
+              type: &quot;client&quot;,
+              tier: &quot;tier_2&quot;,
+              role: &quot;client_admin&quot;,
             },
           ];
 
-          console.log("Initializing organizations for super admin user:", sampleOrganizations.length);
+          console.log(&quot;Initializing organizations for super admin user:&quot;, sampleOrganizations.length);
           setUserOrganizations(sampleOrganizations);
 
           // Check localStorage for saved organization preference or default to Rishi Internal
-          const savedOrgId = localStorage.getItem("selectedOrganizationId");
+          const savedOrgId = localStorage.getItem(&quot;selectedOrganizationId&quot;);
           const selectedOrg = sampleOrganizations.find(org => org.id === savedOrgId) || rishiInternal;
           
-          console.log("Setting current organization to:", selectedOrg.name);
+          console.log(&quot;Setting current organization to:&quot;, selectedOrg.name);
           setCurrentOrganization(selectedOrg);
-          localStorage.setItem("selectedOrganizationId", selectedOrg.id);
+          localStorage.setItem(&quot;selectedOrganizationId&quot;, selectedOrg.id);
           
-          console.log("Current organization set to:", selectedOrg.name);
-          console.log("Organization initialization complete with", sampleOrganizations.length, "organizations");
+          console.log(&quot;Current organization set to:&quot;, selectedOrg.name);
+          console.log(&quot;Organization initialization complete with&quot;, sampleOrganizations.length, &quot;organizations&quot;);
         } else if (user && !isSuperAdmin) {
-          console.log("User is not super admin, organizations will be loaded from API");
+          console.log(&quot;User is not super admin, organizations will be loaded from API&quot;);
           // For non-super admin users, you would fetch organizations from API
           // For now, just set empty state
           setUserOrganizations([]);
           setCurrentOrganization(null);
         } else {
-          console.log("User not authenticated yet, waiting...");
+          console.log(&quot;User not authenticated yet, waiting...&quot;);
           // User not authenticated yet, keep loading state
         }
       } catch (err) {
-        console.error("Error initializing organizations:", err);
+        console.error(&quot;Error initializing organizations:&quot;, err);
         // Ensure fallback always works for super admin users
         if (user && isSuperAdmin) {
           const defaultOrg = {
-            id: "00000000-0000-0000-0000-000000000001",
-            name: "Rishi Internal",
-            type: "internal",
-            tier: "internal",
-            role: "super_admin",
+            id: &quot;00000000-0000-0000-0000-000000000001&quot;,
+            name: &quot;Rishi Internal&quot;,
+            type: &quot;internal&quot;,
+            tier: &quot;internal&quot;,
+            role: &quot;super_admin&quot;,
           };
           const fallbackOrgs = [defaultOrg];
-          console.log("Using fallback organization:", defaultOrg.name);
+          console.log(&quot;Using fallback organization:&quot;, defaultOrg.name);
           setUserOrganizations(fallbackOrgs);
           setCurrentOrganization(defaultOrg);
-          localStorage.setItem("selectedOrganizationId", defaultOrg.id);
+          localStorage.setItem(&quot;selectedOrganizationId&quot;, defaultOrg.id);
         }
         setError(null);
       } finally {
@@ -256,7 +256,7 @@ export function useOrganizationContext() {
   const context = useContext(OrganizationContext);
   if (context === undefined) {
     throw new Error(
-      "useOrganizationContext must be used within an OrganizationProvider",
+      &quot;useOrganizationContext must be used within an OrganizationProvider&quot;,
     );
   }
   return context;

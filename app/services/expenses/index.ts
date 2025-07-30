@@ -3,7 +3,7 @@
  * Event-driven architecture aligned with platform patterns
  */
 
-export * from "./ExpenseService";
-export * from "./models";
-export * from "./repository";
-export * from "./events";
+export * from &quot;./ExpenseService&quot;;
+export * from &quot;./models&quot;;
+export * from &quot;./repository&quot;;
+export * from &quot;./events&quot;;

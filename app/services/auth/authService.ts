@@ -1,17 +1,17 @@
-import { comparePasswords } from "@/lib/auth-server";
-import { createTokenCookie, clearTokenCookie } from "@/lib/auth-server";
-import { USER_ROLES, UserRole } from "../../../shared/schema";
-import { eventBus } from "../../shared/events";
-import { userService } from "../users/userService";
-import { UserWithCredentials } from "../users/models";
+import { comparePasswords } from &quot;@/lib/auth-server&quot;;
+import { createTokenCookie, clearTokenCookie } from &quot;@/lib/auth-server&quot;;
+import { USER_ROLES, UserRole } from &quot;../../../shared/schema&quot;;
+import { eventBus } from &quot;../../shared/events&quot;;
+import { userService } from &quot;../users/userService&quot;;
+import { UserWithCredentials } from &quot;../users/models&quot;;
 import {
   LoginRequest,
   RegisterRequest,
   AuthResponse,
   AuthUser,
   VerifyTokenResult,
-} from "./models";
-import { NextResponse } from "next/server";
+} from &quot;./models&quot;;
+import { NextResponse } from &quot;next/server&quot;;
 
 class AuthService {
   /**
@@ -23,7 +23,7 @@ class AuthService {
       if (data.password !== data.confirmPassword) {
         return {
           success: false,
-          error: "Passwords do not match",
+          error: &quot;Passwords do not match&quot;,
         };
       }
 
@@ -54,7 +54,7 @@ class AuthService {
       });
 
       // Emit login event
-      eventBus.emit("user.login", {
+      eventBus.emit(&quot;user.login&quot;, {
         id: user.id,
         username: user.username,
       });
@@ -71,10 +71,10 @@ class AuthService {
         token,
       };
     } catch (error) {
-      console.error("Error in register:", error);
+      console.error(&quot;Error in register:&quot;, error);
       return {
         success: false,
-        error: "Registration failed",
+        error: &quot;Registration failed&quot;,
       };
     }
   }
@@ -90,7 +90,7 @@ class AuthService {
       if (!userResult.success || !userResult.data) {
         return {
           success: false,
-          error: "Invalid username or password",
+          error: &quot;Invalid username or password&quot;,
         };
       }
 
@@ -105,7 +105,7 @@ class AuthService {
       if (!isPasswordValid) {
         return {
           success: false,
-          error: "Invalid username or password",
+          error: &quot;Invalid username or password&quot;,
         };
       }
 
@@ -118,7 +118,7 @@ class AuthService {
       });
 
       // Emit login event
-      eventBus.emit("user.login", {
+      eventBus.emit(&quot;user.login&quot;, {
         id: user.id,
         username: user.username,
       });
@@ -135,10 +135,10 @@ class AuthService {
         token,
       };
     } catch (error) {
-      console.error("Error in login:", error);
+      console.error(&quot;Error in login:&quot;, error);
       return {
         success: false,
-        error: "Login failed",
+        error: &quot;Login failed&quot;,
       };
     }
   }
@@ -149,10 +149,10 @@ class AuthService {
   async logout(userId: number): Promise<boolean> {
     try {
       // Emit logout event
-      eventBus.emit("user.logout", { id: userId });
+      eventBus.emit(&quot;user.logout&quot;, { id: userId });
       return true;
     } catch (error) {
-      console.error("Error in logout:", error);
+      console.error(&quot;Error in logout:&quot;, error);
       return false;
     }
   }
@@ -167,7 +167,7 @@ class AuthService {
       if (!payload) {
         return {
           valid: false,
-          error: "Invalid token",
+          error: &quot;Invalid token&quot;,
         };
       }
 
@@ -181,10 +181,10 @@ class AuthService {
         },
       };
     } catch (error) {
-      console.error("Error in verifyToken:", error);
+      console.error(&quot;Error in verifyToken:&quot;, error);
       return {
         valid: false,
-        error: "Token verification failed",
+        error: &quot;Token verification failed&quot;,
       };
     }
   }
@@ -216,7 +216,7 @@ class AuthService {
   createLogoutResponse(): NextResponse {
     // Create response
     const response = NextResponse.json({
-      message: "Logged out successfully",
+      message: &quot;Logged out successfully&quot;,
     });
 
     // Clear auth cookie

@@ -1,19 +1,19 @@
-"use client";
+&quot;use client&quot;;
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect } from &quot;react&quot;;
+import { useRouter } from &quot;next/navigation&quot;;
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Card } from "@/components/ui/card";
-import { PendingLocationsList } from "@/components/locations/PendingLocationsList";
-import { ArrowLeft, ClipboardCheck, Map } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
+} from &quot;@/components/ui/breadcrumb&quot;;
+import { Card } from &quot;@/components/ui/card&quot;;
+import { PendingLocationsList } from &quot;@/components/locations/PendingLocationsList&quot;;
+import { ArrowLeft, ClipboardCheck, Map } from &quot;lucide-react&quot;;
+import { useQuery } from &quot;@tanstack/react-query&quot;;
+import { useToast } from &quot;@/hooks/use-toast&quot;;
 
 export default function LocationApprovalQueuePage() {
   const router = useRouter();
@@ -21,60 +21,60 @@ export default function LocationApprovalQueuePage() {
 
   // Check if user has admin permissions
   const { data: hasPermission, error: permissionError } = useQuery<boolean>({
-    queryKey: ["/api/permissions/check", "update:locations"],
+    queryKey: [&quot;/api/permissions/check&quot;, &quot;update:locations&quot;],
     queryFn: async () => {
       const res = await fetch(
-        "/api/permissions/check?permission=update:locations",
+        &quot;/api/permissions/check?permission=update:locations&quot;,
       );
       if (!res.ok) {
-        throw new Error("Failed to check permissions");
+        throw new Error(&quot;Failed to check permissions&quot;);
       }
       const data = await res.json();
       return data.hasPermission;
     },
   });
 
-  // Redirect if user doesn't have admin permissions
+  // Redirect if user doesn&apos;t have admin permissions
   useEffect(() => {
     if (permissionError) {
       toast({
-        title: "Access Denied",
-        description: "You do not have permission to access this page.",
-        variant: "destructive",
+        title: &quot;Access Denied&quot;,
+        description: &quot;You do not have permission to access this page.&quot;,
+        variant: &quot;destructive&quot;,
       });
-      router.push("/dashboard");
+      router.push(&quot;/dashboard&quot;);
     }
 
     if (hasPermission === false) {
       toast({
-        title: "Access Denied",
+        title: &quot;Access Denied&quot;,
         description:
-          "You do not have permission to access the location approval queue.",
-        variant: "destructive",
+          &quot;You do not have permission to access the location approval queue.&quot;,
+        variant: &quot;destructive&quot;,
       });
-      router.push("/dashboard");
+      router.push(&quot;/dashboard&quot;);
     }
   }, [hasPermission, permissionError, router, toast]);
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <div className=&quot;container mx-auto p-6 max-w-7xl&quot;>
       {/* Breadcrumbs navigation */}
-      <Breadcrumb className="mb-6">
+      <Breadcrumb className=&quot;mb-6&quot;>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin">Admin</BreadcrumbLink>
+            <BreadcrumbLink href=&quot;/admin&quot;>Admin</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/admin/locations">
-              <Map className="h-3.5 w-3.5 inline-block mr-1" />
+            <BreadcrumbLink href=&quot;/admin/locations&quot;>
+              <Map className=&quot;h-3.5 w-3.5 inline-block mr-1&quot; />
               Locations
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink className="font-semibold">
-              <ClipboardCheck className="h-3.5 w-3.5 inline-block mr-1" />
+            <BreadcrumbLink className=&quot;font-semibold&quot;>
+              <ClipboardCheck className=&quot;h-3.5 w-3.5 inline-block mr-1&quot; />
               Approval Queue
             </BreadcrumbLink>
           </BreadcrumbItem>
@@ -82,27 +82,27 @@ export default function LocationApprovalQueuePage() {
       </Breadcrumb>
 
       {/* Page header */}
-      <div className="mb-8">
-        <div className="flex items-center space-x-2 mb-2">
+      <div className=&quot;mb-8&quot;>
+        <div className=&quot;flex items-center space-x-2 mb-2&quot;>
           <button
             onClick={() => router.back()}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Go back"
+            className=&quot;text-muted-foreground hover:text-foreground transition-colors&quot;
+            aria-label=&quot;Go back&quot;
           >
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className=&quot;h-5 w-5&quot; />
           </button>
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className=&quot;text-3xl font-bold tracking-tight&quot;>
             Location Approval Queue
           </h1>
         </div>
-        <p className="text-muted-foreground">
+        <p className=&quot;text-muted-foreground&quot;>
           Review and manage locations that require administrator approval before
           being published
         </p>
       </div>
 
       {/* Main content */}
-      <Card className="p-6">
+      <Card className=&quot;p-6&quot;>
         <PendingLocationsList />
       </Card>
     </div>

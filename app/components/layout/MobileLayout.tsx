@@ -1,8 +1,8 @@
-"use client";
+&quot;use client&quot;;
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import React, { useState, useEffect } from &quot;react&quot;;
+import Link from &quot;next/link&quot;;
+import { usePathname } from &quot;next/navigation&quot;;
 import {
   Menu,
   X,
@@ -25,9 +25,9 @@ import {
   ChevronDown,
   Check,
   BookOpen,
-} from "lucide-react";
-import { ThemeToggle } from "../ui/theme-toggle";
-import { useAuth } from "@/hooks/useAuth";
+} from &quot;lucide-react&quot;;
+import { ThemeToggle } from &quot;../ui/theme-toggle&quot;;
+import { useAuth } from &quot;@/hooks/useAuth&quot;;
 
 interface MobileLayoutProps {
   children: React.ReactNode;
@@ -38,7 +38,7 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [orgDropdownOpen, setOrgDropdownOpen] = useState(false);
-  const [currentOrg, setCurrentOrg] = useState("Rishi Internal");
+  const [currentOrg, setCurrentOrg] = useState(&quot;Rishi Internal&quot;);
 
   // Close menus on route changes
   useEffect(() => {
@@ -57,11 +57,11 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
   };
 
   const organizations = [
-    "Rishi Internal",
-    "Cannabis Co.",
-    "Green Valley Dispensary",
-    "Mountain High Events",
-    "Coastal Cannabis",
+    &quot;Rishi Internal&quot;,
+    &quot;Cannabis Co.&quot;,
+    &quot;Green Valley Dispensary&quot;,
+    &quot;Mountain High Events&quot;,
+    &quot;Coastal Cannabis&quot;,
   ];
 
   const selectOrganization = (org: string) => {
@@ -70,55 +70,55 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
   };
 
   const isActive = (path: string) => {
-    return pathname === path || pathname?.startsWith(path + "/");
+    return pathname === path || pathname?.startsWith(path + &quot;/&quot;);
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
+    <div className=&quot;flex flex-col min-h-screen bg-white dark:bg-gray-900&quot;>
       {/* Mobile Header */}
-      <header className="sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm">
-        <div className="flex items-center">
+      <header className=&quot;sticky top-0 z-40 flex items-center justify-between px-4 h-16 border-b bg-white dark:bg-gray-900 shadow-sm&quot;>
+        <div className=&quot;flex items-center&quot;>
           <img
-            src="/favicon.ico"
-            alt="Rishi"
-            className="h-10 w-auto object-contain max-w-[120px]"
+            src=&quot;/favicon.ico&quot;
+            alt=&quot;Rishi&quot;
+            className=&quot;h-10 w-auto object-contain max-w-[120px]&quot;
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className=&quot;flex items-center gap-2&quot;>
           {/* Current Organization Dropdown */}
-          <div className="relative">
+          <div className=&quot;relative&quot;>
             <button
               onClick={toggleOrgDropdown}
-              className="flex items-center gap-1 px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className=&quot;flex items-center gap-1 px-2 py-1 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors&quot;
             >
               <Building
                 size={14}
-                className="text-gray-600 dark:text-gray-400"
+                className=&quot;text-gray-600 dark:text-gray-400&quot;
               />
-              <span className="text-xs font-medium truncate max-w-20 text-gray-700 dark:text-gray-300">
+              <span className=&quot;text-xs font-medium truncate max-w-20 text-gray-700 dark:text-gray-300&quot;>
                 {currentOrg}
               </span>
               <ChevronDown
                 size={12}
-                className={`text-gray-600 dark:text-gray-400 transition-transform ${orgDropdownOpen ? "rotate-180" : ""}`}
+                className={`text-gray-600 dark:text-gray-400 transition-transform ${orgDropdownOpen ? &quot;rotate-180&quot; : "&quot;}`}
               />
             </button>
 
             {/* Organization Dropdown */}
             {orgDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                <div className="py-1">
+              <div className=&quot;absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50&quot;>
+                <div className=&quot;py-1&quot;>
                   {organizations.map((org) => (
                     <button
                       key={org}
                       onClick={() => selectOrganization(org)}
-                      className="flex items-center justify-between w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className=&quot;flex items-center justify-between w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700&quot;
                     >
-                      <span className="truncate">{org}</span>
+                      <span className=&quot;truncate&quot;>{org}</span>
                       {currentOrg === org && (
                         <Check
                           size={14}
-                          className="text-blue-600 dark:text-blue-400 flex-shrink-0 ml-2"
+                          className=&quot;text-blue-600 dark:text-blue-400 flex-shrink-0 ml-2&quot;
                         />
                       )}
                     </button>
@@ -133,103 +133,103 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow">{children}</main>
+      <main className=&quot;flex-grow&quot;>{children}</main>
 
       {/* Bottom Navigation */}
-      <footer className="sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg">
-        <div className="flex justify-around items-center py-2">
+      <footer className=&quot;sticky bottom-0 bg-white dark:bg-gray-900 border-t z-40 shadow-lg&quot;>
+        <div className=&quot;flex justify-around items-center py-2&quot;>
           <Link
-            href="/"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            href=&quot;/&quot;
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive(&quot;/&quot;) ? &quot;text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20&quot; : &quot;text-gray-600 dark:text-gray-400&quot;}`}
           >
             <Home size={20} />
-            <span className="text-xs mt-1">Dashboard</span>
+            <span className=&quot;text-xs mt-1&quot;>Dashboard</span>
           </Link>
           <Link
-            href="/admin"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/admin") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            href=&quot;/admin&quot;
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive(&quot;/admin&quot;) ? &quot;text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20&quot; : &quot;text-gray-600 dark:text-gray-400&quot;}`}
           >
             <Settings size={20} />
-            <span className="text-xs mt-1">Orgs</span>
+            <span className=&quot;text-xs mt-1&quot;>Orgs</span>
           </Link>
           <Link
-            href="/staff"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/staff") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            href=&quot;/staff&quot;
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive(&quot;/staff&quot;) ? &quot;text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20&quot; : &quot;text-gray-600 dark:text-gray-400&quot;}`}
           >
             <Users size={20} />
-            <span className="text-xs mt-1">Users</span>
+            <span className=&quot;text-xs mt-1&quot;>Users</span>
           </Link>
           <Link
-            href="/locations"
-            className={`flex flex-col items-center p-2 rounded-lg ${isActive("/locations") ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            href=&quot;/locations&quot;
+            className={`flex flex-col items-center p-2 rounded-lg ${isActive(&quot;/locations&quot;) ? &quot;text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20&quot; : &quot;text-gray-600 dark:text-gray-400&quot;}`}
           >
             <MapPin size={20} />
-            <span className="text-xs mt-1">Locations</span>
+            <span className=&quot;text-xs mt-1&quot;>Locations</span>
           </Link>
           <button
             onClick={toggleMenu}
-            className={`flex flex-col items-center p-2 rounded-lg ${menuOpen ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20" : "text-gray-600 dark:text-gray-400"}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${menuOpen ? &quot;text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20&quot; : &quot;text-gray-600 dark:text-gray-400&quot;}`}
           >
             <Menu size={20} />
-            <span className="text-xs mt-1">More</span>
+            <span className=&quot;text-xs mt-1&quot;>More</span>
           </button>
         </div>
       </footer>
 
       {/* Organization Dropdown Overlay */}
       {orgDropdownOpen && (
-        <div className="fixed inset-0 z-40" onClick={toggleOrgDropdown} />
+        <div className=&quot;fixed inset-0 z-40&quot; onClick={toggleOrgDropdown} />
       )}
 
       {/* Overlay Menu */}
       {menuOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50" onClick={toggleMenu}>
+        <div className=&quot;fixed inset-0 bg-black/50 z-50&quot; onClick={toggleMenu}>
           <div
-            className="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-900 border-l shadow-lg p-4"
+            className=&quot;fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-900 border-l shadow-lg p-4&quot;
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold">Menu</h2>
+            <div className=&quot;flex justify-between items-center mb-6&quot;>
+              <h2 className=&quot;text-lg font-semibold&quot;>Menu</h2>
               <button
                 onClick={toggleMenu}
-                className="p-2 hover:bg-muted rounded-lg"
+                className=&quot;p-2 hover:bg-muted rounded-lg&quot;
               >
                 <X size={20} />
               </button>
             </div>
-            <nav className="space-y-1">
+            <nav className=&quot;space-y-1&quot;>
               {/* Primary Navigation */}
-              <div className="mb-4">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-3">
+              <div className=&quot;mb-4&quot;>
+                <h3 className=&quot;text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-3&quot;>
                   Navigation
                 </h3>
                 <Link
-                  href="/bookings"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/bookings&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <Calendar size={18} />
                   <span>Bookings Management</span>
                 </Link>
                 <Link
-                  href="/analytics"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/analytics&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <BarChart size={18} />
                   <span>Analytics & Reports</span>
                 </Link>
                 <Link
-                  href="/inventory"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/inventory&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <Package size={18} />
                   <span>Kit Templates</span>
                 </Link>
                 <Link
-                  href="/schedule"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/schedule&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <Clock size={18} />
@@ -238,21 +238,21 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
               </div>
 
               {/* Communication */}
-              <div className="mb-4">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-3">
+              <div className=&quot;mb-4&quot;>
+                <h3 className=&quot;text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-3&quot;>
                   Communication
                 </h3>
                 <Link
-                  href="/messages"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/messages&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <MessageSquare size={18} />
                   <span>Messages</span>
                 </Link>
                 <Link
-                  href="/notifications"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/notifications&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <Bell size={18} />
@@ -261,29 +261,29 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
               </div>
 
               {/* Account */}
-              <div className="mb-4">
-                <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-3">
+              <div className=&quot;mb-4&quot;>
+                <h3 className=&quot;text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 px-3&quot;>
                   Account
                 </h3>
                 <Link
-                  href="/profile"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/profile&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <User size={18} />
                   <span>My Profile</span>
                 </Link>
                 <Link
-                  href="/settings"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/settings&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <Settings size={18} />
                   <span>Settings</span>
                 </Link>
                 <Link
-                  href="/admin"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/admin&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <Shield size={18} />
@@ -292,25 +292,25 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
               </div>
 
               {/* Support */}
-              <div className="mb-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+              <div className=&quot;mb-4 border-t border-gray-200 dark:border-gray-700 pt-4&quot;>
                 <Link
-                  href="/docs"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/docs&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <BookOpen size={18} />
                   <span>Documentation</span>
                 </Link>
                 <Link
-                  href="/help"
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  href=&quot;/help&quot;
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100&quot;
                   onClick={toggleMenu}
                 >
                   <HelpCircle size={18} />
                   <span>Help & Support</span>
                 </Link>
                 <button
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-red-600 dark:text-red-400 w-full text-left"
+                  className=&quot;flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-red-600 dark:text-red-400 w-full text-left"
                   onClick={toggleMenu}
                 >
                   <LogOut size={18} />

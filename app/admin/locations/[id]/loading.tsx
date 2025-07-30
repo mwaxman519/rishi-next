@@ -1,74 +1,74 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Skeleton } from &quot;@/components/ui/skeleton&quot;;
+import { Card, CardContent, CardHeader } from &quot;@/components/ui/card&quot;;
 
 export default function AdminLocationDetailLoading() {
   return (
-    <div className="p-6">
+    <div className=&quot;p-6&quot;>
       {/* Header skeleton */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-        <div className="flex items-center">
-          <Skeleton className="h-10 w-24 mr-2" />
+      <div className=&quot;flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4&quot;>
+        <div className=&quot;flex items-center&quot;>
+          <Skeleton className=&quot;h-10 w-24 mr-2&quot; />
           <div>
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-4 w-32 mt-1" />
+            <Skeleton className=&quot;h-8 w-48&quot; />
+            <Skeleton className=&quot;h-4 w-32 mt-1&quot; />
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-10 w-24" />
-          <Skeleton className="h-10 w-24" />
+        <div className=&quot;flex items-center gap-2&quot;>
+          <Skeleton className=&quot;h-10 w-24&quot; />
+          <Skeleton className=&quot;h-10 w-24&quot; />
         </div>
       </div>
 
       {/* Status badges skeleton */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Skeleton className="h-6 w-24" />
-        <Skeleton className="h-6 w-20" />
+      <div className=&quot;flex flex-wrap gap-2 mb-6&quot;>
+        <Skeleton className=&quot;h-6 w-24&quot; />
+        <Skeleton className=&quot;h-6 w-20&quot; />
       </div>
 
       {/* Admin actions skeleton */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Skeleton className="h-10 w-36" />
-        <Skeleton className="h-10 w-36" />
+      <div className=&quot;flex flex-wrap gap-2 mb-6&quot;>
+        <Skeleton className=&quot;h-10 w-36&quot; />
+        <Skeleton className=&quot;h-10 w-36&quot; />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className=&quot;grid grid-cols-1 lg:grid-cols-3 gap-6&quot;>
         {/* Location details skeleton */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className=&quot;lg:col-span-2 space-y-6&quot;>
           <Card>
             <CardHeader>
-              <Skeleton className="h-6 w-48 mb-2" />
-              <Skeleton className="h-4 w-72" />
+              <Skeleton className=&quot;h-6 w-48 mb-2&quot; />
+              <Skeleton className=&quot;h-4 w-72&quot; />
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className=&quot;space-y-6&quot;>
+              <div className=&quot;grid grid-cols-1 md:grid-cols-2 gap-6&quot;>
                 <div>
-                  <Skeleton className="h-4 w-24 mb-3" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-5 w-2/3" />
+                  <Skeleton className=&quot;h-4 w-24 mb-3&quot; />
+                  <div className=&quot;space-y-2&quot;>
+                    <Skeleton className=&quot;h-5 w-full&quot; />
+                    <Skeleton className=&quot;h-5 w-full&quot; />
+                    <Skeleton className=&quot;h-5 w-2/3&quot; />
                   </div>
                 </div>
 
                 <div>
-                  <Skeleton className="h-4 w-36 mb-3" />
-                  <div className="space-y-3">
-                    <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className=&quot;h-4 w-36 mb-3&quot; />
+                  <div className=&quot;space-y-3&quot;>
+                    <Skeleton className=&quot;h-5 w-full&quot; />
+                    <Skeleton className=&quot;h-5 w-full&quot; />
+                    <Skeleton className=&quot;h-5 w-3/4&quot; />
                   </div>
                 </div>
               </div>
 
-              <Skeleton className="h-px w-full my-4" />
+              <Skeleton className=&quot;h-px w-full my-4&quot; />
 
               <div>
-                <Skeleton className="h-4 w-32 mb-3" />
-                <div className="space-y-3">
-                  <Skeleton className="h-5 w-56" />
-                  <Skeleton className="h-5 w-48" />
-                  <Skeleton className="h-5 w-40" />
+                <Skeleton className=&quot;h-4 w-32 mb-3&quot; />
+                <div className=&quot;space-y-3&quot;>
+                  <Skeleton className=&quot;h-5 w-56&quot; />
+                  <Skeleton className=&quot;h-5 w-48&quot; />
+                  <Skeleton className=&quot;h-5 w-40&quot; />
                 </div>
               </div>
             </CardContent>
@@ -76,16 +76,16 @@ export default function AdminLocationDetailLoading() {
 
           <Card>
             <CardHeader>
-              <Skeleton className="h-6 w-36" />
+              <Skeleton className=&quot;h-6 w-36&quot; />
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between">
-                <Skeleton className="h-5 w-40" />
-                <Skeleton className="h-5 w-28" />
+            <CardContent className=&quot;space-y-4&quot;>
+              <div className=&quot;flex justify-between&quot;>
+                <Skeleton className=&quot;h-5 w-40&quot; />
+                <Skeleton className=&quot;h-5 w-28&quot; />
               </div>
-              <div className="flex justify-between">
-                <Skeleton className="h-5 w-36" />
-                <Skeleton className="h-5 w-28" />
+              <div className=&quot;flex justify-between&quot;>
+                <Skeleton className=&quot;h-5 w-36&quot; />
+                <Skeleton className=&quot;h-5 w-28&quot; />
               </div>
             </CardContent>
           </Card>
@@ -93,12 +93,12 @@ export default function AdminLocationDetailLoading() {
 
         {/* Map skeleton */}
         <div>
-          <Card className="h-full">
+          <Card className=&quot;h-full&quot;>
             <CardHeader>
-              <Skeleton className="h-6 w-32" />
+              <Skeleton className=&quot;h-6 w-32&quot; />
             </CardHeader>
-            <CardContent className="p-0">
-              <Skeleton className="h-[400px] w-full" />
+            <CardContent className=&quot;p-0&quot;>
+              <Skeleton className=&quot;h-[400px] w-full&quot; />
             </CardContent>
           </Card>
         </div>

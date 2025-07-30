@@ -1,15 +1,15 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { locations } from "@/shared/schema";
-import { eq } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@/shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
 
 export async function POST(
   req: NextRequest,
@@ -19,13 +19,13 @@ export async function POST(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to approve locations (should be an internal admin)
-    if (!(await checkPermission(req, "update:locations"))) {
+    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -33,7 +33,7 @@ export async function POST(
     const locationId = params.id;
     if (!locationId) {
       return NextResponse.json(
-        { error: "Invalid location ID" },
+        { error: &quot;Invalid location ID&quot; },
         { status: 400 },
       );
     }
@@ -47,7 +47,7 @@ export async function POST(
 
     if (existingLocations.length === 0) {
       return NextResponse.json(
-        { error: "Location not found" },
+        { error: &quot;Location not found&quot; },
         { status: 404 },
       );
     }
@@ -55,7 +55,7 @@ export async function POST(
     const existingLocation = existingLocations[0];
 
     // Can only approve locations that are in 'pending' status
-    if (existingLocation.status !== "pending") {
+    if (existingLocation.status !== &quot;pending&quot;) {
       return NextResponse.json(
         {
           error: `Cannot approve a location with status '${existingLocation.status}'`,
@@ -68,7 +68,7 @@ export async function POST(
     const [updatedLocation] = await db
       .update(locations)
       .set({
-        status: "approved",
+        status: &quot;approved&quot;,
         reviewerId: user.id,
         reviewDate: new Date(),
       })
@@ -76,13 +76,13 @@ export async function POST(
       .returning();
 
     return NextResponse.json({
-      message: "Location approved successfully",
+      message: &quot;Location approved successfully&quot;,
       location: updatedLocation,
     });
   } catch (error) {
     console.error(`Error approving location:`, error);
     return NextResponse.json(
-      { error: "Failed to approve location" },
+      { error: &quot;Failed to approve location&quot; },
       { status: 500 },
     );
   }

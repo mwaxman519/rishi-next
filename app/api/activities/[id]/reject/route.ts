@@ -1,17 +1,17 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
 
-import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { activities } from "@/shared/schema";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-server";
-import { eq } from "drizzle-orm";
-import { USER_ROLES } from "@/shared/schema";
+import { NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { activities } from &quot;@/shared/schema&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { authOptions } from &quot;@/lib/auth-server&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import { USER_ROLES } from &quot;@/shared/schema&quot;;
 
 interface Params {
   params: Promise<{
@@ -24,7 +24,7 @@ export async function POST(request: Request, { params }: Params) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has rejection permissions
@@ -35,7 +35,7 @@ export async function POST(request: Request, { params }: Params) {
     ].includes((session.user as any).role);
 
     if (!canReject) {
-      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
+      return NextResponse.json({ error: &quot;Permission denied&quot; }, { status: 403 });
     }
 
     const { id } = await params;
@@ -50,19 +50,19 @@ export async function POST(request: Request, { params }: Params) {
 
     if (!activity) {
       return NextResponse.json(
-        { error: "Activity not found" },
+        { error: &quot;Activity not found&quot; },
         { status: 404 },
       );
     }
 
     // Check if the activity is in a state that can be rejected
-    const rejectableStates = ["draft", "pending"];
+    const rejectableStates = [&quot;draft&quot;, &quot;pending&quot;];
 
     if (!rejectableStates.includes(activity.status)) {
       return NextResponse.json(
         {
-          error: "Cannot reject this activity",
-          message: `Activity status is ${activity.status}, must be one of: ${rejectableStates.join(", ")}`,
+          error: &quot;Cannot reject this activity&quot;,
+          message: `Activity status is ${activity.status}, must be one of: ${rejectableStates.join(&quot;, &quot;)}`,
         },
         { status: 400 },
       );
@@ -72,9 +72,9 @@ export async function POST(request: Request, { params }: Params) {
     const [updatedActivity] = await db
       .update(activities)
       .set({
-        status: "rejected",
+        status: &quot;rejected&quot;,
         notes: reason
-          ? `${activity.notes || ""}\n\nRejection reason: ${reason}`.trim()
+          ? `${activity.notes || "&quot;}\n\nRejection reason: ${reason}`.trim()
           : activity.notes,
         updatedAt: new Date(),
       })
@@ -86,13 +86,13 @@ export async function POST(request: Request, { params }: Params) {
     // 2. Log the rejection action in an audit log
 
     return NextResponse.json({
-      message: "Activity rejected successfully",
+      message: &quot;Activity rejected successfully&quot;,
       activity: updatedActivity,
     });
   } catch (error) {
-    console.error("Error rejecting activity:", error);
+    console.error(&quot;Error rejecting activity:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to reject activity" },
+      { error: &quot;Failed to reject activity" },
       { status: 500 },
     );
   }

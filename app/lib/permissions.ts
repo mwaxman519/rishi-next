@@ -1,14 +1,14 @@
 /**
  * Permissions utility functions for checking user access
  */
-import { db } from "../../lib/db-connection";
-import { eq, and, or } from "drizzle-orm";
-import { organizationUsers, organizations, users } from "../../shared/schema";
+import { db } from &quot;../../lib/db-connection&quot;;
+import { eq, and, or } from &quot;drizzle-orm&quot;;
+import { organizationUsers, organizations, users } from &quot;../../shared/schema&quot;;
 import {
   roleHasPermission,
   UserRole,
   USER_ROLES,
-} from "../../shared/rbac/roles";
+} from &quot;../../shared/rbac/roles&quot;;
 
 /**
  * Check if a user has a specific permission
@@ -77,7 +77,7 @@ export async function hasPermission(
     // For now, just return the direct permission check
     return hasDirectPermission;
   } catch (error) {
-    console.error("Error checking permission:", error);
+    console.error(&quot;Error checking permission:&quot;, error);
     return false;
   }
 }
@@ -103,7 +103,7 @@ export async function userBelongsToOrganization(
 
     return !!userOrg;
   } catch (error) {
-    console.error("Error checking organization membership:", error);
+    console.error(&quot;Error checking organization membership:&quot;, error);
     return false;
   }
 }
@@ -140,7 +140,7 @@ export async function getUserOrganizations(userId: string) {
 
     return userOrgs;
   } catch (error) {
-    console.error("Error fetching user organizations:", error);
+    console.error(&quot;Error fetching user organizations:&quot;, error);
     return [];
   }
 }
@@ -204,7 +204,7 @@ export async function getUserPrimaryOrganization(userId: string) {
 
     return anyOrg.length > 0 ? anyOrg[0] : null;
   } catch (error) {
-    console.error("Error fetching primary organization:", error);
+    console.error(&quot;Error fetching primary organization:&quot;, error);
     return null;
   }
 }

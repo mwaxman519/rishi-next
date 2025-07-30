@@ -1,16 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
-import { db } from "@/lib/db";
-import { and, eq } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
-import { organizationUsers } from "@shared/schema";
+import { db } from &quot;@/lib/db&quot;;
+import { and, eq } from &quot;drizzle-orm&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { organizationUsers } from &quot;@shared/schema&quot;;
 import {
   hasEnhancedPermission,
   createPermissionContext,
-} from "@/lib/rbac-enhanced";
+} from &quot;@/lib/rbac-enhanced&quot;;
 
 // POST /api/admin/organization-users - Create new organization user association
 export async function POST(request: NextRequest) {
@@ -18,12 +18,12 @@ export async function POST(request: NextRequest) {
     // Check authentication and authorization
     const authUser = await getCurrentUser();
     if (!authUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Only users with proper permissions can manage organization users
-    if (!hasEnhancedPermission("manage:organization_users", authUser.role)) {
-      return NextResponse.json({ error: "Permission denied" }, { status: 403 });
+    if (!hasEnhancedPermission(&quot;manage:organization_users&quot;, authUser.role)) {
+      return NextResponse.json({ error: &quot;Permission denied&quot; }, { status: 403 });
     }
 
     // Get data from request body
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     // Basic validation
     if (!data.user_id || !data.organization_id || !data.role) {
       return NextResponse.json(
-        { error: "User ID, organization ID, and role are required" },
+        { error: &quot;User ID, organization ID, and role are required&quot; },
         { status: 400 },
       );
     }
@@ -85,9 +85,9 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(createdUser, { status: 201 });
   } catch (error) {
-    console.error("Error creating organization user association:", error);
+    console.error(&quot;Error creating organization user association:&quot;, error);
     return NextResponse.json(
-      { error: "Failed to create organization user association" },
+      { error: &quot;Failed to create organization user association&quot; },
       { status: 500 },
     );
   }

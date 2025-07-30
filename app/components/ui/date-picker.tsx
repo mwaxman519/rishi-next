@@ -1,13 +1,13 @@
-"use client";
+&quot;use client&quot;;
 
-import * as React from "react";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
+import * as React from &quot;react&quot;;
+import { format } from &quot;date-fns&quot;;
+import { Calendar as CalendarIcon } from &quot;lucide-react&quot;;
 
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
-import { Calendar } from "./calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { cn } from &quot;../../lib/utils&quot;;
+import { Button } from &quot;./button&quot;;
+import { Calendar } from &quot;./calendar&quot;;
+import { Popover, PopoverContent, PopoverTrigger } from &quot;./popover&quot;;
 
 interface DatePickerProps {
   selected?: Date;
@@ -42,25 +42,25 @@ export function DatePicker({
   return (
     <Popover>
       <PopoverTrigger asChild disabled={disabled}>
-        <div className={cn("w-full", className)}>
+        <div className={cn(&quot;w-full&quot;, className)}>
           {children || (
             <Button
-              variant={"outline"}
+              variant={&quot;outline&quot;}
               className={cn(
-                "w-full justify-start text-left font-normal",
-                !date && "text-muted-foreground",
+                &quot;w-full justify-start text-left font-normal&quot;,
+                !date && &quot;text-muted-foreground&quot;,
               )}
               disabled={disabled}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
+              <CalendarIcon className=&quot;mr-2 h-4 w-4&quot; />
+              {date ? format(date, &quot;PPP&quot;) : <span>Pick a date</span>}
             </Button>
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className=&quot;w-auto p-0&quot; align=&quot;start&quot;>
         <Calendar
-          mode="single"
+          mode=&quot;single&quot;
           selected={date}
           onSelect={handleSelect}
           initialFocus

@@ -9,7 +9,7 @@ import {
   db,
   detectEnvironment,
   testConnection,
-} from "./lib/db-connection";
+} from &quot;./lib/db-connection&quot;;
 
 // Export the database connection and ORM instance with backwards compatibility aliases
 export { 

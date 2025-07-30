@@ -1,17 +1,17 @@
 /**
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
  * Expense Summary API Routes - Event-Driven Microservice
  * Provides expense analytics and summary data
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { ExpenseService } from "../../../services/expenses/ExpenseService";
-import { ExpenseFiltersSchema } from "../../../services/expenses/models";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { ExpenseService } from &quot;../../../services/expenses/ExpenseService&quot;;
+import { ExpenseFiltersSchema } from &quot;../../../services/expenses/models&quot;;
+import { getServerSession } from &quot;next-auth&quot;;
+import { authOptions } from &quot;@/lib/auth-options&quot;;
 
 const expenseService = new ExpenseService();
 
@@ -21,24 +21,24 @@ export async function GET(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
 
     // Extract filter parameters for summary
     const filters = {
-      organizationId: (session.user as any).organizationId || "",
-      ...((searchParams.get("agentId") || undefined) && { agentId: (searchParams.get("agentId") || undefined) || undefined }),
-      ...((searchParams.get("startDate") || undefined) && { startDate: (searchParams.get("startDate") || undefined) || undefined }),
-      ...((searchParams.get("endDate") || undefined) && { endDate: (searchParams.get("endDate") || undefined) || undefined }),
+      organizationId: (session.user as any).organizationId || "&quot;,
+      ...((searchParams.get(&quot;agentId&quot;) || undefined) && { agentId: (searchParams.get(&quot;agentId&quot;) || undefined) || undefined }),
+      ...((searchParams.get(&quot;startDate&quot;) || undefined) && { startDate: (searchParams.get(&quot;startDate&quot;) || undefined) || undefined }),
+      ...((searchParams.get(&quot;endDate&quot;) || undefined) && { endDate: (searchParams.get(&quot;endDate&quot;) || undefined) || undefined }),
     };
 
     const result = await expenseService.getExpenseSummary(
       filters,
-      (session.user as any).id || "",
-      (session.user as any).role || "brand_agent",
-      (session.user as any).organizationId || "",
+      (session.user as any).id || &quot;&quot;,
+      (session.user as any).role || &quot;brand_agent&quot;,
+      (session.user as any).organizationId || &quot;&quot;,
     );
 
     if (!result.success) {
@@ -47,9 +47,9 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result.data);
   } catch (error) {
-    console.error("Error fetching expense summary:", error);
+    console.error(&quot;Error fetching expense summary:&quot;, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: &quot;Internal server error" },
       { status: 500 },
     );
   }

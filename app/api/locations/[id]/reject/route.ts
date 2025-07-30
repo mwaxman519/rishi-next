@@ -1,20 +1,20 @@
-import { generateStaticParams } from "./generateStaticParams";
+import { generateStaticParams } from &quot;./generateStaticParams&quot;;
 
-export const dynamic = "force-static";
+export const dynamic = &quot;force-static&quot;;
 export const revalidate = false;
 
 
-import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
-import { locations } from "@/shared/schema";
-import { eq } from "drizzle-orm";
-import { getCurrentUser } from "@/lib/auth";
-import { checkPermission } from "@/lib/rbac";
-import { z } from "zod";
+import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { db } from &quot;@/lib/db&quot;;
+import { locations } from &quot;@/shared/schema&quot;;
+import { eq } from &quot;drizzle-orm&quot;;
+import { getCurrentUser } from &quot;@/lib/auth&quot;;
+import { checkPermission } from &quot;@/lib/rbac&quot;;
+import { z } from &quot;zod&quot;;
 
 // Validation schema for rejection data
 const rejectionSchema = z.object({
-  reason: z.string().min(1, "Rejection reason is required"),
+  reason: z.string().min(1, &quot;Rejection reason is required&quot;),
 });
 
 export async function POST(
@@ -25,13 +25,13 @@ export async function POST(
     const user = await getCurrentUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: &quot;Unauthorized&quot; }, { status: 401 });
     }
 
     // Check if user has permission to reject locations (should be an internal admin)
-    if (!(await checkPermission(req, "update:locations"))) {
+    if (!(await checkPermission(req, &quot;update:locations&quot;))) {
       return NextResponse.json(
-        { error: "Forbidden: Insufficient permissions" },
+        { error: &quot;Forbidden: Insufficient permissions&quot; },
         { status: 403 },
       );
     }
@@ -39,7 +39,7 @@ export async function POST(
     const locationId = params.id;
     if (!locationId) {
       return NextResponse.json(
-        { error: "Invalid location ID" },
+        { error: &quot;Invalid location ID&quot; },
         { status: 400 },
       );
     }
@@ -51,7 +51,7 @@ export async function POST(
     if (!validationResult.success) {
       return NextResponse.json(
         {
-          error: "Validation failed",
+          error: &quot;Validation failed&quot;,
           details: validationResult.error.format(),
         },
         { status: 400 },
@@ -69,7 +69,7 @@ export async function POST(
 
     if (existingLocations.length === 0) {
       return NextResponse.json(
-        { error: "Location not found" },
+        { error: &quot;Location not found&quot; },
         { status: 404 },
       );
     }
@@ -77,7 +77,7 @@ export async function POST(
     const existingLocation = existingLocations[0];
 
     // Can only reject locations that are in 'pending' status
-    if (existingLocation.status !== "pending") {
+    if (existingLocation.status !== &quot;pending&quot;) {
       return NextResponse.json(
         {
           error: `Cannot reject a location with status '${existingLocation.status}'`,
@@ -90,7 +90,7 @@ export async function POST(
     const [updatedLocation] = await db
       .update(locations)
       .set({
-        status: "rejected",
+        status: &quot;rejected&quot;,
         reviewerId: user.id,
         reviewDate: new Date(),
         rejectionReason: reason,
@@ -99,13 +99,13 @@ export async function POST(
       .returning();
 
     return NextResponse.json({
-      message: "Location rejected successfully",
+      message: &quot;Location rejected successfully&quot;,
       location: updatedLocation,
     });
   } catch (error) {
     console.error(`Error rejecting location:`, error);
     return NextResponse.json(
-      { error: "Failed to reject location" },
+      { error: &quot;Failed to reject location&quot; },
       { status: 500 },
     );
   }
