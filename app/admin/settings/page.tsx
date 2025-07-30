@@ -46,8 +46,8 @@ export default function SettingsPage() {
   if (!canManageSettings) {
     return (
       <div className="container mx-auto py-6">
-        <h1 className="text-2xl font-bold mb-4">Settings</h1>
-        <p>You don't have permission to access this page.</p>
+        <h1 className=&quot;text-2xl font-bold mb-4>Settings</h1>
+        <p>You don&apos;t have permission to access this page.</p>
       </div>
     );
   }
@@ -315,7 +315,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <div className="md:w-3/4">{renderSection()}</div>
+        <div className=&quot;md:w-3/4>{renderSection()}</div>
       </div>
     </div>
   );

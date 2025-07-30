@@ -145,20 +145,20 @@ export default function CreateUserPage() {
     return (
       <div className="p-6">
         <Alert variant="destructive" className="mb-6">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className=&quot;h-4 w-4 />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
-            You don't have administrative permission to access this page.
+            You don&apos;t have administrative permission to access this page.
           </AlertDescription>
         </Alert>
-        <Button onClick={() => router.push("/")} variant="outline">
+        <Button onClick={() => router.push("/")} variant=&quot;outline>
           Return to Dashboard
         </Button>
       </div>
     );
   }
 
-  // Role options based on the current user's role
+  // Role options based on the current user&apos;s role
   const roleOptions = isSuperAdmin
     ? [
         { value: "super_admin", label: "Super Admin" },
@@ -258,7 +258,7 @@ export default function CreateUserPage() {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder=&quot;John Doe {...field} />
                       </FormControl>
                       <FormDescription>User's complete name.</FormDescription>
                       <FormMessage />
@@ -276,7 +276,7 @@ export default function CreateUserPage() {
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="user@example.com"
+                          placeholder=&quot;user@example.com
                           {...field}
                         />
                       </FormControl>
@@ -298,7 +298,7 @@ export default function CreateUserPage() {
                       <FormControl>
                         <Input
                           type="tel"
-                          placeholder="(555) 123-4567"
+                          placeholder=&quot;(555) 123-4567
                           {...field}
                         />
                       </FormControl>
@@ -323,7 +323,7 @@ export default function CreateUserPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
+                            <SelectValue placeholder=&quot;Select a role />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -335,7 +335,7 @@ export default function CreateUserPage() {
                         </SelectContent>
                       </Select>
                       <FormDescription>
-                        The user's role determines their permissions in the
+                        The user&apos;s role determines their permissions in the
                         system.
                       </FormDescription>
                       <FormMessage />
@@ -413,7 +413,7 @@ export default function CreateUserPage() {
                     </>
                   ) : (
                     <>
-                      <Save className="mr-2 h-4 w-4" />
+                      <Save className=&quot;mr-2 h-4 w-4 />
                       Create User
                     </>
                   )}

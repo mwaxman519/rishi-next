@@ -77,8 +77,8 @@ export default function TeamAvailabilityPage() {
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-6">Team Availability</h1>
         <div className="bg-red-50 border border-red-200 p-4 rounded">
-          <p className="text-red-700">
-            You don't have permission to view this page. Please contact your
+          <p className=&quot;text-red-700>
+            You don&apos;t have permission to view this page. Please contact your
             administrator.
           </p>
         </div>
@@ -208,7 +208,7 @@ export default function TeamAvailabilityPage() {
             >
               View Team Calendar
             </Link>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className=&quot;text-sm text-gray-500 mt-2>
               View a combined calendar of all team members' availability.
             </p>
           </div>

@@ -701,8 +701,8 @@ export default function RolesManagement() {
             <div>
               <Label htmlFor="description">Description</Label>
               <Textarea
-                id="description"
-                placeholder="Describe the role's responsibilities..."
+                id="description&quot;
+                placeholder=Describe the role's responsibilities..."
                 value={createForm.description}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, description: e.target.value })
@@ -1122,7 +1122,7 @@ function RoleCard({
                     <AlertDialogHeader>
                       <AlertDialogTitle>Delete Role</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Are you sure you want to delete the "{role.displayName}"
+                        Are you sure you want to delete the &quot;{role.displayName}&quot;
                         role? This action cannot be undone and will affect{" "}
                         {role.userCount} users.
                       </AlertDialogDescription>

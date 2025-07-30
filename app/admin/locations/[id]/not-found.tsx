@@ -12,13 +12,13 @@ export default function AdminLocationNotFound() {
         <h1 className="text-3xl font-bold tracking-tight">
           Location Not Found
         </h1>
-        <p className="text-muted-foreground">
-          The location you are looking for doesn't exist or you may not have
+        <p className=&quot;text-muted-foreground>
+          The location you are looking for doesn&apos;t exist or you may not have
           permission to view it.
         </p>
         <Button asChild>
           <Link href="/admin/locations">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className=&quot;mr-2 h-4 w-4 />
             Back to Location Management
           </Link>
         </Button>

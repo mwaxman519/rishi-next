@@ -66,7 +66,7 @@ export default function UserPermissionsPage({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(&quot;);
   const [dirtyPermissions, setDirtyPermissions] = useState<
     Record<string, boolean>
   >({});
@@ -102,7 +102,7 @@ export default function UserPermissionsPage({
           if (userResponse.status === 404) {
             throw new Error("User not found");
           } else {
-            throw new Error("Failed to fetch user details");
+            throw new Error(&quot;Failed to fetch user details);
           }
         }
 
@@ -114,7 +114,7 @@ export default function UserPermissionsPage({
         );
 
         if (!permissionsResponse.ok) {
-          // For now, proceed with empty permissions if the endpoint doesn't exist
+          // For now, proceed with empty permissions if the endpoint doesn&apos;t exist
           console.warn(
             "Permission endpoint returned error:",
             permissionsResponse.status,
@@ -190,7 +190,7 @@ export default function UserPermissionsPage({
     // Call the function immediately
     fetchData();
 
-    // We're not returning a cleanup function since we're using a one-time fetch
+    // We&apos;re not returning a cleanup function since were using a one-time fetch
     // The dependencies array ensures this only runs when truly needed
   }, [userId, user, isAuthLoading, allFeatures, allRoles, toast]);
 
@@ -425,8 +425,8 @@ export default function UserPermissionsPage({
             User Permissions
           </h1>
           <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded">
-            <p className="text-red-700 dark:text-red-300">
-              You don't have permission to manage user permissions.
+            <p className=&quot;text-red-700 dark:text-red-300>
+              You don&apos;t have permission to manage user permissions.
             </p>
           </div>
         </div>
@@ -503,7 +503,7 @@ export default function UserPermissionsPage({
               User Not Found
             </h3>
             <p className="text-yellow-700 dark:text-yellow-400">
-              The user you're looking for doesn't exist or has been deleted.
+              The user you&apos;re looking for doesnt exist or has been deleted.
             </p>
             <button
               onClick={handleBack}
@@ -1224,7 +1224,7 @@ function PermissionCheck({
       {hasPermission ? (
         <Check className="h-4 w-4" />
       ) : (
-        <X className="h-4 w-4" />
+        <X className=&quot;h-4 w-4 />
       )}
     </div>
   );

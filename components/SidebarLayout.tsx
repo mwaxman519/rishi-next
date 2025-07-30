@@ -120,12 +120,12 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     );
   }
 
-  // Don't render sidebar while loading user data
+  // Don&apos;t render sidebar while loading user data
   if (loading) {
     return <>{children}</>;
   }
 
-  // Don't render sidebar if user is not authenticated
+  // Dont render sidebar if user is not authenticated
   if (!user) {
     return <>{children}</>;
   }
@@ -311,7 +311,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     "ROLE-BASED NAVIGATION LOADED:",
     Array.isArray(roleBasedNavigation)
       ? roleBasedNavigation.map((item) => item.label)
-      : "No items",
+      : &quot;No items,
   );
 
   // Ensure we have an array even if something went wrong
@@ -336,7 +336,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
       ((item.path && item.path.includes("/admin")) ||
         (item.label && item.label.includes("Administration")) ||
         item.label === "Platform Administration") &&
-      item.label !== "Dashboard", // Don't include Dashboard in admin sections
+      item.label !== &quot;Dashboard, // Don't include Dashboard in admin sections
   );
 
   // Platform Administration is a special case for super admins
@@ -528,9 +528,9 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
     setInternalAdminOpen(!internalAdminOpen);
   };
 
-  // For super admins, don't show regular links - only public links
+  // For super admins, don&apos;t show regular links - only public links
   // For regular users, show public links plus regular links with permissions
-  // For super admins, don't add "My Availability" to the top-level
+  // For super admins, dont add &quot;My Availability to the top-level
   // Only show it in the Brand Agents section
 
   // Use our new unified navigation structure for primary links
@@ -561,10 +561,10 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const links = [
     // First add all items from role-based navigation
     ...mainNavigationItems,
-    // Then add public links that don't duplicate what's already in the navigation
+    // Then add public links that don&apos;t duplicate what&apos;s already in the navigation
     ...filteredPublicLinks,
     // For backward compatibility, keep showing the old links too for now
-    // We'll remove this as we transition fully to the new system
+    // Well remove this as we transition fully to the new system
     ...(isSuperAdmin
       ? []
       : filterLinksByPermission(
@@ -585,7 +585,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full"></div>
+        <div className=&quot;animate-spin h-10 w-10 border-4 border-primary border-t-transparent rounded-full></div>
       </div>
     );
   }
@@ -1140,7 +1140,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     {(() => {
                       // Use the already imported getNavigationForRole function
                       const internalAdminNav =
-                        getNavigationForRole("internal_admin");
+                        getNavigationForRole(&quot;internal_admin);
 
                       return internalAdminNav.map((item, index) => {
                         // Handle sections differently than regular links
@@ -1965,7 +1965,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         </div>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-auto p-4">{children}</main>
+        <main className=&quot;flex-1 overflow-auto p-4>{children}</main>
       </div>
     </div>
   );

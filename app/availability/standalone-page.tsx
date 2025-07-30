@@ -70,7 +70,7 @@ export default function StandaloneAvailabilityPage() {
 
   const fetchAvailability = useCallback(async () => {
     if (!user) {
-      setError("Please sign in to view your availability");
+      setError(&quot;Please sign in to view your availability);
       setIsLoading(false);
       return;
     }
@@ -93,7 +93,7 @@ export default function StandaloneAvailabilityPage() {
       const startDate = safeFormatDate(today);
       const endDate = safeFormatDate(today, 90);
 
-      // Fetch user's availability
+      // Fetch user&apos;s availability
       console.log(`Fetching availability for userId: ${user.id}`);
 
       let response;
@@ -209,7 +209,7 @@ export default function StandaloneAvailabilityPage() {
           }
         } catch (teamError) {
           if (teamError instanceof Error && teamError.name !== "AbortError") {
-            console.error("Error fetching team availability:", teamError);
+            console.error(&quot;Error fetching team availability:, teamError);
             setTeamBlocks([]);
           }
         }
@@ -385,7 +385,7 @@ export default function StandaloneAvailabilityPage() {
             </div>
           </div>
 
-          <p className="mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded text-blue-700">
+          <p className=&quot;mb-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded text-blue-700>
             Due to technical issues, we're showing a simplified view of your
             availability. To add, edit, or manage your availability blocks,
             please use the Calendar tab.
@@ -573,7 +573,7 @@ export default function StandaloneAvailabilityPage() {
                       setSearchQuery("");
                       setStatusFilter("all");
                     }}
-                    className="mt-3 text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300"
+                    className=&quot;mt-3 text-sm font-medium text-teal-600 hover:text-teal-500 dark:text-teal-400 dark:hover:text-teal-300
                   >
                     Clear filters
                   </button>
