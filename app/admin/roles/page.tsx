@@ -566,7 +566,7 @@ export default function RolesManagement() {
                   <SelectItem value="critical">Critical (90+)</SelectItem>
                   <SelectItem value="high">High (70-89)</SelectItem>
                   <SelectItem value="moderate">Moderate (50-69)</SelectItem>
-                  <SelectItem value="standard">Standard (&lt;50)</SelectItem>
+                  <SelectItem value="standard">Standard (Below 50)</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={typeFilter} onValueChange={setTypeFilter}>
