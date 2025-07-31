@@ -1,0 +1,13 @@
+{
+  "name": "rishi-platform-mobile",
+  "version": "1.0.0",
+  "description": "Rishi Platform Mobile App",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Static build complete'"
+  },
+  "dependencies": {
+    "@capacitor/core": "7.4.2",
+    "@capacitor/android": "7.4.2"
+  }
+}

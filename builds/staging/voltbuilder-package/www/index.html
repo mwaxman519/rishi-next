@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Rishi Platform</title>
+    <style>
+        /* Safe area handling for mobile devices */
+        .safe-area-top { padding-top: env(safe-area-inset-top); }
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .safe-area-left { padding-left: env(safe-area-inset-left); }
+        .safe-area-right { padding-right: env(safe-area-inset-right); }
+        
+        /* Mobile-first design */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #7c3aed 0%, #0d9488 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 1rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        
+        .button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="safe-area-top safe-area-bottom safe-area-left safe-area-right">
+    <main class="pt-16 px-4 pb-24">
+        <div class="container">
+            <div class="header">
+                <div class="logo">R</div>
+                <h1>Rishi Platform</h1>
+                <p>Mobile App - Staging Environment</p>
+            </div>
+            
+            <a href="javascript:void(0)" onclick="openDashboard()" class="button">
+                📊 Open Dashboard
+            </a>
+            
+            <a href="javascript:void(0)" onclick="openBookings()" class="button">
+                📅 View Bookings
+            </a>
+            
+            <a href="javascript:void(0)" onclick="openLocations()" class="button">
+                📍 Manage Locations
+            </a>
+            
+            <a href="javascript:void(0)" onclick="openStaff()" class="button">
+                👥 Staff Management
+            </a>
+            
+            <a href="javascript:void(0)" onclick="testAPI()" class="button">
+                🔧 Test API Connection
+            </a>
+            
+            <div class="status" id="status">
+                <strong>Status:</strong> Ready to connect to Rishi Platform
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = 'https://rishi-staging.replit.app';
+        
+        function updateStatus(message, isLoading = false) {
+            const status = document.getElementById('status');
+            status.innerHTML = `<strong>Status:</strong> ${isLoading ? '<span class="loading"></span> ' : ''}${message}`;
+        }
+        
+        async function testAPI() {
+            updateStatus('Testing API connection...', true);
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/auth-service/session`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateStatus('✅ API connection successful!');
+                } else {
+                    updateStatus(`⚠️ API returned: ${data.message || 'Unknown error'}`);
+                }
+            } catch (error) {
+                updateStatus(`❌ API connection failed: ${error.message}`);
+                console.error('API test failed:', error);
+            }
+        }
+        
+        function openDashboard() {
+            updateStatus('Opening dashboard...', true);
+            window.open(`${API_BASE}/dashboard`, '_blank');
+        }
+        
+        function openBookings() {
+            updateStatus('Opening bookings...', true);
+            window.open(`${API_BASE}/bookings`, '_blank');
+        }
+        
+        function openLocations() {
+            updateStatus('Opening locations...', true);
+            window.open(`${API_BASE}/locations`, '_blank');
+        }
+        
+        function openStaff() {
+            updateStatus('Opening staff management...', true);
+            window.open(`${API_BASE}/staff`, '_blank');
+        }
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Mobile app loaded - Ready for use');
+            
+            // Test API connection on startup
+            setTimeout(testAPI, 1000);
+        });
+        
+        // Handle device ready
+        document.addEventListener('deviceready', function() {
+            updateStatus('Capacitor device ready - Native features available');
+        });
+    </script>
+</body>
+</html>
