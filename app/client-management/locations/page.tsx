@@ -97,8 +97,8 @@ export default function ClientLocationsPage() {
             <div className="py-8 text-center">
               <Building className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium mb-2">No brands available</h3>
-              <p className=&quot;text-muted-foreground max-w-md mx-auto>
-                You don&apos;t have any brands configured. Please contact your
+              <p className="text-muted-foreground max-w-md mx-auto>
+                You don't have any brands configured. Please contact your
                 administrator.
               </p>
             </div>
@@ -135,7 +135,7 @@ export default function ClientLocationsPage() {
                 </GoogleMapsProvider>
               ) : (
                 <div className="py-6 text-center">
-                  <p className=&quot;text-muted-foreground>
+                  <p className="text-muted-foreground>
                     Please select a brand to manage locations
                   </p>
                 </div>

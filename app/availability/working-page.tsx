@@ -79,7 +79,7 @@ export default function WorkingAvailabilityPage() {
             </svg>
           </div>
           <div className="ml-3">
-            <p className=&quot;text-sm text-blue-700>
+            <p className="text-sm text-blue-700>
               We're experiencing some technical issues with the calendar
               component. Our team is working to resolve this as quickly as
               possible.
@@ -90,7 +90,7 @@ export default function WorkingAvailabilityPage() {
 
       <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Your Availability</h2>
-        <p className=&quot;mb-4>
+        <p className="mb-4>
           While we fix the calendar, here's a list of your current availability
           blocks.
         </p>
@@ -132,7 +132,7 @@ export default function WorkingAvailabilityPage() {
                   Sat-Sun • 10:00 AM - 4:00 PM
                 </p>
               </div>
-              <span className=&quot;px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full>
+              <span className="px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full>
                 Available
               </span>
             </div>

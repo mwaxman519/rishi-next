@@ -263,8 +263,8 @@ export default function FeaturesAdminPage() {
       {features.length === 0 ? (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
           <h3 className="text-lg font-medium">No features available</h3>
-          <p className=&quot;text-gray-500 mt-2>
-            Either no features are registered or the feature list couldn&apos;t be
+          <p className="text-gray-500 mt-2">
+            Either no features are registered or the feature list couldn't be
             loaded.
           </p>
           <Button
@@ -331,7 +331,7 @@ export default function FeaturesAdminPage() {
                   )}
                 </CardContent>
                 <CardFooter>
-                  <p className=&quot;text-xs text-gray-400>
+                  <p className="text-xs text-gray-400">
                     Feature ID: {feature.id}
                   </p>
                 </CardFooter>

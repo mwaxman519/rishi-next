@@ -55,10 +55,10 @@ export default function AdminLayout({
     return (
       <div className="container mx-auto py-8">
         <Alert variant="destructive">
-          <AlertCircle className=&quot;h-4 w-4 />
+          <AlertCircle className="h-4 w-4" />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
-            You don&apos;t have permission to access this area.
+            You don't have permission to access this area.
           </AlertDescription>
         </Alert>
         <div className="mt-4 text-center">
@@ -89,7 +89,7 @@ export default function AdminLayout({
 
           return (
             <Link key={item.href} href={item.href}>
-              <Button variant={isActive ? "default" : "outline"} size=&quot;sm>
+              <Button variant={isActive ? "default" : "outline"} size="sm>
                 {item.label}
               </Button>
             </Link>

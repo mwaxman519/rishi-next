@@ -77,6 +77,13 @@ The Rishi Platform employs a multi-platform 3-tier architecture: Development (lo
 
 ### Mobile Architecture
 - **Static HTML/CSS/JS**: Mobile UI makes API calls to backend services
-- **Dual Environment**: Staging connects to Replit, Production connects to Vercel
+- **3-Environment Architecture**: 
+  - Development: Local Replit development
+  - Staging: `https://rishi-staging.replit.app` (Replit Autoscale)
+  - Production: `https://rishi-next.vercel.app` (Vercel)
+- **Mobile App URLs**:
+  - Staging Mobile → `https://rishi-staging.replit.app`
+  - Production Mobile → `https://rishi-next.vercel.app`
 - **Capacitor 7.4.2**: Exact version required for VoltBuilder compatibility
+- **HTML Entity Encoding Fixed**: Resolved all &quot; &apos; syntax errors causing Vercel build failures
 - **Logo Fixed**: All broken favicon.ico references updated to rishi-logo-actual.png

@@ -228,12 +228,12 @@ function OrganizationSettingsPage() {
       <Separator className="my-6" />
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className=&quot;space-y-8>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8>
           <Card>
             <CardHeader>
               <CardTitle>General Settings</CardTitle>
               <CardDescription>
-                Configure the organization&apos;s general settings and preferences.
+                Configure the organization's general settings and preferences.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -468,7 +468,7 @@ function OrganizationSettingsPage() {
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 {!saveSettingsMutation.isPending && (
-                  <Save className=&quot;mr-2 h-4 w-4 />
+                  <Save className="mr-2 h-4 w-4 />
                 )}
                 Save Settings
               </Button>

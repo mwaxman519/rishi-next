@@ -43,7 +43,7 @@ const DEFAULT_SETTINGS: WorkingHoursSettings = {
   thursday: { enabled: true, startTime: "09:00", endTime: "17:00" },
   friday: { enabled: true, startTime: "09:00", endTime: "17:00" },
   saturday: { enabled: false, startTime: "10:00", endTime: "15:00" },
-  sunday: { enabled: false, startTime: "10:00", endTime: &quot;15:00 },
+  sunday: { enabled: false, startTime: "10:00", endTime: "15:00 },
   bufferBetweenSessions: 15,
   defaultSessionDuration: 60,
   maxSessionsPerDay: 8,
@@ -105,7 +105,7 @@ export default function AgentAvailabilitySettings({
         ...prev,
         [day]: {
           ...daySettings,
-          [field]: field === &quot;enabled ? value.target.checked : value,
+          [field]: field === "enabled ? value.target.checked : value,
         },
       };
     });
@@ -392,7 +392,7 @@ export default function AgentAvailabilitySettings({
                 </svg>
                 Upcoming Feature
               </h4>
-              <p className=&quot;mt-1 text-xs text-yellow-700>
+              <p className="mt-1 text-xs text-yellow-700>
                 Soon, you'll be able to set different availability for specific
                 dates, like holidays or personal days off.
               </p>
@@ -417,7 +417,7 @@ export default function AgentAvailabilitySettings({
             isSaving || !hasChanges ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {isSaving ? "Saving..." : &quot;Save Settings}
+          {isSaving ? "Saving..." : "Save Settings}
         </button>
       </div>
     </div>

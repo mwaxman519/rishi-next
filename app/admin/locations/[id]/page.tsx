@@ -428,14 +428,14 @@ export default function AdminLocationDetailPage() {
     return (
       <div className="p-6">
         <Button variant="ghost" onClick={() => router.back()} className="mb-6">
-          <ArrowLeft className=&quot;h-4 w-4 mr-2 />
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
 
         <Alert>
           <AlertTitle>Location Not Found</AlertTitle>
           <AlertDescription>
-            The requested location does not exist or you don&apos;t have permission
+            The requested location does not exist or you don't have permission
             to view it.
           </AlertDescription>
         </Alert>
@@ -717,7 +717,7 @@ export default function AdminLocationDetailPage() {
                 <div className="flex items-center justify-center h-full bg-muted">
                   <div className="text-center p-4">
                     <MapPin className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
-                    <p className=&quot;text-muted-foreground>
+                    <p className="text-muted-foreground>
                       No map coordinates available
                     </p>
                   </div>

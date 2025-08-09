@@ -474,7 +474,7 @@ export default function SystemSettings() {
               <Switch
                 checked={settings.database.autoMaintenance}
                 onCheckedChange={(checked) =>
-                  updateSetting("database", &quot;autoMaintenance, checked)
+                  updateSetting("database", "autoMaintenance, checked)
                 }
               />
             </div>

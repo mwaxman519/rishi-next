@@ -198,10 +198,10 @@ export default function AdminUsersPage() {
     return (
       <div className="p-6">
         <Alert variant="destructive" className="mb-6">
-          <AlertCircle className=&quot;h-4 w-4 />
+          <AlertCircle className="h-4 w-4 />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
-            You don&apos;t have administrative permission to access this page.
+            You don't have administrative permission to access this page.
           </AlertDescription>
         </Alert>
         <Button onClick={() => router.push("/")} variant="outline">
@@ -450,7 +450,7 @@ export default function AdminUsersPage() {
               </Button>
               <Button
                 variant="outline"
-                onClick={() => router.push(&quot;/admin/audit-logs?resource=users)}
+                onClick={() => router.push("/admin/audit-logs?resource=users)}
               >
                 View User Audit Logs
               </Button>
