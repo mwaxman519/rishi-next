@@ -52,7 +52,7 @@ export function DocsSidebar({ docTree }: DocsSidebarProps) {
       <div className="p-4 border-b border-[rgb(var(--border))]">
         <Link href="/" className="flex items-center mb-4">
           <Image
-            src="/favicon.ico"
+            src="/assets/logos/rishi-logo-actual.png"
             alt="Rishi Logo"
             width={120}
             height={40}

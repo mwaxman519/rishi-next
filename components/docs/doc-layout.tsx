@@ -69,7 +69,7 @@ export function DocLayout({
           <div className="flex-1 flex items-center overflow-hidden">
             <div className="w-10 h-10 rounded-md flex items-center justify-center flex-shrink-0 relative">
               <Image
-                src="/favicon.ico"
+                src="/assets/logos/rishi-logo-actual.png"
                 alt="Rishi Logo"
                 width={40}
                 height={40}
@@ -250,7 +250,7 @@ export function DocLayout({
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-md flex items-center justify-center relative shadow-lg">
               <Image
-                src="/favicon.ico"
+                src="/assets/logos/rishi-logo-actual.png"
                 alt="Rishi Logo"
                 width={32}
                 height={32}
@@ -279,7 +279,7 @@ export function DocLayout({
             <Link href="/" className="flex items-center mr-4">
               <div className="w-8 h-8 relative flex-shrink-0">
                 <Image
-                  src="/favicon.ico"
+                  src="/assets/logos/rishi-logo-actual.png"
                   alt="Rishi Logo"
                   width={32}
                   height={32}
