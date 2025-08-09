@@ -3,15 +3,28 @@ const config = {
   appName: 'Rishi Platform',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    allowNavigation: ['https://rishi-platform.vercel.app']
   },
   android: {
+    allowMixedContent: true,
+    captureInput: true,
+    webContentsDebuggingEnabled: false,
     buildOptions: {
       keystorePath: undefined,
       keystoreAlias: undefined,
       keystorePassword: undefined,
       keystoreAliasPassword: undefined,
       releaseType: 'APK'
+    }
+  },
+  plugins: {
+    Browser: {
+      presentationStyle: 'fullscreen'
+    },
+    StatusBar: {
+      style: 'default',
+      backgroundColor: '#ffffff'
     }
   }
 };

@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <title>Rishi Platform</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    
     <style>
         * {
             margin: 0;
@@ -11,10 +14,13 @@
             box-sizing: border-box;
         }
         
-        body {
+        html, body {
+            height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: #ffffff;
             overflow: hidden;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .loading {
@@ -48,7 +54,7 @@
             width: 100%;
             height: 100vh;
             border: none;
-            display: block;
+            background: #ffffff;
         }
     </style>
 </head>
@@ -61,56 +67,153 @@
         </div>
     </div>
     
-    <!-- Main App Frame - Your Actual Rishi Platform -->
-    <iframe id="appFrame" class="app-frame" src="https://rishi-platform.vercel.app"></iframe>
+    <!-- Main App Frame - Mobile-Optimized -->
+    <iframe id="appFrame" 
+            class="app-frame" 
+            src="https://rishi-platform.vercel.app"
+            allow="camera; microphone; geolocation; clipboard-read; clipboard-write"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-downloads">
+    </iframe>
+    
+    <script src="cordova.js"></script>
     
     <script>
-        // Initialize app - loads your actual Rishi Platform in iframe
-        document.addEventListener('DOMContentLoaded', function() {
+        let isCapacitorReady = false;
+        
+        // Wait for Capacitor device ready
+        document.addEventListener('deviceready', function() {
+            console.log('Capacitor device ready - Production');
+            isCapacitorReady = true;
+            initializeApp();
+        }, false);
+        
+        // Fallback for web/testing
+        setTimeout(function() {
+            if (!isCapacitorReady) {
+                console.log('Initializing without Capacitor');
+                initializeApp();
+            }
+        }, 2000);
+        
+        function initializeApp() {
             console.log('Rishi Platform Mobile - Production');
-            console.log('Loading actual platform from: https://rishi-platform.vercel.app');
+            console.log('Loading from: https://rishi-platform.vercel.app');
             
             const iframe = document.getElementById('appFrame');
             const loading = document.getElementById('loading');
             
-            // Set up iframe load handler
+            // Enhanced iframe load handler
             iframe.onload = function() {
+                console.log('Platform loaded successfully');
                 loading.style.display = 'none';
-                console.log('Rishi Platform loaded successfully');
+                
+                // Inject mobile-specific optimizations
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    if (iframeDoc) {
+                        // Add mobile viewport meta if missing
+                        let viewport = iframeDoc.querySelector('meta[name="viewport"]');
+                        if (!viewport) {
+                            viewport = iframeDoc.createElement('meta');
+                            viewport.name = 'viewport';
+                            viewport.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no';
+                            iframeDoc.head.appendChild(viewport);
+                        }
+                        
+                        // Add mobile-optimized CSS
+                        const mobileStyles = iframeDoc.createElement('style');
+                        mobileStyles.textContent = `
+                            body { 
+                                -webkit-tap-highlight-color: transparent;
+                                -webkit-touch-callout: none;
+                                -webkit-user-select: none;
+                                touch-action: manipulation;
+                            }
+                            * {
+                                -webkit-tap-highlight-color: transparent;
+                            }
+                        `;
+                        iframeDoc.head.appendChild(mobileStyles);
+                    }
+                } catch (e) {
+                    console.log('Cross-origin restrictions apply, using basic mobile optimizations');
+                }
             };
             
-            // Set up iframe error handler
             iframe.onerror = function() {
                 console.log('Platform failed to load');
-                loading.innerHTML = '<div><p style="color: #666;">Failed to load platform. Please check your connection.</p></div>';
+                loading.innerHTML = '<div><p style="color: #666;">Failed to connect to platform.</p></div>';
             };
             
-            // Timeout fallback
+            // Timeout handler
             setTimeout(function() {
                 if (loading.style.display !== 'none') {
-                    console.log('Platform load timeout');
-                    loading.innerHTML = '<div><p style="color: #666;">Loading is taking longer than expected...</p></div>';
+                    console.log('Load timeout');
+                    loading.innerHTML = '<div><p style="color: #666;">Connection taking longer than expected...</p></div>';
                 }
-            }, 15000);
-        });
+            }, 10000);
+        }
         
-        // Handle Capacitor back button
-        document.addEventListener('deviceready', function() {
-            document.addEventListener('backbutton', function(e) {
-                e.preventDefault();
-                // Let the iframe handle back navigation, or exit if at root
-                try {
-                    const iframe = document.getElementById('appFrame');
-                    if (iframe.contentWindow.history.length > 1) {
-                        iframe.contentWindow.history.back();
-                    } else {
+        // Enhanced mobile back button handling
+        document.addEventListener('backbutton', function(e) {
+            e.preventDefault();
+            console.log('Hardware back button pressed');
+            
+            try {
+                // Try to communicate with iframe content
+                const iframe = document.getElementById('appFrame');
+                if (iframe.contentWindow) {
+                    iframe.contentWindow.postMessage('MOBILE_BACK_BUTTON', 'https://rishi-platform.vercel.app');
+                }
+                
+                // Fallback: exit app after short delay
+                setTimeout(function() {
+                    if (navigator.app && navigator.app.exitApp) {
                         navigator.app.exitApp();
+                    } else if (window.Capacitor && window.Capacitor.Plugins.App) {
+                        window.Capacitor.Plugins.App.exitApp();
                     }
-                } catch (error) {
+                }, 500);
+            } catch (error) {
+                console.log('Back button handling error:', error);
+                if (navigator.app && navigator.app.exitApp) {
                     navigator.app.exitApp();
                 }
-            }, false);
+            }
         }, false);
+        
+        // Prevent context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        }, false);
+        
+        // Handle Capacitor plugins when available
+        if (window.Capacitor) {
+            // Status bar configuration
+            if (window.Capacitor.Plugins.StatusBar) {
+                window.Capacitor.Plugins.StatusBar.setStyle({ style: 'light' });
+                window.Capacitor.Plugins.StatusBar.setBackgroundColor({ color: '#ffffff' });
+            }
+            
+            // Keyboard handling
+            if (window.Capacitor.Plugins.Keyboard) {
+                window.Capacitor.Plugins.Keyboard.addListener('keyboardWillShow', function() {
+                    document.body.classList.add('keyboard-open');
+                });
+                
+                window.Capacitor.Plugins.Keyboard.addListener('keyboardWillHide', function() {
+                    document.body.classList.remove('keyboard-open');
+                });
+            }
+        }
+        
+        // Message handler for iframe communication
+        window.addEventListener('message', function(event) {
+            if (event.origin === 'https://rishi-platform.vercel.app') {
+                console.log('Message from platform:', event.data);
+                // Handle platform-specific mobile events
+            }
+        });
     </script>
 </body>
 </html>
