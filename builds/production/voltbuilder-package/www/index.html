@@ -70,7 +70,7 @@
     <!-- Main App Frame - Mobile-Optimized -->
     <iframe id="appFrame" 
             class="app-frame" 
-            src="https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev"
+            src="https://rishi-next.vercel.app"
             allow="camera; microphone; geolocation; clipboard-read; clipboard-write"
             sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-downloads">
     </iframe>
@@ -97,7 +97,7 @@
         
         function initializeApp() {
             console.log('Rishi Platform Mobile - Production');
-            console.log('Loading from: https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev');
+            console.log('Loading from: https://rishi-next.vercel.app');
             
             const iframe = document.getElementById('appFrame');
             const loading = document.getElementById('loading');
@@ -163,7 +163,7 @@
                 // Try to communicate with iframe content
                 const iframe = document.getElementById('appFrame');
                 if (iframe.contentWindow) {
-                    iframe.contentWindow.postMessage('MOBILE_BACK_BUTTON', 'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev');
+                    iframe.contentWindow.postMessage('MOBILE_BACK_BUTTON', 'https://rishi-next.vercel.app');
                 }
                 
                 // Fallback: exit app after short delay
@@ -209,7 +209,7 @@
         
         // Message handler for iframe communication
         window.addEventListener('message', function(event) {
-            if (event.origin === 'https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev') {
+            if (event.origin === 'https://rishi-next.vercel.app') {
                 console.log('Message from platform:', event.data);
                 // Handle platform-specific mobile events
             }
