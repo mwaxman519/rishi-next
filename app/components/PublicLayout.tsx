@@ -19,7 +19,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
           <Link href="/" className="flex items-center">
             <div className="w-10 h-10 relative flex-shrink-0 mr-2">
               <Image
-                src="/favicon.ico"
+                src="/assets/logos/rishi-logo-actual.png"
                 alt="Rishi Logo"
                 width={40}
                 height={40}
