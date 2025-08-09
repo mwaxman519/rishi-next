@@ -73,7 +73,7 @@ export default function Home() {
       <div className="container mx-auto py-12 px-4">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-6">
-            Welcome back, {user.name}!
+            Welcome back, {user.username}!
           </h1>
           <p className="text-xl mb-8">
             You're logged into the Rishi Workforce Management platform.
@@ -106,7 +106,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <img
-              src="/assets/logos/rishi-logo-main.png"
+              src="/assets/logos/rishi-logo-actual.png"
               alt="Rishi Platform"
               className="w-64 h-auto shadow-lg"
               onError={(e) => {

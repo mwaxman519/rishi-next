@@ -89,7 +89,7 @@ export default function LoginPage() {
         <CardHeader className="space-y-4 text-center pb-6">
           <div className="flex flex-col items-center justify-center mb-4">
             <img 
-              src="/assets/logos/rishi-logo-main.png" 
+              src="/assets/logos/rishi-logo-actual.png" 
               alt="Rishi Platform" 
               className="w-48 h-auto mb-6"
               onError={(e) => {
