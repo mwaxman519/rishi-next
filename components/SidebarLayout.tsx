@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useSidebarState } from "@/hooks/useSidebarState";
-import { hasPermission } from "@/lib/rbac";
 import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
 import {
   filterLinksByPermission,
@@ -61,7 +60,7 @@ import {
   getSuperAdminNavigation,
   isNavItemActive,
 } from "./navigation/SuperAdminNavigation";
-import { Permission } from "@/lib/rbac";
+import { Permission, hasPermission } from "@/lib/permissions";
 
 // Helper function to format role names
 const formatRoleName = (role: string): string => {
@@ -1140,7 +1139,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
                     {(() => {
                       // Use the already imported getNavigationForRole function
                       const internalAdminNav =
-                        getNavigationForRole("internal_admin);
+                        getNavigationForRole("internal_admin");
 
                       return internalAdminNav.map((item, index) => {
                         // Handle sections differently than regular links
@@ -1965,7 +1964,7 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
         </div>
 
         {/* Main content area */}
-        <main className="flex-1 overflow-auto p-4>{children}</main>
+        <main className="flex-1 overflow-auto p-4">{children}</main>
       </div>
     </div>
   );

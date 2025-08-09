@@ -46,7 +46,7 @@ export default function OrganizationsPage() {
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h2 className="text-lg font-semibold mb-2">Access Denied</h2>
-            <p className="text-muted-foreground>You don't have permission to manage organizations.</p>
+            <p className="text-muted-foreground">You don't have permission to manage organizations.</p>
           </div>
         </div>
       }
@@ -190,7 +190,7 @@ function OrganizationBadge({
   return (
     <div className="flex gap-2">
       <Badge variant={variant}>{type}</Badge>
-      {tier && <Badge variant="outline">{tier.replace("_", " )}</Badge>}
+      {tier && <Badge variant="outline">{tier.replace("_", " ")}</Badge>}
     </div>
   );
 }

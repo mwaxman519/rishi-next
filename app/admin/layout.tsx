@@ -89,7 +89,7 @@ export default function AdminLayout({
 
           return (
             <Link key={item.href} href={item.href}>
-              <Button variant={isActive ? "default" : "outline"} size="sm>
+              <Button variant={isActive ? "default" : "outline"} size="sm">
                 {item.label}
               </Button>
             </Link>

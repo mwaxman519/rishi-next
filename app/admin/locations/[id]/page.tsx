@@ -717,7 +717,7 @@ export default function AdminLocationDetailPage() {
                 <div className="flex items-center justify-center h-full bg-muted">
                   <div className="text-center p-4">
                     <MapPin className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-muted-foreground>
+                    <p className="text-muted-foreground">
                       No map coordinates available
                     </p>
                   </div>
