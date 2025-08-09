@@ -135,7 +135,7 @@ export default function ClientLocationsPage() {
                 </GoogleMapsProvider>
               ) : (
                 <div className="py-6 text-center">
-                  <p className="text-muted-foreground>
+                  <p className="text-muted-foreground">
                     Please select a brand to manage locations
                   </p>
                 </div>
