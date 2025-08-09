@@ -4,7 +4,7 @@ const config = {
   webDir: 'www',
   server: {
     androidScheme: 'https',
-    allowNavigation: ['https://rishi-platform.vercel.app']
+    allowNavigation: ['https://3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev']
   },
   android: {
     allowMixedContent: true,
