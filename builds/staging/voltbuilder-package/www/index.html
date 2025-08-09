@@ -41,6 +41,13 @@
             justify-content: center;
             font-size: 2rem;
             font-weight: bold;
+            overflow: hidden;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         
         .button {
@@ -88,7 +95,9 @@
     <main class="pt-16 px-4 pb-24">
         <div class="container">
             <div class="header">
-                <div class="logo">R</div>
+                <div class="logo">
+                    <img src="https://rishi-staging.replit.app/assets/logos/rishi-logo-actual.png" alt="Rishi Platform Logo" onerror="this.style.display='none'; this.parentNode.innerHTML='R';">
+                </div>
                 <h1>Rishi Platform</h1>
                 <p>Mobile App - Staging Environment</p>
             </div>
