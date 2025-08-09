@@ -1,6 +1,4 @@
-import { CapacitorConfig } from '@capacitor/core';
-
-const config: CapacitorConfig = {
+const config = {
   appId: 'com.rishi.platform.production',
   appName: 'Rishi Platform',
   webDir: 'www',
