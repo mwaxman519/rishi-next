@@ -68,3 +68,15 @@ The Rishi Platform employs a multi-platform 3-tier architecture: Development (lo
 - **Google Services**: Google Maps JavaScript API, Google Places API (`@googlemaps/js-api-loader`)
 - **Mobile App Building**: VoltBuilder, Capacitor
 - **Event Coordination**: Redis (Replit Redis Cloud for staging, Upstash Redis for production)
+
+## Mobile App Deployment Status
+
+### VoltBuilder Packages Ready
+- **Staging Mobile**: `builds/staging/rishi-platform-voltbuilder-staging.zip` (244KB) ✅ WORKING
+- **Production Mobile**: `builds/production/rishi-platform-voltbuilder-production.zip` ✅ READY
+
+### Mobile Architecture
+- **Static HTML/CSS/JS**: Mobile UI makes API calls to backend services
+- **Dual Environment**: Staging connects to Replit, Production connects to Vercel
+- **Capacitor 7.4.2**: Exact version required for VoltBuilder compatibility
+- **Logo Fixed**: All broken favicon.ico references updated to rishi-logo-actual.png

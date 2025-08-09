@@ -1,0 +1,17 @@
+{
+  "name": "rishi-platform-production",
+  "version": "1.0.0",
+  "description": "Rishi Platform Mobile App - Production",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Production build complete'",
+    "cap:android": "npx cap add android && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "7.4.2",
+    "@capacitor/core": "7.4.2",
+    "@capacitor/cli": "7.4.2"
+  },
+  "author": "Rishi Platform Team",
+  "license": "MIT"
+}
