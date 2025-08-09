@@ -97,7 +97,7 @@ export default function ClientLocationsPage() {
             <div className="py-8 text-center">
               <Building className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium mb-2">No brands available</h3>
-              <p className="text-muted-foreground max-w-md mx-auto>
+              <p className="text-muted-foreground max-w-md mx-auto">
                 You don't have any brands configured. Please contact your
                 administrator.
               </p>

@@ -59,7 +59,7 @@ export default function TeamCalendarPage() {
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-6">Team Calendar</h1>
         <div className="bg-red-50 border border-red-200 p-4 rounded">
-          <p className="text-red-700>
+          <p className="text-red-700">
             You don't have permission to view this page. Please contact your
             administrator.
           </p>
@@ -91,7 +91,7 @@ export default function TeamCalendarPage() {
           {/* Team calendar interface will go here */}
           <div className="bg-white border rounded-lg p-6 mb-6">
             <h2 className="text-lg font-semibold mb-4">Team Calendar View</h2>
-            <p className="text-gray-500 mb-4>
+            <p className="text-gray-500 mb-4">
               This calendar shows all team members' availability in a
               consolidated view.
             </p>
@@ -144,7 +144,7 @@ export default function TeamCalendarPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-500>No team members found.</p>
+              <p className="text-gray-500">No team members found.</p>
             )}
           </div>
         </>

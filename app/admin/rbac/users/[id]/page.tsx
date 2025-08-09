@@ -66,7 +66,7 @@ export default function UserPermissionsPage({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState(");
+  const [searchQuery, setSearchQuery] = useState("");
   const [dirtyPermissions, setDirtyPermissions] = useState<
     Record<string, boolean>
   >({});
@@ -102,7 +102,7 @@ export default function UserPermissionsPage({
           if (userResponse.status === 404) {
             throw new Error("User not found");
           } else {
-            throw new Error("Failed to fetch user details);
+            throw new Error("Failed to fetch user details");
           }
         }
 
@@ -425,7 +425,7 @@ export default function UserPermissionsPage({
             User Permissions
           </h1>
           <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 rounded">
-            <p className="text-red-700 dark:text-red-300>
+            <p className="text-red-700 dark:text-red-300">
               You don't have permission to manage user permissions.
             </p>
           </div>

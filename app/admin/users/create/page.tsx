@@ -145,13 +145,13 @@ export default function CreateUserPage() {
     return (
       <div className="p-6">
         <Alert variant="destructive" className="mb-6">
-          <AlertCircle className="h-4 w-4 />
+          <AlertCircle className="h-4 w-4" />
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
             You don't have administrative permission to access this page.
           </AlertDescription>
         </Alert>
-        <Button onClick={() => router.push("/")} variant="outline>
+        <Button onClick={() => router.push("/")} variant="outline">
           Return to Dashboard
         </Button>
       </div>
@@ -258,7 +258,7 @@ export default function CreateUserPage() {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe {...field} />
+                        <Input placeholder="John Doe" {...field} />
                       </FormControl>
                       <FormDescription>User's complete name.</FormDescription>
                       <FormMessage />
@@ -276,7 +276,7 @@ export default function CreateUserPage() {
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="user@example.com
+                          placeholder="user@example.com"
                           {...field}
                         />
                       </FormControl>
@@ -298,7 +298,7 @@ export default function CreateUserPage() {
                       <FormControl>
                         <Input
                           type="tel"
-                          placeholder="(555) 123-4567
+                          placeholder="(555) 123-4567"
                           {...field}
                         />
                       </FormControl>
@@ -323,7 +323,7 @@ export default function CreateUserPage() {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select a role />
+                            <SelectValue placeholder="Select a role" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -413,7 +413,7 @@ export default function CreateUserPage() {
                     </>
                   ) : (
                     <>
-                      <Save className="mr-2 h-4 w-4 />
+                      <Save className="mr-2 h-4 w-4" />
                       Create User
                     </>
                   )}

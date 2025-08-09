@@ -702,7 +702,7 @@ export default function RolesManagement() {
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
-                placeholder=Describe the role's responsibilities..."
+                placeholder="Describe the role's responsibilities..."
                 value={createForm.description}
                 onChange={(e) =>
                   setCreateForm({ ...createForm, description: e.target.value })
