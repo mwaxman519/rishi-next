@@ -49,7 +49,7 @@ export default function OfflineStatus() {
 
   if (!isOnline) {
     return (
-      <div className="fixed top-4 right-4 z-50 bg-red-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
+      <div className="fixed top-4 right-32 z-50 bg-red-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
         <WifiOff className="w-4 h-4" />
         <span className="text-sm font-medium">Offline Mode</span>
         {pendingSync > 0 && (
@@ -63,7 +63,7 @@ export default function OfflineStatus() {
 
   if (pendingSync > 0) {
     return (
-      <div className="fixed top-4 right-4 z-50 bg-blue-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
+      <div className="fixed top-4 right-32 z-50 bg-blue-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
         <RefreshCw className="w-4 h-4 animate-spin" />
         <span className="text-sm font-medium">Syncing {pendingSync} items...</span>
       </div>
@@ -71,7 +71,7 @@ export default function OfflineStatus() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 opacity-75">
+    <div className="fixed top-4 right-32 z-50 bg-green-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 opacity-75">
       <Wifi className="w-4 h-4" />
       <span className="text-sm font-medium">Online</span>
     </div>
