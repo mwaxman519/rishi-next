@@ -1,73 +1,153 @@
 import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { storage } from '@/server/storage';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { username, password } = body;
+    const { username, password } = await request.json();
 
-    console.log('Login attempt for user:', username);
-
-    // For development, allow specific test users
-    if (username === 'mike' && password === 'wrench519') {
-      const userData = {
-        id: '00000000-0000-0000-0000-000000000001',
-        username: 'mike',
-        email: 'mike@rishiplatform.com',
-        role: 'super_admin',
-        roles: ['SUPER_ADMIN'],
-        organizationId: '00000000-0000-0000-0000-000000000001',
-        permissions: ['all']
-      };
-
-      // Create a response with the user data and set a session cookie
-      const response = NextResponse.json({
-        success: true,
-        data: userData
-      });
-
-      // Set multiple session storage methods for iframe compatibility
-      response.cookies.set('user-session', JSON.stringify(userData), {
-        httpOnly: false, // Allow client-side access for development
-        secure: false, // Allow over HTTP for development
-        maxAge: 24 * 60 * 60, // 24 hours (in seconds for Next.js)
-        path: '/',
-        sameSite: 'none' // Allow all cross-origin requests for iframe
-      });
-
-      // Also set a backup cookie with different settings
-      response.cookies.set('user-session-backup', JSON.stringify(userData), {
-        httpOnly: false,
-        secure: false,
-        maxAge: 24 * 60 * 60,
-        path: '/',
-        sameSite: 'lax'
-      });
-
-      return response;
+    if (!username || !password) {
+      return NextResponse.json(
+        { error: 'Username and password are required' },
+        { status: 400 }
+      );
     }
 
-    // Invalid credentials
-    return NextResponse.json(
-      {
-        success: false,
-        error: {
-          message: 'Invalid username or password',
-          details: 'Authentication failed'
-        }
+    // Get user from database
+    const user = await storage.getUserByUsername(username);
+
+    if (!user) {
+      // For development, check if it's the mike user
+      if (username === 'mike' && password === 'password123') {
+        // Create mike user if not exists
+        const hashedPassword = await bcrypt.hash('password123', 10);
+        const newUser = await storage.createUser({
+          username: 'mike',
+          password: hashedPassword,
+          email: 'mike@rishiplatform.com',
+          fullName: 'Mike User',
+          role: 'super_admin',
+          active: true
+        });
+
+        // Create JWT token
+        const token = jwt.sign(
+          { 
+            userId: newUser.id, 
+            username: newUser.username,
+            role: newUser.role 
+          },
+          JWT_SECRET,
+          { expiresIn: '7d' }
+        );
+
+        // Set cookie
+        const response = NextResponse.json({
+          success: true,
+          user: {
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            role: newUser.role,
+            fullName: newUser.fullName,
+            active: newUser.active
+          }
+        });
+
+        response.cookies.set('auth-token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 60 * 60 * 24 * 7 // 7 days
+        });
+
+        response.cookies.set('user-session', JSON.stringify({
+          id: newUser.id,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role,
+          organizationId: '1',
+          organizationName: 'Default Organization'
+        }), {
+          httpOnly: false,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: 60 * 60 * 24 * 7 // 7 days
+        });
+
+        return response;
+      }
+
+      return NextResponse.json(
+        { error: 'Invalid username or password' },
+        { status: 401 }
+      );
+    }
+
+    // Verify password
+    const passwordValid = await bcrypt.compare(password, user.password);
+
+    if (!passwordValid) {
+      return NextResponse.json(
+        { error: 'Invalid username or password' },
+        { status: 401 }
+      );
+    }
+
+    // Create JWT token
+    const token = jwt.sign(
+      { 
+        userId: user.id, 
+        username: user.username,
+        role: user.role 
       },
-      { status: 401 }
+      JWT_SECRET,
+      { expiresIn: '7d' }
     );
 
+    // Set cookies
+    const response = NextResponse.json({
+      success: true,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        fullName: user.fullName,
+        active: user.active
+      }
+    });
+
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    });
+
+    response.cookies.set('user-session', JSON.stringify({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      organizationId: '1',
+      organizationName: 'Default Organization'
+    }), {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7 // 7 days
+    });
+
+    return response;
+
   } catch (error) {
-    console.error('Login API error:', error);
+    console.error('Login error:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: {
-          message: 'Internal server error',
-          details: error instanceof Error ? error.message : 'Unknown error'
-        }
-      },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

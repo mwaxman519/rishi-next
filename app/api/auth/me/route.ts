@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 async function getCurrentUser() {
   try {
     const { cookies } = await import('next/headers');
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     
     // Check for session cookies from login
     const sessionCookie = cookieStore.get("user-session") || cookieStore.get("user-session-backup");
