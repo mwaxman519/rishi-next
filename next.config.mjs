@@ -7,19 +7,15 @@ const nextConfig = {
     }
   },
   
-  // Allow Replit preview
+  // Remove X-Frame-Options completely to allow iframe embedding
   async headers() {
     return [
       {
         source: '/(.*)',
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'ALLOWALL',
-          },
-          {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors 'self' *.replit.dev *.replit.com *.spock.replit.dev https://*.replit.dev https://*.replit.com;",
+            value: "frame-ancestors *;",
           },
         ],
       },

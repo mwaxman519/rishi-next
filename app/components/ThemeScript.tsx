@@ -22,6 +22,18 @@ export default function ThemeScript() {
     // Replit iframe compatibility
     if (window.location.hostname.includes('replit')) {
       console.log('Replit iframe compatibility enabled');
+      
+      // Force iframe-friendly behavior
+      if (window.parent !== window) {
+        console.log('Running in iframe context');
+        // Remove any frame-busting code
+        try {
+          Object.defineProperty(window, 'top', {
+            get: function() { return window; }
+          });
+        } catch (e) {}
+      }
+      
       const event = new CustomEvent('replit-hydration-complete');
       window.dispatchEvent(event);
     }
