@@ -376,9 +376,11 @@ export function useAuthService(): AuthServiceClient {
       console.log('Session response:', result);
       
       if (result.success && result.data) {
+        console.log('Session data:', result.data);
         return result.data;
       }
       
+      console.log('Session defaulting to no user');
       return { user: null };
     } catch (err) {
       console.error("Get session error:", err);

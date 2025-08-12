@@ -91,9 +91,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async function loadUser() {
       try {
         setIsLoading(true);
+        console.log('useAuth: Starting user load...');
 
         // Get session from auth service
-        const { user: sessionUser } = await authService.getSession();
+        const sessionData = await authService.getSession();
+        console.log('useAuth: Session data received:', sessionData);
+        
+        const { user: sessionUser } = sessionData;
+        console.log('useAuth: Setting user to:', sessionUser);
         setUser(sessionUser);
       } catch (err) {
         console.error("Error loading user:", err);
@@ -101,6 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           err instanceof Error ? err : new Error("Unknown error loading user"),
         );
       } finally {
+        console.log('useAuth: Setting loading to false');
         setIsLoading(false);
       }
     }
