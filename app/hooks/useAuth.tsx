@@ -127,6 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (response.ok) {
           const userData = await response.json();
           if (userData.success && userData.user) {
+            console.log('Auth: Found existing user session:', userData.user.username);
             setUser(userData.user);
             setIsLoading(false);
             setHasInitialized(true);
@@ -134,7 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         }
       } catch (error) {
-        console.log('Auth initialization: No existing session found');
+        // Silent catch - no existing session is normal
       }
 
       // Set hardcoded user session for development
@@ -149,7 +150,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         updatedAt: new Date().toISOString()
       };
 
-      console.log('useAuth: Setting hardcoded user for development');
+      console.log('Auth: Initialized with development user');
       setUser(hardcodedUser);
       setIsLoading(false);
       setHasInitialized(true);
@@ -159,9 +160,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Listen for login success events to refresh user data
     const handleLoginSuccess = (event: any) => {
-      console.log('useAuth: Login success event detected');
       if (event.detail && event.detail.user) {
+        console.log('Auth: Login success for user:', event.detail.user.username);
         setUser(event.detail.user);
+        setHasInitialized(true);
       }
     };
 

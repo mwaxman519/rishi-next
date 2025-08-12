@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
-    
+
     return NextResponse.json({ 
       success: true,
       data: {
@@ -22,12 +22,12 @@ export async function GET(request: NextRequest) {
         authenticated: true
       }
     });
-    
+
     /* DISABLED: Original session logic
     // Check for session cookie (try multiple methods for iframe compatibility)
     let sessionCookie = request.cookies.get('user-session');
     let userData = null;
-    
+
     if (sessionCookie && sessionCookie.value) {
       try {
         userData = JSON.parse(sessionCookie.value);
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
         }
       });
     }
-    
+
     // No valid session found
     return NextResponse.json({ 
       success: true,
