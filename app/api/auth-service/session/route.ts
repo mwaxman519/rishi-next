@@ -2,8 +2,27 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    // Check for any session cookies or authentication state
-    // For now, return no authenticated user to allow login flow
+    // Check for session cookie
+    const sessionCookie = request.cookies.get('user-session');
+    
+    if (sessionCookie && sessionCookie.value) {
+      try {
+        const userData = JSON.parse(sessionCookie.value);
+        console.log('Session found for user:', userData.username);
+        
+        return NextResponse.json({ 
+          success: true,
+          data: {
+            user: userData,
+            authenticated: true
+          }
+        });
+      } catch (parseError) {
+        console.error('Error parsing session cookie:', parseError);
+      }
+    }
+    
+    // No valid session found
     return NextResponse.json({ 
       success: true,
       data: {

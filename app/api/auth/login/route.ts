@@ -19,10 +19,21 @@ export async function POST(request: NextRequest) {
         permissions: ['all']
       };
 
-      return NextResponse.json({
+      // Create a response with the user data and set a session cookie
+      const response = NextResponse.json({
         success: true,
         data: userData
       });
+
+      // Set a simple session cookie for development
+      response.cookies.set('user-session', JSON.stringify(userData), {
+        httpOnly: false, // Allow client-side access for development
+        secure: false, // Allow over HTTP for development
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        path: '/'
+      });
+
+      return response;
     }
 
     // Invalid credentials
