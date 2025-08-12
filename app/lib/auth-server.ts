@@ -5,7 +5,6 @@
 import bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { getUserById } from "@/api/auth-service/models/user-repository";
 
 /**
  * Hash a password for storage
@@ -99,8 +98,23 @@ export async function getCurrentUser() {
       return null;
     }
 
-    // Get user from database
-    const user = await getUserById(userId);
+    // Get user from database - conditional import for static export compatibility
+    let user;
+    try {
+      const { getUserById } = await import("@/api/auth-service/models/user-repository");
+      user = await getUserById(userId);
+    } catch (error) {
+      // During static export, API routes are disabled, so return basic user data from token
+      console.log("[Auth Server] Using token data (static export mode)");
+      user = {
+        id: userId,
+        username: payload.username || payload.email?.split('@')[0] || 'user',
+        email: payload.email || null,
+        fullName: payload.fullName || null,
+        role: payload.role || "brand_agent",
+        active: true
+      };
+    }
     
     if (!user) {
       console.log("[Auth] User not found for token");

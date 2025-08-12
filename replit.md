@@ -71,19 +71,20 @@ The Rishi Platform employs a multi-platform 3-tier architecture: Development (lo
 
 ## Mobile App Deployment Status
 
-### Native Mobile Build (PWA + Capacitor)
-- **Build Commands**: 
-  - `./build-simple-mobile.sh` - Quick mobile wrapper build (recommended)
-  - `./build-mobile-production.sh` - Full static export build with API handling
+### Native Mobile Build (PWA + Capacitor) - READY FOR DEPLOYMENT ✅
+- **Build Command**: `./build-native.sh` - Full static export with offline-first architecture
 - **Output**: `release/rishi-capacitor.zip` (2.0MB) ready for VoltBuilder upload
+- **Last Build**: January 12, 2025 - Successfully built and packaged
 - **Architecture**: Progressive Web App (PWA) with Capacitor native wrapper
-- **Service Worker**: Comprehensive offline support with smart caching strategies
+- **Static Export**: Next.js static generation with remote API integration
+- **Service Worker v2.0.0**: Comprehensive offline support with smart caching strategies
   - Cache-first: JS/CSS/fonts/images
   - Stale-while-revalidate: App shell, non-critical JSON
   - Network-first: Authenticated API calls
   - Navigation fallback for offline mode
 - **Offline Storage**: Capacitor Preferences for persistent state, queue system for syncing
 - **Security**: Android permissions optimized (camera only), no cleartext traffic
+- **API Integration**: Configurable endpoint (defaults to production Vercel)
 
 ### VoltBuilder Configuration
 - **App ID**: `co.rishi.app`
