@@ -68,8 +68,9 @@ export default function LoginPage() {
             // Add a longer delay to ensure cookie is set and propagated in iframe context
             setTimeout(() => {
               console.log('Redirecting to dashboard after cookie sync delay...');
-              window.location.href = '/dashboard';
-            }, 1500);
+              // Force a complete page reload to ensure iframe context reloads properly
+              window.location.replace('/dashboard');
+            }, 2000);
             return;
           }
           

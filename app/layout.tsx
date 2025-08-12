@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./globals-iframe.css";
 import "./styles/date-picker.css";
 import "./styles/custom-datepicker.css";
 import "./components/agent-calendar/calendar-fixes.css";
