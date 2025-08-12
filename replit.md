@@ -71,19 +71,25 @@ The Rishi Platform employs a multi-platform 3-tier architecture: Development (lo
 
 ## Mobile App Deployment Status
 
-### VoltBuilder Packages Ready
-- **Staging Mobile**: `builds/staging/rishi-platform-voltbuilder-staging.zip` (244KB) ✅ WORKING
-- **Production Mobile**: `builds/production/rishi-platform-voltbuilder-production.zip` ✅ READY
+### Native Mobile Build (PWA + Capacitor)
+- **Build Command**: `./build-native.sh` - Creates VoltBuilder-ready package
+- **Output**: `release/rishi-capacitor.zip` for upload to VoltBuilder
+- **Architecture**: Progressive Web App (PWA) with Capacitor native wrapper
+- **Service Worker**: Comprehensive offline support with smart caching strategies
+  - Cache-first: JS/CSS/fonts/images
+  - Stale-while-revalidate: App shell, non-critical JSON
+  - Network-first: Authenticated API calls
+- **Offline Storage**: Capacitor Preferences for persistent state, queue system for syncing
 
-### Mobile Architecture
-- **Static HTML/CSS/JS**: Mobile UI makes API calls to backend services
-- **3-Environment Architecture**: 
-  - Development: Local Replit development
-  - Staging: `https://rishi-staging.replit.app` (Replit Autoscale)
-  - Production: `https://rishi-next.vercel.app` (Vercel)
-- **Mobile App URLs**:
-  - Staging Mobile → `https://rishi-staging.replit.app`
-  - Production Mobile → `https://rishi-next.vercel.app`
-- **Capacitor 7.4.2**: Exact version required for VoltBuilder compatibility
-- **HTML Entity Encoding Fixed**: Resolved all &quot; &apos; syntax errors causing Vercel build failures
-- **Logo Fixed**: All broken favicon.ico references updated to rishi-logo-actual.png
+### VoltBuilder Configuration
+- **App ID**: `co.rishi.app`
+- **App Name**: Rishi Platform
+- **Platforms**: Android (APK) and iOS (App Store)
+- **Android**: Min SDK 24, Target SDK 34, keystore alias: `rishi-android`
+- **iOS**: Deployment target 13.0, provisioning: `rishi-ios-appstore`, cert: `rishi-ios-dist`
+
+### 3-Environment Architecture
+- **Development**: Local Replit development
+- **Staging**: `https://rishi-staging.replit.app` (Replit Autoscale)
+- **Production**: `https://rishi-next.vercel.app` (Vercel)
+- **Native Apps**: Connect to production APIs (Neon PostgreSQL, Upstash Redis)

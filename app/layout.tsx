@@ -9,6 +9,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import ClientLayout from "./components/ClientLayout";
 import DevToolsScript from "./components/DevToolsScript";
 import ThemeScript from "./components/ThemeScript";
+import ServiceWorkerRegistration from "./service-worker-registration";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -41,6 +42,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
         <ThemeScript />
+        <ServiceWorkerRegistration />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

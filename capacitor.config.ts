@@ -1,53 +1,42 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.rishi.platform',
+  appId: 'co.rishi.app',
   appName: 'Rishi Platform',
   webDir: 'out',
+  bundledWebRuntime: false,
   server: {
     androidScheme: 'https',
-    url: 'https://rishi-platform.vercel.app',
+    iosScheme: 'https',
+    // No cleartext allowed - all API calls must be HTTPS
     cleartext: false
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 3000,
-      launchAutoHide: true,
-      backgroundColor: "#0f172a",
-      androidSplashResourceName: "splash",
-      androidScaleType: "CENTER_CROP",
+      launchShowDuration: 2000,
+      backgroundColor: '#0F172A',
+      androidScaleType: 'CENTER_CROP',
       showSpinner: false,
       splashFullScreen: true,
-      splashImmersive: true,
+      splashImmersive: true
     },
-    StatusBar: {
-      style: "DARK",
-      backgroundColor: "#0f172a",
-    },
-    Keyboard: {
-      resize: "body" as any,
-      style: "dark" as any,
-      resizeOnFullScreen: true,
+    LocalNotifications: {
+      smallIcon: 'ic_stat_icon',
+      iconColor: '#8B5CF6'
     },
     PushNotifications: {
-      presentationOptions: ["badge", "sound", "alert"]
-    },
-    App: {
-      skipNativeInitialize: false
+      presentationOptions: ['badge', 'sound', 'alert']
     }
+  },
+  cordova: {},
+  ios: {
+    preferredContentMode: 'mobile',
+    allowsLinkPreview: false
   },
   android: {
-    buildOptions: {
-      keystorePath: undefined,
-      keystoreAlias: undefined,
-      keystorePassword: undefined,
-      keystoreAliasPassword: undefined,
-      releaseType: "APK",
-      signingType: "jarsigner"
-    }
-  },
-  ios: {
-    scheme: "Rishi Platform"
+    allowMixedContent: false,
+    captureInput: true,
+    webContentsDebuggingEnabled: false
   }
 };
 

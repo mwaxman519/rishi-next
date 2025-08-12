@@ -1,46 +1,61 @@
 {
   "name": "Rishi Platform",
   "short_name": "Rishi",
-  "description": "Comprehensive workforce management platform",
+  "description": "Enterprise workforce management platform",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0f172a",
-  "orientation": "portrait-primary",
+  "background_color": "#0F172A",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait",
+  "scope": "/",
+  "id": "co.rishi.app",
   "icons": [
     {
-      "src": "/icons/icon-192x192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
+      "src": "/assets/logos/rishi-logo-actual.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-512x512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "maskable any"
+      "src": "/assets/logos/rishi-logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/logos/rishi-logo-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
     }
   ],
+  "categories": ["business", "productivity"],
+  "prefer_related_applications": false,
+  "related_applications": [],
   "screenshots": [
     {
-      "src": "/screenshots/desktop-wide.png",
-      "sizes": "1280x720",
+      "src": "/screenshots/dashboard.png",
+      "sizes": "1080x1920",
       "type": "image/png",
-      "form_factor": "wide"
+      "label": "Dashboard"
     },
     {
-      "src": "/screenshots/mobile-narrow.png",
-      "sizes": "390x844",
+      "src": "/screenshots/bookings.png",
+      "sizes": "1080x1920",
       "type": "image/png",
-      "form_factor": "narrow"
+      "label": "Bookings Management"
     }
   ],
-  "categories": [
-    "business",
-    "productivity",
-    "utilities"
-  ],
-  "lang": "en-US",
-  "scope": "/",
-  "id": "rishi-platform"
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "/dashboard",
+      "icons": [{ "src": "/assets/logos/rishi-logo-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Bookings",
+      "short_name": "Bookings",
+      "url": "/bookings",
+      "icons": [{ "src": "/assets/logos/rishi-logo-192.png", "sizes": "192x192" }]
+    }
+  ]
 }
