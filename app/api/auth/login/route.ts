@@ -4,7 +4,8 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 import { db } from "../../../../lib/db-connection";
-import { eq } from "drizzle-orm";
+import { eq, or, ilike } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import * as schema from "@shared/schema";
 import { comparePasswords } from "@/lib/auth-server";
 import { sign } from "jsonwebtoken";
@@ -22,11 +23,16 @@ export async function POST(req: NextRequest) {
 
     // Use real database authentication for both development and production
 
-    // Production authentication
+    // Case-insensitive username lookup (also check email)
     const [user] = await db
       .select()
       .from(schema.users)
-      .where(eq(schema.users.username, username));
+      .where(
+        or(
+          sql`LOWER(${schema.users.username}) = LOWER(${username})`,
+          sql`LOWER(${schema.users.email}) = LOWER(${username})`
+        )
+      );
 
     if (!user || !user.password) {
       console.log('Login: User not found or no password for username:', username);
