@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  // Add visibility fixes for iframe context
+  useEffect(() => {
+    if (window.location.hostname.includes('replit') && window.parent !== window) {
+      document.body.classList.add('replit-preview', 'iframe-mode');
+      document.documentElement.classList.add('replit-preview');
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,22 +50,22 @@ export default function LoginPage() {
         if (result.success) {
           console.log('Login successful, redirecting to dashboard...');
           
-          // For Replit staging environments, use multiple redirect strategies
+          // Special handling for iframe/Replit preview context
+          if (window !== window.parent || window.location.hostname.includes('replit')) {
+            console.log('Detected iframe/Replit context, using window.location redirect...');
+            window.location.href = '/dashboard';
+            return;
+          }
+          
+          // For normal browser context, use Next.js router
           try {
-            // Strategy 1: Next.js router (preferred)
             router.replace('/dashboard');
             
-            // Strategy 2: Fallback with window.location for staging environments
+            // Fallback after short delay in case router fails
             setTimeout(() => {
-              console.log('Fallback redirect to dashboard using window.location...');
-              window.location.href = '/dashboard';
-            }, 500);
-            
-            // Strategy 3: Force page reload if in iframe context
-            setTimeout(() => {
-              if (window !== window.parent) {
-                console.log('Detected iframe context, forcing page reload...');
-                window.location.replace('/dashboard');
+              if (window.location.pathname === '/auth/login') {
+                console.log('Router redirect failed, using window.location fallback...');
+                window.location.href = '/dashboard';
               }
             }, 1000);
             
