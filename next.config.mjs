@@ -1,15 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  images: { 
-    unoptimized: true 
+  experimental: {
+    typedRoutes: true
   },
-  trailingSlash: true,
-  skipMiddlewareUrlNormalize: true,
-  // Skip building API routes during static export
-  outputFileTracingExcludes: {
-    '*': ['./app/api/**/*'],
-  },
+  // Fix cross-origin warning for Replit dev environment
+  allowedDevOrigins: [
+    '3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev',
+    '.replit.dev'
+  ]
 };
 
 export default nextConfig;
