@@ -71,30 +71,43 @@ The Rishi Platform employs a multi-platform 3-tier architecture: Development (lo
 
 ## Mobile App Deployment Status
 
-### Native Mobile Build (PWA + Capacitor) - READY FOR DEPLOYMENT ✅
-- **Build Command**: `./build-native.sh` - Full static export with offline-first architecture
-- **Output**: `release/rishi-capacitor.zip` (2.0MB) ready for VoltBuilder upload
-- **Last Build**: January 12, 2025 - Successfully built and packaged
-- **Architecture**: Progressive Web App (PWA) with Capacitor native wrapper
-- **Static Export**: Next.js static generation with remote API integration
-- **Service Worker v2.0.0**: Comprehensive offline support with smart caching strategies
-  - Cache-first: JS/CSS/fonts/images
-  - Stale-while-revalidate: App shell, non-critical JSON
-  - Network-first: Authenticated API calls
-  - Navigation fallback for offline mode
-- **Offline Storage**: Capacitor Preferences for persistent state, queue system for syncing
-- **Security**: Android permissions optimized (camera only), no cleartext traffic
-- **API Integration**: Configurable endpoint (defaults to production Vercel)
+### Multi-Environment Native Build System - COMPLETE ✅
+- **Architecture**: Dual-environment native builds with environment isolation
+- **Build Commands**: 
+  - Staging: `./build-native-staging.sh`
+  - Production: `./build-native-prod.sh`
+- **Outputs**: 
+  - `release/rishi-capacitor-staging.zip` - Staging VoltBuilder package
+  - `release/rishi-capacitor-prod.zip` - Production VoltBuilder package
+- **Last Update**: January 12, 2025 - Multi-environment system implemented
+- **API Integration**: All fetch('/api calls replaced with apiFetch (20 replacements across 12 files)
 
-### VoltBuilder Configuration
-- **App ID**: `co.rishi.app`
-- **App Name**: Rishi Platform
+### Environment-Specific Configurations
+
+#### Staging Environment
+- **API Base**: `https://rishi-staging.replit.app`
+- **App Name**: "Rishi (Staging)"
+- **Bundle IDs**: `co.rishi.app.staging`
+- **Purpose**: Internal testing, QA, stakeholder review
+- **Distribution**: TestFlight, Play Console Internal Testing
+
+#### Production Environment  
+- **API Base**: `https://rishi-next.vercel.app`
+- **App Name**: "Rishi"
+- **Bundle IDs**: `co.rishi.app`
+- **Purpose**: Public app store releases
+- **Distribution**: App Store, Play Store
+
+### VoltBuilder Signing Configuration
+- **Android Keystores**: `rishi-android-staging`, `rishi-android-prod`
+- **iOS Provisioning**: `rishi-ios-staging`, `rishi-ios-prod`
 - **Platforms**: Android (APK) and iOS (App Store)
-- **Android**: Min SDK 24, Target SDK 34, keystore alias: `rishi-android`
-- **iOS**: Deployment target 13.0, provisioning: `rishi-ios-appstore`, cert: `rishi-ios-dist`
+- **Android**: Min SDK 24, Target SDK 34
+- **iOS**: Deployment target 13.0
 
-### 3-Environment Architecture
-- **Development**: Local Replit development
-- **Staging**: `https://rishi-staging.replit.app` (Replit Autoscale)
-- **Production**: `https://rishi-next.vercel.app` (Vercel)
-- **Native Apps**: Connect to production APIs (Neon PostgreSQL, Upstash Redis)
+### Native Build System Features
+- **Side-by-side Installation**: Different bundle IDs allow parallel installation
+- **Static Offline-First**: No API routes in app bundle, remote API calls only
+- **Automated Validation**: Pre-build checks for service worker and API patterns
+- **Version Management**: Auto-incrementing Android version codes
+- **Environment Isolation**: Complete separation of staging and production data

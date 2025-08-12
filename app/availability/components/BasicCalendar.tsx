@@ -7,6 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { DateSelectArg, EventClickArg } from "@fullcalendar/core";
 import { format } from "date-fns";
+import { apiFetch } from "@/lib/api";
 // CSS imported in layout.tsx to prevent webpack style-loader issues
 
 // Define availability block interface from API
@@ -451,7 +452,7 @@ export default function BasicCalendar({
       console.log('Sending data to API:', availabilityData);
       
       // API call to create the block
-      const response = await fetch('/api/availability', {
+      const response = await apiFetch('/api/availability', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

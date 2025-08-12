@@ -44,6 +44,7 @@ import {
 } from "../../components/ui/table";
 import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "@/hooks/useAuthorization";
+import { apiFetch } from "@/lib/api";
 
 // Mock data for staff
 
@@ -58,7 +59,7 @@ export default function StaffManagementPage() {
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const response = await fetch('/api/staff');
+        const response = await apiFetch('/api/staff');
         if (response.ok) {
           const data = await response.json();
           setStaff(data.data || []);

@@ -6,6 +6,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiFetch } from "../lib/api";
 
 // Response type definitions
 interface AuthResponse<T> {
@@ -192,7 +193,7 @@ export function useAuthService(): AuthServiceClient {
       // Check database status endpoint
       // Our updated endpoint will always return success with diagnostic info
       try {
-        const statusResponse = await fetch("/api/auth-service/status", {
+        const statusResponse = await apiFetch("/api/auth-service/status", {
           method: "GET",
           signal: new AbortController().signal,
         });
@@ -360,7 +361,7 @@ export function useAuthService(): AuthServiceClient {
   async function getSession(): Promise<SessionInfo> {
     try {
       // Always use real authentication - no fallback mode
-      const response = await fetch('/api/auth-service/session', {
+      const response = await apiFetch('/api/auth-service/session', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',

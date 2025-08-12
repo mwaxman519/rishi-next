@@ -10,6 +10,7 @@ import {
   Trash2,
   Settings,
 } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 import {
   Card,
   CardContent,
@@ -53,7 +54,7 @@ export default function ClientAccountsPage() {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await fetch('/api/client-accounts');
+        const response = await apiFetch('/api/client-accounts');
         if (response.ok) {
           const data = await response.json();
           setAccounts(data.data || []);

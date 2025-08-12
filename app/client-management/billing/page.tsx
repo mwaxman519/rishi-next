@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 import {
   Card,
   CardContent,
@@ -79,8 +80,8 @@ export default function BillingPage() {
     const fetchBillingData = async () => {
       try {
         const [invoicesResponse, paymentMethodsResponse] = await Promise.all([
-          fetch('/api/invoices'),
-          fetch('/api/payment-methods')
+          apiFetch('/api/invoices'),
+          apiFetch('/api/payment-methods')
         ]);
 
         if (invoicesResponse.ok) {

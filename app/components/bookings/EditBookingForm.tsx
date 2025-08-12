@@ -38,6 +38,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import LocationSelector from "@/components/locations/LocationSelector";
+import { apiFetch } from "@/lib/api";
 // TimeRangePicker is imported but not used, using native time inputs instead
 
 // Data will be fetched from database via API
@@ -138,7 +139,7 @@ export default function EditBookingForm({ id }: EditBookingFormProps) {
         setIsLoading(true);
         
         // Fetch kit templates
-        const kitResponse = await fetch('/api/kit-templates');
+        const kitResponse = await apiFetch('/api/kit-templates');
         if (kitResponse.ok) {
           const kitData = await kitResponse.json();
           setKitTemplates(kitData.data || []);

@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { apiFetch } from "@/lib/api";
 
 
 export default function BrandAgentDashboard() {
@@ -46,14 +47,14 @@ export default function BrandAgentDashboard() {
     const fetchDashboardData = async () => {
       try {
         // Fetch user's assigned bookings/events
-        const eventsResponse = await fetch('/api/bookings?assignedToMe=true');
+        const eventsResponse = await apiFetch('/api/bookings?assignedToMe=true');
         if (eventsResponse.ok) {
           const eventsData = await eventsResponse.json();
           setEvents(eventsData.data || []);
         }
 
         // Fetch user's tasks
-        const tasksResponse = await fetch('/api/tasks?assignedToMe=true');
+        const tasksResponse = await apiFetch('/api/tasks?assignedToMe=true');
         if (tasksResponse.ok) {
           const tasksData = await tasksResponse.json();
           setTasks(tasksData.data || []);
