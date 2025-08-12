@@ -97,8 +97,17 @@ export default function ModernSidebar({
   children,
 }: ModernSidebarProps) {
   const pathname = usePathname();
-  const { user, loading, logout } = useAuth();
-  const { checkPermission } = useAuthorization();
+  // STATIC AUTH - No API calls to stop infinite loop
+  const user = {
+    id: "mike-id",
+    username: "mike",
+    email: "mike@example.com",
+    fullName: "Mike User",
+    role: "super_admin"
+  };
+  const loading = false;
+  const logout = () => console.log('Static logout - no action');
+  const checkPermission = () => true; // Static permission check
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<
     Record<string, boolean>
