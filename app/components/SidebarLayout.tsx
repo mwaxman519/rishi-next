@@ -20,6 +20,7 @@ import {
   getPlatformAdminNav,
 } from "@shared/navigation-structure";
 import { ThemeToggle } from "./ui/theme-toggle";
+import { SidebarConnectionIndicator } from "./ui/sidebar-connection-indicator";
 import {
   ChevronLeft,
   ChevronRight,
@@ -1395,8 +1396,13 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           </ul>
         </nav>
 
-        {/* Footer with theme toggle and user info */}
+        {/* Footer with connection status, theme toggle and user info */}
         <div className="mt-auto border-t border-[rgb(var(--sidebar-border))] pt-4 pb-2 px-2">
+          {/* Connection indicator */}
+          <div className="mb-4 px-2">
+            <SidebarConnectionIndicator collapsed={sidebarCollapsed} />
+          </div>
+
           {/* Theme toggle */}
           <div className="flex justify-between items-center mb-4 px-2">
             <span
@@ -1820,6 +1826,11 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
         {/* Mobile menu footer */}
         <div className="absolute bottom-0 left-0 right-0 border-t border-[rgb(var(--sidebar-border))] pt-4 pb-6 px-4">
+          {/* Connection indicator */}
+          <div className="mb-4">
+            <SidebarConnectionIndicator collapsed={false} />
+          </div>
+
           {/* Theme toggle */}
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm text-[rgb(var(--muted-foreground))]">

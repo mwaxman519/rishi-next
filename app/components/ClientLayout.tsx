@@ -6,7 +6,6 @@ import { Toaster } from "@/components/ui/toaster";
 import ResponsiveLayout from "./layout/ResponsiveLayout";
 import IframeCompatibility from "./IframeCompatibility";
 import IframeVisibilityFix from "./IframeVisibilityFix";
-import OfflineStatus from "./OfflineStatus";
 import OfflineDataManager from "./OfflineDataManager";
 
 interface ClientLayoutProps {
@@ -23,9 +22,6 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Environment indicator overlay */}
         <EnvironmentIndicator />
-
-        {/* Offline status for field workers */}
-        <OfflineStatus />
 
         {/* Offline data management for entire app */}
         <OfflineDataManager />
