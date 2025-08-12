@@ -117,6 +117,12 @@ export function useAuthService(): AuthServiceClient {
 
       const result: AuthResponse<T> = await response.json();
 
+      // Check if the response is completely empty or malformed
+      if (!result || (typeof result === 'object' && Object.keys(result).length === 0)) {
+        console.error(`Auth service ${endpoint} returned empty response`);
+        throw new Error(`Auth service ${endpoint} returned empty response`);
+      }
+
       if (!result.success) {
         // Log the full error response for debugging
         console.error(`Auth service ${endpoint} error response:`, result);

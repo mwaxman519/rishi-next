@@ -19,7 +19,9 @@ export async function GET() {
 
     try {
       const payload = await verifyJwt(token);
-      if (!payload) {
+      
+      if (!payload || !payload.id || !payload.username) {
+        console.log("JWT payload invalid or missing required fields:", payload);
         return NextResponse.json({
           success: true,
           data: { user: null },
@@ -28,34 +30,36 @@ export async function GET() {
         });
       }
 
+      console.log("JWT verified successfully for user:", payload.username);
+      
+      const user = {
+        id: payload.id,
+        username: payload.username,
+        role: payload.role || 'brand_agent',
+        fullName: payload.fullName || payload.username,
+        email: payload.email || `${payload.username}@internal.rishi.com`,
+        active: true,
+        organizations: [
+          {
+            orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+            orgName: "Rishi Internal",
+            orgType: "internal",
+            role: payload.role || 'brand_agent',
+            isPrimary: true,
+          },
+        ],
+        currentOrganization: {
+          orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
+          orgName: "Rishi Internal",
+          orgType: "internal",
+          role: payload.role || 'brand_agent',
+          isPrimary: true,
+        },
+      };
+
       return NextResponse.json({
         success: true,
-        data: {
-          user: {
-            id: payload.id,
-            username: payload.username,
-            role: payload.role,
-            fullName: payload.fullName,
-            email: payload.email,
-            active: true,
-            organizations: [
-              {
-                orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-                orgName: "Rishi Internal",
-                orgType: "internal",
-                role: payload.role,
-                isPrimary: true,
-              },
-            ],
-            currentOrganization: {
-              orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-              orgName: "Rishi Internal",
-              orgType: "internal",
-              role: payload.role,
-              isPrimary: true,
-            },
-          }
-        },
+        data: { user },
         service: "auth-service",
         version: "1.0.0"
       });
