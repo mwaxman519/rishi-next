@@ -108,10 +108,21 @@ export function useAuthService(): AuthServiceClient {
         console.log(`[Auth Service] Request data keys:`, Object.keys(data));
       }
 
-      const response = await fetch(
-        `/api/auth-service/${endpoint}`,
-        options,
-      );
+      let response;
+      try {
+        console.log(`[Auth Service] About to fetch: /api/auth-service/${endpoint}`);
+        response = await fetch(
+          `/api/auth-service/${endpoint}`,
+          options,
+        );
+        console.log(`[Auth Service] Fetch completed successfully`);
+      } catch (fetchError) {
+        console.error(`[Auth Service] Fetch failed:`, fetchError);
+        console.error(`[Auth Service] Fetch error type:`, typeof fetchError);
+        console.error(`[Auth Service] Fetch error keys:`, Object.keys(fetchError || {}));
+        console.error(`[Auth Service] Fetch error stringified:`, JSON.stringify(fetchError));
+        throw new Error(`Network error for ${endpoint}: ${fetchError instanceof Error ? fetchError.message : JSON.stringify(fetchError)}`);
+      }
 
       console.log(`[Auth Service] Response status:`, response.status);
       console.log(`[Auth Service] Response ok:`, response.ok);
@@ -189,8 +200,13 @@ export function useAuthService(): AuthServiceClient {
       return result.data as T;
     } catch (err) {
       console.error(`[Auth Service] ${endpoint} error:`, err);
-      setError(err instanceof Error ? err : new Error(String(err)));
-      throw err;
+      console.error(`[Auth Service] ${endpoint} error type:`, typeof err);
+      console.error(`[Auth Service] ${endpoint} error keys:`, Object.keys(err || {}));
+      console.error(`[Auth Service] ${endpoint} error stringified:`, JSON.stringify(err));
+      
+      const errorToThrow = err instanceof Error ? err : new Error(`Auth service ${endpoint} error: ${JSON.stringify(err)}`);
+      setError(errorToThrow);
+      throw errorToThrow;
     } finally {
       setIsLoading(false);
     }

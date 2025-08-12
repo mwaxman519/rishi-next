@@ -97,9 +97,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(sessionUser);
       } catch (err) {
         console.error("Error loading user:", err);
-        setError(
-          err instanceof Error ? err : new Error("Unknown error loading user"),
-        );
+        console.error("Error loading user type:", typeof err);
+        console.error("Error loading user keys:", Object.keys(err || {}));
+        console.error("Error loading user stringified:", JSON.stringify(err));
+        
+        const error = err instanceof Error ? err : new Error(`User loading error: ${JSON.stringify(err)}`);
+        setError(error);
       } finally {
         setIsLoading(false);
       }
