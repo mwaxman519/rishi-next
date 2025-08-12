@@ -12,7 +12,7 @@ export async function GET() {
     console.log("[Auth Service Session] JWT_SECRET available:", !!jwtSecret);
     
     const cookieStore = await cookies();
-    const token = cookieStore.get("auth_token")?.value;
+    const token = cookieStore.get("auth-token")?.value;
     
     console.log("[Auth Service Session] Token found:", !!token);
     console.log("[Auth Service Session] Token length:", token?.length || 0);
