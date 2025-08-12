@@ -53,14 +53,6 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
       // DISABLED: No API calls to prevent errors
       console.log('Organization switched to:', organization.name);
     }
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ organizationId }),
-        });
-      }
-    } catch (error) {
-      console.error('Failed to switch organization:', error);
-    }
   };
 
   useEffect(() => {
