@@ -26,10 +26,18 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
         {/* Offline data management for entire app */}
         <OfflineDataManager />
         
-        {/* Temporary: Ensure no OfflineStatus renders */}
+        {/* Force hide any old connection indicators */}
         <style jsx global>{`
-          .fixed.top-16.left-4.z-50.bg-green-500 {
+          div[class*="fixed"][class*="top-16"][class*="left-4"],
+          div[class*="fixed"][class*="bg-green-500"],
+          div[class*="fixed"][class*="text-white"]:has(.lucide-wifi),
+          .fixed.top-16.left-4.z-50,
+          [class*="bg-green-500"][class*="text-white"][class*="px-3"][class*="py-2"] {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
           }
         `}</style>
 
