@@ -1,8 +1,37 @@
-// Rishi Platform Service Worker v2.1.0
-const CACHE_VERSION = 'rishi-v2.1.1';
-const STATIC_CACHE = `static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
-const API_CACHE = `api-${CACHE_VERSION}`;
+// Emergency Service Worker Uninstaller - v3.0.0
+// This service worker immediately unregisters itself to fix network issues
+
+self.addEventListener('install', function(event) {
+  console.log('[SW] Emergency uninstall - skipping waiting');
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', function(event) {
+  console.log('[SW] Emergency uninstall - deleting all caches and unregistering');
+  event.waitUntil(
+    Promise.all([
+      // Delete all caches
+      caches.keys().then(function(cacheNames) {
+        return Promise.all(
+          cacheNames.map(function(cacheName) {
+            console.log('[SW] Deleting cache:', cacheName);
+            return caches.delete(cacheName);
+          })
+        );
+      }),
+      // Unregister this service worker
+      self.registration.unregister().then(function() {
+        console.log('[SW] Service worker unregistered successfully');
+      })
+    ])
+  );
+});
+
+// Pass through all fetch requests without interference
+self.addEventListener('fetch', function(event) {
+  // Do nothing - let requests pass through normally
+  return;
+});
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
