@@ -37,8 +37,9 @@ import {
   Cog,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/hooks/useAuth";
-import { useAuthorization } from "@/hooks/useAuthorization";
+// STATIC AUTH - No API calls to stop infinite loop
+// import { useAuth } from "@/hooks/useAuth";
+// import { useAuthorization } from "@/hooks/useAuthorization";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { OrganizationSwitcher } from "@/components/layout/OrganizationSwitcher";
 import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";

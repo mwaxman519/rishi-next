@@ -47,8 +47,15 @@ export default function Home() {
 
   // If user is logged in, handle accordingly
   if (user) {
-    // For super admin users, show loading while redirect happens
+    // For super admin users, redirect to dashboard immediately
     if (user.role === "super_admin") {
+      console.log('Super admin detected, redirecting to dashboard');
+      
+      // Use useEffect to redirect after component mounts to avoid hydration issues
+      useEffect(() => {
+        router.push('/dashboard');
+      }, [router]);
+
       return (
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
