@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    // Return successful response with no authenticated user
-    // This allows the app to proceed without authentication
+    // Check for any session cookies or authentication state
+    // For now, return no authenticated user to allow login flow
     return NextResponse.json({ 
       success: true,
       data: {
