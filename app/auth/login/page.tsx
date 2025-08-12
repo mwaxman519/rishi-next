@@ -50,6 +50,14 @@ export default function LoginPage() {
         if (result.success) {
           console.log('Login successful, redirecting to dashboard...');
           
+          // Store user data in localStorage as backup for iframe context
+          try {
+            localStorage.setItem('rishi-user-session', JSON.stringify(result.data));
+            console.log('User session stored in localStorage');
+          } catch (e) {
+            console.warn('Failed to store session in localStorage:', e);
+          }
+          
           // Dispatch login success event to notify auth hooks
           const loginEvent = new CustomEvent('loginSuccess', { detail: result.data });
           window.dispatchEvent(loginEvent);
@@ -61,7 +69,7 @@ export default function LoginPage() {
             setTimeout(() => {
               console.log('Redirecting to dashboard after cookie sync delay...');
               window.location.href = '/dashboard';
-            }, 1000);
+            }, 1500);
             return;
           }
           

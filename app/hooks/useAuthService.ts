@@ -371,26 +371,43 @@ export function useAuthService(): AuthServiceClient {
       
       if (!response.ok) {
         console.error('Session response not ok:', response.status);
-        return { user: null };
+        // Try localStorage backup in iframe context
+        return getLocalStorageSession();
       }
       
       const result = await response.json();
       
-      if (result.success && result.data) {
-        // Only log when there's an actual user session
-        if (result.data.user) {
-          console.log('Session found for user:', result.data.user.username);
-        }
+      if (result.success && result.data && result.data.user) {
+        console.log('Session found for user:', result.data.user.username);
         return result.data;
       }
       
-      // Return no user without logging (this is normal)
-      return { user: null };
+      // If no server session, try localStorage backup (for iframe context)
+      console.log('No server session found, checking localStorage backup...');
+      return getLocalStorageSession();
+      
     } catch (err) {
-      // Only log actual errors, not missing session info
       console.warn('Session check failed:', err instanceof Error ? err.message : err);
-      return { user: null };
+      // Try localStorage backup in case of network issues
+      return getLocalStorageSession();
     }
+  }
+
+  /**
+   * Get session from localStorage backup (for iframe context)
+   */
+  function getLocalStorageSession(): SessionInfo {
+    try {
+      const stored = localStorage.getItem('rishi-user-session');
+      if (stored) {
+        const userData = JSON.parse(stored);
+        console.log('Session found in localStorage for user:', userData.username);
+        return { user: userData };
+      }
+    } catch (e) {
+      console.warn('Failed to read localStorage session:', e);
+    }
+    return { user: null };
   }
 
   return {

@@ -25,13 +25,22 @@ export async function POST(request: NextRequest) {
         data: userData
       });
 
-      // Set a simple session cookie for development with iframe support
+      // Set multiple session storage methods for iframe compatibility
       response.cookies.set('user-session', JSON.stringify(userData), {
         httpOnly: false, // Allow client-side access for development
         secure: false, // Allow over HTTP for development
         maxAge: 24 * 60 * 60, // 24 hours (in seconds for Next.js)
         path: '/',
-        sameSite: 'lax' // Allow cross-origin requests for iframe context
+        sameSite: 'none' // Allow all cross-origin requests for iframe
+      });
+
+      // Also set a backup cookie with different settings
+      response.cookies.set('user-session-backup', JSON.stringify(userData), {
+        httpOnly: false,
+        secure: false,
+        maxAge: 24 * 60 * 60,
+        path: '/',
+        sameSite: 'lax'
       });
 
       return response;
