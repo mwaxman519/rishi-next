@@ -93,6 +93,8 @@ export function useAuthService(): AuthServiceClient {
       setIsLoading(true);
       setError(null);
 
+      console.log(`[Auth Service] Making ${method} request to ${endpoint}`);
+
       const options: RequestInit = {
         method,
         headers: {
@@ -103,6 +105,7 @@ export function useAuthService(): AuthServiceClient {
 
       if (data) {
         options.body = JSON.stringify(data);
+        console.log(`[Auth Service] Request data keys:`, Object.keys(data));
       }
 
       const response = await fetch(
@@ -110,22 +113,63 @@ export function useAuthService(): AuthServiceClient {
         options,
       );
 
+      console.log(`[Auth Service] Response status:`, response.status);
+      console.log(`[Auth Service] Response ok:`, response.ok);
+
       if (!response.ok) {
-        console.error(`Auth service ${endpoint} HTTP error:`, response.status, response.statusText);
+        console.error(`[Auth Service] ${endpoint} HTTP error:`, response.status, response.statusText);
+        
+        // Try to get response body for debugging
+        try {
+          const errorText = await response.text();
+          console.error(`[Auth Service] Error response body:`, errorText);
+        } catch (e) {
+          console.error(`[Auth Service] Could not read error response body`);
+        }
+        
         throw new Error(`Request to ${endpoint} failed with status ${response.status}`);
       }
 
-      const result: AuthResponse<T> = await response.json();
+      // Get response text first to debug
+      const responseText = await response.text();
+      console.log(`[Auth Service] Raw response:`, responseText);
+
+      if (!responseText || responseText.trim() === '') {
+        console.error(`[Auth Service] ${endpoint} returned empty response`);
+        throw new Error(`Auth service ${endpoint} returned empty response`);
+      }
+
+      let result: AuthResponse<T>;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error(`[Auth Service] Failed to parse JSON response:`, parseError);
+        console.error(`[Auth Service] Response text:`, responseText);
+        throw new Error(`Auth service ${endpoint} returned invalid JSON`);
+      }
+
+      console.log(`[Auth Service] Parsed response:`, {
+        success: result.success,
+        hasData: !!result.data,
+        hasError: !!result.error,
+        service: result.service
+      });
 
       // Check if the response is completely empty or malformed
       if (!result || (typeof result === 'object' && Object.keys(result).length === 0)) {
-        console.error(`Auth service ${endpoint} returned empty response`);
+        console.error(`[Auth Service] ${endpoint} returned empty parsed response`);
         throw new Error(`Auth service ${endpoint} returned empty response`);
+      }
+
+      // Validate response structure
+      if (typeof result.success === 'undefined') {
+        console.error(`[Auth Service] ${endpoint} response missing success field:`, result);
+        throw new Error(`Auth service ${endpoint} returned malformed response`);
       }
 
       if (!result.success) {
         // Log the full error response for debugging
-        console.error(`Auth service ${endpoint} error response:`, result);
+        console.error(`[Auth Service] ${endpoint} error response:`, result);
 
         // Extract detailed error messages
         const errorMessage =
@@ -134,15 +178,16 @@ export function useAuthService(): AuthServiceClient {
 
         // Log structured error details if available
         if (errorDetails) {
-          console.error("Error details:", errorDetails);
+          console.error("[Auth Service] Error details:", errorDetails);
         }
 
         throw new Error(errorMessage);
       }
 
+      console.log(`[Auth Service] ${endpoint} request successful`);
       return result.data as T;
     } catch (err) {
-      console.error(`Auth service ${endpoint} error:`, err);
+      console.error(`[Auth Service] ${endpoint} error:`, err);
       setError(err instanceof Error ? err : new Error(String(err)));
       throw err;
     } finally {

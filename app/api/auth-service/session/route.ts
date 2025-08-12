@@ -4,33 +4,65 @@ import { cookies } from "next/headers";
 import { verifyJwt } from "../utils/jwt";
 
 export async function GET() {
+  console.log("[Auth Service Session] Starting session verification");
+  
   try {
+    // Check if JWT_SECRET is available
+    const jwtSecret = process.env.JWT_SECRET;
+    console.log("[Auth Service Session] JWT_SECRET available:", !!jwtSecret);
+    
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
+    
+    console.log("[Auth Service Session] Token found:", !!token);
+    console.log("[Auth Service Session] Token length:", token?.length || 0);
 
     if (!token) {
-      return NextResponse.json({
+      console.log("[Auth Service Session] No token found, returning null user");
+      const response = {
         success: true,
         data: { user: null },
         service: "auth-service",
         version: "1.0.0"
-      });
+      };
+      console.log("[Auth Service Session] Returning response:", JSON.stringify(response));
+      return NextResponse.json(response);
     }
 
     try {
+      console.log("[Auth Service Session] Attempting JWT verification");
       const payload = await verifyJwt(token);
+      console.log("[Auth Service Session] JWT verification result:", !!payload);
       
-      if (!payload || !payload.id || !payload.username) {
-        console.log("JWT payload invalid or missing required fields:", payload);
-        return NextResponse.json({
+      if (!payload) {
+        console.log("[Auth Service Session] JWT verification returned null");
+        const response = {
           success: true,
           data: { user: null },
           service: "auth-service",  
           version: "1.0.0"
-        });
+        };
+        console.log("[Auth Service Session] Returning null user response:", JSON.stringify(response));
+        return NextResponse.json(response);
       }
 
-      console.log("JWT verified successfully for user:", payload.username);
+      if (!payload.id || !payload.username) {
+        console.log("[Auth Service Session] JWT payload missing required fields:", {
+          hasId: !!payload.id,
+          hasUsername: !!payload.username,
+          payload: payload
+        });
+        const response = {
+          success: true,
+          data: { user: null },
+          service: "auth-service",  
+          version: "1.0.0"
+        };
+        console.log("[Auth Service Session] Returning invalid payload response:", JSON.stringify(response));
+        return NextResponse.json(response);
+      }
+
+      console.log("[Auth Service Session] JWT verified successfully for user:", payload.username);
       
       const user = {
         id: payload.id,
@@ -57,24 +89,35 @@ export async function GET() {
         },
       };
 
-      return NextResponse.json({
+      const response = {
         success: true,
         data: { user },
         service: "auth-service",
         version: "1.0.0"
+      };
+
+      console.log("[Auth Service Session] Returning successful user response:", {
+        success: response.success,
+        hasUser: !!response.data.user,
+        username: response.data.user.username,
+        service: response.service
       });
+
+      return NextResponse.json(response);
     } catch (jwtError) {
-      console.error("JWT verification failed:", jwtError);
-      return NextResponse.json({
+      console.error("[Auth Service Session] JWT verification failed:", jwtError);
+      const response = {
         success: true,
         data: { user: null },
         service: "auth-service",
         version: "1.0.0"
-      });
+      };
+      console.log("[Auth Service Session] Returning JWT error response:", JSON.stringify(response));
+      return NextResponse.json(response);
     }
   } catch (error) {
-    console.error("Session verification error:", error);
-    return NextResponse.json({
+    console.error("[Auth Service Session] Critical session verification error:", error);
+    const response = {
       success: false,
       error: {
         message: "Session verification failed",
@@ -82,6 +125,8 @@ export async function GET() {
       },
       service: "auth-service",
       version: "1.0.0"
-    }, { status: 500 });
+    };
+    console.log("[Auth Service Session] Returning critical error response:", JSON.stringify(response));
+    return NextResponse.json(response, { status: 500 });
   }
 }
