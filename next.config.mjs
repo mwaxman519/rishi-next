@@ -14,12 +14,15 @@ const nextConfig = {
   },
 
   // Configure allowed dev origins for cross-origin requests
-  allowedDevOrigins: [
-    'localhost',
-    '127.0.0.1',
-    '.replit.dev',
-    '.spock.replit.dev'
-  ],
+  experimental: {
+    allowedOrigins: [
+      'localhost',
+      '127.0.0.1',
+      '.replit.dev',
+      '.spock.replit.dev',
+      '3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev'
+    ]
+  },
   
   // Remove X-Frame-Options completely to allow iframe embedding
   async headers() {

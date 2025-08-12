@@ -1,26 +1,50 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 async function getCurrentUser() {
-  // This is a placeholder function. In a real application,
-  // this function would fetch the user from the database or session store
-  // based on cookies or tokens.
-  // For demonstration purposes, we'll simulate a user being found.
-  // Replace this with your actual user retrieval logic.
-
-  // Example: Mocking a user object
-  // const mockUser = {
-  //   id: 'user-123',
-  //   username: 'testuser',
-  //   email: 'test@example.com',
-  //   role: 'admin',
-  //   active: true,
-  //   organizationId: 'org-abc',
-  //   organizationName: 'Awesome Corp'
-  // };
-  // return mockUser;
-
-  // If no user is found (simulating no session or invalid session)
-  return null;
+  try {
+    const { cookies } = await import('next/headers');
+    const cookieStore = cookies();
+    
+    // Check for session cookies from login
+    const sessionCookie = cookieStore.get("user-session") || cookieStore.get("user-session-backup");
+    
+    if (sessionCookie) {
+      try {
+        const userData = JSON.parse(sessionCookie.value);
+        if (userData && userData.id) {
+          return {
+            id: userData.id,
+            username: userData.username,
+            email: userData.email,
+            role: userData.role,
+            active: true,
+            organizationId: userData.organizationId || "1",
+            organizationName: userData.organizationName || "Default Organization"
+          };
+        }
+      } catch (parseError) {
+        console.error("[Auth Me] Session cookie parse error:", parseError);
+      }
+    }
+    
+    // For development, return mike user if no session found
+    if (process.env.NODE_ENV === 'development') {
+      return {
+        id: '00000000-0000-0000-0000-000000000001',
+        username: 'mike',
+        email: 'mike@rishiplatform.com',
+        role: 'super_admin',
+        active: true,
+        organizationId: '00000000-0000-0000-0000-000000000001',
+        organizationName: 'Rishi Management'
+      };
+    }
+    
+    return null;
+  } catch (error) {
+    console.error("[Auth Me] Error:", error);
+    return null;
+  }
 }
 
 export async function GET(request: NextRequest) {

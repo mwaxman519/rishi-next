@@ -14,7 +14,7 @@ import { ToastProvider } from "./components/ui/toast-context";
 // STATIC AUTH PROVIDER - No API calls, no useEffect, no re-renders
 const STATIC_USER = {
   id: "mike-id",
-  username: "mike", 
+  username: "mike",
   email: "mike@example.com",
   role: "super_admin",
   organizationId: "1",

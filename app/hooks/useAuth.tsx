@@ -118,14 +118,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const initializeAuth = async () => {
       try {
-        // Try to get user from cookies first
+        console.log('Auth: Initializing authentication...');
+        
+        // Try to get user from session
         const response = await fetch('/api/auth/me', {
           method: 'GET',
           credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
 
         if (response.ok) {
           const userData = await response.json();
+          console.log('Auth: Server response:', userData);
+          
           if (userData.success && userData.user) {
             console.log('Auth: Found existing user session:', userData.user.username);
             setUser(userData.user);
@@ -134,26 +141,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             return;
           }
         }
+        
+        // If no session, check development mode
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Auth: No session found, using development user');
+          const devUser = {
+            id: "00000000-0000-0000-0000-000000000001",
+            username: "mike",
+            email: "mike@rishiplatform.com",
+            role: "super_admin",
+            organizationId: "00000000-0000-0000-0000-000000000001",
+            organizationName: "Rishi Management",
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+
+          setUser(devUser);
+          setIsLoading(false);
+          setHasInitialized(true);
+          return;
+        }
+
+        console.log('Auth: No user found, setting to null');
+        setUser(null);
+        setIsLoading(false);
+        setHasInitialized(true);
+
       } catch (error) {
-        // Silent catch - no existing session is normal
+        console.error('Auth: Initialization error:', error);
+        setUser(null);
+        setIsLoading(false);
+        setHasInitialized(true);
       }
-
-      // Set hardcoded user session for development
-      const hardcodedUser = {
-        id: "mike-id",
-        username: "mike",
-        email: "mike@example.com",
-        role: "super_admin",
-        organizationId: "1",
-        organizationName: "Default Organization",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-
-      console.log('Auth: Initialized with development user');
-      setUser(hardcodedUser);
-      setIsLoading(false);
-      setHasInitialized(true);
     };
 
     initializeAuth();
