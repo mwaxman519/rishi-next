@@ -3,7 +3,7 @@
  * Provides consistent API base URL and fetch utilities
  */
 
-// API Base URL - defaults to local development server
+// API Base URL - environment aware configuration
 export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 
   (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
 

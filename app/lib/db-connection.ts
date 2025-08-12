@@ -143,12 +143,19 @@ export function validateEnvironmentConfiguration(): {
 export function getApiBaseUrl(): string {
   const environment = detectEnvironment();
   
-  if (environment === 'mobile-production') {
-    return process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-platform.vercel.app';
+  switch (environment) {
+    case 'mobile-production':
+      return process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-next.vercel.app';
+    
+    case 'development':
+      // Development should NEVER point to production - always use local server
+      return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+      
+    case 'web-production':
+    default:
+      // Web production uses relative URLs (same origin)
+      return '';
   }
-  
-  // Development and web production use relative URLs
-  return '';
 }
 
 // Create and export database connection
