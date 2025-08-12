@@ -206,8 +206,9 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
             console.log("Authentication complete with no user, proceeding with empty organizations");
             setUserOrganizations([]);
             setCurrentOrganization(null);
+            setIsLoading(false); // Critical: Allow the app to proceed
           }
-          // Otherwise, keep loading state
+          // Otherwise, keep loading state if still waiting for auth
         }
       } catch (err) {
         console.error("Error initializing organizations:", err);
