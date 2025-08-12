@@ -4,12 +4,11 @@ const nextConfig = {
   images: { 
     unoptimized: true 
   },
+  experimental: { 
+    typedRoutes: true 
+  },
   trailingSlash: true,
   skipMiddlewareUrlNormalize: true,
-  // Skip building API routes during static export
-  outputFileTracingExcludes: {
-    '*': ['./app/api/**/*'],
-  },
 };
 
 export default nextConfig;

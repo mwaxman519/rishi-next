@@ -2,48 +2,58 @@
   "app_name": "Rishi Platform",
   "app_id": "co.rishi.app",
   "version": "1.0.0",
-  "platform": ["android", "ios"],
-  "build": {
-    "android": {
-      "package_type": "apk",
-      "keystore_alias": "rishi-android",
-      "android_version_code": 1,
-      "min_sdk_version": 24,
-      "target_sdk_version": 34
+  "android_version_code": 3,
+  "package_type": {
+    "android": "apk",
+    "ios": "app-store"
+  },
+  "platforms": [
+    "android",
+    "ios"
+  ],
+  "android": {
+    "applicationId": "co.rishi.app",
+    "keystore": {
+      "alias": "rishi-android-prod",
+      "keystore": "rishi-android-prod.keystore"
     },
-    "ios": {
-      "package_type": "app-store",
-      "provisioning_profile": "rishi-ios-appstore",
-      "signing_certificate": "rishi-ios-dist",
-      "deployment_target": "13.0"
-    }
+    "permissions": [
+      "android.permission.CAMERA",
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_NETWORK_STATE"
+    ],
+    "features": [
+      "android.hardware.camera"
+    ]
+  },
+  "ios": {
+    "bundle_id": "co.rishi.app",
+    "provisioning_profile": "rishi-ios-prod",
+    "certificate": "rishi-ios-dist-prod",
+    "deployment_target": "13.0"
+  },
+  "icon": {
+    "src": "resources/icon.png",
+    "sizes": [
+      57,
+      60,
+      72,
+      76,
+      114,
+      120,
+      144,
+      152,
+      167,
+      180,
+      1024
+    ]
+  },
+  "splash": {
+    "src": "resources/splash.png"
   },
   "preferences": {
-    "permissions": [
-      "android.permission.INTERNET",
-      "android.permission.ACCESS_NETWORK_STATE",
-      "android.permission.CAMERA",
-      "android.permission.WRITE_EXTERNAL_STORAGE"
-    ],
-    "orientation": "portrait",
     "fullscreen": false,
-    "webview_bounce": false,
-    "background_color": "#0F172A",
-    "stay_in_webview": true,
-    "error_url": "file:///android_asset/www/offline.html"
-  },
-  "plugins": {
-    "core": [
-      "@capacitor/app",
-      "@capacitor/keyboard",
-      "@capacitor/status-bar",
-      "@capacitor/splash-screen",
-      "@capacitor/preferences",
-      "@capacitor/local-notifications",
-      "@capacitor/push-notifications"
-    ],
-    "community": [
-      "@capacitor-community/sqlite"
-    ]
+    "orientation": "default",
+    "target_device": "universal"
   }
 }

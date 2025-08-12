@@ -5,11 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rishi Platform</title>
     <style>
-        body { margin: 0; padding: 0; font-family: system-ui; }
-        iframe { border: none; width: 100vw; height: 100vh; }
+      body { 
+        margin: 0; 
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+      .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+      h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+      .logo { width: 100px; height: 100px; margin: 0 auto 20px; background: white; border-radius: 50%; }
+      .api-info { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <iframe src="https://rishi-next.vercel.app" allow="camera; geolocation; microphone"></iframe>
+    <div class="container">
+        <div class="logo"></div>
+        <h1>Rishi Platform</h1>
+        <p>Native mobile wrapper for Capacitor</p>
+        <div class="api-info">
+            <p><strong>Environment:</strong> Production</p>
+            <p><strong>API Base:</strong> 
+https://rishi-next.vercel.app
+</p>
+        </div>
+        <script>
+            // Basic service worker registration
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("/sw.js").catch(console.error);
+            }
+            console.log("Rishi Platform loaded with API:", "
+https://rishi-next.vercel.app
+");
+        </script>
+    </div>
 </body>
 </html>

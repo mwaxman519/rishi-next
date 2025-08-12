@@ -38,6 +38,7 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { Badge } from "../../components/ui/badge";
+import { apiFetch } from "../../lib/api";
 import { useAuthorization } from "@/hooks/useAuthorization";
 
 // Mock data for client accounts
@@ -53,7 +54,7 @@ export default function ClientAccountsPage() {
   useEffect(() => {
     const fetchAccounts = async () => {
       try {
-        const response = await fetch('/api/client-accounts');
+        const response = await apiFetch('/api/client-accounts');
         if (response.ok) {
           const data = await response.json();
           setAccounts(data.data || []);

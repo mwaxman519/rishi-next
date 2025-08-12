@@ -73,17 +73,18 @@ The Rishi Platform employs a multi-platform 3-tier architecture: Development (lo
 
 ### Native Mobile Build (PWA + Capacitor)
 - **Build Commands**: 
-  - `./build-simple-mobile.sh` - Quick mobile wrapper build (recommended)
-  - `./build-mobile-production.sh` - Full static export build with API handling
-- **Output**: `release/rishi-capacitor.zip` (2.0MB) ready for VoltBuilder upload
-- **Architecture**: Progressive Web App (PWA) with Capacitor native wrapper
+  - `./build-native-staging.sh` - Staging mobile build for rishi-staging.replit.app
+  - `./build-native-prod.sh` - Production mobile build for rishi-next.vercel.app
+  - `./build-simple-mobile.sh` - Quick staging mobile wrapper (recommended for testing)
+- **Outputs**: 
+  - `release/rishi-capacitor-staging.zip` (2.0MB) - Staging build ready for VoltBuilder
+  - `release/rishi-capacitor-prod.zip` (2.0MB) - Production build ready for VoltBuilder
+- **Architecture**: Capacitor native wrapper with centralized API calls via apiFetch()
+- **API Integration**: Environment-specific API base URLs configured via NEXT_PUBLIC_API_BASE_URL
+  - Staging: https://rishi-staging.replit.app
+  - Production: https://rishi-next.vercel.app
 - **Service Worker**: Comprehensive offline support with smart caching strategies
-  - Cache-first: JS/CSS/fonts/images
-  - Stale-while-revalidate: App shell, non-critical JSON
-  - Network-first: Authenticated API calls
-  - Navigation fallback for offline mode
-- **Offline Storage**: Capacitor Preferences for persistent state, queue system for syncing
-- **Security**: Android permissions optimized (camera only), no cleartext traffic
+- **Security**: HTTPS-only communication, no cleartext traffic allowed
 
 ### VoltBuilder Configuration
 - **App ID**: `co.rishi.app`

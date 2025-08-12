@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "📱 Building Capacitor mobile wrapper for staging..."
+echo "📱 Building Capacitor mobile wrapper for production..."
 
-# Set staging environment
-export NEXT_PUBLIC_API_BASE_URL=https://rishi-staging.replit.app
-export NATIVE_APP_NAME="Rishi Platform Staging"
-export NATIVE_ANDROID_APP_ID=co.rishi.app.staging
-export NATIVE_CHANNEL=staging
+# Set production environment
+export NEXT_PUBLIC_API_BASE_URL=https://rishi-next.vercel.app
+export NATIVE_APP_NAME="Rishi Platform"
+export NATIVE_ANDROID_APP_ID=co.rishi.app
+export NATIVE_CHANNEL=prod
 
 echo "🌐 API Base: $NEXT_PUBLIC_API_BASE_URL"
 
@@ -40,7 +40,7 @@ echo '<!DOCTYPE html>
         <h1>Rishi Platform</h1>
         <p>Native mobile wrapper for Capacitor</p>
         <div class="api-info">
-            <p><strong>Environment:</strong> Staging</p>
+            <p><strong>Environment:</strong> Production</p>
             <p><strong>API Base:</strong> ' > out/index.html
 
 echo "$NEXT_PUBLIC_API_BASE_URL" >> out/index.html
@@ -67,7 +67,7 @@ cp public/sw.js out/sw.js 2>/dev/null || echo '// Minimal SW' > out/sw.js
 
 # Create manifest
 echo '{
-  "name": "Rishi Platform Staging",
+  "name": "Rishi Platform",
   "short_name": "Rishi",
   "start_url": "/",
   "display": "standalone",
@@ -85,6 +85,6 @@ node scripts/native/gen-voltbuilder-json.js
 npx cap copy
 
 # Package for VoltBuilder
-bash scripts/native/package-zip.sh staging
+bash scripts/native/package-zip.sh prod
 
-echo "✅ Build complete: release/rishi-capacitor-staging.zip"
+echo "✅ Production build complete: release/rishi-capacitor-prod.zip"

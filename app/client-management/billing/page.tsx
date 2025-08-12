@@ -51,6 +51,7 @@ import {
 } from "../../components/ui/tabs";
 import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "@/hooks/useAuthorization";
+import { apiFetch } from "../../lib/api";
 
 // Mock data for invoices
 
@@ -79,8 +80,8 @@ export default function BillingPage() {
     const fetchBillingData = async () => {
       try {
         const [invoicesResponse, paymentMethodsResponse] = await Promise.all([
-          fetch('/api/invoices'),
-          fetch('/api/payment-methods')
+          apiFetch('/api/invoices'),
+          apiFetch('/api/payment-methods')
         ]);
 
         if (invoicesResponse.ok) {

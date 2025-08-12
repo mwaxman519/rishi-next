@@ -5,7 +5,7 @@
 import bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { getUserById } from "@/api/auth-service/models/user-repository";
+import { getUserById } from "../services/users/userService";
 
 /**
  * Hash a password for storage
