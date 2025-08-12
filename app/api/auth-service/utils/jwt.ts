@@ -1,63 +1,26 @@
-/**
- * JWT Utilities for Auth Microservice
- *
- * Functions for creating, validating, and working with JWT tokens.
- */
-import { SignJWT, jwtVerify } from "jose";
-import { nanoid } from "nanoid";
-import { AUTH_CONFIG } from "../config";
+import * as jose from 'jose';
 
-// Create a secret key from the environment variable
-const getSecretKey = () => {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    throw new Error("JWT_SECRET environment variable is required");
-  }
-  return new TextEncoder().encode(secret);
-};
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-development';
 
-/**
- * Create a JWT token for a user
- */
-export async function createToken(id: string, expiresIn: string = "1d") {
-  try {
-    const alg = "HS256";
-    const secretKey = getSecretKey();
+export async function signJwt(payload: any): Promise<string> {
+  const secret = new TextEncoder().encode(JWT_SECRET);
 
-    return await new SignJWT({ sub: id })
-      .setProtectedHeader({ alg })
-      .setJti(nanoid())
-      .setIssuedAt()
-      .setExpirationTime(expiresIn)
-      .sign(secretKey);
-  } catch (error) {
-    console.error("Error creating JWT token:", error);
-    throw new Error("Failed to create authentication token");
-  }
+  const jwt = await new jose.SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('7d')
+    .sign(secret);
+
+  return jwt;
 }
 
-/**
- * Verify a JWT token and return its payload
- */
-export async function verifyToken(token: string) {
+export async function verifyJwt(token: string): Promise<any> {
   try {
-    const secretKey = getSecretKey();
-    const { payload } = await jwtVerify(token, secretKey);
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    const { payload } = await jose.jwtVerify(token, secret);
     return payload;
   } catch (error) {
-    console.error("Error verifying JWT token:", error);
-    throw new Error("Invalid or expired token");
+    console.error('JWT verification failed:', error);
+    return null;
   }
-}
-
-/**
- * Extract a token from the Authorization header
- * Expected format: "Bearer <token>"
- */
-export function extractTokenFromHeader(authHeader: string | null | undefined) {
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return undefined;
-  }
-
-  return authHeader.split(" ")[1];
 }
