@@ -1,5 +1,5 @@
-// Rishi Platform Service Worker v1.0.0
-const CACHE_VERSION = 'rishi-v1.0.0';
+// Rishi Platform Service Worker v2.0.0 - Fixed POST caching bug
+const CACHE_VERSION = 'rishi-v2.0.0';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;
@@ -128,7 +128,8 @@ async function cacheFirst(request) {
   
   try {
     const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
+    // Only cache GET requests - POST/PUT/DELETE cannot be cached
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, networkResponse.clone());
     }
@@ -145,7 +146,8 @@ async function cacheFirst(request) {
 async function networkFirst(request) {
   try {
     const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
+    // Only cache GET requests - POST/PUT/DELETE cannot be cached
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(API_CACHE);
       cache.put(request, networkResponse.clone());
     }
@@ -175,7 +177,8 @@ async function staleWhileRevalidate(request) {
   const cachedResponse = await caches.match(request);
   
   const fetchPromise = fetch(request).then(async (networkResponse) => {
-    if (networkResponse.ok) {
+    // Only cache GET requests - POST/PUT/DELETE cannot be cached
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, networkResponse.clone());
     }
@@ -250,6 +253,12 @@ self.addEventListener('fetch', (event) => {
         });
       })
     );
+    return;
+  }
+  
+  // Skip caching for non-GET requests (POST/PUT/DELETE cannot be cached)
+  if (request.method !== 'GET') {
+    event.respondWith(fetch(request));
     return;
   }
   
