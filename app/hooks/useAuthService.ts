@@ -358,7 +358,28 @@ export function useAuthService(): AuthServiceClient {
   async function getSession(): Promise<SessionInfo> {
     try {
       // Always use real authentication - no fallback mode
-      return await authRequest<SessionInfo>("session");
+      const response = await fetch('/api/auth-service/session', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+      
+      if (!response.ok) {
+        console.error('Session response not ok:', response.status);
+        return { user: null };
+      }
+      
+      const result = await response.json();
+      console.log('Session response:', result);
+      
+      if (result.success && result.data) {
+        return result.data;
+      }
+      
+      return { user: null };
     } catch (err) {
       console.error("Get session error:", err);
       return { user: null };
