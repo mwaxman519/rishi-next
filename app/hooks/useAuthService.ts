@@ -157,8 +157,9 @@ export function useAuthService(): AuthServiceClient {
 
       // Check if the response is completely empty or malformed
       if (!result || (typeof result === 'object' && Object.keys(result).length === 0)) {
-        console.error(`[Auth Service] ${endpoint} returned empty parsed response`);
-        throw new Error(`Auth service ${endpoint} returned empty response`);
+        console.error(`[Auth Service] ${endpoint} returned empty parsed response:`, result);
+        console.error(`[Auth Service] Original response text:`, responseText);
+        throw new Error(`Auth service ${endpoint} returned empty response: ${JSON.stringify(result)}`);
       }
 
       // Validate response structure

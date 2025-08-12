@@ -3,8 +3,9 @@
  * Provides consistent API base URL and fetch utilities
  */
 
-// API Base URL - defaults to production if not specified
-export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-next.vercel.app';
+// API Base URL - defaults to local development server
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 
+  (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5000');
 
 /**
  * Enhanced fetch wrapper with API base URL and credentials
