@@ -44,29 +44,13 @@ export default function BrandAgentDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        // Fetch user's assigned bookings/events
-        const eventsResponse = await apiFetch('/api/bookings?assignedToMe=true');
-        if (eventsResponse.ok) {
-          const eventsData = await eventsResponse.json();
-          setEvents(eventsData.data || []);
-        }
-
-        // Fetch user's tasks
-        const tasksResponse = await apiFetch('/api/tasks?assignedToMe=true');
-        if (tasksResponse.ok) {
-          const tasksData = await tasksResponse.json();
-          setTasks(tasksData.data || []);
-        }
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
+    // DISABLED: No API calls to prevent errors - using static data
+    console.log('BrandAgentDashboard: Using static data (API calls disabled)');
+    
+    // Static mock data instead of API calls
+    setEvents([]);
+    setTasks([]);
+    setLoading(false);
   }, []);
 
   if (loading) {

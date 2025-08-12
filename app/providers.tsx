@@ -63,15 +63,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <ThemeProvider>
         <AuthProvider>
           <OrganizationProvider>
-            <RBACProviderWithAuth>
-              <SidebarProvider>
-                <NavigationProvider>
-                  <GoogleMapsProvider>
-                    <ToastProvider>{children}</ToastProvider>
-                  </GoogleMapsProvider>
-                </NavigationProvider>
-              </SidebarProvider>
-            </RBACProviderWithAuth>
+            {/* DISABLED: RBACProvider to stop infinite loops */}
+            <SidebarProvider>
+              <NavigationProvider>
+                <GoogleMapsProvider>
+                  <ToastProvider>{children}</ToastProvider>
+                </GoogleMapsProvider>
+              </NavigationProvider>
+            </SidebarProvider>
+            {/* RBACProviderWithAuth disabled */}
           </OrganizationProvider>
         </AuthProvider>
       </ThemeProvider>
