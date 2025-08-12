@@ -226,6 +226,33 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
+  // Special handling for navigation requests (HTML pages)
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(async () => {
+        // Try to return cached app shell for offline navigation
+        const cachedPage = await caches.match(request);
+        if (cachedPage) {
+          return cachedPage;
+        }
+        
+        // Try to return the cached homepage as app shell
+        const cachedHome = await caches.match('/');
+        if (cachedHome) {
+          return cachedHome;
+        }
+        
+        // Final fallback to offline page
+        const offlinePage = await caches.match('/offline.html');
+        return offlinePage || new Response('Offline - Please check your connection', { 
+          status: 503,
+          headers: { 'Content-Type': 'text/html' }
+        });
+      })
+    );
+    return;
+  }
+  
   const strategy = getCachingStrategy(url);
   
   switch (strategy) {

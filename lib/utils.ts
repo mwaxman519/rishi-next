@@ -1,28 +1,40 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import path from "path"
-import fs from "fs"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Server-only function - moved to separate server utility file
 export function getDocsDirectory(): string {
-  // Return the docs directory path - fallback to public/Docs
-  const docsPath = path.join(process.cwd(), 'public', 'Docs');
-  
-  // Check if directory exists, create minimal structure if not
-  if (!fs.existsSync(docsPath)) {
-    try {
-      fs.mkdirSync(docsPath, { recursive: true });
-      // Create a minimal README.md file
-      fs.writeFileSync(path.join(docsPath, 'README.md'), '# Documentation\n\nWelcome to the documentation system.\n');
-    } catch (error) {
-      console.error('Failed to create docs directory:', error);
-    }
+  // This function is only used server-side, return static path for client
+  if (typeof window !== 'undefined') {
+    // Client-side: return static path
+    return '/Docs';
   }
   
-  return docsPath;
+  // Server-side: use dynamic imports
+  try {
+    const path = require('path');
+    const fs = require('fs');
+    const docsPath = path.join(process.cwd(), 'public', 'Docs');
+    
+    // Check if directory exists, create minimal structure if not
+    if (!fs.existsSync(docsPath)) {
+      try {
+        fs.mkdirSync(docsPath, { recursive: true });
+        // Create a minimal README.md file
+        fs.writeFileSync(path.join(docsPath, 'README.md'), '# Documentation\n\nWelcome to the documentation system.\n');
+      } catch (error) {
+        console.error('Failed to create docs directory:', error);
+      }
+    }
+    
+    return docsPath;
+  } catch (error) {
+    // Fallback for environments where fs/path are not available
+    return '/Docs';
+  }
 }
 
 export function extractFirstParagraph(content: string): string {

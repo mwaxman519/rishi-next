@@ -1,66 +1,66 @@
-import path from 'path';
-
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Standard Next.js server mode for Vercel deployment
-  output: undefined, // Use default server mode, not static export
-  trailingSlash: false, // Disable for Vercel compatibility
-  distDir: '.next', // Use standard .next directory for Vercel
-  
-  // Basic configuration
-  poweredByHeader: false,
-  reactStrictMode: true,
-  compress: true, // Enable compression for production
-  generateEtags: true, // Generate ETags for caching
-  
-  // Development server configuration for Replit
-  devIndicators: {
-    position: 'bottom-right',
-  },
-  
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  
+
+// VoltBuilder-specific configuration for mobile app compilation
+const nextConfigVoltBuilder = {
+  // Static export required for VoltBuilder mobile compilation
+  output: 'export',
+  trailingSlash: true,
   images: {
-    unoptimized: true,
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: true
   },
   
-  // Clean configuration for Next.js 15.4.2
+  // Disable dynamic features for static export
+  experimental: {},
   
-  serverExternalPackages: ['@neondatabase/serverless'],
+  // Environment variables for VoltBuilder
+  env: {
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-next.vercel.app',
+    NEXT_PUBLIC_APP_ENV: 'production',
+    NEXT_PUBLIC_APP_NAME: 'Rishi Platform'
+  },
   
-  webpack: (config, { isServer, dev }) => {
-    // Simple path aliases only
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(process.cwd(), 'app'),
-      '@/lib': path.resolve(process.cwd(), 'lib'),
-      '@/components': path.resolve(process.cwd(), 'components'),
-      '@/components/ui': path.resolve(process.cwd(), 'components/ui'),
-      '@/shared': path.resolve(process.cwd(), 'shared'),
-      '@shared': path.resolve(process.cwd(), 'shared'),
-      '@db': path.resolve(process.cwd(), 'db.ts'),
-    };
+  // Webpack configuration for VoltBuilder compatibility
+  webpack: (config, { dev, isServer }) => {
+    // Production optimizations for mobile
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        usedExports: true,
+        sideEffects: false
+      };
+    }
     
-    config.resolve.fallback = {
-      fs: false,
-      net: false,
-      tls: false,
-      crypto: false,
-    };
+    // Ignore fs module for client-side builds
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false
+      };
+    }
     
     return config;
   },
+  
+  // TypeScript and linting - skip for VoltBuilder builds to handle warnings
+  typescript: {
+    ignoreBuildErrors: true
+  },
+  eslint: {
+    ignoreDuringBuilds: true
+  },
+  
+  // Build optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+  },
+  
+  // Static generation settings
+  generateEtags: false,
+  poweredByHeader: false,
+  
+  // Exclude API routes from static export
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'].filter(ext => !ext.includes('api'))
 };
 
-export default nextConfig;
+export default nextConfigVoltBuilder;

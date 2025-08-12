@@ -29,14 +29,23 @@ mkdir -p release
 
 # Build the static Next.js app with static export
 echo -e "${YELLOW}🔨 Building Next.js static export...${NC}"
-# Copy the static config temporarily
-cp next.config.static.mjs next.config.mjs.backup
-mv next.config.mjs next.config.mjs.original
-mv next.config.static.mjs next.config.mjs
-npx next build
-# Restore original config
-mv next.config.mjs next.config.static.mjs
-mv next.config.mjs.original next.config.mjs
+
+# Set environment for production build
+export NODE_ENV=production
+export NEXT_PUBLIC_API_BASE_URL=https://rishi-next.vercel.app
+
+# Use the voltbuilder configuration for static export
+if [ -f "next.config.voltbuilder.mjs" ]; then
+    # Copy the voltbuilder config temporarily
+    cp next.config.mjs next.config.mjs.original
+    cp next.config.voltbuilder.mjs next.config.mjs
+    npx next build
+    # Restore original config
+    mv next.config.mjs.original next.config.mjs
+else
+    # Fallback to regular build with output: 'export'
+    npx next build
+fi
 
 # Check if build was successful
 if [ ! -d "out" ]; then

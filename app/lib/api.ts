@@ -1,183 +1,54 @@
 /**
- * Utility function for making API requests with enhanced error handling
+ * Central API configuration and helper functions
+ * Provides consistent API base URL and fetch utilities
  */
-export async function apiRequest(
-  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-  url: string,
-  data?: any,
-) {
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
 
-  const options: RequestInit = {
-    method,
-    headers,
-    credentials: "include",
-  };
+// API Base URL - defaults to production if not specified
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-next.vercel.app';
 
-  if (data && method !== "GET") {
-    options.body = JSON.stringify(data);
-  }
+/**
+ * Enhanced fetch wrapper with API base URL and credentials
+ * @param path - API endpoint path (e.g., '/api/users')
+ * @param init - Standard fetch RequestInit options
+ * @returns Promise<Response>
+ */
+export const apiFetch = (path: string, init?: RequestInit) => {
+  // Ensure path starts with /
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  
+  return fetch(`${API_BASE}${normalizedPath}`, {
+    ...init,
+    credentials: 'include', // Always include credentials for auth
+    headers: {
+      'Content-Type': 'application/json',
+      ...init?.headers,
+    },
+  });
+};
 
-  let response;
-  try {
-    response = await fetch(url, options);
-
-    // Check if response is valid
-    if (!response) {
-      throw new Error("No response received from server");
-    }
-  } catch (networkError) {
-    console.error(`Network error fetching ${url}:`, networkError);
-    const errorMessage = networkError.message || "Network error with no message";
-    throw new Error(`Network error: ${errorMessage}`);
-  }
-
+/**
+ * JSON API helper - automatically parses JSON responses
+ * @param path - API endpoint path
+ * @param init - Standard fetch RequestInit options
+ * @returns Promise<T> - Parsed JSON response
+ */
+export async function apiJSON<T = any>(path: string, init?: RequestInit): Promise<T> {
+  const response = await apiFetch(path, init);
+  
   if (!response.ok) {
-    let errorMessage = `Request failed with status ${response.status}`;
-
-    // Try to parse error JSON, but handle the case where json() might not be available
-    if (typeof response.json === "function") {
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.error || errorMessage;
-      } catch (e) {
-        // If parsing JSON fails, try to get text
-        try {
-          const textError = await response.text();
-          if (textError) {
-            errorMessage += `: ${textError}`;
-          }
-        } catch (textError) {
-          // If even getting text fails, use the default error message
-          console.error("Failed to get error response text:", textError);
-        }
-      }
-    } else {
-      console.error("Response does not have json method:", response);
-      // Try to get response as text
-      try {
-        const textError = await response.text();
-        if (textError) {
-          errorMessage += `: ${textError}`;
-        }
-      } catch (textError) {
-        console.error("Failed to get error response text:", textError);
-      }
-    }
-
-    throw new Error(errorMessage);
+    const error = await response.text().catch(() => 'Unknown error');
+    throw new Error(`API Error (${response.status}): ${error}`);
   }
-
-  // For 204 No Content responses, return null
-  if (response.status === 204) {
-    return response;
-  }
-
-  // Check if the response has content before trying to parse JSON
-  const contentLength = response.headers.get("content-length");
-  if (contentLength === "0") {
-    return response;
-  }
-
-  // Handle the case where json() might not be available
-  if (typeof response.json !== "function") {
-    console.error("Response does not have json method:", response);
-
-    // Try to get response as text and parse it manually
-    try {
-      const text = await response.text();
-      if (!text) {
-        console.warn("Empty response text");
-        return response;
-      }
-
-      try {
-        return JSON.parse(text);
-      } catch (parseError) {
-        console.error("Failed to parse response text as JSON:", parseError);
-        // Return the raw text in a structured format
-        return {
-          _raw: text,
-          _parseError: true,
-        };
-      }
-    } catch (textError) {
-      console.error("Failed to get response text:", textError);
-      return response;
-    }
-  }
-
-  // Normal path - response.json() is available
-  try {
-    return await response.json();
-  } catch (error) {
-    console.error(`Error parsing JSON response from ${url}:`, error);
-
-    // Try to get the raw text as fallback
-    try {
-      const text = await response.text();
-      console.log("Response text when JSON parsing failed:", text);
-
-      // If the text is empty, return an empty object
-      if (!text) {
-        return {};
-      }
-
-      // Try to manually parse it as JSON
-      try {
-        return JSON.parse(text);
-      } catch (parseError) {
-        // If manual parsing also fails, return the raw text in a structured format
-        return {
-          _raw: text,
-          _parseError: true,
-        };
-      }
-    } catch (textError) {
-      console.error("Failed to get response text as fallback:", textError);
-      // Return the response object for inspection
-      return {
-        _response: {
-          status: response.status,
-          statusText: response.statusText,
-          url: response.url,
-          headers: Object.fromEntries([...response.headers.entries()]),
-        },
-        _error: true,
-      };
-    }
-  }
+  
+  return response.json();
 }
 
 /**
- * API client with methods for different HTTP verbs
- * Used by React hooks for TanStack Query
+ * Helper to construct API URLs for non-fetch use cases
+ * @param path - API endpoint path
+ * @returns Full API URL
  */
-export const api = {
-  async get(url: string) {
-    const data = await apiRequest("GET", url);
-    return { data };
-  },
-
-  async post(url: string, body?: any) {
-    const data = await apiRequest("POST", url, body);
-    return { data };
-  },
-
-  async put(url: string, body?: any) {
-    const data = await apiRequest("PUT", url, body);
-    return { data };
-  },
-
-  async patch(url: string, body?: any) {
-    const data = await apiRequest("PATCH", url, body);
-    return { data };
-  },
-
-  async delete(url: string) {
-    const data = await apiRequest("DELETE", url);
-    return { data };
-  },
+export const apiUrl = (path: string) => {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${API_BASE}${normalizedPath}`;
 };
