@@ -170,7 +170,15 @@ export function useAuthService(): AuthServiceClient {
       if (!result || (typeof result === 'object' && Object.keys(result).length === 0)) {
         console.error(`[Auth Service] ${endpoint} returned empty parsed response:`, result);
         console.error(`[Auth Service] Original response text:`, responseText);
-        throw new Error(`Auth service ${endpoint} returned empty response: ${JSON.stringify(result)}`);
+        console.error(`[Auth Service] Response text length:`, responseText?.length);
+        console.error(`[Auth Service] Response text type:`, typeof responseText);
+        
+        // If we have response text but parsing failed, this is a JSON issue
+        if (responseText && responseText.trim()) {
+          throw new Error(`Auth service ${endpoint} JSON parse resulted in empty object. Raw response: ${responseText.substring(0, 200)}`);
+        } else {
+          throw new Error(`Auth service ${endpoint} returned completely empty response`);
+        }
       }
 
       // Validate response structure
@@ -197,6 +205,16 @@ export function useAuthService(): AuthServiceClient {
       }
 
       console.log(`[Auth Service] ${endpoint} request successful`);
+      console.log(`[Auth Service] ${endpoint} returning data:`, result.data);
+      console.log(`[Auth Service] ${endpoint} data type:`, typeof result.data);
+      console.log(`[Auth Service] ${endpoint} data keys:`, Object.keys(result.data || {}));
+      
+      // Ensure we don't return undefined or null without notice
+      if (result.data === undefined || result.data === null) {
+        console.warn(`[Auth Service] ${endpoint} returned null/undefined data, converting to empty object`);
+        return {} as T;
+      }
+      
       return result.data as T;
     } catch (err) {
       console.error(`[Auth Service] ${endpoint} error:`, err);
@@ -431,11 +449,24 @@ export function useAuthService(): AuthServiceClient {
    */
   async function getSession(): Promise<SessionInfo> {
     try {
+      console.log("[Auth Service] getSession - starting request");
       // Always use real authentication - no fallback mode
       const result = await authRequest<SessionInfo>("session");
+      console.log("[Auth Service] getSession - result:", result);
+      console.log("[Auth Service] getSession - result type:", typeof result);
+      console.log("[Auth Service] getSession - result keys:", Object.keys(result || {}));
+      
+      // Ensure we return a proper SessionInfo structure
+      if (!result || typeof result !== 'object') {
+        console.warn("[Auth Service] getSession - invalid result, returning default");
+        return { user: null };
+      }
+      
       return result;
     } catch (err) {
       console.error("Get session error:", err);
+      console.error("Get session error type:", typeof err);
+      console.error("Get session error keys:", Object.keys(err || {}));
       // Return default structure if session fails
       return { user: null };
     }
