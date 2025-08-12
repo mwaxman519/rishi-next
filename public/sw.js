@@ -145,7 +145,7 @@ async function cacheFirst(request) {
 async function networkFirst(request) {
   try {
     const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(API_CACHE);
       cache.put(request, networkResponse.clone());
     }
@@ -175,7 +175,7 @@ async function staleWhileRevalidate(request) {
   const cachedResponse = await caches.match(request);
   
   const fetchPromise = fetch(request).then(async (networkResponse) => {
-    if (networkResponse.ok) {
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, networkResponse.clone());
     }
@@ -210,8 +210,8 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   
-  // Skip non-HTTP(S) requests
-  if (!url.protocol.startsWith('http')) {
+  // Skip non-HTTP(S) requests and POST/PUT/DELETE requests
+  if (!url.protocol.startsWith('http') || request.method !== 'GET') {
     return;
   }
   
