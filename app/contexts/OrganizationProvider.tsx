@@ -134,7 +134,9 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
           user: user?.username, 
           role: user?.role, 
           isSuperAdmin, 
-          authIsLoading 
+          authIsLoading,
+          userIsNull: user === null,
+          userIsUndefined: user === undefined
         });
 
         // Only initialize if user is authenticated and is super admin
@@ -200,15 +202,16 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
           setUserOrganizations([]);
           setCurrentOrganization(null);
         } else {
-          console.log("User not authenticated yet, waiting... user=", user, "authIsLoading=", authIsLoading);
+          console.log("User not authenticated yet, waiting... user=", user, "authIsLoading=", authIsLoading, "typeof user=", typeof user);
           // If authentication is complete but user is null/undefined, proceed with no authentication
-          if (!authIsLoading && (user === null || user === undefined)) {
-            console.log("Authentication complete with no user, proceeding with empty organizations");
+          if (!authIsLoading) {
+            console.log("AUTH IS COMPLETE! Proceeding with no authentication. User:", user, "Type:", typeof user);
             setUserOrganizations([]);
             setCurrentOrganization(null);
             setIsLoading(false); // Critical: Allow the app to proceed
+          } else {
+            console.log("Still waiting for authentication to complete...");
           }
-          // Otherwise, keep loading state if still waiting for auth
         }
       } catch (err) {
         console.error("Error initializing organizations:", err);
