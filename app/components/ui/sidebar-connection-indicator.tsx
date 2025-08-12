@@ -24,15 +24,8 @@ export function SidebarConnectionIndicator({ collapsed = false }: SidebarConnect
     // Listen for online/offline events
     const handleOnline = () => {
       setIsOnline(true);
-      // Trigger sync when coming back online
-      if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-        navigator.serviceWorker.ready.then(registration => {
-          // Send message to service worker to sync pending requests
-          if (registration.active) {
-            registration.active.postMessage({ type: 'SYNC_WHEN_ONLINE' });
-          }
-        });
-      }
+      // Clear any pending sync count when back online
+      setPendingSync(0);
     };
 
     const handleOffline = () => {
@@ -42,14 +35,7 @@ export function SidebarConnectionIndicator({ collapsed = false }: SidebarConnect
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
-    // Listen for service worker messages about pending sync
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', event => {
-        if (event.data.type === 'PENDING_SYNC_COUNT') {
-          setPendingSync(event.data.count);
-        }
-      });
-    }
+    // Service worker integration removed - no longer using service workers
 
     return () => {
       window.removeEventListener('online', handleOnline);
