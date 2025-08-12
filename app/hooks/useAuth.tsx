@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Use our auth service client
   const authService = useAuthService();
 
-  // Load the user on initial mount
+  // Load the user on initial mount and listen for login events
   useEffect(() => {
     // Skip during static generation
     if (typeof window === "undefined") {
@@ -111,8 +111,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
+    // Listen for login success events to refresh user data
+    const handleLoginSuccess = () => {
+      console.log('useAuth: Login success event detected, refreshing user data');
+      loadUser();
+    };
+
+    // Add event listener for login success
+    window.addEventListener('loginSuccess', handleLoginSuccess);
+
     console.log('useAuth: useEffect triggered, calling loadUser');
     loadUser();
+
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener('loginSuccess', handleLoginSuccess);
+    };
   }, [authService]);
 
   // Check if user has a specific permission

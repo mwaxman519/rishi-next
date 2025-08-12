@@ -50,10 +50,17 @@ export default function LoginPage() {
         if (result.success) {
           console.log('Login successful, redirecting to dashboard...');
           
+          // Dispatch login success event to notify auth hooks
+          const loginEvent = new CustomEvent('loginSuccess', { detail: result.data });
+          window.dispatchEvent(loginEvent);
+          
           // Special handling for iframe/Replit preview context
           if (window !== window.parent || window.location.hostname.includes('replit')) {
             console.log('Detected iframe/Replit context, using window.location redirect...');
-            window.location.href = '/dashboard';
+            // Add a small delay to ensure cookie is set and auth hooks are updated
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 300);
             return;
           }
           

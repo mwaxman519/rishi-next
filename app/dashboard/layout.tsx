@@ -13,8 +13,22 @@ export default function DashboardLayout({
   const router = useRouter();
 
   useEffect(() => {
+    // Add a longer delay to allow authentication to settle in iframe context
     if (!loading && !user) {
-      router.push("/auth/login");
+      const timer = setTimeout(() => {
+        // Check if we're currently on a login attempt redirect
+        if (window.location.pathname === '/dashboard' && !user) {
+          console.log('Dashboard: No user found after delay, redirecting to login');
+          if (window !== window.parent || window.location.hostname.includes('replit')) {
+            // For iframe context, use window.location
+            window.location.href = "/auth/login";
+          } else {
+            router.push("/auth/login");
+          }
+        }
+      }, 3000); // 3 second delay for iframe context
+      
+      return () => clearTimeout(timer);
     }
   }, [user, loading, router]);
 
