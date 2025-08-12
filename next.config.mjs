@@ -15,11 +15,11 @@ const nextConfig = {
         headers: [
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
+            value: 'ALLOWALL',
           },
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors 'self' *.replit.dev *.replit.com;",
+            value: "frame-ancestors 'self' *.replit.dev *.replit.com *.spock.replit.dev https://*.replit.dev https://*.replit.com;",
           },
         ],
       },
