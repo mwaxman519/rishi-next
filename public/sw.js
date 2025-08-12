@@ -1,5 +1,5 @@
-// Rishi Platform Service Worker v2.0.0
-const CACHE_VERSION = 'rishi-v2.1.0';
+// Rishi Platform Service Worker v2.1.0
+const CACHE_VERSION = 'rishi-v2.1.1';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const API_CACHE = `api-${CACHE_VERSION}`;

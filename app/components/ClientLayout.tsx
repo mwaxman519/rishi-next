@@ -25,6 +25,13 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
 
         {/* Offline data management for entire app */}
         <OfflineDataManager />
+        
+        {/* Temporary: Ensure no OfflineStatus renders */}
+        <style jsx global>{`
+          .fixed.top-16.left-4.z-50.bg-green-500 {
+            display: none !important;
+          }
+        `}</style>
 
         {/* Toast notifications */}
         <Toaster />
