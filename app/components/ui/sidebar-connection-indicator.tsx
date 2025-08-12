@@ -10,16 +10,22 @@ interface SidebarConnectionIndicatorProps {
 export function SidebarConnectionIndicator({ collapsed = false }: SidebarConnectionIndicatorProps) {
   const [isOnline, setIsOnline] = useState(true);
   const [pendingSync, setPendingSync] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Initial online status
-    setIsOnline(navigator.onLine);
+    // Set client flag to prevent hydration mismatch
+    setIsClient(true);
+    
+    // Initial online status (only after hydration)
+    if (typeof window !== 'undefined') {
+      setIsOnline(navigator.onLine);
+    }
 
     // Listen for online/offline events
     const handleOnline = () => {
       setIsOnline(true);
       // Trigger sync when coming back online
-      if ('serviceWorker' in navigator) {
+      if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then(registration => {
           // Send message to service worker to sync pending requests
           if (registration.active) {
@@ -37,7 +43,7 @@ export function SidebarConnectionIndicator({ collapsed = false }: SidebarConnect
     window.addEventListener('offline', handleOffline);
 
     // Listen for service worker messages about pending sync
-    if ('serviceWorker' in navigator) {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('message', event => {
         if (event.data.type === 'PENDING_SYNC_COUNT') {
           setPendingSync(event.data.count);
@@ -50,6 +56,11 @@ export function SidebarConnectionIndicator({ collapsed = false }: SidebarConnect
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  // Don't render until client-side to prevent hydration mismatch
+  if (!isClient) {
+    return null;
+  }
 
   // Compact view for collapsed sidebar - just an icon with tooltip
   if (collapsed) {
