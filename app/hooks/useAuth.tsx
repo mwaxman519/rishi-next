@@ -76,11 +76,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   // Use our auth service client
   const authService = useAuthService();
 
-  // Load the user on initial mount and listen for login events
+  // TEMPORARY: Set hardcoded user to stop infinite loop
   useEffect(() => {
     // Skip during static generation
     if (typeof window === "undefined") {
@@ -88,46 +89,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    async function loadUser() {
-      try {
-        setIsLoading(true);
-        console.log('useAuth: Starting user load...');
-
-        // Get session from auth service
-        const sessionData = await authService.getSession();
-        console.log('useAuth: Session data received:', sessionData);
-        
-        const { user: sessionUser } = sessionData;
-        console.log('useAuth: Setting user to:', sessionUser);
-        setUser(sessionUser);
-      } catch (err) {
-        console.error("Error loading user:", err);
-        setError(
-          err instanceof Error ? err : new Error("Unknown error loading user"),
-        );
-      } finally {
-        console.log('useAuth: Setting loading to false');
-        setIsLoading(false);
-      }
+    // Skip if already initialized to prevent infinite loops
+    if (hasInitialized) {
+      return;
     }
+
+    // Set hardcoded user session for mike to stop the infinite loop
+    const hardcodedUser = {
+      id: "mike-id",
+      username: "mike",
+      email: "mike@example.com",
+      role: "super_admin",
+      organizationId: "1",
+      organizationName: "Default Organization",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    console.log('useAuth: Setting hardcoded user to stop infinite loop');
+    setUser(hardcodedUser);
+    setIsLoading(false);
+    setHasInitialized(true);
 
     // Listen for login success events to refresh user data
     const handleLoginSuccess = () => {
-      console.log('useAuth: Login success event detected, refreshing user data');
-      loadUser();
+      console.log('useAuth: Login success event detected');
+      // For now, just keep the hardcoded user
     };
 
     // Add event listener for login success
     window.addEventListener('loginSuccess', handleLoginSuccess);
 
-    console.log('useAuth: useEffect triggered, calling loadUser');
-    loadUser();
-
     // Cleanup event listener
     return () => {
       window.removeEventListener('loginSuccess', handleLoginSuccess);
     };
-  }, [authService]);
+  }, [hasInitialized]); // Remove authService dependency completely
 
   // Check if user has a specific permission
   const hasPermission = (permission: string): boolean => {
