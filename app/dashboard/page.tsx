@@ -17,7 +17,36 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  // Debug logging to see what's happening
+  console.log('Dashboard rendering:', { user, loading });
+
+  // Show loading state while auth is initializing
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading dashboard...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show debug info if no user (shouldn't happen due to layout guard)
+  if (!user) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-2">Debug: No User Found</h2>
+          <p className="text-muted-foreground">Auth loading: {String(loading)}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
