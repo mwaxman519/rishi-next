@@ -211,7 +211,11 @@ export function useAuthService(): AuthServiceClient {
       
       // Ensure we don't return undefined or null without notice
       if (result.data === undefined || result.data === null) {
-        console.warn(`[Auth Service] ${endpoint} returned null/undefined data, converting to empty object`);
+        console.warn(`[Auth Service] ${endpoint} returned null/undefined data`);
+        // For session endpoint, return proper structure instead of empty object
+        if (endpoint === 'session') {
+          return { user: null } as T;
+        }
         return {} as T;
       }
       
@@ -220,9 +224,25 @@ export function useAuthService(): AuthServiceClient {
       console.error(`[Auth Service] ${endpoint} error:`, err);
       console.error(`[Auth Service] ${endpoint} error type:`, typeof err);
       console.error(`[Auth Service] ${endpoint} error keys:`, Object.keys(err || {}));
-      console.error(`[Auth Service] ${endpoint} error stringified:`, JSON.stringify(err));
       
-      const errorToThrow = err instanceof Error ? err : new Error(`Auth service ${endpoint} error: ${JSON.stringify(err)}`);
+      let errorToThrow: Error;
+      if (err instanceof Error) {
+        errorToThrow = err;
+      } else if (typeof err === 'string') {
+        errorToThrow = new Error(err);
+      } else if (err && typeof err === 'object') {
+        // Handle case where err is an empty object {}
+        const errStr = JSON.stringify(err);
+        if (errStr === '{}') {
+          errorToThrow = new Error(`Auth service ${endpoint} error: Unknown error occurred`);
+        } else {
+          errorToThrow = new Error(`Auth service ${endpoint} error: ${errStr}`);
+        }
+      } else {
+        errorToThrow = new Error(`Auth service ${endpoint} error: ${String(err)}`);
+      }
+      
+      console.error(`[Auth Service] Final error to throw:`, errorToThrow.message);
       setError(errorToThrow);
       throw errorToThrow;
     } finally {
