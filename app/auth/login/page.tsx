@@ -57,10 +57,11 @@ export default function LoginPage() {
           // Special handling for iframe/Replit preview context
           if (window !== window.parent || window.location.hostname.includes('replit')) {
             console.log('Detected iframe/Replit context, using window.location redirect...');
-            // Add a small delay to ensure cookie is set and auth hooks are updated
+            // Add a longer delay to ensure cookie is set and propagated in iframe context
             setTimeout(() => {
+              console.log('Redirecting to dashboard after cookie sync delay...');
               window.location.href = '/dashboard';
-            }, 300);
+            }, 1000);
             return;
           }
           
