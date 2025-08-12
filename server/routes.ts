@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer } from "ws";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { insertOrganizationSchema, insertUserSchema } from "../shared/schema";
@@ -7,9 +8,34 @@ import { ZodError } from "zod";
 import { createOrganizationApiRouter } from "./routes/organization-api";
 import { v4 as uuidv4 } from "uuid";
 
+// Mock WebSocket event subscriber for now
+const webSocketEventSubscriber = {
+  addConnection: (id: string, ws: any, userId?: string, orgId?: string) => {},
+  subscribe: (id: string, events: string[]) => {},
+  removeConnection: (id: string) => {},
+  broadcast: (event: string, data: any) => {}
+};
+
 export function registerRoutes(app: Express): Server {
   // Set up authentication routes
   setupAuth(app);
+
+  // Auth service routes
+  app.get("/api/auth-service/session", (req, res) => {
+    if (req.isAuthenticated()) {
+      res.json({ 
+        success: true, 
+        user: req.user,
+        authenticated: true 
+      });
+    } else {
+      res.json({ 
+        success: false, 
+        user: null,
+        authenticated: false 
+      });
+    }
+  });
 
   // Organization routes
   app.get("/api/organizations", async (req, res) => {
@@ -32,9 +58,7 @@ export function registerRoutes(app: Express): Server {
         return res.status(401).json({ error: "Not authenticated" });
       }
 
-      const organization = await storage.getOrganization(
-        parseInt(req.params.id),
-      );
+      const organization = await storage.getOrganization(req.params.id);
 
       if (!organization) {
         return res.status(404).json({ error: "Organization not found" });

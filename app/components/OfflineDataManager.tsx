@@ -28,7 +28,11 @@ export default function OfflineDataManager() {
             fetch(endpoint, { 
               method: 'GET',
               credentials: 'same-origin',
-              headers: { 'X-Preload': 'true' }
+              headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Preload': 'true' 
+              }
             }).catch(error => {
               console.log(`Failed to preload ${endpoint}:`, error);
               return null;

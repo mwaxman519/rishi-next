@@ -1,24 +1,23 @@
-import Link from "next/link";
+/**
+ * Custom 404 page for undefined routes
+ */
+
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <html lang="en">
-      <head>
-        <title>404 - Page Not Found | Rishi Platform</title>
-      </head>
-      <body>
-        <div className="container py-20 text-center">
-          <h1 className="mb-6 text-4xl font-bold gradient-heading md:text-5xl">
-            404 - Page Not Found
-          </h1>
-          <p className="mx-auto mb-10 text-xl text-gray-600 dark:text-gray-400 max-w-2xl">
-            Sorry, we couldn't find the page you're looking for.
-          </p>
-          <Link href="/" className="btn-primary">
-            Back to Home
-          </Link>
-        </div>
-      </body>
-    </html>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+      <div className="text-center p-8">
+        <h1 className="text-6xl font-bold text-purple-500 mb-4">404</h1>
+        <h2 className="text-2xl font-semibold text-white mb-4">Page Not Found</h2>
+        <p className="text-slate-300 mb-8">The page you're looking for doesn't exist.</p>
+        <Link 
+          href="/" 
+          className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+        >
+          Go Back Home
+        </Link>
+      </div>
+    </div>
   );
 }
