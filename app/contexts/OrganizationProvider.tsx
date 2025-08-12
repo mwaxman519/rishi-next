@@ -200,8 +200,14 @@ export function OrganizationProvider({ children }: OrganizationProviderProps) {
           setUserOrganizations([]);
           setCurrentOrganization(null);
         } else {
-          console.log("User not authenticated yet, waiting...");
-          // User not authenticated yet, keep loading state
+          console.log("User not authenticated yet, waiting... user=", user, "authIsLoading=", authIsLoading);
+          // If authentication is complete but user is null/undefined, proceed with no authentication
+          if (!authIsLoading && (user === null || user === undefined)) {
+            console.log("Authentication complete with no user, proceeding with empty organizations");
+            setUserOrganizations([]);
+            setCurrentOrganization(null);
+          }
+          // Otherwise, keep loading state
         }
       } catch (err) {
         console.error("Error initializing organizations:", err);

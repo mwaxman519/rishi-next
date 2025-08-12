@@ -111,8 +111,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
+    console.log('useAuth: useEffect triggered, calling loadUser');
     loadUser();
-  }, []);
+  }, [authService]);
 
   // Check if user has a specific permission
   const hasPermission = (permission: string): boolean => {
