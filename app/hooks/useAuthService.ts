@@ -109,9 +109,15 @@ export function useAuthService(): AuthServiceClient {
         `/api/auth-service/${endpoint}`,
         options,
       );
+
+      if (!response.ok) {
+        console.error(`Auth service ${endpoint} HTTP error:`, response.status, response.statusText);
+        throw new Error(`Request to ${endpoint} failed with status ${response.status}`);
+      }
+
       const result: AuthResponse<T> = await response.json();
 
-      if (!response.ok || !result.success) {
+      if (!result.success) {
         // Log the full error response for debugging
         console.error(`Auth service ${endpoint} error response:`, result);
 
@@ -358,9 +364,11 @@ export function useAuthService(): AuthServiceClient {
   async function getSession(): Promise<SessionInfo> {
     try {
       // Always use real authentication - no fallback mode
-      return await authRequest<SessionInfo>("session");
+      const result = await authRequest<SessionInfo>("session");
+      return result;
     } catch (err) {
       console.error("Get session error:", err);
+      // Return default structure if session fails
       return { user: null };
     }
   }

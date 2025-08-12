@@ -1,82 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { verifyJwt } from "../utils/jwt";
 
-export const dynamic = "force-static";
-export const revalidate = false;
-
-import { successResponse, errorResponse } from "../utils/response";
-import { AUTH_CONFIG } from "../config";
-import { getUserById } from "../models/user-repository";
-import * as jwt from "jsonwebtoken";
-
-/**
- * GET /api/auth-service/session
- * Get current session information
- */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    console.log("[Auth Service] Session request received");
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
 
-    // Get the auth token from cookies (check both cookie names for compatibility)
-    const authToken = request.cookies.get(AUTH_CONFIG.COOKIE_NAME) || request.cookies.get("auth-token");
-    
-    if (!authToken) {
-      console.log("[Auth Service] No auth token found in cookies");
-      return successResponse({ user: null }, 200);
+    if (!token) {
+      return NextResponse.json({
+        success: true,
+        data: { user: null },
+        service: "auth-service",
+        version: "1.0.0"
+      });
     }
 
-    // Verify the token using the same method as login
-    let payload;
-    try {
-      payload = jwt.verify(authToken.value, process.env.JWT_SECRET!) as { id: string, username: string };
-    } catch (error) {
-      console.log("[Auth Service] Invalid token:", error);
-      return successResponse({ user: null }, 200);
-    }
-    
-    if (!payload || !payload.id) {
-      console.log("[Auth Service] Invalid token payload");
-      return successResponse({ user: null }, 200);
+    const payload = await verifyJwt(token);
+    if (!payload) {
+      return NextResponse.json({
+        success: true,
+        data: { user: null },
+        service: "auth-service",  
+        version: "1.0.0"
+      });
     }
 
-    // Get user from database (id is the user ID)
-    const user = await getUserById(payload.id);
-    
-    if (!user) {
-      console.log("[Auth Service] User not found for token");
-      return successResponse({ user: null }, 200);
-    }
-
-    // Create session user object (similar to login endpoint)
-    const sessionUser = {
-      id: user.id,
-      username: user.username,
-      email: user.email || null,
-      fullName: user.fullName || null,
-      role: user.role || "brand_agent",
-      active: Boolean(user.active !== false),
-      organizations: [
-        {
-          orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-          orgName: "Rishi Internal",
-          orgType: "internal",
-          role: user.role,
-          isPrimary: true,
-        },
-      ],
-      currentOrganization: {
-        orgId: "ec83b1b1-af6e-4465-806e-8d51a1449e86",
-        orgName: "Rishi Internal",
-        orgType: "internal",
-        role: user.role,
-        isPrimary: true,
+    return NextResponse.json({
+      success: true,
+      data: {
+        user: {
+          id: payload.id,
+          username: payload.username,
+          role: payload.role,
+          fullName: payload.fullName,
+        }
       },
-    };
-
-    console.log("[Auth Service] Session found for user:", user.username, "role:", user.role);
-
-    return successResponse({ user: sessionUser }, 200);
+      service: "auth-service",
+      version: "1.0.0"
+    });
   } catch (error) {
-    console.error("[Auth Service] Session check error:", error);
-    return successResponse({ user: null }, 200);
+    console.error("Session verification error:", error);
+    return NextResponse.json({
+      success: false,
+      error: {
+        message: "Session verification failed",
+        code: "SESSION_ERROR"
+      },
+      service: "auth-service",
+      version: "1.0.0"
+    }, { status: 500 });
   }
 }
