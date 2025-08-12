@@ -1,21 +1,37 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  distDir: 'out',
-  trailingSlash: true,
-  images: { unoptimized: true },
-  
-  // Ensure API_BASE is available at build time
-  env: {
-    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-next.vercel.app'
-  },
-  
-  // Skip API routes during static export
+  // Development configuration - no static export
   experimental: {
     serverActions: {
-      allowedOrigins: ['rishi-next.vercel.app', 'rishi-staging.replit.app']
+      allowedOrigins: ['localhost', '127.0.0.1', '.replit.dev', 'rishi-next.vercel.app', 'rishi-staging.replit.app']
     }
-  }
+  },
+  
+  // Allow Replit preview
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' *.replit.dev *.replit.com;",
+          },
+        ],
+      },
+    ];
+  },
+
+  // Configure allowed dev origins for cross-origin requests
+  allowedDevOrigins: [
+    '.replit.dev',
+    'localhost',
+    '127.0.0.1'
+  ]
 };
 
 export default nextConfig;
