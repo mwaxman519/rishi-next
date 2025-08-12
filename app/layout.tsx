@@ -10,7 +10,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import ClientLayout from "./components/ClientLayout";
 import DevToolsScript from "./components/DevToolsScript";
 import ThemeScript from "./components/ThemeScript";
-import ServiceWorkerRegistration from "./service-worker-registration";
+// ServiceWorkerRegistration temporarily removed to fix network issues
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -43,7 +43,24 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
         <ThemeScript />
-        <ServiceWorkerRegistration />
+        {/* ServiceWorkerRegistration temporarily removed */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* CRITICAL: Hide all old connection indicators */
+            div[class*="fixed"][class*="top-16"][class*="left-4"],
+            div[class*="fixed"][class*="bg-green-500"],
+            .fixed.top-16.left-4.z-50.bg-green-500,
+            [class*="bg-green-500"][class*="text-white"][class*="px-3"][class*="py-2"] {
+              display: none !important;
+              visibility: hidden !important;
+              opacity: 0 !important;
+              position: absolute !important;
+              left: -9999px !important;
+              pointer-events: none !important;
+              z-index: -1 !important;
+            }
+          `
+        }} />
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

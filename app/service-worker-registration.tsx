@@ -5,21 +5,7 @@ import { useEffect } from 'react';
 export function ServiceWorkerRegistration() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      // Force register emergency uninstaller service worker
-      navigator.serviceWorker
-        .register('/sw.js', { updateViaCache: 'none' })
-        .then((registration) => {
-          console.log('[PWA] Emergency uninstaller registered');
-          // Force immediate activation
-          if (registration.waiting) {
-            registration.waiting.postMessage({type: 'SKIP_WAITING'});
-          }
-        })
-        .catch((error) => {
-          console.error('[PWA] Emergency uninstaller failed:', error);
-        });
-      
-      // Also try to unregister existing ones
+      // Complete service worker removal
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for(let registration of registrations) {
           registration.unregister();
@@ -27,7 +13,17 @@ export function ServiceWorkerRegistration() {
         }
       });
       
-      return; // Exit early
+      // Clear all caches manually
+      if ('caches' in window) {
+        caches.keys().then(function(cacheNames) {
+          cacheNames.forEach(function(cacheName) {
+            caches.delete(cacheName);
+            console.log('[PWA] Cache deleted:', cacheName);
+          });
+        });
+      }
+      
+      return; // No service worker registration
       
       // Register service worker
       navigator.serviceWorker
