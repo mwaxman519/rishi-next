@@ -5,6 +5,16 @@ import { useEffect } from 'react';
 export function ServiceWorkerRegistration() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
+      // Temporarily disable service worker to fix fetch issues
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+          registration.unregister();
+          console.log('[PWA] Service Worker unregistered:', registration.scope);
+        }
+      });
+      
+      return; // Exit early, don't register new SW
+      
       // Register service worker
       navigator.serviceWorker
         .register('/sw.js')
