@@ -112,16 +112,18 @@ export function useAuthService(): AuthServiceClient {
       const result: AuthResponse<T> = await response.json();
 
       if (!response.ok || !result.success) {
-        // Log the full error response for debugging
-        console.error(`Auth service ${endpoint} error response:`, result);
+        // Only log actual errors, not successful "no user" responses for session endpoint
+        if (endpoint !== 'session' || !result.success) {
+          console.error(`Auth service ${endpoint} error response:`, result);
+        }
 
         // Extract detailed error messages
         const errorMessage =
           result.error?.message || `Request to ${endpoint} failed`;
         const errorDetails = result.error?.details;
 
-        // Log structured error details if available
-        if (errorDetails) {
+        // Log structured error details if available (but not for session endpoint)
+        if (errorDetails && endpoint !== 'session') {
           console.error("Error details:", errorDetails);
         }
 
@@ -373,17 +375,20 @@ export function useAuthService(): AuthServiceClient {
       }
       
       const result = await response.json();
-      console.log('Session response:', result);
       
       if (result.success && result.data) {
-        console.log('Session data:', result.data);
+        // Only log when there's an actual user session
+        if (result.data.user) {
+          console.log('Session found for user:', result.data.user.username);
+        }
         return result.data;
       }
       
-      console.log('Session defaulting to no user');
+      // Return no user without logging (this is normal)
       return { user: null };
     } catch (err) {
-      console.error("Get session error:", err);
+      // Only log actual errors, not missing session info
+      console.warn('Session check failed:', err instanceof Error ? err.message : err);
       return { user: null };
     }
   }
