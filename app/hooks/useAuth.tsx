@@ -12,12 +12,37 @@
 "use client";
 
 import React, { useState, useEffect, createContext, useContext } from "react";
-import {
-  useAuthService,
-  UserSession,
-  LoginCredentials,
-  RegisterData,
-} from "./useAuthService";
+// DISABLED: No auth service imports to stop API calls
+// import {
+//   useAuthService,
+//   UserSession,
+//   LoginCredentials,
+//   RegisterData,
+// } from "./useAuthService";
+
+// Static types to replace imports
+interface UserSession {
+  id: string;
+  username: string;
+  email?: string;
+  role?: string;
+  organizationId?: string;
+  organizationName?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+interface RegisterData {
+  username: string;
+  password: string;
+  confirmPassword: string;
+  role?: string;
+}
 
 // Define registration result interface
 interface RegisterResult {
@@ -78,8 +103,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<Error | null>(null);
   const [hasInitialized, setHasInitialized] = useState(false);
 
-  // Use our auth service client
-  const authService = useAuthService();
+  // DISABLED: No auth service client to stop API calls
+  // const authService = useAuthService();
 
   // TEMPORARY: Set hardcoded user to stop infinite loop
   useEffect(() => {

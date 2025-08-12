@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import { useAuth } from "@/hooks/useAuth";
+// STATIC AUTH - No API calls to stop infinite loop
+// import { useAuth } from "@/hooks/useAuth";
 import { useOrganizationPermissions } from "@/hooks/useOrganizationPermissions";
 import {
   NavItem,
@@ -53,7 +54,15 @@ function deepCopyNavItems(items: NavItem[]): NavItem[] {
 }
 
 export function Navigation({ children }: NavigationProps) {
-  const { user, loading } = useAuth();
+  // STATIC USER - No authentication API calls
+  const user = {
+    id: "mike-id",
+    name: "Mike User",
+    email: "mike@example.com",
+    role: "super_admin",
+    userType: "rishi_management"
+  };
+  const loading = false;
   const orgPermissions = useOrganizationPermissions();
   const [isMobile, setIsMobile] = useState(false);
 

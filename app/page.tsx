@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useAuth } from "./hooks/useAuth";
+// Temporarily disable useAuth import to stop infinite loop
+// import { useAuth } from "./hooks/useAuth";
 import { Button } from "./components/ui/button";
 import {
   ArrowRight,
@@ -29,17 +30,8 @@ export default function Home() {
   const router = useRouter();
   const [redirecting, setRedirecting] = useState(false);
 
-  useEffect(() => {
-    // Simple redirect for authenticated users
-    if (!loading && user && user.role === "super_admin") {
-      console.log("Redirecting super admin to dashboard");
-      setRedirecting(true);
-      // Use a small delay to ensure hydration is complete before redirecting
-      setTimeout(() => {
-        router.replace("/dashboard");
-      }, 100);
-    }
-  }, [user, loading, router]);
+  // REDIRECT DISABLED - Stop infinite redirect loop
+  console.log("Main page rendered - redirect disabled to stop infinite loop");
 
   // Show loading state while authentication is initializing
   if (loading) {

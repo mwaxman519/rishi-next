@@ -14,9 +14,8 @@ export default function OfflineDataManager() {
         setIsPreloading(true);
         
         try {
-          // Critical endpoints to preload for field workers
+          // Critical endpoints to preload for field workers (auth disabled temporarily)
           const criticalEndpoints = [
-            '/api/auth-service/session',
             '/api/bookings',
             '/api/locations',
             '/api/staff',

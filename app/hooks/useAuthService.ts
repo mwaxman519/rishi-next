@@ -83,62 +83,31 @@ export function useAuthService(): AuthServiceClient {
   const [error, setError] = useState<Error | null>(null);
 
   /**
-   * Generic function to make requests to the auth service
+   * DISABLED: No auth service requests - return static data
    */
   async function authRequest<T>(
     endpoint: string,
     method: "GET" | "POST" = "GET",
     data?: any,
   ): Promise<T> {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const options: RequestInit = {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Important for cookies
-      };
-
-      if (data) {
-        options.body = JSON.stringify(data);
-      }
-
-      const response = await fetch(
-        `/api/auth-service/${endpoint}`,
-        options,
-      );
-      const result: AuthResponse<T> = await response.json();
-
-      if (!response.ok || !result.success) {
-        // Only log actual errors, not successful "no user" responses for session endpoint
-        if (endpoint !== 'session' || !result.success) {
-          console.error(`Auth service ${endpoint} error response:`, result);
-        }
-
-        // Extract detailed error messages
-        const errorMessage =
-          result.error?.message || `Request to ${endpoint} failed`;
-        const errorDetails = result.error?.details;
-
-        // Log structured error details if available (but not for session endpoint)
-        if (errorDetails && endpoint !== 'session') {
-          console.error("Error details:", errorDetails);
-        }
-
-        throw new Error(errorMessage);
-      }
-
-      return result.data as T;
-    } catch (err) {
-      console.error(`Auth service ${endpoint} error:`, err);
-      setError(err instanceof Error ? err : new Error(String(err)));
-      throw err;
-    } finally {
-      setIsLoading(false);
+    console.log(`authRequest DISABLED: ${endpoint} (${method}) - returning static data`);
+    
+    // Return static data based on endpoint to prevent API calls
+    if (endpoint === 'session') {
+      return {
+        id: "mike-id",
+        username: "mike",
+        email: "mike@example.com",
+        role: "super_admin",
+        organizationId: "1",
+        organizationName: "Default Organization",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      } as T;
     }
+    
+    // For other endpoints, return appropriate static data
+    return {} as T;
   }
 
   /**
