@@ -37,9 +37,8 @@ import {
   Cog,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-// STATIC AUTH - No API calls to stop infinite loop
-// import { useAuth } from "@/hooks/useAuth";
-// import { useAuthorization } from "@/hooks/useAuthorization";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthorization } from "@/hooks/useAuthorization";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { OrganizationSwitcher } from "@/components/layout/OrganizationSwitcher";
 import { NavItem, NAV_ITEM_TYPES } from "@shared/navigation-constants";
@@ -97,17 +96,8 @@ export default function ModernSidebar({
   children,
 }: ModernSidebarProps) {
   const pathname = usePathname();
-  // STATIC AUTH - No API calls to stop infinite loop
-  const user = {
-    id: "mike-id",
-    username: "mike",
-    email: "mike@example.com",
-    fullName: "Mike User",
-    role: "super_admin"
-  };
-  const loading = false;
-  const logout = () => console.log('Static logout - no action');
-  const checkPermission = () => true; // Static permission check
+  const { user, loading, logout } = useAuth();
+  const { checkPermission } = useAuthorization();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [expandedSections, setExpandedSections] = useState<
     Record<string, boolean>

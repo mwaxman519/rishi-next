@@ -27,67 +27,32 @@ interface User {
 }
 
 export function useAuth() {
-  // STATIC AUTH - No state, no useEffect, no API calls
-  console.log('useAuth.ts: Returning static user');
-  
-  const staticUser: User = {
-    id: "mike-id",
-    username: "mike",
-    email: "mike@example.com",
-    fullName: "Mike User",
-    role: "super_admin",
-    active: true,
-    organizations: [{
-      orgId: "1",
-      orgName: "Default Organization",
-      orgType: "platform",
-      role: "super_admin",
-      isPrimary: true
-    }],
-    currentOrganization: {
-      orgId: "1",
-      orgName: "Default Organization",
-      orgType: "platform",
-      role: "super_admin",
-      isPrimary: true
-    }
-  };
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+  const router = useRouter();
 
-  return {
-    user: staticUser,
-    loading: false,
-    loggingOut: false,
-    login: async () => { console.log('Static login'); return true; },
-    logout: async () => { console.log('Static logout'); },
-    refetchUser: () => { console.log('Static refetch'); }
-  };
+  useEffect(() => {
+    // Only fetch user once to prevent multiple calls
+    if (!initialized) {
+      fetchUser();
+    }
+  }, [initialized]);
 
   const fetchUser = async () => {
     try {
-      // TEMPORARY: Hardcoded user to stop infinite loop
-      console.log('fetchUser (useAuth.ts): Returning hardcoded user to stop infinite loop');
-      setUser({
-        id: "mike-id",
-        username: "mike",
-        email: "mike@example.com",
-        fullName: "Mike User",
-        role: "super_admin",
-        active: true,
-        organizations: [{
-          orgId: "1",
-          orgName: "Default Organization",
-          orgType: "platform",
-          role: "super_admin",
-          isPrimary: true
-        }],
-        currentOrganization: {
-          orgId: "1",
-          orgName: "Default Organization",
-          orgType: "platform",
-          role: "super_admin",
-          isPrimary: true
+      const response = await fetch("/api/auth-service/session");
+      if (response.ok) {
+        const sessionData = await response.json();
+        if (sessionData.success && sessionData.user) {
+          setUser(sessionData.user);
+        } else {
+          setUser(null);
         }
-      });
+      } else {
+        setUser(null);
+      }
     } catch (error) {
       console.error("Error fetching user:", error);
       setUser(null);

@@ -20,7 +20,6 @@ import {
   getPlatformAdminNav,
 } from "@shared/navigation-structure";
 import { ThemeToggle } from "./ui/theme-toggle";
-import { SidebarConnectionIndicator } from "./ui/sidebar-connection-indicator";
 import {
   ChevronLeft,
   ChevronRight,
@@ -83,17 +82,7 @@ interface SidebarLayoutProps {
 
 export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const pathname = usePathname();
-  // TEMPORARY: Hardcode user to stop infinite loop
-  const user = {
-    id: "mike-id",
-    username: "mike",
-    email: "mike@example.com", 
-    role: "super_admin",
-    organizationId: "1",
-    organizationName: "Default Organization"
-  };
-  const loading = false;
-  const logout = async () => console.log('Logout called');
+  const { user, loading, logout } = useAuth();
   const { checkPermission, can } = useAuthorization();
   const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } =
     useSidebarState();
@@ -1406,13 +1395,8 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
           </ul>
         </nav>
 
-        {/* Footer with connection status, theme toggle and user info */}
+        {/* Footer with theme toggle and user info */}
         <div className="mt-auto border-t border-[rgb(var(--sidebar-border))] pt-4 pb-2 px-2">
-          {/* Connection indicator */}
-          <div className="mb-4 px-2">
-            <SidebarConnectionIndicator collapsed={sidebarCollapsed} />
-          </div>
-
           {/* Theme toggle */}
           <div className="flex justify-between items-center mb-4 px-2">
             <span
@@ -1836,11 +1820,6 @@ export default function SidebarLayout({ children }: SidebarLayoutProps) {
 
         {/* Mobile menu footer */}
         <div className="absolute bottom-0 left-0 right-0 border-t border-[rgb(var(--sidebar-border))] pt-4 pb-6 px-4">
-          {/* Connection indicator */}
-          <div className="mb-4">
-            <SidebarConnectionIndicator collapsed={false} />
-          </div>
-
           {/* Theme toggle */}
           <div className="flex justify-between items-center mb-4">
             <span className="text-sm text-[rgb(var(--muted-foreground))]">

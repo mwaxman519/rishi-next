@@ -1,153 +1,82 @@
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { storage } from '@/server/storage';
+import { NextRequest, NextResponse } from "next/server";
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+export const dynamic = "force-static";
+export const revalidate = false;
 
-export async function POST(request: NextRequest) {
+import { db } from "../../../../lib/db-connection";
+import { eq } from "drizzle-orm";
+import * as schema from "@shared/schema";
+import { comparePasswords } from "@/lib/auth-server";
+import { sign } from "jsonwebtoken";
+
+export async function POST(req: NextRequest) {
   try {
-    const { username, password } = await request.json();
+    const { username, password } = await req.json();
 
     if (!username || !password) {
       return NextResponse.json(
-        { error: 'Username and password are required' },
+        { success: false, error: "Username and password are required" },
         { status: 400 }
       );
     }
 
-    // Get user from database
-    const user = await storage.getUserByUsername(username);
+    // Use real database authentication for both development and production
 
-    if (!user) {
-      // For development, check if it's the mike user
-      if (username === 'mike' && password === 'password123') {
-        // Create mike user if not exists
-        const hashedPassword = await bcrypt.hash('password123', 10);
-        const newUser = await storage.createUser({
-          username: 'mike',
-          password: hashedPassword,
-          email: 'mike@rishiplatform.com',
-          fullName: 'Mike User',
-          role: 'super_admin',
-          active: true
-        });
+    // Production authentication
+    const [user] = await db
+      .select()
+      .from(schema.users)
+      .where(eq(schema.users.username, username));
 
-        // Create JWT token
-        const token = jwt.sign(
-          { 
-            userId: newUser.id, 
-            username: newUser.username,
-            role: newUser.role 
-          },
-          JWT_SECRET,
-          { expiresIn: '7d' }
-        );
-
-        // Set cookie
-        const response = NextResponse.json({
-          success: true,
-          user: {
-            id: newUser.id,
-            username: newUser.username,
-            email: newUser.email,
-            role: newUser.role,
-            fullName: newUser.fullName,
-            active: newUser.active
-          }
-        });
-
-        response.cookies.set('auth-token', token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          maxAge: 60 * 60 * 24 * 7 // 7 days
-        });
-
-        response.cookies.set('user-session', JSON.stringify({
-          id: newUser.id,
-          username: newUser.username,
-          email: newUser.email,
-          role: newUser.role,
-          organizationId: '1',
-          organizationName: 'Default Organization'
-        }), {
-          httpOnly: false,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax',
-          maxAge: 60 * 60 * 24 * 7 // 7 days
-        });
-
-        return response;
-      }
-
+    if (!user || !user.password) {
+      console.log('Login: User not found or no password for username:', username);
       return NextResponse.json(
-        { error: 'Invalid username or password' },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
 
-    // Verify password
-    const passwordValid = await bcrypt.compare(password, user.password);
-
-    if (!passwordValid) {
+    const isValid = await comparePasswords(password, user.password);
+    
+    if (!isValid) {
+      console.log('Login: Password validation failed for username:', username);
       return NextResponse.json(
-        { error: 'Invalid username or password' },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
 
     // Create JWT token
-    const token = jwt.sign(
-      { 
-        userId: user.id, 
-        username: user.username,
-        role: user.role 
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' }
+    const token = sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_SECRET!,
+      { expiresIn: "24h" }
     );
 
-    // Set cookies
     const response = NextResponse.json({
       success: true,
       user: {
         id: user.id,
         username: user.username,
         email: user.email,
-        role: user.role,
         fullName: user.fullName,
-        active: user.active
-      }
+        role: user.role,
+      },
     });
 
-    response.cookies.set('auth-token', token, {
+    // Set cookie
+    response.cookies.set("auth-token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
-    });
-
-    response.cookies.set('user-session', JSON.stringify({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      organizationId: '1',
-      organizationName: 'Default Organization'
-    }), {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7 // 7 days
+      secure: (process.env.NODE_ENV as string) === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60, // 24 hours
     });
 
     return response;
-
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -11,38 +11,13 @@
 
 "use client";
 
-import React, { useState, useEffect, createContext, useContext } from "react";
-// DISABLED: No auth service imports to stop API calls
-// import {
-//   useAuthService,
-//   UserSession,
-//   LoginCredentials,
-//   RegisterData,
-// } from "./useAuthService";
-
-// Static types to replace imports
-interface UserSession {
-  id: string;
-  username: string;
-  email?: string;
-  role?: string;
-  organizationId?: string;
-  organizationName?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-interface LoginCredentials {
-  username: string;
-  password: string;
-}
-
-interface RegisterData {
-  username: string;
-  password: string;
-  confirmPassword: string;
-  role?: string;
-}
+import { useState, useEffect, createContext, useContext } from "react";
+import {
+  useAuthService,
+  UserSession,
+  LoginCredentials,
+  RegisterData,
+} from "./useAuthService";
 
 // Define registration result interface
 interface RegisterResult {
@@ -101,9 +76,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [hasInitialized, setHasInitialized] = useState(false);
 
-  // Initialize authentication state
+  // Use our auth service client
+  const authService = useAuthService();
+
+  // Load the user on initial mount
   useEffect(() => {
     // Skip during static generation
     if (typeof window === "undefined") {
@@ -111,89 +88,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Skip if already initialized to prevent infinite loops
-    if (hasInitialized) {
-      return;
+    async function loadUser() {
+      try {
+        setIsLoading(true);
+
+        // Get session from auth service
+        const { user: sessionUser } = await authService.getSession();
+        setUser(sessionUser);
+      } catch (err) {
+        console.error("Error loading user:", err);
+        setError(
+          err instanceof Error ? err : new Error("Unknown error loading user"),
+        );
+      } finally {
+        setIsLoading(false);
+      }
     }
 
-    const initializeAuth = async () => {
-      try {
-        console.log('Auth: Initializing authentication...');
-        
-        // Try to get user from session
-        const response = await fetch('/api/auth/me', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const userData = await response.json();
-          console.log('Auth: Server response:', userData);
-          
-          if (userData.success && userData.user) {
-            console.log('Auth: Found existing user session:', userData.user.username);
-            setUser(userData.user);
-            setIsLoading(false);
-            setHasInitialized(true);
-            return;
-          }
-        }
-        
-        // If no session, check development mode
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Auth: No session found, using development user');
-          const devUser = {
-            id: "00000000-0000-0000-0000-000000000001",
-            username: "mike",
-            email: "mike@rishiplatform.com",
-            role: "super_admin",
-            organizationId: "00000000-0000-0000-0000-000000000001",
-            organizationName: "Rishi Management",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          };
-
-          setUser(devUser);
-          setIsLoading(false);
-          setHasInitialized(true);
-          return;
-        }
-
-        console.log('Auth: No user found, setting to null');
-        setUser(null);
-        setIsLoading(false);
-        setHasInitialized(true);
-
-      } catch (error) {
-        console.error('Auth: Initialization error:', error);
-        setUser(null);
-        setIsLoading(false);
-        setHasInitialized(true);
-      }
-    };
-
-    initializeAuth();
-
-    // Listen for login success events to refresh user data
-    const handleLoginSuccess = (event: any) => {
-      if (event.detail && event.detail.user) {
-        console.log('Auth: Login success for user:', event.detail.user.username);
-        setUser(event.detail.user);
-        setHasInitialized(true);
-      }
-    };
-
-    // Add event listener for login success
-    window.addEventListener('loginSuccess', handleLoginSuccess);
-
-    // Cleanup event listener
-    return () => {
-      window.removeEventListener('loginSuccess', handleLoginSuccess);
-    };
-  }, [hasInitialized]);
+    loadUser();
+  }, []);
 
   // Check if user has a specific permission
   const hasPermission = (permission: string): boolean => {
@@ -230,15 +143,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setIsLoading(true);
 
-      // Call logout API
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
+      // Call logout from auth service
+      await authService.logout();
 
       // Clear user state
       setUser(null);
-      setHasInitialized(false);
     } catch (err) {
       console.error("Error during logout:", err);
       setError(
@@ -258,33 +167,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       setError(null);
 
-      // Call login API
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ username, password }),
-      });
+      // Call login from auth service
+      const userData = await authService.login({ username, password });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && result.data) {
-          setUser(result.data);
-          
-          // Dispatch login success event
-          window.dispatchEvent(new CustomEvent('loginSuccess', {
-            detail: { user: result.data }
-          }));
-          
-          return true;
+      // Immediately update user state to prevent role timing issues
+      setUser(userData);
+      
+      // Force a session refresh to ensure state is synchronized
+      setTimeout(async () => {
+        try {
+          const { user: refreshedUser } = await authService.getSession();
+          if (refreshedUser) {
+            setUser(refreshedUser);
+          }
+        } catch (refreshError) {
+          console.error("Session refresh error:", refreshError);
         }
-      }
+      }, 100);
 
-      const errorResult = await response.json();
-      setError(new Error(errorResult.error?.message || 'Login failed'));
-      return false;
+      return true;
     } catch (err) {
       console.error("Login error:", err);
       setError(
@@ -313,8 +214,79 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: false, error: "Passwords do not match" };
       }
 
-      // For now, return success for development
-      return { success: true };
+      try {
+        // Call register from auth service with enhanced error handling
+        // Include registration passcode only if provided
+        const registerData = {
+          username,
+          password,
+          confirmPassword,
+          role,
+        };
+
+        // Only add the passcode if it's provided
+        if (registrationPasscode) {
+          (registerData as any).registrationPasscode = registrationPasscode;
+        }
+
+        const userData = await authService.register(registerData);
+
+        // Update user state
+        setUser(userData);
+
+        return { success: true };
+      } catch (serviceError: any) {
+        console.error("Auth service registration error:", serviceError);
+
+        // Create user-friendly error messages based on the error type
+        let errorMessage = serviceError.message || "Registration failed";
+
+        // Handle network errors
+        if (
+          serviceError.name === "TypeError" &&
+          serviceError.message.includes("Failed to fetch")
+        ) {
+          errorMessage =
+            "Cannot connect to the registration service. Please check your internet connection.";
+        }
+        // Handle database errors
+        else if (
+          errorMessage.includes("database") ||
+          errorMessage.includes("Database") ||
+          errorMessage.includes("connection") ||
+          errorMessage.includes("not been initialized")
+        ) {
+          errorMessage =
+            "The registration system is currently experiencing database issues. Please try again later.";
+        }
+        // Handle Bad Gateway errors
+        else if (
+          errorMessage.includes("502") ||
+          errorMessage.includes("Bad Gateway")
+        ) {
+          errorMessage =
+            "The registration service is temporarily unavailable. Our team has been notified.";
+        }
+        // Handle JSON parsing errors
+        else if (
+          errorMessage.includes("JSON") ||
+          errorMessage.includes("Unexpected end")
+        ) {
+          errorMessage =
+            "The registration service returned an invalid response. Please try again later.";
+        }
+        // Handle timeout errors
+        else if (
+          errorMessage.includes("timeout") ||
+          errorMessage.includes("timed out")
+        ) {
+          errorMessage =
+            "The registration request timed out. Please try again later.";
+        }
+
+        setError(new Error(errorMessage));
+        return { success: false, error: errorMessage };
+      }
     } catch (err) {
       console.error("Registration error:", err);
       const errorMessage =

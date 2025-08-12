@@ -2,8 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-// STATIC AUTH - No API calls to stop infinite loop
-// import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
 interface AuthGuardProps {
@@ -17,15 +16,7 @@ export function AuthGuard({
   requireAuth = false, 
   requireSuperAdmin = false 
 }: AuthGuardProps) {
-  // STATIC USER - No authentication API calls
-  const user = {
-    id: "mike-id", 
-    username: "mike",
-    role: "super_admin",
-    organizationId: "1"
-  };
-  const isSuperAdmin = true;
-  const loading = false;
+  const { user, isSuperAdmin, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {

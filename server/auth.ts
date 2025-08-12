@@ -37,7 +37,7 @@ export function setupAuth(app: Express) {
     secret: process.env.SESSION_SECRET || "development-secret-key", // Should be set in environment variables
     resave: false,
     saveUninitialized: false,
-    // store: storage.sessionStore, // Temporarily disabled
+    store: storage.sessionStore,
     cookie: {
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
@@ -72,7 +72,7 @@ export function setupAuth(app: Express) {
   });
 
   // Deserialize user from session
-  passport.deserializeUser(async (id: string, done) => {
+  passport.deserializeUser(async (id: number, done) => {
     try {
       const user = await storage.getUser(id);
       done(null, user);

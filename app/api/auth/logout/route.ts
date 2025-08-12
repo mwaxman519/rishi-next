@@ -1,34 +1,37 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-static";
+export const revalidate = false;
+
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('Logout request received');
-
-    // Create response and clear the session cookie
-    const response = NextResponse.json({
-      success: true,
-      data: { message: 'Logged out successfully' }
+    // Clear the auth token cookie
+    const cookieStore = cookies();
+    
+    // Create response
+    const response = NextResponse.json({ 
+      success: true, 
+      message: "Logged out successfully" 
     });
 
-    // Clear the session cookie
-    response.cookies.set('user-session', '', {
-      httpOnly: false,
-      secure: false,
+    // Clear the auth token cookie
+    response.cookies.set("auth-token", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       maxAge: 0, // Expire immediately
-      path: '/'
+      path: "/",
     });
 
     return response;
-
   } catch (error) {
-    console.error('Logout API error:', error);
+    console.error("Error during logout:", error);
     return NextResponse.json(
-      {
-        success: false,
-        error: {
-          message: 'Internal server error',
-          details: error instanceof Error ? error.message : 'Unknown error'
-        }
+      { 
+        success: false, 
+        error: "Failed to logout" 
       },
       { status: 500 }
     );

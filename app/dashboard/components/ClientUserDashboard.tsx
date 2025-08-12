@@ -33,7 +33,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { apiFetch } from "@/lib/api";
 
 // Production implementation - all data fetched from real APIs
 
@@ -48,28 +47,28 @@ export default function ClientUserDashboard() {
     const fetchDashboardData = async () => {
       try {
         // Fetch upcoming events
-        const eventsResponse = await apiFetch('/api/bookings?status=upcoming&limit=10');
+        const eventsResponse = await fetch('/api/bookings?status=upcoming&limit=10');
         if (eventsResponse.ok) {
           const eventsData = await eventsResponse.json();
           setUpcomingEvents(eventsData.data || []);
         }
 
         // Fetch recent bookings
-        const bookingsResponse = await apiFetch('/api/bookings?limit=5&sortBy=createdAt&order=desc');
+        const bookingsResponse = await fetch('/api/bookings?limit=5&sortBy=createdAt&order=desc');
         if (bookingsResponse.ok) {
           const bookingsData = await bookingsResponse.json();
           setRecentBookings(bookingsData.data || []);
         }
 
         // Fetch team members
-        const teamResponse = await apiFetch('/api/users?role=brand_agent&organizationId=current');
+        const teamResponse = await fetch('/api/users?role=brand_agent&organizationId=current');
         if (teamResponse.ok) {
           const teamData = await teamResponse.json();
           setTeamMembers(teamData.data || []);
         }
 
         // Fetch pending requests
-        const requestsResponse = await apiFetch('/api/requests?status=pending&limit=5');
+        const requestsResponse = await fetch('/api/requests?status=pending&limit=5');
         if (requestsResponse.ok) {
           const requestsData = await requestsResponse.json();
           setPendingRequests(requestsData.data || []);

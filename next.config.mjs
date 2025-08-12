@@ -1,42 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Development configuration - no static export
-  experimental: {
-    serverActions: {
-      allowedOrigins: ['localhost', '127.0.0.1', '.replit.dev', 'rishi-next.vercel.app', 'rishi-staging.replit.app']
-    }
-  },
-
-  // Allow SVG favicon
+  output: 'export',
+  distDir: 'out',
+  reactStrictMode: true,
   images: {
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: true
   },
-
-  // Configure allowed dev origins for cross-origin requests
-  experimental: {
-    allowedOrigins: [
-      'localhost',
-      '127.0.0.1',
-      '.replit.dev',
-      '.spock.replit.dev',
-      '3517da39-7603-40ea-b364-fdfd91837371-00-33fp2yev8yflw.spock.replit.dev'
-    ]
+  eslint: {
+    ignoreDuringBuilds: false
   },
-  
-  // Remove X-Frame-Options completely to allow iframe embedding
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: "frame-ancestors *;",
-          },
-        ],
-      },
-    ];
+  typescript: {
+    ignoreBuildErrors: false
+  },
+  // Ensure trailing slashes for static export
+  trailingSlash: true,
+  // Skip API routes in static export
+  skipMiddlewareUrlNormalize: true,
+  // Environment variables for static build
+  env: {
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rishi-next.vercel.app',
+    NEXT_PUBLIC_APP_ENV: 'production',
+    NEXT_PUBLIC_APP_NAME: 'Rishi Platform'
   }
 };
 

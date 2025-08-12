@@ -1,38 +1,45 @@
-/**
- * Temporary stub to prevent hydration errors
- * This file exists solely to prevent import errors during the transition
- * The actual functionality has been moved to SidebarConnectionIndicator
- */
+'use client';
 
-import { useState, useEffect } from 'react';
-import { Wifi, WifiOff } from 'lucide-react'; // Assuming these are available components
+import { useEffect, useState } from 'react';
+import { Wifi, WifiOff, RefreshCw } from 'lucide-react';
 
 export default function OfflineStatus() {
   const [isOnline, setIsOnline] = useState(true);
-  const [showToast, setShowToast] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [pendingSync, setPendingSync] = useState(0);
 
   useEffect(() => {
-    // Set client flag to prevent hydration mismatch
-    setIsClient(true);
-
-    // Check initial status
+    // Initial online status
     setIsOnline(navigator.onLine);
 
+    // Listen for online/offline events
     const handleOnline = () => {
       setIsOnline(true);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
+      // Trigger sync when coming back online
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then(registration => {
+          // Send message to service worker to sync pending requests
+          if (registration.active) {
+            registration.active.postMessage({ type: 'SYNC_WHEN_ONLINE' });
+          }
+        });
+      }
     };
 
     const handleOffline = () => {
       setIsOnline(false);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 5000);
     };
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
+
+    // Listen for service worker messages about pending sync
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data.type === 'PENDING_SYNC_COUNT') {
+          setPendingSync(event.data.count);
+        }
+      });
+    }
 
     return () => {
       window.removeEventListener('online', handleOnline);
@@ -40,29 +47,33 @@ export default function OfflineStatus() {
     };
   }, []);
 
-  // Don't render anything until client hydration is complete
-  if (!isClient) {
-    return null;
+  if (!isOnline) {
+    return (
+      <div className="fixed top-16 left-4 z-50 bg-red-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <WifiOff className="w-4 h-4" />
+        <span className="text-sm font-medium">Offline Mode</span>
+        {pendingSync > 0 && (
+          <span className="bg-red-600 text-xs px-2 py-1 rounded-full">
+            {pendingSync} pending
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  if (pendingSync > 0) {
+    return (
+      <div className="fixed top-16 left-4 z-50 bg-blue-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
+        <RefreshCw className="w-4 h-4 animate-spin" />
+        <span className="text-sm font-medium">Syncing {pendingSync} items...</span>
+      </div>
+    );
   }
 
   return (
-    <>
-      {showToast && (
-        <div
-          className={`fixed top-16 left-4 z-50 px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 text-white ${
-            isOnline ? 'bg-green-500' : 'bg-red-500'
-          }`}
-        >
-          {isOnline ? (
-            <Wifi className="w-4 h-4" />
-          ) : (
-            <WifiOff className="w-4 h-4" />
-          )}
-          <span className="text-sm font-medium">
-            {isOnline ? 'Back online' : 'You are offline'}
-          </span>
-        </div>
-      )}
-    </>
+    <div className="fixed top-16 left-4 z-50 bg-green-500 text-white px-3 py-2 rounded-lg shadow-lg flex items-center gap-2 opacity-75">
+      <Wifi className="w-4 h-4" />
+      <span className="text-sm font-medium">Online</span>
+    </div>
   );
 }

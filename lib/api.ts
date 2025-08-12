@@ -30,8 +30,9 @@ export async function apiRequest(
     }
   } catch (networkError) {
     console.error(`Network error fetching ${url}:`, networkError);
-    const errorMessage = networkError instanceof Error ? networkError.message : "Unable to connect to server";
-    throw new Error(`Network error: ${errorMessage}`);
+    throw new Error(
+      `Network error: ${networkError.message || "Unable to connect to server"}`,
+    );
   }
 
   if (!response.ok) {
@@ -181,35 +182,3 @@ export const api = {
     return { data };
   },
 };
-
-/**
- * Simple fetch wrapper for API calls - FIXED: Missing apiFetch function
- */
-export async function apiFetch(url: string, options?: RequestInit): Promise<Response> {
-  console.log('apiFetch called with:', url, options);
-  
-  const defaultOptions: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-  };
-  
-  const mergedOptions = {
-    ...defaultOptions,
-    ...options,
-    headers: {
-      ...defaultOptions.headers,
-      ...(options?.headers || {}),
-    },
-  };
-  
-  try {
-    const response = await fetch(url, mergedOptions);
-    console.log('apiFetch response:', response.status, response.statusText);
-    return response;
-  } catch (error) {
-    console.error('apiFetch error:', error);
-    throw error;
-  }
-}

@@ -2,8 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-// STATIC AUTH - Disabled to stop infinite loop
-// import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import { PageLoader } from "@/components/ui/skeletons";
@@ -118,14 +117,8 @@ interface ResponsiveLayoutProps {
 }
 
 export default function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
-  // STATIC AUTH - No API calls to stop infinite loop
-  const user = {
-    id: "mike-id",
-    username: "mike",
-    role: "super_admin",
-    organizationId: "1"
-  };
-  const isLoading = false;
+  // These hooks are safe to call in all environments
+  const { user, isLoading } = useAuth();
   const pathname = usePathname();
   
   // State to track if we're hydrated to avoid hydration mismatch

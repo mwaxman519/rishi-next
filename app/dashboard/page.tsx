@@ -14,21 +14,10 @@ import {
   Target
 } from 'lucide-react';
 import Link from 'next/link';
-// STATIC AUTH - No API calls to stop infinite loop
-// import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function DashboardPage() {
-  // STATIC USER - No authentication calls
-  const user = {
-    id: "mike-id",
-    username: "mike",
-    email: "mike@example.com",
-    fullName: "Mike User",
-    role: "super_admin"
-  };
-  const loading = false;
-
-  console.log('Dashboard rendering with static user:', { user, loading });
+  const { user } = useAuth();
 
   return (
     <div className="container mx-auto px-4 py-8">

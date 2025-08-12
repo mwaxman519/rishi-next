@@ -6,7 +6,6 @@
 "use client";
 
 import { useState } from "react";
-import { apiFetch } from "../lib/api";
 
 // Response type definitions
 interface AuthResponse<T> {
@@ -83,31 +82,60 @@ export function useAuthService(): AuthServiceClient {
   const [error, setError] = useState<Error | null>(null);
 
   /**
-   * DISABLED: No auth service requests - return static data
+   * Generic function to make requests to the auth service
    */
   async function authRequest<T>(
     endpoint: string,
     method: "GET" | "POST" = "GET",
     data?: any,
   ): Promise<T> {
-    console.log(`authRequest DISABLED: ${endpoint} (${method}) - returning static data`);
-    
-    // Return static data based on endpoint to prevent API calls
-    if (endpoint === 'session') {
-      return {
-        id: "mike-id",
-        username: "mike",
-        email: "mike@example.com",
-        role: "super_admin",
-        organizationId: "1",
-        organizationName: "Default Organization",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      } as T;
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const options: RequestInit = {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Important for cookies
+      };
+
+      if (data) {
+        options.body = JSON.stringify(data);
+      }
+
+      const response = await fetch(
+        `/api/auth-service/${endpoint}`,
+        options,
+      );
+      const result: AuthResponse<T> = await response.json();
+
+      if (!response.ok || !result.success) {
+        // Log the full error response for debugging
+        console.error(`Auth service ${endpoint} error response:`, result);
+
+        // Extract detailed error messages
+        const errorMessage =
+          result.error?.message || `Request to ${endpoint} failed`;
+        const errorDetails = result.error?.details;
+
+        // Log structured error details if available
+        if (errorDetails) {
+          console.error("Error details:", errorDetails);
+        }
+
+        throw new Error(errorMessage);
+      }
+
+      return result.data as T;
+    } catch (err) {
+      console.error(`Auth service ${endpoint} error:`, err);
+      setError(err instanceof Error ? err : new Error(String(err)));
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-    
-    // For other endpoints, return appropriate static data
-    return {} as T;
   }
 
   /**
@@ -162,7 +190,7 @@ export function useAuthService(): AuthServiceClient {
       // Check database status endpoint
       // Our updated endpoint will always return success with diagnostic info
       try {
-        const statusResponse = await apiFetch("/api/auth-service/status", {
+        const statusResponse = await fetch("/api/auth-service/status", {
           method: "GET",
           signal: new AbortController().signal,
         });
@@ -329,83 +357,12 @@ export function useAuthService(): AuthServiceClient {
    */
   async function getSession(): Promise<SessionInfo> {
     try {
-      // TEMPORARY: Return hardcoded user to stop infinite loop
-      console.log('getSession: Returning hardcoded user to stop infinite loop');
-      return {
-        user: {
-          id: "mike-id",
-          username: "mike",
-          email: "mike@example.com",
-          role: "super_admin",
-          organizationId: "1",
-          organizationName: "Default Organization",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
-      };
-      
-      // DISABLED: Always use real authentication - no fallback mode
-      /* 
-      const response = await apiFetch('/api/auth-service/session', {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include'
-      });
-      
-      if (!response.ok) {
-        console.error('Session response not ok:', response.status);
-        // Try localStorage backup in iframe context
-        return getLocalStorageSession();
-      }
-      
-      const result = await response.json();
-      
-      if (result.success && result.data && result.data.user) {
-        console.log('Session found for user:', result.data.user.username);
-        return result.data;
-      }
-      
-      // If no server session, try localStorage backup (for iframe context)
-      console.log('No server session found, checking localStorage backup...');
-      return getLocalStorageSession();
-      */
-      
+      // Always use real authentication - no fallback mode
+      return await authRequest<SessionInfo>("session");
     } catch (err) {
-      console.warn('Session check failed:', err instanceof Error ? err.message : err);
-      // Return hardcoded user even in error case
-      return {
-        user: {
-          id: "mike-id",
-          username: "mike",
-          email: "mike@example.com",
-          role: "super_admin",
-          organizationId: "1",
-          organizationName: "Default Organization",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
-      };
+      console.error("Get session error:", err);
+      return { user: null };
     }
-  }
-
-  /**
-   * Get session from localStorage backup (for iframe context)
-   */
-  function getLocalStorageSession(): SessionInfo {
-    try {
-      const stored = localStorage.getItem('rishi-user-session');
-      if (stored) {
-        const userData = JSON.parse(stored);
-        console.log('Session found in localStorage for user:', userData.username);
-        return { user: userData };
-      }
-    } catch (e) {
-      console.warn('Failed to read localStorage session:', e);
-    }
-    return { user: null };
   }
 
   return {

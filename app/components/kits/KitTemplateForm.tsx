@@ -49,7 +49,6 @@ import {
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { v4 as uuidv4 } from "uuid";
-import { apiFetch } from "@/lib/api";
 
 // Extended schema with additional validation
 const componentSchema = z.object({
@@ -138,7 +137,7 @@ export default function KitTemplateForm({ templateId }: KitTemplateFormProps) {
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await apiFetch('/api/brands');
+        const response = await fetch('/api/brands');
         if (response.ok) {
           const data = await response.json();
           setBrands(data.data || []);

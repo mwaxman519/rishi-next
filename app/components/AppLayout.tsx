@@ -1,7 +1,6 @@
 "use client";
 
-// STATIC AUTH - No API calls to stop infinite loop
-// import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import SidebarLayout from "./SidebarLayout";
@@ -12,14 +11,7 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-  // STATIC USER - No authentication API calls
-  const user = {
-    id: "mike-id",
-    username: "mike",
-    role: "super_admin",
-    organizationId: "1"
-  };
-  const loading = false;
+  const { user, loading } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   // This ensures hydration mismatch doesn't occur

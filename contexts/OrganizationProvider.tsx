@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface Organization {
   id: string;
@@ -25,33 +25,41 @@ export function OrganizationProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshOrganizations = async () => {
-    console.log('OrganizationProvider: Using static organization data');
-    
-    // STATIC DATA - No API calls to prevent errors
-    const staticOrganizations = [
-      { id: '1', name: 'Rishi Platform', tier: '3', status: 'active' },
-      { id: '2', name: 'Client Organization', tier: '2', status: 'active' }
-    ];
-    
-    setOrganizations(staticOrganizations);
-    
-    // Set current organization to first one if none set
-    if (!currentOrganization && staticOrganizations.length > 0) {
-      setCurrentOrganization(staticOrganizations[0]);
+    try {
+      const response = await fetch('/api/organizations/');
+      if (response.ok) {
+        const data = await response.json();
+        setOrganizations(data.organizations || []);
+        
+        // Set current organization to first one if none set
+        if (!currentOrganization && data.organizations?.length > 0) {
+          setCurrentOrganization(data.organizations[0]);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch organizations:', error);
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   const switchOrganization = async (organizationId: string) => {
-    console.log('OrganizationProvider: Static organization switch to', organizationId);
-    
-    const organization = organizations.find(org => org.id === organizationId);
-    if (organization) {
-      setCurrentOrganization(organization);
-      
-      // DISABLED: No API calls to prevent errors
-      console.log('Organization switched to:', organization.name);
+    try {
+      const organization = organizations.find(org => org.id === organizationId);
+      if (organization) {
+        setCurrentOrganization(organization);
+        
+        // Save preference to backend
+        await fetch('/api/user-organization-preferences/', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ organizationId }),
+        });
+      }
+    } catch (error) {
+      console.error('Failed to switch organization:', error);
     }
   };
 

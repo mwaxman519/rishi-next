@@ -44,7 +44,6 @@ import {
 } from "../../components/ui/table";
 import { Badge } from "../../components/ui/badge";
 import { useAuthorization } from "@/hooks/useAuthorization";
-import { apiFetch } from "@/lib/api";
 
 // Mock data for client users
 
@@ -59,7 +58,7 @@ export default function ClientUsersPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await apiFetch('/api/users');
+        const response = await fetch('/api/users');
         if (response.ok) {
           const data = await response.json();
           setUsers(data.data || []);

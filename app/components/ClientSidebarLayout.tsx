@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-// STATIC AUTH - No API calls to stop infinite loop
-// import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import ResponsiveLayout from "./layout/ResponsiveLayout";
 import PublicLayout from "./PublicLayout";
 import { Loader2 } from "lucide-react";
@@ -16,14 +15,7 @@ export default function ClientSidebarLayout({
   children,
 }: ClientSidebarLayoutProps) {
   const pathname = usePathname();
-  // STATIC USER - No authentication API calls
-  const user = {
-    id: "mike-id",
-    username: "mike", 
-    role: "super_admin",
-    organizationId: "1"
-  };
-  const loading = false;
+  const { user, loading } = useAuth();
   const [isClient, setIsClient] = useState(false);
 
   // This ensures hydration mismatch doesn't occur

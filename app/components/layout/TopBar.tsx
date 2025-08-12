@@ -1,7 +1,6 @@
 "use client";
 
-// STATIC AUTH - No API calls to stop infinite loop
-// import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useOrganization } from "../../contexts/OrganizationProvider";
 import { OrganizationSelector } from "../organization/OrganizationSelector";
 import { ThemeToggle } from "../ui/theme-toggle";
@@ -22,14 +21,7 @@ interface TopBarProps {
 }
 
 export function TopBar({ openMobileMenu = () => {} }: TopBarProps) {
-  // STATIC USER - No authentication calls
-  const user = {
-    id: "mike-id",
-    username: "mike",
-    email: "mike@example.com",
-    fullName: "Mike User",
-    role: "super_admin"
-  };
+  const { user } = useAuth();
   const { currentOrganization } = useOrganization();
   const pathname = usePathname();
 

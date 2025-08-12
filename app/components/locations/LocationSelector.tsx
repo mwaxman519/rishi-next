@@ -14,7 +14,6 @@ import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { apiFetch } from "@/lib/api";
 
 // Location data will be fetched from database via API
 
@@ -37,7 +36,7 @@ export default function LocationSelector({
     const fetchLocations = async () => {
       try {
         setIsLoading(true);
-        const response = await apiFetch('/api/locations');
+        const response = await fetch('/api/locations');
         if (response.ok) {
           const data = await response.json();
           setLocations(data.data || []);

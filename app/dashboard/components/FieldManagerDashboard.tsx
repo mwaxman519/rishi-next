@@ -36,7 +36,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { apiFetch } from "@/lib/api";
 
 
 
@@ -50,21 +49,21 @@ export default function FieldManagerDashboard() {
     const fetchDashboardData = async () => {
       try {
         // Fetch team performance data
-        const teamResponse = await apiFetch('/api/users?role=brand_agent&includeMetrics=true');
+        const teamResponse = await fetch('/api/users?role=brand_agent&includeMetrics=true');
         if (teamResponse.ok) {
           const teamData = await teamResponse.json();
           setTeamPerformance(teamData.data || []);
         }
 
         // Fetch upcoming events
-        const eventsResponse = await apiFetch('/api/bookings?status=upcoming&limit=10');
+        const eventsResponse = await fetch('/api/bookings?status=upcoming&limit=10');
         if (eventsResponse.ok) {
           const eventsData = await eventsResponse.json();
           setUpcomingEvents(eventsData.data || []);
         }
 
         // Fetch pending requests
-        const requestsResponse = await apiFetch('/api/requests?status=pending&limit=10');
+        const requestsResponse = await fetch('/api/requests?status=pending&limit=10');
         if (requestsResponse.ok) {
           const requestsData = await requestsResponse.json();
           setPendingRequests(requestsData.data || []);

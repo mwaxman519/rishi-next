@@ -12,20 +12,31 @@ export default function OfflineDataManager() {
     const preloadCriticalData = async () => {
       if ('serviceWorker' in navigator && navigator.onLine) {
         setIsPreloading(true);
-
+        
         try {
-          // Preload critical data for offline use
-          const preloadPromises = [
-            fetch('/api/auth/me').catch(() => null),
-            fetch('/api/staff').catch(() => null),
-            fetch('/api/locations').catch(() => null),
-            fetch('/api/bookings').catch(() => null),
-            fetch('/api/inventory/kits').catch(() => null),
-            fetch('/api/user-organization-preferences').catch(() => null),
+          // Critical endpoints to preload for field workers
+          const criticalEndpoints = [
+            '/api/auth-service/session',
+            '/api/bookings',
+            '/api/locations',
+            '/api/staff',
+            '/api/inventory/kits',
+            '/api/user-organization-preferences'
           ];
 
-          await Promise.all(preloadPromises);
+          const preloadPromises = criticalEndpoints.map(endpoint =>
+            fetch(endpoint, { 
+              method: 'GET',
+              credentials: 'same-origin',
+              headers: { 'X-Preload': 'true' }
+            }).catch(error => {
+              console.log(`Failed to preload ${endpoint}:`, error);
+              return null;
+            })
+          );
 
+          await Promise.all(preloadPromises);
+          
           // Notify service worker that preload is complete
           if ('serviceWorker' in navigator) {
             const registration = await navigator.serviceWorker.ready;
@@ -38,7 +49,7 @@ export default function OfflineDataManager() {
           }
 
           console.log('Rishi Platform: Critical data preloaded for offline use');
-
+          
         } catch (error) {
           console.error('Rishi Platform: Preload failed:', error);
         } finally {

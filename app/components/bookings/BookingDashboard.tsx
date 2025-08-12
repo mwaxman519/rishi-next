@@ -28,7 +28,6 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import BookingsFilter from "./BookingsFilter";
 import BookingsCalendarView from "./BookingsCalendarView";
-import { apiFetch } from "@/lib/api";
 
 // Production implementation - all data fetched from real APIs
 export default function BookingDashboard() {
@@ -38,7 +37,7 @@ export default function BookingDashboard() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await apiFetch('/api/bookings');
+        const response = await fetch('/api/bookings');
         if (response.ok) {
           const data = await response.json();
           setBookings(data.data || []);

@@ -13,74 +13,41 @@ export default function DashboardLayout({
   const router = useRouter();
 
   useEffect(() => {
-    // Add iframe-specific debugging and handling
-    const isIframe = window !== window.parent || window.location.hostname.includes('replit');
-    console.log('Dashboard layout effect:', { user: !!user, loading, isIframe, pathname: window.location.pathname });
-    
     if (!loading && !user) {
-      const timer = setTimeout(() => {
-        // Check if we're currently on a login attempt redirect
-        if (window.location.pathname === '/dashboard' && !user) {
-          console.log('Dashboard: No user found after delay, redirecting to login');
-          if (isIframe) {
-            // For iframe context, use window.location
-            console.log('Iframe context detected, using window.location redirect');
-            window.location.href = "/auth/login";
-          } else {
-            router.push("/auth/login");
-          }
-        }
-      }, 5000); // Increased to 5 seconds for iframe context
-      
-      return () => clearTimeout(timer);
+      router.push("/auth/login");
     }
   }, [user, loading, router]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Loading Dashboard...</h2>
-          <div className="w-16 h-16 border-t-4 border-purple-500 border-solid rounded-full animate-spin mx-auto"></div>
-          <p className="mt-4 text-gray-600">Authenticating user...</p>
+          <h2 className="text-2xl font-semibold mb-4">Loading...</h2>
+          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin mx-auto"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       {user ? (
-        <div className="iframe-compatible">
-          {children}
-        </div>
+        children
       ) : (
-        <div className="min-h-screen flex items-center justify-center bg-white">
-          <div className="text-center p-8">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-2xl font-semibold mb-4">
               Authentication Required
             </h2>
-            <p className="text-gray-600 mb-6">
-              Please log in to access the dashboard.
+            <p className="text-gray-600 mb-4">
+              Please log in to access this page.
             </p>
-            <div className="space-y-4">
-              <button
-                onClick={() => {
-                  const isIframe = window !== window.parent || window.location.hostname.includes('replit');
-                  if (isIframe) {
-                    window.location.href = "/auth/login";
-                  } else {
-                    router.push("/auth/login");
-                  }
-                }}
-                className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                Go to Login
-              </button>
-              <p className="text-sm text-gray-500">
-                Debug: User={user ? 'Yes' : 'No'}, Loading={loading ? 'Yes' : 'No'}
-              </p>
-            </div>
+            <button
+              onClick={() => router.push("/auth/login")}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+            >
+              Go to Login
+            </button>
           </div>
         </div>
       )}

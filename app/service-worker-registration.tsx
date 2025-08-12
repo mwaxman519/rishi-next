@@ -5,26 +5,6 @@ import { useEffect } from 'react';
 export function ServiceWorkerRegistration() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      // Complete service worker removal
-      navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for(let registration of registrations) {
-          registration.unregister();
-          console.log('[PWA] Service Worker unregistered:', registration.scope);
-        }
-      });
-      
-      // Clear all caches manually
-      if ('caches' in window) {
-        caches.keys().then(function(cacheNames) {
-          cacheNames.forEach(function(cacheName) {
-            caches.delete(cacheName);
-            console.log('[PWA] Cache deleted:', cacheName);
-          });
-        });
-      }
-      
-      return; // No service worker registration
-      
       // Register service worker
       navigator.serviceWorker
         .register('/sw.js')

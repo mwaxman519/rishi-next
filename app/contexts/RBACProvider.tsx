@@ -42,15 +42,23 @@ export function RBACProvider({
     useState<Permission[]>(initialPermissions);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // COMPLETELY DISABLED - No useEffect to prevent infinite loop
-  // Initialize static permissions without useEffect
-  console.log('RBACProvider: Using static permissions - no useEffect infinite loop');
-  
-  // Set static values immediately without useEffect
-  if (userPermissions.length === 0 && isLoading) {
-    setUserPermissions([]);
+  // Initialize permissions based on roles
+  useEffect(() => {
+    // If initial permissions are provided, use those
+    if (initialPermissions.length > 0) {
+      setUserPermissions(initialPermissions);
+      setIsLoading(false);
+      return;
+    }
+
+    // Otherwise derive permissions from roles
+    if (userRoles.length > 0) {
+      const permissions = getUserPermissions(userRoles);
+      setUserPermissions(permissions);
+    }
+
     setIsLoading(false);
-  }
+  }, [initialRoles, initialPermissions, userRoles]);
 
   // hasPermission function
   const hasPermission = (permission: string) => {
