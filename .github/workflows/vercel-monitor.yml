@@ -1,0 +1,146 @@
+name: Vercel Deployment Monitor
+
+on:
+  # Trigger on push to main branch
+  push:
+    branches: [main, master]
+  
+  # Trigger on deployment status
+  deployment_status:
+  
+  # Allow manual trigger
+  workflow_dispatch:
+  
+  # Schedule periodic checks
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes
+
+jobs:
+  monitor-deployment:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      
+      - name: Check latest deployment
+        id: check
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          # Get latest deployment
+          DEPLOYMENT=$(vercel ls rishi-next --json --token=$VERCEL_TOKEN | jq -r '.[0]')
+          STATE=$(echo $DEPLOYMENT | jq -r '.state')
+          UID=$(echo $DEPLOYMENT | jq -r '.uid')
+          URL=$(echo $DEPLOYMENT | jq -r '.url')
+          
+          echo "deployment_id=$UID" >> $GITHUB_OUTPUT
+          echo "deployment_state=$STATE" >> $GITHUB_OUTPUT
+          echo "deployment_url=$URL" >> $GITHUB_OUTPUT
+          
+          # Log status
+          echo "📦 Deployment: $UID"
+          echo "📊 State: $STATE"
+          echo "🔗 URL: $URL"
+      
+      - name: Analyze failed deployment
+        if: steps.check.outputs.deployment_state == 'ERROR' || steps.check.outputs.deployment_state == 'FAILED'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          echo "❌ Deployment failed - analyzing logs..."
+          
+          # Get deployment logs
+          vercel logs ${{ steps.check.outputs.deployment_id }} --token=$VERCEL_TOKEN > deployment.log
+          
+          # Check for common errors
+          if grep -q "Module not found" deployment.log; then
+            echo "::error::Missing dependency detected"
+            MODULE=$(grep -oP "Can't resolve '\K[^']+" deployment.log | head -1)
+            echo "Missing module: $MODULE"
+            
+            # Create issue for missing dependency
+            echo "CREATE_ISSUE=true" >> $GITHUB_ENV
+            echo "ISSUE_TITLE=Build failed: Missing dependency $MODULE" >> $GITHUB_ENV
+            echo "ISSUE_BODY=The Vercel deployment failed due to missing module: $MODULE" >> $GITHUB_ENV
+            
+          elif grep -q "Type error" deployment.log; then
+            echo "::error::TypeScript compilation error"
+            
+          elif grep -q "environment variable" deployment.log; then
+            echo "::error::Missing environment variables"
+            
+          elif grep -q "heap out of memory" deployment.log; then
+            echo "::error::Build ran out of memory"
+            
+          else
+            echo "::error::Unknown build error"
+            tail -50 deployment.log
+          fi
+      
+      - name: Attempt automatic fix
+        if: steps.check.outputs.deployment_state == 'ERROR' || steps.check.outputs.deployment_state == 'FAILED'
+        run: |
+          # Try to fix common issues
+          echo "🔧 Attempting automatic fixes..."
+          
+          # Clear caches
+          rm -rf .next node_modules/.cache
+          
+          # Reinstall dependencies
+          npm ci
+          
+          # Run type check
+          npx tsc --noEmit || true
+          
+          # Test build locally
+          npm run build || echo "Local build failed"
+      
+      - name: Create issue for failed deployment
+        if: env.CREATE_ISSUE == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: process.env.ISSUE_TITLE,
+              body: process.env.ISSUE_BODY,
+              labels: ['deployment', 'bug', 'automated']
+            })
+      
+      - name: Send notification
+        if: steps.check.outputs.deployment_state == 'ERROR' || steps.check.outputs.deployment_state == 'FAILED'
+        run: |
+          # Send notification (configure webhook URL in secrets)
+          if [ ! -z "${{ secrets.DEPLOYMENT_WEBHOOK_URL }}" ]; then
+            curl -X POST ${{ secrets.DEPLOYMENT_WEBHOOK_URL }} \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"text\": \"❌ Vercel deployment failed\",
+                \"blocks\": [{
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Deployment Failed*\n• Project: rishi-next\n• URL: ${{ steps.check.outputs.deployment_url }}\n• ID: ${{ steps.check.outputs.deployment_id }}\"
+                  }
+                }]
+              }"
+          fi
+      
+      - name: Success notification
+        if: steps.check.outputs.deployment_state == 'READY'
+        run: |
+          echo "✅ Deployment successful!"
+          echo "URL: ${{ steps.check.outputs.deployment_url }}"
